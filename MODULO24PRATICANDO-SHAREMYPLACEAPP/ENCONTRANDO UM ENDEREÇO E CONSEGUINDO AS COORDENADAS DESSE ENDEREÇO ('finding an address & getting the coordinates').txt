@@ -1,0 +1,1370 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--->  Devemos fazer com que a feature 'encontre um endereço/meu endereço' 
+
+FUNCIONE.
+
+
+
+
+
+
+
+---------> FAREMOS ISSO NO MÉTOOD 'findAddressHandler()', em 
+
+
+SharePlace...
+
+
+
+
+
+----------------------------------
+
+
+
+
+PARA ISSO, PRECISAMOS FAZER UM PUNHADO DE COISAS.
+
+
+PRECISAMOS:
+
+
+
+
+1) Ganhar acesso à informação que o usuário inputta naquele campo azul do 'address'...
+
+
+
+2) precisamos PREVENIR O DEFAULT (preventDefault() ) PARA QUE A PÁGINA NÃO RECARREGUE AUTOMATICAMENTE, e PARA QUE O SUBMIT DO REQUEST A UM SERVIDOR (que não existe) NÃO OCORRA POR DEFAULT...
+
+
+
+3) PRECISAMOS ALCANÇAR OS SERVIDORES DO GOOGLE E ENTÃO TRADUZIR UM 
+ENDEREÇO INPUTTADO PELO USUÁRIO EM COORDENADAS (coordinates), lat e lng,
+
+que serão então utilizadas para mostrar o local no mapa...
+
+
+
+
+
+
+A PRIMEIRA COISA QUE DEVEMOS FAZER É ESTABELECER O PARÂMETRO DE 
+
+'event' 
+
+
+
+E ENTÃO CHAMAR, DENTRO DA FUNCTION BODY DE findAddressHandler, 
+
+O MÉTODO 'preventDefault'...
+
+
+
+
+Isso vai impedir o 'submit' da form...
+
+ex:
+
+
+
+
+
+
+findAddressHandler(event) {
+    event.preventDefault();
+}
+
+
+
+--------------------------------------
+
+
+Depois disso, o professor vai querer ACESSO àS INFORMAÇÕES QUE O USUÁRIO 
+
+INPUTTOU... para isso, ele vai precisar de um seletor.
+
+
+
+Vai ter que selecionar aquele campo.
+
+
+
+podemos selecioná-lo por meio do código 
+
+
+
+'const userAddress = document.querySelector('user-address');'
+
+
+
+
+--------------------------------------
+
+
+
+QUER DIZER, NÓS PODERÍAMOS FAZER ISSO,
+
+
+MAS O PROFESSOR USA UMA MANEIRA DIFERENTE...
+
+
+
+ele usa 
+
+
+'const address = event.target'  -------------> AÍ ELE EXPLICA QUE o 'target' DO EVENTO (event) É A ___FORM___.
+
+
+
+
+
+
+event.target.queryselector('input') -------> ESSE QUERY SELECTOR de 'input' VAI SELECIONAR O ELEMENTO 'input' DESSA FORM...
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+RESULTADO:
+
+
+
+
+findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input');
+}
+
+
+------------------------------------------------------
+
+
+
+Certo, mas ELE NÃO ESTÁ INTERESSADO NO INPUT INTEIRO, ele só ESTÁ INTERESSADO 
+
+NO VALOR QUE O USUÁRIO INPUTTOU... (value)
+
+
+
+é por isso que ele vai escrever:
+
+
+
+
+findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+}
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+Professor explica que podemos adicionar um pouco de VALIDAÇÃO aqui, podemos checar 
+
+
+SE NÓS NÃO TEMOS UM ADDRESS (por algum motivo), 
+
+ou Se nós TIVERMOS UM ADDRESS, mas um address que, APÓS SER TRIMADO, tem sua length 
+
+DEFINIDA COMO ____0_____. (o que significa que o usuário não inputtou coisa alguma, deixou em branco).
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+if (!address || address.trim().length === 0) {
+    código
+}
+
+
+
+
+-------------------------------
+
+
+
+
+Se acontecer alguma dessas duas hipóteses, o professor vai querer 
+
+
+QUE UM ALERTA SEJA MOSTRADO e que o código dÊ 'return'...
+
+
+
+
+ex:
+
+
+
+'alert('Invalid address entered - please try again!')'
+
+
+
+
+ex:
+
+
+
+
+
+
+findAddressHandler(event) {
+
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+    if(!address || address.trim().length === 0) {
+        alert('Invalid address entered - please try again!);
+        return;
+    }
+}
+
+
+
+---------------------------------------------
+
+
+
+SE O USUÁRIO/NÓS CONSEGUIMOS PASSAR POR ESSE 'IF CHECK', NOSSO CÓDIGO 
+
+VAI EFETIVAMENTE TENTAR PROCURAR O ENDEREÇO DO USUÁRIO NO GOOGLE PARA ENTÃO O CONVERTER...
+
+
+Como esse processo não é instantâneo, o professor vai querer MOSTRAR O "LOADING SPINNER" 
+
+que construímos mais cedo....
+
+
+
+
+ele cria um novo desses por meio 
+
+
+do código 
+
+
+
+'const modal = new Modal()'
+
+
+
+nos parâmetros desse instanciamento,
+
+
+O PROFESSOR PASSA OS 2 MESMOS PARÂMETROS que ele havia colocado 
+
+naquele modal de antes, 
+
+os parâmetros 
+
+
+'loading-modal-content' 
+
+
+e 
+
+
+'Loading location - please wait!'
+
+
+
+
+
+
+ex:
+
+
+
+
+
+findAddressHandler(event) {
+
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+    if(!address || address.trim().length === 0) {
+        alert('Invalid address entered - please try again!);
+        return;
+    }
+    const modal = new Modal('loading-modal-content', 
+    'Loading location - please wait!');
+
+
+
+}
+
+
+
+-------------------------------------------
+
+
+
+
+FEITO ISSO, PROFESSOR CHAMARÁ 
+
+
+'modal.show()' PARA MOSTRAR O SPINNER DESSE MODAL...
+
+
+
+ex:
+
+
+
+
+
+findAddressHandler(event) {
+
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+    if(!address || address.trim().length === 0) {
+        alert('Invalid address entered - please try again!);
+        return;
+    }
+    const modal = new Modal('loading-modal-content', 
+    'Loading location - please wait!');
+
+    modal.show();
+
+}
+
+
+
+
+---------------------------------------------
+
+
+
+
+A PRÓXIMA ETAPA É ASSEGURAR QUE CONSIGAMOS ALCANÇAR OS SERVIDORES DO GOOGLE....
+
+
+Precisamos fazer isso pq ____ELES, DE FATO, _____POSSUEM UMA API___ PARA NÓS 
+
+QUE PODEMOS UTILIZAR...
+
+Essa api VAI TRADUZIR O ENDEREÇO INSERIDO EM COORDENADAS (coordinates)........
+
+
+ESSE ENDEREÇO PODE SER, POR EXEMPLO, UMA RUA....
+
+
+
+PROFESSOR EXPLICA QUE ELE NÃO VAI QUERER FAZER ESSA TRADUÇÃO NESSA CLASSE BONITINHA E PEQUENA DE 
+
+'findAddressHandler'....,
+
+
+NÃO, 
+
+
+essa classe deverá SE FOCAR EM TRABALHAR COM OS INPUTS e tudo o mais...
+
+
+
+
+
+EM VEZ DISSO O PROFESSOR CRIARÁ UM NOVO FOLDER, chamado de 
+
+'Utility', E LÁ ELE CRIARÁ UM ARQUIVO CHAMADO 'Location.js'....
+
+
+-------------------------------------------------------
+
+
+
+
+ESSE 'location.js'
+
+DEVERÁ SER UM ARQUIVO QUE 
+
+
+SEGURARÁ MÉTODOS 'UTILITY' PARA CONSEGUIR COORDINATES PARA ADDRESSES, por exemplo...
+
+
+
+Em 'location.js', por exemplo, 
+
+PODEMOS ADICIONAR UM NOVO MÉTODO/NOVA FUNÇÃO (não precisa ser em uma classe)...
+
+
+
+Essa função pode se chamar de 
+
+
+'getCoordsFromAddress'...........
+
+
+
+
+NESSE NEGÓCIO, NÓS VAMOS PEGAR UM 'address' COMO ARGUMENTO... 
+
+
+
+---------------------------------
+
+
+
+
+ex:
+
+
+
+
+function getCoordsFromAddress(address) {
+
+}
+
+
+
+--------------------------------
+
+
+
+
+
+DENTRO DESSE NEGÓCIO, EU VOU QUERER FAZER UM ___HTTP REQUEST____ E ENTÃO 
+
+RETORNAR ___ AS COORDENADAS___ EXTRAÍDAS POR ESSA COMUNICAÇÃO do http request com um servidor (response)...
+
+
+
+O professor adiciona a keyword 'export' PARA QUE ESSA FUNÇÃO POSSA SER USADA NO LADO 
+DE FORA DESSE ARQUIVO 'location.js'
+
+
+
+ELE TAMBÉM ADICIONA A KEYWORD 'ASYNC', pois esse negócio SERÁ PROMISE-BASED, FUNCIONARÁ 
+
+A PARTIR DE UMA CALLBACK FUNCTION E DE CÓDIGO ASSÍNCRONO (Esses processos de get-translate de 
+coordenadas podem demorar um pouco, por isso esse negócio será assíncrono).
+
+
+
+
+
+ASYNC ---> usaremos UMA PROMISE, usaremos UM HTTP REQUEST, e HTTP REQUESTS TRABALHAM COM 
+
+PROMISES....
+
+
+
+
+usaremos ASYNC/AWAIT para que NOSSO CÓDIGO SEJA MAIS __LEGÍVEL__.
+
+
+
+(você também pode usar .then() e .catch(), mas sua legibilidade é pior)
+
+
+
+
+
+
+Async functions always return a promise. If the return value of an async function 
+
+is not explicitly a promise, it will be implicitly wrapped in a promise.
+
+
+
+
+
+ex:
+
+
+
+
+
+export async function getCoordsFromAddress(address) {
+
+}
+
+
+
+----------------------------------------
+
+
+
+
+
+
+DENTRO DESSE NEGÓCIO, PRECISAMOS ENVIAR UM HTTP REQUEST AOS SERVIDORES DA GOOGLE....
+
+
+
+Para sermos mais precisos, VAMOS PRECISAR DA 
+
+
+'GEOCODING API'...
+
+
+
+ESSA É UMA API OFICIAL OFERECIDA PELO GOOGLE.
+
+
+
+
+---> há os docs dessa api...
+
+
+
+
+--> VAMOS PRECISAR DE UMA API KEY e um working project, etc etc...
+
+
+
+
+---> PORÉM, PODEMOS APENAS COPIAR 
+
+
+
+ESSA 
+
+'EXAMPLE URL' que há no 'get started'...
+
+
+
+
+
+https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
++Mountain+View,+CA&key=YOUR_API_KEY
+
+
+
+
+
+-------------------
+
+
+USAMOS ESSA URL, mas com a PASSAGEM DO ENDEREÇO DE VERDADE, O ENDEREÇO CUJAS COORDENADAS VOCÊ VAI QUERER...
+
+
+
+
+Para enviar esse http request, podemos usar a FETCH API...
+
+
+
+Professor relembra que 'fetch()' não funciona com todos os browsers, 
+
+e que seria legal usar axios aqui, mas que 
+
+ele ainda assim quer praticar fetch conosco.
+
+
+
+-----------------------------------
+
+
+
+
+
+
+-----> devemos enviar UM FETCH REQUEST ÀQUELA URL QUE COLOCAMOS LOGO ACIMA...
+
+
+
+
+ex:
+
+
+
+
+
+export async function getCoordsFromAddress(address) { 
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
++Mountain+View,+CA&key=YOUR_API_KEY');
+}
+
+
+
+---------------------------------------------------
+
+
+
+
+
+PROFESSOR DIZ QUE, NA VERDADE, ELE NÃO VAI INSERIR ESSA URL COM UMA STRING...
+
+
+Não, ele vai usar UM TEMPLATE LITERAL 
+para 
+
+USAR VALORES DINÂMICOS e flexibilizar esse http request...
+
+
+
+
+ALGUMAS PARTES dessa url SERÃO SUBSTITUÍDAS, OUTRAS FICARÃO INTACTAS...
+
+A parte que vamos substituir é o '1600+Amphiteatre+PARKWAY,+Mountain+View,+CA"
+
+
+
+
+podemos substituir isso POR NOSSO ADDRESS DE VERDADE.
+
+
+
+MESMA COISA COM A 'api_key'... -------> A API KEY TAMBÉM DEVERÁ TER UM VALOR __DINÂMICO__ (${})
+
+
+
+
+
+O professor vai fazer isso com o trecho api_key da url PQ ELE VAI 
+
+CRIAR UMA CONSTANTE DE NOME 
+
+'GOOGLE_API_KEY' EM QUE 
+
+A 
+
+KEY DA API DO GOOGLE FICARÁ ARMAZENADA.
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+export async function getCoordsFromAddress(address) { 
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${}&key=${}`);
+}
+
+
+------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE ESSA KEY DA URL PODE SER 
+
+A MESMA KEY QUE VOCê ESTÁ USANDO NO SEU INDEX.HTML....
+
+(lá no 'script src= link/js?key=xxxxxxxxxxxxx')
+
+
+
+Aí inserimos isso na nossa STRING COM VALORES DINÂMICOS.
+
+
+
+ex:
+
+
+
+
+const GOOGLE_API_KEY = 'dummy'
+
+
+
+export async function getCoordsFromAddress(address) { 
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${}&key=${GOOGLE_API_KEY}`);
+}
+
+
+
+----------------------------------------
+
+
+
+Para o 
+
+
+'address' DA URL,
+
+
+
+
+QUEREMOS CONSEGUIR O 
+
+'address' QUE ESTAMOS RECEBENDO NESSA FUNÇÃO 'async' de 'getCoordsFromAddress',
+
+
+
+MAS HÁ UM DETALHE IMPORTANTE, AQUI:
+
+
+
+
+
+Como esse valor dinâmico/parâmetro que será inserido como valor dinâmico 
+
+
+SERÁ ___ PARTE ____ DE UMA URL ___, PRECISAMOS 
+
+ASSEGURAR QUE 
+
+ESSE ENDEREÇO INPUTTADO PELO USUÁRIO SEJA 
+
+____TRADUZIDO___ PARA UM FORMATO DE URL____. .....
+
+
+
+(ou seja, DEVEMOS REMOVER OS 'WHITE SPACE' E COLOCAR '+' ENTRE OS ESPAÇOS do input do usuário...)
+
+
+
+
+
+---> resumindo:
+
+
+devemos fazer o formato inputtado pelo usuário SER TRADUZIDO PARA UM ENCONDING 'URL FRIENDLY'..
+
+
+
+-----------------------------
+
+
+PARA ISSO, TEMOS UMA UTILITY FUNCTION MUITO ÚTIL ____BUILTIN____ no javascript..../exposed pelo browser no javascript....
+
+
+
+
+
+É A UTILITY FUNCTION DE NOME 
+
+
+
+'encodeURI()'------------------> É UMA FUNÇÃO DISPONÍVEL GLOBALMENTE NO BROWSER...
+
+
+
+ESSE NEGÓCIO EXIGE QUE PASSEMOS UMA STRING A ELE...
+
+
+Se passarmos uma string a ele, ele NOS RETORNA UMA STRING 'URL FRIENDLY' 
+
+DE VOLTA....
+
+
+
+
+
+
+É por isso que o professor cria uma const de nome 
+
+
+
+'urlAddress' e então armazena um valor de 'encodeURI(address);'
+
+
+Aí formwardamos essa constante na nossa string dinâmica...
+
+
+
+O QUE É UMA 'URI'? 
+
+
+
+
+
+A URI (Uniform Resource Identifier) is a 
+string that refers to a resource.
+ The most common are URLs,
+  which identify the resource by giving its location on the Web.
+
+
+--------------------------------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+const GOOGLE_API_KEY = 'dummy'
+
+
+
+export async function getCoordsFromAddress(address) { 
+    const urlAddress = encodeURI(address);
+    
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+}
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+
+Com isso, a nossa url será enviada com sucesso por meio dessa string dinâmica...
+
+
+
+ESSE HTTP REQUEST NOSSO SERÁ DE TIPO 'GET', por isso NÃO PRECISAMOS 
+
+CONFIGURÁ-LO NEM UM POUCO (get é o padrão).
+
+
+A única coisa que precisamos fazer é adicionar 
+
+'await' na frente do fetch...
+
+ISSO FARÁ COM QUE NOSSO CÓDIGO/FUNÇÃO __ AGUARDE___ UMA RESPOSTA do servidor do google por meio do método 'fetch'...
+
+
+
+
+ex:
+
+
+
+
+const GOOGLE_API_KEY = 'dummy'
+
+
+
+export async function getCoordsFromAddress(address) { 
+    const urlAddress = encodeURI(address);
+    
+    await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+}
+
+
+
+----------------------------------------
+
+
+
+O que o professor faz, por fim, 
+
+
+É ARMAZENAR A RESPONSE obtida pelo 'await' de fetch
+
+
+EM UMA CONSTANTE DE NOME 'response'...
+
+
+
+
+
+ex:
+
+
+
+
+const GOOGLE_API_KEY = 'dummy'
+
+
+
+export async function getCoordsFromAddress(address) { 
+    const urlAddress = encodeURI(address);
+    
+   const response =  await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+
+
+
+
+}
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+ISSO FEITO, O PROFESSOR PASSA A UTILIZAR A RESPONSE.
+
+
+ELE ADICIONA UM IF CHECK A PARTIR DESSA RESPONSE...
+
+
+
+'if (!response.ok)' ----> ' SE A RESPONSE NÃO ESTIVER "OK", VOU QUERER...'
+
+
+
+
+
+
+
+PROPRIEDADE 'OK' ==== É UMA PROPRIEDADE EXPERIMENTAL.
+
+
+
+
+
+
+
+
+
+The ok read-only property of the Response interface 
+contains a Boolean stating whether the response 
+was successful (status in the range 200-299) or not.
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+const response =  await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+
+
+
+if(!response.ok) {
+
+}
+
+
+-----------------------------
+
+
+
+
+SE A RESPONSE ___NÃO ESTIVER OK____, o professor vai querer 
+
+JOGAR UM ERRO (throw)
+
+
+ex:
+
+
+
+const response =  await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+
+
+
+if (!response.ok) {
+    throw new Error('Failed to fetch coordinates. Please try again ');
+}
+
+
+
+
+
+
+
+
+-----------
+
+(ERROR IS A GLOBALLY AVAILABLE CONSTRUCTOR FUNCTION IN JAVASCRIPT)...
+
+
+
+
+-------------------------------
+
+
+
+SE A RESPONSE TEVE UM 'OK = TRUE',
+
+
+"VOU QUERER EXTRAIR A 'RESPONSE DATA' por meio 
+
+de um AWAIT de 'response.json()'"   (data).
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+const response =  await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+
+
+
+if (!response.ok) {
+    throw new Error('Failed to fetch coordinates. Please try again ');
+} 
+
+const data = await response.json();
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+ENTRETANTO, NÃO ACABAMOS POR AÍ... esse 'response.json()' DEVERÁ SER/DEVE SER 
+
+O NOSSO RESPONSE DATA QUE QUEREMOS, 
+
+
+MAS HÁ MAIS UM DETALHE PARA CONSEGUIRMOS ESSES DADOS...
+
+
+
+Esse detalhe OCORRE SEMPRE QUE ESTAMOS USANDO COISAS DA GOOGLE/GOOGLE APIS... (it's a google thing)
+
+
+
+
+------> NOSSO AWAIT DA RESPONSE PODE ___fALHAR___ TAMBÉM ____ SEM USAR _____ um 
+
+"ERROR STATUS CODE" (error status code = códigos superiores à 200-300). -------->
+
+ESSAS FALHAS ___SEM USAR/RETORNAR ___ STATUS CODE DE ERRO FAZEM COM QUE A PROPRIEDADE 'OK' NÃO 
+
+___FUNCIONE DIREITO___ (ou seja, o código vai NOS RETORNAR 'OK EXISTE'; VAI NOS RETORNAR 'OK EXISTE' MESMO 
+EM CASOS DE ERRO, O QUE CAUSARÁ GRANDES PROBLEMAS NO CÓDIGO, pois 
+nosso código IGNORARIA O IF BLOCK COMPLETAMENTE NESSES CASOS de erro específicos.)..............
+
+
+
+PARA CAPTURAR ESSES ERROS QUE PASSAM POR NOSSO '!response.ok' if check, PODEMOS 
+
+CHECAR PELA EXISTÊNCIA DE UMA PROPRIEDADE 
+
+
+'.error_message' ,
+
+
+OU SEJA 
+
+PELA PROPRIEDADE 
+
+DESSA MENSAGEM DE ERRO DENTRO DE NOSSA CONSTANTE....
+
+
+
+ex(representação):
+
+
+
+
+
+
+
+
+
+const response =  await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+
+
+
+if (!response.ok) {
+    throw new Error('Failed to fetch coordinates. Please try again ');
+} 
+
+const data = await response.json();
+if(data.error_message) {
+
+}
+
+
+
+----------------------------------------------
+
+
+
+
+SE TIVERMOS ESSA propriedade 'error_message'  DENTRO 
+
+DO __BODY___ DA RESPONSE, ISSO QUER DIZER QUE NÓS ___ CONSEGUIMOS UMA 
+RESPONSE COM STATUS CODE DE 200 (ou seja, TECNICAMENTE VÁLIDA, mas inválida), 
+
+
+ALGO QUE FARÁ BYPASS DO '!response.ok' no primeiro if check, algo que não queremos.
+
+
+
+Nesse caso, o professor atirará um novo erro, DESSA VEZ 
+
+COM A ERROR_MESSAGE criada pelo google, A QUAL EU FORWARDAREI nesse erro...
+
+
+
+ex:
+
+
+
+
+
+
+
+const response =  await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+
+
+
+if (!response.ok) {
+    throw new Error('Failed to fetch coordinates. Please try again ');
+} 
+
+const data = await response.json();
+if(data.error_message) {
+    throw new Error(data.error_message);
+}
+
+
+
+
+
+
+------------------------------------
+
+
+
+
+ex(representação do código completo):
+
+
+
+
+
+
+
+
+const GOOGLE_API_KEY = 'dummy'
+
+
+
+export async function getCoordsFromAddress(address) { 
+    const urlAddress = encodeURI(address);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch coordinates. Please try again!);
+    }
+    const data = await response.json();
+    if(data.error_message) {
+        throw new Error(data.error_message);
+    }
+}
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+SE CONSEGUIMOS PASSAR POR TODOS OS IF CHECKS, SABEMOS QUE 
+
+TEMOS UMA "SUCCESSFUL RESPONSE'...
+
+
+e sabemos que conseguimos a response data, QUE 
+
+ESTÁ ARMAZENADA NA CONST DE NOME 'data'...
+
+
+
+FAZEMOS O CONSOLE.LOG de 
+
+
+'data' aqui para ver um pouco de sua estrutura, mas é evidente que 
+
+podemos ler mais sobre isso nos docs oficiais.
+
+
+
+
+
+LÁ DENTRO VOCê TEM 
+
+
+
+UMA 
+
+
+KEY DE 
+
+'RESULTS', A QUAL É UM ___ARRAY__.
+
+
+
+
+O PRIMEIRO ELEMENTO DO ARRAY EM SI É UM ___OBJETO GIGANTE___.
+
+
+UM OBJETO GIGANTE QUE TERÁ UM OBJETO/PROPRIEDADE CHAMADO DE 'GEOMETRY'...
+
+
+ESSE OBJETO GEOMETRY TERÁ UMA ________ PROPRIEDADE CHAMADA DE 
+
+
+'LOCATION', A QUAL SERÁ UM PROPRIEDADE/OBJETO  
+
+Com 'lat' e 'lng'... 
+
+
+
+
+E É EXATAMENTE NISSO QUE ESTAMOS INTERESSADOS, NESSAS 2 PROPRIEDADES.
+
+
+
+
+
+
+
+
+PARA EXTRAIR ESSAS 2 PROPRIEDADES, PODEMOS CONSEGUIR as coordenadas "coordinates"
+
+
+POR MEIO DO ACESSO 
+
+
+
+
+à 
+
+
+
+'data.results'  (É A KEY desse objeto/response/const de 'data')....
+
+
+
+
+
+e então 
+
+
+'data.results[0]' -------> QUEREMOS O PRIMEIRO ELEMENTO DE RESULTS, QUE É AQUELE OBJETO GIGANTE
+
+
+
+e então 
+
+
+
+'data.results[0].geometry' -------> queremos a propriedade geometry 
+
+
+
+
+
+
+'data.results[0].geometry.location' -------> FINALMENTE TEREMOS O OBJETO COM AS KEYS 'lat' e 'lng'...
+
+
+
+ex:
+
+
+
+export async function getCoordsFromAddress(address) { 
+    const urlAddress = encodeURI(address);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch coordinates. Please try again!);
+    }
+    const data = await response.json();
+    if(data.error_message) {
+        throw new Error(data.error_message);
+    }
+    console.log(data);
+    const coordinates = data.results[0].geometry.location;
+}
+
+
+
+
+-------------------------------------------
+
+
+
+POR FIM, O PROFESSOR VAI QUERER __RETORNAR__ ESSAS 'coordinates', esse objeto coordinates, COM 
+
+
+
+RETURN nessa função 'async'...
+
+
+
+
+ex:
+
+
+
+
+export async function getCoordsFromAddress(address) { 
+    const urlAddress = encodeURI(address);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${urlAddress}&key=${GOOGLE_API_KEY}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch coordinates. Please try again!);
+    }
+    const data = await response.json();
+    if(data.error_message) {
+        throw new Error(data.error_message);
+    }
+    console.log(data);
+    const coordinates = data.results[0].geometry.location;
+    return coordinates;
+}
+
+
+
+----------------------------------
+
+
+
+Isso quer dizer que 
+
+a função 
+
+'getCoordsFromAddress' NOS RETORNA 'coordinates', esse objeto, EM SI....
+
+
+
+
+
+MUNIDOS DESSE OBJETO/DESSES DADOS/DESSAS COORDINATES, podemos utilizá-las em 'sharePlace'.

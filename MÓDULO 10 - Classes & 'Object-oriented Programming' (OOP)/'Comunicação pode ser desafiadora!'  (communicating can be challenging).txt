@@ -1,0 +1,747 @@
+
+
+
+
+
+ATÉ AGORA, CADA CLASSE FUNCIONA + OU - de forma STANDALONE.
+
+
+
+
+
+Sim, nós retornamos o elemento criado ('return prodEl') E ENTÃO 
+O UTILIZAMOS EM OUTRAS CLASSES, mas, por exemplo, 
+
+
+AQUELE EVENTLISTENER 
+
+
+no addCartButton....
+
+
+Esse EVENTLISTENER faz o 
+trigger 
+
+do método 'addToCart()', que tem o method body de 'console.log(xxx)
+                                                    console.log(this.product)'  
+
+
+                                                E MAIS NADA.
+
+
+OU SEJA, ESSE EVENTLISTENER 
+
+
+ativa um método que faz apenas isso, não faz mais nada...
+
+
+
+
+
+
+
+BEM, AGORA NÓS PRECISAMOS NOS CERTIFICAR DE QUE 
+QUANDO ESSE MÉTODO FOR EXECUTADO NÓS CONSIGAMOS 
+que ele faça alguma coisa...  queremos que ele faça  
+
+COM QUE A classe 'ShoppingCart' SE ATUALIZE (update)...
+
+
+mas para que isso aconteça, vamos precisar que 
+
+nossa classe 'ShoppingCart' SE RE-RENDERIZE (re-render).
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+O professor aponta que isso NA REAL É BEM DIFÍCIL PARA O NOSSO 
+CÓDIGO, NO MOMENTO...
+
+
+
+
+Na nossa classe ShoppingCart, você certamente poderia adicionar 
+um 
+
+método 
+
+
+'addItem', 'addProduct' ou algo do gênero, em que nós 
+esperaríamos receber 
+
+um  novo produto como parâmetro....
+
+
+
+ex:
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+    
+    }
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+Poderíamos escrever isso e então fazer a referência AO FIELD 'this.items'....
+
+
+
+
+
+ex:
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items     ////////////// ISSO VAI SE REFERENCIAR a propriedade objeto em que esse método 'addProduct' está armazenado (no caso, o objeto ShoppingCart, que será criado a partir da classe de mesmo nome).
+
+    }
+}
+
+
+---------------------------------
+
+
+
+
+
+ISSO VAI SELECIONAR a propriedade 'items' de ShoppingCart, que 
+no momento é UM ARRAY VAZIO....
+
+
+O que fazemos em seguida é O PUSH() DO PRODUTO PASSADO AO parâmetro 
+de 'addProduct' PARA DENTRO DESSE ARRAY DE ITEMS.... :
+
+
+
+
+ex:
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items.push(product)     
+
+    }
+}
+
+
+
+
+
+------------------------------------------
+
+
+
+
+Isso é algo que poderíamos fazer, obviamente...
+
+
+
+
+Depois disso, poderíamos chamar 'render()' DENTRO DO MÉTODO 'addProduct', 
+
+por meio de 'this.render();' ....... ISSO FARIA COM QUE 
+
+o código de 'render()' RE-RENDERIZASSE aquele código 
+
+innerHTML.... (<h2>Total:</h2>, etc etc).
+
+
+
+ex:
+
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items.push(product);
+        this.render();  
+
+    }
+}
+
+
+-----------------------------------------------
+
+
+
+
+Isso seria legal, claro, MAS NÃO FUNCIONARIA.
+
+
+
+ISSO NÃO FUNCIONARIA PORQUE o render() nos RETORNARIA um 
+NOVO 'cart Element' ('cartEl', retornado ao final desse método), E ISSO 
+NÃO É ALGO QUE DESEJAMOS...
+
+
+Não queremos um NOVO cart element, e sim 
+
+UPDATAR (atualizar) o CONTEÚDO EXISTENTE..
+
+
+
+
+Bem, isso é algo que poderia ser feito, na verdade.
+
+
+
+
+
+
+Devemos ir até o render() que renderiza o conteúdo do cart 
+
+
+e então SIMPLESMENTE NOS ASSEGURAR DE QUE NÓS 
+
+
+FAÇAMOS O ARMAZENAMENTO 
+
+
+DAQUELE LUGAR EM QUE NÓS FAZEMOS O OUTPUT do número.... (pois esse é o único trecho do código do cart Element que desejamos que seja atualizado...)   (ou seja, '\$$ {0}'),
+
+
+para que nós CONSIGAMOS GANHAR ACESSO AQUELE elemento H2...
+
+
+
+
+
+
+Para cumprir essa função, nós digitamos 'this.totalOutput' dentro 
+do método 
+
+
+'render()' QUE ESTÁ DENTRO DO ShoppingCart.....
+
+
+
+o que esse comando fará, como já estudamos anteriormente, É 
+ADICIONAR UMA NOVA PROPRIEDADE 
+COM ESSE NOME DE 
+
+
+'totalOutput' PARA DENTRO DO OBJETO ShoppingCart.....
+
+
+
+Importante: VOCÊ PODE ADICIONAR PROPRIEDADES EM QUALQUER LUGAR DENTRO DA SUA CLASSE/OBJETO, por meio do uso de 'this' e da dot notation (.)...... não é necessário que a propriedade seja adicionada DENTRO DO CONSTRUCTOR; como você aprendeu nas aulas anteriores, vocÊ SEMPRE PODE ADICIONAR NOVAS PROPRIEDADES DINAMICAMENTE AO SEU OBJETO....   
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items.push(product);
+        this.render();  
+
+    }
+
+
+
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+        cartEl.className = 'cart';
+        this.totalOutput ////////////------------> EIS O CÓDIGO EM QUESTÃO.
+        return cartEl;
+    }
+
+
+
+
+}
+
+------------------------------------------
+
+
+
+
+
+Aqui, portanto, nós adicionamos uma nova propriedade 'totalOutput' 
+
+ao objeto ShoppingCart, baseado na classe de mesmo nome....
+
+
+
+
+AÍ NÓS VAMOS LÁ E DEFINIMOS seu valor
+   
+como                                'cartEl' (referência ao elemento que estamos criando dentro desse próprio render...)
+
+
+
+'cartEl.querySelector('h2');' ///////////// ----------> ou seja, ESSA PROPRIEDADE 'totalOutput' que será criada/adicionada dentro do ShoppingCart VAI SEGURAR O NOSSO ELEMENTO H2 (que é o elemento 'variável' de dentro do innerHTML...).
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items.push(product);
+        this.render();  
+
+    }
+
+
+
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+        cartEl.className = 'cart';
+        this.totalOutput = cartEl.querySelector('h2');
+        return cartEl;
+    }
+
+
+
+
+}
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+Nós, portanto, ganhamos acesso ao elemento H2 E ARMAZENAMOS 
+UMA REFERÊNCIA A ESSE ELEMENTO AQUI, dentro 
+dessa propriedade 
+
+'totalOutput' que está dentro do objeto ShoppingCart.
+
+
+
+
+
+
+
+AGORA EM 'addProduct(product)' NÓS PODEMOS, ENTÃO, definir 
+
+
+'this.totalOutput = `<h2>Total: \$${0}</h2>`;   ' 
+
+
+
+
+E ENTÃO DEFINIR O 'total' como sendo o VALOR ANTIGO + O VALOR ATUAL(
+ BASEADO NOS ITEMS QUE ESTÃO 
+DENTRO DO ARRAY DE 'ITEMS' (que inicialmente é vazio....).)
+
+
+
+Ok, mas como escrever isso?
+
+
+
+
+Bem, o professor apenas, por enquanto, define o valor desse 
+
+Total como '1'...... ADICIONAREMOS UMA SOLUÇÃO VERDADEIRAMENTE DINÂMICA MAIS TARDE..
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items.push(product);
+        this.render();  
+        this.totalOutput = `<h2>Total: \$${1}</h2>`;  //////--> EIS O CÓDIGO EM QUESTÃO.
+    }
+
+
+
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+        cartEl.className = 'cart';
+        this.totalOutput = cartEl.querySelector('h2');
+        return cartEl;
+    }
+
+
+
+
+}
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+
+Por enquanto deixaremos como '1', apenas para que NOTEMOS que ela mudou, pelo menos...
+
+
+
+
+
+
+-----> agora NÓS provavelmente estamos com 
+
+
+um método 'addProduct' que MUDA O QUE NÓS VEMOS NA TELA...
+
+
+
+
+O problema agora é: como 
+diabos vamos chamar 
+
+
+esse método 'addProduct()' de dentro do nosso 
+
+'ProductItem'...?
+
+
+
+
+
+Você poderia pensar:  Bem, é só 
+
+eu chamar 'cart.addProduct();' dentro da função 
+
+'addToCart()' na classe 'ProductItem'...
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+    addProduct(product) {
+        this.items.push(product);
+        this.render();  
+        this.totalOutput = `<h2>Total: \$${1}</h2>`; 
+    }
+
+
+
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+        cartEl.className = 'cart';
+        this.totalOutput = cartEl.querySelector('h2');
+        return cartEl;
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+class ProductItem {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+        console.log('Adding product to cart');
+        console.log(this.product);
+        cart.addProduct();  ///////////-------> EIS O CÓDIGO EM QUESTÃO.
+    }
+
+
+
+
+    render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        //addCartButton.addEventListener('click', this.addToCart);   
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+        return prodEl;
+    }
+}
+
+
+
+
+
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+
+
+BEM, MAS ISSO NÃO FUNCIONARIA....
+
+
+
+não funcionaria porque 'cart' NÃO É UMA VARIÁVEL/CONSTANTE QUE É DISPONÍVEL 
+A VOCÊ DENTRO DAQUELE 'ProductItem'...  
+
+'cart' é uma variável/const que só existe dentro da classe/objeto 'Shop'.
+
+
+
+
+
+TAMBÉM NÃO FUNCIONARIA 
+
+
+SE NÓS TENTASSEMOS CHAMAR 
+
+
+
+por meio de 
+
+
+
+'ShoppingCart.addProduct()'...., ou seja,  o chamado por meio da CLASSE EM SI TAMBÉM NÃO FUNCIONA....
+
+
+
+
+
+Não funciona porque NÓS TEMOS QUE INSTANCIAR ('instantiate it') ESSA CLASSE  
+PARA QUE VOCÊ POSSA TRABALHAR COM ELA....
+
+
+É impossível trabalhar com uma classe como 
+
+
+se ela tivesse o mesmo comportamento de 'this'...... (são coisas bem distintas, afinal...).
+
+
+
+
+
+
+
+
+Nós de fato criamos um cart DENTRO DO 'SHOP'....
+
+ali nós temos um 
+
+objeto ShoppingCart, 
+
+
+criado e armazenado dentro de uma constante 'cart'.
+
+
+
+
+nesse 'Shop' nós poderíamos chamar 
+
+'cart.addProduct()'....
+
+
+MAS AQUI, INFELIZMENTE, nós __NÃO___
+
+ESTAMOS ADICIONANDO AQUELE PRODUTO desse método... (porque o 'shop' é o elemento que sempre existe antes dos outros, é o elemento que junta a 'ProductList' com o 'ShoppingCart'.).
+
+
+
+
+Mas então, como diabos podemos solucionar esse problema?
+
+
+
+
+Bem, há 
+
+
+
+
+
+UMA MANEIRA:
+
+
+
+
+nós podemos utilizar uma 
+sintaxe diferente dentro 
+
+
+
+do método 'addToCart()' QUE VAI NOS 
+AJUDAR A SOLUCIONAR ESSE PROBLEMA.
+
+
+
+
+
+
+Devemos ver a próxima aula, 
+
+a aula 'Static method & properties'.
+
+
+

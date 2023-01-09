@@ -1,0 +1,40 @@
+$color-pink:#e92f6d;
+
+$color-red: #ff0055;
+
+body {
+  margin: 5rem;
+  font-family: sans-serif;
+}
+
+div {
+  border: 1px solid #ccc;
+}
+
+h2 {
+  margin: 0 0 1rem 0;
+}
+
+button {
+  font: inherit;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border: 1px solid $color-red;
+  background: $color-red;
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
+  transition: all 0.3s; /*relembrar oq diabos isso faz*/
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover,
+  &:active {
+      background: $color-pink;
+      border-color: $color-pink;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.26);
+  }
+}

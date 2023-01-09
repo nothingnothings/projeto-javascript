@@ -1,0 +1,1054 @@
+
+
+
+
+
+
+
+
+Antes de vermos mais features legais de classes e COMO MELHORAR O CÓDIGO DE NOSSO MERCADO,
+
+
+
+
+
+devemos ver outra coisa legal que você PODE ADICIONAR 
+A CLASSES.... 
+
+
+
+é algo que já aprendemos antes, mas que pode ser aplicado a classes (como eles eram usados em objetos, podem ser usados em classes, também.):
+
+
+
+
+
+
+
+
+
+SÃO OS GETTERS E SETTERS:
+
+
+
+
+
+
+
+
+
+o nosso ShoppingCart É UM EXEMPLO PERFEITO DE LUGAR EM QUE PODERÍAMOS UTILIZÁ-LOS....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+    addProduct(product) {
+        this.items.push(product);       
+        this.totalOutput.innerHTML = `
+        <h2>Total: \$${1}</h2>
+        `;
+    }
+
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+        cartEl.className = 'cart';
+        this.totalOutput = cartEl.querySelector('h2');
+        return cartEl;
+    }
+
+}
+
+
+--------------------------------------
+
+
+
+
+
+
+
+Dentro de ShoppingCart, eu estou (no presente) EDITANDO 
+
+MINHA PROPRIEDADE de 'items' por meio de 'this.items.push(product);', e 
+
+eu ENTÃO QUERO ATUALIZAR MEU 
+
+OUTPUT AQUI, no final das contas... (aquele 'totalOutput' que definimos como '$1')
+
+
+
+
+
+
+BEM, NÓS PODERÍAMOS UTILIZAR GETTERS E SETTERS 
+
+COMO UMA SOLUÇÃO elegante para o problema...
+
+
+
+---------------------------------------
+
+
+
+Poderíamos adicionar 
+
+
+um getter, 
+talvez chamá-lo de 
+
+
+
+ 'totalAmount'...
+
+
+
+get totalAmount() {}
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+
+ class ShoppingCart {
+    items = [];
+
+
+    get totalAmount() {}
+
+
+
+
+    addProduct(product) {
+        this.items.push(product);       
+        this.totalOutput.innerHTML = `
+        <h2>Total: \$${1}</h2>
+        `;
+    }
+
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+        cartEl.className = 'cart';
+        this.totalOutput = cartEl.querySelector('h2');
+        return cartEl;
+    }
+
+}
+
+
+-------------------------
+
+
+
+
+
+
+
+
+
+
+DEntro de um getter, como você deve lembrar, DEVEMOS 
+
+SEMPRE RETORNAR UM VALOR...
+
+
+O valor que o professor quer 
+retornar aqui é O TOTAL DO CARRINHO (o valor total do carrinho).
+
+
+
+
+PARA CONSEGUIR ESSE VALOR TOTAL, PODEMOS 
+UTILIZAR UMA TÉCNICA QUE APRENDEMOS NO 
+MÓDULO DOS ARRAYS....
+
+
+
+Utilizamos a técnica do método QUE SIMPLESMENTE 
+
+REDUZ ___ UMA LISTA___ (array) ___ PARA UM ÚNICO NÚMERO...
+
+
+OU SEJA, AQUI NÓS REDUZIREMOS UMA LISTA DE 
+CART ITEMS a um único número... (valor).
+
+
+
+Como nós, no final das contas, apenas armazenamos 
+
+'Products' em 'items', CADA 
+
+'product' TEM UM 'price', uma propriedade 
+
+
+price...
+
+
+
+nós queremos reduzir essas propriedades 'price'...
+
+
+
+
+Para tal, podemos calcular UMA SOMA (sum) e armazená-la 
+
+dentro de uma CONSTANTE 'sum' dentro do getter 
+
+
+de 'totalAmount'.
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+   get totalAmount() {
+
+       const sum = 
+
+   }
+
+
+
+   ---------------------
+
+
+
+
+Como valor dessa constante 'sum', nós vamos 
+
+querer chamar o método 
+
+
+
+'this.items.reduce();', o qual vai 
+REDUZIR TODOS OS elementos de dentro 
+
+
+de items....
+
+
+
+ex:
+
+
+
+
+
+
+ex:
+
+
+
+
+
+   get totalAmount() {
+
+       const sum = this.items.reduce()
+
+   }
+
+
+
+-----------------------
+
+
+
+
+ENTRETANTO, AS COISAS NÃO SÃO TÃO SIMPLES ASSIM....
+
+
+
+
+
+Você deve se lembrar QUE O MÉTODO 'reduce' EXIGE 
+UMA FUNÇÃO INTERNA PARA AUXILIÁ-LA...
+
+na verdade, 
+o método reduce 
+
+EXIGE 2 PARÂMETROS, sendo que o primeiro deles é uma 
+função auxiliar... essa função 
+auxiliar sempre SERÁ UMA ARROW FUNCTION...
+
+
+
+
+
+
+JÁ O SEGUNDO ARGUMENTO É OPCIONAL...
+
+o segundo argumento é ___O VALOR INICIAL____ do 'reduce'...
+
+O professor o definirá como 0, nesse caso.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+   get totalAmount() {
+
+       const sum = this.items.reduce(() => {}, 0);
+
+   }
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+A função interna que nós passamos é UM ARGUMENTO EM SI MESMO, e 
+ELA 
+
+MESMA TAMBÉM RECEBE MÚLTIPLOS ARGUMENTOS...
+
+
+
+
+Dentro dessa função interna, HÁ DOIS IMPORTANTES 
+ARGUMENTOS QUE O PROFESSOR QUER DEFINIR:
+
+
+
+
+o primeiro deles é o PREVIOUS VALUE ('prevValue').
+
+
+
+O segundo é o CURRENT ITEM ('curItem')....
+
+
+
+
+ex:
+
+
+
+
+
+  get totalAmount() {
+
+       const sum = this.items.reduce((prevValue, curItem) => {}, 0);
+
+   }
+
+
+
+---------------------------
+
+
+
+
+DENTRO DO FUNCTION BODY DESSA FUNÇÃO AUXILIAR, 
+
+o professor vai então querer 
+
+
+
+RETORNAR 'prevValue' (para a primeira execução, o valor de prevValue será de ZERO, pois é isso que definimos como segundo parâmetro... depois da primeira execução, esse valor 'prevValue' será o VALOR RETORNADO PELO MÉTODO 'reduce'...)....
+
+
+'prevValue' MAIS o 'curItem'....  
+
+
+(ESSE CURITEM vai se REFERIR à ALGUM ELEMENTO/ITEM no array de items, 
+
+e esse elemento será um 'PRODUCT'... ) 
+
+
+
+NA VERDADE, É 
+
+'prevValue' + 'curItem.PRICE'  (pq nós queremos apenas O VALOR NUMÉRICO Da propriedade PRICE DESSE ITEM, E NÃO O ITEM EM SI...)
+
+
+
+resultado:
+
+
+
+
+  get totalAmount() {
+
+       const sum = this.items.reduce((prevValue, curItem) => {
+           return prevValue + curItem.price;
+       }, 0);
+
+   }
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+Resumo:  se o array (array de 'products') ESTÁ VAZIO INICIALMENTE, essa função interna 
+AUTOMATICAMENTE IRÁ RETORNAR O VALOR INICIAL, QUE É 0... (definimos o valor inicial como sendo 0...).
+
+
+
+
+
+ESSA, PORTANTO, É MINHA LÓGICA DE 'REDUÇÃO'...
+
+
+
+
+
+
+
+Nós até mesmo podemos REDUZIR O TAMANHO DESSA EXPRESSÃO, como aprendemos anteriormente:
+
+
+
+
+podemos REMOVER OS CURLY BRACES, A SEMI-COLON (';') E O RETURN STATEMENT...
+
+
+
+
+
+
+RESULTADO:
+
+
+
+
+get totalAmount() {
+
+       const sum = this.items.reduce(
+           (prevValue, curItem) => prevValue + curItem.price, 
+           0)
+
+   }
+
+
+
+
+-------------------
+
+
+
+
+Agora, portanto, temos essa função DE REDUCE 
+
+
+com a nossa arrow function e com um valor 
+inicial de 0...
+
+
+
+
+O PROFESSOR VAI LÁ E ADICIONA 'return sum;' AO FINAL 
+
+DESSE GETTER de 'totalAmount()', POIS É ISSO QUE 
+ELE QUER RETORNAR AQUI....
+
+
+
+
+ex:
+
+
+
+
+
+get totalAmount() {
+
+       const sum = this.items.reduce(
+           (prevValue, curItem) => prevValue + curItem.price, 
+           0
+           );
+           return sum; ///eis o return de 'sum'.
+
+   }
+
+
+
+
+-------------------------------
+
+
+
+
+AGORA, NAQUELE TEMPLATE 
+
+LITERAL DE 
+
+
+
+'this.totalOutput.innerHTML = `<h2>Total: \$${1}</h2>';, 
+
+
+
+É EXATAMENTE ESSE GETTER de 'totalAmount' (de 'ShoppingCart') QUE 
+ELE VAI QUERER REFERENCIAR, porque 
+
+esse valor da constante 'sum' É 
+
+O VALOR REDUZIDO de todos os prices dos 'products'...
+
+
+
+
+ex:
+
+
+
+'this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2>';, 
+
+
+
+
+
+
+
+------------------------
+
+
+
+RESULTADO FINAL:
+
+
+
+
+class ShoppingCart {
+    items = [];
+
+
+
+
+
+
+
+get totalAmount() {
+
+       const sum = this.items.reduce(
+           (prevValue, curItem) => prevValue + curItem.price, 
+           0
+           );
+           return sum; 
+
+   }
+
+
+
+
+
+addProduct(product) {
+        this.items.push(product);       
+        this.totalOutput.innerHTML = `
+        <h2>Total: \$${this.totalAmount}</h2>
+        `;
+    }
+
+
+
+
+
+
+}
+
+
+
+
+
+-----------------
+
+
+
+
+
+
+
+MAS O PROFESSOR NÃO PARA POR AÍ....
+
+
+
+ELE QUER ATÉ MESMO MUDAR A LÓGICA 
+
+
+de 
+
+'this.items.push(product);'
+
+
+
+Ele diz que isso é totalmente opcional, mas...
+
+
+
+
+
+ELE DIZ QUE VAI FAZER ISSO PARA QUE POSSA 
+
+NOS MOSTRAR A UTILIDADE 
+
+
+DE 'setters'...
+
+
+
+
+
+Ele vai lá e 
+
+
+adiciona um 
+
+
+
+
+SETTER dentro de 
+
+
+'ShoppingCart'... 
+
+
+
+
+
+Ele chama o setter de 
+
+
+
+'cartItems'...
+
+
+
+
+
+Esse setter vai receber um valor de 'value'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+set cartItems(value) {
+
+}
+
+
+
+
+---------------------
+
+
+
+
+DENTRO DESSE setter, o professor 
+
+
+vai querer definir 
+
+
+
+'this.items = value;' , 
+
+ou seja,
+
+
+
+
+
+
+OS ITEMS 
+
+
+de shopping cart (o array de items) 
+
+
+
+
+vão ser 'value' PORQUE O PROFESSOR 
+
+ESPERA QUE 'value' SEJA UM ARRAY 
+
+DE CART Items...
+
+
+
+é por isso que ele faz um OVERWRITE 
+
+do array 'items' JÁ EXISTENTE POR UM 
+
+
+
+OUTRO ARRAY, NOVO.
+
+
+
+
+
+
+Ele também vai querer rodar 
+
+
+a lógica de 'this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2> `;'
+
+
+DENTRO DESSE SETTER... (por isso ele vai lá e REMOVE ESSA LÓGICA DE DENTRO Do método 'addProduct' E A INSERE DENTRO DESSE SETTER...)  ------>
+-------> ELe faz isso para que  SEMPRE QUE NÓS DEFINAMOS NOVOS ITEMS NO CARRINHO, façamos com que, na verdade, SEJA FEITO UM RECÁLCULO DO VALOR TOTAL ('totalAmount') E ENTÃO ATUALIZE O CÓDIGO HTML.... (tudo isso acontecerá como parte do setter de 'cartItems'...).
+
+
+
+
+
+
+ex:
+
+
+
+
+
+ex:
+
+
+class ShoppingCart {
+
+
+items = [];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+set cartItems(value) {
+    this.items = value;
+    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2>`;
+    
+}
+
+
+
+addProduct(product) {
+    this.items.push(product);
+}
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+AGORA EM 'addProduct',  o professor então apenas criará 
+
+UMA NOVA CONSTANTE, denominada 'updatedItems', 
+
+
+que é UMA CÓPIA de 
+
+
+'this.items' USANDO O SPREAD OPERATOR em um NOVO ARRAY....
+
+
+(é o uso do 'TRUQUE DA CÓPIA' com o spread operator 
+em um novo array... É FEITO PARA QUE TENHAMOS 
+UMA VERDADEIRA CÓPIA DAQUELE ARRAY DE ITEMS... aqui nessa constante.)
+
+
+
+
+ex:
+
+
+
+
+addProduct(product) {
+    const updatedItems = [...this.items];
+}
+
+
+
+---------------
+
+
+
+
+Depois disso, o professor adiciona uma linha 
+
+de código PARA QUE ELE ADICIONE O 
+
+
+NOVO 'product' A ESSE 
+
+NOVO ARRAY COPIADO...
+
+
+
+ex:
+
+
+
+
+
+
+addProduct(product) {
+    const updatedItems = [...this.items];
+    updatedItems.push(product);
+}
+
+
+
+------------------------
+
+
+
+
+
+POR FIM, O PROFESSOR 
+DEFINE 
+
+
+
+'this.cartItems' ( o setter, no caso) COMO SENDO 
+
+IGUAL à 'updatedItems'. ---> ISSO VAI ATIVAR O SETTER, VAI FAZER COM QUE SEJA PASSADO 'updatedItems' COMO VALOR A ELE, o que fará com que o código seja updatado por 'this.totalOutput.innerHTML = xxxxx'.
+
+
+
+
+
+
+
+
+ex (RESULTADO FINAL):
+
+
+
+
+
+
+
+
+
+
+
+
+class ShoppingCart {
+
+
+items = [];
+
+
+
+
+
+
+
+set cartItems(value) {
+    this.items = value;
+    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2>`;
+    
+}
+
+
+get totalAmount() {
+    const sum = this.items.reduce(
+        (prevValue, curItem) => prevValue + curItem.price,
+            0
+            );
+            return sum;     
+    
+}
+
+
+
+
+
+
+
+
+
+
+addProduct(product) {
+    const updatedItems = [...this.items];
+    updatedItems.push(product);  ////adiciona aquele 'new Product' ao ARRAY COPIADO de 'updatedItems'...
+    this.cartItems = updatedItems; ////'this.cartItems' ---> se refere AO SETTER.... setter = updatedItems...
+}
+
+
+
+
+}
+
+
+
+
+
+
+(Ainda não entendi essa parte de 'setters...')
+
+
+
+
+
+
+
+
+Poderíamos ter mantido a velha lógica, mas essa lógica 
+
+nos permite mostrar um pouco mais sobre setters and getters....
+
+
+
+(você pode adicionar getters e setters à classes, basicamente...)
+
+
+(essa lógica dos getters e setters SERÁ ADICIONADA 
+À LÓGICA DOS PRÓPRIOS objetos que são criados 
+quando você instancia as classes...)
+
+
+
+
+
+
+Se vocÊ recarregar a página, vocÊ verá que agora o código FUNCIONA NORMALMENTE, 
+
+
+O VALOR DO CARRINHO É ATUALIZADO QUANDO 
+
+CLICAMOS EM 'add to cart'.
+
+
+
+
+
+AGORA, QUANDO CLICAMOS EM 'add to cart', O HTML UPDATA PARA 
+CADA CLIQUE NO ITEM...
+
+
+
+
+
+Um pequeno ajuste que o professor quer fazer 
+
+
+é chamar 
+
+
+
+'.toFixed(2)' SOBRE O 'this.totalAmount'.... 
+
+
+
+
+
+toFixed é algo que NÃO UTILIZAMOS AINDA....
+
+
+é algo que IRÁ PREVENIR OUTPUTS ESTRANHOS no nosso código (ele nos livra do 'floating point imprecision', algo que veremos em um módulo mais À frente. )...
+
+
+
+'toFixed' BASICAMENTE DIZ A JAVASCRIPT PARA SEMPRE FAZER O OUTPUT DE __UMA STRING____.
+Sempre converte o número em uma string (o parâmetro de '2' aqui é PARA MOSTRAR APENAS 2 CASAS DECIMAIS NESSA STRING....)

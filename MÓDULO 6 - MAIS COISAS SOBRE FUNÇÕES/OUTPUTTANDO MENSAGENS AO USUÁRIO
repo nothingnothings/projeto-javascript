@@ -1,0 +1,164 @@
+Vamos trabalhar mais um pouco no nosso jogo.
+
+
+
+
+Nós determinamos o vencedor, mas não recebemos mais nenhuma informação, informação sobre o que o 
+computador jogou.
+
+
+
+
+
+Para resolver isso, o que o professor fará é adicionar mais código lá embaixo, na lógica do "gameIsRunning"...
+o professor vai fazer isso porque ele quer controlar QUAL MENSAGEM NÓS IREMOS OUTPUTTAR PARA O USUÁRIO.
+
+
+ex:
+
+
+
+
+startGameBtn.addEventListener('click, () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    const computerChoice = getComputerChoice();
+    const winner = getWinner(computerChoice, playerChoice);
+
+});
+
+
+
+
+O PROFESSOR ADICIONA OUTRO IF STATEMENT NO FINAL DESSE NEGÓCIO:
+
+
+"se winner === RESULT_DRAW, vou querer CRIAR UMA MENSAGEM." Essa tal mensagem 
+será diferente para os outros casos, por isso o professor vai querer criar essa variável 
+da mensagem NA FRENTE DO IF STATEMENT, do lado de FORA (se o professor criasse 
+essa variável da "mensagem" dentro do if statement, essa variável apenas 
+existiria dentro do if statement, e ele não quer isso, porque ele quer 
+reutilizar essa mensagem para os outros casos).
+
+
+
+
+
+ex:
+
+
+
+
+startGameBtn.addEventListener('click, () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    const computerChoice = getComputerChoice();
+    const winner = getWinner(computerChoice, playerChoice);
+    let message //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if(winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+        message = `You picked ${playerChoice}, The machine has picked ${computerChoice}, therefore you have a DRAW`;
+    } else if(winner === RESULT_PLAYER_WINS) {
+        message = `You picked ${playerChoice}, The machine has picked ${computerChoice}, therefore you WON`;
+    } else {
+       message = `You picked ${playerChoice}, The machine has picked ${computerChoice}, therefore you LOST`;
+    }
+
+});
+
+
+---------------------------------------------------------
+
+MAS O PROFESSOR ALTERA AINDA MAIS ESSA SINTAXE, ELE QUER DEIXAR O CÓDIGO O  MAIS REUTILIZÁVEL POSSÍVEL: ELE PERCEBE 
+QUE A MENSAGEM É SEMPRE A MESMA, E QUE SÓ O FINAL É DIFERENTE ENTRE OS CASOS. Por isso ele faz uma maracutaia, ele 
+define "message" como o início da mensagem (que é a mesma nos 3 casos), aí dentro dos if/else if/else blocks ele define 
+a "message" como o início da mensagem + DRAW/LOSE/WIN. Veja o modelo:
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+startGameBtn.addEventListener('click, () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    const computerChoice = getComputerChoice();
+    const winner = getWinner(computerChoice, playerChoice);
+    let message = `You picked ${playerChoice}, the machine has picked ${computerChoice}, therefore you ` //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if(winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+        message += 'had a DRAW';
+    } else if(winner === RESULT_PLAYER_WINS) {
+        message += 'WON';
+    } else {
+        message += 'LOST';
+    }
+
+});
+
+
+
+
+AGORA NOSSO CÓDIGO É MAIS REUTILIZÁVEL, OS CASOS ESPECÍFICOS SÃO ENCAIXADOS NO FINAL DAQUELA MENSAGEM 
+INICIAL LÁ, que tem seu valor alterado por meio das definições nos if/elseif/else blocks.
+
+
+Para terminarmos, devemos OUTPUTTAR ESSAS MENSAGENS PARA O USUÁRIO, DE ALGUMA FORMA. faremos isso por meio da função "alert()".
+"alert(message)":
+
+
+
+
+
+startGameBtn.addEventListener('click, () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    const computerChoice = getComputerChoice();
+    const winner = getWinner(computerChoice, playerChoice);
+    let message = `You picked ${playerChoice}, the machine has picked ${computerChoice}, therefore you ` //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if(winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+        message += 'had a DRAW';
+    } else if(winner === RESULT_PLAYER_WINS) {
+        message += 'WON';
+    } else {
+        message += 'LOST';
+    }
+    alert(message);
+});
+
+
+
+Esse alerta mostrará ao usuário que o jogo acabou e que temos um vencedor.
+
+
+
+Como o jogo também ACABOU, o professor vai querer definir "gameIsRunning" COMO FALSE.
+Definindo essa variável como false, essencialmente o que isso vai fazer é possibilitar que nós 
+apertamos o botão para começar um novo jogo, sem recarregar a página.
+
+
+
+O jogo está terminado, mas ainda não acabamos o aprendizado sobre as funções.

@@ -1,0 +1,1803 @@
+
+
+
+
+
+
+Devemos ver esses diferentes tipos de browser storage/storing mechanisms
+
+
+
+
+-->
+
+
+
+PARA ISSO, DEVEMOS CRIAR UM PROJETO BEM BÁSICO, um aplicativo básico.
+
+
+
+
+
+UM INDEX.HTML com 2 botões e alguns estilos simples.
+
+
+
+
+
+
+PROFESSOR NOS MOSTRARÁ OS 3 
+
+
+DIFERENTES SISTEMAS DE STORAGE.
+
+
+
+---------------------------------------------------
+
+
+
+
+
+ESSE MÓDULO DEVE SERVIR APENAS COMO UMA INTRODUÇÃO.
+
+
+
+
+Se você quiser saber mais sobre esses tipos de storage (especialmente 'INDEXEDDB', que pode ser bem complexo), 
+
+
+
+
+você PODE ENCONTRAR MAIS INFORMAÇÕES 
+
+NOS RESOURCES DESTE MÓDULO.
+
+
+
+---------------------------------------------
+
+
+
+
+
+O PROFESSOR QUER COMEÇAR COM
+
+
+
+
+'localStorage' e 'sessionStorage'....
+
+
+
+
+
+
+
+LOCALSTORAGE ----> é um KEY-VALUE STORAGE muito bom e fácil de usar,
+
+em que você pode ARMAZENAR DADOS BÁSICOS.
+
+
+
+
+
+
+DIGAMOS QUE VOCÊ TEM ALGUM 'userId'....
+
+
+
+
+um userId para o USUÁRIO DESSE WEBAPP....
+
+
+
+
+O usuário usando o site nessa máquina, você quer armazenar 
+
+
+o seu id em 'localStorage' para que você 
+
+POSSA FAZER ATTACH DESSE ID EM 
+
+TODO E QUALQUER REQUEST QUE VOCÊ 
+
+
+ENVIARÁ Ao server, para que seja possível IDENTIFICAR ESSE USUÁRIO.
+
+
+
+
+
+ex:
+
+
+
+
+
+const userId 
+
+
+
+
+----------------------------------------
+
+
+
+
+
+OBS:::: VOCê SEMPRE DEVE TER EM MENTE QUE ESSES DADOS ARMAZENADOS NO BROWSER 
+
+
+________sEMPRE PODEM SER ____ MANIPULADOS ___ PELO PRÓPRIO USUÁRIO, POR ISSO 
+
+VOCê NUNCA DEVE TRATAR ISSO COMO 'A SINGLE SOURCE OF TRUTH' (pode NÃO SER 
+O ID DO USUÁRIO, PODE SER UM ID FALSO QUE O CARA EDITOU ), e 
+
+
+sim APENAS UM STARTING POINT que VOCê PODERIA/PODE ENTÃO 
+
+
+VALIDAR COM ALGUNS OUTROS MECANISMOS...
+
+
+
+
+
+-------------------------------------
+
+
+
+Certo, aqui temos o userId, então.
+
+
+
+
+Digamos que o valor dele será a string 'u123'.
+
+
+
+
+
+DIGAMOS QUE QUEREMOS ARMAZENAR ESSE NEGÓCIO NO 'LOCAL STORAGE'...
+
+
+
+
+
+
+Você pode acessar local storage SIMPLESMENTE PELa digitação 
+
+
+
+de  
+
+
+
+'localStorage' (sim, é SIMPLES ASSIM).
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const userId = 'u123';
+
+
+
+
+localStorage
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+É EVIDENTE QUE ESSE 'localStorage' FAZ PARTE DO OBJETO GLOBAL 'window', 
+
+MAS NÓS PODEMOS OMITIR ESSA REFERÊNCIA A 'WINDOW'...
+
+
+
+ex:
+
+
+
+
+
+localStorage  -------------->
+
+                             OS DOIS SÃO A MESMA COISA.
+
+window.localStorage ------>
+
+
+---------------------------------------------
+
+
+
+
+
+
+EM 'localStorage', 
+
+VOCÊ TEM UM PUNHADO 
+
+
+DE OPÇÕES (o IDE nos mostra):
+
+
+
+ 
+
+'clear' ---------> VOCÊ PODE FAZER CLEAR, para LIMPAR TODOS OS DADOS QUE ESTÃO NO LOCALSTORAGE.
+
+
+'getItem' -----> ISSO FAZ COM QUE VOCÊ TENTE PEGAR OS DADOS DE UMA CHAVE ESPECÍFICA (usado para pegar VALORES QUE JÁ ESTÃO NO LOCALSTORAGE).
+
+
+
+'key' ----> ISSO FAZ O JAVASCRIPT PROCURAR/OLHAR uma key EM UM DETERMINADO INDEXADOR ('[]'). ex: QUARTO ITEM ARMAZENADO NO 'localStorage'...
+
+
+'length' -----> NOS DIZ QUANTOS ITEMS/KEY-VALUE PAIRS TEMOS ARMAZENADOS NO LOCALSTORAGE.
+
+
+
+'removeItem' -----> REMOVE UM ÚNICO ITEM (usado para casos em que você não quer remover todos os items, e sim apenas um único item específico, por meio da referência a sua key.)
+
+
+
+'setItem' ---->  VOCê PODE DEFINIR UM ITEM.... É ISSO QUE QUEREMOS FAZER AQUI.
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+'setItem' é o que nos interessa, aqui, POIS QUEREMOS 
+
+DEFINIR UM ITEM 
+
+QUE POSSUA ESSE VALOR DE 'userId'....
+
+
+
+NÓS VAMOS QUERER DEFINIR/SETTAR UM ITEM EM LOCALSTORAGE....
+
+
+Esse método, por sua vez, ACEITA __DOIS PARÂMETROS__.
+
+
+
+1o parâmetro ----> É O KEYNAME DE SUA ESCOLHA. Pode ser qualquer nome. DEVE SER UMA STRING, OBRIGATORIAMENTE.
+
+
+2o parâmetro/argumento ----> É O VALOR/UM VALOR. ESSE VALOR ____DEVE SER ____ UMA STRING. Alternativamente, pode ser ALGO QUE NÃO SEJA UMA STRING, MAS QUE POSSA SER CONVERTIDA À UMA STRING FACILMENTE PELO JAVASCRIPT, como um NÚMERO, por exemplo.
+
+
+
+
+
+
+O professor utiliza a keyname de 
+
+'uid'  (user id).
+ 
+
+
+
+
+Como valor, ele utiliza a constante de 'userId', que, no final das contas,
+segura uma string.
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const userId = 'u123';
+
+
+
+localStorage.setItem('uid', userId);
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+SE FIZERMOS ISSO E ENTÃO RECARREGARMOS A PÁGINA,
+
+
+
+
+ESSE VALOR ESTARÁ NO 
+
+
+STORAGE DA PÁGINA...
+
+
+
+
+
+Ok, mas COMO PODEMOS VER ESSES DADOS?
+
+
+
+
+Você deve clicar no 
+
+
+
+'>>>' nas devtools e então 
+
+
+
+CLICAR NA ABA 'APPLICATION'...
+
+
+
+
+
+Dentro de 'application', haverá uma 
+
+
+
+aba dizendo STORAGE.
+
+
+
+
+
+OBS:::: TENHA EM MENTE QUE ___QUALQUER USUÁRIO____ DE SUA PÁGINA É CAPAZ 
+
+
+DE FAZER ISSO QUE ESTAMOS FAZENDO, não é algo exclusivo aos desenvolvedores/você.
+
+
+
+
+
+
+DENTRO DE 'STORAGE'__, VOCÊ 
+
+
+VÊ OS 3 TIPOS DE BROWSER STORAGE QUE O PROFESSOR MENCIONOU:
+
+
+
+local/sessionStorage,
+
+
+COOKIES 
+
+
+e 
+
+
+INDEXEDDB....
+
+
+
+
+
+Também vemos um extra, o 'webSQL' (WEB SEQUEL)... ----> professor explica que 
+
+esse tipo de storage está DEPRECADO, E É POR ISSO QUE O PROFESSOR NÃO MENCIONOU ELE ANTERIORMENTE. ---> Você não deve usar webSQL.
+
+
+
+
+-----------------------------------------------------
+
+
+
+SE EXPANDIRMOS 
+
+
+
+'localStorage' 
+
+
+E ENTÃO CLICARMOS 
+
+em 'file', 
+
+
+
+VEREMOS EXATAMENTE OS DADOS QUE ARMAZENAMOS NESSE STORAGE DO BROWSER...
+
+
+
+ex:
+
+
+
+
+KEY   VALUE 
+
+
+
+uid     u123
+
+
+
+----------------------------------------------------
+
+
+
+
+
+O PROFESSOR NOS MOSTRA QUE PODEMOS SIMPLESMENTE 
+
+
+____________dELETAR_____ ESSES DADOS TEMPORÁRIOS COM NOSSAS PRÓPRIAS MÃOS, basta que 
+
+selecionemos o negócio e então apertemos 'delete'.
+
+
+
+E ISSO FUNCIONA COM QUALQUER PÁGINA QUE TENHA STORAGE...
+
+
+
+TODO USUÁRIO PODE FAZER ISSO, E TODO USUÁRIO PODE 
+
+TAMBÉM 
+
+
+EDITAR OS VALORES E KEYNAMES DESSES KEY-VALUE PAIRS....
+
+
+
+E é exatamente ____ POR ISSO____ que vocÊ 
+
+nunca deve 
+
+LEVAR ESSES DADOS ARMAZENADOS AQUI COMO 'THE SINGLE SOURCE OF TRUTH', 
+
+POIS ELES PODEM SER MANIPULADOS, isso 
+
+pode ser manipulado FACILMENTE pelos usuários do seu aplicativo.
+
+
+
+
+ESSE BROWSER STORAGE DEVE __APENAS___ SER UM STARTING POINT, ou DEVE SEGURAR 
+
+DADOS DOS QUAIS VOCÊ PRECISA NO SEU CÓDIGO 
+JAVASCRIPT  PARA 'ENHANCE' A INTERFACE DO USUÁRIO. 
+
+
+
+Pq isso? Pq usar dessa forma?
+
+
+
+
+PQ, COMO VIMOS AGORA HÁ POUCO, É POSSÍVEL interagir/editar/criar key-value pairs 
+e armazenar nO BROWSER STORAGE
+
+DE DENTRO DO NOSSO CÓDIGO JAVASCRIPT....
+
+
+
+
+
+Professor diz que devemos conectar nossos 2 botões, 
+
+o botão 
+
+
+'store' e o botão 'retrieve', ÀS TAREFAS QUE QUEREMOS;
+
+
+
+professor diz que os DOIS DEVERÃO FAZER o 'heavy lifting' no nosso projeto.
+
+
+
+
+
+
+
+Professor cria uma const para o 'storeBtn'...
+
+
+
+
+ELE COLOCA UM ADDEVENTLISTENER nesse botão, o qual 
+
+ligará a função que ARMAZENARÁ OS DADOS NO NOSSO BROWSER STORAGE.
+
+
+
+
+Ele faz a mesma coisa com o botão de retrieve.
+
+
+
+
+Ele vincula os eventListeners com a ajuda de anonymous functions de arrow.
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+
+
+
+const retrBtn = document.getElementById('retrieve-btn');
+
+
+const userId = 'u123';
+
+
+localStorage.setItem('uid', userId);
+
+
+
+
+
+storeBtn.AddEventListener('click', () => {});
+retrBtn.AddEventListener('click', () => {});
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+NO STORE BUTTON, nós podemos ter nosso código de 
+
+
+
+'setItem'.......
+
+
+
+
+
+ex:
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+})
+
+
+
+-------------------------------
+
+
+
+
+JÁ NO AddEventListener DE RETRIEVE BUTTON, podemos 
+
+
+colocar 
+
+
+UM CÓDIGO 
+
+
+PARA FAZER O 'GET' DE UM ITEM...
+
+
+
+E fazemos isso por meio do método 
+
+
+'.getItem()'...
+
+
+
+
+
+COMO PARÂMETRO DESSE MÉTODO, PASSAMOS A KEY 'uid', O QUE FARÁ 
+
+COM QUE CONSIGAMOS AQUELA KEY DEFINIDA COM 'setItem.
+
+
+ex:
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+const userId = 'u123';
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    localStorage.getItem('uid');
+})
+ 
+
+
+
+
+
+-----------------------
+
+
+
+
+
+POR FIM, O PROFESSOR FAZ O 'STORE' DESSE 'RESULT'  EM UMA 'CONST'... -----> ELE EXPLICA 
+
+
+QUE ESSA AÇÃO NÃO É 'ASSÍNCRONA', como poderíamos pensar... ---> 
+
+ISSO SIGNIFICA QUE NÓS NÃO PRECISAMOS DE UMA PROMISE/CALLBACK 
+
+para pegar o resultado 
+
+desse 'store'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+const userId = 'u123';
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+})
+ 
+
+
+
+ ---------------------------
+
+
+
+
+ Esse fato do negócio não ser assíncrono significa que VOCê 
+
+ PODE PEGAR DADOS/DADO DO 'BROWSER STORAGE' IMEDIATAMENTE, essa 
+ sincronicidade significa isso.
+
+
+
+  Professor coloca o negócio, o userId que ele pegou/pega, por meio do botão retrieve, EM 
+
+  uma constante chamada 'extractedId'...
+
+
+
+
+
+  ex:
+
+
+
+
+  
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+const userId = 'u123';
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+})
+ 
+
+
+
+ --------------------------------------
+
+
+
+
+
+ FEITO ISSO, PODEMOS 
+
+ USAR 'extractedId' JÁ NA LINHA SEGUINTE, SEM NENHUM PROBLEMA.
+
+
+
+
+ Poderíamos, por exemplo, checar 
+
+
+
+ se 'extractedId' EXISTE/se é uma coisa msm...
+
+
+
+
+CHECAR ISSO E ENTÃO RODAR UM CÓDIGO PARA 
+
+
+OUTPUTTAR 'Got the ID - ' + extractedId.
+
+
+
+
+
+ ex:
+
+
+
+
+ const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+const userId = 'u123';
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+    if(extractedId) {
+            console.log('Got the ID - ' + extractedId);
+
+    }
+})
+
+
+
+-------------------------------------
+
+
+
+
+Para o 'else' case, PODEMOS COLOCAR 
+
+
+'Could not find Id'
+
+
+
+
+ex:
+
+
+
+
+
+
+ const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+const userId = 'u123';
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+    if(extractedId) {
+            console.log('Got the ID - ' + extractedId);
+
+    } else {
+        console.log('Could not find Id');
+    }
+})
+
+
+
+--------------------------------------------
+
+
+
+
+
+SE FIZERMOS TUDO ISSO E RECARREGARMOS O CÓDIGO, 
+
+
+veremos que 
+
+QUANDO APERTAMOS 
+
+
+
+EM 
+
+
+
+'store', 
+
+
+UMA KEY E SEU VALUE APARECERÃO 
+
+
+na 
+
+
+aba 
+
+
+'storage' em 'application' no devtools...
+
+
+
+uid -- 123.
+
+------------------------------------
+
+
+
+
+
+
+Certo.
+
+
+Agora podemos perceber algo já de cara:
+
+
+
+
+
+
+OS KEY-VALUE PAIRS armazenados NO BROWSEr (em 'localStorage')
+
+
+NÃO SÃO APAGADOS QUANDO NÓS SAÍMOS DAS PÁGINAS.... (quando revisitarmos as páginas, 
+
+elas ainda terão aqueles valores ARMAZENADOS NO BROWSER STORAGE.)
+
+
+--------------------------------------
+
+
+
+
+SE EU DELETAR O ID (por meio do devtools, na aba 'application' e então em 'localStorage') e então clicar no botão
+
+
+
+de 
+
+'retrieve', ganharei um 
+
+
+
+'COULD NOT GET THE ID' no console, bem direitinho como eu programei.
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+É DESSA MANEIRA QUE PODEMOS TRABALHAR COM 'LOCAL STORAGE'...
+
+
+E vocÊ pode ver/observar o quão fácil é trabalhar com isso...
+
+
+
+
+
+É EVIDENTE QUE VOCÊ __PODE___ ARMAZENAR DADOS MAIS COMPLEXOS....
+
+
+
+
+
+
+Sim, os DADOS DEVEM SER OBRIGATORIAMENTE 'STRINGS',
+
+
+MAS SEMPRE DEVEMOS NOS LEMBRAR DAQUILO QUE APRENDEMOS SOBRE 
+
+
+'JSON' no módulo 'HTTP'...
+
+
+
+
+
+SE NÓS TIVERMOS UM OBJETO 'user' aqui, 
+
+que possui uma 
+
+
+key 'name', de valor 'max', 
+
+
+e outras keys diversas, com valores diversos,
+
+
+
+
+SE TIVERMOS ISSO E QUISERMOS 
+
+
+ARMAZENAR TODOS ESSES DADOS EM 
+
+
+'Local storage', ENCONTRAREMOS UM PROBLEMA....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+-----------------------------------------
+
+
+
+OK, MAS QUAL É O PROBLEMA?
+
+
+
+
+Se eu tentar acessar 'localStorage' 
+
+
+E ENTÃO DEFINIR 'setItem' e então 
+
+
+TENTAR PASSAR A CONSTANTE 'user'....
+
+
+
+ex:
+
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+    localStorage.setItem('user', user);
+})
+
+
+--------------------------------------
+
+
+
+
+SE EU TENTAR ARMAZENAR ESSA CONSTANTE 'user' como 
+
+
+
+VALUE por meio de 'setItem', no browser storage,
+
+ACONTECERÁ 
+
+ALGO CURIOSO:
+
+
+
+
+
+
+
+SE EU RECARREGAR A PÁGINA, CLICAR NO BOTÃO 
+
+E IR ATÉ A ABA 'APPLICATIONS' no dev tools,
+
+
+
+VEREMOS QUE ESSE OBJETO/ESSA COISA "[Object Object]" FOI 
+
+ARMAZENADA... ----> pq o que 
+
+REALMENTE ACONTECE QUANDO NÓS ARMAZENAMOS DADOS DENTRO 
+
+
+DO LOCALSTORAGE é que JAVASCRIPT 
+
+VAI CHAMAR 
+
+
+'toString' EM QUALQUER VALOR QUE 
+
+PASSARMOS A ELE NESSE SEGUNDO SLOT (no slot 'valor'/value)...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId);
+    localStorage.setItem('user', user);      /////////ISSO...
+})
+
+
+
+
+
+VIRA ISSO, POR MEIO DA AÇÃO 'NOS BASTIDORES' DO JAVASCRIPT:
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId.toString());
+    localStorage.setItem('user', user);      /////////ISSO...
+})
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+PARA OBJETOS, essa 'feature' VAI NOS IMPEDIR DE GANHAR/RECEBER UM CÓDIGO 'MACHINE READABLE' (e será ilegível para humanos, também).
+
+
+
+
+
+
+O QUE ELE NOS DARÁ É ESSA OBJECT NOTATION  DE '[object object]'.....
+
+
+
+
+E é por isso que o VALOR DESSA KEY 'user' será de '[object object]'....
+
+
+
+
+
+O QUE PODEMOS FAZER, PARA CONTORNAR ISSO, É CONVERTER 
+
+ESSE OBJETO EM __JSON___.
+
+
+
+
+
+Devemos converter em json PQ JSON é, NA VERDADE, UMA STRING.... (e apenas strings podem ser usadas para os key-value pairs armazenados no browser storage...)
+
+
+
+
+LEMBRE-SE: 
+
+
+O MÉTODO QUE USAMOS PARA CONVERTER ALGO EM JSON É 
+
+
+
+'JSON.stringify(coisaQueQueremosStringifar)'...
+
+
+
+
+ex:
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId.toString());
+    localStorage.setItem('user', JSON.stringify(user));   
+}
+
+
+
+
+--------------------------------
+
+
+
+
+JSON É AQUELE FORMATO/ESSE FORMATO QUE 
+
+________tAMBÉM USA CURLY BRACES_____ e assim por diante...
+
+
+mas, na verdade, 
+
+TODO O CONTEÚDO DOS DADOS JSON/TODOS OS CONTEÚDOS DE UM ARQUIVO JSON 
+
+SÃO SEMPRE 
+
+WRAPPADOS EM/POR 
+
+
+dois QUOTES (ou seja, por "")....
+
+
+
+
+
+JSON DATA É BASICAMENTE STRING DATA.
+
+
+
+É UMA STRING 'MACHINE-READABLE'...
+
+
+
+Uma string machine readable em que O CONTEÚDO DA STRING 
+
+É QUASE IGUAL A UM OBJETO, COM AS MESMAS ESTRUTURAS E REGRAS 
+
+DE UM OBJETO COMUM, as mesmas regras que o professor explicou no módulo 
+
+de 'http requests'...
+
+
+
+
+
+É EXATAMENTE POR ISSO QUE PODEMOS STRINGIFAR AQUELE NOSSO OBJETO 'user' aqui, 
+
+por meio de 
+
+'JSON.stringify(user))'...
+
+
+
+Podemos stringifar aqueles dados para 
+
+então armazená-los 
+
+nessa chave 
+
+
+'uid'...
+
+
+
+
+
+SE ENTÃO QUISERMOS PEGAR ESSES DADOS ___DE VOLTA__, por meio do 
+
+'retrieve BUtton', 
+
+podemos 
+
+
+
+SIMPLESMENTE CHAMAR 
+
+
+'JSON.parse()' NO MÉTODO 
+
+
+'GetItem()' USADO NA key de 'user'..., 
+
+DENTRO DA SEGUNDA FUNÇÃO VINCULADA 
+
+
+AO EVENTLISTENER de 'retrBtn'...
+
+
+(ISSO FARÁ COM QUE OS DADOS 'JSON' SEJAM
+
+TRANSFORMADOS EM JAVASCRIPT E 'RETRIEVADOS' por meio desse nosso botão.)
+
+
+ex:
+
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId.toString());
+    localStorage.setItem('user', JSON.stringify(user));   
+}
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+    const extractedUser = JSON.parse(localStorage.getItem('user'));
+    if (extractedId) {
+        console.log('Got the ID - ' + extractedId);
+    } else {
+        console.log('Could not find the ID');
+    }
+    
+});
+
+
+
+
+---------------------------------------
+
+
+
+POR FIM, PARA VER SE ISSO REALMENTE FUNCIONOU, PODEMOS FAZER O CONSOLE.LOG 
+
+do 'extractedUser'...
+
+
+
+TAMBÉM PODERÍAMOS ADICIONAR UM 'IF CHECK' para checar se realmente conseguimos 
+
+o 'extractedUser', mas professor diz que podemos fazer isso mais tarde.
+
+
+
+------------------------------------------
+
+
+
+
+
+MAS ISSO É ALGO QUE, DE FATO, PODEMOS FAZER:
+
+
+
+
+PODEMOS USAR 'JSON.strinfigy()' E 'JSON.parse()' PARA 
+
+ARMAZENAR DADOS MAIS COMPLEXOS EM 'LOCAL STORAGE',
+
+
+PARA ARMAZENAR ____OBJETOS JAVASCRIPT___, e não simples key-values soltos...
+
+
+
+------------------------------
+
+
+
+
+
+PODEMOS VER O RESULTADO DISSO SE clicarmos no botão 
+
+
+'store'...
+
+
+
+Se eu clicar em 'Store',
+
+
+
+verei na aba application --> local storage 
+
+
+
+
+a informação:
+
+
+
+
+'key'               value
+
+
+user                {"name": "Max", "age:30, ...}
+
+
+-----------------------------------------------
+
+
+
+
+
+E SE AGORA EU CLICAR NO BOTÃO 'RETRIEVE' e eu examinar o console, 
+
+vou ver OS DADOS (o 'user') RETRIEVADOS CORRETAMENTE.
+
+
+---------------------------------------------
+
+
+
+
+
+TENHA EM MENTE QUE ___tODOS OS MÉTODOS____ QUE VOCÊ 
+
+
+ESCREVER (apenas métodos) SERÃO PERDIDOS SE VOCÊ OS ESCREVER DENTRO 
+
+DESSE OBJETO... (do objeto 'user'), POIS 
+
+ELES NÃO CONSEGUIRÃO SER ENCODADOS EM 'JSON'.... (isso é uma limitação do JSON em si)
+
+
+
+
+
+Também tenha em mente QUE VOCÊ 
+
+NÃO VAI QUERER ARMAZENAR DADOS SUPER COMPLEXOS EM 'local storage', PORQUE 
+
+NÃO É PARA ISSO QUE ESSA FEATURE FOI CRIADA.
+
+
+
+
+
+
+Além disso, você NÃO PODE CONFIAR/rely no fato de que os dados VAO PERSISTIR, 
+
+POIS USUÁRIOS PODEM/PODERÃO DELETÁ-LOS... (deletar os dados na storage)....
+
+
+
+BROWSERS TAMBÉM PODEM DELETAR ESSES DADOS SE ELES CONSTATAREM QUE ESTÃO FICANDO SEM ESPAÇO,
+ por exemplo.
+
+
+
+
+Esses são fatores que você tem que ter em mente.
+
+
+
+
+
+COM ISSO, PARA FINALIZAR A PARTE de 'localStorage',
+
+DEVEMOS VER O QUE DIABOS 
+
+É A 'sessionStorage'...
+
+
+
+
+
+PARA isso, o professor vai armazenar o userId (o valor/constante userId) 
+
+
+COM 'sessionStorage.setItem()' em vez de 'localStorage.setItem()'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    localStorage.setItem('uid', userId.toString()); ////isso acaba alterado pelo professor.
+    localStorage.setItem('user', JSON.stringify(user));   
+}
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+    const extractedUser = JSON.parse(localStorage.getItem('user'));
+    if (extractedId) {
+        console.log('Got the ID - ' + extractedId);
+    } else {
+        console.log('Could not find the ID');
+    }
+    
+});
+
+
+
+
+
+
+PROFESSOR ALTERA ISSO E DEIXA ASSIM:
+
+
+
+
+
+
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    sessionStorage.setItem('uid', userId.toString()); ////alterado.
+    localStorage.setItem('user', JSON.stringify(user));   
+}
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const extractedId = localStorage.getItem('uid');
+    const extractedUser = JSON.parse(localStorage.getItem('user'));
+    if (extractedId) {
+        console.log('Got the ID - ' + extractedId);
+    } else {
+        console.log('Could not find the ID');
+    }
+    
+});
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+Professor também ALTERA A EXTRAÇÃO DESSE USERID, lá em 'retrBtn', 
+
+PORQUE ELE COLOCA 'sessionStorage.getItem('uid')' NO LUGAR DE 
+
+'localStorage.getItem('uid');'
+
+
+
+
+
+ex:
+
+
+
+
+const user = {
+    name: 'Max', 
+    age: 30, 
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+storeBtn.addEventListener('click', () => {
+    sessionStorage.setItem('uid', userId.toString()); ////alterado.
+    localStorage.setItem('user', JSON.stringify(user));   
+}
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const extractedId = sessionStorage.getItem('uid');
+    const extractedUser = JSON.parse(localStorage.getItem('user'));
+    if (extractedId) {
+        console.log('Got the ID - ' + extractedId);
+    } else {
+        console.log('Could not find the ID');
+    }
+    
+});
+
+
+
+
+----------------------------------
+
+
+
+
+A RAZÃO DISSO É SIMPLES, EXPLICA O PROFESSOR:
+
+
+
+COMO ESTOU USANDO 'sessionStorage.setItem' para 
+
+DEFINIR/SETTAR AQUELES DADOS,
+
+
+EU SOU OBRIGADO A USAR 
+
+
+'sessionStorage.getItem()' PARA 
+
+CONSEGUIR DAR RETRIEVE NELES (não posso, portanto, usar 'sessionStorage.getItem()'  para pegar DADOS QUE FORAM DEFINIDOS COM 'localStorage.setItem()'  )
+
+
+
+
+
+
+------------------------------------------
+
+
+
+
+PARA VER EXATAMENTE O QUE ISSO FAZ, o professor vai até 
+
+''application'' e DELETA
+
+
+o 'uid' do local storage, pois não estaremos mais acessando ele.
+
+
+
+O professor checa o 'sessionStorage' e constata/certifica que ESTÁ VAZIO.
+
+
+
+
+
+AGORA SE ELE FOR LÁ E APERTAR NO BOTÃO 'STORE', veremos que 
+
+
+O USERID ficará ARMAZENADO NA SESSION STORAGE (não em 'local storage', e SIM NA SESSION STORAGE).
+
+
+
+
+
+SE ELE DER 'RETRIEVE' na data do sessionId, conseguiremos dar retrieve desses dados da 'session storage'...
+
+
+
+
+SE VOLTARMOS À APPLICATIOn e então recarregarmos a página, veremos que os DADOS AINDA ESTARÃO 
+
+no 'sessionStorage'...
+
+
+ENTRETANTO, SE ABRIRMOS UMA NOVA ABA/FECHARMOS E REABRIRMOS O BROWSER, 
+
+todos esses dados DO SESSIONSTORAGE VAO __SUMIR____.
+
+
+
+
+
+A SESSIONSTORAGE VAI TER SUMIDO SE REABRIRMOS O BROWSER, maS OS DADOS EM LOCALSTORAGE, nÃO.
+
+
+
+
+ESSA É A DIFERENÇA:
+
+
+
+
+DADOS EM SESSIONSTORAGE PERSISTEM ENQUANTO SUA PÁGINA ESTIVER ABERTA NO BROWSER...
+
+OU SEJA, DESDE QUE VOCê TENHA ESSA PÁGINA ABERTA EM UMA TAB ATIVA...
+
+
+Esses dados continuam vivos MESMO QUE VOCÊ RECARREGUE A PÁGINA....
+
+
+
+
+ENTRETANTO, QUANDO VOCÊ FECHA A ABA/FECHA TODAS AS ABAS EM QUE SEU APLICATIVO ESTÁ RODANDo, 
+
+OU QUANDO VOCÊ FECHA O BROWSER EM SI, a sessionStorage INTEIRA é apagada/cleared.
+
+
+
+
+
+-------> LOCALSTORAGE É DIFERENTE: LOCALSTORAGE SOBREVIVE 
+
+A ISSO....
+
+LOCALSTORAGE ___NUNCA É ____ CLEARED___. 
+
+SÓ É CLEARED SE O USUÁRIO FOR LÁ E MANUALMENTE APAGAR OS DADOS (ou se o browser quiser apagar, talvez por falta de espaço).
+
+
+
+
+
+
+--------------------------------
+
+
+
+CERTO, ERA ISSO.

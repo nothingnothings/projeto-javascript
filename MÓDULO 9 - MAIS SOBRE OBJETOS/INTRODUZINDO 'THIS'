@@ -1,0 +1,389 @@
+Vimos muitas informações importantes e úteis a respeito de OBJETOS.
+
+
+
+
+Informações quanto a SINTAXE DE OBJETOS.
+
+
+
+
+
+
+
+AGORA DEVEMOS VER ALGO TOTALMENTE NOVO:
+
+
+
+ 
+
+a keyword 'THIS'. 
+
+
+
+
+O que é ela?
+
+
+
+
+
+Bem, no nosso movie nós temos 
+
+nossa propriedade 'title'.... AGORA, QUEREMOS 
+NOS ASSEGURAR DE QUE seja possível FAZER O OUTPUT 
+DESSE TITLE em "allUpperCase" (letras todas maiúsculas).
+
+
+
+É claro, isso pode ser facilmente feito se você for até 
+o lugar em que utilizamos o 'title' 
+
+(ex: 'let text = movieTitle + ' - ';).
+
+
+
+
+
+AGORA, COMO TITLE É UMA _____STRING____, há um MÉTODO 
+ESPECÍFICO EM STRINGS que você tem que saber, que é chamado 
+de 'toUpperCase()". Esse método está sempre disponível em TODAS AS STRINGS.
+
+
+
+-------------------------------------
+
+EX:
+
+
+
+
+filteredMovies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        const {info} = movie;  
+        const {title} = info; 
+        const {title: movieTitle} = info;   
+        let text = movieTitle.toUpperCase() + ' - ';
+
+      
+
+
+
+        for (const key in info) {   //ex de for in loop.
+            if (key !== 'title') {
+                text = text + `${key}: ${info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+        
+        
+        movieEl.textContent = text;
+        
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+RECARREGAMOS A PÁGINA E TESTAMOS ISSO:
+
+percebemos que agora as coisas que adicionamos ao TITLE do movie 
+sempre ficam 
+EM UPPERCASE.
+
+
+Mas isso não é tão fancy, né?
+
+
+Chamamos uppercase aqui, e não há nada de errado com isso....
+
+Não há nada de errado em chamar 'toUpperCase()' aqui, MAS àS VEZES 
+VOCÊ QUER ___COZINHAR___ (bake) CERTA LÓGICA EM SEUS OBJETOS....
+
+
+Seria legal se tivéssemos um MÉTODO dentro de 'newMovie' que, por exemplo, FORMATASSE O TÍTULO, OU ALGO DO GÊNERO...
+(professor vai em diante e _____CRIA UM MÉTODO DENTRO DE NEW MOVIE____, CHAMADO DE  'getFormattedTitle'. Esse 
+getFormattedTitle vai SEGURAR UMA FUNÇÃO (que nunca pode ser uma arrow function, sempre deverá ser uma função com 
+a 'function keyword) que realizará essa tarefa, FORMATARÁ O NOSSO TÍTULO COMO SENDO UPPERCASE. )
+
+
+Representação disso, no código:
+
+
+
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue
+    },
+    id: Math.random().toString(), 
+    getFormattedTitle: function() {
+
+
+    }
+}
+
+
+
+
+
+-----------------------------------
+
+
+ESSA FUNÇÃO SEGURADA PELO MÉTODO 'getFormattedTitle' VAI NOS RETORNAR O NOSSO 'TITLE' formatado como sendo 
+upperCase. Mas como diabos o professor escreverá que quer que o 'title' seja formatado como UPPERCASE?
+
+Bem, há uma keyword específica disponível em javascript que você pode usar em tudo; aqui usamos em funções 
+que são partes de objetos, mas você pode usar em qualquer lugar do código (MAS ELA É MUITO MAIS IMPORTANTE QUANDO É 
+UTILIZADA DENTRO DE FUNÇÕES QUE SÃO PARTES DE OBJETOS....).
+
+É a keyword "THIS".
+
+
+A keyword 'this' PODE SER BEM COMPLEXA, apesar de ser bem fácil decorar aquilo que ela se refere.
+
+
+-----------> DENTRO DE UMA FUNÇÃO, NÃO INTERESSA SE ESSA FUNÇÃO FAZ PARTE DE UM OBJETO OU NÃO, a "this" KEYWORD 
+VAI SE REFERIR À COISA ('whatever') QUE CHAMOU AQUELA FUNÇÃO, QUE FOI RESPONSÁVEL POR EXECUTAR AQUELA FUNÇÃO.
+
+Você pode pensar "ah, esse sou eu, o desenvolvedor; afinal, fui eu que chamei essa função"... você está errado.
+Aqui estamos falando da COISA DENTRO DO SEU CÓDIGO QUE CHAMOU ESSA FUNÇÃO.
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue
+    },
+    id: Math.random().toString(), 
+    getFormattedTitle: function() {
+        this
+        
+
+    }
+}
+
+
+
+---------------------------
+
+
+
+O professor quer nos dar um exemplo:
+
+
+
+digamos que, aqui, dentro do objeto 'newMovie', queremos RETORNAR 'this.info.title.toUpperCase();'.
+Essa lógica de conversão está DENTRO DESSE NOSSO OBJETO. 
+
+Isso que fizemos agora é algo que você tem que fazer/vai querer fazer frequentemente nos seus programas, 
+você sempre quer COLOCAR LÓGICA NOS SEUS OBJETOS... 
+
+
+Até agora, no curso, nós sempre utilizamos objetos apenas para ARMAZENAR DADOS.... não há nada 
+de errado com isso, mas VOCê GANHA MUITO MAIOR FLEXIBILIDADE SE VOCÊ QUISER/É CAPAZ DE COLOCAR 
+LÓGICA NOS SEUS OBJETOS, também. Porque se você coloca lógica dentro deles, você terá 
+esses CONTÊINERES DE DADOS COMPARTILHÁVEIS (sharable data containers) que não apenas nos 
+retornam/entregam dados com os quais temos de trabalhar/transformar (uma vez que sejam 
+retirados do objeto), MAS QUE TAMBÉM INCLUEM CERTAS "LÓGICAS JÁ INCLUÍDAS", que estarão 
+'dentro de uma caixa' que você pode apenas acessar/'tap into' para RODAR/EXECUTAR ALGO...
+A keyword 'THIS' É A PEÇA-CHAVE. 
+
+
+
+Explicação (do que eu entendi) ----> 'This' é um substituto (quase como um pronome) QUE SERVE PARA 
+REFERENCIAR O OBJETO/FUNÇÃO QUE ACABA EXECUTANDO ESSE COMANDO QUE VOCÊ ESTÁ REFERENCIANDO NO PRESENTE.
+
+
+ex: 
+                                                        (para o objeto 'newMovie', portanto, nesse caso)
+'this.info.title.toUpperCase' ----> é um substituto para 'newMovie.title.toUpperCase();" ----------------------------> ELE AGE COMO UM SUBSTITUO/'PRONOME' para a coisa que está um nível acima desse método/função, daquilo que está a chamando.
+
+
+
+
+EX:
+
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue
+    },
+    id: Math.random().toString(), 
+    getFormattedTitle: function() {
+        return this.info.title.toUpperCase();      /////////// SEM A keyword 'THIS', o comando 'info.title.upperCase();' FARIA O JAVASCRIPT PROCURAR POR UMA VARIÁVEL 'info' AO REDOR DESSE OBJETO 'NEWMOVIE', e não DENTRO DELE (não pegaria a propriedade 'info' dentro de newMovie, como queremos, nesse caso).  Sem o this, esse retorno desse 'title' aqui simplesmente FALHARIA, pois não há nenhuma variável com esse nome ('info'), e sim somente a propriedade 'info'.
+
+
+
+        
+
+    }
+}
+
+
+
+OBS::::: NOSSO IDE SEMPRE MOSTRA MUITO BEM A COISA À QUAL 'THIS' ESTÁ SE REFERINDO... (se passarmos o mouse por cima do 'this').
+
+
+
+
+This faz com que o javascript "olhe dentro do objeto em que essa função/método 
+faz parte" ('olhe para a coisa que é responsável POR EXECUTAR ESSA FUNÇÃO (a função 'function () {return.this.info.title.toUpperCase();}', nesse caso. ), que 
+TIPICAMENTE É O OBJETO 1 NÍVEL ACIMA DA PROPRIEDADE/FUNÇÃO, visto que a propriedade/método 
+faz parte desse objeto.
+
+
+
+Feita essa alteração no nosso código, podemos então ir até o lugar 
+em que extraímos dados do nosso filme (ou seja, em 'filteredMovies.forEach')...
+
+O professor diz que o object destructuring de 
+
+'const {title: movieTitle} = info' NÃO É MAIS NECESSÁRIO, 
+e que podemos utilizar 
+object destructuring em UM MÉTODO, SE QUISERMOS...
+
+
+
+ex (ex de uso do object destructuring em um MÉTODO):
+
+
+const { getFormattedTitle} = movie;   (o professor faz o "PULL OUT" desse método 'getFormattedTitle' do objeto 'movie' POR MEIO DESSE COMANDO/OBJECT DESTRUCTURING.)
+
+
+-------------------------------------------
+
+
+AGORA, ALI EM "let text = movieTitle + ' - '; ", POSSO SIMPLESMENTE 
+SUBSTITUIR 'movieTitle', aquele referencial antigo do object destructuring, PELO 
+NOVO REFERENCIAL DE OBJECT DESTRUCTURING de 'getFormattedTitle()'.
+
+Por fim, ele simplesmente chama esse 'getFormattedTitle' como se fosse uma função, 
+PORQUE ELE, NO FINAL DAS CONTAS, É UMA FUNÇÃO.
+
+
+
+ex:
+
+
+
+filteredMovies.forEach(movie => {
+    const movieEl = document.createElement('li');
+    const { info, ...otherProps } = movie;
+    console.log(otherProps) = movie;
+    console.log(otherProps);
+    //const { title: movieTitle } = info;
+    const { getFormattedTitle } = movie;
+    
+    let text = getFormattedTitle(); + ' - ';  ///(chamado da tal função/método que foi extraído de 'movie' e colocado em uma variável por meio do object destructuring.)
+}....
+)
+
+
+--------------------------
+
+
+
+ENTRETANTO, O PROFESSOR FALA QUE AINDA NÃO PODEMOS APLICAR 'const {getFormattedTitle } = movie;', PORQUE 
+ENCONTRARÍAMOS UM PROBLEMA 
+
+QUE AINDA NÃO COMPREENDEMOS BEM...  por isso, ele decide usar uma 
+forma mais simples, de 'let text = movie.getFormattedTitle() + ' - '; ' .
+
+
+
+
+ex:
+
+
+
+
+
+filteredMovies.forEach(movie => {
+    const movieEl = document.createElement('li');
+    const { info, ...otherProps } = movie;
+    console.log(otherProps) = movie;
+    console.log(otherProps);
+    //const { title: movieTitle } = info;
+    const { getFormattedTitle } = movie;
+    
+    let text = movie.getFormattedTitle(); + ' - ';  ///(chamado da tal função/método que foi extraído de 'movie' e colocado em uma variável por meio do object destructuring.)
+}....
+)
+
+
+
+----------------------------------------
+
+
+
+O PROFESSOR DIZ QUE VOCÊ PODE PENSAR "ah, é a mesma coisa que o approach do object 
+destructuring, n muda nada, posso utilizar essa versão do acesso direto ao objeto, que nada 
+mudará. Nem mesmo preciso do object destructuring..." ---------> ISSO 
+ESTÁ ERRADO; OS DOIS APPROACHES NÃO "DÃO NO MESMO". O professor logo explicará a 
+razão disso.
+
+
+
+
+Agora, enfim, o professor está chamando 'getFormattedTitle' no objeto 'MOVIE', 
+PORQUE ELE É UMA PARTE DAQUELE OBJETO 'movie'.  ('this' aqui, no lugar de 'movie', NÃO FUNCIONA. NÃO FUNCIONA PQ NOSSO IDE NOS MOSTRA QUE SERÁ SELECIONADO UM 'GLOBALTHIS', e não o objeto "movie" que queremos. ) 
+
+
+
+
+
+
+
+
+BEM, NOSSO CÓDIGO ESTÁ FUNCIONANDO, E O 'THIS' TAMBÉM ESTÁ FUNCIONANDO.
+
+
+
+Mas afinal, a que "this" está se referindo?
+
+
+
+
+O professor disse que era "a coisa que foi responsável por chamar essa função"....
+
+
+E HÁ UMA MANEIRA BEM FÁCIL DE MEMORIZAR ___COMO _____ VER ___ A COISA QUE É RESPONSÁVEL...
+
+
+_____A COISA RESPONSÁVEL___ É 
+SEMPRE A COISA NA FRENTE DA FUNÇÃO/método...
+
+
+
+ex:
+
+
+
+"return movie.info.title.toUpperCase();"  É IGUAL A "return this.info.title.toUpperCase();".

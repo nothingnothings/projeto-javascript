@@ -1,0 +1,33 @@
+Com todo o conhecimento básico que acumulamos, agora devemos estudar um pouco da interação com o código 
+HTML DAS PÁGINAS.
+
+
+
+Como é estabelecida a conexão entre o documento .JS e o documento .HTML?
+
+
+
+Há múltiplas maneiras de realizar essa conexão.
+
+
+Veremos como trabalhar, em geral, com a página html que foi renderizada. MANIPULÁ-LA.
+
+
+
+Vwewmos como a pagina html é carregada, o que é o dom e como o javascript se encaixa nele.
+
+
+VRERMOS ___NODES___ e ___ELEMENTS___. São 2 tipos importantes de objetos com os quais trabalhamos, se trabalharmos com a pag html.
+
+
+VEREMOS COMO FAZER QUERY DE "DOM NODES", ou seja, como acessar partes do html code renderizado, e como se mexer DENTRO DENTRO DESSES ELEMENTOS COM O JAVASCRIPT.
+Selecionar diferentes elementos e fazer coisas diversas coom eles.
+
+
+Aprenderemos como LER E MANIPULAR NODES DO DOM. Veremos como mudar o estilo de um elemento, e assim por diante.
+
+é claro, também daremos uma olhada em como podemos adicionar NOVOS ELEMENTOS à página HTML RENDERIZADA; ou 
+como REMOVER esses dom nodes (que serão os tais elementos do html).
+
+
+Muito conteúdo nesse módulo.

@@ -1,0 +1,1179 @@
+
+Nós conseguimos adicionar essa função 
+
+
+'getCoordsFromAddress' 
+
+
+
+em 
+
+
+
+'Location.js'....
+
+
+
+
+
+
+
+
+
+------> DEVEMOS UTILIZAR ESSA FUNÇÃO EM 'SharePlace'....
+
+
+
+
+
+LÁ, NAQUELE 'findAddressHandler',
+
+
+
+QUANDO NÓS JÁ TEMOS O ENDEREÇO INPUTTADO PELO USUÁRio (address),
+
+
+
+NÓS VAMOS QUERER CONVERTER ESSE 'ADDRESS'
+
+EM COORDENADAS (coordinates)....
+
+
+
+
+
+Primeiro de tudo, devemos IMPORTAR a função 'getCoordsFromAddress' NESSE 
+
+
+ARQUIVO 'sharePlace'....
+
+
+
+EX:
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location'; /////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); ///isso é necessário.
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+  }
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+FEITO ISSO, DEVEMOS CHAMAR ESSA FUNÇÃO NO MÉTODO 
+
+
+'findAddressHandler', LÁ NO FINAL DELE...
+
+
+
+ex:
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); 
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+     getCoordsFromAddress(); ////////EIS O CÓDIGO EM QUESTÃO.
+  }
+ 
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+
+--------------------------------
+
+
+
+
+FEITO ISSO, PRECISAMOS FORWARDAR O 'address' QUE CONSEGUIMOS POR MEIO DO USER INPUT, em 'findAddressHandler'....
+
+
+
+ex:
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); 
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+     getCoordsFromAddress(address); ////////EIS O CÓDIGO EM QUESTÃO.
+  }
+ 
+}
+
+const placeFinder = new PlaceFinder();
+
+
+-------------------------------------------------------
+
+
+
+
+
+PROFESSOR EXPLICA QUE 
+
+ESSE 
+
+
+'getCoordsFromAddress' VAI 
+
+RETORNAR UMA PROMISE, 100% CERTEZA...
+
+
+
+ISSO VAI ACONTECER PQ ESTAMOS USANDO 'async/await' DENTRO DE 
+'getCoordsFromAddress'...
+
+
+
+Como aprendemos mais cedo no curso, 
+
+
+QUANDO USAMOS ASYNC AWAIT EM UMA FUNÇÃO, a __FUNÇÃO INTEIRA em que estamos usando 
+isso___ retorna UMA 
+
+PROMISE...
+
+
+
+COMO 
+
+
+ESSE MÉTODO 
+
+
+'getCoordsFromAddress' VAI NOS 
+
+RETORNAR UMA PROMISE, 
+
+É NECESSÁRIO COLOCAR 
+
+UM 
+
+'.then()' BLOCK DO LADO DESSE MÉTODO 
+
+para então EXECUTAR ALGO A PARTIR DOS SEUS DADOS...
+
+
+
+
+ex:
+
+
+
+
+modal.show();
+getCoordsFromAddress(address).then();
+
+
+
+
+----------------------------------------
+
+
+
+ESSA SERIA UMA DAS ALTERNATIVAS, REALMENTE...
+
+
+
+
+MAS A COISA QUE O PROFESSOR VAI FAZER, AQUI, 
+
+
+É USAR 
+
+
+
+_________ASYNC AWAIT____ NO MÉTODO 
+
+
+'findAddressHandler' TAMBÉM...
+
+
+
+
+Professor explica que é óbvio que podemos usar async/await nesse método, pois 
+
+ELE É APENAS UMA FUNÇÃO/MÉTODO QUE FAZ PARTE DE UMA CLASSE, e que sempre 
+
+é possível fazer isso.
+
+
+
+
+
+
+NÓS ADICIONAMOS A KEYWORD 'async' na frente de 'findAddressHandler' 
+
+PARA QUE DEPOIS SCROLLEMOS 
+
+
+ATÉ O 
+
+'getCoordsFromAddress' E COLOQUEMOS 
+
+UM 'await'
+
+NA SUA FRENTE...
+
+
+
+
+ex:
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); 
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  async findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    await getCoordsFromAddress(address); 
+  }
+ 
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+
+
+
+COM ISSO, EVITAMOS USAR '.THEN()" e catch nesse nosso código...
+
+
+
+
+
+
+
+
+Professor explica que podemos ARMAZENAR O RESULTADO DESSE 'await' DA FUNÇÃO/PROMISE 
+
+
+'getCoordsFromAddress'
+
+EM 
+
+UMA 
+
+CONSTANTE DE NOME 
+
+'coordinates'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); 
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  async findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+   const coordinates = await getCoordsFromAddress(address); 
+  }
+ 
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+-------------------------------
+
+
+
+
+ARMAZENAMOS ESSA PROMISE/AWAIT DESSA FUNÇÃO EM UMA 
+
+CONSTANTE PARA QUE 
+
+
+APÓS ISSO POSSAMOS 
+
+
+
+CHAMAR 
+
+'this.selectPlace()' 
+
+
+
+PARA ___fORWARDAR___ AS COORDENADAS em seu interior...
+
+ex:
+
+
+'this.selectPlace(coordinates);'
+
+
+
+
+
+---------------------------------------
+
+
+
+ex:
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
+
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); ///isso é necessário.
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  async findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    const coordinates = await getCoordsFromAddress(address);
+    this.selectPlace(coordinates);
+  }
+
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+---------------------
+
+
+
+
+COM ISSO, NÓS ACABAMOS RECEBENDO AS 'coordinates' NO MESMO FORMATO 
+
+QUE AS OBTERÍAMOS SE FOSSEMOS 
+
+
+usar o processo de 'auto-locate' do usuário... 
+
+
+
+
+
+
+
+
+
+MAS É CLARO QUE ESSE 
+
+
+'this.selectPlace(coordinates)' PODE 
+
+__FALHAR___... é por isso que COLOCAMOS O THROW DE ALGUNS ERROS 
+
+NO CÓDIGO, para eventualidades e casos em que as coisas deêm errado.
+
+
+
+
+É por isso que devemos FAZER WRAP DAS LINHAS 
+
+
+
+'const coordinates = await getCoordsFromAddress(address) 
+this.selectPlace(coordinates);'
+
+
+
+EM UM BLOCO 
+
+'TRY-CATCH'...
+
+
+
+
+(SE VOCê NÃO ESTIVER USANDO ASYNC/AWAIT, VOCÊ DEVE USAR UM SIMPLES 'CATCH BLOCK' enfiado 
+no meio dos seus ".then() blocks" )
+
+
+
+
+eX:
+
+
+
+
+    modal.show();
+    try {
+         const coordinates = await getCoordsFromAddress(address);
+    this.selectPlace(coordinates);
+    } catch (error) {
+
+    }
+   
+
+------------------------------------------
+
+
+
+ISSO VAI CAPTURAR QUAISQUER ERROS QUE ENCONTREMOS 
+
+durante a execução desse código...
+
+
+Para que uma mensagem de erro seja mostrada ao usuário, 
+
+digitamos 
+
+'alert(error.message);'
+
+
+
+
+
+A CONSTRUCTOR FUNCTION 'BUILTIN' de 'error' TE DÁ UM OBJETO COM 
+
+UMA 
+
+PROPRIEDADE 'message'...  (new Error([message[, fileName[, lineNumber]]]))
+
+
+
+É uma propriedade EM QUE A MENSAGEM QUE VOCê ESTÁ 
+
+__PASSANDO PARA DENTRO___ (no caso aquela mensagem atirada no nosso código por meio de 'data.error_message') 
+
+É REPASSADA, AQUI.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+    modal.show();
+    try {
+         const coordinates = await getCoordsFromAddress(address);
+    this.selectPlace(coordinates);
+    } catch (error) {
+        alert(error.message);
+    }
+   
+
+-------------------------------------------------
+
+
+
+
+
+
+Após tudo isso, o professor coloca uma call de 
+
+'modal.hide()' 
+
+PARA ESCONDER O MODAL...
+
+
+esse hide NÃO VAI SER EXECUTADO IMEDIATAMENTE, não... ele só 
+
+SERÁ EXECUTADO QUANDO O PROCESSO 'await' de getCoordsFromAddress ACABAR...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+import { getCoordsFromAddress } from './Utility/Location';
+
+
+
+
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); ///isso é necessário.
+    addressForm.addEventListener('submit', this.findAddressHandler.bind(this));
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates); ////essa parte é confusa. Não entendi tão bem.
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  async findAddressHandler(event) {
+    event.preventDefault();
+    const address = event.target.querySelector('input').value;
+   /* console.log(address);
+    console.log(event);
+    console.log(event.target);
+    console.dir(event.target.querySelector('input')); */
+    if(!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+
+    try {
+
+    
+    const coordinates = await getCoordsFromAddress(address);
+    this.selectPlace(coordinates);
+    } catch (error) {
+        alert(error.message);
+    }
+    modal.hide();
+  }
+
+}
+
+const placeFinder = new PlaceFinder();
+
+
+-----------------------------
+
+
+
+
+AS OUTRAS LINHAS APÓS O 'await' de getCoordsFromAddress 
+
+
+SÓ SÃO EXECUTADAS 
+
+
+________dEPOIS____ pq, como aprendemos anteriormente, 
+
+
+O 'AWAIT' 
+
+FAZ COM QUE TODAS AS LINHAS POSTERIORES A ELES SEJAM 
+
+
+'WRAPPADAS' EM UM 
+
+
+
+'.THEN BLOCK()' ___INVISÍVEL___.
+
+
+
+(ou seja, ainda estamos usando promises aqui, ainda estamos usando .then(), apenas 
+
+disfarçado de uma sintaxe diferente. ).
+
+
+
+
+
+
+
+
+
+TESTAMOS O CÓDIGO E CONSTATAMOS QUE ELE FUNCIONA...
+
+
+
+
+
+O PRÓXIMO PASSO É....
+
+
+
+
+Fazer com que nós SEMPRE CONSIGAMOS UM ENDEREÇO/LOCALIZAÇÃO, ATÉ MESMO 
+
+
+QUANDO CLICAMOS  EM 
+
+'get cURRENT location'.. ( o que ainda não está funcionando, 
+
+AINDA NÃO ESTAMOS CONSEGUINDO UM ADDRESS marcado no mapa para esse 'auto-locate'...)...
+
+
+
+POR FIM, QUEREMOS QUE NOSSO SITE TAMBÉM DISPONIBILIZE UM 'SHAREABLE LINK' AQUI, UM LINK 
+
+QUE PODEMOS USAR para 
+
+________ABRIR UMA PÁGINA/NOSSA PÁGINA________ EM UMA NOVA GUIA E JÁ COMEÇAR COM UM MAPA CRIADO com a especificação 
+de mostrar aquele lugar...

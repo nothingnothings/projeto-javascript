@@ -1,0 +1,477 @@
+Certo, e qual seria o problema com "THIS"?
+
+
+
+
+
+Devemos voltar ao lugar em que USAMOS O "getFormattedTitle", e de volta 
+aos comandos usados para o OBJECT DESTRUCTURING.
+
+
+
+
+
+filteredMovies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        const {info} = movie;  
+        
+        
+       const { getFormattedTitle } = info;
+    
+
+        let text = movie.getFormattedTitle() + ' - ';
+
+        if('info' in movie) {  //Usado para determinar se certa propriedade/key está dentro de um objeto. Aqui checamos se 'info' está dentro de movie.
+            console.log('yes');
+        }; 
+
+
+
+        for (const key in info) {   //ex de for in loop.
+            if (key !== 'title') {
+                text = text + `${key}: ${info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+       
+        
+        movieEl.textContent = text;
+       
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+
+
+Antes, o professor extraiu 'getFormattedTitle', por meio do object destructuring, 
+para fora de 'movie'.
+
+
+ex:
+
+
+const {getFormattedTitle} = movie;
+
+
+
+-----------------------------------------
+
+
+Professor diz que isso é possível MESMO COM A SINTAXE REDUZIDA DE CRIAR/ADICIONAR MÉTODOS ( "getFormattedTitle() {
+                                                                                               return this.info.title.toUpperCase(); 
+                                                                                                                                            }")
+
+
+É possível ainda utilizar o object destructuring, 
+mas agora, é claro, NÃO PRECISAMOS MAIS DE 'movie.getFormattedTitle()', o 'movie' É DESNECESSÁRIO, 
+PODEMOS SIMPLESMENTE UTILIZAR 
+'getFormattedTitle()', pois JÁ HAVÍAMOS UTILIZADO O OBJECT DESTRUCTURING PARA 
+EXTRAIR A FUNÇÃO getFormattedTitle de 'movie' E ARMAZENÁ-LA EM UMA FUNÇÃO...
+é por isso que é redundante utilizar 'movie' no início desse 'movie.getFormattedTitle()'.
+
+
+
+
+
+....ATÉ AÍ, TUDO BEM... MAS SE VOCÊ RECARREGAR A PÁGINA, 
+VOCÊ GANHARÁ UM GRANDE ERRO, BEM VERMELHO.
+
+
+Você receberá um erro, e o filme NÃO SERÁ ADICIONADO NA PARTE INFERIOR DA PÁGINA QUANDO 
+VOCÊ APERTA NO BOTÃO.
+
+
+análise do
+erro:
+
+
+"cannot read property 'title' of undefined 
+at getFormattedTitle (objects.js: 58) 
+at objects.js:27
+at Array.forEach (<anonymous>)
+at renderMovies
+at HTMLButtonElement.addMovieHandler"
+
+
+
+
+
+objects.js:58 -------->  ESSA É A LINHA EM QUE EU TENTO ENTRAR 
+DENTRO de 'info.title'....
+
+...Como 'title' não pode ser encontrado em 'undefined', isso significa que 
+'INFO' BASICAMENTE RETORNOU 'undefined'...
+
+
+Entretanto, nós certamente temos a propriedade 'info' dentro de movie (ela até mesmo segura um objeto), 
+o que deixa isso ainda mais estranho...
+
+
+
+O que há de errado aqui?
+
+
+
+
+
+
+O PROBLEMA É COM 'THIS'.
+
+
+
+
+
+'THIS' NÃO SE REFERE AUTOMATICAMENTE AO OBJETO QUE + OU - O ENVOLVE (que nesse caso é 'newMovie', tecnicamente);
+ELE EM VEZ DISSO SE REFERE A 'QUEM' OU 'o que' foi responsável por chamar 
+a função em que ele está ligado/conectado.
+
+O professor nos disse que a MELHOR MANEIRA DE DECORAR/MEMORIZAR é olhar 
+NA FRENTE da função em que ele está ligado.....
+
+Anteriormente/antigamente, nós tínhamos 
+
+ex:
+
+
+
+"
+
+filteredMovies.forEach(movie => {
+
+
+let text = movie.getFormattedTitle()  //TÍNHAMOS ISSO AQUI.
+})
+"
+
+------------------------------------
+
+
+Ou seja, tínhamos 'movie' COMO RESPONSÁVEL POR ATIVAR ESSA FUNÇÃO 
+'getFormattedTitle'...
+
+AGORA, NÃO TEMOS NADA EM SEU LUGAR (agora é 'let text = getFormattedTitle').
+
+
+
+Se não tivermos nada ali, nesse lugar, a coisa responsável por ACIONAR 
+ESSA FUNÇÃO/MÉTODO SERÁ O NOSSO "CONTEXTO GLOBAL DE EXECUÇÃO" ...
+no modo 'non strict', que estamos usando agora (o professor também), ISSO 
+IRÁ SE REFERIR, ACTUALLY, AO OBJETO "WINDOW"...
+
+
+
+
+O professor pode provar isso por meio do console do chrome dev tools.
+
+
+Ele vai em frente e faz o console.log de 'this' em "getFormattedTitle".
+
+
+
+ex:
+
+
+
+
+
+
+
+const newMovie = {
+        info: {
+            title, 
+            [extraInfo]: extraValue,
+        },
+
+        id: Math.random().toString(), 
+      
+        getFormattedTitle() {
+            console.log(this);  //////o código em questão.
+            return this.info.title.toUpperCase(); 
+        }
+    };
+
+
+
+
+-----------------------------------------
+
+
+
+Por meio desse console.log, podemos ver exatamente ao que "this" está se referindo.
+
+
+Digitamos alguns dummy values e apertamos o botão de adicionar na nossa página.
+Percebemos que 
+THIS SE REFERE À "WINDOW".
+
+
+Ao objeto "window". Isso é simplesmente o default no "NON STRICT MODE".
+
+
+
+Esse é um comportamento específico do if...
+
+Se o if não estiver conectado com nada mais (não está dentro de um objeto ao qual pode se referir, por ex), 
+se ele não estiver se referindo a nada mais, ELE SEMPRE IRÁ SE REFERIR AO 
+OBJETO GLOBAL....
+
+
+
+
+
+
+SE NÓS ESTIVÉSSEMOS NO STRICT MODE (que podemos colocar no nosso código, por meio da string "use strict".), 
+
+SE TENTÁSSEMOS USAR O 'THIS' daquela mesma forma, sem uma referência a um objeto específico (apenas a referência ao objeto global 'window'), 
+VEREMOS QUE O VALOR RETORNADO POR 
+'THIS' SERÁ DE ___UNDEFINED____.  (esse é o comportamento padrão do 'this' no strict mode.)
+
+
+De qualquer forma, 'THIS' NUNCA IRÁ SE REFERIR A 'movie', nesse trecho que está dentro do 'getFormattedTitle()'.
+
+
+
+MAS ENTÃO, COMO PODEMOS TRABALHAR EM VOLTA DISSO? COMO PODEMOS FAZER COM QUE O 'this' dentro 
+de 'getFormattedTitle' ___CONSIGA___ SE REFERIR___ AO movie/newMovie?
+
+
+
+
+
+BEM, PODEMOS FAZER ISSO POR MEIO DE ALGO QUE JÁ APRENDEMOS MAIS CEDO NO NOSSO CURSO...
+
+
+Podemos fazê-lo por meio do BOM E VELHO MÉTODO "BIND()". THE GOOD 'OL _BIND_ METHOD_.
+
+
+
+
+No passado, utilizamos 'bind()' para PRECONFIGURAR QUAIS ARGUMENTOS UMA DETERMINADA FUNÇÃO ACEITA... 
+uma função que NÃO EXECUTAMOS POR NOSSAS PRÓPRIAS MÃOS, E SIM POR UMA FUNÇÃO/MÉTODO AUXILIAR (como um eventListener).
+
+
+
+
+
+ex:
+
+
+utilizamos binds em situações como:
+
+ 
+addMovieBtn.addEventListener('click', addMovieHandler.bind() );  //////----------> utilizaríamos um código assim SE "addMovieHandler" SÓ ACEITASSE CERTOS ARGUMENTOS/PARÂMETROS (ele não funciona assim no nosso código dos filmes, mas esse seria a sintaxe dele se nós PRECISÁSSEMOS DE ARGUMENTOS ESPECÍFICOS A SEREM PASSADOS A ELE ).
+
+
+
+---------------------------------
+
+
+
+
+
+ENTRETANTO, TAMBÉM USAMOS "BIND()" PARA NÃO APENAS PRECONFIGURAR ARGUMENTOS/PARÂMETROS QUE 
+UMA FUNÇÃO RECEBERÁ/ACEITARÁ, MAS 
+TAMBÉM PARA ___PRECONFIGURAR ___ O QUE DIABOS "THIS" IRÁ SE REFERIR em um determinado caso concreto.
+
+
+
+
+
+
+Então, nesse caso aqui, é claro, UM CONSERTO/FIX SERIA SIMPLESMENTE VOLTAR para 
+
+
+a sintaxe de 
+
+"let text = movie.getFormattedTitle() + ' - '; "  ////////--------> PROFESSOR DIZ QUE É CLARO QUE ESSA SINTAXE FUNCIONARIA, E QUE NÃO HÁ NADA DE ERRADO COM ELA, MAS QUEREMOS MOSTRAR COMO UTILIZAR A KEYWORD 'this', por isso não utilizaremos essa sintaxe, que de fato funciona e não precisa de maiores ajustes.
+
+
+
+///se por alguma razão ou outra não quisermos utilizar a sintaxe acima exposta, 
+podemos UTILIZAR O "BIND" AQUI PARA CONSERTAR O PROBLEMA DO THIS...
+
+
+
+Mas como fazer isso? Bem, devemos, primeiramente, alterar O NOSSO OBJECT 
+DESTRUCTURING.... afinal, havíamos colocado 
+"getFormattedTitle" em uma CONSTANTE DE MESMO NOME, E ESSA CONSTANTE SERÁ 
+INCOMPATÍVEL COM O QUE QUEREMOS FAZER; AQUI, PRECISAMOS DE UMA VARIÁVEL DE "getFormattedTitle", 
+por isso vamos adiante e substituímos "const" por "let".
+
+
+
+Depois disso, devemos chamar a variável getFormattedTitle por seu 
+nome e então definir seu valor como sendo "getFormattedTitle.bind();"  (lembrando que a variável "getFormattedTitle" segura UM POINTER/ENDEREÇO ÀO MÉTODO 'getFormattedTitle', ou seja, ela não segura o método em si.)
+
+
+
+
+ex:
+
+
+
+
+
+filteredMovies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        const {info} = movie;  
+        
+        
+       
+        let {getFormattedTitle} = movie;    ///////1A alteração
+        getFormattedTitle = getFormattedTitle.bind();  //////////2A ALTERAÇÃO
+        let text = movie.getFormattedTitle() + ' - ';
+
+        if('info' in movie) {  
+            console.log('yes');
+        }; 
+
+
+
+        for (const key in info) {   
+            if (key !== 'title') {
+                text = text + `${key}: ${info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+       
+        
+        movieEl.textContent = text;
+       
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+MAS NÃO ACABAMOS POR AÍ....
+
+
+HÁ MAIS COISAS; AFINAL, AINDA TEMOS DE DEFINIR OS ARGUMENTOS DE 
+"BIND()".
+
+O primeiro argumento que você passa a "bind()" é o argumento que mais importa.
+Mais cedo no curso o professor disse que esse argumento não importava... mas apenas 
+não importava PORQUE AINDA NÃO TÍNHAMOS APRENDIDO SOBRE SUA UTILIDADE. Em razão disso, 
+nós sempre definíamos o argumento de bind como sendo "null". ex: "getFormattedTitle.bind(null)".
+Sempre definíamos o primeiro argumento de bind como null para depois settar os outros argumentos, 
+que eram a parte importante, antigamente.
+
+AGORA, NÓS AINDA PODEMOS ESTAR INTERESSADOS EM PASSAR CERTOS ARGUMENTOS PARA DENTRO 
+DE 'bind()", e nós AINDA PODEMOS ADICIONÁ-LOS COMO ANTIGAMENTE, se a necessidade surgir...
+
+Aqui, entretanto, essa passagem de múltiplos argumentos após o primeiro NÃO NOS INTERESSA.
+
+O que interessa, quando estamos falando de 'this' e 'bind()' em uma mesma frase, 
+É O _____PRIMEIRO ARGUMENTO____.
+
+Se você passar o mouse por cima do 'bind();', o IDE já nos mostra que esse método 
+aceita o "thisArg".... o 'thisArg' é, no final das contas, AQUILO (o objeto/método/etc) QUE VOCÊ QUER/VAI QUERER QUE 
+o 'THIS' SE REFIRA QUANDO ELE ESTIVER CONECTADO A ESSE MÉTODO/FUNÇÃO QUE VOCÊ LIGOU O 'BIND()'.
+
+
+ex (exemplo do que você NÃO DEVE FAZER.):
+
+
+
+getFormattedTitle = getFormattedTitle.bind(movie); /////////------> Aqui, você define que quer que "this" se refira à "MOVIE" quando ele estiver conectado/pluggado/vinculado ao método "getFormattedTitle".
+
+
+
+let text = this.getFormattedTitle() + ' - '; /////////////------------> CÓDIGO ERRADO. NÃO DEVEMOS UTILIZAR 'this' ANTES DESSE 'getFormattedTitle', pois ele ainda irá se referir ao objeto global window.
+
+------------------------------------------------------
+
+
+ex (exemplo do que você DEVE FAZER. ATENÇÃO: HÁ DUAS PARTES DO CÓDIGO QUE ESTÃO CONECTADAS,
+O 'THIS' VAI APENAS EM UMA DELAS, E NÃO NAQUELA DE 'filteredMovies'.):
+
+
+
+const addMovieHandler = () => {
+    ....
+
+
+    const newMovie = {
+        info: {
+            ...
+        },
+
+        id: Math.random().toString(),
+
+
+        getFormattedTitle() {
+            return this.info.title.toUpperCase(); ////////ESSE CÓDIGO É O CORRETO. É AQUI QUE DEVERÁ SER UTILIZADO O 'this', pois você definiu que sempre que é chamado o método/função 'getFormattedTitle', o this  _____DENTRO____dele (por isso que não funciona com o getFormattedTitle em 'let text = ....', porque nesse caso o 'this' está no LADO DE FORA DESSE MÉTODO/FUNÇÃO.) sempre irá se referir ao objeto movie/newMovie.
+        }
+    };
+
+    movies.push(newMovie);
+    console.log(newMovie);
+    renderMovies();
+}
+
+
+
+const renderMovies = (filter = '') => {
+    ...
+
+
+
+    filteredMovies.forEach((movie) => {
+        ...
+        ...
+
+        let { getFormattedTitle} = movie;
+
+        getFormattedTitle = getFormattedTitle.bind(movie);  //// A mágica acontece....
+        let text = getFormattedTitle() + ' - '; //////VOCÊ NÃO DEVE ADICIONAR O 'this' AQUI, ISSO IRÁ CAGAR TUDO, POIS O 'THIS' IRÁ SE REFERIR AO OBJETO GLOBAL 'WINDOW', E NÃO A 'movie', que é o que queremos.
+
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXPLICAÇÃO DO PROFESSOR:
+
+quando a função 'getFormattedTitle' é executada (como em 'let text'...), o 'this' dentro da função 
+DEVERÁ SE REFERENCIAR NÃO àQUILO QUE NORMALMENTE ELE SE REFERE (ao objeto global 'window'), mas 
+sim ao objeto 'movie'. 'movie'.
+
+
+
+
+'this' agora se refere a coisa correta (movie), porque nós agora 
+recebemos ele no console (por causa do console.log de 'this') e 
+também porque agora não recebemos erro algum.

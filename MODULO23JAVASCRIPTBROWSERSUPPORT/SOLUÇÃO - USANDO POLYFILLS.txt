@@ -1,0 +1,272 @@
+
+
+
+
+
+
+
+-----> OUTRA ESTRATÉGIA PARA FAZER CÓDIGOS FUNCIONAREM EM MAIS BROWSERS É __USAR ___ POLYFILLS___...
+
+
+
+
+
+POLYFILL --> É UMA THIRD PARTY PACKAGE QUE ____ ADICIONA UMA FUNCIONALIDADE___ que, caso contrário, 
+
+ESTARIA FALTANDO NAQUELE BROWSER...
+
+
+
+
+
+DIGAMOS QUE VOCê QUER USAR __PROMISES___...
+
+
+
+
+PROMISES NÃO SÃO DISPONÍVEIS EM TODOS OS BROWSERS...
+
+
+
+Exemplo clássico é o internet explorer, ele não suporta promises...
+
+
+
+PARA FAZER AS PROMISES FUNCIONAREM LÁ, você pode ADICIONAR 
+
+
+UM POLYFILL, que, de novo, é UMA THIRD PARTY PACKAGE, UMA THIRD PARTY PACKAGE QUE 
+
+___ENSINA___ O BROWSER ___ A UTILIZAR AQUELA FEATURE...
+
+
+
+
+
+''
+
+(Third-party) Javascript code which adds an unsupported feature to the browser (for this script execution). Only 
+possible for some features (i.e. where you can re-create the missing functionality).''
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+OS POLYFILLS ___SOMENTE___ FUNCIONAM PARA DETERMINADAS FEATURES, e não todas.
+
+
+
+
+--> ALGUMAS FEATURES DEPENDEM DE CERTAS 'CORE MECHANICS' QUE NÃO PODEM SER 'workarounded' 
+
+COM JAVASCRIPT...
+
+
+
+
+--> algumas features, no entanto, PODEM SER REPLICADAS COM OUTRAS FEATURES JAVASCRIPT...
+
+
+
+---->  portanto, um BROWSER MAIS ANTIGO QUE NÃO SUPORTA PROMISES, mas que SUPORTA OUTRAS FEATURES 
+AS QUAIS PODEM ___RECONSTRUIR___ A IDEIA/CONCEITO/funcionalidade PODE SER CAPAZ DE UTILIZAR 
+
+UMA 'PROMISE POLYFILL'
+
+
+
+---> resumindo:
+
+
+é uma THIRD PARTY PACKAGE/FEATURE que SIMPLESMENTE ADICIONA ALGO AO BROWSER que, caso contrário, 
+estaria faltando nele.
+
+
+
+
+
+
+
+---> PARA ALGUMAS FEATURES E FUNCIONALIDADES, O POLYFILL É MUITO BOM DE SE TER...
+
+
+
+
+
+
+
+Como podemos encontrar polyfills?
+
+
+
+
+Devemos visitar o 'caniuse.com'....
+
+
+
+
+
+Digamos que queremos usar 'fetch'...
+
+
+
+QUEREMOS USAR FETCH EM VERSÕES MAIS VELHAS DE EDGE E EXPLORER....
+
+
+Para isso, debaixo de 'resources', vocÊ encontra 
+
+LINKS A POLYFILLS...
+
+
+
+
+É evidente que você pode procurar isso no google, mas às vezes os códigos são muito ruins...
+
+
+
+
+
+Ambas as alternativas te enviam ao GITHUB...
+
+
+
+
+no github você encontra polyfills...
+
+
+ex:
+
+
+
+'fetch polyfill'... ---> vocÊ então descobre o que ele é capaz/incapaz de fazer, e o instala com 
+
+
+'npm install whatwg-fetch --save'...
+
+
+
+
+
+
+
+
+Você também aprende, nessa página, que para FAZER O POLYFILL DE 'FETCH()'FUNCIONAR, 
+
+VOCÊ TAMBÉM PRECISA DE OUTRO POLYFILL, O POLYFILL DE 'PROMISES', PARA QUE ESSE POLYFILL, O DE 'FETCH()', 
+FUNCIONE...
+--------------------------------------------
+
+
+
+
+Ou seja, você teria, nesse caso, que:
+
+
+
+
+1) FAZER O POLYFILL DAS PROMISES FUNCIONAR NO SEU CÓDIGO 
+
+
+2) IMPLEMENTAR O POLYFILL DO 'fetch()', que precisa das promises.
+
+
+
+-----------------------------------------------------------------------
+
+
+Há várias maneiras de instalar um polyfill:
+
+
+1) npm
+
+
+
+2) bower 
+
+
+
+3) CDN (link inserido no seu HTML, como '<script src="https://xxxx"></script>').
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+
+
+
+Com o polyfill de 'promises', você poderia fazer o polyfill de FETCH funcionar...
+
+
+
+
+
+
+O que o polyfill faz, por trás das cenas, é ADICIONAR 
+
+ESSE MÉTODO 'fetch()" ao OBJETO GLOBAL 'WINDOW'...
+
+
+
+Ele faz isso por meio do REBUILD da fetch API COM FEATURES QUE 
+
+JÁ ERAM DISPONÍVEIS/SÃO DISPONÍVEIS EM BROWSERS MAIS ANTIGOS....
+
+
+
+
+------------------------------------------------
+
+
+
+
+E se vocÊ se interessa por aquilo que acontece NOS BASTIDORES desse polyfill, vocÊ 
+
+pode simplesmente abrir o código open source E ENTENDER COMO 
+
+
+É FEITO O 'REBUILD' DA FETCH API EM BROWSERS MAIS ANTIGOS, por meio de outras ferramentas mais velhas.
+
+
+
+
+
+
+
+No caso de 'fetch()', o rebuild É FEITO POR MEIO DO CÓDIGO DE 'XMLHttpRequest' (o que é óbvio, pois é a única maneira de enviar httpRequests em browsers antigos).
+
+
+
+
+----> POLYFILLS, PORTANTO, PODEM SER UMA FEATURE 
+
+MUITO BOA PARA FAZER CÓDIGOS MAIS MODERNOS FUNCIONAREM EM BROWSERS 
+
+MAIS ANTIGOS...
+
+
+
+Claro que não há nenhuma mágica aqui:
+
+
+
+você não está tocando no source code do browser, e sim fazendo um workaround com 
+
+features que o browser, de fato, suporta.
+
+
+
+
+
+É por isso que esse recurso não está disponível PARA TODAS AS FEATURES QUE VOCê QUER...
+
+
+Nem todas as features podem ser convertidas por meio de polyfills...

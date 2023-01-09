@@ -1,0 +1,1486 @@
+
+
+NÓS TEMOS, AGORA, ESSA GRANDE FERRAMENTA, O BABEL-LOADER, combinado com 
+
+outra grande ferramenta, 
+
+'@babel/preset-env', O QUAL 
+
+PEGA AS NOSSAS INSTRUÇÕES DE 
+
+BROWSER EM 
+
+
+'browserslist' E ENTÃO NOS DÁ CÓDIGO QUE 
+
+SIMPLESMENTE FUNCIONA EM BROWSERS ANTIGOS... (na verdade, QUE __QUASE FUNCIONA___...)
+
+
+
+QUASE FUNCIONA PQ PRECISAMOS DOS POLYFILLS PARA QUE TODAS AS FEATURES (como promises) FUNCIONEM.
+
+
+
+
+
+
+
+
+----> JUNTO DE 'feature detection', NOSSO CÓDIGO TALVEZ FUNCIONE NORMAL, NESSE EXEMPLO, porque com o feature 
+detection nosso código não vai tentar usar a clipboard api e executar promises nos browsers mais antigos... (por causa do if check).
+
+
+
+
+
+MAS SE TIVÉSSEMOS OUTRAS PARTES DO CÓDIGO QUE DEPENDESSEM DE PROMISES, partes do código que 
+NÃO CONSEGUEM SER TRANSPILADAS PARA CÓDIGOS MAIS ANTIGOS POR MEIO DO BABEL, nós teríamos código que 
+FUNCIONARIA DE UMA PERSPECTIVA DE SINTAXE (funcionamento GERAL), PORÉM QUE NÃO FUNCIONARIA DE UMA PERSPECTIVA 
+FÁTICA, pois AS FEATURES COMO __PROMISES___ ainda não seriam suportadas pelos browsers antigos, o que faria nosso 
+aplicativo NÃO FUNCIONAR.
+
+
+
+Em situações como essa, devemos ADICIONAR UM POLYFILL NO NOSSO CÓDIGO PARA QUE TENHAMOS "o melhor dos dois mundos":
+
+
+Devemos ter: 
+
+1) FEATURE DETECTION 
+
+2) TRASPILED CODE 
+
+
+3) POLYFILLS para AS FEATURES INDISPENSÁVEIS DO NOSSO CÓDIGO.
+
+
+
+
+
+
+
+É claro que se soubermos que vamos ter de trabalhar com promises, podemos simplesmente 
+procurar pelo 'promise polyfill' no google.
+
+
+
+"Promise-polyfill"...
+
+
+
+seguiríamos as instruções desse polyfill e o instalaríamos no nosso código...
+
+(npm install promise-polyfill --save-dev)
+
+
+
+-------------------------------
+
+
+
+SE FIZÉSSEMOS ISSO, NÃO HAVERIA PROBLEMA ALGUM.
+
+
+
+MAS SE NÓS TIVERMOS UM PROJETO QUE FICARÁ CADA VEZ MAIOR E MAIOR, esse 
+gerenciamento de polyfills pode eventualmente se tornar uma porcaria de administrar.
+
+
+Bem CUMBERSOME.
+
+
+
+Será um incômodo gerenciar todos os polyfills, e determinar quais polyfills realmente precisamos...
+
+
+--> teríamos de checar tudo. 
+
+
+
+
+
+
+----> A VANTAGEM COM BABEL, por exemplo, É QUE NÓS NÃO TEMOS QUE PENSAR sobre "sintaxe moderna javascript'; ou seja,
+podemos usar QUALQUER COISA, qualquer feature, que o babel eventualmente vai traduzir tudo para código velho automaticamente.
+Dependemos de babel para compilar tudo.
+
+
+
+---> QUEREMOS ___A MESMA COISA__ para os polyfills, um "detectador" de polyfills (e instalador automático).
+
+
+
+
+
+-----> SERIA LEGAL SE O BABEL TIVESSE UMA FUNÇÃO extra....
+
+
+e se o babel tivesse uma função que examinasse nosso código, averiguasse quais features NÃO SÃO SUPORTADAS 
+na nossa escolha de 'browserslist' (o "browser-alvo"/browsers-alvo que queremos) E ENTÃO 
+INSTALASSE OS POLYFILLS DE ACORDO COM ESSA INFORMAÇÃO?
+
+
+
+ISSO SERIA __MUITO__ CONVENIENTE__.
+
+
+
+E ISSO EXISTE!
+
+
+
+
+A BOA NOTÍCIA É QUE O ___BABEL___ É CAPAZ DE FAZER ISSO....
+
+
+
+
+
+
+
+Por trás das cenas, O BABEL DEPENDE (relies on) DE UMA PACKAGE CHAMADA 
+
+'corejs'... ---> há uma library no github...
+
+
+
+
+
+COREJS ---> É UMA __COLEÇÃO___ DE POLYFILLS...
+
+
+
+É UMA PACKAGE GIGANTE, com muitos BUILTIN polyfills....
+
+
+
+
+Se você adentrar o repositório do corejs, 
+
+VOCÊ VERÁ UM MONTE DE sub-packages 
+
+e muito código...
+
+
+
+
+
+Isso parece legal:
+
+
+
+
+você importa o corejs E, DO NADA, VOCÊ GANHA 
+ACESSO A TODAS AS FEATURES JAVASCRIPT DO MUNDO, EM TODOS OS BROWSERS....
+
+
+
+
+
+O problema é que vocÊ poderia fazer isso, poderia instalar o corejs com NPM, por exemplo...
+
+
+Instalá-lo com npm e então 
+
+IMPORTÁ-LO POR MEIO DA COLOCAÇÃO 
+
+do código 
+
+
+'import 'core-js' no TOPO DO SEU ARQUIVO JAVASCRIPT...
+
+
+------------------------------
+
+
+
+CERTO. MAS SE VOCÊ FIZESSE ISSO, VOCÊ ACABARIA IMPORTANDO
+
+_________TODAS AS FEATURES____ DA EXISTÊNCIA, ATÉ MESMO 
+
+FEATURES DAS QUAIS VOCÊ NÃO PRECISA.
+
+------------------------------------
+
+
+Professor diz que devemos instalar esse negócio no nosso projeto, inteiro mesmo,
+
+apenas para testar....
+
+
+
+Ele escreve no console:
+
+
+'npm install --save core-js'    ('--SAVE', e não '--save-dev', PORQUE ISSO AQUI É UMA THIRD PARTY LIBRARY, uma third party library QUE FARÁ PARTE DO NOSSO CÓDIGO FINAL, e NÃO UMA DEPENDENCY/DEVELOPMENT TOOL...).
+
+
+
+
+
+
+-----------------------------------
+
+
+
+Nós instalamos isso.
+
+
+
+
+Feito isso, devemos adicionar o import dessa third party library no topo do nosso 'app.js'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+import 'core-js';
+
+
+
+
+const button = document.querySelector('button');
+
+
+const textParagraph = document.querySelector('p');
+
+
+
+
+/*
+button.addEventListener('click', () => {
+const text = textParagraph.textContent;
+navigator.clipboard.
+writeText(text).
+then(result => {
+    console.log(result);
+})
+.catch(error => {
+    console.log(error);
+});
+});
+*/
+
+
+
+
+
+
+
+button.addEventListener('click', () => {
+    const text = textParagraph.textContent;
+    if (navigator.clipboard) {  ///esse código desse if block só será executado SE ESSA FEATURE FOR SUPORTADA NESSE  determinado BROWSER...
+        navigator.clipboard.
+        writeText(text).
+        then(result => {
+            console.log(result);
+        }).catch(error => {
+            console.log(error);
+        })
+    } else {
+        alert('Your browser is shit and does not support this feature'); ///Isso é usado para BROWSERS QUE NÃO FUNCIONAM, ESSE ELSE BLOCK. ISSO FAZ COM QUE NOSSO CÓDIGO NÃO __QUEBRE___/CRASHE. É o código de fallback.
+    }
+    
+    });
+
+
+
+
+console.log('It works');
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+"import 'core-js' " 
+
+
+VAI FAZER COM 
+
+QUE O NEGÓCIO (webpack) PROCURE 
+
+
+'core-js' NA PASTA 
+
+'node_modules'....
+
+
+
+
+
+------------------------------------ 
+
+
+
+ISSO VAI FUNCIONAR, O WEBPACK SERÁ CAPAZ DE LIDAR COM ESSA INFORMAÇÃO...
+
+
+
+
+
+MAS, AÍ, TEREMOS UM PROBLEMA AQUI...
+
+
+
+
+
+Devemos rodar nosso devServer de novo...
+
+
+
+
+
+ABRIMOS NOSSO SITE, TUDO CERTO.
+
+
+
+
+MAS SE ABRIRMOS A ABA 'NETWORK', VEREMOS QUE AGORA O NOSSO 
+
+'APP.JS' TERÁ UM TAMANHO ___ABSURDO___.
+
+
+Terá 2 MEGABYTES.... Isso é muito...
+
+
+o arquivo app.js ESTARÁ SOBRECARREGADO DE CÓDIGo...
+
+
+--------------------------------
+
+
+
+Ok, mas agora outro problema surgiu: 
+
+o live-reloading do webpack dev server está QUEBRADO.
+
+
+
+
+Haha, agora piorei a situação, o servidor não está 
+
+
+servindo o arquivo app.js certo, agora.
+
+
+
+
+Ok, fiz o servidor "funcionar" de novo, por meio 
+
+dessa linha de código em 'output':
+
+
+
+'filename: 'app.js''...
+
+
+
+
+
+ENTRETANTO, O LIVE-RELOAD CONTINUA QUEBRADO....
+
+
+
+
+
+
+Continua quebrado...
+
+
+
+
+
+
+
+ATÉ CONSEGUI ATIVAR O 'HOT LOADER' (por meio de '--hot' no 'build:devServer' no package.json), mas 
+
+
+
+o LIVE RELOAD ainda não funciona... 
+
+
+
+
+
+CONSEGUI FAZER O LIVE RELOAD FUNCIONAR!!!!!
+
+
+
+
+
+LINK DO FIX --->  https://www.youtube.com/watch?v=lNkVndKCum8
+
+
+
+
+---------------------------------
+
+
+
+
+
+O FIX É:
+
+
+
+VOCê DEVE IR ATÉ O 
+
+'WEBPACK.CONFIG.JS' e adicionar 
+
+
+'target: web' 
+
+
+COMO UMA ENTRY naquele objeto config....
+
+
+
+---> o bug era causado pela adição de 'browserslist' no nosso package.json...
+
+e esse é o fix:
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-env']
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web', /////////////ESSE É O FIX PARA O LIVE-RELOADING QUE NÃO ESTAVA FUNCIONANDO....
+
+
+    devtool: 'eval-cheap-module-source-map'
+}
+
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+AGORA ESTOU COM __O LIVE RELOAD____ E O HOT RELOAD___ ATIVADOS____.
+
+
+
+
+------------------------------
+
+
+
+
+Certo, voltando ao tópico do core-js deixando nosso arquivo/site pesado...
+
+
+
+
+
+
+O estranho é que nosso 'app.js' NÃO ESTÁ TÃO GRANDE ASSIM...
+
+
+está só com 200b, quando deveria ter 2.4MB (gigante).
+
+
+
+
+Hmmmm 
+
+
+
+O CHROME DEVE TER IMPLEMENTADO ALGUMA OPTIMIZAÇÃO...
+
+
+
+PQ se baixarmos o 'app.js', ele realmente terá 
+
+2.4MB, e não 200 bytes...
+
+
+É alguma magia de programação em jogo aqui, que não existia na época do 
+professor...
+
+
+
+
+
+
+----->  Se removermos o 'core-js', ficaremos 
+
+
+COM 900KB de código, O QUE É MUITO, EXPLICA ELE, mas isso 
+
+
+É 'OVERHEAD CODE', é código que será DESCARTADO NA FORMA 'production' DE NOSSO 
+
+CÓDIGO...
+
+
+
+Ainda assim core-js é 2X O TAMANHO DO NOSSO CÓDIGO ATUAL...
+
+
+
+Por isso, importar core js dessa forma banana idiota 'import core-js' 
+
+
+NÃO É A MELHOR COISA.
+
+
+
+Nós acabamos causando BLOAT no nosso aplicativo, BOTAMOS 
+
+1 MILHAO DE FERRAMENTAS E UTILIDADES, quando apenas precisamos fazer 
+
+
+as PROMISES funcionar.
+
+
+
+
+----------------------------------------
+
+
+
+
+ENTRETANTO, O PROFESSOR EXPLICA QUE PODEMOS USAR O CORE-JS de uma maneira diferente:
+
+
+podemos IMPORTAR APENAS AQUILO DE QUE PRECISAMOS:
+
+
+
+ex:
+
+
+
+import 'core-js/features/promise';
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+professor explica que AGORA O TAMANHO DE NOSSO ARQUIVO REDUZIU BASTANTE..
+
+
+
+
+
+ISSO É MELHOR, EXPLICA ELE, MAS NÓS AINDA ____TEMOS QUE GERENCIAR ____ MANUALMENTE 
+
+AS COISAS QUE VAMOS QUERER UTILIZAR....
+
+
+
+
+E isso não é o que o professor quer, ele quer tudo automático.
+
+
+
+ELE QUER QUE O __BABEL__ FAÇA ISSO POR NÓS/ELE...
+
+
+
+
+É por isso que ele comenta 
+
+
+import 'core-js/features/promise'
+
+
+PARA FORA DO CÓDIGO...
+
+
+----------------------------------------
+
+
+
+
+
+O PROFESSOR NOS EXPLICA QUE SE TIVERMOS O 'CORE-JS' INSTALADO, 
+
+
+
+PODEMOS VOLTAR AO 'WEBPACK.CONFIG.JS' 
+
+e então 
+
+
+DIZER AO BABEL QUE ELE DEVE 
+
+___USAR AQUELE POLYFILL ____ DAS PROMISES....
+
+
+(ou então FAZER AQUELE 'AUTO-POLYFILLING' para nós)......
+
+
+
+
+
+Para isso, explica o professor, precisamos tweakar a entry 'presets' 
+
+
+em 'rules', no webpack.config.js....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-env'] ///////É ESSA PARTE QUE VAMOS TWEAKAR.
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web', 
+
+
+    devtool: 'eval-cheap-module-source-map'
+}
+
+
+
+---------------------------------------------------
+
+
+
+
+
+O professor diz que devemos 
+
+fazer 'wrap' de '@babel/preset-env' em SQUARE BRACKETS (mas isso já existia no nosso código, 
+por isso não precisamos fazer nada a mais, aqui)... -----> ERRADO. O PROFESSOR 
+
+QUER ___UM ARRAY DENTRO DE UM ARRAY___ (é um nested array)...
+
+ele quer 
+
+
+'options: {
+    presets: [['@babel/preset-env']]
+}
+
+
+
+
+
+CERTO. COM ESSE '@babel/preset-env' 
+
+DENTRO DE UM ARRAY DENTRO DE UM ARRAY,
+
+
+
+
+
+ISSO NOS PERMITE ADICIONAR UM SEGUNDO ELEMENTO ÀQUELE 'inner array'....
+
+
+ex:
+
+
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: [
+            ['@babel/preset-env', xxx]
+        ]
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web',
+
+
+    devtool: 'eval-cheap-module-source-map'
+}
+
+
+----------------------------------------
+
+
+
+
+ESSE SEGUNDO ARGUMENTO É UM ___CONFIGURATION OBJECT___ ({}) PARA esse preset 
+
+
+
+de 
+
+'@babel/preset-env'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: [
+            ['@babel/preset-env', {}]
+        ]
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web',
+
+
+    devtool: 'eval-cheap-module-source-map'
+
+
+
+
+    -------------------------------------------
+
+
+
+
+    DENTRO DESSE OBJETO, PODEMOS CONFIGURAR ESSE 'PRESET' POR MEIO 
+
+
+    DE UMA opção/entry CHAMADA DE 
+    
+    'useBuiltIns'... ------------------>
+
+    ----------------> ESSA É A OPÇÃO QUE NOS DEIXA CONTROLAR 
+
+    O "COMPORTAMENTO POLYFILLING' (polyfilling behavior).
+
+
+    ex:
+
+
+    {useBuiltIns: }
+
+
+    ---------------------------
+
+
+
+    O DEFAULT DE 'useBuiltIns' É 'false'...
+
+
+
+ISSO SIGNIFICA QUE NENHUM POLYFILL SERÁ ADICIONADO AUTOMATICAMENTE PELO BABEL...
+
+
+
+
+
+ex:
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: [
+            ['@babel/preset-env', {useBuiltIns: false}]
+        ]
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web',
+
+
+    devtool: 'eval-cheap-module-source-map'
+
+
+-----------------------------------------------
+
+
+
+
+NÓS PODEMOS __MUDAR__ ESSE 'false'...
+
+
+
+PODEMOS DEFINIR ESSE VALOR COMO 
+
+'usage'....
+
+
+
+
+
+Na verdade, podemos definir COMO 'usage' OU COMO 'entry'...
+
+
+
+
+
+
+
+
+
+
+-------> Com 'entry', vocÊ precisa MANUALMENTE INSERIR POLYFILL IMPORTS, 
+IMPORTS BEM GENÉRICOS, como esse import geral de'core-js' que TÍNHAMOS ANTES....
+
+
+
+----> se você COLOCAR ESSES POLYFILLS MANUALMENTE, o BABEL VAI AUTOMATICAMENTE __USAR ___ OS POLYFILLS 
+DE QUE PRECISAMOS...
+
+
+
+
+
+--------> OU, POR OUTRO LADO, VOCÊ PODE COLOCAR "usage" ---> 'USAGE' VAI 
+ADICIONAR POLYFILLS AO NOSSO CÓDIGO à MEDIDA QUE OS DETECTA  -------> 
+
+BABEL VAI BASICAMENTE ___CHECAR__ QUAIS FEATURES SEU CÓDIGO USA E ENTÃO 
+
+ADICIONAR IMPORTS DE POLYFILLS PARA ESSAS FEATURES ESPECÍFICAS.
+
+
+É MELHOR USARMOS USAGE, QUASE SEMPRE.
+
+
+
+
+ex:
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: [
+            ['@babel/preset-env', {useBuiltIns: 'usage'}]
+        ]
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web',
+
+
+    devtool: 'eval-cheap-module-source-map'
+
+
+
+    ----------------------------------------------
+
+
+
+
+    BTW, O PROFESSOR DIZ QUE PRECISAMOS DE OUTRA PACKAGE POR MEIO DO NPM, PRECISAMOS 
+
+    INSTALAR POR MEIO DO NPM...
+
+
+    A package é  
+
+    o 
+
+
+    'regenerator-runtime'....
+
+
+    ex:
+
+
+    'npm install --save regenerator-runtime'
+
+
+
+
+
+
+
+ESSA É SIMPLESMENTE UMA OUTRA 'POLYFILL PACKAGE'...
+
+
+Ela faz 'handling' de outras features, features as quais O CORE-JS 
+
+não FAZ HANDLE...
+
+
+
+SE VOCÊ INSTALAR ESSE NEGÓCIO, O BABEL TAMBÉM TENTARÁ UTILIZAR SUAS FEATURES 
+SE ELE DESCOBRIR/detectar que seu código as utiliza....
+
+
+
+
+
+
+Com isso, quase acabamos...
+
+
+
+POR ENQUANTO, VOCê TAMBÉM PRECISA ADICIONAR uma opção 
+
+'corejs' DENTRO DAS RULES em 'package.json'... --------> isso não vai ser requerido no futuro, mas agora é preciso fazer isso.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: [['@babel/preset-env', {useBuiltIns: 'usage', corejs:} ]]
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web',
+
+
+    devtool: 'eval-cheap-module-source-map'
+}
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+esse 
+
+'corejs:', por sua vez ACEITA UM OBJETO COMO VALOR...
+
+
+nesse objeto, você define uma propriedade, a propriedade 
+
+'version', como sendo 3...
+
+
+
+ISSO BASICAMENTE DIZ AO BABEL LOADER QUAL VERSÃO/PRESET DE BABEL/core-js 
+
+VOCÊ ESTÁ USANDO... (pq houve/há uma grande diferença entre a versão 2 e 3... E ESTAMOS 
+USANDO A VERSÃO 3).
+
+
+
+A VERSÃO 3 É MAIS RECENTE E MELHOR, E PRECISAMOS DIZER AO BABEL-PRESET-ENV que 
+estamos utilizando essa versão PARA QUE ELE CONSIGA USAR ESSA VERSÃO DE MANEIRA CERTA.
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts'
+  },
+
+  
+
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      
+      //include: [path.resolve(__dirname, 'src')],
+      loader: 'babel-loader',
+      options: {
+        presets: [['@babel/preset-env', {useBuiltIns: 'usage', corejs: 3} ]]
+      }
+    }, 
+      ]
+    }
+  ,
+
+
+ target: 'web',
+
+
+    devtool: 'eval-cheap-module-source-map'
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> com isso, devemos rodar 'npm run build:devServer'...
+
+
+
+
+---> Certo. O tamanho do meu arquivo não mudou, continua 200 bytes...
+
+
+---> A RAZÃO PARA ISSO NÃO TER OCORRIDO, para o tamanho do arquivo não ter diminuído, é que 
+
+o BABEL checa meu arquivo 'app.js' E REALMENTE NÃO Vê/não consegue ver que 
+
+EU ESTOU USANDO UMA PROMISE NO MEU CÓDIGO ORIGINÁRIO (não consegue ver os '.then()' blocks...), ou, PARA 
+SER MAIS PRECISO, ELE NÃO Vê NENHUMA NECESSIDADE 
+DE ADICIONAR UM POLYFILL PARA ESSA PROMESSA QUE ESTÁ NESSE TRECHO DO CÓDIGo...
+
+
+E ELE ESTÁ CORRETO EM NÃO VER NECESSIDADE ALGUMA PARA ESSE POLYFILL!
+
+Ele está correto PQ A CLIPBOARD NÃO FICARÁ DISPONÍVEL EM BROWSERS QUE ___NÃO SUPORTAM ___ 
+PROMISES __ de qualquer maneira, PORTANTO NÓS REALMENTE não precisamos 
+fazer 'polyfill' de promises para conseguir essa feature/funcionalidade/clipboard API...
+
+
+
+ELE é inteligente: ele sabe/tem conhecimento de que AINDA QUE ELE IMPLEMENTE/INSTALE 
+O 'PROMISE POLYFILL', esse código do CLIPBOARD API AINDA NÃO VAI FUNCIONAR NOS BROWSERS ANTIGOS, 
+POIS ESSES BROWSERS ANTIGOS __NÃO TEM A FUNCIONALIDADE ___ DO CLIPBOARD API, de qualquer maneira... (they dont have the clipboard api anyways, so having a promise polyfill WOULD NOT HELP US).
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+CONTUDO, PARA MOSTRAR QUE ESSA FUNCIONALIDADE DO BABEL EXISTE, o professor cria uma dummy promise 
+
+no código, para que vocÊ veja QUE O BABEL VAI ADICIONAR O POLYFILL DE PROMISES __AUTOMATICAMENTE___.
+
+
+
+Ele escreve uma promise com nada dentro:
+
+
+
+'const promise = new Promise();
+console.log(promise);'
+
+
+
+-------------------------------------
+
+
+ISSO BASTA PARA DIZER AO BABEL/BABEL-PRESET-ENV que eu 
+
+TENHO UMA PROMISE, UMA PROMISE QUE EU VOU QUERER IMPLEMENTAR EM MEU CÓDIGO VELHO E PODRE 
+POR MEIO DE UM POLYFILL... (polyfill que será adicionado pelo babel ).
+
+
+
+
+
+E, realmente, se recarregarmos a página, veremos que AGORA NOSSO APP.JS terá 
+
+um tamanho de 1.1MB, ou seja, mais do que antes (sucesso em implementar o polyfill automaticamente).
+
+
+
+Se você procurar por 'core-js' nesse arquivo, você ainda verá ___ALGUMAS LINHAS DE CÓDIGO___ (mas não todas, pois isso seria subóptimo)
+
+DELE... (relacionadas Às promises)
+
+
+
+
+-----------------------------------
+
+
+
+
+UMA CONFIGURAÇÃO ALTERNATIVA DE VALOR em 'useBuiltIns' é o valor 
+
+
+de 'entry'... ----------------> SE VOCê ADICIONAR 'ENTRY' NESSE LUGAR, 
+
+
+vocÊ TERÁ (obrigatoriamente) QUE ADICIONAR OS IMPORTS QUE VOCê QUER 
+
+LÁÁÁÁÁ NO INÍCIO DO SEU ARQUIVO .js (app.js, no caso)......
+
+
+
+
+Nesse exemplo, professor diz que teríamos de importar 
+
+
+"import 'core-js/stable';"
+
+
+
+e 
+
+
+"import 'regenerator-runtime/runtime';"
+
+
+
+------------------------------------------
+
+
+
+
+SE VOCê ESCREVER DESSA MANEIRA, ESSES IMPORTS SERÃO ___SUBSTITUÍDOS____, pelo babel, 
+
+POR ____POLYFILL____ IMPORTS____ QUE FAZEM MAIS SENTIDO PARA O SEU CÓDIGO/PROJETo...
+
+
+
+
+
+O PROFESSOR SALVA ESSAS LINHAS DE CÓDIGO E RECARREGA O PROCESSO DE BUILD PARA VER ESSE NOVO 
+CONTEÚDO adicionado ao código de app.js
+
+
+
+---> professor aponta que AGORA TEMOS UM ARQUIVO APP.JS MUITO MAIOR DO QUE ANTES, PORQUE 
+AGORA NÓS 
+
+ESTAMOS INCLUINDO QUASE TODOS OS POLYFILLS....
+
+
+A razão para isso é QUE O BABEL, É CLARO, ANALISA O SEU CÓDIGO, mas ELE 
+
+NÃO CARREGA __POLYFILLS____ COM BASE NAS FEATURES ___ QUE VOCÊ ESTÁ USANDO, E SIM 
+COM BASE NA 'browserslist' QUE VOCÊ ESPECIFICOU em 'package.json'........ ISSO SIGNIFICA QUE 
+ELE CARREGOU TODOS OS POLYFILLS DE QUE VOCê PRECISARIA para suportar OS  BROWSERS QUE CORRESPONDEM 
+À ESPECIFICAÇÃO colocada no 'browserslist'...
+
+
+
+
+----> MAS PQ DIABOS VOCê COLOCARIA ESSA OPÇÃO 'entry'????
+
+
+
+Pq essa opção É BOA SE VOCÊ NÃO SABE EXATAMENTE QUAIS FEATURES VOCê vai QUERer USAR....
+
+
+
+TAMBÉM SE O SEU CÓDIGO ___NÃO É TODO O CÓDIGO QUE DEVE/deverá SER LEVADO EM CONSIDERAÇÃO___.... ---->
+---> ou seja, se VOCÊ ESTÁ USANDO UM MONTE DE THIRD PARTY PACKAGES que talvez estejam 
+USANDO FEATURES QUE BROWSERS MAIS VELHOS NÃO SUPORTAM, babel NÃO CHECA ESSAS THIRD PARTY PACKAGES....
+por isso, o seu 'browserslist' PODE SER/GERALMENTE É O ___MELHOR INDICADOR___ de QUAIS BROWSERS 
+VOCÊ VAI QUERER SUPORTAR/QUER SUPORTAR.....
+
+
+
+É por isso que Às vezes é melhor ''be better safe than sorry' E CARREGAR ___TODOS___ OS POLYFILLS__ QUE 
+ESSAS ____ THIRD PARTY PACKAGES___ POSSAM PRECISAr.... E é por isso que 
+ÀS VEZES É MELHOR VOCê USAR ESSA CONFIGURAÇÃO 'entry' em vez de 'usage'...
+
+
+
+
+
+
+ESTÁ USANDO THIRD PARTY PACKAGES??? --------> USE 'ENTRY'. Isso vai te ajudar com a compatibilidade entre polyfills e third party packages.
+
+
+NÃO ESTÁ USANDO THIRD PARTY PACKAGES?? --------> USE 'usage'. ISSO VAI TE AJUDAR A REDUZIR O TAMANHO DO CÓDIGO, deixá-lo mais leve e usar apenas o que você precisa.
+
+
+
+
+
+NO NOSSO PROJETO ATUAL, usamos 'usage' PORQUE NÃO ESTAMOS USANDO/NÃO VAMOS USAR NENHUMA THIRD PARTY PACKAGE...
+
+
+
+
+POr fim, o professor copia o código de AUTOMATIC POLYFILLING de 'usage' NO NOSSO WEBPACK.CONFIG.PROD.JS, 
+
+para que tenhamos essa funcionalidade NO NOSSO CÓDIGO DE PRODUÇÃO TAMBÉM.
+
+
+
+Rodamos 'npm run build:prod' para ver o nosso código compilar na sua forma de production.
+
+
+
+
+Certo. Funcionou.
+
+
+
+
+Agora nosso 'PRODUCTION READY CODE' está usando OS POLYFILLS QUE NOSSO CÓDIGO PODE REquerer durante seu runtime.

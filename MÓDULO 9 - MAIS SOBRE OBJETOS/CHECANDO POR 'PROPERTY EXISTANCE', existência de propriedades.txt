@@ -1,0 +1,172 @@
+Frequentemente quando vocÊ escreve código, vocÊ pode, é claro, ter certeza 
+sobre a existência de CERTAS PROPRIEDADES EM SEUS OBJETOS...
+
+
+
+
+No exemplo dos filmes, o professor tem certeza de que ele terá uma 
+propriedade 'info' em todos os filmes porque ELE MESMO ESCREVEU O CÓDIGO 
+QUE A ADICIONA.
+
+
+
+
+
+Bem, dependendo do QUÃO DINÂMICO É O SEU PROGRAMA, E DA QUANTIDADE 
+DE DADOS DO SEU PROGRAMA QUE É INPUTTADA PELO USUÁRIO (situação que você  
+não pode prever totalmente, pois ocorre no futuro), as coisas/propriedades 
+que ficarão dentro de seus objetos às vezes precisam SER CHECADAS.
+
+Às vezes você precisa VALIDAR ALGO, VER SE ALGUMA COISA ESTÁ PRESENTE 
+DENTRO DE UM OBJETO. 
+
+
+
+Outro ex: talvez em alguma parte do seu código essa propriedade 'info'
+tenha que ser deletada/deve ser deletada, e nesse momento da execução do código 
+você não tenha certeza se o código que a deleta/deletará já rodou ou não.
+
+
+
+Ou seja, algumas vezes vocÊ quer checar SE ALGUMA PROPRIEDADE FAZ PARTE 
+DE UM OBJETO... e você pode fazer isso em javascript, também.
+
+
+
+
+Mas como? 
+
+
+
+Bem, há uma feature interessante nos IF CHECKS.
+
+
+
+nos If checks, VOCê PODE USAR UMA KEYWORD ESPECIAL que te ajuda 
+a descobrir ___SE ALGO FAZ PARTE DE UM OBJETO___.
+
+
+É a keyword "IN".
+
+Primeiramente você insere o NOME DA PROPRIEDADE QUE VOCê QUER 
+CHECAR, NA FORMA DE UMA STRING.
+
+
+Depois, você insere a keyword mágica, 'in'.
+
+
+Por fim, você adiciona o nome do objeto.
+
+
+
+
+ex:
+
+
+
+
+filteredMovies.forEach(movie => {
+    const movieEl = document.createElement('li');
+    if('info' in movie) {
+        console.log(true);
+    }
+})
+
+
+
+--------------------------
+
+
+O QUE ESSE IF CHECK ESPECIAL FARÁ É EXECUTAR O CÓDIGO 
+DENTRO DE SEU FUNCTION BODY NO CASO DO SEU PARÂMETRO SER VERDADEIRO 
+(no caso da propriedade 'info' estar presente dentro do objeto MOVIE).
+
+
+Caso queiramos o contrário (checar se UMA PROPRIEDADE ___NÃO ESTÁ____ DENTRO DE UM OBJETO), 
+podemos simplesmente utilizar o BANG OPERATOR (!):
+
+
+ex:
+
+
+if (!('info' in movie)) {
+    console.log('yes');  ///////NESSE CASO, O CONSOLE NÃO NOS PRINTARÁ NADA, POIS NÃO É VERDADE QUE "não há info em movie", o if check nunca é cumprido, por isso o function body nunca chega a ser executado.
+}
+
+
+
+
+
+
+
+---------------------------
+
+
+
+Professor explica que também é possível checar diretamente se 'info' está dentro 
+de movie por meio de um falsy/truthy check:
+
+
+ex:
+
+
+
+const {info, ...otherProps} = movie;
+
+if (info) { 
+    console.log('yes');  //////ESSE CÓDIGO SÓ SERÁ RODADO SE A PROPRIEDADE 'info' FOR TRUTHY; caso seja falsy (se retornar como valor 0 ou undefined), esse function body nunca será executado.
+}
+
+
+-------------------------------------
+
+
+
+Essa, portanto, é uma alternativa válida ao uso de if checks e a palavra mágica 'in' para 
+checar se certa propriedade está dentro de um objeto. 
+ENTRETANTO... ESSA ALTERNATIVA SÓ FUNCIONA SE VOCÊ ESTÁ USANDO OBJECT DESTRUCTURING.
+SE SEU CÓDIGO NÃO ESTÁ AFETADO PELO OBJECT DESTRUCTURING, você terá de usar o if check e a palavra/operador 'in'.
+
+
+Por fim, uma alternativa a usar object destructuring e a palavra mágica 'in' É 
+UTILIZAR  UM IF CHECK que 
+examina se a propriedade está definida ou não....
+
+
+ex (representação):
+
+if(!(movie.info === undefined)) {
+        console.log('yes'); ////SE O MOVIE.INFO ESTIVER COMO 'defined', o console vai nos retornar o valor de 'yes'. (isso é graças a combinação do === e o BANG OPERATOR (!).).
+}
+
+
+
+OBS::::: 'undefined' é muito útil, pois ele nos indica que uma propriedade foi 
+
+1) ou deletada
+
+2) ou manualmente definida como undefined 
+
+
+3) ou nunca foi definida em primeiro lugar.
+
+
+
+
+alternativa à fórmula mais acima:
+
+
+
+ex (representação):
+
+if(movie.info === undefined) {
+        console.log('yes'); //Se essa propriedade dentro de movie estiver como undefined, o console nos retornará o valor de 'yes'.
+}
+
+
+
+
+É assim que checamos pela existência de uma propriedade em um objeto de nosso código; fazemos isso para 
+evitar erros me que você tenta trabalhar com uma propriedade que não está naquele lugar/lá... 
+ou então para casos em que você quer assignar um dummy value a uma 
+propriedade que ainda não existe.

@@ -1,0 +1,652 @@
+
+
+
+É CLARO QUE TEMOS MAIS DO QUE APENAS 'CLICK EVENTS'....
+
+
+
+
+
+
+
+
+
+DE volta aos nossos botões, Nós podemos também REGISTRAR OUTROS EVENTOS NO NOSSO EVENTLISTENER, eventos tais como 
+
+'mouseenter'...
+
+
+
+ex:
+
+
+
+buttons.forEach(btn => {
+    btn.addEventListener('mouseenter', buttonClickHandler);
+})
+
+
+
+
+
+--------------------------------------
+
+
+
+'MOUSEENTER' é ativado SEMPRE QUE NOSSO CURSOR ADENTRA O CAMPO DO ELEMENTO... (a área/figura do elemento...).
+
+
+
+
+O professor então desabilita o 'CÓDIGO DESABILITADOR' de 
+
+
+'event.target.disabled = true;', 
+
+
+e deixa o código como 
+
+
+'const buttonClickHandler = event => {
+    console.log(event);
+}
+
+
+
+
+
+
+--------------------
+
+
+
+SE EU RECARREGAR O CÓDIGO, VEREI QUE AGORA SEMPRE QUE EU PASSAR O MOUSE POR CIMA DOS BOTÕES, UM 
+
+
+'MOUSEEVENT' é mostrado no devconsole...
+
+
+
+Se eu mantiver o mouse sobre o botão, nada acontecerá, não será reexecutado o console.log.
+
+Contudo, se eu tirar e colocar de novo o mouse sobre o botão, será console.loggado o evento dnv.
+
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE É EVIDENTE QUE VOCê PODE DEFINIR UM EVENTLISTENER que escute (listen to) 
+
+AS SAÍDAS DO SEU MOUSE de cima do botão, para que ative mais coisas...
+
+
+
+
+
+---------------------------
+
+
+
+O professor ressalta que dentro desse mouseEvent produzido por mouseenter HÁ 
+
+MUITAS DAS PROPRIEDADES QUE JÁ CONHECÍAMOS de 'mouseEvent', como 
+
+
+clientX e clientY...........
+
+
+
+
+MAS ELE APONTA QUE HÁ TAMBÉM OUTRA PROPRIEDADE AQUI, A PROPRIEDADE 
+
+
+'relatedTarget'.... ---------> professor explica que nós 
+
+
+TEMOS ESSA PROPRIEDADE PARA VÁRIOS TIPOS DE EVENTO, como 'mouseenter', 'mouseleave' e assim por diante...
+
+
+
+
+ESSA PROPRIEDADE NOS INFORMA ___SOBRE EM QUAL ELEMENTO O CURSOR ESTAVA EM CIMA ANTES DA 
+
+ATIVAÇÃO/OCORRÊNCIA DO EVENTO 'mouseenter' (ou qualquer outro evento, por assim dizer.)...
+
+Ou seja, 
+
+NOS dá a informação DE QUAL ELEMENTO O MOUSE VEIO até incorrer nese evento...
+
+
+
+
+Nesse nosso caso específico, o elemento foi essa 
+
+'div' 
+
+(pois o negócio está como 'relatedTarget: div'), 
+
+
+ESSA DIV QUE ESTÁ ABRANGENDO (surrounding) OS BOTÕES...
+
+
+
+
+Isso até que é útil....
+
+
+
+TAMBÉM É BOM SABER que se vocÊ mover o cursor MUITO RÁPIDO, esse negócio VAI MUDAR.
+
+
+o relatedTarget pode mudar para 
+
+
+'relatedTarget: html' (ou seja, SIGNFIICA QUE A VELOCIDADE DO CURSOR DO USUÁRIO FOI MAIS RÁPIDA DO QUE NO EXEMPLO LOGO ACIMA, POIS ELE TRANSCORREU O ELEMENTO MAIS 'EXTERNO'/ENGLOBADOR 'html', PASSOU PELA DIV E só então alcançou os botões... antes ele apenas tinha começado em 'div' e parado nos botões...)
+
+
+
+O professor moveu o mouse tão rápido para dentro do botão que o browser não conseguiu pegar a informação 
+
+
+DE QUE O CURSOR ESTEVE NA DIV TAMBÉm...
+
+
+Isso acontece pq o browser não checa a posição do cursor MÚLTIPLAS VEZES POR MILISSEGUNDO, e sim 
+
+apenas periodicamente... (ainda é bem rápido o check do browser, mas não é tão rápido.)
+
+
+RESUMO:
+
+
+
+se você mover seu cursor MUITO RÁPIDo, nem sempre o relatedTarget será o vizinho direto do elemento, 
+
+nesse caso a div do botão...
+
+
+Ainda assim, 'relatedTarget' é uma propriedade ÚTIL QUE PODE TE AJUDAR A ENTENDER 
+
+
+DE QUE LUGAR O CURSOR VEIO.
+
+
+-----------------------
+
+
+É CLARO QUE NÓS TEMOS ____MUITO MAIS EVENTOS___.
+
+
+
+NO mdn você os encontra.
+
+
+--------------------------------------
+
+
+
+É CLARO QUE VOCÊ NÃO ESTÁ LIMITADO A SOMENTE REGISTRAR EVENTOS EM BOTÕES....
+
+
+
+
+VOCÊ PODE REGISTRAR EVENTOS EM PRATICAMENTE QUALQUER ELEMENTO DOM, em qualquer elemento HTML...
+
+
+Podemos colocar eventListeners em quaisquer elementos do dom.... 
+
+
+
+
+VOCÊ TAMBÉM PODE REGISTRAR EVENTOS COM ADDEVENLISTENERS NA 'OVERALL WINDOW'...
+
+
+
+
+Por exemplo, você pode 'listen to' a EVENTOS DE SCROLL na window....
+
+
+-----------------------
+
+
+
+
+Para demonstrar isso, o professor vai até events.html e então, debaixo da div dos buttons, ele adiciona 
+
+
+uma section com id de 'long-one'....
+
+
+
+
+ex:
+
+
+
+
+<section id="long-one"></section>
+
+
+
+
+
+---------------------------------
+
+
+
+no 'events.css', o professor vai apenas adicionar um seletor com 
+
+
+
+'#long-one {
+
+    height: 3000px;   /*ELE VAI DEFINIR UMA HEIGHT DE 3000 pixels a essa section, basicamente.*/
+}
+
+
+
+
+
+O PROFESSOR DECIDE FAZER ISSO PARA QUE O NEGÓCIO SIMPLESMENTE FIQUE COMO UMA 
+
+
+GRANDE SEÇÃO INVISÍVEL...
+
+
+
+
+Se recarregarmos a página, perceberemos que AGORA NÓS PODEMOS SCROLLAR O CONTEÚDO DELA...
+
+
+
+Não há nada mais para baixo, mas ainda assim podemos scrollar, porque temos aquela larga section que se estende do topo da página até lá embaixo...
+
+
+
+
+
+
+
+
+
+
+
+
+AGORA QUE A PÁGINA É 'SCROLLABLE', o professor quer nos MOSTRAR COMO PODEMOS 
+
+FAZER 'LISTEN TO' a scroll events.... (scrollEvents).
+
+
+
+
+
+Para isso, devemos ir até 'events.js' e 
+
+
+escrever 
+
+
+'window'....
+
+
+adicionamos um addEventListener a window por meio de 
+
+
+'window.addEventListener()'
+
+
+
+
+como PRIMEIRO PARÂMETRO DO EVENTLISTENER (o parâmetro 'evento'...) COLOCAMOS 
+
+
+'scroll'.. (é o 'scroll event', afinal de contas.)
+
+
+
+
+
+
+
+Como função atribuída a esse evento, colocamos 
+
+um console.log de 'event'... (ARROW FUNCTION ANÔNIM...)
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+buttons.forEac(btn => {
+    btn.addEventListener('mouseenter', buttonClickHandler);
+})
+
+
+
+window.addEventListener('scroll',
+event => {
+    console.log(event);
+});
+
+---------------------
+
+
+
+
+SALVAMOS E RECARREGAMOS A PÁGINA PARA TESTAR ESSE EVENTO de 'scroll'....
+
+
+
+
+Esse código funciona, nos é outputtado isto:
+
+
+
+'Event {isTrusted: true, type: "scroll", target: document, currentTarget: Window, eventPhase: 3, …}'
+
+
+
+
+NO DEVTOOLS CONSOLE sempre que scrollamos a página.
+
+
+
+Esse output nos mostra O QUE DIABOS HÁ DENTRO DO OBJETO 'scroll', desse 'objeto-evento' chamado 'scroll'...
+
+
+
+
+um monte de eventos são disparados quando scrollamos a página, porque estamos scrollando continuamente...
+
+
+
+Professor explica que é evidente que há um intervalo de tempo entre cada 'check' do browser pela OCORRÊNCIA DO EVENTO de 'scroll', mas ainda 
+
+assim ele o faz rápido pra caralho, o que resulta em um monte de 
+
+eventos 'scroll' serem registrados no devtools console.
+
+
+
+
+
+'SCROLL', PORTANTO, É UM EVENTO COM O QUAL VOCê DEVE TER CUIDADO, e ao qual você 
+
+não deve fazer 'listen to' tão frequentemente/ ou fazer coisas muito complicadas quando ocorre, 
+
+POIS COMO VOCÊ PODE TER PERCEBIDO, ELE DISPARA MUITAS VEZES, E SE VOCê ESTIVER SUJEITANDO (por meio do 2o argumento do eventListener, aquela função que é executada pelo eventListener...) 
+
+UMA FUNÇÃO MUITO COMPLEXA, COM MUITOS CÁLCULOS, isso fará com que A EXECUÇÃO DE CÓDIGO 
+
+FIQUE MAIS LENTA.... (slowdowns na página.)..
+
+
+
+
+
+
+E que propriedades/métodos podem ser encontrados dentro do evento 'scroll'?
+
+
+
+Bem, ele é meio curto. Ele tem um 
+
+
+'target', que é o DOCUMENTO INTEIRO ('document')..... (o fato do target ser o documento inteiro faz com que essa informação NÃO SEJA TÃO ÚTIL...)
+
+
+
+
+Por ser meio simples, esse é um 'objeto evento' do qual não podemos tirar muitas coisas úteis....
+
+
+
+
+
+Mesmo assim, ainda podemos fazer coisas bem legais com ele...
+
+
+
+
+
+Por exemplo, PODERÍAMOS CALCULAR O QUÃO LONGE O USUÁRIO ESTÁ EM RELAÇÃO AO FIM DA PÁGINA; com 
+
+base nesses dados, poderíamos ADICIONAR MAIS CONTEÚDO AO FINAL DA PÁGINA SE O USUÁRIO ESTIVER MAIS 
+
+PERTO DELE... Isso é aquele efeito famoso que vemos em diversos sites, o 'infinite scroll', aqueles 
+
+
+sites que possuem INFINITE SCROLLING, quanto mais para baixo você vai no site, mais conteúdo ele te mostra.... (sites modernos)...
+
+
+
+
+
+Depois dessa aula, você verá uma LIÇÃO EM TEXTO COM UM PEQUENO TEXT SNIPPET que te mostra como IMPLEMENTAR 
+
+
+
+UM INFINITE SCROLL DESSES....
+
+
+
+
+
+Mas essa é APENAS UMA DAS COISAS QUE VOCê PODE FAZER COM O SCROLL EVENT, há várias outras possibilidades.
+
+
+
+
+
+
+
+MAS O PROFESSOR APONTA, NOVAMENTE, O PROBLEMA DO SCROLLEVENT: vocÊ deve ter cuidado com o scrollEvent PQ 
+
+ELE PODE SER BEM PESADO EM QUESTÃO DE 'cálculos' quando o tal evento ocorre 1 milhao de vezes (quando scrolla a página rápido demais e faz um código ser executado 1 milhão de vezes em razão do tal evento);
+
+
+----------------------------------------------------------------------------
+
+
+
+AGORA QUE SABEMOS + OU - O QUE EVENTOS SÃO, E QUE PODEMOS FAZER 'LISTEN TO' a uma grande variedade de eventos em 
+
+DIFERENTES ELEMENTOS, podemos 
+
+estar nos perguntando:
+
+
+
+
+COMO SABEMOS QUAIS EVENTOS EXISTEM EM CADA ELEMENTO?????
+
+
+
+Como sei que um certo elemento existe em um determinado elemento...???
+
+
+
+
+
+Professor complementa:
+
+
+
+nós sabemos, por exemplo, que o SCROLLEVENT ('scroll') existe em 'window', podemos fazer 'listen to' dele em WINDOW.
+
+
+
+....mas poderíamos fazer 'listen to' de 'scroll' EM UM BOTÃO, POR EXEMPLO?
+
+
+
+
+
+
+O professor testa isso:
+
+
+
+ele vai lá e digita:
+
+
+
+'buttons.forEach(btn => {
+    btn.addEventListener('scroll', buttonClickHandler);
+});'
+
+
+----------------------------------------
+
+
+
+
+
+Ele ainda diz que O IDE TAMBÉM NOS SUGERE QUE PODEMOS UTILIZAR o 'scroll event' DENTRO DESSE ELEMENTO 'BUTTON'...
+
+
+
+E, de fato, diz ele, nós podemos FAZER 'LISTEN TO' a SCROLL EVENTS EM PRATICAMENTE 
+
+TODOS OS DOM NODES... (pq nós SEMPRE PODEMOS COLOCAR CONTEÚDO EM OUTROS ELEMENTOS HTML 
+                        QUE NÃO SEJAM DIRETAMENTE A WINDOW, COMO OUTROS OBJETOS; SE FIZERMOS ISSO,
+                        O CONTEÚDO PODE TORNAR-SE SCROLLABLE com 'overflow: scroll'..... ou seja, 
+                        podemos, sim, ter um SCROLL EVENT EM UM ELEMENTO HTML AINDA QUE ISSO NÃO FAÇA SENTIDO ALGUM, basta que eu 
+                        
+                        configure E ESTILIZE UM BOTÃO DE MANEIRA QUE ELE SEGURE UM CONTEÚDO QUE SEJA SCROLLÁVEL...  ) ------------->  OU SEJA, PODEMOS FAZER 'LISTEN TO' A EVENTOS SCROLLABLE EM BASICAMENTE TODOS OS ELEMENTOS DO DOM....
+
+
+
+
+
+
+
+
+E ISSO APLICA-SE A ESSENCIALMENTE TODOS OS EVENTOS do javascript, __QUASE__ TODOS OS ELEMENTOS 
+
+DOM SUPORTAM TODOS OS TIPOS DE EVENTO....
+
+
+
+
+Mas, como sempre, o MDN é o lugar para ir se VOCê QUER REALMENTE TER CERTEZA....
+
+
+
+
+
+VOcê pode, por exemplo, procurar 'mdn button' para LER MAIS SOBRE O ELEMENTO 'Button'
+
+
+
+
+------------------------------------------
+
+
+
+
+Se você scrollar um pouco para baixo nessa página, você poderá encontrar a informação 
+
+
+da DOM INTERFACE QUE PERTENCE a  'button', que é 
+
+
+'HTMLButtonElement'...
+
+
+
+
+em 
+
+
+'HTMLButtonElement', podemos ENCONTRAR VÁRIAS PROPRIEDADES ESPECÍFICAS.....
+
+
+
+O que você NÃO ENCONTRA NO MDN É INFORMAÇÕES ______SOBRE OS EVENTOS ESPECÍFICOS DO ELEMENTO BUTTON/QUALQUER ELEMENTO....
+
+
+
+
+Professor explica que quando isso acontece, o próximo passo é INVESTIGAR/IR ATÉ O PRÓXIMO 
+
+ELEMENTO/CONSTRUCTOR FUNCTION/PROTOTYPE QUE É IMPLEMENTADO PELO 'HTMLButtonElement'...
+
+(ou seja, HTMLElement...).
+
+
+ver esquema:
+
+
+
+                                          (devemos ver se esse prototype tem informações sobre os eventos específicos de 'HTMLButtonElement', que afinal de contas, é um HERDEIRO DE 'HTMLElement'... )
+Event Target <---- Node <-------- Element <---- HTMLElement <------------ HTMLButtonElement....
+
+
+-------------------------------------------------
+
+
+
+
+
+
+
+Dentro de 'HTMLElement', legador de 'HTMLButtonElement', PODEMOS 
+
+ENCONTRAR TAMBÉM 
+
+
+VÁRIOS EVENTLISTENERS, como 
+
+'onblur', 'oncancel', 'onabort', 'onanimationcancel', etc etc...
+
+
+
+
+
+ESSES EVENTLISTENERS NOS DÃO UMA CERTA NOÇÃO DE QUAIS ELEMENTOS PODEMOS FAZER 'LISTEN TO' EM 
+
+TODOS ELEMENTOS QUE SÃO BASEADOS EM 'HTMLElement'... (que são muitos, na verdade).
+
+
+
+
+E É EXATAMENTE ASSIM QUE PODEMOS DESCOBRIR SE UM ELEMENTO ESPECÍFICO SUPORTA UM 
+
+EVENTO ESPECÍFICO....
+
+
+
+
+
+
+
+MAS NA VERDADE, VOCÊ RARAMENTE OLHARÁ ESSAS INFORMAÇÕES NO MDN...
+
+
+
+VOCê RARAMENTE OLHARÁ PQ:
+
+
+
+1) você SEMPRE FUNCIONA COM OS MESMOS TIPOS DE EVENTS, NA PRÁTICA...
+
+
+2) Tudo que faz sentido a nós de forma LÓGICA tipicamente é suportado, também, pelo browser...
+    ex: o fato de que você pode CLICAR EM QUALQUER ELEMENTO DOM faz bastante sentido, e é por isso que o evento 'click' existe em todos elementos DOM, e podemos fazer listen to a esse 'event' em praticamente todos os elementos do DOM... 
+
+    EX: SE VOCÊ PODE SCROLLAR ALGO/elemento, VOCÊ PODE FAZER UM 'LISTEN TO' a um scroll event naquele elemento...
+
+--------------------------------------

@@ -1,0 +1,182 @@
+Bem, se você comparar os 2, 
+
+nós temos 
+
+
+
+Function Declaration/Function Statement, que se parece assim:
+
+
+
+function multiply (a,b) {
+    return a * b;
+}
+
+
+
+
+ 
+ E FUNCTION EXPRESSION, QUE SE PARECE ASSIM:
+
+
+                                        (é a função usada como objéto (método) dentro de um uma variável/const)
+
+
+const multiply = function(a,b) {
+    return a * b;
+}
+
+
+
+
+É DESNECESSÁRIO DIZER ISSO, MAS É ___CLARO____ QUE FUNÇÕES USADAS NA FORMA "FUNCTION EXPRESSION" TAMBÉM
+ ACEITAM PARÊNTESES, AFINAL A EXECUÇÃO DA FUNÇÃO AINDA É PARECIDA COM O OUTRO TIPO, DE DECLARAÇÃO. Por isso você 
+ pode inserir argumentos na função na forma expressão. Você pode inserir argumentos, e você ainda pode retornar valores, essa feature ainda não mudou.
+
+
+
+
+
+
+A DIFERENÇA IMPORTANTE, QUE VOCÊ TEM QUE SE LEMBRAR, É QUE PARA ESSA DECLARAÇÃO DE FUNÇÃO/STATEMENT DE FUNÇÃO, 
+O JAVASCRIPT AUTOMATICAMENTE "hOISTS" ("LEVANTA") A FUNÇÃO PARA O TOPO DO ARQUIVO, E ENTÃO TAMBÉM A INICIALIZA COMPLETAMENTE 
+PARA VOCÊ.
+
+
+Function Declaration/Function Statement -----> "Hoisted to the top, can be declared
+anywhere in the file (isto é, até mesmo depois de ser chamada/usada.)."
+
+
+É aquilo que o professor mencionou: o javascript Lê O ARQUIVO E, independentemente de onde 
+você definiu/declarou a função, ele age como se você tivesse a definido no topo do arquivo, o que significa que você pode 
+chamar funções ANTES DE AS TER DEFINIDO/declarado. Isso pode ser conveniente...
+
+Se vocÊ é aquele tipo de chinelão que define funções lá para o final do arquivo, esse é o approach QUE VOCÊ TEM QUE USAR, SERÁ OBRIGADO A USAR.
+
+
+
+Com function expressions, O "HOISTING" TAMBÉM FUNCIONA, MAS QUEM É HOISTED É 
+A CONSTANTE/VARIÁVEL... ALÉM DISSO, A CONSTANTE/VARIÁVEL É "HOISTEADA" COMO 
+"UNDEFINED".
+
+
+
+
+
+
+
+Function Expression ---> "Function is Hoisted to top (quem é hoisteado, na verdade, é 
+a variável/constante, mas a função está definida como valor dela, por isso ela vai junto 
+no hoisting.) but NOT INITIALIZED/DEFINED, and function CANNOT be declared anywhere in the file 
+(isto é, não pode ser declarada DEPOIS QUE FOI USADA/CHAMADA)."
+
+
+
+Esse fenômeno da constante/variável ser hoisteada/erguida ao topo do código, mas hoisteada como 
+UNDEFINED é algo que o professor nos mostrou no módulo do "Por trás dos bastidores".
+
+
+Basicamente, a variável/constante não é inicializada, e em consequência disso você NÃO PODE CHAMAR 
+A FUNÇÃO ANTES DE VOCÊ A DEFINIR. ----------> ESSA É A DIFERENÇA IMPORTANTE.
+
+
+
+
+DIFERENÇA IMPORTANTE === COM EXPRESSIONS, __NÃO___ PODEMOS USAR AS FUNÇÕES ANTES DE 
+DEFINI-LAS/DECLARÁ-LAS. Você tem que definir, inicializar suas funções, antes de tentar 
+chamá-las.
+
+
+
+NA OPINIÃO DO PROFESSOR, ESSE ESTILO DE ESCREVER FUNÇÕES É UM POUCO MAIS LIMPO, APESAR DE QUE 
+VOCê SEMPRE ENCONTRARÁ OS 2 ESTILOS DE ESCRITA DE CÓDIGO.
+
+
+
+nenhum desses 2 modos é estritamente melhor ou pior do que o outro, mas é bom 
+saber a diferença principal entre elas, que é aquilo de poder CHAMAR A FUNÇÃO/USAR A FUNÇÃO 
+ANTES DE TER ELA ESCRITA NO CÓDIGO, e a expression, que não deixa você fazer isso.
+
+
+O professor prefere expressions porque __SER FORÇADO___ A DEFINIR FUNÇÕES ANTES DE VOCÊ 
+PODER USÁ-LAS É UMA COISA ÓTIMA. Essa é a vantagem do approach da direita, ele te força 
+a definir funções antes de você poder chamá-las.
+
+
+
+
+Para mostrar rápidamente o que o professor falou:
+
+
+const start = function() {
+    console.log('Game is starting...');
+};
+
+
+-------------> AQUI, TEMOS UMA FUNÇÃO, SUA EXPRESSÃO DECLARADA. Ocorre o hoisting da constante 
+"start" para o topo do documento... não podemos utilizar chamados de função/utilizações dessa função
+sem termos essa expressão da função declarada.
+
+
+
+
+EX:
+
+
+start();
+
+
+
+
+const start = function() {
+    console.log('Game is starting...');
+};
+
+
+
+
+-------------------------> ISSO NOS DARÁ UM ERRO NO CONSOLE, PORQUE AQUI 
+NÓS TENTAMOS UTILIZAR A FUNÇÃO ANTES DE ELA SER DECLARADA/ESCRITA NAQUELA EXPRESSÃO.
+Isso não ocorreria se tivéssemos escrito a função daquele jeito diferente, do jeito que 
+usa DECLARAÇÕES DE FUNÇÕES/STATEMENTS DE FUNÇÕES, E NÃO EXPRESSÕES.
+
+ex de uso correto dos function expressions:
+
+EX:
+
+const start = function() {
+    console.log('Game is starting...');
+};
+
+
+
+
+start();
+
+
+
+
+----------> isso funcionará, já que colocamos o uso da função/chamado da função 
+DEPOIS da declaração de sua expressão.
+
+
+
+
+
+Ex de declaração/statement de função:
+
+
+start();
+
+
+function start () {
+    console.log('Cu');
+};
+
+
+
+
+---------------> AQUI, O CÓDIGO RODARIA NORMAL, SEM ERROS, PORQUE COM O USO 
+DE STATEMENTS/DECLARAÇÕES DE FUNÇÕES, PODEMOS CHAMAR/USAR AS FUNÇÕES EM QUALQUER LUGAR 
+DO CÓDIGO, MESMO QUE AINDA NÃO TENHAMOS A FUNÇÃO RESPECTIVA DECLARADA ANTERIORMENTE À ESSE 
+CHAMADO DA FUNÇÃO.

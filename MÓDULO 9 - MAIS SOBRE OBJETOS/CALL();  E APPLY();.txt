@@ -1,0 +1,226 @@
+'bind()', portanto, é MUITO ÚTIL (também)
+PARA ADMINISTRAR A PALAVRA MÁGICA 'this'.
+
+
+
+
+
+ 
+
+
+
+ Entretanto, você pode alegar que essa sintaxe:
+
+
+    let { getFormattedTitle } = movie;
+ "    getFormattedTitle = getFormattedTitle.bind(movie);
+ let text = getFormattedTitle() + ' - ';                 "
+
+
+
+ É UM POUCO REDUNDANTE, que esse código todo é meio 
+ redundante...
+
+
+ afinal, nós puxamos para fora 'getFormattedTitle' apenas 
+ para então REASSIGNÁ-LO COMO "ELE MESMO" Só que com essa configuração 
+ especial do bind()....
+
+
+ E você estaria certo. Realmente é um pouco redundante.
+
+
+BIND() É ÚTIL SEMPRE QUE VOCÊ QUISER PRECONFIGURAR UMA FUNÇÃO PARA 
+UMA EXECUÇÃO FUTURA...
+
+
+
+mas aqui, nós na verdade planejamos EXECUTAR A FUNÇÃO DIRETO, IMEDIATAMENTE, NESSE 
+INSTANTE MESMO.
+
+
+Portanto, em vez de utilizar essa sintaxe do bind, de PRECONFIGURAR UM PARÂMETRO 
+DESSA FUNÇÃO, 
+
+podemos utilizar UM DIFERENTE MÉTODO QUE PODEMOS CHAMAR EM UMA FUNÇÃO....
+
+
+ex:
+
+
+//getFormattedTitle = getFormattedTitle.bind(movie);   ----> comentamos esse código para fora.
+
+
+
+---------------------------------------------------------------
+
+
+
+
+O PROFESSOR JÁ MENCIONOU ESSE MÉTODO ___BREVEMENTE____ NO PASSADO,
+mas agora devemos ver ele a fundo.
+
+
+
+
+
+ALÉM DE BIND(), NÓS TAMBÉM TEMOS O MÉTODO 'call()'.
+
+
+ex:
+
+
+let text = getFormattedTitle.call() + ' - ';
+
+
+--------------------------------------
+
+
+
+
+CALL, COMO BIND, TAMBÉM ACEITA/EXIGE MÚLTIPLOS ARGUMENTOS...
+
+
+O primeiro argumento, assim como temos com 'bind()', é A COISA A QUAL
+A KEYWORD 'this' DEVERÁ SE REFERIR DENTRO DESSA FUNÇÃO QUE ESTÁ SENDO EXECUTADA (que está vinculada ao método 'call()'; nesse caso, seria 'getFormattedTitle'.).
+
+
+
+O segundo, terceiro e argumentos restantes são OS ARGUMENTOS QUE SERÃO ENTÃO 
+PASSADOS À FUNÇÃO, CASO ELA PRECISE DE ALGUM.
+
+
+
+
+
+Aqui, nesse caso concreto, o professor ____NÃO PRECISA___ ADICIONAR ARGUMENTOS, por isso 
+ele COLOCA APENAS 1 PARÂMETRO 
+DENTRO DO SLOT DOS PARÂMETROS, QUE SERÁ O OBJETO/MÉTODO AO QUAL 'this' irá se referir 
+quando escrito dentro da função/método 'getFormattedTitle()'. O objeto 
+que o professor vai querer, é claro, será 'MOVIE'.
+
+
+
+ex:
+
+
+
+
+let { getFormattedTitle} = movie;
+
+let text = getFormattedTitle.call(movie) + ' - ';
+
+
+
+----------------------------
+
+
+
+
+
+
+Ué, mas então qual é a diferença de 'bind()' para 'call()'?
+
+
+
+
+
+SIMPLES.
+
+
+
+BIND() ----> PREPARA UMA FUNÇÃO PARA UMA FUTURA EXECUÇÃO. BIND(), no final das contas, RETORNA UM NOVO "OBJETO-FUNÇÃO", que então armazenamos em getFormattedTitle (nesse caso concreto... É POR ISSO QUE ALTERAMOS 'CONST getFormattedTitle' PARA 'let getFormattedTitle', porque BIND() sempre criará um NOVO OBJETO-FUNÇÃO, distinto do primeiro )
+
+
+
+CALL -----> NÃO PREPARA PARA UMA FUTURA EXECUÇÃO. Call(), em vez disso, EXECUTA A FUNÇÃO IMEDIATAMENTE. 
+            É como se você adicionasse PARÊNTESES no seu método/função originário... (mas com um bônus. Ler mensagem logo abaixo).
+
+            ex (representação da metáfora/imaginação do que está acontecendo):
+
+            'let text = getFormattedTitle().call + ' - ';   ////////// (É COMO SE ELE DEIXASSE VOCÊ ADICIONAR PARÊNTESES À FUNÇÃO/MÉTODO QUE VOCÊ CONECTOU A ELA.... MAS COM UM BÔNUS, O BÔNUS DE PODER DECIDIR A QUE ELEMENTO O 'THIS' IRÁ SE REFERIR QUANDO ELE ESTIVER ESCRITO NO INTERIOR DESSA FUNÇÃO.)
+
+
+
+            ex (representação real da sintaxe de call.):
+
+
+
+            let text = getFormattedTitle.call(movie) + ' - '; //////////------> o parâmetro passado à 'call', aqui, fará com que 'this' sempre se refira ao objeto movie quando escrito no interior dessa função getFormattedTitle.
+
+
+
+
+
+Call é como se fosse um set de parâmetros para passar a métodos, 
+mas COM UM BÔNUS MUITO ÚTIL, O BÔNUS DE PERMITIR A VOCÊ DEFINIR 
+A QUAL ELEMENTO 'THIS' IRÁ SE REFERIR QUANDO ESCRITO 
+DENTRO DESSE MÉTODO/FUNÇÃO EM QUE 'call()' foi chamado.
+
+
+É nesses casos em que 'call' se torna importante.
+
+
+
+
+
+
+
+
+APPLY()     --------> Apply é BEM SIMILAR AO MÉTODO 'call'; ELE TAMBÉM EXECUTA 
+A FUNÇÃO IMEDIATAMENTE... a diferença entre eles é que 'apply()' NÃO ACEITA UMA 
+QUANTIDADE INFINITA DE ARGUMENTOS APÓS O 'thisArg' (o argumento que define o 'this'), 
+E SIM APENAS UM ÚNICO ARGUMENTO. PORÉÉÉÉM..... ESSE ÚNICO ARGUMENTO QUE VEM DEPOIS DO 
+PRIMEIRO DEVE SER, OBRIGATORIAMENTE, UM ___ARRAY_______.  
+
+Esse array será OS VALORES PARA OS DIFERENTES ARGUMENTOS QUE ESSA 
+FUNÇÃO PODERÁ RECEBER (might be taking)....
+
+
+
+A diferença, então, entre os dois é que:
+
+
+
+****CALL() ---> pede que você passe os argumentos posteriores a 'thisArg' como uma LISTA SEPARADA POR VÍRGULAS.
+
+
+****APPLY() ---> PEDE QUE VOCÊ PASSE OS ARGUMENTOS POSTERIORES a 'thisArg' COMO UMA LISTA DE ARGUMENTOS DENTRO DE UM ARRAY.
+
+
+
+
+Fica ao seu critério qual dos dois você deve utilizar...
+
+
+
+Aqui nós NÃO PASSAMOS QUAISQUER ARGUMENTOS, POR ISSO NÃO HÁ NENHUMA DIFERENÇA ENTRE 
+OS DOIS PARA NÓS, nesse caso.
+
+O professor utiliza 'call()', mas 'apply()' também funcionaria.
+
+
+
+
+
+
+
+O 'THIS' PODE PARECER DIFÍCIL A VOCê, AGORA.
+
+
+
+
+MAS SEMPRE SE LEMBRE QUE 'this' SEMPRE SE REFERE À COISA QUE O CHAMOU PARA INÍCIO DE CONVERSA.
+Sempre se refere à "coisa na frente da sua execução de função". 
+
+
+
+ex:
+
+
+
+em 'getFormattedTitle', não TEMOS NADA EM FRENTE DE 'getFormattedTitle', E É POR ISSO QUE CASO 
+UTILIZÁSSEMOS 'THIS' EM getFormattedTitle, acabaríamos com O CONTEXTO GLOBAL ( e não um objeto que o está segurando dentro 
+dessa função, porque esse objeto aqui inexiste, e 'getFormattedTitle' só foi definido em outro objeto, no objeto 'newMovie', que evidentemente só 
+existe globalmente em relação ao objeto em que foi chamado agora, pois está no lado de fora desse objeto, no lado 
+de fora dos curly braces que o englobam nessa call específica.). 

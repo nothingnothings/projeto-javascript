@@ -1,0 +1,939 @@
+
+
+
+
+
+AINDA SOBRE MÓDULOS,
+
+
+
+HÁ UM PUNHADO DE SINTAXES ALTERNATIVAS QUE O PROFESSOR QUER 
+
+NOS MOSTRAR...
+
+
+
+
+
+
+PROFESSOR QUER NOS MOSTRAR QUAIS EXISTEM.
+
+
+
+
+
+DIGAMOS QUE HÁ MAIS DE UMA ÚNICA COISA QUE VOCÊ QUER EXPORTAR...
+
+
+
+
+
+ex: 
+
+
+na classe 'DOMHelper', professor tem apenas  A CLASSE 'DOMHelper'...
+
+
+
+
+MAS DIGAMOS QUE 
+
+NÃO TEMOS A CLASSE 'DOMHelper', não temos essa classe 
+
+USADA COMO WRAPPer, 
+
+
+existindo apenas as FUNÇÕES DE FORMA INDIVIDUAL..
+
+(como 'clearEventListeners' 
+
+e 
+
+'moveElement'...).....
+
+
+
+
+
+
+
+
+Para isso, nós removeríamos 
+
+'static' da frente das funções e colocaríamos 
+
+
+
+
+a 'function' keyword no seu lugar...
+
+
+
+(TAMBÉM PODERÍAMOS TER AS CRIADO POR MEIO DE ARROW FUNCTIONS, ETC ETC.)....
+
+
+
+
+CERTO.
+
+
+
+ESSAS FUNÇÕES 
+
+
+____TAMBÉM____ PODEM SER EXPORTADAS POR MEIO 
+
+
+DA ADIÇÃO DA KEYWORD 
+
+'export'...
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export class DOMHelper {
+    
+    
+    
+    
+    static clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+        element.replaceWith(clonedElement);
+        return clonedElement;
+    }
+    
+    
+    
+    
+    static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+        destinationElement.append(element);
+        element.scrollIntoView({behavior: 'smooth'});
+    }
+}
+
+
+
+
+
+
+
+
+
+    export function clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+        element.replaceWith(clonedElement);
+        return clonedElement;
+    }
+    
+    
+    
+    
+    export function moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+        destinationElement.append(element);
+        element.scrollIntoView({behavior: 'smooth'});
+    }
+
+
+
+------------------------------------------------------------
+
+
+
+LEMBRANDO:
+
+
+
+
+VOCÊ PODE EXPORTAR QUALQUER COISA,
+ 
+ tanto classes como variáveis, constantes, funções, etc etc.
+
+
+
+
+ NESSE CÓDIGO, PORTANTO, ESTARÍAMOS 
+
+
+ EXPORTANDO ___AS DUAS FUNÇÕES___.... E TAMBÉM A CLASSE, NA VERDADE...
+
+
+
+ ---> PROFESSOR EXPLICA QUE o export 
+
+ de funções IGUAIS às que estão dentro de uma classe no mesmo arquivo NÃO 
+
+ IMPEDEM EM NADA A EXPORTAÇÃO DO CONJUNTo (nesse caso, as funções moveElement e clearEventListeners externas 
+ 
+ SERÃO EXPORTADAS JUNTO DA CLASSE 'DOMHelper'...) -------> você PODE EXPORTAR TANTO QUANTO VOCÊ QUER.
+
+
+
+
+
+
+
+
+Certo. Agora estamos fazendo o export da CLASSE DOMHelper (que contém 'moveElement') 
+
+
+
+e da função____ moveElement EM SI___...
+
+
+
+
+Depois disso, nós, a título de exemplo, 
+
+
+IMPORTAMOS 
+
+'moveElement' (essa função) PARA DENTRO 
+
+DO 'projectList' (onde JÁ TINHA SIDO IMPORTADO O 'DOMHelper'...).
+
+
+
+
+
+
+
+
+--------> Aí professor nos pergunta:
+
+
+
+poderíamos simplesmente 
+
+trocar 
+
+
+
+a linha de código 
+
+
+em 'ProjectList' 
+
+
+de 
+
+
+
+'DOMHelper.moveElement(project.id, `#${this.type}-projects ul`);' 
+
+
+
+POR 
+
+
+'moveElement(project.id, `#${this.type}-projects ul`);' ?
+
+
+
+
+(OU SEJA, USAR A FUNÇÃO IMPORTADA EM SI POR MEIO DO HELPER 'DOMHelper' QUE JÁ tinha sido importado? É POSSÍVEL UTILIZAR UMA DETERMINADA FUNÇÃO EM UMA CLASSE/COISA QUE ENGLOBA ESSA FUNÇÃO DIRETAMENTE, sem importá-la antes? )
+
+
+
+
+
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+import {DOMHelper} from '../Utility/DOMHelper.js'
+
+
+
+
+
+
+
+
+
+
+export class ProjectList {
+
+
+    projects = [];
+    
+    constructor(type) {
+
+
+
+
+        this.type = type;
+        const prjItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of prjItems) {
+            this.projects.push(new ProjectItem(prjItem.id, this.switchProject.bind(this), this.type)); //////DEPENDENCY.
+        }
+        
+        console.log(this.projects);
+        this.connectDroppable();
+    }
+
+
+
+    setSwitchHandlerFunction(switchHandlerFunction) {
+        this.switchHandler = switchHandlerFunction;
+    }
+
+    connectDroppable() {
+        const list = document.querySelector(`#${this.type}-projects ul`);
+
+        list.addEventListener('dragenter', event => {  
+        if(event.dataTransfer.types[0] === 'text/plain') {
+            list.parentElement.classList.add('droppable');
+            event.preventDefault(); 
+        }
+        
+        });
+    
+
+
+
+
+
+
+        list.addEventListener('dragover', event => {     
+        if(event.dataTransfer.types[0] === 'text/plain') {
+        event.preventDefault();
+    }
+        });
+
+        list.addEventListener('dragleave', event => {
+            if (event.relatedTarget.closest(`#${this.type}-projects ul`) !== list) {
+            list.parentElement.classList.remove('droppable');
+            }}
+        );
+
+
+        list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); 
+            if(this.projects.find(p => p.id === prjId)) { 
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+            document.getElementById(prjId)
+                .querySelector('button:last-of-type')
+                .click(); 
+            list.parentElement.classList.remove('droppable');
+            event.preventDefault(); 
+        })
+        
+        }
+
+
+
+
+    addProject(project) {
+        //console.log(this);
+
+
+        this.projects.push(project); 
+        moveElement(project.id, `#${this.type}-projects ul`);           //////////EIS A ALTERAÇÃO EM QUESTÃO.
+        project.update(this.switchProject.bind(this), this.type); 
+    }           
+
+
+    switchProject(projectId) {
+   
+    this.switchHandler(this.projects.find(p => p.id === projectId));   
+    this.projects = this.projects.filter(p => p.id !== projectId);
+    
+    }
+
+}s
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+
+
+
+
+PODERÍAMOS FAZER ISSO?
+
+
+
+
+PROFESSOR DIZ QUE __NÃO__.
+
+
+
+
+
+ISSO NÃO FUNCIONARIA, 
+
+ESSE IMPORT 'INDIRETO' de moveElement POR MEIO 
+
+
+DO IMPORT DE 'DOMHelper'
+
+FALHARIA PQ 
+
+
+__NÓS NÃO ESTAMOS IMPORTANDO___ 'moveElement' diretament...........
+
+
+
+NÓS NÃO ESTAMOS/estaríamos
+
+'IMPORTANDO', 
+
+MAS SIM 
+
+
+____REFERENCIANDO___ essa função 'moveElement'... CONTUDO, 
+
+ela não está sendo importada em LUGAR ALGUM....
+
+
+
+
+VOCÊ PODERIA DIZER QUE JÁ ESTAMOS IMPORTANDO 
+
+ESSA FUNÇÃO 
+
+
+por meio do import 
+
+
+de 
+
+'DOMHelper', MAS NÃO É ASSIM QUE ESSA BRINCADEIRA DE MÓDULOS FUNCIONA:
+
+
+
+com os módulos,
+ 
+
+ VOCÊ DEVE ___rEALMENTE ___ ESPECIFICAR BEM 
+
+ aquela coisa que vocÊ deseja importar.....
+
+
+
+
+ E, aqui, nós estamos IMPORTANDO 
+
+
+ A CLASSE 'DOMHelper', E NÃO 
+
+
+ A FUNÇÃO 
+
+
+ 'moveElement' EM SI... 
+
+
+
+
+ É POR ISSO QUE SE SALVARMOS E RECARREGARMOS NOSSO CÓDIGO, ESSA GAMBIARRA 
+
+
+
+ VAI __FALHAR...
+
+
+
+ Ganharemos um erro 
+
+
+ de 
+
+
+
+ 'Uncaught ReferenceError: moveElement is not defined 
+
+
+ at ProjectList.addProject 
+
+
+at ProjectList.switchProject 
+
+
+
+at HTMLUListElement
+
+'
+
+
+---------------------------------------------
+
+
+
+
+  ISSO SIGNIFICA QUE SIMPLESMENTE 'exportar de um determinado arquivo' NÃO É 
+
+  O BASTANTE; 
+
+
+  VOCÊ DEVE SEMPRE ESPECIFICAR BEM AQUILO QUE VOCÊ DESEJA IMPORTAR...
+
+
+  VOCÊ NÃO PODE SIMPLESMENTE PENSAR '''ah, importa a porra toda, o arquivo todo'',
+
+  VOCÊ DEVE ____ESPECIFICAR___.
+
+
+
+
+
+
+  A SOLUÇÃO AO NOSSO CASO CONCRETO, AQUI, DE 'ProjectList', 
+
+
+  SERIA 
+
+  TROCAR 
+
+
+  'DOMHelper' 
+
+
+
+  em 
+
+
+  'import {DOMHelper} from '../Utility/DOMHelper.js'  ' 
+
+
+
+
+  POR 
+
+
+
+  moveElement, POIS É essa função QUE EU ESTOU USANDO/REALMENTE NECESSITO NA CLASSE ProjectList, 
+  
+e não o DOMHelper inteiro...
+  
+
+
+
+  ------------------------
+
+
+
+
+  SE SALVARMOS NOSSA PÁGINA E TENTARMOS DNV, veremos que 
+
+
+  agora o código FUNCIONA.
+
+
+
+
+
+
+--> isso nos ensina QUE DEVEMOS SER ___BEM ESPECÍFICOS QUANTO ÀQUILO QUE 
+
+QUEREMOS EXPORTAR, e que podemos 
+
+
+SEMPRE IMPORTAR MAIS DE 1 ÚNICA COISa em um código...
+
+
+
+
+
+VOCê TAMBÉM PODE, ALÉM DISSO, IMPORTAR elas todas de 1 só vez...
+
+
+
+
+ex:
+
+
+
+
+
+import { moveElement, DOMHelper } from '../Utility/DOMHelper.js'...
+
+
+
+
+
+--------------------------------------------------
+
+
+
+COM ESSE CÓDIGO, CONSEGUIRÍAMOS IMPORTAR 
+
+
+
+
+a classe 'DOMHelper' 
+
+e 
+
+
+a função 
+
+
+'moveElement' 
+
+DENTRO DELA....
+
+
+
+
+ENTRETANTO, NÃO ESTARÍAMOS IMPORTANDO a função 'clearEventlisteners' (que TAMBÉM ESTÁ DENTRO de 'DOMHelper', mAS QUE se não for selecionada, NÃO PODE SER UTILIZADA...).
+
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE DEVEMOS SER BEM ESPECÍFICOS,
+
+
+e que devemos SEPARAR AS COISAS QUE QUEREMOS 
+
+
+POR MEIO DE vírgulas (,) NO IMPORT STATEMENT..
+
+
+ 
+
+
+-------------------------------------
+
+
+
+
+É EVIDENTE QUE HÁ CASOS EM QUE QUEREMOS IMPORTAR ___tUDO QUE ESTÁ EM UM ARQUIVO____...
+
+
+
+
+DIGAMOS QUE, POR EXEMPLO, QUEIRAMOS IMPORTAR 'clearEventListeners'...
+
+
+
+É óbvio que poderíamos escrever tipo assim:
+
+
+
+
+
+
+ex:
+
+
+import { moveElement, DOMHelper, clearEventListeners } from '../Utility/DOMHelper.js'
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+
+NÃO HÁ NADA DE ERRADO EM ESCREVER O IMPORT DESSA FORMA...
+
+
+
+
+MAS DIGAMOS QUE VOCÊ QUER 'BUNDLE' todas essas coisas em um único negócio/nome/termo/OBJETO....
+
+
+
+Um único objeto QUE ENTÃO FICARIA DISPONÍVEL NESSE ARQUIVO em que vocÊ o importou...
+
+
+
+
+
+UM ÚNICO OBJETO QUE SEGURARÁ TODAS ESSAS FEATURES/FUNÇÕES/VARIAVEIS/CONSTANTES/CLASSES, que 
+
+poderão ser todas acessadas POR MEIO DA 'DOT NOTATION' (.).
+
+
+
+
+
+
+
+ISSO É POSSÍVEL, DIZ O PROFESSOR, POR MEIO DE UMA ___SINTAXE ESPECIAL_____.
+
+
+
+
+-------------------------------
+
+
+Professor explica:
+
+
+
+
+SE VOCÊ TEM VÁRIOS 'EXPORT STATEMENTS', ou seja, várias funções/classes/coisas no seu código com 
+
+
+a keyword 'export' na frente do nome, 
+
+
+VOCê 
+
+
+PODE ENTÃO 
+
+
+
+ESCREVER 
+
+
+'import * as xxxx from yyyy'...
+
+
+
+
+* === TUDO (significa 'TUDO', todas as features/funções/classes dos seus exports)
+
+
+
+
+'as' ==== 'como'
+
+
+
+'xxxx' === É O NOME QUE VOCê DARÁ A ESSE OBJETO QUE VAI SEGURAR TODOS OS SEUS EXPORTS.... 
+
+
+
+'from' === 'de', como em 'de tal arquivo'.
+
+
+
+
+yyyyy === 'tal arquivo'.
+
+
+
+
+
+ex:
+
+
+
+
+import * as DOMH from '../Utility/DOMHelper.js'; 
+
+
+
+
+
+(importe TUDO de 'DOMHelper.js' como 'DOMH' (nome criado por nós para designar um objeto que conterá todas as coisas do arquivo 'DOMHelper'),  
+
+)
+
+
+
+
+
+
+
+
+ISSO DIRÁ AO JAVASCRIPT QUE VOCÊ QUER JUNTAR TODOS OS EXPORTS 
+
+
+DAQUELE DETERMINADO ARQUIVO 
+
+
+NESTE objeto de nome escolhido por você (nesse caso, 'DOMH'.).
+
+
+
+
+
+
+AÍ, FEITO ISSO, VOCÊ PODE 
+
+ENTÃO ACESSAR AS FEATURES/CLASSES/FUNÇÕES/VARIÁVEIS 
+
+
+por meio do call 
+
+
+desse objeto 
+
+
+E ENTÃO a dot notation 
+
+
+e O NOME DA FEATURE QUE VOCÊ QUER usar...
+
+
+
+
+ex:
+
+
+import * as DOMH from '../Utility/DOMHelper.js'; 
+
+
+
+
+DOM.moveElement(project.id, `#${this.type}-projects ul`);
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+
+PODE PARECER QUE VOCê ESTÁ APENAS USANDO UM OBJETO 'DOMH' que tem o método 
+
+'moveElement', MAS NA VERDADE 
+
+O QUE ACONTECEU É QUE NÓS JUNTAMOS TODOS OS EXPORTS DO 
+
+ARQUIVO DOMHelper.js 
+
+E AGRUPAMOS TODOS ELES EM UM GRANDE OBJETO 'helper DENOMINADO 'DOMH', o qual existirá DENTRO DO ARQUIVO 'ProjectList.js'...
+
+
+
+
+
+
+
+
+
+
+ESSA, PORTANTO, É UMA ALTERNATIVA QUE 
+
+FAZ TODOS OS EXPORTS SEREM AGRUPADOS E ENTÃO UTILIZADOS POR MEIO DA DOT NOTATION...
+
+
+
+
+essa notation 'as'
+
+PODE TAMBÉM SER USADA, EM GERAL, 
+
+PARA ASSIGNAR __NOVOS NOMES___...
+
+
+
+
+Digamos que quero fazer 
+
+o nome de 
+
+
+'ProjectItem' SER DIFERENTE 
+
+EM 'ProjectList'...
+
+
+
+TALVEZ PQ TEREMOS UM CLASH DE NOMES, OU TVZ POR OUTRA RAZÃO...
+
+
+
+
+Sempre quando você tem problemas como estes, VOCÊ PODE 
+
+
+ASSIGNAR UM 'ALIAS'  a algo de seu código,
+
+à coisa IMPORTADA que você quer que não tenha aquele nome....
+
+---------------------------------------------------------
+
+
+
+Para fazer essa troca de referencial/nome,
+
+você 
+
+
+deve usar 
+
+'as' 
+
+DENTRO DOS CURLY BRACES do 'import statement'...
+
+
+
+ex:
+
+
+
+import { ProjectItem as  projetoItem} from './ProjectItem.js';
+
+
+
+
+---------------------------------
+
+
+
+
+
+OBS: ESSA TROCA DE NOMES SÓ SERÁ RELEVANTE DENTRO DO ARQUIVO EM QUE ESSA CLASSE/COISA/FUNÇÃO/VARIÁVEL foi importada...
+
+
+
+
+
+Feita essa troca de nome, devemos sempre CHAMAR O NEGÓCIO com aquele novo NOME NO ARQUIVO EM QUE FOI IMPORTADO....
+
+
+-------------------------------------------------------
+
+
+
+
+

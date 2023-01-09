@@ -1,0 +1,723 @@
+
+
+
+
+AGORA QUE APRENDEMOS UM MONTE SOBRE CLOSURES/SCOPES, 
+
+
+
+
+devemos dar uma olhada no tópico de 'RECURSION'...
+
+
+
+RECURSION É UM PATTERN/MANEIRA DE USAR FUNÇÕES muito interessante...
+
+
+
+É UM PATTERN QUE NÃO É EXCLUSIVO AO JAVASCRIPT... 
+
+
+
+VOCê PODE USÁ-LO EM QUALQUER LINGUAGEM DE PROGRAMAÇÃO...
+
+
+
+
+
+podemos começar com uma simples incursion...
+
+
+
+
+Digamos que temos uma função, 
+
+chamada de 
+
+
+'powerOf'....
+
+
+
+ESSA FUNÇÃO CALCULARÁ O PODER DE ALGUMA COISA....
+
+
+
+
+ex:
+
+
+
+function powerOf() {
+
+}
+
+
+----------------------------
+
+
+
+
+ESSA FUNÇÃO DEVERÁ RECEBER 2 PARÂMETROS/ARGUMENTOS....
+
+
+1) o valor  (x)
+
+2) o poder (potencia) que queremos usar.... (n)
+
+
+
+
+
+ex:
+
+
+
+
+function powerOf(x, n) {
+
+}
+
+
+-----------------------------------
+
+
+
+
+O professor então diz que iremos executar um console.log de essa função, sendo passados os parâmetros de 2 e 3....
+
+
+
+ex:
+
+
+
+
+function powerOf(x, n) {
+
+}
+
+
+
+console.log(powerOf(2, 3)); ////   ------> ou seja, queremos 2 na terceira potencia, que é 8. 2 * 2 * 2...
+
+
+
+
+É ISSO QUE ESSA FUNÇÃO DEVERÁ FAZER, DEVERÁ 
+
+ELEVAR UM CERTO NUMERO À DETERMINADA POTÊNCIA...
+
+
+
+
+mas como implementar isso?
+
+
+
+Uma primeira implementação poderia simplesmente começar 
+
+
+
+com uma variável chamda 'result', que terá um valor de '1'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+function powerOf(x, n) {    
+    let result = 1;
+}
+
+
+
+console.log(powerOf(2, 3)); 
+
+
+
+---------------------------------
+
+
+
+Depois disso, o professor diz que poderíamos executar um for loop, um for loop em QUE PASSAREMOS POR TODAS 
+
+AS ITERAÇÕES de que precisamos....
+
+
+(ou seja, 'for (let i = 0; i < n; i++); ')
+
+
+
+
+ex:
+
+
+
+
+
+
+function powerOf(x, n) {    
+    let result = 1;
+
+
+    for(let i = 0; i < n; i++)
+}
+
+
+
+console.log(powerOf(2, 3)); 
+
+
+
+----------------------------------
+
+
+AÍ, DENTRO DAS {} do body do for loop, o professor vai querer QUE O 'result' (essa variável) 
+
+SEJA MUDADA PARA TER O VALOR DE 
+
+'result * x' (x sendo o parâmetro lá...).
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function powerOf(x, n) {    
+    let result = 1;
+
+
+    for(let i = 0; i < n; i++) {
+        result = result * x;
+    }
+}
+
+
+
+console.log(powerOf(2, 3)); 
+
+
+
+
+------------------------
+
+
+O PROFESSOR DEIXA ESSA EXPRESSÃO MAIS BONITA:
+(ele também coloca um 'return' de result, para que o resultado desse calculo seja retornado...)
+
+
+
+
+
+
+function powerOf(x, n) {    
+    let result = 1;
+
+
+    for(let i = 0; i < n; i++) {
+        result *= x;
+    }
+    return result;
+}
+
+
+
+console.log(powerOf(2, 3)); 
+
+
+
+----------------------------------------------------------------------------------------------------
+
+o professor definiu a variável de result como sendo '1' inicialmente pq COMEÇAR UMA MULTIPLICAÇÃO COM 0 É UMA MÁ IDEIA (sempre ganharíamos 0)...
+
+2 (primeira execução) * 2 (segunda execução) * 2 (terceira execução) = 8 (2 elevado a 3). (o importante aqui é o loop e o 'i++', que faz a operação ser executada múltiplas vezes até que a condição 'i < n' é satisfeita... )
+
+
+EIS A FUNÇÃO QUE FAZ NOSSO CÁLCULO PERFEITAMENTE..
+
+
+
+
+RECARREGAMOS A PÁGINA E PERCEBEMOS QUE O NEGÓCIO ESTÁ FUNCIONANDO..
+
+
+-----------------------------------
+
+
+
+CERTAMENTE PODERÍAMOS IMPLEMENTAR ESSA FUNÇÃO DESSA FORMA MESMO...
+
+
+
+MAS COM O CONCEITO DE 'recursion', nós podemos, na verdade, ESCREVER ISSO DE UMA MANEIRA MAIS CURTA.
+
+
+
+--------------------------------------
+
+
+
+COPIAMOS O CÓDIGO ORIGINAL E 'TENTAMOS DE NOVO'.
+
+
+
+Tentaremos escrever aquela função 'potencia de ...' dnv, dessa vez com recursion
+
+
+
+
+A IDEIA POR TRÁS DA RECURSION/RECURSIVE FUNCTION É A DE QUE 
+
+A ___FUNÇÃO CHAMA A SI MESMA ____ (the function CALLS ITSELF)....
+
+
+É por isso que nós escrevemos 
+
+
+'return'    x  (a variável x)   *               powerOf(x, n - 1);
+                                (vezes)         (a função em si, mas dessa vez também com um parâmetro de 'n - 1') 
+(retornar) 
+
+
+
+
+ex:
+
+
+
+
+function powerOf (x, n) {
+
+
+    return x * powerOf(x, n - 1);
+}
+
+-------------------------------
+
+
+
+
+MAS QUAL É A IDEIA AQUI, AFINAL? PQ ESSE CÓDIGO BIZARRO?
+
+
+
+Bem, quando nós cHAMAMOS ESSA FUNÇÃO, nós retornamos 
+
+'x' (que é 2, de acordo com aquele call do console.log) 
+
+VEZES ____ A MESMA FUNÇÃO___ , o  ___MESMO FUNCTION CALL____, 
+
+mas dessa vez COM OS  PARÂMETRO DE 'X' E ' N -1'....
+
+
+como 
+
+'n' É 3, a função ficaria:
+
+
+                  2  3 
+function powerOf (x, n) {
+
+
+    return 2 * powerOf(2, 3 - 1);
+}
+
+
+=
+
+
+                 2   3
+function powerOf (x, n) {
+
+                    (isso dá 4)  --------->   a função irá SE RETORNAR DE NOVO, e assim por diante, INFINITAMENTE...
+    return 2 * powerOf(2, 2);
+}
+
+
+
+-----------------------------------
+
+
+
+ENTRETANTO ESSA FUNÇÃO NOS TRARIA UM PROBLEMA: ela será infinita se não colocarmos um limite nela... SERÁ UM LOOP INFINITO.
+
+Ela é infinita pq ela nunca vai acabar, ela sempre irá nos retornar ELA MESMA sendo executada mais uma vez,
+até o infinito
+
+ex de essa função no nosso console:
+
+
+VM24:4 Uncaught RangeError: Maximum call stack size exceeded
+    at powerOf (<anonymous>:4:5)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+    at powerOf (<anonymous>:4:16)
+
+--------------------------------------------
+
+
+
+PRECISAMOS ESPECIFICAR ALGUMA 'EXIT CONDITION' com um if statement...
+
+
+um if statement que checa 
+
+
+'se n é igual a 1, VOU QUERER, NA VERDADE, RETORNAR 'x'...'
+
+
+
+ex:
+
+
+
+
+
+
+
+function powerOf (x, n) {
+
+    if (n === 1) {
+        return x;
+    }
+
+    return x * powerOf(x, n - 1);
+}
+
+
+----------------------------------
+
+
+SE FIZERMOS ISSO, A FUNÇÃO SERÁ RODADA 1 ÚNICA VEZ, O QUE EVITARÁ O LOOP INFINITO... (uma solução bem engenhosa mesmo...)...
+
+
+ISSO FARÁ COM QUE A FUNÇÃO NÃO QUEIRA 'RETORNAR A SI MESMO' dnv, múltiplas vezes...
+
+
+(OBS: professor diz que não precisamos de um ELSE statement aqui, PQE SE O PRIMEIRO IF BLOCK for executado, 
+a segunda parte, a que leva ao loop infinito se não for mantido em cheque, já deixará de ser executada.)
+
+
+
+
+SE SALVARMOS E RECARREGARMOS A PÁGINA, VEREMOS QUE RECEBEMOS O RESULTADO ESPERADO, QUE É 8.
+
+
+
+-----------------------------
+
+
+AINDA ASSIM, talvez não esteja totalmente claro o fenômeno que está acontecendo aqui....
+
+
+
+Para deixar as coisas mais visíveis, o professor diz que DEVEMOS USAR OS DEVTOOLS...
+
+
+
+
+Elee diz que devemos settar um breakpoint DENTRO DA FUNÇÃO 
+
+'powerOf'...
+
+
+
+
+
+COLOCAMOS O BREAKPOINT em 
+
+
+'if (n === 1)';
+
+
+....
+
+E RECARREGAMOS A PÁGINA.
+
+
+O professor então EXPANDE A PARTE INFERIOR DO DEVTOOLS, QUE NOS MOSTRA O CALLSTACK...
+
+
+
+No callstack, percebemos 
+
+2 funções:
+
+
+
+
+'powerOf 
+
+(anonymous)'
+
+--------------------------
+
+
+Professora ponta que AQUI NÓS APENAS TEMOS 1 ÚNICO 'powerOf'....
+
+ISSO ACONTECE, diz ele, PQ O RUNTIME rECÉm chegou até esse trecho do código...
+
+
+
+Percebemos que, NESSA FUNÇÃO, os valores 
+
+de 'x' e 'n' já estão definidos como 2 e 3...
+
+
+Se usarmos o botão 'step over this function call',
+veremos que 
+
+O CONSOLE ACABARÁ ___PULANDO___ O PRIMEIRO 'if check' (if (n === 1) ), 
+
+pois 
+
+'n' ainda é '3'...
+
+
+
+É por isso que a engine pula diretamente para a linha 
+
+'return x * powerOf(x, n - 1);'
+
+
+
+
+
+DENTRO DESSA LINHA, NÓS CHAMAMOS A FUNÇÃO 'powerOf' __ DE NOVO___. Professor faz 
+
+'step into' PARA NOS MOSTRAR O FUNCIONAMENTO INTERNO DESSA FUNCTION CALL...
+
+
+Como podemos perceber, agora o Callstack tem DUAS EXECUÇÕES DA FUNÇÃO 
+
+
+'powerOf'...
+
+
+
+O primeiro call, mais de BAIXO, com o qual começamos A EXECUÇÃO (é o powerOf em 'return x * ...'),
+
+E O SEGUNDO CALL, MAIS DE CIMA NO STACK, que está posicionado, no devtools, naS linhas 'function powerOf(x, n)' e 'if (n === 1)' ...
+
+
+
+
+A DIFERENÇA ENTRE ESSAS 2 EXECUÇÕES PODE SER VISTA NO VALOR DE 'n'...
+
+
+Na primeira execução, mais inferior no callstack, o VALOR DE 
+
+N ESTÁ COMO '3'...; 
+
+
+JÁ NA SEGUNDA EXECUÇÃO, naquela que estamos no presente, MAIS SUPERIOR NO CALLSTACK, o valor de 'n' está como '2'...
+
+
+
+
+OU SEJA, A MESMA FUNÇÃO É ___EXECUTADA__ DE NOVO...
+
+
+Executa de novo, mas é claro que ESSA É UMA DIFERENTE EXECUÇÃO DAQUELA COM QUE COMEÇAMOS/DE AQUELA PRIMEIRA 
+
+EXECUÇÃO..
+
+
+NÓS TEMOS, AFINAL DE CONTAS, ___DUAS DIFERENTES EXECUÇÕES ___, OCORRENDO ___ AO MESMO TEMPO ___ (2 ongoing executions)...
+
+
+
+A primeira dessas execuções (aquela que possui 
+o if check de 'n === 1') está 'pausada', por assim dizer, porque ESTÁ __ESPERANDO O RESULTADO___ DA 
+
+SEGUNDA EXECUÇÃO....
+
+
+
+
+
+AGORA DEVEMOS VER O QUE A SEGUNDA EXECUÇÃO AINDA VAI FAZER...
+
+'n' está como 2, por isso O IF CHECK da primeira função 'powerOf' É SKIPPADo, o que 
+
+faz com que o resto do código, que faz o chamado da função 'powerOf' em si, SEJA 
+
+EXECUTADO DE NOVO.
+
+
+O professor usa o devtools para fazer 'step into' nessa function call de 'powerOf'...
+
+
+
+AGORA, EM DECORRÊNCIA DESSE CHAMADO INTERNO DE 'powerOf', da própria função, O 'n' ACABOU SE TORNANDO '1'....
+
+como 'n' está com o valor de '1' dentro DESSA EXECUÇÃO (na verdade, dentro das DUAS EXECUÇÕES, da execução 
+mais externa de powerOf e da mais interna, também...)...
+
+O CÓDIGO DE DENTRO DO IF CHECK ACABA SENDO EXECUTADO 
+
+'return x';
+
+
+
+
+
+
+
+
+
+/*
+function powerOf(2, 3) {
+
+}
+
+function powerOf(2, 2) {
+
+}
+
+
+function powerOf(2, 1) {
+
+}
+
+
+
+
+Resumo da função, do resultado dela, ficaria assim:
+
+
+      2
+return x *  powerOf (
+    powerOf( retorna 4, pq 'x' * ' VALOR DE X RETORNADO' dá 4...;)
+) ----------------------------> ISSO DARIA 8...
+
+
+
+
+
+
+Resumindo:
+
+X vezes 'x' VEZES VALOR DE 'return x' (OU SEJA, do valor de x, que é 2, retornado pela última function call...)
+*/
+
+
+-------------------------------------------
+
+
+
+
+CONTINUANDO EXPLICAÇÃO DO PROFESSOR:
+
+
+agora temos 3 diferentes chamados de 'powerOf' RODANDO NO CALLSTACK...
+
+
+
+
+Se continuarmos avançando no call stack, perceberemos que eventualmente NOS LIVRAREMOS DE 
+
+1 DAS FUNCTION CALLS de 'powerOf'...
+
+
+
+Em vez disso, agora, essa FUNCTION CALL para o segundo chamado de 'powerOf', OU SEJA, 
+
+A TERCEIRA FUNCTION CALL, que foi triggada pela segunda function call, 
+
+RETORNA UM VALOR... retornou um valor que 
+
+AGORA UTILIZAMOS NESSE SEGUNDO CALL...
+
+
+E se agora continuarmos, veremos que o resultado dessa função será de 8...
+
+
+---------------------
+
+
+ESSA É A IDEIA DE 'RECURSION' --> nós chamamos a nós mesmos/ a mesma função chama a si própria,
+
+
+
+
+MAS PQ DIABOS ISSO SERIA MELHOR DO QUE UM FOR LOOP?
+
+
+
+Bem, simplesmente pq É __MENOR___....
+
+
+
+
+
+
+
+
+COMO VOCÊ VERÁ NA PRÓXIMA LIÇÃO, NÃO É APENAS 'MAIS CURTA', ELA 
+
+TAMBÉM PODE NOS AJUDAR COM ALGUNS PROBLEMAS.
+
+
+
+MAS AQUI PODEMOS SALVAR UM BOCADO DE ESPAÇO.
+
+
+
+PROFESSOR DIZ QUE ESSA VERSÃO DA INCURSION ESTÁ BOA, MAS QUE A MANEIRA MAIS 
+
+'CURTA' possível DESSE CÓDIGO SERIA RETORNAR
+
+UMA TERNARY EXPRESSION...
+
+ 
+a ternary expression ficaria assim:
+
+
+
+'return n === 1 ? x : x * powerOf(x, n -1);'
+
+
+
+
+RESUMO:
+
+
+'apenas retorne 'x' se 
+
+'N' FOR IGUAL A 1......
+
+
+CASO CONTRÁRIO, REALIZE ESSA OPERAÇÃO (a operação 'x * powerOf(x, n - 1);')'
+
+
+
+
+---> COM O RECURSO DA 'INCURSION' E ESSA TERNARY EXPRESSION, PODEMOS REDUZIR TODO ESSE CÓDIGO GIGANTE DO FOR LOOP 
+
+EM 1 ÚNICA LINHA, o que é 
+
+muito bom...
+
+
+--> E esse recurso pode fazer ainda mais coisas, como aprenderemos nas próximas lições.

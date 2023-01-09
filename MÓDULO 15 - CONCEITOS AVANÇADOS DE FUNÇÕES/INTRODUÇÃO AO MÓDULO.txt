@@ -1,0 +1,47 @@
+
+
+
+
+AGORA É HORA DE VER OUTRO MÓDULO ACERCA DE FUNÇÕES... (já tivemos 2 módulos até agora...).
+
+
+
+
+
+ESTE SERÁ O ÚLITMO MODO SOBRE FUNÇÕES....
+
+
+
+
+MAS NÓS MERGULHAREMOS EM ALGUNS CONCEITOS AVANÇADOS de funções, OS QUAIS VOCÊ PRECISA SABER....
+
+
+
+
+
+
+ESSES CONCEITOS NÃO SÃO 'BEGINNER LEVEL', mas são importantes. 
+
+
+
+
+
+ESPECIFICAMENTE, DAREMOS UMA OLHADA EM:
+
+
+
+
+
+1)  'Pure Functions & Side Effects'... ---> o que é isso e porque elas importam.
+
+
+2) Factory Functions ---> veremos o que são.
+
+
+
+3) Closures (& Scope, revisited) ------> REVISITAREMOS O CONCEITO DE 'SCOPE' a partir do estudo de 'closures'.
+
+
+
+
+4) RECURSION ----> É UMA MANEIRA ESPECÍFICA DE TRABALHAR COM FUNÇÕES, veremos O QUE É, O QUE SIGNIFICA E QUANDO PODE SER ÚTIL...

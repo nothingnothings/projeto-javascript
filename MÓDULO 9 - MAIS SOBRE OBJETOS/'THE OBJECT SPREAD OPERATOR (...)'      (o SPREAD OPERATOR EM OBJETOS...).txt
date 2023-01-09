@@ -1,0 +1,326 @@
+NÓS TAMBÉM TEMOS OUTRA FEATURE MUITO LEGAL EM JAVASCRIPT....
+
+
+
+É uma feature da qual não necessitaremos nesse APP, mas que VAMOS 
+PRECISAR, EM GERAL, de tempos em tempos no javascript.
+
+
+
+É a feature do SPREAD OPERATOR, COMBINADO COM OBJETOS....
+
+
+
+Nós vimos o spread operator usado no CONTEXTO DOS ARRAYS....
+
+
+ENTRETANTO, ELE TAMBÉM PODE SER USADO COM OBJETOS...
+
+
+
+
+O professor vai nos mostrar seu funcionamento por meio do console do devtools. 
+
+
+
+Ele vai em frente e cria um objeto 'person'.
+
+
+
+
+
+ex:
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+-----------------------------
+
+
+
+ESSA SERÁ  A NOSSA 'person'.
+
+
+
+
+
+Agora, se nós quisessemos COPIAR ESSE OBJETO, por exemplo, em uma 'anotherPerson'...
+
+
+PODEMOS TENTAR A SINTAXE (QUE NÃO FUNCIONARÁ, É CLARO) de 'const anotherPerson = person;'....
+
+
+ENTRETANTO, COMO NÓS APRENDEMOS, OBJETOS SÃO ___rEFERENCE VALUES_____, POR ISSO 
+ESSA SINTAXE NÃO VAI FUNCIONAR; NÓS VAMOS ACABAR COPIANDO UMA REFERÊNCIA AO MESMO 
+OBJETO DE 'person', e esse objeto não será uma cópia verdadeira de person, mas sim 
+uma nova 'ponte' a ela.
+
+
+ex:
+
+
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+const anotherPerson = person;
+
+
+
+----------------------------------
+
+
+
+
+
+Para provar isso, o professor diz que devemos adicionar uma nova propriedade à person... 
+se fizermos isso, veremos que a mudança será refletida em anotherPerson, um comportamento indesejado...
+
+
+ex:
+
+
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+const anotherPerson = person;
+
+
+
+person.age = 30; ///---> essa propriedade vai acabar sendo adicionada nas 2 constantes, porque as 2 compartilham o mesmo objeto/mesmo endereço/pointer de objeto.
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+ PODEMOS EVITAR ISSO, SE QUISERMOS, POR MEIO DO USO DO ___SPREAD OPERATOR____ (...).
+
+  
+
+
+O professor diz que devemos criar um novo objeto, 'person2', e aí utilizar 
+os curly braces e depois "..." (spread Operator) E O NOME DO OBJETO QUE 
+VOCÊ QUER 'spread' (espalhar ) DENTRO DESSE NOVO OBJETO...
+
+ex:
+
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+const person2 = {...person};  // EIS O CÓDIGO.
+
+
+
+------------------------------------
+
+
+
+O QUE ISSO ('{...person}') FAZ É TIRAR TODOS OS KEY-VALUE PAIRS 
+DAQUELE OBJETO QUE VOCÊ PASSOU APÓS O SPREAD OPERATOR (no caso, 'person') e 
+então OS FUNDIR (os key-value pairs) DENTRO DESSE NOVO OBJETO (no caso, 'person2').
+
+
+OU SEJA, ELE CRIA UM NOVO OBJETO, INDEPENDENTE DO PRIMEIRO, MAS COPIA 
+TODOS OS KEYNAME/VALORES DO PRIMEIRO OBJETO....
+
+
+
+O professor prova o que ele disse por meio da definição de age como sendo 31.
+
+
+ex:
+
+
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+
+
+const person2 = {...person}; 
+
+
+
+person.age = 31; ///////ESSA MUDANÇA __NÃO SERÁ REFLETIDA___ NO NOVO OBJETO, objeto de 'person2'. 'person2' É REALMENTE UMA CÓPIA.
+
+
+
+
+
+                                                                                                                                                                    (um array é um objeto, portanto ele é um reference value... o spread operator ainda não interferirá com esses reference values; ou seja, esses elementos ESTARÃO, SIM, CONECTADOS UNS AOS OUTROS EM DIFERENTES TRECHOS DO CÓDIGO. NÃO SE TORNARÃO INDEPENDENTES MAGICAMENTE, COMO PODEMOS IMAGINAR.)
+CUIDADO!!!! --------> Assim como o exemplo dos arrays, mais cedo no curso, SE VOCÊ TEM ___OUTROS___ REFERENCE VALUES___ DEEEEENTRO______ DE SEU OBJETO, como o  array 'hobbies', nesse exemplo, ele NÃO É COPIADO, ele é + ou - copiado... ele é COPIADO PARA O NOVO OBJETO, MAS NÃO É PROPRIAMENTE 'clonado'... ele ainda estará vinculado ao mesmo objeto (pois arrays sao reference values, e esse array 'copiado' ainda estará apontando para o mesmo lugar, ainda terá o mesmo endereço).
+
+
+---------> o professor diz que podemos perceber isso por meio da função 'push()', fazer o push 
+de um novo elemento ao array de 'hobbies' dentro de 'person'... se fizermos isso, veremos que 
+a mudança se reflete no array 'hobbies' do novo objeto 'person2'.
+
+
+
+
+ISSO É NORMAL, ISSO É COMO REFERENCE VALUES SE COMPORTAM, e o SPREAD OPERATOR (...) NÃO 
+FAZ UMA 'DEEP COPY' (uma deep copy faz uma cópia de todos os valores referenciais nesteados 
+dentro de um objeto/array, copiando-os 'do zero', 'from scratch'.).... em vez disso, 
+ele apenas COPIA O NÍVEL MAIS SUPERIOR DE KEY-VALUE PAIRS em um objeto novinho em folha, fazendo com 
+que todos os reference values antigos SEJAM MANTIDOS...
+
+Se você quiser copiar os arrays/objetos antigos 'DE VERDADE', sem ser uma cópia 
+do endereço/pointer, VOCÊ TERIA DE FAZER ISSO ____MANUALMENTE_____, POR MEIO 
+DE UM ASSIGNMENT DE UM NOVO ARRAY DE HOBBIES, em que você copiaria os conteúdos do 
+VELHO ARRAY... e isso, na verdade, é bem interessante de observar...
+
+
+O professor diz que como é interessante, ele deve nos mostrar como isso funcionaria:
+
+
+
+ex:
+
+
+
+Temos 'person3', e, de novo, o professor copiará 'person' POR MEIO DO SPREAD OPERATOR...
+
+
+
+ex:
+
+
+
+
+
+
+const person3 = {...person};
+
+
+
+-------------------------------
+
+
+
+
+
+CONTUDO, AGORA ELE QUER FAZER COM QUE HOBBIES SEJA
+ 'OVERWRITTEN' POR UM NOVO ARRAY...  (e nós podemos 
+ usar essa TÉCNICA não só em casos em que
+  queremos dar overwrite em outro nested reference value,
+   MAS TAMBÉM _______ SEMPRE QUE NÓS QUISERMOS _______ 
+   DAR OVERWRITE ________ EM UM VALOR___.      )...
+
+   Por isso digamos que queremos 'overwritar' a propriedade 'age'...
+
+BEM, SE QUISERMOS FAZER ISSO, DEVEMOS SIMPLESMENTE ADICIONAR A PROPRIEDADE 
+'age: 29' dentro desse novo objeto...
+
+
+ex:
+
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+person.age = 31
+
+const person3 = {...person, age: 29};
+
+
+-----------------------------------
+                                                (quem faz isso é o spread operator)
+o que {...person, age: 29}; VAI FAZER É PUXAR PARA FORA TODOS OS KEY-VALUE PAIRS 
+DE 'person' (incluindo 'age')...  Mas aí, como você adicionou 'age' APÓS ESSE PROCESSO (após o call do spread operator por meio de '...person'),
+A 'AGE' QUE FOI PUXADA PARA FORA DO OBJETO 'person' SERÁ OVERWRITTADA por esse 'age: 29;'.
+
+
+O professor aponta que O MESMO TAMBÉM PODERIA SER APLICADO AO ARRAY DE 'HOBBIES', SE ASSIM O DESEJÁSSEMOS:
+
+
+ex:
+
+
+
+const person3 = {...person, age: 29, hobbies: }
+
+
+---------------------
+
+
+SE QUISÉSSEMOS QUE O ARRAY DE HOBBIES FOSSE COPIADO E OVERWRITTADO AQUI, BASTARIA 
+QUE UTILIZÁSSEMOS ____O SPREAD OPERATOR____ DENTRO DESSE ARRAY de hobbies dentro do novo array de hobbies...
+
+Representação:
+
+
+
+
+
+const person = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking']
+};
+
+person.age = 31
+
+const person3 = {...person, age: 29, 
+                    hobbies: [...person.hobbies]
+                                            };
+
+
+    --------------------------------------
+CHAINING.
+
+            OU SEJA, ['...person.hobies'] começa seu processo, fazendo com que TODOS OS KEY-VALUE 
+            PAIRS DENTRO DESSE ARRAY (array de 'person.hobbies') SEJAM ESPALHADOS NESSE NOVO 
+            NOVO ARRAY VINCULADO AO NOVO KEYNAME de 'hobbies' existente em person3 e INDEPENDENTE DOS ARRAYS ANTIGOS.
+            Isso vai fazer UM ARRAY NOVO ___iGUAL____ AO PRIMEIRO ARRAY, MAS QUE SERÁ INDEPENDENTE DO PRIMEIRO.
+
+
+
+--------------------------------------
+
+
+
+OBS::: NÃO É OBRIGATÓRIO QUE VOCÊ FAÇA ISSO SEMPRE QUE VOCÊ TENHA NESTED REFERENCE VALUES...
+ÀS VEZES HÁ CASOS EM QUE ESSE COMPORTAMENTO DEFAULT É O QUE VOCÊ PRECISA, E AÍ VOCÊ 
+NÃO VAI PRECISAR DESSA SINTAXE BIZARRA... Nem sempre você precisará 
+CLONAR TUDO, FAZER DEEP CLONES DE TUDO, ÀS VEZES UMA CÓPIA SUPERFICIAL (com os reference values mantidos iguais) é suficiente e desejável.
+
+
+VOcê apenas usará essa sintaxe especial nos casos em que você vai querer, por exemplo, que 
+person.hobbies, esse array, TENHA UMA CÓPIA QUE SOFRERÁ ALTERAÇÕES, ALTERAÇÕES QUE VOCÊ 
+NÃO QUER QUE SEJAM REFLETIDAS NO ARRAY ORIGINAL.
+Caso vocÊ não planeje mudar o array NUNCA, aí essa DEEP COPY é desnecessária, pois, como sabemos, 
+toda operação em JS custa um pouquinho de performance.

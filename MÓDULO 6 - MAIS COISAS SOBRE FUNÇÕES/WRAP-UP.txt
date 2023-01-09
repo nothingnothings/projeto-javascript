@@ -1,0 +1,72 @@
+Acabamos o aprofundamento básico de funções.
+
+
+Um monte de conteúdo, muitas maneiras de configurar, criar e usar funções. 
+
+
+
+
+APRENDEMOS sobre as "function expressions", essa sintaxe alternativa que é muitas vezes melhor do que a outra.
+
+
+
+Aprendemos sobre as arrow functions, que são muito boas.
+
+
+Aprendemos sobre como arrow functions funcionam, e as maneiras diferentes de usar e encurtá-las.
+
+
+Aprendemos sobre ARGUMENTOS DEFAULT, que podem ser bem úteis.
+
+
+Aprendemos sobre REST PARAMETERS, que permitem a você FUNDIR PARÂMETROS EM UM ÚNICO SÓ (array).
+
+
+Default arguments e rest parameters são features muito boas, que te ajudam a criar funções mais reutilizáveis 
+e flexíveis, que podem ser usadas de maneiras diferentes.
+
+
+Também aprendemos sobre BIND, que é super importante para preparar funções que você não executará imediatamente (que 
+você dependerá de addEventListeners.) "functions that wont be executed on your own, but which will be executed on your behalf."
+
+Exemplo clássico é dos eventListeners, mas PODE ATÉ MESMO SER USADO NAS SUAS PRÓPRIAS FUNÇÕES, FUNÇÕES CALLBACK, QUE VOCÊ MESMO PODE CRIAR, COMO VIMOS NESSE MÓDULO.
+
+
+
+Padrão de funções callback ===  padrão em que você RECEBE UMA FUNÇÃO COMO ARGUMENTO, argumento/função o qual VOCÊ CHAMA DE DENTRO DESSA MESMA FUNÇÃO.
+
+ex:
+
+
+const combine = (resultHandler, operation, ...numbers) => {
+    const validateNumber = number => {
+        return isNaN(number) ? 0 : number;
+    };
+
+    let sum = 0;
+    for (const num of numbers) {
+        if (operation === 'ADD') {
+            sum += validateNumber(num);
+        } else {
+            sum -= validateNumber(num);
+        }
+    }
+    resultHandler(sum); //FUNÇÃO QUE É PASSADA COMO ARGUMENTO À FUNÇÃO EM QUE ESTÁ INSERIDO, É O FENÔMENO QUE RECEBE O NOME DE "CALLBACK", "CALLBACK FUNCTIONS".
+}
+
+
+
+
+Também vimos um pouco sobre FUNÇÕES SENDO CRIADAS DENTRO DE FUNÇÕES, algo que você pode fazer, mas que não 
+fará com tanta frequência, pelo menos por agora. Veremos isso mais tarde, quando estudarmos sobre a performance.
+
+Um monte de features de funções vistas aqui serão retomadas ao longo do curso.
+
+
+
+Você precisará de muitas dessas funções em seus projetos.
+
+
+
+Vamos estudar mais sobre javascript e deixar um pouco a parte da sintaxe. Agora devemos ver como 
+INTERAGIR COM A WEBPAGE. DEVEMOS APRENDER SOBRE COMO ISSO FUNCIONA.

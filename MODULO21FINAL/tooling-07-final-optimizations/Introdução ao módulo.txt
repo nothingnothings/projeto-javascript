@@ -1,0 +1,213 @@
+
+
+
+
+
+
+
+
+
+
+
+
+JÁ VIMOS BASTANTE COISAS SOBRE JAVASCRIPT.
+
+
+
+
+
+
+
+
+
+Quanto mais e mais aprendemos, mais 
+
+percebemos que 
+
+
+browser side projects PODEM tornar-se BEM COMPLEXOS.
+
+
+
+
+
+
+NO ÚLIMO MÓDULO, APRENDEMOS SOBRE MÓDULOS JAVASCRIPT... com esses módulos, os arquivos javascript importam e exportam 
+
+uns aos outros...
+
+
+
+
+-----------------------------
+
+
+Lá nós já podemos perceber A GRANDE VANTAGEM EM USAR ESSE APPROACH....
+
+
+
+
+
+Faz o nosso código ser bem mais GERENCIÁVEL.
+
+
+
+
+
+
+
+
+Mas também vimos uma grande DESVANTAGEM:
+
+
+
+
+
+vimos que acabamos com UM MONTE DE HTTP REQUESTS,
+
+e esses arquivos teriam de ser baixados separadamente, a não ser que 
+
+seguíssemos o approach de 'apenas 1 file .js que importa todos os outros' (mas, na verdade, o browser 
+ainda tem que baixar vários arquivos nesse approach; o fato de só ter 1 negócio no seu html como import 
+apenas torna o código mais organizado, mas não muda esse fato.)
+
+
+
+
+
+
+É POR ISSO QUE NESSE MÓDULO NÓS DAREMOS UMA OLHADA 
+
+
+EM 'JAVASCRIPT TOOLING', que 
+
+
+essencialmente versa sobre 
+
+
+GERENCIAR NOSSO PROJETO COM DETERMINADAS FERRAMENTAS QUE AUTOMATICAMENTE OPTIMIZAM O NOSSO CÓDIGO, COMBINAM 
+
+O NOSSO CÓDIGO e SAEM DO NOSSO CAMINHO enquanto estamos escrevendo o nosso código...
+
+
+
+
+
+----> eles fazem com que nós sejamos capazes 
+
+
+DE ESCREVER NOSSO CÓDIGO DA MELHOR FORMA POSSÍVEL E AINDA ASSIM 
+
+
+
+CONSEGUIR UM OUTPUT/VERSÃO MAIS OTIMIZADO E MELHOR DO QUE AQUELE QUE ESTAMOS 
+
+ESCREVENDO NO MOMENTO...
+
+
+
+
+--------------------------------------------
+
+
+
+NESSE MÓDULO VEREMOS:
+
+
+
+
+1) O que exatamente fazemos com 'tooling', quais ferramentas usar, QUAIS FERRAMENTAS SÃO POPULARes?
+
+
+
+
+
+
+2) professor nos mostrará um 'example setup' ---> veremos como trabalhar com essas ferramentas para conseguir um projeto OPTIMIZADO.
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+PARA ISSO, VOLTAMOS AO PROJETO JAVASCRIPT DAS LISTAS..... (que usamos no módulo dos módulos)...
+
+
+
+
+
+
+
+Conforme professor já mencionou, 
+
+um grande problema que temos nessa página 
+
+é que 
+
+NÓS TEMOS MÚLTIPLOS HTTP REQUESTS
+
+nele... e quanto mais arquivos formos adicionando ao nosso código, 
+
+MAIS REQUESTS TEREMOS na aba network (e na nossa página).
+
+
+
+
+
+
+E COMO CADA REQUEST VEM COM UM POUCO DE 'overhead' (tempo extra gasto no processo), 
+
+
+AINDA QUE O ARQUIVO SEJA BEM PEQUENO, ESSE TEMPO AINDA SE ACUMULA (ainda mais se você tiver milhares de arquivos).
+
+
+
+
+
+
+
+
+E É EXATAMENTE NESSE ASPECTO QUE 'TOOLING' PODE NOS AJUDAR...
+
+
+
+
+
+
+NA VERDADE, NÓS JÁ ESTAMOS UTILIZANDO UMA DAS TOOLS DO 'TOOLING', QUE É 
+
+ESSE 
+
+'DEVELOPMENT SERVER' QUE O PROFESSOR NOS MOSTROU, ACESSADO POR MEIO 
+
+DE 'serve' no terminal do IDE... (usamos esse dev server para fazer a feature dos módulos FUNCIONAR).
+
+
+
+
+
+
+Isso é bem legal, é um exemplo de ferramenta extra que ajuda muito no desenvolvimento de projetos javascript.
+
+
+
+
+Precisávamos de um ambiente de testes mais realista, e conseguimos com o serve js...
+
+
+
+
+
+Deixamos de usar o file protocol, pois o file protocol não é tao suportado pelo browser..
+
+
+
+
+
+
+AGORA VEREMOS MAIS EXEMPLOS DE TOOLS ÚTEIS...

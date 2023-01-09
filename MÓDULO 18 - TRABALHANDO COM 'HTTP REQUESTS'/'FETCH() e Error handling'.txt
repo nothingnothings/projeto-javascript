@@ -1,0 +1,1396 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PERCEBEMOS QUE A FETCH API ATÉ AGORA É BEM FÁCIL DE USAR, e que 
+
+
+usa PROMISES por default... (E só funciona com promises, na verdade).
+
+
+
+
+
+
+A APARÊNCIA DA 'fetch API' é MUITO MELHOR DO QUE A do 
+
+
+XMLHttpRequest....
+
+
+
+
+
+UMA DESVANTAGEM desse approach é que O FETCH API NÃO É BEM SUPORTADO POR BROWSERS MAIS VELHOS... (mas há workarounds por volta desse problema)....
+
+
+
+
+
+
+
+UMA DESVANTAGEM BEM MAIOR É AQUELA A RESPEITO DO ___ERROR HANDLING____...
+
+
+
+
+
+O professor de novo vai lá e quebra a url em pedaços, 
+
+faz ela ser inválida...
+
+
+
+ex: 
+
+
+'https://jsonplaceholder.typicode.com/pos'
+
+
+
+
+
+PROFESSOR SALVA E RECARREGA O CÓDIGO, 
+
+
+
+e aí aparece um erro....
+
+
+
+
+
+
+'UNCAUGHT (in promise) TypeError: listOfPosts is 
+                            not iterable
+                            at HTMLButtonElement.fetchPosts'
+
+
+
+É UM ERRO QUE NOS DIZ 
+
+QUE NÃO FOI POSSÍVEL UTILIZAR 
+
+A RESPONSE DATA....
+
+
+
+
+
+
+
+
+
+
+
+É CLARO, Nós trabalhamos com 
+
+'PROMISES' QUANDO usamos o 'fetch api'...s
+
+
+
+ex:
+
+
+
+
+função () {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}).then(response => {
+    return response.json();
+})
+
+}
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+COMO ESSE 'fetch' NOS RETORNA UMA PROMISe (isso é sempre feito automaticamente, é o comportamento default de 'fetch()'),
+
+
+
+
+NÓS PODERÍAMOS UTILIZAR 'try-catch' PARA ENVOLVER TODO
+
+
+
+O CÓDIGO EM 'fetchPosts' e tentar um error handling básico...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+async function fetchPosts() {
+
+
+
+  try{ /////////////EIS AQUI O NOSSO TRY-CATCH
+    const responseData = await sendHttpRequest(
+      'GET', 
+      'https://jsonplaceholder.typicode.com/posts'
+    );
+  const listOfPosts = responseData;  
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id;
+      listElement.append(postEl);
+    }
+  } catch(error) { ////////////////EIS AQUI O NOSSO TRY CATCh.
+    console.log('Something went wrong...');
+  }
+  }
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}).then(response => {
+    return response.json();
+})
+
+}
+
+
+
+--------------------------------------------------------
+
+
+
+
+Se não usássemos o ASYNC/AWAIT, poderíamos 
+
+
+usar só o 'catch' na nossa promise chain....
+
+
+CERTO....
+
+
+
+MAS PQ DIABOS ESSE ERROR HANDLING NÃO FUNCIONA 
+
+BEM COM a 'fetch API'?
+
+
+
+
+
+O problema aqui é que, assim como XMLHttpRequest,
+
+AQUELE REQUEST  ____tECNICAMENTE___ FOI BEM SUCEDIDO...
+
+
+ISSO SIGNIFICA QUE NÓS NÃO TERÍAMOS UMA 'TECHNICAL ISSUE', 
+
+e sim talvez um STATUS CODE de 400-500 sendo RETORNADO pelo servidor...
+
+E ESSE RESPONSE COM ESSE STATUS CODE ____NÃO ___ TRIGGARÁ 
+
+__ UM ERRO ___ TRADICIONAL ___ (um erro que fará ativar o 'try-catch'/catch)...
+
+
+
+ISSO SIGNIFICA QUE SE EU TENTASSE 
+
+ADICIONAR ALGUM ERROR HANDLING AQUI NO MEU CÓDIGO,
+
+
+
+eu poderia colocar um '.catch()' NA MINHA PROMISE 
+
+CHAIN 
+
+
+em 'fetch'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}).then(response => {
+    return response.json();
+}).catch(); ////////////EIS O CÓDIGO EM QUESTÃO.
+
+}
+
+
+
+
+Professor destaca que a PROMISE CHAIN em si TAMBÉM 
+
+RETORNA UMA PROMISE, não é apenas o return de 'response.json()' que é uma promise...   (é assim que promises funcionam).
+
+
+
+
+
+Então nesse catch block o professor poderia fazer 'catch' de quaisquer erros 
+
+que poderíamos estar recebendo....
+
+
+
+Ele faz o console.log desse erro,
+
+
+
+e atira um novo objeto 'ERROR' que dirá 
+
+
+'Something went Wrong'
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}).then(response => {
+    return response.json();
+}).catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+O PROBLEMA AQUI É QUE NÓS NUNCA CONSEGUIREMOS ENTRAR NESSE 
+
+
+'catch block' PARA O ERRO QUE TEMOS no presente......
+
+
+
+
+
+Basta que salvemos e recarreguemos o código para perceber que 
+
+o erro
+
+
+
+'UNCAUGHT (in promise) TypeError: listOfPosts is 
+                            not iterable
+                            at HTMLButtonElement.fetchPosts'
+
+
+
+
+ESTÁ VINDO DE UM LUGAR DIFERENTE....
+
+
+
+Essa mensagem de erro NÃO ESTÁ VINDO DA linha do nosso console.log no catch block,
+
+
+e simm de OUTRO LUGAR...
+
+
+
+
+
+
+então nós NÃO ESTAMOS CONSEGUINDO ALCANÇAR O CATCH BLOCK...
+
+
+E a razão para isso é a mesma de 
+
+
+'XMLHttpRequest':
+
+
+
+apenas TECHNICAL ISSUES, como PROBLEMAS DE CONEXÃO, nos levariam a esse catch block...
+
+
+
+
+
+Em vez disso, apenas conseguimos alcançar 
+
+
+o '.THEN() block' 
+
+dentro dessa função...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {
+    return response.json();
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+------------------------------------
+
+
+
+
+
+A BOA NOTÍCIA É QUE, assim como 'XMLHttpRequest', 
+
+
+NÓS PODEMOS TAMBÉM AQUI CHECAR (if check)
+
+o 'STATUS' da 'response'...
+
+
+esse status nos dirá se tivemos/teremos um erro aqui...
+
+
+
+
+
+''
+
+Se 'response.status for maior do que 200  __E___ MENOR do que 
+300,  terei um success case e, portanto, vou querer retornar 'response.json'...
+''
+
+
+
+'
+CASO CONTRÁRIO (else), 
+Vou querer ATIRAR UM NOVO ____ERRO____ (pq eu saberei que será um erro, não há como ser outra coisa,
+se o código for menor do que 200 e maior do que 300, ele certamente SERÁ UM ERRO estrutural, e não técnico,
+ou seja, um erro SERVERSIDE.)
+
+
+
+
+REPRESENTAÇÃO NO CÓDIGO:
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {
+  if(response.status >= 200 && response.status < 300){
+    return response.json();
+  } else {
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+
+JÁ A PARTE DE 'catch' que está NO FINAL PODE SER OMITIDA....
+
+
+
+Agora se o professor salvar, recarregar a página 
+
+e TENTAR USAR O 'fetch posts', AGORA ELE 
+
+
+VERÁ A MENSAGEM DE ERRO QUE ELE COLOCOU NAQUELE 'else' check, aquele 'throw new Error()'....
+
+
+Agora temos o output correto de erro, portanto...
+
+
+
+
+
+MESMO ASSIM, AINDA TEMOS UM PROBLEMA AQUI...
+
+
+
+
+E se quiséssemos dar uma olhada 
+
+NO ___BODY___ DE nossa 'response'..?
+
+
+(pq frequentemente, para SERVERSIDE ERRORS, o servidor 
+muitas vezes FAZ O ATTACH de INFORMAÇÕES EXTRAS ao response body... ) -------->
+------------>
+-----------> Isso significa que a averiguação de erros não é somente por meio dos 'statuses codes' (MESMO EM CASOS DE ERROS),
+            pq mesmo nesses casos de erro NÓS CONSEGUIMOS DE VOLTA UMA 'RESPONSE VÁLIDA' (ela ainda é válida; apenas é diferente do que queremos no 'cenário ideal')....
+
+            E esse 'response body válido' nós talvez queiramos PARSEAR para CONSEGUIR OS 
+            DADOS QUE O SERVIDOR TALVEZ TENHA ADICIONADO/ATTACHEADO....
+
+
+
+
+-------------------------------------------------------
+
+
+
+Professor explica que, no caso do 'mundo XML (do objeto XMLHttpRequest)', esse attachment de dados do response body válido poderia ser/ É MAIS fácil...
+
+
+
+
+Para acessar o response body em casos de recebimento de  erro, no objeto 'XMLHttpRequest', NÓS 
+
+SIMPLESMENTE TERÍAMOS 
+
+DE acessar 
+
+
+
+'xhr.response' ---------> ISSO NOS DARIA OS DADOS QUE GOSTARÍAMOS DE SABER ---> ex: 'console.log(xhr.response)'...
+
+
+
+
+ISSO É POSSÍVEL NO MUNDO 'XMLHttpRequest'...
+
+
+
+----------------------------------------------
+
+
+
+INFELIZMENTE, O MESMO NÃO SE APLICA AO 'MUNDO FETCH API()'....
+
+
+
+NO mundo fetch api, é bem mais difícil conseguir os dados desse 'response body válido' em casos de erro...
+
+
+
+
+LEMBRE-SE:
+
+o body, no mundo fetch API', É SEMPRE 
+
+
+____STREAMADO___....
+
+
+
+
+isso significa que NO MOMENTO DO THROW do erro,
+
+NÓS NÃO TEMOS ACESSO DIRETO ALGUM ao body da response...
+
+
+
+
+
+
+Para conseguir acesso direto ao body dessa response, primeiramente 
+
+temos de chamar 
+
+'response.json()' NO ERROR CASE  (ou seja, no ELSE block) 
+
+TAMBÉM...
+
+
+
+
+
+ex:
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  ///////////1º 'return response.json'
+  } else {
+
+    response.json(); /////////////////2º 'response.json', o qual adicionamos AGORA, nesse caso/hipótese de erro.
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+--------------------------------------------------
+
+
+(OBS::::: E 'response.json()' RENDE UMA ___PROMISE____ ---> isso significa que o resultado 
+          desse call NÃO FICA DISPONÍVEL NA PRÓXIMA LINHA...)
+
+
+Certo.
+
+
+Adicionamos o 'response.json()' ali também...
+
+
+
+
+
+
+Professor explica que nós SEMPRE PRECISAMOS CHAMAR 'response.json()' PARA 
+
+CONSEGUIR PEGAR NOSSOS DADOS NECESSÁRIOS.... (pegar os dados javascript, afinal o '.json()' converte dados JSON em jAVASCRIPT)....
+
+
+
+
+
+
+
+
+Professor aponta que então você pode imaginar/pensar:
+
+
+'certo, então não seria mais simples eu só colocar um '.then() block' 
+
+aqui em cima, um then block que retornará 'response.json()', não 
+
+importando se houvesse um erro ou não?'
+
+
+
+
+
+ex:
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {
+  return response.json();  ///////''ISSO NÃO FUNCIONARIA?''' ----> NÃO. Professor logo explicará.
+})
+.then(response => {
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json(); 
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+--------------------------------
+
+
+
+Se eu fizesse isso, teoricamente eu já teria os dados JAVASCRIPT (convertidos de JSON) no 
+
+primeiro then block...
+
+aí só restaria 
+
+checar o response status no próximo then block, em que eu teria acesso 
+
+ao 'body data'.......
+
+
+
+
+O PROBLEMA, ENTRETANTO, É SIMPLESMENTE QUE 
+
+NO SEGUNDO 
+
+'THEN BLOCK'
+
+
+(
+  
+  
+  ou seja,
+
+
+em 
+
+'
+.then(response => {
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json(); 
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+'
+
+
+)
+
+
+
+
+NÓS TERÍAMOS ACESSO à 'DATA', sim, MAS NÓS DEIXARÍAMOS DE 
+TER ACESSO AO OBJETO 'response', o acesso a esse objeto DEIXARIA DE EXISTIR.
+
+
+
+ex (do que aconteceria):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {
+  return response.json();  
+})
+.then(data => {  ///////////AQUI APENAS RECEBERÍAMOS __DADOS____ retornados pelo primeiro 'then block', e não o objeto 'RESPONSE' em si... e isso quebraria todo o código.... (o 'response.status' não funcionaria mais, por exemplo).
+
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json(); 
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+NÓS FICARÍAMOS, PORTANTO, COM ACESSO AO OBJETO 'response' apenas 
+
+NO PRIMEIRO THEN BLOCK... (o que é inaceitável).
+
+
+
+
+
+ISSO SIGNIFICA, EXPLICA O PROFESSOR, QUE O LUGAR 
+
+
+EM QUE PRECISAMOS/PRECISAREMOS DO CÓDIGO 'response.status' é 
+
+UM LUGAR DIFERENTE DO LUGAR EM QUE ganhamos ACESSO 
+
+AO __BODY___ (response body).
+
+
+
+E esse é o problema que enfrentamos aqui:
+
+
+
+
+
+ESSENCIALMENTE PRECISAMOS ESCREVER UM 'WRAPPING CODE' para fazer tudo 
+
+isso funcionar...
+
+
+
+(obs: professor retorna código ao estado anterior):
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {  
+
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json(); 
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+-----------------------------------------------------------------
+
+
+
+Nós poderíamos dizer ao código:
+
+
+
+'se nós tivermos um erro, vou querer 
+
+PARSEAR MEU BODY com '.json();'
+
+
+
+
+ESSE parse com '.json();' RENDERÁ 
+
+UMA NOVA PROMISE, e ISSO 
+
+FARÁ COM QUE NÓS CRIEMOS UMA 
+
+___PROMISE CHAIN___ DENTRO DE UMA PROMISE CHAIN___, algo que nunca é uma boa ideia.
+
+
+
+
+
+Representação:
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {  
+
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json().then(); ///////////////EIS AQUI A 'PROMISE CHAIN' DENTRO DA PROMISE CHAIN'...
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+----------------------------------
+
+
+
+
+
+
+Mas aí, dentro dessa promise chain, eu teria acesso 
+
+a minha 'ERROR DATA'...... (errData)
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {  
+
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json().then(errData => {
+
+    }
+    ); 
+    throw new Error('something went wrong - server-side' );
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+------------------------------------------
+
+
+
+
+E AÍ, dentro dessa função que tem disponível essa 'errorData', 
+
+
+EU PODERIA dar 
+
+
+THROW no meu erro  
+
+
+E ENTÃO TALVEZ UTILIZAR ESSA 'ERRORDATA' extra..., a qual estaremos recebendo de nosso servidor...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {  
+
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    response.json().then(errData => {
+      console.log(errData); ////////////////////EIS AQUI O CÓDIGO EM QUESTÃO.
+      throw new Error('something went wrong - server-side' ); ///////////////EIS AQUI O TRANSPLATE DE CÓDIGO EM QUESTÃO.
+    }
+    ); 
+    
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+---------------------------------
+
+
+
+
+
+Com isso, salvamos o código e recarregamos....
+
+
+
+
+
+Professor clica em 'Fetch posts'...
+
+
+
+
+
+---------------------------------------------------
+
+veremos de output 
+
+
+
+3 coisas:
+
+
+''                                                                                          ''
+Uncaught (in promise) TypeError: listOfPosts is not iterable at HTMLButtonElement.fetchPosts
+
+
+e
+
+
+
+{}
+
+e 
+
+
+'Uncaught(in promise) Error: Something went wrong - serverside.
+
+
+---------------------------------------------------------------
+
+
+PROFESSOR DIZ QUE AGORA TEMOS UM DIFERENTE PROBLEMA (mostrado no primeiro output):
+
+
+
+ 
+
+ AGORA O CÓDIGO/NÓS ESTAMOS fazendo THROW do erro Basicamente 
+
+ NAQUELA 
+
+
+ 'nested promise chain'..... ISSO SIGNIFICA/SIGNIFICARÁ 
+
+ QUE A 
+
+
+ 'outer promise chain' NÃO TERÁ os dados do throw desse erro/não terá esse throw de erro....
+
+
+
+ ISSO FARÁ COM QUE O CÓDIGO/nós pensemos que tudo está legal, que está ok, 
+
+
+aí nós tentaríamos/tentamos fazer a listagem dos posts 
+
+e então O CÓDIGO QUEBRA.
+
+
+--------------------------------
+
+
+
+
+
+ISSO SIGNIFICA QUE 
+
+FAZER O THROW DO ERRO nessa 'nested promise chain' TAMBÉM 
+
+___NÃO É UMA OPÇÃO____...
+
+
+
+
+NÓS PRECISAMOS ATIRAR ESSE ERRo (throw) FORA 
+
+DESSA PROMISE CHAIN, ou seja, dentro da root do 'ELSE' statement, 
+
+ou em um then block anterior... MAS SE FIZERMOS ISSO, NÃO 
+
+TEREMOS ACESSO À 'errorData'...
+
+
+
+É uma situação sem escapatória.
+
+
+
+
+ENTÃO COMO PODEMOS SOLUCIONAR ISSO?
+
+
+
+
+Professor diz que podemos, primeiramente, 
+
+mover o 'throw new Error()' para DENTRO DA INNER PROMISE chain...
+
+
+
+depois disso, faríamos o RETURN DESSA 'inner promise chain'.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+  sendHttpRequest (method, url, data) {
+    return fetch(url, {
+    method: method, 
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+.then(response => {  
+
+  if(response.status >= 200 && response.status < 300){
+    return response.json();  
+  } else {
+
+    return response.json().then(errData => { //////////////EIS AQUI O CÓDIGO EM QUESTÃO.
+      console.log(errData); 
+      throw new Error('something went wrong - server-side' ); 
+    }
+    ); 
+    
+  }
+    
+
+})
+.catch(error => {
+    console.log(error);
+    throw new Error('Something went wrong!');
+}
+
+}
+
+
+
+--------------------------------
+
+
+
+
+O professor escreve esse 'return' da inner promise chain PARA 
+
+QUE ELA BASICAMENTE 'se funda' 
+
+
+COM A OUTER PROMISE CHAIN (a promise chain criada pelo primeiro 'then block')/fique conectada ao primeiro promise chain...
+
+
+
+
+
+
+
+COM ISSO, SE AGORA O PROFESSOR RECARREGAR O CÓDIGO E CLICAR EM 'fetch posts', 
+
+
+
+ELE VERÁ A CORRETA 'error propagation'...
+
+
+
+
+output:
+
+
+
+
+
+
+
+{}
+
+
+
+Error: Something went wrong - server-side.
+
+
+
+
+Uncaught(in promise) Error: Something went wrong! 
+                        at async HTMLButtonElement.fetchPosts.
+
+
+
+
+----------------------------------------------------
+
+
+
+
+AGORA TEMOS A CORRETA PROPAGAÇÃO DE ERROS 
+
+e TEMOS TAMBÉM O ACESSO À 'ERROR DATA'...
+
+
+
+
+por isso, É POSSÍVEL SOLUCIONAR ESSE PROBLEMA 
+
+
+DO 'fetch api world'.....
+
+
+
+
+mas é óbvio que ESSE NÃO É O CÓDIGO DE ERROR HANDLING MAIS BONITO DO MUNDO...
+
+
+
+
+MAS É ISSO AÍ, E É ASSIM QUE VOCÊ PODE USAR O FETCH API E IMPLEMENTAR 
+
+ERROR HANDLING FUNCIONAL.
+
+
+
+Por fim, o professor vai até a async function de 'fetchPosts' e re-adicionamos
+o codigo do try-catch block...
+
+
+
+
+
+
+OUTPUT= 
+
+
+
+
+{}
+
+
+Error: Something went wrong - server-side.
+
+
+Uncaught (in promise) Error: Something went wrong! 
+
+
+
+CERTO, AGORA TEMOS A CORRETA PROPAGAÇÃO DE ERROS NO NOSSO CÓDIGO...
+
+
+E também temos acesso à errorData... 
+
+
+
+
+
+
+É POR MEIO DISSO QUE PODEMOS RESOLVER PROBLEMAS NO NOSSO CÓDIGO...
+
+
+
+MAS É ASSIM QUE VOCÊ PODE TER PROPER ERROR HANDLING COM A FETCH API e 
+
+AO MESMO TEMPO TER ACESSO 
+
+
+
+AO 'response body'...
+-----------------------------------------------------
+
+
+
+
+
+SE eu consertar meu link dnv, meu código voltará a funcionar.

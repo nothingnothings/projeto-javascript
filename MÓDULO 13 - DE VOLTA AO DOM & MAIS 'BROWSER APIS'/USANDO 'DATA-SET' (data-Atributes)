@@ -1,0 +1,1291 @@
+
+
+
+
+
+
+
+O PROFESSOR QUER COMEÇAR COM O TRUQUE 
+
+
+
+PARA ADICIONAR DADOS (data) A ELEMENTOS DOM....
+
+
+
+
+
+
+Também quer que nós saibamos AS RAZÕES PARA QUE NÓS QUERERMOS UTILIZAR ESSA FEATURE....
+
+
+
+
+
+
+Bem, no projeto em que trabalhamos, 
+
+
+nós fazíamos um 
+
+DISPLAY DE TOOLTIP....
+
+
+
+
+Tinhamos um componente 'Tooltip'.... 
+
+
+Esse componente era sempre mostrado NA PARTE INFERIOR DA PÁGINA quando o 
+
+botão
+
+
+'more info' era pressionado...
+
+
+O Tooltip mostra um texto de 'DUMMY', mas vamos mudar isso.
+
+
+------------------------------------------------
+
+
+
+
+
+o texto DUMMY É MOSTRADO A NÓS pq 
+ele é 
+
+definido 
+
+
+em 
+
+'tooltipElement.textContent = 'DUMMY!'; ', 
+
+
+em 'create()'...
+
+
+
+
+UM PROBLEMA DO CÓDIGO, DIZ O PROFESSOR, É QUE 
+
+
+ELE NÃO SABE ___QUE TEXTO___ DEVE SER MOSTRADO___ PARA CADA ___ PROJETO ___...
+
+o código não deixa a engine discernir os textos, reservando 1 para cada projeto...
+
+
+
+
+-------------------------------------
+
+
+
+
+O PROFESSOR EXPLICA QUE NÓS PODERÍAMOS gerenciar dados como esses no 
+
+código javascript EM 
+
+___ARRAYS DE PROJETOS___.....
+
+
+
+Mas aqui, na verdade, nós temos um punhado de código HTML que poderia, por exemplo ,
+
+
+ser pré-criado em um servidor E ENVIADO AO NOSSO CLIENTE NESSE FORMATO 
+
+HTML... E portanto nós realmente não 
+
+temos, na verdade, OS DADOS DO TOOLTIP disponíveis 
+
+imediatamente disponíveis no nosso código javascript presente....
+
+
+
+ALÉM DISSO, ESSES DADOS ESPECIAIS DOS TOOLTIPS TAMBÉM NÃO ESTÃO DISPONÍVEIS 
+
+NO NOSSO CÓDIGO HTML 'NORMAL' PQ ESSES DADOS NÃO PODEM/NÃO DEVEM SER RENDERIZADOS 
+
+
+
+
+
+EM VEZ DISSO, O QUE VOCÊ PODE FAZER É ALGO QUE O PROFESSOR JÁ PREPAROU...
+
+
+
+Ele está falando 
+
+da linha do HTML 
+
+que expressa 
+
+
+
+'data-extra-info="Got lifetime access, but would be nice to finish it soon!" '
+
+
+ISSO É UM ATRIBUTO ESPECIAL 
+
+NOS LIST ITEMS ('li', que representam cada projectItem).
+
+
+
+data-extra-info.
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE NÃO É UM ATRIBUTO ESPECIAL QUE VOCÊ TEM PARA especificamente
+
+FAZER ATTACH DE 'informações adicionais de tooltip'...
+
+
+
+
+EM VEZ DISSO, O atributo 'data-extra-info', EM GERAL, É 
+
+UM ATRIBUTO ESPECIAL QUE VOCÊ PODE ADICIONAR AOS SEUS PRÓPRIOS 
+
+ELEMENTOS PARA FAZER ATTACH DE QUALQUER TIPO DE DADO/dados a eles...
+
+
+
+
+
+
+Ou seja, você poderia adicionar 
+
+
+'data-id'...
+
+
+
+ex:
+
+
+<li 
+
+id="p1"
+data-id >
+
+
+
+
+OU 
+
+
+
+'data-whatever' , QUALQUER NOME SERVE.
+
+
+
+
+
+
+
+A fórmula é 
+
+
+'data-qualquerAtributoOuValorquevocequer'....
+
+
+
+
+
+QUALQUER ATRIBUTO OU VALOR QUE VOCÊ QUER FAZER APPEND() ou armazenar em algum dos seus DOM NODES...
+
+
+
+
+
+
+
+E A IDEIA POR TRÁS DO APPEND() de dados/ATTACH' de dados  A 
+
+DOM NODES É SIMPLESMENTE A DE QUE VOCÊ 
+
+
+NÃO PRECISA GERENCIAR TUDO ISSO EM JAVASCRIPT EM CASOS COMO ESSE (casos como esse, em que NÓS NÃO 
+
+GERENCIAMOS OS PROJETOS, O INTERIOR DOS PROJETOS, EM JAVASCRIPT... ) --------->
+
+----------------> No nosso caso concreto, nesse projeto atual, nós 
+
+TEMOS UMA CONEXÃO 'solta' (loose connection) AOS DOM NODES RENDERIZADOS NA NOSSA 
+
+PÁGINA.......
+
+
+
+NÓS REALIZAMOS O ARMAZENAMENTO DOS 'ids' DOS PROJETOS NO NOSSO CÓDIGO JAVASCRIPT (nesse nosso projeto), 
+
+
+MAS FORA ISSO, NÃO GERENCIAMOS DADOS DOS PROJETOS...... não 
+
+armazenamos nenhum outro PROJECT DATA dos projetos no nosso código javascript...
+
+
+
+--------------------------------------
+
+
+
+E SIM, PODERÍAMOS FAZER ISSO, ARMAZENAR E GERENCIAR DADOS DOS PROJETOS NO NOSSO 
+CÓDIGO JAVASCRIPT....
+
+
+MAS HÁ casos, às vezes, em que você quer ARMAZENAR DADOS NO DOM 
+
+E FAZER ATTACH DESSES DADOS A ELEMENTOS DO DOM, para que quando você for trabalhar 
+
+com aquele ELEMENTO DO DOM, você pode então 'READ DATA FROM IT'...
+
+
+
+É PARA ISSO QUE o attributo 'data-' FOI CRIADO...
+
+
+VOCÊ PODE UTILIZÁ-LO PARA FAZER ATTACH DE QUAISQUER DADOS DE FORMA SEGURA a elementos 
+
+do dom.... 
+E VOCÊ PODE ADICIONAR TANTOS DATA ATTRIBUTES QUANTO VOCÊ QUISER.
+
+
+
+
+A ÚNICA PERGUNTA AGORA É: como podemos fazer 'read' (ler) DAQUELE ATRIBUTO?
+
+
+
+
+
+Para isso, você tem UMA PROPRIEDADE ESPECIAL COM A QUAL VOCê PODE 
+
+
+LER ESSES 'data-'.
+
+
+
+
+Então aqui, em app.js, no lugar do código em que eu CRIO UM TOOLTIP...
+
+
+
+ali, naquele lugar em que o professor GANHA ACESSO AO ELEMENTO 
+
+'tooltip' (tooltipElement) QUE ELE CRIOU,
+
+ELE VAI QUERER 
+
+
+TAMBÉM acessar AQUELE ____DOM NODE____ EM QUE ESTÁ SENDO CRIADO O TOOLTIP...
+
+
+
+
+PQ naquele DOM NODE vamos encontrar ESSE ATRIBUTO EXTRA 'data-extra-info'...
+
+
+
+
+Certo. Então ali, naquele método 'create()' onde é criado o elemento 'tooltipElement', 
+
+
+NÓS NÃO TEMOS ACESSO ÀQUELE DOM NODE EM QUE ESTÁ INSERIDO O TOOLTIP (que seria o elemento <li> 'ProjectItem'...),
+
+
+
+____MAS _____ EU ESTOU, DE FATO, CRIANDO 
+
+MEU TOOLTIP, por outro lado, NO MEU 
+
+PROJECTITEM, que no final das contas, é MINHA REPRESENTAÇÃO 
+
+JAVASCRIPT (ou conexão, podemos dizer) DAQUELE 
+
+
+DOM NODE DE '<li>'...
+
+
+
+Não é o DOM NODE EM SI, e sim um OBJETO QUE SABE O 
+
+___ID___ ('this.id')daquele DOM NODE...
+
+
+E COMO SABEMOS O ID DAQUELE DOM NODE, PODEMOS ____SELECIONAR____ 
+
+
+AQUELE DOM NODE...
+
+
+
+
+
+
+
+
+E professor explica que podemos fazer tal processo no método 
+
+
+'showMoreInfoHandler()', QUE É O MÉTODO QUE É ATIVADO 
+
+QUANDO EU CLICO NO BOTÃO 'More Info'... 
+
+
+
+
+Ali, dentro do body de showMoreInfoHandler, logo antes 
+
+do trecho em que CRIAMOS UM TOOLTIP nós podemos 
+ALCANÇAR O DOM NODE EM SI  (nomeamos a constante que segurará 
+o DOM NODE EM SI de 'projectElement'...).
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = ... ///EIS O CÓDIGO EM QUESTÃO.
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }); //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+
+
+----------------------------------------
+
+
+
+
+
+usamos 
+
+
+
+'const projectElement = document.getElementById(this.id);' 
+
+
+
+----------------------------------
+
+
+
+'this.id' É UMA PROPRIEDADE DO PROJECTITEM, que no final das contas 
+
+é o ID daquele objeto '<li>' no meu DOM...
+
+É por isso que posso fazer meu QUERY de elemento por meio disso...
+
+
+
+------------------
+
+
+
+ex:
+
+
+
+
+showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }); //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+
+
+-----------------------------------
+
+
+
+
+
+ISSO ME DARÁ ACESSO AO LIST ITEM em si, e nesse list item NÓS 
+
+
+TEMOS o ATRIBUTO ESPECIAL 'data-extra-info'....
+
+
+
+
+---------------------------------
+
+
+
+Agora, para que consigamos LER OS DADOS DE 'data-extra-info', PRECISAMOS 
+
+ALCANÇAR O PROJECT ELEMENT... (chamando-o normalmente...)...
+
+
+FEITO ESSE CHAMADO DO PROJECTELEMENT ('projectElement') ,
+
+
+
+
+NÓS DEVEMOS UTILIZAR A PROPRIEDADE ESPECIAL 
+
+CHAMADA DE 
+
+'dataset'....
+
+
+
+
+ex:
+
+
+
+
+projectElement.dataset 
+
+
+
+---------------------------------
+
+
+
+
+E ISSO, DIZ O PROFESSOR, É ALGO IMPORTANTE DE SE TER EM MENTE: 
+
+
+
+esses atributos 'data-' SÃO TODOS SEMPRE ___FUNDIDOS___ em 1 ÚNICO 
+
+'dataset', EM UMA ÚNICA PROPRIEDADE 'dataset'...
+
+
+-------------------------
+
+
+
+ex:
+
+
+
+
+
+
+
+showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        projectElement.dataset;
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }); //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+------------------------------------------
+
+
+PROFESSOR DECIDE FAZER O CONSOLE.LOG DESSA PROPRIEDADE DATASET PARA ENTENDER MELHOR AQUILO QUE 
+FICA DENTRO DELA...
+
+
+ex:
+
+
+
+
+
+showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        console.log(projectElement.dataset);
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }); //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+
+---------------------------
+
+
+
+ANTES DE OBSERVARMOS OS RESULTADOS DESSE CONSOLE.LOG, o professor 
+
+
+esclarece algo sobre o 'this.id' usado 
+
+em 
+
+document.getElementById(this.id);
+
+
+
+'this.id' --------> 'this' DEVERIA SE REFERIR à propriedade 'this.id = id' DEFINIDA NO CONSTRUCTOR 
+            DE PROJECTITEM....
+
+
+
+
+ex:
+
+
+
+
+
+            class ProjectItem {
+
+
+
+
+    hasActiveTooltip = false;
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+    }
+
+
+   
+
+
+    showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        console.log(projectElement.dataset);
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }); //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+            }
+
+
+
+-------------------------------------------------
+
+
+
+MAS DEVIDO AO FATO DE O 'showMoreInfoHandler' ESTAR 
+
+ATTACHEADO a um eventListener ('moreInfoBtn.addEventListener('click', this.showMoreInfoHandler)), 
+nós devemos, na verdade,  
+
+
+
+FAZER O BIND() de 'this' EM 
+
+
+'moreInfoBtn.addEventListener('click', this.showMoreInfoHandler)'....
+
+
+
+
+
+
+ex:
+
+
+
+'moreInfoBtn.addEventListener('click', this.showMoreInfoHandler.bind(this));'
+
+
+
+
+CASO CONTRÁRIO, 
+
+
+O 'this' de dentro de 
+
+'showMoreInfoHandler' NÃO IRÁ SE REFERIR À MESMA COISA que O 
+
+'this' DEFINIDO NO LADO ___dE FORA___ DO 'showMoreInfoHandler' (comportamento 'root', comportamento SEMPRE DESEJADO, FAZ COM QUE O 'this' se refira ao objeto/classe que segura o método...)
+
+
+(e isso resultará no erro
+
+app.js:168 Uncaught TypeError: Cannot read property 'dataset' of null
+    at HTMLButtonElement.showMoreInfoHandler (app.js:168))
+
+
+
+
+
+COM ISSO, SE NÓS ENTÃO SALVARMOS, RECARREGARMOS E CLICARMOS EM 'more info', 
+
+VEREMOS O OUTPUT 
+
+
+
+DE:
+
+
+
+'>DOMStringMap {extraInfo: "Got lifetime access, but would be nice to finish it soon"}
+
+->extraInfo: "Got lifetime access, but would be nice to finish it soon"
+
+->_proto_: DOMStringMap
+
+->>constructor: f DOMStringMap()
+Symbol(Symbol.toStringTag): "DOMStringMap"
+
+->>__proto__: Object
+
+
+----------------------------------------------------
+
+
+
+
+VEMOS, PORTANTO, UM DOMSTRINGMAP, que é, no final das contas, 
+
+UM OBJETO JAVASCRIPT EM QUE TODO E QUALQUER ATRIBUTO QUE VOCê ADICIONOU (cada atributo 'data-' que você adicionou) 
+
+AUTOMATICAMENTE FAZ PARTE DESSE 'DOMSTRINGMAP'...
+
+
+
+
+
+
+E VOCê PODE PERCEBER QUE a nomenclatura do seu 'extra-xxxx' no html é AUTOMATICAMENTE CONVERTIDA, 
+
+TRANSFORMADA EM 'camelCase'...
+
+
+
+ex:
+
+
+'data-extra-info' (item/objeto DOM) --> 'extraInfo'. (propriedade 'extraInfo' dentro DO OBJETO 'DOMStringMap'..., 
+                                                    a qual eu ACESSO POR MEIO DA PROPRIEDADE 'dataset' DO DOM NODE SELECIONADO... )
+
+
+
+
+
+
+
+
+
+E isso é apenas algo que você deve SABER, ALGO QUE VOCÊ DEVE TER EM MENTE...
+
+
+
+É claro que você sempre pode fazer um console.log para ver os 
+
+
+'datasets' que estão dentro de um objeto do DOM... (e para ver essa conversão de nomenclatura).
+
+
+
+
+----------------------------------
+
+
+
+
+ESSA PROPRIEDADE 'extraInfo' DENTRO DO DOMStringMap NOS 
+
+GARANTE ACESSO ÀQUILO (DADOS) QUE FOI ADICIONADO NAQUELE 
+
+NODE do DOM...
+
+
+---------------------------------
+
+
+Agora, se você quisesse adicionar O SEU PRÓPRIO CONTEÚDO 
+
+POR MEIO DO JAVASCRIPT, você PODERIA. ISSO É POSSÍVEL.
+
+
+Para isso, 
+
+
+você poderia, por exemplo,
+
+
+digitar, em 'showMoreInfoHandler',
+
+
+
+(alcançar o projectElement por meio do chamado convencional)
+
+
+
+
+
+'projectElement.dataset;' (OU SEJA, CHAMAR/SELECIONAR a propriedade 'dataset' normalmente...).
+
+
+
+
+
+Feito isso, 
+
+você poderia ADICIONAR UMA NOVA PROPRIEDADE DENTRO 
+
+
+DO DATASET (da propriedade 'dataset') DE 
+
+'projectElement'....
+
+
+
+
+ex (aqui adicionamos uma NOVA PROPRIEDADE chamada 'someInfo', com um valor de 'Test'...):
+
+
+
+
+ex:
+
+
+
+projectElement.dataset.someInfo = 'Test';
+
+
+
+------------------------------------------
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+
+            class ProjectItem {
+
+
+
+
+    hasActiveTooltip = false;
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+    }
+
+
+   
+
+
+    showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        console.log(projectElement.dataset);
+        projectElement.dataset.someInfo = 'Test';
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }); //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+            }
+
+
+-------------------------------------------
+
+
+
+
+SE SALVARMOS ISSO E RECARREGARMOS, VEREMOS ALTERAÇÕES NA PÁGINA....
+
+
+
+
+Se apertarmos em 'More info' E ENTÃO 
+
+INSPECIONARMOS OS ELEMENTOS HTML 
+
+
+da página, 
+
+PERCEBEREMOS 
+
+
+QUE NOVAS COISAS FORAM ADICIONADAS AO CÓDIGO HTML da página, ___POR MEIO DO JAVASCRIPT___.
+
+
+
+
+
+
+
+ex do código HTML ____ANTIGO_____:
+
+
+
+
+<ul>
+        <li
+          id="p1"
+          data-extra-info="Got lifetime access, but would be nice to finish it soon"
+          class="card">
+          </li>
+
+
+<ul>
+
+
+
+
+
+ex do código HTML ___NOVO___:
+
+
+
+
+
+
+<ul>
+        <li
+          id="p1"
+          data-extra-info="Got lifetime access, but would be nice to finish it soon"
+          class="card"
+          data-some-info="Test" >
+          </li>
+
+
+<ul>
+
+
+
+
+------------------------------------
+
+
+
+
+OU SEJA, AGORA, ALÉM DE 'data-extra-info', TEMOS 
+
+TAMBÉM 
+
+'data-some-info', NODE DO DOM (com conteúdo de 'texto') QUE FOI ADICIONADO 
+
+POR MEIO DO JAVASCRIPT.... (por meio de 'projectElement.dataset.someInfo = 'XXX';')....
+
+
+
+
+
+
+
+
+O 'data-some-info' FOI ADICIONADO AUTOMATICAMENTE AO FINAL do item/elemento '<li'> de projectItem...
+
+
+
+
+--------> ESSE DOM NODE/COISO É ADICIONADO PARA NÓS AUTOMATICAMENTE SEMPRE QUE ADICIONAMOS 
+            UMA NOVA PROPRIEDADE AO 'dataset' DE UM DETERMINADO DOM NODE... 
+
+
+
+
+
+
+
+PORTANTO, É DESSA FORMA (uma das muitas formas) QUE PODEMOS 
+
+
+
+___DEFINIR ____ DADOS ('set data', 'dataset'.)....
+
+
+
+
+
+
+
+AQUI EM 
+'showMoreInfoHandler', NO ENTANTO, O PROFESSOR QUER 
+
+
+
+____LER_____ OS DADOS de 'extraInfo', 
+
+
+
+Por isso ele vai lá e cria um elemento/constante 
+
+
+'tooltipText', que segurará um valor de 
+
+'projectElement.dataset.extraInfo;'   (COM ESSE CÓDIGO, ELE CONSEGUE ALCANÇAR E LER O VALOR DA propriedade 'extraInfo' criada a partir do DOM NODE/ELEMENTO da página HTML...)...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+        class ProjectItem {
+
+
+
+
+    hasActiveTooltip = false;
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+    }
+
+
+   
+
+
+    showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); 
+        console.log(projectElement.dataset);
+        projectElement.dataset.someInfo = 'Test';
+        const tooltipText = projectElement.dataset.extraInfo;
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        });
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+            }
+
+--------------------------------
+
+
+
+
+
+FEITO ISSO, ELE PODE ENTÃO FAZER O FORWARD DO OBJETO/CONST 
+
+'tooltipText' COMO 
+
+SEGUNDO ARGUMENTO A SER PASSADO AO CONSTRUCTOR DE TOOLTIP no chamado de Tooltip em 'showMoreInfoHandler'... (que o professor 
+
+então modifica para esperar um parâmetro de 'text', que será preenchido com essa const/objeto 'tooltipText'... )
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+class Tooltip extends Component {
+
+
+
+
+    constructor(closeNotifierFunction, text) { //////EIS AQUI O CÓDIGO EM QUESTÃO.
+        super();
+        
+        this.closeNotifier = closeNotifierFunction;
+        this.create();
+
+    }
+
+    closeTooltip = () => {      
+        this.detach();
+        this.closeNotifier();
+    }
+
+
+    
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+  class ProjectItem {
+
+
+
+
+    hasActiveTooltip = false;
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+    }
+
+
+   
+
+
+    showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id);
+        console.log(projectElement.dataset);
+        projectElement.dataset.someInfo = 'Test';
+        const tooltipText = projectElement.dataset.extraInfo;
+        const tooltip = new Tooltip(() => {
+            this.hasActiveTooltip = false;
+        }, tooltipText
+        
+        ); 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+            }
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+POR FIM, O PROFESSOR ADICIONA 'THIS.TEXT' COMO PROPRIEDADE 
+
+
+DE 'Tooltip', por meio do código 
+
+
+'this.text = text'...
+
+
+
+ex(representação):
+
+
+
+
+
+class Tooltip extends Component {
+
+
+        constructor (closeNotifierFunction, text) {
+            super();
+            this.closeNotifier = closeNotifierFunction;
+            this.text = text;  /////EIS AQUI O CÓDIGO.
+            this.create();
+        }
+
+
+
+}
+
+
+
+'
+const tooltip = new Tooltip(
+
+    () => {
+            this.hasActiveTooltip = false;
+        }, tooltipText
+        
+
+)'
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+E ENTÃO ALI, EM 'CREATE()' onde NÓS 
+DEFINIMOS 
+
+AQUELE TEXTO de 'tooltipElement' COMO SENDO 'DUMMY', 
+
+podemos UTILIZAR 
+
+ESSE TEXTO ARMAZENADO NO LUGAR DELE, AGORA....
+
+
+(fazemos isso por meio da referencia à 'this.text', À PROPRIEDADE ARMAZENADA EM TOOLTIP 
+
+de 'text'...
+
+)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip extends Component {
+
+
+        constructor (closeNotifierFunction, text) {
+            super();
+            this.closeNotifier = closeNotifierFunction;
+            this.text = text;  /////EIS AQUI O CÓDIGO.
+            this.create();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    closeTooltip = () => {      
+        this.detach();
+        this.closeNotifier();
+    }
+
+
+    
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = this.text;
+        //tooltipElement.addEventListener('click', this.dettach);
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;
+    }
+
+
+
+}
+
+
+
+
+
+------------------------------------------
+
+
+
+
+CERTO, RECARREGAMOS A PÁGINA E CONSTATAMOS QUE TUDO ESTÁ FUNCIONANDO...
+
+
+
+Cada tooltip, de cada projeto, está sendo mostrado ao final da nossa página...
+
+
+Professsor aponta que o TOOLTIP AINDA ESTÁ SENDO EXIBIDO NA PARTE ERRADA DA PÁGINA,
+
+
+
+mas que nós pelo menos extraímos o texto correto.
+
+E TUDO ISSO GRAÇAS AO ATRIBUTO ESPECIAL 'DATA-' e 
+
+
+dataset (em javascript), QUE NOS PERMITE ACESSAR ESSE ATRIBUTO 'data-xxxx'....

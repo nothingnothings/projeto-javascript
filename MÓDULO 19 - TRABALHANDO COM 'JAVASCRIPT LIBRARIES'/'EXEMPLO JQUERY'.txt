@@ -1,0 +1,232 @@
+
+
+
+
+
+
+
+
+CERTO.
+
+
+
+Lodash é apenas UMA DAS LIBRARIES DE JAVASCRIPT...
+
+
+
+
+é uma library bem popular, MAS NÃO É A ÚNICA...
+
+
+
+
+HÁ MILHARES DE UTILITY LIBRARIES DISPONÍVEIS AO JAVASCRIPT DO BROWSER...
+
+
+
+
+
+E TAMBÉM MILHARES DISPONÍVEIS AO JAVASCRIPT DO 'NODE.JS'...
+
+
+
+
+ESSE CONCEITO NÃO EXISTE SOMENTE EM JAVASCRIPT, MAS EM TODAS AS LINGUAGENS...
+
+
+
+
+
+A complexidade das utilities pode variar:
+
+
+
+
+
+Pode ser algo como Lodash, que te oferece um monte de 
+
+utility functions,
+
+
+e pode ser 
+
+
+
+ALGO DIFERENTE, ALGO QUE TE PERMITE ESCREVER JAVASCRIPT DE MANEIRAS TOTALMENTE NOVAS....
+
+
+
+
+HÁ TAMBÉM coisas chamada 
+
+
+
+'javascript frameworks', 
+
+QUE SÃO 
+
+
+BASICAMENTE LIBRARIES MUITO MUITO MUITO GRANDES, 
+
+
+como 
+
+
+'view.js', 
+
+
+'react' 
+
+
+e 
+
+
+'ANGULAR'....
+
+
+
+
+
+DEVIDO À SUA COMPLEXIDADE, DAREMOS UMA OLHADA NELAS 
+
+
+EM UM MÓDULO SEPARADO....
+
+
+
+
+
+--> ESSAS SÃO LIBRARIES GIGANTES.
+
+
+
+
+
+
+
+
+
+TIPICAMENTE, QUANDO VOCÊ DIZ 'LIBRARY', você geralmente quer dizer algo 
+
+
+'MENOR', algo que foca EM APENAS UMA ÚNICA TAREFA core....
+
+
+
+
+NO CASO DO 'lodash', 
+
+
+ELE FOCA EM  TE DAR ALGUMAS 
+
+
+UTILITY FEATURES e só...
+
+
+
+
+
+
+
+
+
+
+OUTRA JAVASCRIPT LIBRARY MUITO POPULAR É 
+
+
+A 'jquery'...
+
+
+
+
+
+
+ELA ERA MUITO POPULAR 
+
+
+LÁ POR 2010, 2011 E 2012, 
+
+e ainda é 
+
+
+muito usada,
+
+
+
+
+MAS ERA MAIS IMPORTANTE NO PASSADO PQ JQUERY 
+
+realmente fazia 
+
+o trabalho com o DOM (a adição de elementos, query de elementos, etc) 
+
+
+
+SER MUITO MAIS FÁCIL...
+
+
+
+
+
+MAS DESDE OS PRIMEIROS DIAS DA CONCEPÇÃO DO JQUERY, 
+
+JAVASCRIPT PERCORREU UM LONGO CAMINHO,
+
+
+
+e hoje 
+
+É MUITO FÁCIL TRABALHAR COM O DOM  (dom traversal) 
+
+
+E COM AS CSS CLASSES..., 
+
+
+
+hoje já basta a NATIVE DOM API para selecionar elementos...
+
+
+
+É POR ISSO QUE VOCê 
+
+NÃO PRECISA TANTO DE 'jquery' esses dias,
+
+
+
+
+MAS VOCÊ AINDA TALVEZ ENCONTRA USE-CASES PARA ELE em alguns projetos...
+
+
+E tutoriais na internet também o utilizam....
+
+
+
+
+
+VOCÊ O ADICIONA AO SEU PROJETO DA MESMA FORMA QUE VOCÊ 
+
+
+
+ADICIONA O 'lodash', por meio 
+
+de um arquivo .js 
+
+OU POR MEIO 
+
+
+DE UM CDN....
+
+
+
+
+
+JQUERY NÃO TE DÁ UTILITY FUNCTIONS,
+
+MAS TE DÁ 
+
+UM MONTE DE FUNÇÕES QUE TE AJUDAM A 
+
+
+
+TRABALHAR COM O DOM.... (html).
+

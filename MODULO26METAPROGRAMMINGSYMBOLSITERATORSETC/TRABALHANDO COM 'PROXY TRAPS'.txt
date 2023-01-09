@@ -1,0 +1,505 @@
+
+
+
+
+
+A TRAP DE 'GET' É UMA TRAP __MUITO ÚTIL__...
+
+
+
+
+MAS VOCÊ TAMBÉM TEM OUTRAS TRAPS, PARA OUTRAS OPERAÇÕES QUE PESSOAS 
+TALVEZ REALIZEM NOS SEUS OBJETOS....
+
+
+
+
+Temos um link do mdn sobre todas as traps...
+
+
+
+
+
+
+
+UMA TRAP QUE MUITAS VEZES PODE SER ÚTIL É A TRAP DE 'SET()'...
+
+
+
+
+A TRAP DE 'set' TE PERMITE 'STEP IN' QUANDO 
+
+USUÁRIOS TENTAM ___SETTAR___ UM VALOR PARA UMA DETERMINADA 
+
+
+PROPRIEDADE....
+
+
+ex:
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if(propertyName === 'length') {
+            return 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+console.log(pCourse.title, pCourse.length, pCourse.rating); ///EXEMPLO
+
+
+console.log(pCourse.title);
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+DE NOVO, PODEMOS USAR NOSSO EXEMPLO ANTIGO...
+
+
+
+Nesse exemplo DEVEMOS ADICIONAR OTURA TRAP dentro de 'courseHandler', dessa vez 
+
+UMA TRAP DE TIPO 'set()'...
+
+
+
+A TRAP DE 'SET()', assim como o trap de 'get()', DEVE SER ESCRITO 
+
+COMO SE FOSSE UM MÉTODO...
+
+
+
+É a mesma coisa do 'get'...
+
+
+colocamos como primeiro parâmetro o OBJETO ('obj' é o termo geral) EM QUE A OPERAÇÃO 
+
+'set' FOI TENTADA(tentada pelo desenvolvedor/usuário de sua third party library)...
+
+
+
+(esse objeto é o 'WRAPPED OBJECT', no final das contas... (o 'course', wrappado por 'pCourse', nesse exemplo))
+
+
+ex:
+
+
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if(propertyName === 'length') {
+            return 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    },
+
+    set(obj, ) {
+
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+console.log(pCourse.title, pCourse.length, pCourse.rating); ///EXEMPLO
+
+
+console.log(pCourse.title);
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+DEPOIS, DEVE-SE ADICIONAR O 'PROPERTYNAME' (termo generalizador de QUALQUER PROPRIEDADE QUE 
+O USUÁRIO TENTOU ACESSAR...) 
+
+E O TERCEIRO PARÂMETRO,
+
+
+
+'newValue', que é O NOVO VALOR QUE OS USUÁRIOS/DESENVOLVEDORES TENTARAM 
+ASSIGNAR ÀQUELA PROPRIEDADE.....
+
+
+
+-----------------------------------------
+
+
+
+ex:
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if(propertyName === 'length') {
+            return 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    },
+
+    set(obj, propertyName, newValue) {
+
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+console.log(pCourse.title, pCourse.length, pCourse.rating); ///EXEMPLO
+
+
+console.log(pCourse.title);
+
+
+-------------------------------------------
+
+
+
+ISSO FEITO, VOCÊ PODE ENTÃO USAR ESSA TRAP PARA, TALVEZ, 
+
+___VALIDAR TODOS __ OS 'INCOMING VALUES'....
+
+
+
+
+
+OU, ALTERNATIVAMENTE, VOCÊ PODE FAZER 'LOCKDOWN' DE TODO ACESSO/TENTATIVA DE ALTERAÇÃO 
+DESSAS PROPRIEDADES.... ---> você faz isso POR MEIO DE UM 'RETURN SECO'... (um return vazio)...
+
+
+
+
+AINDA OUTRA ALTERNATIVA É SIMPLESMENTE FAZER O COMPORTAMENTO 'DEFAULT', QUE É 
+
+escrever 'obj[propertyName] = newValue'; ------> ISSO VAI FAZER COM QUE 
+
+AQUELA PROPRIEDADE DAQUELE OBJETO TENHA SEU VALOR DEFINIDO COMO O VALOR QUE O USUÁRIO 
+TENTOU DEFINIR POR MEIO DE SUA TENTATIVA...
+
+(esse é o comportamento padrão do objeto, portanto... Meio redundante).
+
+
+
+ex (de comportamento padrão/redundante):
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if(propertyName === 'length') {
+            return 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    },
+
+    set(obj, propertyName, newValue) {
+        obj[propertyName] = newValue;
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+console.log(pCourse.title, pCourse.length, pCourse.rating); ///EXEMPLO
+
+
+console.log(pCourse.title);
+
+
+
+
+---------------------------------
+
+
+
+
+Certo...
+
+
+Agora, nesse caso, se o professor por exemplo tentar definir a 'rating' desse objeto 
+'pCourse' como sendo '5'...
+
+
+
+ex:
+
+
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if(propertyName === 'length') {
+            return 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    },
+
+    set(obj, propertyName, newValue) {
+        obj[propertyName] = newValue;
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+console.log(pCourse.title, pCourse.length, pCourse.rating);
+
+
+console.log(pCourse.title);
+
+pCourse.rating = 5; /////////EIS O CÓDIGO EM QUESTÃO...
+
+
+--------------------------------------
+
+
+
+
+SE ELE TENTASSE FAZER ISSO, ESSE CODIGO 'WOULD JUST WORK', ele funcionaria 
+
+EXATAMENTE COMO O PADRÃO, pq 
+
+aquele código 
+
+
+'obj[propertyName] = newValue' É __LITERALMENTE __ O FUNCIONAMENTO PADRÃO 
+
+DO 'set' DE UM VALOR DE UMA PROPRIEDADE em um objeto....
+
+
+----------------------------------
+
+
+
+
+
+MAS, DE NOVO, PROFESSOR PODE COLOCAR UM 'IF CHECK' para 
+
+EXECUTAR CÓDIGOS COM BASE __NAS TENTATIVAS___ DE 'SET' ___ DE VALORES 
+___ DESSA PROPRIEDADE 'rating' ___....
+
+
+
+(como exemplo disso, o professor faz um simples 'return', um RETURN VAZIO...)
+
+
+ex:
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if(propertyName === 'length') {
+            return 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    },
+
+    set(obj, propertyName, newValue) {
+        if (propertyName === 'rating') {
+            return;
+        }
+        obj[propertyName] = newValue;
+    }
+}
+
+
+
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+
+
+
+pCourse.rating = 5; 
+
+
+
+console.log(pCourse.title, pCourse.length, pCourse.rating);
+
+
+console.log(pCourse.title);
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+ISSO FARÁ COM QUE ___APENAS___ AS TENTATIVAS DE 'set' DE VALORES DA 
+
+PROPRIEDADE 'rating' SEJAM NEGADOS....
+
+
+TENTATIVAS DE 'set' DE VALORES DE OUTRAS PROPRIEDADES QUE NÃO SEJAM ESSA PASSARÃO 
+NORMALMENTE e serão executadas, não serão barradas PELO NOSSO 'if check' E PELO RETURN 
+VAZIO ATRIBUÍDO A ELE... -----> 
+
+-------> AGORA QUANDO EU TENTAR SETTAR ESSA PROPRIEDADE, vou dar um return VAZIO...
+
+
+Isso, por consequência, fará com que o CONSOLE.LOG de 
+
+
+
+'console.log(pCourse.title, pCourse.length, pCourse.rating);' 
+
+
+
+RETORNE/faça ser outputtado no console os valores
+
+
+'Javascript - The Complete Guide 0 NOT FOUND'
+
+
+
+0 = 'pCourse.length' 
+
+
+
+'NOT FOUND' = pCourse.rating'....
+
+
+-------------------------------
+
+
+
+MAS PQ DIABOS 'pCourse.rating' 
+
+RETORNOU 
+
+
+'NOT FOUND'??
+
+Bem simples ----> pq  AQUELE IF CHECK ____BLOQUEOU___ ACESSO ao 'set' DESSA PROPRIEDADE 'rating'...
+
+
+Como NÃO CONSEGUIMOS DEFINIR UM 'NOME DE PROPRIEDADE' de 'rating', POSSUIDORA 
+DE UM VALOR DE '5', 
+
+NÃO FOI POSSÍVEL SER ENCONTRADO 
+
+O 'propertyName' de 'rating' PELO 
+
+CÓDIGO DE 
+
+'console.log(pCourse.rating);' ----> (OU SEJA, ESSA PROPRIEDADE INEXISTE DENTRO DESSE OBJETO NESSE PRESENTE MOMENTO, GRAÇAS AO IF CHECK USADO NAQUELA trap de 'set'...)
+
+
+---------------------------
+
+
+
+
+
+OU SEJA, VOCÊ USA 'set()' traps PARA BLOQUEAR ACESSO...
+
+
+
+VOCÊ TAMBÉM PODE USAR 
+
+
+'set()' PARA ENVIAR DADOS PARA SEU PRÓPRIO ''ANALYTICS SERVER''... 
+
+
+ex:
+
+
+'console.log('Sending data...');'
+
+
+
+ESSE SEND DE DADOS PODE SER USADO PARA REGISTRAR QUAISQUER 'SETTINGS' DE 
+
+QUAISQUER PROPRIEDADES NO SEU CÓDIGO...
+
+
+
+---> você é livre para executar QUALQUER COISA QUE VOCÊ QUISER DENTRO DESSAS TRAPS....
+
+
+
+
+
+---> MAS VOCÊ DEVE SEMPRE SE LEMBRAR DA DIFERENÇA ENTRE SETTERS E GETTERS....
+
+
+
+
+----> aprendemos sobre getters e setters mais cedo no curso...
+
+
+
+
+---> GETTERS E SETTERS SEMPRE ERAM/SÃO FOCADOS EM ___UMA ÚNICA PROPRIEDADE___...
+----> você ADICIONAVA UM 'GETTER' com um certo nome E UM 'SETTER' COm outro 
+certo nome...
+
+
+
+-----> ESSAS 'TRAPS', NO ENTANTO, SÃO DIFERENTES:
+ 
+ SÃO COMPLETAMENTE __fLEXÍVEIS__. ---> NÃO ESTÃO LIMITADAS A UM ÚNICO 'PROPERTY NAME'...
+
+
+---> ESSAS TRAPS ATIVAM ___sEMPRE __ QUE VOCÊ DEFINE UM ___VALOR A UMA DETERMINADA PROPRIEDADE__ OU 
+QUANDO  VOCÊ TENTA 
+
+___FAZER___ 'GET'/ganhar acesso ___AO VALOR DE QUALQUER PROPRIEDADE__.
+
+
+
+------> ISSO SIGNIFICA QUE ELAS SÃO BEM MAIS GENÉRICAS E FLEXÍVEIS...
+
+E vocÊ, como programador, PASSA A TER COMPLETO CONTROLE SOBRE COMO VOCÊ VAI QUERER 
+DISPONIBILIZAR ACESSO ÀS PROPRIEDADES DAQUELE OBJETo QUE VOCÊ ESTARÁ 
+DEIXANDO EXPOSTO AOS SEUS COLEGAS, a você e aos usuários de sua library...

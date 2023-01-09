@@ -1,0 +1,152 @@
+Vimos que funções dentro de objetos existem, e que são chamadas de MÉTODOS.
+
+
+
+Mas e se o professor te dissesse que AS FUNÇÕES TAMBÉM SÃO OBJETOS?
+
+
+
+Ele diz que pode provar isso:
+
+
+
+
+
+Ele começa digitando um console.log no projeto 5.
+
+
+
+
+ex:
+
+
+
+console.log(typeof startGame)    //AQUI, VOCÊ TEM QUE SE LEMBRAR DO "TYPEOF" OPERATOR... usamos no início do curso... ele é utilizado para descobrir que tipo de array um array é, que tipo de número um número é, etc.
+
+
+
+
+Professor continua:
+
+
+Agora, se eu logar o tipo da minha função startGame (portanto, não estou a executando, porque 
+para executar, eu precisaria dos parênteses, parênteses para configurar um function call.
+ex:  "typeof startGame();" --> isso seria o operador typeof aplicado a um function call, coisa que não fizemos aqui, 
+não chamamos uma função. Caso fizéssemos isso, nós pegaríamos o typeof de qualquer coisa que 
+a função retornasse, que nesse caso é NADA, ou seja, undefined... para testar isso, você 
+pode colocar "console.log(typeof startGame();", você verá que o console do devtools mostrará 
+o valor de undefined para esse operador. Mas não é essa a coisa pela qual estamos interessados.), 
+
+
+se eu logar dessa forma explicitada, eu basicamente estarei fazendo a mesma coisa com o eventListener 
+do projeto 5 (starGameBtn.addEventListener('click', startGame);), eu estarei apenas passando o nome aqui, 
+e portanto o TYPEOF operator vai dar uma olhada na coisa POR TRÁS DO NOME. Ela vai dar uma olhada naquilo (na coisa) que está 
+armazenado em startGame, que é a nossa função.
+
+E se nós fizermos isso, console.loggarmos o typeof dessa minha função startGame aqui, se nós fizermos 
+isso e recarregarmos a página...
+
+VEREMOS QUE O DEVTOOLS nos mostrará uma mensagem, a mensagem "function". É a resposta ao operador 
+"typeof". O operador typeof nos respondeu que tipo de negócio que é startGame, startGame é UMA FUNÇÃO.
+
+AÍ o professor continua: Tudo bem, mas isso não é um objeto. Você disse que funções são objetos... você está mentindo?
+
+
+O professor diz que "bem, na verdade 'function' é um TIPO SEPARADO/distinto que está sendo 
+loggado aqui, MAS ESSE TIPO É BASEADO EM OBJETO/OBJETOS. O professor diz que 
+fica um pouco mais fácil de enxergar isso se nós não console.loggarmos o typeof junto de startGame, e sim apenas startGame.
+
+
+ex:
+
+
+
+console.log(startGame);
+
+
+
+-----> Professor diz que não está loggando a call da função aqui (não está loggando o retorno do valor da função aqui), 
+o que ele está realizando, na verdade, é APENAS o ato de passar O NOME DA FUNÇÃO AO CONSOLE.LOG... ele 
+está apenas logando a coisa POR TRÁS DA FUNÇÃO.
+
+
+
+
+----> professor faz uma pequena alteração: ele troca "console.log" para "console.dir".
+
+CONSOLE.DIR NOS DÁ UM DIFERENTE ÂNGULO DE VISÃO EM RELAÇÃO AOS OBJETOS...
+
+
+se salvarmos isso e recarregarmos a página, veremos que nós recebemos uma coisa *estranha*.
+
+
+
+ex:
+
+
+console.dir(startGame); nos retorna, no console: -->
+
+(f bizarro)
+
+
+
+f startGame();
+
+
+
+
+o f parece F de "função", MAS NÓS PODEMOS EXPANDI-LO.
+Dentro desse f, vemos um monte de coisas estranhas.
+
+
+arguments: null
+caller: null
+length: 0
+name: "startGame"
+prototype: {constructor: f}
+_proto_: f()
+[[Scopes]]: Scopes [2]
+
+
+...e outros.
+
+
+
+
+Temos name, por exemplo, 
+temos "argumentos"...
+
+TODOS ESSES NEGÓCIOS SÃO KEY-VALUE PAIRS.
+TODOS SÃO PROPRIEDADES->VALORES.
+
+
+TOdas essas coisas são propriedades dessa função startGame, no final das contas. 
+
+
+Também há um negócio de "[[scopes]]", e isso é interessante, porque se a expandirmos, 
+veremos o que ela faz:
+
+
+Ela basicamente diz ao javascript ONDE ELE DEVE GERENCIAR AS VARIÁVEIS DESSAS FUNÇÕES, e qual a scope em que 
+ele está... 
+
+NÓS NÃO PRECISAMOS NOS PREOCUPAR COM MUITAS DAS COISAS QUE ESTÃO ALI DENTRO... ALGUMAS 
+COISAS COMO "PROTOTYPE" VÃO FICAR MAIS CLARAS MAIS TARDE NO CURSO, UMA VEZ QUE ENTREMOS 
+BEM MAIS FUNDO EM OBJETOS E NAS SUAS MECÂNICAS INTERNAS. Não é algo com que devemos nos preocupar agora.
+
+
+A ÚNICA COISA IMPORTANTE de ter em mente, agora, é que UMA FUNÇÃO, NO FINAL DAS CONTAS, APESAR DE TER SEU PRÓPRIO TIPO ("function type", tipo função...), É, SIM, 
+UM OBJETO.
+
+Funções são basicamente objetos, TIPOS ESPECIAIS DE OBJETOS, COM PROPRIEDADES ESPECIAIS 
+PRÉ-CONFIGURADAS... mas ainda objetos. A implicação disso é que, por exemplo, elas são 
+ARMAZENADAS NO HEAP.
+POR ISSO QUE SÃO ARMAZENADAS NO HEAP, PORQUE ____ELAS____ SÃO ___OBJETOS____. 
+Além disso, dessa informação do heap, há a informação de que 
+TUDO AQUILO QUE É APLICADO À REFERENCE TYPES (como objetos) É TAMBÉM APLICÁVEL ÀS FUNÇÕES.
+
+
+Na maior parte do tempo, isso pode não importar para você, mas ainda é algo 
+que vocÊ deve ter em mente.
+
+Funções são objetos.

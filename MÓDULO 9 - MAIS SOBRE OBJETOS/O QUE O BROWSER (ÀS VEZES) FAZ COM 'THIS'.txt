@@ -1,0 +1,243 @@
+
+
+
+
+
+
+
+
+
+BEM, um use-case em que essa COISA NA FRENTE DA SUA EXECUÇÃO DE FUNÇÃO...
+
+
+
+
+ex:
+
+
+
+ (coisa na frente aqui seria o objeto global WINDOW) getFormattedTitle.apply(movie);
+
+
+
+
+NÃO FUNCIONARÁ é quando você, por exemplo, FAZ BIND() OU SETTA 
+SUA FUNÇÃO DENTRO DE UM EVENTLISTENER...
+
+
+ex:
+
+
+
+addEventListener('click', getFormattedTitle.bind(movie)); ------> ISSO NÃO FUNCIONARÁ.
+
+
+
+----------------------------------
+
+
+
+O conceito chave aqui, na verdade, é que "this" se refere à COISA QUE 
+ACABOU CHAMANDO A FUNÇÃO.....
+
+o truque de pensar no "negócio que vem na frente da função" APENAS 
+FUNCIONA SE É VOCÊ QUE ESTÁ EXECUTANDO A FUNÇÃO POR CONTA PRÓPRIA em seu código....
+
+
+
+Se você está definindo sua função/método a um eventListener, como 
+estamos fazendo aqui por meio de 
+
+
+
+
+
+"addMovieBtn.addEventListener('click', searchMovieHandler);" ,
+
+
+
+AÍ VEREMOS ALGO INTERESSANTE....
+
+
+
+
+se eu fizer o console.log de 'this'em  'searchMovieHandler', 
+que também está vinculado a um evento (evento 'click') ....
+
+
+
+ex:
+
+
+
+const searchMovieHandler = () => {
+    console.log(this);
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);
+}
+
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+--------------------------
+
+
+
+......SE EU FIZESSE ISSO, O QUE VOCÊ ESPERA QUE OCORRERIA? 
+O que você espera que 'this' irá se referir, aqui?
+
+
+
+"Bem, como não há nada na frente de 'searchMovieHandler', a referência 
+seria ao contexto global, não?"
+
+
+
+---> ERRADO <-----
+
+
+
+
+
+DE NOVO, ESSA PARADA DO 'o que está em frente da execução da função" SÓ FAZ 
+SENTIDO SE VOCÊ ESTIVER EXECUTANDO A FUNÇÃO POR CONTA PRÓPRIA, POR SUAS 
+PRÓPRIAS MÃOS (são os casos em que você adiciona parênteses ou 
+utiliza 'apply()' ou 'call()'.).
+
+AQUI, NÃO ESTAMOS FAZENDO ISSO. ESTAMOS DEPENDENDO DE UM EVENTLISTENER PARA 
+EXECUTAR ESSA FUNÇÃO. Estamos executando a função "searchMovieHandler" _____INDIRETAMENTE____, por meio 
+de sua vinculação ao addEventListener; é por isso que devemos focar 
+
+NA PRIMEIRA DEFINIÇÃO DE "this" feita pelo professor, que 
+diz que 'this' sempre irá se referir ÀQUILO QUE CHAMOU A 
+FUNÇÃO A QUE ELE ESTÁ VINCULADO, EM PRIMEIRO LUGAR.
+
+(portanto, a definição de que 'this' sempre seria 'o elemento que está na frente de uma determinada função/método/propriedade é ERRÔNEA. A definição mais 
+correta é essa mais acima, mesmo.)
+
+
+
+Aqui, em 'searchBtn.addEventListener('click, searchMovieHandler)', a coisa QUE É 
+RESPONSÁVEL PELO CHAMADO DE 'searchMovieHandler' É......, NO FINAL DAS CONTAS, ___O PRÓPRIO 
+EVENTO 'CLICK'. É O CLICK EVENT, EM OUTRAS PALAVRAS; ELE É O RESPONSÁVEL PELO CHAMADO 
+DE 'searchMovieHandler'.
+
+
+O browser vai dar trigger/acionar aquele evento em que nós clicamos em um botão....
+nós clicamos em um botão, e aí o browser executa a função...
+
+
+PORTANTO, É O BROWSER QUE É + OU - RESPONSÁVEL POR EXECUTAR searchMovieHandler...
+Porém, no final das contas, é o EVENTO que é realmente responsável, e não o browser... (é difícil definir quem é o verdadeiro responsável, mas é um dos dois, certamente).
+
+
+
+
+O responsável pelo chamado de searchMovieHandler é O CLICK EVENT ('click').
+
+
+
+
+Se formos ainda MAIS FUNDO, descobriremos que NA VERDADE É O BOTÃO QUE É O 
+RESPONSÁVEL POR EXECUTAR searchMovieHandler.
+
+
+searcBtn (inerte) --> tem um eventListener adicionado à ele. ---> eventListener coloca uma condição de 'click', que acabará chamando searchMovieHandler.
+
+
+
+
+E na verdade, é ASSIM QUE O BROWSER CONFIGURA 'this'....
+
+
+Quando uma função É EXECUTADA COM BASE EM UM EVENTO... O 'this' DENTRO DE UMA DETERMINADA FUNÇÃO (nesse caso, de uma função que está vinculada a um addEventListener).
+IRÁ SEMPRE SE REFERIR, NA VERDADE, AO OBJETO QUE DEU TRIGGER NO EVENTO, NO OBJETO QUE, NO FINAL DAS CONTAS, 
+DEU TRIGGER NA FUNÇÃO. (nesse caso, 'this' se referiria à "searchBtn", por exemplo).
+
+
+('TO MAKE THIS REALLY CLEAR: THE BROWSER BINDS "this" FOR YOU (on event listeners) TO 
+THE DOM ELEMENT THAT TRIGGERED THE EVENT') ----->   o browser sempre 
+fará com que keywords 'this' dentro de funções que estão vinculadas a addEventListeners SE REFIRAM 
+AO PRÓPRIO ELEMENTO DO DOM AO QUAL ESSE addEventListener ESTÁ VINCULADO (
+
+    no caso de 'searchBtn.addEventListener('click', searchMovieHandler)', 'this' iria 
+    se referir à 'searchBtn'.
+)
+
+
+
+
+
+OBS:::::::: IMPORTANTE!!!!  ---> professor diz que tudo isso que foi exposto acima, de que 
+o 'this' irá se referir ao objeto que deu trigger no evento, isso tudo SÓ OCORRE 
+SE VOCÊ NÃO ESTIVER UTILIZANDO ARROW FUNCTIONS....
+
+ISSO É PORQUE, DIZ ELE, HÁ ALGO DE ESPECIAL EM ARROW FUNCTIONS que ele nos contará mais tarde.
+
+
+
+
+por isso, 
+
+
+DEVEMOS MUDAR O CÓDIGO DE NOSSO "searchMovieHandler".
+
+
+
+ex:
+
+
+
+
+const searchMovieHandler = () => {
+    console.log(this);
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);
+}
+
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+^
+|
+|
+|
+
+ISSO TUDO DEVERÁ VIRAR (deverá virar uma função com a sintaxe normal, e não uma arrow function):
+
+
+
+
+const searchMovieHandler = function() {
+    console.log(this);
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);
+}
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+-----------------------------------------------
+
+
+
+Se fizermos isso e RECARREGARMOS A PÁGINA E CLICARMOS EM 'SEARCH', veremos que, de fato, 
+o botão 
+É OUTPUTTADO no console. 
+
+ex:  <button id="search-btn">Search</button>
+
+O 'this' dentro daquela função que está vinculada ao addEventListener REALMENTE 
+SEMPRE SE REFERIRÁ ao objeto do DOM ao qual está vinculado (caso não utilizemos arrow functions).
+
+
+
+
+MAS PORQUE DIABOS AS ARROW FUNCTIONS TÊM UM COMPORTAMENTO DIFERENTE COM 'this'? 
+
+
+Bem, o professor nos mostrará agora.

@@ -1,0 +1,644 @@
+
+
+
+
+
+
+ASYNC AWAIT, PORTANTO, É UMA BOA ALTERNATIVA AO 
+
+
+'.THEN()' e '.catch' BLOCKS... 
+
+
+
+---------------------------
+
+
+
+NO FINAL DAS CONTAS, CABE A VOCÊ ESCOLHER QUAL VOCÊ PREFERE.
+
+
+
+
+
+EM MUITOS TUTORIAIS O PROFESSOR PREFERE USAR O 
+
+
+'.then()' e 
+
+o '.catch()' em vez de 
+
+
+ASYNC/AWAIT,
+
+
+
+pois ele REALMENTE VÊ UM PERIGO COM 
+
+'async/await', um perigo de 
+
+
+PENSAR QUE ESSAS ETAPAS REALMENTE SÃO
+
+EXECUTADAS 1 ATRÁS DA OUTRA (pq javascript sempre executa códigos 1 atrás do outro)
+
+
+QUANDO ISSO, NA VERDADE, É FALSO... ------------> ASYNC CODE E 
+
+TODAS ESSAS OPERAÇÕES ASYNC SÃO SEMPRE PROVIDENCIADAS 
+
+
+
+___PELO BROWSER____, são providenciadas para que ALGUNS TRABALHOS POSSAM SER 
+
+
+'OFFLOADEADOS' AO BROWSER.... (como aprendemos mais cedo no curso)....
+
+
+OFFLOADEADOS PARA QUE DEPOIS O BROWSER RETORNE A VOCÊ QUANDO TERMINOU O SERVIÇO...
+
+
+
+
+
+
+ISSO NÃO MUDA COM 'async/await';
+
+
+
+
+ELE APENAS FAZ UMA TRANSFORMAÇÃO INVISÍVEL POR TRÁS DAS CENAS....
+
+
+
+async await é um pouco mais curto.
+
+
+
+
+
+
+
+EM BROWSERS MODERNOS ESSE 'async await' É MAIS 
+
+OPTIMIZADO E RÁPIDo,
+
+mas a diferença não é sempre tão grande.
+
+
+
+
+VOCÊ APENAS TEM QUE ENTENDER O QUE ESTÁ ACONTECENDO POR TRÁS DAS CENAS.
+
+
+
+-----------------------------------
+
+
+ENTRETANTO, ASYNC AWAIT TEM UMA DESVANTAGEM BEM REAL:
+
+
+VOCÊ NÃO PODE REALMENTE EXECUTAR 
+
+TAREFAS ____dE FORMA SIMULTÂNEA___ DENTRO DE UMA MESMA FUNÇÃO....
+
+
+
+
+
+COMO ASSIM?
+
+
+BEM, 
+
+ANTERIORMENTE, COM 'then()' e 'catch()', 
+
+
+O professor tinha o código:
+
+
+
+
+
+async function trackUserHandler() {
+
+
+let posData;
+let timerData;
+
+
+    try {
+    posData = await getPosition();
+    timerData = await setTimer(2000);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(timerData, posData); 
+
+
+
+
+setTimer(1000).then(() => { ////////ESSAS LINHAS AQUI.
+    console.log('Timer done!');
+
+});
+console.log('Getting position');
+
+
+
+
+
+}
+
+
+
+--------------------------------------------
+
+
+
+
+
+PROFESSOR TINHA AQUELE CÓDIGO LÁÁÁA EMBAIXO.
+
+
+
+SE VOCê SE CONCENTRAR, LEMBRARÁ 
+
+
+QUE ESSE CÓDIGO LÁ DE BAIXO 
+
+
+ERA ___SEMPRE EXECUTADO ____ IMEDIATAMENTE___.
+
+
+LEMBRE-se:
+
+
+
+
+nós tinhamos 'getPosition()' com um formato de promise 'comum',
+
+com todos os '.then Blocks' logo abaixo...
+
+
+ex:
+
+
+
+
+
+
+
+
+async function trackUserHandler() {
+
+
+let posData;
+let timerData;
+
+
+    try {
+    posData = await getPosition();
+    timerData = await setTimer(2000);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(timerData, posData); 
+
+getPosition() ////////////////  EIS O CÓDIGO EM QUESTÃO.
+.then(posData => {
+    positionData = posData;
+    return setTimer(2000);
+})
+.catch(err => {
+    console.log(err);
+    return 'on we go...';
+})
+.then(data => {
+    console.log(data, positionData);
+})
+
+
+setTimer(1000).then(() => { 
+    console.log('Timer done!');
+
+});
+console.log('Getting position');
+
+
+
+
+
+}
+
+
+
+
+---------------------------------------------
+
+
+
+
+CERTO.
+
+
+O QUE ACONTECIA ALI ERA QUE 
+
+'getPosition()' ERA EXECUTADO 
+
+
+ e que tínhamos aquelas ETAPAS (steps) dos '.then blocks',
+
+ OS QUAIS EVENTUALMENTE ERAM EXECUTADOS... MAS É CLARO QUE 
+
+ AS ETAPAS ___APÓS____ 'getPosition()', ou seja, 
+
+
+
+ ____DEPOIS____ DA PROMISE CHAIN DE 'getPosition()', 
+
+
+ ERAM EXECUTADAS IMEDIATAMENTE (aquele 'setTimer(1000.then((...))') e o console.log de 'Getting POsition');.... (isso acontecia devido à MANEIRA PELA QUAL JAVASCRIPT FUNCIONA.)
+
+
+
+ 
+
+
+Professor usa a sintaxe velha e salva a página,
+
+recarrega seu conteúdo e clica em 'track me'.
+
+
+
+Ele aponta que, como explicou agora, 
+
+
+o console vai outputtar 
+
+'getting position' 
+
+e 
+
+'timer done' 
+
+
+ANTES DAQUELA PROMISE CHAIN DE 'GetPosition()',
+
+o que confirma o que ele disse.
+
+
+
+----------------------------------
+
+
+JÁ COM A SINTAXE NOVA (PROFESSOR COMENTA PARA DENTRO DO CÓDIGO A KEYWORD 'ASYNC' E AS VARIÁVEIS NECESSÁRIAS 
+PARA FAZER O CÓDIGO FUNCIONAR, junto do 'try-catch' blocks...), junto daquele código de 'setTimer' e do console.log (que normalmente executam 
+imediatamente) acontece algo diferente:
+
+
+
+
+
+SINTAXE NOVA DO SYNC/AWAIT, QUE TÍNHAMOS ANTES:
+
+
+
+
+
+
+async function trackUserHandler() {
+
+let positionData;
+let posData;
+let timerData;
+
+
+    try {
+    posData = await getPosition();
+    timerData = await setTimer(2000);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(timerData, posData); 
+
+
+
+
+setTimer(1000).then(() => { ////////ESSAS LINHAS AQUI.
+    console.log('Timer done!');
+
+});
+console.log('Getting position');
+
+
+
+
+
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+
+SE ele usar essa sintaxe, AS ETAPAS QUE ESTÃO LÁÁÁA EMBAIXO SOMENTE SERÃO EXECUTADAS 
+
+
+APÓS 
+
+TODAS AS ETAPAS DENTRO DAQUELE 'TRY-CATCH' (ou seja, as etapas ENUMERADAS DE 
+
+
+'async/await'.., as promises as quais javascript está esperando o 'resolve'...).
+
+
+
+
+É POR ISSO QUE NO CONSOLE NÓS OBSERVAMOS O CONSOLE.LOG DE 
+
+'Getting position' e 'timer done' APÓS 
+
+A OBTENÇÃO DA LOCALIZAÇAÕ DO USUÁRIO COM AS LINHAS 
+
+
+'posData = await GetPosition();
+timerData = await setTimer(2000);
+
+
+----------------------------------------------
+
+
+
+MASSSSSSS, NA VERDADE, 
+
+
+O CÓDIGO JAVASCRIPT/EXECUÇÃO NÃO É PAUSADO COM ASYNC/AWAIT, 
+
+
+PORÉM, POR TRÁS DAS CENAS, TODAS ESSAS ETAPAS NO FINAL DAS CONTAS 
+
+ACABAM 'WRAPPED INTO' SEUS PRÓPRIOS '.THEN()' BLOCKS....
+
+
+
+ISSO SIGNIFICA QUE aquele código 'imediato' de 
+
+
+''setTimer(1000).then(() => { 
+    console.log('Timer done!');
+
+});
+console.log('Getting position'); ''
+
+
+
+
+ACABA TENDO SEU PRÓPRIO THEN BLOCK, TAMBÉM.....
+
+
+
+
+COMO ESSE NEGÓCIO ESTÁ EM ___OUTRO THEN BLOCK____, ele 
+
+só será executado 
+
+
+
+_____APÓS____ O PRIMEIRO GRANDE CONJUNTO DE .THEN BLOCKS (que está no try/catch) 
+TER TERMINADO....
+
+
+
+
+
+
+É COMO SE TIVÉSSEMOS UM .THEN BLOCK EXTRA LÁ EMBAIXO, ENVOLVENDO ESSE CÓDIGO DE 'setTimer(1000)'...
+
+
+ ------------------------------------------------------
+
+
+
+
+
+
+
+ ASYNC/AWAIT, PORTANTO, NÃO É TÃO BOM PARA SITUAÇÕES EM QUE VOCÊ TEM UMA FUNÇÃO EM QUE VOCÊ PRECISA 
+
+ EXECUTAR/KICK OFF MÚLTIPLAS COISAS SIMULTANEAMENTE E NÃO QUER EXECUTAR ELAS 'uma após a outra'....
+
+
+
+ ------> 
+
+
+SE DEIXARMOS 'ASYNC AWAIT' NESSE NOSSO CÓDIGO EXEMPLO, teremos 
+
+um código NÃO IDEAL, pois queremos, nesse exemplo,
+ 
+ que 
+
+
+ 'o setTimer' e aqueles console.logs de 'Getting position' e 
+
+ 'timer done' 
+
+
+ SEJAM EXECUTADOS 
+
+
+
+
+ _____ANTES______ da obtenção da posição do usuário por meio das promessas elencadas no 
+
+
+ 'try-catch' block...
+
+
+
+ -------------------------------
+
+
+
+ PROFESSOR EXPLICA QUE É CLARO QUE VOCÊ PODE CONSERTAR ESSA SITUAÇÃO POR MEIO 
+
+ DO 'offload' do setTimer e dos console.logs EM UMA DIFERENTE FUNÇÃO, uma função a qual 
+
+ SERIA EXECUTADA SIMULTANEAMENTE à função 'trackUserHandler' (isso faria com que esses códigos fossem executados 
+ antes daqueles códigos em try-catch, pois demoram menos do que 'geolocation.getPosition' e etc...).....
+
+
+
+
+
+OU SEJA, HÁ JEITOS DE 'GO AROUND' ESSE COMPORTAMENTO;
+
+
+VOCÊ APENAS DEVE ENTENDER QUE É IMPORTANTE TER CIÊNCIA DE QUE TUDO 
+
+NESSA FUNÇÃO 'async/await' é executado 'UM ATRÁS DO OUTRO'...
+
+
+-----------------------------------
+
+
+
+
+OUTRA DESVANTAGEM DE ASYNC/AWAIT É 
+
+
+QUE ESSA SINTAXE SÓ É DISPONÍVEL __________DENTRO DE FUNÇÕES______.
+
+
+Isso quer dizer que se você tiver um 
+
+código 'promise-based' no contexto global,
+
+
+como 
+
+
+
+'setTimer(1000);', 
+
+
+você NÃO PODERÁ COLOCAR A KEYWORD 
+
+
+'await' nele e então tentar usá-lo,
+
+pois 'await' SÓ PODE SER USADO EM FUNÇÕES MARCADAS COMO 'async.'.....
+
+
+
+
+obs: 'setTimer(1000)' vai sempre retornar uma PROMISE, pois nós 
+
+'PROMISIFICAMOS' ESSA FUNÇÃO.
+----------------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+await setTimer(1000); -------------> NÃO FUNCIONA. n funciona pq 'setTimer' está fazendo parte da função GLOBAL ANÔNIMA 'anonymous', a qual você ganha automaticamente, MAS ESSA NÃO É, NA VERDADE, UMA FUNÇÃO 'ASYNC.'..
+
+
+
+
+
+-------------------------------------------------------
+
+
+
+Professor explica que CASO VOCÊ QUISESSE TER UMA FUNÇÃO 'AWAIT' no contexto global 
+
+
+de um código javascript, VOCÊ TERIA 
+
+
+QUE EMBALAR ESSA FUNÇÃO EM UMA 'IIFE' (pronuncia-se 'iffy') ------> 
+
+
+
+
+O QUE SÃO IIFEs?   
+
+
+
+IIFE ==== IIFE (Immediately Invoked Function Expression) ----> é uma função 
+em JavaScript que é executada assim que definida.
+
+
+
+
+
+
+-----------------------------------------------------
+
+
+Isso significa que vocÊ teria quer escrever assim:
+
+
+
+
+
+
+
+async function() {  ///////////////////ESSA É A 'IIFE', uma função definida em javascript que é EXECUTADA IMEDIATAMENTE APÓS SER DEFINIDA.
+    await setTimer(1000);
+}
+
+
+
+
+
+
+
+A SINTAXE DE IIFES É BEM FEIA.
+
+Observe:
+
+
+
+
+
+
+(async function() {
+    await setTimer(1000); 
+})();
+
+
+
+
+-------------------------------------------------
+
+
+
+
+SE NÃO QUISERMOS UTILIZAR ESSA SINTAXE HORRÍVEL,
+
+PODEMOS SIMPLESMENTE USAR 
+
+then blocks normalmente....
+
+
+
+ex:
+
+
+
+
+setTimer(1000).then();
+
+
+
+
+----------------------------------------------------
+
+
+
+
+ASYNC AWAIT, PORTANTO, PODE NEM SEMPRE SER 
+
+A OPÇÃO MAIS RECOMENDADA...
+
+
+
+
+Porém, se você tem uma função simples que usa 
+
+uma promise, usar 
+
+'async/await' dentro dela 
+
+não é tão difícil e pode até ser o mais recomendado.

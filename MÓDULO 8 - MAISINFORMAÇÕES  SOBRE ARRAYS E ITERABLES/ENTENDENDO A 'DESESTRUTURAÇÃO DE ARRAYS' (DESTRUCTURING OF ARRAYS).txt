@@ -1,0 +1,213 @@
+Vimos o spread operator. 
+
+
+
+
+
+OUTRA FEATURE DE SINTAXE MUITO ÚTIL É a sintaxe de "ARRAY DESTRUCTURING".
+
+
+
+
+
+Para mostrar como funciona, devemos voltar ao exemplo dos "name fragments".
+
+
+
+
+
+
+ex:
+
+
+
+
+const nameFragments = ['Max', 'Schwarz'];
+
+
+
+
+
+----------------> ESSE É UM EXEMPLO PERFEITO DE UM CASO EM QUE "ARRAY DESTRUCTURING" pode ser útil.
+
+
+
+
+Você poderia estar pegando essas strings (max e schwarz) de outras funções, digamos umas funções que leem 
+alguns valores retirados de alguns inputs que você tem no site... e, agora, 
+você recebe esses valores como um ARRAY, mas você quer dividí-lo em 
+duas variáveis SEPARADAS, com as quais você quer continuar trabalhando...
+
+O professor também vai lá e utiliza constantes para usar 
+como referências daquelas strings lá, para não ter que 
+se repetir tanto durante o código. Ele diz que isso é legal e tal, 
+MAS QUE NÃO É IDEAL. HÁ UM ATALHO PARA ISSO. Esse atalho é o tal do "array destructuring".
+
+
+ex da versão "não ideal":
+
+
+
+const nameData = ['Max', 'Schwarz'];
+
+
+const firstName = nameData[0];
+
+
+const lastName = nameData[1];
+
+-------------------------------------------------
+
+
+
+
+Podemos escrever isso de uma maneira diferente.
+
+Podemos ADICIONAR [] (square brackets) DEPOIS DA KEYNAME DA CONSTANTE (ou seja, do lado do sinal de =, algo que não fizemos até agora), 
+
+Adicionamos esse [] e então APONTAMOS O '=' ao nosso array.
+
+
+
+
+ex:
+
+const nameData = ['Max', 'Schwarz'];
+
+const [] = nameData;
+
+
+-------------------------------
+
+
+Agora, as coisas que você vai colocar dentro desse [] são NOMES DE VARIÁVEIS PARA 
+AS COISAS (valores, strings, números) QUE VOCÊ IRÁ COLOCAR NO ARRAY DA DIREITA (o array '['Max', 'Schwarz']').
+
+
+-----------------------------------------
+
+
+Como assim?
+
+
+
+Bem, esse array que está em cima e na direita tem DOIS ELEMENTOS.
+
+Podemos, então, colocar quaisquer nomes para esses slots do array de cima, no 
+array de baixo.
+
+
+
+
+ex:
+
+
+
+
+
+
+const nameData = ['Max', 'Schwarz'];
+
+const [ firstName, lastName] = nameData;
+
+
+-----------------------------
+
+
+O que javascript vai fazer, aqui, é ____PUXAR___PARA_____FORA___ AQUELES DOIS ELEMENTOS 
+QUE ESTÃO DENTRO DA ARRAY DE "nameData" E ENTÃO INSERÍ-LOS EM DUAS CONSTANTES DIFERENTES, 
+
+UMA CONSTANTE "firstName", que segurará o valor/string 'Max', E OUTRA CONSTANTE, lastName, que segurará a string de 'Schwarz'.
+
+
+
+RESUMO:
+
+ex:
+
+const nameData = ['Max', 'Schwarz'];
+
+const [ firstName, lastName] = nameData;
+
+
+
+VIRA (é, essencialmente, isso): 
+
+
+
+const nameData = ['Max', 'Schwarz'];
+
+const firstName = 'Max'
+
+
+const lastName = 'Schwarz'
+
+
+
+------------------------------
+
+
+Como você pode ver, aquela sintaxe ali é bem rápida e prática, e é melhor do que chamar os negócios por meio 
+de child calls ("const firstName = nameData[0];").
+
+
+É uma sintaxe muito poderosa para SPLITAR UM ARRAY EM MÚLTIPLAS VARIÁVEIS/CONSTANTES com as quais você quer trabalhar.
+
+
+
+Professor aponta que às vezes você tem MAIS DADOS NO ARRAY DO QUE AQUILO QUE VOCÊ QUER 
+PUXAR. (basicamente eu quero pegar 2 dos elementos, mas o terceiro eu não quero...).
+
+
+ex:
+
+
+const nameData = ['Max', 'Schwarz', 'Mr']; //----> STRING 'Mr' É A INDESEJADA. Apenas quero max e schwarz. Apenas quero firstName e lastName. 
+
+
+const [ firstName, lastName] = nameData;  
+
+
+
+------------------> ESSE CÓDIGO AINDA FUNCIONARÁ COMO QUEREMOS (à firstName será assignado o valor de 'Max', e à lastName será assignado o valor de 'Schwarz', enquanto que 'Mr' será ignorado.)
+
+
+
+
+MAS E SE EU QUERO ENFIAR 2 STRINGS/NÚMEROS/VALORES DESSE ARRAY DENTRO DE UMA CONSTANTE SÓ?
+
+
+
+ex:
+
+
+
+const nameData = ['Max', 'Schwarz', 'Mr', 30]; // -----> Quero, nesse caso, inserir max em firstName, schwarz em lastName... E "MR" E "30" DENTRO DE UMA CONSTANTE SÓ, ÚNICA.
+                                                //Para tal, explica o professor, devemos usar o "REST OPERATOR" (...) (rest operator faz com que todo o restante dos valores seja referenciado/selecionado em uma função).
+                                                //o rest operator vai coletar todos os elementos restantes e então enfiá-los dentro de um array novo que será criado especialmente para eles.
+-----------------------------------------------
+
+
+ex:
+
+
+const nameData = ['Max', 'Schwarz', 'Mr', 30];
+const [ firstName, lastName, ...otherInformation] = nameData;  // (ISSO VAI VIRAR as constantes 
+                                                                        firstName = 'Max';
+                                                                        secondName = 'Schwarz';
+                                                                        otherInformation = ['Mr', 30];  //array criado para segurar os dois pedaços de informação/valores selecionados por meio do rest operator (...).
+                                                                                                 )
+
+
+
+
+
+Professor aponta que essa SINTAXE DE DESTRUTURAÇÃO é sempre lida e assignada DA ESQUERDA PARA A DIREITA.
+
+
+
+
+Array destructuring, portanto, é uma feature muito boa se você quer dividir um array de valores 
+em múltiplas variáveis ou constantes diferentes.
+
+Ele nos salva o trabalho de selecionar cada elemento do array manualmente com indexadores.

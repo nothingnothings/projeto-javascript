@@ -1,0 +1,189 @@
+Veremos um pouco dos bastidores agora, um pouco de 
+
+como o código javascript é executado, e como todas as coisas 
+funcionam em conjunto.
+
+
+
+
+
+ex de código de javascript:
+
+
+
+
+const name = 'Max';
+
+alert(name);
+
+
+
+
+
+COMO ISSO É EXECUTADO?
+
+dividiremos a pergunta em 2 partes:
+
+
+1) O que o browser faz com esse código? Como diabos isso resulta 
+em algo mostrado na nossa tela?
+
+
+
+2) O que o browser faz INTERNAMENTE com o nosso código, com o que diabos ele fez 
+com o código inicial, para que administre o FLOW DE execução de nosso código, para 
+que ele execute na ordem correta, como aprendemos no curso?
+
+
+
+
+Começaremos com "o que o browser faz com esse pedaço de código"?
+
+
+
+
+
+
+Browser lÊ o html, lê o script import e então, SEMPRE QUE O BROWSER ALCANÇA 
+UM SCRIPT IMPORTADO EM UM HTML OU ESCRITO INLINE, ELE O EXECUTARÁ.
+
+
+
+Mas o que "executar o script" significa? 
+
+
+---> professor aponta/releva que os detalhes específicos DEPENDEM DO BROWSER/ENGINE que estamos 
+utilizando. O código javascript que escrevemos sempre é o mesmo, mas o que o browser 
+faz com esse codigo, em detalhe, difere.
+
+
+Se você quer saber mais sobre essas coisas super específicas, você pode ler mais com os links anexados no curso.
+Ver sobre as engines e como elas funcionam nos bastidores.
+
+
+
+
+Browser executa o código javascript --->
+
+
+browser === faz o parsing (leitura do código, o carrega) e execução do código (processo em que 
+algo OCORRE EFETIVAMENTE, parte do processo em que NOSSO CÓDIGO TEM ALGUM EFEITO).
+
+
+Para as partes do parsing e  da execução, todo browser tem uma javascript engine (V8, spidermonkey, etc).
+
+ 
+ O parsing e a execução TIPICAMENTE COMPREENDEM 2 PARTES:
+
+
+ 1) INTERPRETER (interpretador)
+
+
+
+ 2) COMPILER (compilador) (JiT).  (JIT = JUST IN TIME compiler, é um tipo de compiler). (veremos o que isso significa mais tarde).
+
+
+
+Agora, os detalhes exatos dependem do browser que usamos. MAS PARA O V8, é exatamente assim que as coisas funcionam.
+
+
+
+
+
+INTERPRETADOR === CARREGA E LÊ O SCRIPT (parsing); APÓS ISSO, CONVERTE-O/TRADUZ-O PARA BYTE CODE, QUE É 
+MAIS FÁCIL DE SER EXECUTADO PELA MÁQUINA, E ENTÃO COMEÇA A RODAR O NOSSO SCRIPT.
+
+
+Mas, então, o que sobra para o compiler? O que ele faz? O que ele é?
+
+
+
+Bem, o interpreter começa a executar nosso script (começa tudo), mas ELE FAZ ISSO 
+LINHA POR LINHA, DE UMA MANEIRA NÃO OPTIMIZADA. Isso significa que a execução de scripts funciona, 
+mas é longe de ser rápido, não tem a melhor velocidade possível. Para ter a melhor performance possível, você
+não quer somente interpretar o código e executá-lo cru dessa forma, e sim compilá-lo EM MACHINE CODE e ENTREGÁ-LO 
+PARA A MÁQUINA, PARA O SISTEMA OPERACIONAL, ESSE CAMINHO SEMPRE SERÁ MAIS RÁPIDO.
+
+ESSA TRADUÇÃO PARA MACHINE CODE É SEMPRE FEITA PELO COMPILADOR.
+
+
+
+O interpretador, portanto, além de interpretar o código que você escreveu e 
+ainda começar a execução, ele ainda tem a função de repassar o BYTECODE ao compiler, para que 
+o compiler (que também é um elemento do browser, ele está integrado ao browser), enquanto o interpreter 
+começa a execução do script, comece a compilar/formatar o código em um formato machine code.
+
+Para códigos mais curtos, a interpretação pode terminar antes mesmo do compiler começar a formatar/compilar o 
+BYTECODE que foi repassado a ele, mas MESMO ASSIM O SEGUNDO PASSO, O PASSO DO COMPILER, SEMPRE ACONTECE. ISSO É PORQUE 
+O PROCESSO OCORRE LADO-A-LADO, O INTERPRETER E O COMPILER TRABALHAM SIMULTANEAMENTE, CONCOMITANTEMENTE.
+Por isso é "JIT COMPILATION" (just in time compilation), porque o compiler começa a compilar + executar o código compilado ENQUANTO O CÓDIGO 
+ESTÁ SENDO LENDO E EXECUTADO PELO INTERPRETER. Quando essa compilação em machine code termina (o que é rápido),
+ esse machine code é repassado ao seu computador, que então executa o código.
+
+
+ As javascript engines aplicam certas técnicas de optimização para acelerar o processo de execução e compilação.
+EX: código que não mudou entre o período da última execução e da execução atual NÃO É NECESSARIAMENTE RECOMPILADO, mas sim 
+o código já compilado é então pegado de novo. Recicla-se o código antigo da página, o que é muito mais rápido 
+do que ter que recompilar o negócio toda santa vez que abrirmos a página.
+Os links em anexo mostram outras técnicas de optimização que são utilizadas.
+
+
+
+
+
+GOOGLE CHROME ---> ENGINE É V8 ---> COMPILER É "TURBOFAN".
+
+
+
+
+
+
+
+TAMBÉM IMPORTANTE É SABER QUE O BROWSER TAMBÉM TE DÁ VÁRIAS FEATURES, QUE SÃO CHAMADAS APIs, Que são built-in,
+que vocÊ pode acessar por meio do seu código javascript.
+
+Browser APIs ---> communication Bridges between javaScript and (C++) Logic built into the Browser.
+
+
+coisas como trabalhar com o código HTML já carregado, ou outras built-in APIs, como a API que descobre 
+a localização do usuário.
+
+Essas browser APIs são parte do browser, mas é claro que isso depende do browser que vocÊ está usando.
+As APIs são basicamente pontes de comunicação que você pode chamar de dentro do javascript.
+
+APIs te dão funções e objetos, que estão disponíveis dentro do seu código javaScript, que você pode então simplesmente
+CHAMAR NO SEU CÓDIGO JAVASCRIPT. E quando esse código é então interpretado e compilado, o browser já 
+sabe onde encontrar essas funções e objetos, ele sabe onde encontrar essas APIs, por isso ele PEGA essa chamada a esse 
+API nativo/feature do browser e enfia ele dentro do interpreter/compiler/compiled code.
+
+
+Por isso o compiled code finalizado (que roda na máquina) tem também acesso a esses browser APIs, porque 
+esse DESEJO PARA O ACESSO (requisição para o acesso) já é incluído NO MACHINE CODE COMPILADO pela engine.
+
+
+
+
+Professor denota que nomes exatos mudam de acordo com o browser que você utiliza.
+
+Mas essa é a big picture.
+
+
+Professor diz que é importante saber isso. 
+
+
+MAS ISSO RESPONDE APENAS à PRIMEIRA PERGUNTA, de "como o javascript lida com o nosso código"
+
+
+Não foi respondida a pergunta de "O QUE O BROWSER FAZ QUANDO O SEU CÓDIGO É EXECUTADO?"
+
+
+essa pergunta se desdobra em outras: 
+
+
+"como são armazenadas suas variáveis",
+
+"como diabos a execução de funções funciona?"
+
+"como é estabelecida a ordem de coisas no código?"
+
+Veremos isso nas próximas aulas.

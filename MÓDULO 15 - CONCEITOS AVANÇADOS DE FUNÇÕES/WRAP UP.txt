@@ -1,0 +1,118 @@
+
+
+
+
+
+
+
+
+APRENDEMOS O QUE PRECISÁVAMOS SOBRE AS FEATURES AVANÇADAS DE FUNÇÕES....
+
+
+
+
+agora somos 'experts de funções'...
+
+
+
+
+
+
+
+AGORA SABEMOS SOBRE O SCOPE/AMBIENTE LÉXICO DE FUNÇÕES, 
+
+
+
+
+
+sobre FACTORY FUNCTIONS,
+
+
+
+
+
+
+sobre PURE/IMPURE FUNCTIONS ,
+
+
+
+
+SOBRE SIDE EFFECTS
+
+
+
+
+
+E SOBRE 
+
+
+RECURSION, que é uma 
+
+
+FERRAMENTA PODEROSA...
+
+
+TODO DESENVOLVEDOR DEVE SABER FAZER 'RECURSIONS', não só developers de javascript....
+
+
+
+
+
+COM ISSO, HÁ POUCA COISA QUE AINDA PODEMOS APRENDER SOBRE FUNÇÕES.
+
+
+NO JAVASCRIPT, AS FUNÇÕES, como você provavelmente já deve ter percebido, SÃO UMA 
+
+FERRAMENTA PODEROSA, COM A QUAL PODEMOS FAZER MUITAS COISAS DIFERENTES.
+
+
+
+
+
+----> NÃO SE PREOCUPE, você não precisa fazer TUDO apenas com as funções...
+
+
+
+Mas é bom saber as diferentes capacidades/funcionalidades das funções...
+
+
+
+
+
+
+COM ISSO, ESTAMOS PREPARADOS PARA QUAISQUER TIPOS DE APLICATIVOS QUE QUISERMOS FAZER.
+
+
+
+
+Agora sabemos como funções se comportam, como funcionam INTERNAMENTE...
+
+
+
+
+
+SE ALGUMA HORA ENCONTRARMOS UM COMPORTAMENTO ESTRANHO DE UMA FUNÇÃO, 
+
+
+devemos nos lembrar daquilo que aprendemos aqui;
+
+
+por exemplo, devemos lembrar aquilo que aprendemos a respeito de SCOPES, 
+
+
+RECURSION, ETC ETC.
+
+
+
+
+
+Attached, you find the source code for this section. The snapshots are also attached to individual lectures throughout this module (i.e. the lectures to which each snapshot belongs).
+
+---
+
+The following resources may be helpful.
+
+More on Closures (MDN): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+
+Recursion (MDN): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#Recursion
+

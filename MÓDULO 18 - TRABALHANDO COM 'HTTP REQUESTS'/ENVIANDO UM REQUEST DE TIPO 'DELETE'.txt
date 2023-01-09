@@ -1,0 +1,832 @@
+
+
+
+
+
+
+NÓS NÃO ESTAMOS LIMITADOS A ENVIAR APENAS 'GET' E 'POST' REQUESTS....
+
+
+
+
+
+
+
+
+
+HÁ MAIS HTTP METHODS EM JAVASCRIPT, E TUDO DEPENDE DA API COM A QUAL VOCÊ ESTÁ 
+
+TRABALHANDO...  é ela que determina QUAIS TIPOS DE REQUEST QUE VOCÊ PODE ENVIAR.
+
+
+
+
+
+
+
+
+E AQUI, A API 'jsonplaceholder' TAMBÉM 
+
+
+
+SUPORTA O DELETE DE UMA RESOURCE...
+
+
+
+
+
+DE NOVO, TUDO AQUI É APENAS 'FAKE', ELE SIMULA QUE VOCÊ PODE 
+
+DELETAR ALGO NELE 
+
+
+POR MEIO DO SEND DE UM 'delete'...
+
+
+
+
+PROFESSOR RESSALTA QUE A URL que aceita o http method de 'delete' em 
+
+jsonplaceholder 
+
+É M POUCO DIFERENTE 
+
+
+DA URL do get/post...
+
+
+
+a url é 
+
+'https://jsonplaceholder.typicode.com/posts/1'
+
+
+
+
+
+
+
+ESSA NOVA URL É UM POUCO DIFERENTE, ELA INCLUI 
+
+O ID de um post (aquele '1') PARA 
+
+FINGIR QUE NÓS FOMOS LÁ 
+
+E DELETAMOS AQUELE POST...
+------------------
+
+
+
+
+SE formos até a nossa 
+
+list, podemos perceber que temos 
+
+
+um botão de 'delete' EM CADA POST...
+
+
+
+
+
+AGORA SÓ TEMOS QUE NOS ASSEGURAR QUE O ID QUE 
+
+É PARTE DE CADA RESPONSE (ou seja, aquele id QUE AGORA É RANDOMMIZADO POR MEIO DE 'Math.random()')
+
+SEJA 
+
++ OU - (kindof) MAPPEADO AO SEU ELEMENTO, 
+
+PARA QUE POSSAMOS ENTÃO DESCOBRIR 
+
+EM QUAL ELEMENTO NÓS CLICAMOS no botão de delete 
+
+PARA MANDAR O 
+
+
+DELETE REQUEST __CORRETO____....
+
+
+----------------------------
+
+
+
+Para isso, no lugar em que outputtamos todos os posts (OU SEJA, 
+
+EM 'fetchPosts'), 
+
+
+QUANDO NÓS RENDERIZAMOS OS POSTS, EU TAMBÉM QUERO QUE SEJA ADICIONADA 
+
+UMA PROPRIEDADE 'ID' aqui....
+
+
+Para isso, eu vou até meu 'postEl' (POST ELEMENT)  e então 
+
+
+USO QUERYSELECTOR PARA SELECIONAR o 'li' DESSE 
+
+ELEMENTo... ISSO 
+
+VAI SELECIONAR O ELEMENTO 'LI' EM SI.....
+
+AÍ EU VOU 
+
+
+LÁ E DEFINO A PROPRIEDADE 'ID' DESSE 
+
+ELEMENTO 'postEl' como sendo 
+
+
+'post.id'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function fetchPosts() {
+    sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts').then(
+      
+      responseData => {
+  const listOfPosts = responseData;
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id; ///////////EIS O CÓDIGO EM QUESTÃO.
+      listElement.append(postEl);
+    }
+  })
+}
+
+
+
+-------------------------------------
+
+
+
+
+FAZEMOS ESSE ASSIGNMENT para que tenhamos 
+
+
+ESSE ID assignado A TODO ELEMENTO 'listItem'...
+
+
+
+
+
+
+EU RECARREGO A PÁGINA 
+
+E CLICO EM 'fetch POSTS'...
+
+
+
+
+AÍ VOU ATÉ A ABA 'ELEMENTOS'  do devtools 
+
+
+E examino o index.html...
+
+
+
+
+É POSSÍVEL PERCEBER QUE, NO NOSSO HTML,
+ 
+AGORA 
+
+TODO 'LIST ITEM' ('post-item') 
+
+
+POSSUI AGORA UM ID ASSIGNADO A SI..., um 'id' assignado como seu atributo...
+
+
+
+
+
+PODEMOS USAR ISSO PARA FAZER O BOTÃO DE DELETE ____FUNCIONAR___.
+
+
+
+
+
+PARA ISSO, DEVEMOS ADICIONAR UM LISTENER AO 
+
+
+BOTÃO DE DELETE...
+
+
+
+
+PROFESSOR EXPLICA QUE PODERÍAMOS, SIM, COLOCAR UM LISTENER 
+
+EM CADA 
+
+BOTÃO DE DELETE...
+
+
+
+
+OU, MUITO MELHOR, PODERÍAMOS USAR 
+
+'EVENT DELEGATION', o qual aprendemos em um módulo anterior (módulo de eventos.), 
+
+PARA USAR APENAS 1 EVENT LISTENER DIRIGIDO A TODOS OS BOTÕES...
+
+
+
+
+
+
+----> PARA ISSO, PRECISAMOS DE ACESSO 
+
+
+À 'OVERALL LIST' de posts... (todos os posts que têm 'delete', ou seja, TODOS OS POSTS...).
+
+
+
+
+Para isso o professor cria uma nova const, de nome 
+
+'postList'....
+
+
+Aí ele usa 
+
+
+'document.querySelector('ul');'
+
+para selecionar a 'overall list'...
+
+
+
+
+---------------------------------
+
+
+
+
+AÍ ELE VAI LÁ 
+
+
+E ESCREVE 
+
+
+UM EVENTLISTENER PARA UM CLICK 
+
+
+
+E ENTÃO COLOCA UM parâmetro secundário de event normal ('event => {}')....
+
+
+
+
+
+ex:
+
+
+
+
+postList = document.querySelector('ul');
+
+postList.addEventListener('click', event => {
+
+})
+
+
+
+---------------------------------------
+
+
+
+
+
+AÍ, O PROFESSOR NOS EXPLICA QUE É CLARO QUE ELE NÃO QUER 
+
+DELETAR 'QUALQUER COISA' só pq um 'click' aconteceu em qualquer lugar dessa 
+
+list... não, eu quero deletar QUANDO O BOTÃO 'DELETE' É CLICADO... 
+
+
+
+EM VEZ DISSO, PRECISAMOS ENCONTRAR AGORA __QUAL ITEM__ FOI CLICADO...
+
+Fazer com que apenas o botão reaja a cliques.... 
+
+
+
+
+PARA CHECAR ISSO, 
+
+
+PODEMOS ADICIONAR 
+
+um if check 
+
+
+
+
+de 
+
+
+
+'event.target'.....
+
+
+
+
+
+
+mais propriamente da propriedade 
+
+
+'tagName' nesse target de 'event'...
+
+
+ex:
+
+
+
+'event.target.tagName;'....
+
+
+
+
+ex:
+
+
+
+
+
+postList.addEventListener('click', event => {
+    if (event.target.tagName) 
+})
+
+
+----------------------------------
+
+
+SE ELE FIZER ISSO, 
+
+
+ELE RECEBERÁ A TAG NAME (ou seja, 'p', 'h', 'li', tags em geral)....
+
+
+SE ESSA 
+
+'tagName' for 
+
+
+'BUTTON' (em uppercase mesmo, POIS O RETURN DE 'tagName' SEMPRE É DADO EM UPPERCASE...)...
+
+
+
+
+SE ESSA TAGNAME FOR 'BUTTON', aí eu vou saber/o código saberá 
+
+QUE 
+
+O USUÁRIO CLICOU ESPECIFICAMENTE NO 
+
+BUTTON do target do clique do usuário...
+
+
+
+ex:
+
+
+
+
+postList.addEventListener('click', event => {
+    if (event.target.tagName === 'BUTTON') {
+
+    }
+})
+
+
+
+
+--------------------------------
+
+
+
+
+AÍ O PROFESSOR CHECA SE ISSO FUNCIONOU com um 
+
+console.log de 'Clicked on Button!' ---> 
+
+se isso aparecer, significa que o botão/os botões foi selecionado 
+
+com sucesso.
+
+
+
+--------------------------------------
+
+
+
+
+postList.addEventListener('click', event => {
+    if (event.target.tagName === 'BUTTON') {
+        console.log('Clicked on Button!');
+    }
+})
+
+
+
+
+
+-------------------------------
+
+
+
+UTILIZAMOS A MESMA LÓGICA DO 'tagName' e do 'event.target' PARA FAZER COM QUE 
+
+O BOTÃO DE 'fetchPosts' FUNCIONE DA MESMA FORMA (ou seja, que 
+só sejam iniciadas funções no código QUANDO 
+
+O USUÁRIO CLICA DIRETAMENTE EM CIMA DE 'fetchPosts', e não, por exemplo, do lado do botão 
+(na section que o contém, por exemplo, que não é a mesma coisa que o botão em si). )
+
+
+
+
+AGORA, QUANDO O PROFESSOR CLICA EM 
+
+
+'DELETE', nós vemos 
+
+outputtado no console 
+
+
+a mensagem 
+
+
+'Clicked on button!'
+
+
+
+
+----------------------------
+
+
+
+agora precisamos SABER EM QUE 'LIST ITEM' esse botão 
+
+
+'delete' PERTENCE....
+
+
+
+Para isso, nós criamos a constante 
+
+
+'postId'.....
+
+
+
+AÍ O PROFESSOR VAI LÁ 
+
+E USA O MÉTODO 
+
+
+'CLOSEST' em 'target'
+
+
+
+PARA CONSEGUIR O 'list item' MAIS PRÓXIMO DO EVENT.TARGET (que é o clique no botão, no caso... PQ 
+o elemento MAIS PRÓXIMO DO CLIQUE DO BOTÃO É O LIST ITEM AO QUAL ESSE BOTÃO PERTENCE...).
+
+
+
+
+ex:
+
+
+
+
+const postId = event.target.closest('li');
+
+
+
+
+--------------------------------------
+
+
+ex:
+
+
+
+postList.addEventListener('click', event => {
+    if (event.target.tagName === 'BUTTON') {
+        const postId = event.target.closest('li');  /////////EIS O CÓDIGO EM QUESTÃO.
+    }
+})
+
+
+
+
+-------------------------------------------
+
+
+
+
+ou seja, agora o código SABERÁ QUE CLICAMOS EM UM 'BUTTON'....
+
+partindo dessa informação, ele vai procurar O LIST ITEM 
+
+MAIS PRÓXIMO desse evento 'click' no botão POR MEIO 
+
+
+DE 
+
+'event.target.closest('li');'....
+
+
+
+
+
+
+MAS NÃO ACABAMOS POR AÍ, POIS 
+
+QUEREMOS/DESEJAMOS 
+
+
+
+O __iD____ desse elemento 'li'.... (o nome da constante em que irá esse valor é 'postId' justamente por isso...)...
+
+
+
+O PROFESSOR CONSEGUE ESSE VALOR POR MEIO DA SIMPLES ESCRITA da propriedade 
+
+'.id'....
+
+
+
+
+Professor também coloca um console.log de postId para confirmar 
+
+se O BOTÃO EM QUE ESTAMOS CLICANDO REALMENTE VINCULARÁ 
+
+O LIST ITEM EM QUE ELE ESTÁ CONTIDO...
+
+
+-------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+postList.addEventListener('click', event => {
+    if (event.target.tagName === 'BUTTON') {
+        const postId = event.target.closest('li').id;
+        console.log(postId);
+    }
+})
+
+
+
+------------------------------------------------
+
+
+
+
+
+Feito isso, agora podemos 
+
+
+tentar fazer funcionar O DELETE REQUEST DE VERDADE... ('the actual delete request').
+
+
+
+
+PARA ISSO,
+
+DEVEMOS 
+
+
+usar o 'sendHttpRequest' aqui....
+
+
+
+
+AÍ PASSAMOS 
+
+como primeiro parâmetro 
+
+o argumento 
+
+
+
+'DELETE'...
+
+
+
+
+
+DEPOIS DEVEMOS PASSAR O SEGUNDO ARGUMENTO, que dessa vez NÃO SERÁ 
+
+O SITE LÁ DO jsonplaceholder, E SIM 
+
+
+UMA STRING COM VALORES DINÂMICOS ... por ser uma string com valores 
+dinâmicos, 
+
+DEVEMOS UTILIZAR BACK TICKS (``)...
+
+
+UTILIZAMOS O 'jsonplaceholder' e etc, 
+
+
+MAS AÍ 
+
+
+DEVEMOS COLOCAR 
+
+um novo segmento, um novo 'SEGMENTO DE PATH', que será 
+
+uma injeção dinâmica de valor...
+
+
+
+INJETAREMOS DINAMICAMENTE, AQUI, 
+
+O 'postId'...
+
+
+
+ex:
+
+
+
+
+
+
+
+postList.addEventListener('click', event => {
+    if (event.target.tagName === 'BUTTON') {
+        const postId = event.target.closest('li').id;
+        console.log(postId);
+        sendHttpRequest('DELETE', `https://jsonplaceholder.typicode.com/posts/${postId}`)
+    }
+})
+
+
+
+
+--------------------------------
+
+
+ISSO FARÁ 
+
+COM QUE O ID 
+
+de cada post SEJA ADICIONADO DINAMICAMENTE AO FINAL DO PATH 
+
+CADA VEZ QUE O 'DELETE' DE UM POST É CLICADO...
+
+
+
+FAZEMOS ISSO TBM PQ ISSO É EXATAMENTE O QUE O 'API' quer...
+
+
+
+O ___API____ QUER QUE o 'id' seja/FAÇA PARTE DA 
+
+URL....
+
+
+
+
+O ID DO POST QUE vai/deve ser 'fake deleted' DEVE CONSTAR 
+
+NO FINAL DESSA URL...
+
+
+------------------------------------------
+
+
+
+
+COM ISSO, ESTAMOS QUASE TERMINADOS.
+
+
+AGORA O 'DELETE REQUEST' deve estar sendo enviado....
+
+
+
+checamos a devtools, aba 'network', e clicamos 
+
+
+em algum 'delete' de algum list item...
+
+
+--------------------------------------
+
+
+
+PROBLEMA:
+
+
+
+quando enviamos 
+
+esse request de tipo 
+
+'DELETE', acabamos 
+
+enviando um 
+
+
+GET request 
+
+
+e um POST request (por alguma razão....).
+
+
+
+
+
+----------------------------------------
+
+
+
+
+RESOLVI ESTE E OUTROS PROBLEMAS DO CÓDIGO, AGORA TUDO FUNCIONA....
+
+
+
+
+
+SE CLICARMOS 'DELETE', PODEMOS VER NA ABA 
+NETWORK QUE O 
+
+
+REQUEST DE 'DELETE' É ENVIADO COM SUCESSO...
+
+
+
+O fake api de jsonplaceholder NÃo parece 
+responder com nada,
+
+
+
+Mas isso já era esperado, 
+
+pois há um 
+
+
+anúncio de 
+
+
+'Important: the resource will not really be deleted on the server but it will be faked as if'...
+
+
+-----------------------------------------
+
+
+
+
+
+THATS IT.
+
+
+
+
+
+É claro que podemos 
+
+
+
+TAMBÉM DELETAR esse elemento 'li' de
+
+
+NOSSA INTERFACE VISUAL, diz o professor, 
+
+
+e isso podemos tentar fazer nós mesmos...
+
+
+

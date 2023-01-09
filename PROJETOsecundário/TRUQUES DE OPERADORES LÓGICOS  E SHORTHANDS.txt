@@ -1,0 +1,567 @@
+Agora que aprendemos sobre ternary expressions, queremos ver algumas especialidades 
+do javascript acerca de EXPRESSÕES, CONDITIONAL CODE e OPERADORES LÓGICOS.
+
+
+professor diz que consegue nos mostrar isso melhor no console, por isso o abrimos.
+Professor alega que no nosso projeto esses truques não tem utilidade alguma, por isso usaremos o console.
+
+
+
+
+TRUQUES/SHORTCUTS com OPERADORES LÓGICOS.
+
+
+
+
+
+
+O primeiro truque é a CONVERSÃO/COERÇÃO DE VALORES TRUTHY OU FALSY EM 
+VERDADEIROS VALORES BOOLEAN.
+
+
+"Boolean coercion via double NOT(double bang) operator" -----> double bang = !!.
+
+
+
+!! ----> esse é o operador, 2 sinais de exclamação.
+
+
+
+Aprendemos sobre o ! operator, que nos ajuda a NEGAR alguma CONDIÇÃO OU VALOR.
+
+
+Por meio de 2 !, nós NEGAMOS O NEGATE, o que essencialmente faz com que 
+a negação seja revertida. Mas há um fator importante: a exclamação sozinha, 
+única (!) CONVERTE UM TRUTHY VALUE em um VERDADEIRO VALOR FALSE/FALSO.
+
+E então, se você converter esse valor FALSE/falso DE VOLTA AO QUE ERA, POR MEIO DO USO DA 
+SEGUNDA EXCLAMAÇÃO, VOCÊ CONSEGUE RECEBER UM VERDADEIRO "TRUE"/VERDADEIRO VALUE.
+
+       (!)      (!)
+truthy -> false -> TRUE.
+
+
+ex:
+
+!!enteredNumber;
+
+
+ex:
+
+
+Se vocÊ usa !! na frente de uma EMPTY STRING (" "), VOCÊ GANHARÁ UM VERDADEIRO FALSE/FALSO 
+BOOLEAN, EM VEZ DE UM VERDADEIRO.
+
+
+(é ___quase_____ simples:
+
+
+ex:
+
+!!'cu'
+                        (!)             (!)             ("real")
+'cu' (string "truthy") -> agora é FALSE -> agora é um verdadeiro boolean de TRUE.
+
+
+
+
+!!enteredNumber;
+
+                                                     (!)                     (!)             ("real")
+enteredNumber (constante/variável, sempre é truthy)  -> agora é "real" FALSE -> agora é um verdadeiro boolean de TRUE.
+
+
+
+!!""
+
+                                                      (!)                    (!)              ("real")
+""(string vazia, sempre é FALSY. Mesma coisa com 0.) -> agora é "real" TRUE -> Agora é um verdadeiro boolean de FALSE
+
+
+
+!!1
+                                                                 (!)                     (!)           ("real")
+1(número positivo/inteiro/decimal que não é 0, sempre é TRUTHY.) -> agora é "real" FALSE -> Agora é  um VERDADEIRO BOOLEAN com o valor de TRUE
+
+
+
+
+
+
+
+)
+
+
+
+
+Isso geralmente não importará a você, mas quando você TEM CÓDIGO EM QUE VOCÊ QUER TRABALHAR COM BOOLEANS 
+VERDADEIROS EM VEZ DE "TRUTHY" E "FALSY", SEM DEIXAR O JAVASCRIPT FAZER ESSAS COMPARAÇÕES "TRUTHY/FALSY", ESSA COERCION, VOCê ENTÃO DEVERÁ 
+USAR O DOUBLE BANG (!!).
+
+
+Isso é, portanto, essencialmente um TRUQUE DE CONVERSÃO DE TIPO, QUE PODE CONVERTAR 
+UMA EMPTY STRING PARA FALSO (DE VERDADE), OU QUALQUER VARIÁVEL/CONSTANTE EM TRUE (DE VERDADE).
+
+
+
+Algumas vezes em código, códigos mais avançados, você pode precisar disso, e esse método é útil e prático.
+
+
+
+Outro truque legal relaciona-se com COMO O JAVASCRIPT TRABALHA COM O OPERATOR OR (||).
+
+
+Você pode usá-lo para assignar um VALOR DEFAULT à uma constante ou variável.
+
+
+Você se lembra, não, do or operator, das propriedades dele?
+
+
+Você pode usá-lo para definir um valor default, com essa sintaxe aqui:
+
+
+
+ex:
+
+
+const name = someInput || 'Max';
+
+
+Essa expressão vai checar "someInput" (a constante/variável), imagine que 
+isso é outra variável ou constante que SEGURA UM USER INPUT, UM USER INPUT QUE 
+
+____PODE ESTAR VAZIO___. Caso ele esteja vazio, o javascript vai retornar 0/EMPTY STRING, o que 
+SERÁ CONVERTIDO COMO FALSY (e tratado como false), O QUE ENSEJARÁ QUE A STRING 'MAX' SEJA DEFINIDA COMO O VALOR DA CONSTANTE "name", NESSE CASO (porque o javascript vai olhar para a string 'Max' e tratar ela como truthy, e então definí-la como o valor da const "name".).
+
+Por isso que o operador || pode ser usado como default, ele é usado como default PORQUE É LIDO POR ÚLTIMO PELO JAVASCRIPT (tem o número do índice muito, muito baixo).
+
+ Outra razão para isso é o outro comportamento de OR (||), que faz com que o conjunto todo seja considerado verdadeiro caso apenas uma das opções/condições seja considerada idônea (no caso, isso acontece com a string 'Max', que é truthy para o javascript).
+
+
+
+ MAS... e essa é a parte importante,
+
+
+ AO CONTRÁRIO DE LOGICAL OPERATORS COMO O === e o =>, O && e o OR(||) 
+ _____NÃO 
+ GERAM BOOLEANS._____
+
+ 
+
+ Você pode usá-los (|| e &&) para combinar condições E AÍ ELES VÃO RETORNAR TRUE OU FALSE, 
+ MAS NÃO PORQUE ELES CRIAM TRUE OU FALSE, E SIM PORQUE ELES RETORNAM OS RESULTADOS
+ GERADOS PELAS CONDIÇÕES QUE ELES ESTÃO COMBINANDO.
+
+
+ Se vocÊ está trabalhando com 2 strings, como estamos fazendo aqui com 
+ someInput e 'Max' (assumimos que someInput também segura uma string), 
+ o que acontece aqui é que || vai RETORNAR O PRIMEIRO VALOR TRUTHY _____SEM CONVERTÊ-LO 
+ EM UM VERDADEIRO BOOLEAN____
+
+
+ "OR will return the first truthy value _____WITHOUT  CONVERTING IT INTO A REAL BOOLEAN."
+
+
+
+Portanto, ele vai MANTER O VALOR ORIGINAL E ENTÃO IRÁ RETORNÁ-LO (o valor).
+
+
+
+
+
+
+no nosso código do monster killer--->
+
+
+
+
+há
+comparações como esta:
+
+
+
+if(isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+       chosenMaxLife = 100;
+}
+
+
+chosenMaxLife <=0  REALMENTE GERA UM VERDADEIRO BOOLEAN (true/false), e 
+isNaN TAMBÉM gera um verdadeiro Boolean ().
+
+
+E É POR ISSO QUE OR RETORNA UM VALOR VERDADEIRO AQUI, PORQUE AS CONDIÇÕES 
+QUE ELE ESTÁ COMBINANDO LIDAM COM ESSES VALORES, E NÃO PORQUE ELE MESMO CRIA 
+ESSES BOOLEANS (true ou FALSE) POR SI SÓ. As "coisas" (condições isNaN e operador <= 0) ao seu redor criam os booleans verdadeiros
+
+
+O || apenas retorna o PRIMEIRO ___TRUTHY____ ou ____TRUE___ value 
+ao qual está observando, e ele começa sempre da esquerda para a direita, desconsiderando 
+coisas a direita se a esquerda já for verdadeira.
+
+ex: isNaN(chosenMaxLife) é true----> || desconsiderará/não lerá chosenMaxLife <= 0.
+
+Se o primeiro valor for false/falsy, o or examinará o segundo valor, que retornará se 
+for truthy ou TRUE.
+
+
+
+
+
+***o AND (&&) operator também nos permite fazer algo similar:
+
+
+
+em vez de usá-lo para assignar um valor default, podemos usá-lo para PEGAR O ÚLTIMO 
+VALOR EM UM COMBINED CHECK, tipo assim:
+(nesse caso, && pega e retorna o valor de 'Max', que é truthy.)
+
+
+const name = isLoggedIn && 'Max';  -----> 'Max' é definido como valor truthy na hipótese de "isLoggedIn" ser true; caso isLoggedIn seja FALSE, o && vai retornar o PRIMEIRO VALOR (o de isLoggedIn).
+
+
+Assumimos que isLoggedIn é um valor truthy ou um boolean real de TRUE (não importa), 
+Nesse caso, && vai RETORNAR O ÚLTIMO VALOR O QUAL ESTÁ OLHANDO, porque, ao contrário de ||, 
+&& sempre olha para TODOS (ou seja, ambos os valores, antes e depois do sinal), já que TODOS ELES 
+PRECISAM SER VERDADEIROS PARA RETORNAR TRUE. Caso ambos sejam true/truthy, ele vai retornar 
+o último valor truthy/true. Caso o primeiro valor seja FALSO/NULL/falsy/qualquer outro valor que não seja true, ele sempre irá retornar o PRIMEIRO VALOR.
+
+
+
+Basicamente:
+
+       1          2
+True/truthy True/truthy ---> retorna o último valor 
+
+       1          2
+True/truthy  false/falsy -----> retorna o último valor 
+
+
+False/falsy    true/truthy ----> retorna o primeiro valor
+
+
+false/falsy      false/falsy ----> retorna o primeiro valor.
+
+
+
+Vamos dar uma olhada nisso, no console:
+
+
+começamos com o !! operator.
+
+
+
+
+definimos
+
+
+
+const userInput = '';        (constante userInput seria uma empty string. É o famoso caso do usuário apertar o botão de OK sem ter digitado nada, espaço vazio.) 
+                                   (web applications tem uito disso, casos onde usuários inputtam informações incorretas.)
+
+
+
+Digamos que queremos usar isso em algum lugar no nosso código, na verdade, muitos lugares de nosso código. E digamos que 
+eu só quero saber se o usuário digitou algo válido ou não.
+
+
+É claro, poderíamos sempre checar por userInput, e isso retornará FALSE, porque empty strings
+SEMPRE RETORNAM FALSE.
+
+ex:
+    (que é FALSE)
+if (userInput) {X} else {Y};     -----------> nesse caso, Y rodaria, pois userInput está assignado como falso.
+
+
+
+Mas talvez queiramos fazer alguma coisa com essa isValid (ou não) information. É possível que tenhamos de utilizá-la me múltiplos lugares no código, 
+por isso crio logo uma nova constante "isValidInput", que deve ser true ou false, de acordo/segundo o userInput.
+
+
+
+const isValidInput = userInput;
+
+
+
+
+Mas além de definir isValidInput como userInput, já estabelecemos aí uma 
+ternary expression com (? :), aí usamos userInput como condição nessa ternary expression.
+
+
+
+
+modelo:
+
+
+const isValidInput = userInput ? true : false
+
+if userInput (se é userInput, então)... ---> true, senão false.
+
+
+
+Poderíamos escrever assim, mas a maneira mais rápida e fácil é
+APENAS USAR O DOUBLE BANG OPERATOR (!!) E DIZER !!userInput.
+
+      
+          |    (aqui, userInput seguraria FALSY, pois é uma empty string. Portanto... if userInput (a primeira parte da expressão ternária, antes da vírgula) rende FALSO. Se essa parada rende falso, isValidInput rende falso também, pois o bloco else da função ternária (tudo aquilo que vem depois de :) diz que tudo que não for a primeira hipótese será a segunda, que é false).
+          |
+          | ----->const isValidInput = userInput ? true : false ;
+
+
+
+
+O PROFESSOR NOS PROVA QUE TODA AQUELA EXPRESSÃO TERNÁRIA COMPLICADA
+é a mesma coisa que 
+
+                            ('')
+const isValidInput = !!userInput;
+
+                     Mas por que isso?
+
+                     porque
+
+                     userInput é inicialmente considerado FALSY (pois segura uma empty string),
+                     aí o ! (primeiro bang) TRANSFORMA ELE EM TRUE; JÁ O SEGUNDO ! (bang) CONVERTE ELE DE NOVO, DESSA VEZ EM 
+                     FALSO. Por isso aqui definimos isValidInput como o verdadeiro valor boolean FALSE, mesmo resultado de 
+                     const isValid Input = userInput ? true : false;
+
+
+
+
+
+Isso é verdade, porque se digitarmos isValidInput no console depois disso, veremos que ele declarará falso.
+
+
+
+
+Uma bang sozinha também converteria o valor falsy em uma boolean, mas em um valor boolean de TRUE, em vez de false (que é o que ocorre com o !!, double bang).
+
+
+
+!!, portanto, é um atalho; é usado para converter o tipo de dado/datatype.
+
+
+
+
+Agora devemos dar uma olhada nos valores default.
+
+
+Digamos que queremos criar um userName aqui, constante, que é baseado 
+em algum userInput (que, é claro, é uma empty string). (aqui, o valor de userInput ainda está como uma empty string, mantemos as configurações anteriores).
+
+
+modelo:
+
+
+const userName = userInput;
+
+
+
+Agora queremos usar userInput, mas sabemos que userInput está vazio, então ele dará FALSY com certeza.
+Para consertar casos como esse, de inputs vazios, colocamos uma condição default; nesse caso do professor, definimos 
+um valor default de 'Max', procedimento que posso realizar com o uso do || operator, como vimos anteriormente.
+
+
+modelo:
+
+const userName = userInput || 'Max';
+
+
+
+
+Se digitarmos userName no console, veremos que ele retornará 'Max'. Nosso 
+setup do default funcionou, agora vemos que 'Max' está armazenado lá dentro e será mostrado quando 
+o userInput for vazio/falsy.
+
+
+agora criamos uma outra constante, para exemplificar o input de nomes de usuário válidos.
+
+
+ex:
+
+
+
+const realUserInput = 'Manu';
+
+
+const userName = realUserInput || 'Max';
+
+----------------------------------------------------
+
+nesse caso, se digitarmos userName no console, ele irá nos mostrar o valor de 'Manu', e não o de 'Max', porque é isso que faz o 
+|| operator, ele retorna o primeiro valor que for true/truthy na sua expressão.
+
+
+
+Retorna 'Manu' porque realUserInput aí é considerado como um truthy value, e o negócio retorna o primeiro valor que for true/truthy na expressão.
+Afasta a utilização do default.
+
+
+É claro que vocÊ pode ter mais de um || operator aqui, se você tivesse múltiplas variáveis 
+que segurassem ou não um valor de true, você poderia ter valor 1, valor 2 e em algum ponto algum default hardcoded que vocÊ definiu antes.
+
+
+
+
+Agora vamos dar uma olhada no operador &&:
+
+
+criamos uma variável e assignamos à ela um valor boolean de true.
+
+
+"isLoggedIn"
+
+
+
+let isLoggedIn = true;
+
+
+Baseado nisso, queremos armazenar algum outro valor. Digamos que temos 
+uma constante, "shoppingCart", que são alguns dados que carregamos de um servidor, 
+ e caso "isLoggedIn", vamos querer que shoppingCart seja esse array (que já tem alguns livros no seu interior),
+
+
+
+ modelo:
+
+ isLoggedIn = true;
+
+
+ const shoppingCart = isLoggedIn && ['Books'];
+
+
+
+ Se rodarmos essa função e depois chamarmos/declararmos shoppingCart no console, 
+ ele irá nos mostrar o valor de ['Books']. Isso é porque O ISLOGGEDIN É TRUE, É VERDADEIRO, E COMO 
+ O PROFESSOR DISSE, É ASSIM QUE FUNCIONA O DOUBLE AMPERSAND OPERATOR.
+
+
+
+O && portanto age como uma espécie de if statement---> ele só lerá e definirá O SEGUNDO VALOR na hipótese do seu primeiro valor 
+ser true/truthy/segurar valor true/segurar valor truthy.
+
+
+Um array, independentemente de ser vazio ou não, SEMPRE É TRATADO COMO UM VALOR TRUE, e é por isso que 
+o javascript nos retornou ele nesse caso.
+
+
+Continuando... agora, se você definir isLoggedIn como false e chamar o shoppingCart de novo, 
+vocÊ verá que ele retornará FALSO, isso porque todo o conjunto então é tratado como falso, em decorrência 
+do uso de &&.
+
+
+outro ex:
+
+
+null && ['Books'];
+
+
+se pedirmos no console, retornará NULL (retorna o primeiro valor, como mostramos antes.).
+
+
+
+EXEMPLO 2:
+
+
+const NewInput = ['Books'] && ['Crooks'];
+
+
+(declaramos no console: "NewInput") -->  nos retorna 'Crooks'.
+
+
+AINDA SEGUE AQUELA REGRA, POIS ---> CONSIDERA O PRIMEIRO VALOR COMO TRUE/TRUTHY E PULA PARA O ÚLTIMO,
+QUE LÊ COMO VERDADEIRO/TRUTHY E RETORNA SEU VALOR.
+
+
+
+
+ 
+Ex 3: Caso do primeiro valor ser true/truthy e o segundo ser false/falsy:
+
+
+
+modelo:
+
+
+isLoggedIn = true;
+
+
+              (empty String)
+
+isLoggedIn && ""
+
+
+
+RETORNARÁ O SEGUNDO VALOR, O ""(EMPTY STRING). Isso é porque SEMPRE QUANDO O PRIMEIRO VALOR É 
+VERDADEIRO, ELE RETORNARÁ O SEGUNDO VALOR (ainda que falso/falsy/empty string/null).
+
+
+console:
+
+isLoggedIn = true
+true
+userCode = isLoggedIn && "";
+""
+userCode (declaração)
+""
+
+
+Esses shortcuts podem parecer um pouco confusos agora, até porque não temos nenhum uso para eles no projeto, 
+mas veremos em alguns lugares ao longo do código.
+
+
+Tenha em mente que eles são apenas shortcuts, nós PODEMOS alcançar os mesmos efeitos com o uso 
+de if statements completos ou ternary expressions.
+
+
+Esquecer de usá-los não é ruim, são apenas alternativas.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+As a reference which you can come back to (or print out), here's a quick summary of how logical operators and comparison operators behave in JavaScript:
+
+const userName = 'Max';
+const altName = '';
+console.log(userName === 'Max'); // generates and prints a boolean => true
+console.log(userName); // wasn't touched, still is a string => 'Max'
+
+console.log(userName || null); // userName is truthy and therefore returned by || => 'Max'
+console.log(altName || 'Max'); // altName is falsy (empty string), hence 'Max' is returned => 'Max'
+console.log(altName || ''); // both altName and '' are falsy but if the first operand is falsy, the second one is always returned => ''
+console.log(altName || null || 'Anna'); // altName and null are falsy, 'Anna' is returned => 'Anna'
+
+console.log(userName && 'Anna'); // userName is truthy, hence second (!) value is returned => 'Anna'
+console.log(altName && 'Anna'); // altName is falsy, hence first value is returned => ''
+console.log(userName && ''); // userName is truthy, hence second value is returned => ''
+Always keep in mind: NO operator (neither ===, > etc. nor && or ||) changes the variable you might be using in the comparison. In the above examples, the values stored in userName and altName are NEVER changed.
+
+===, > etc. just generate new boolean values which are used in the comparison. || and && generate NO booleans, they just treat the values before and after them as conditions (which therefore need to yield boolean values and are coerced to booleans if required).
+
+Because of the above-described behaviors, you often use || in JavaScript to assign default/ fallback values to variables/ constants:
+
+const enteredValue = ''; // let's assume this is set based on some input provided by the user, therefore it might be an empty string
+
+const userName = enteredValue || 'PLACEHOLDER'; // will assign 'PLACEHOLDER' if enteredValue is an empty string

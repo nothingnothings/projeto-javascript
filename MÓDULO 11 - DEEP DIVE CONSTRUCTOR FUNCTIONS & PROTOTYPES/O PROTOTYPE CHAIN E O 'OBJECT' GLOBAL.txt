@@ -1,0 +1,656 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Além de tudo isso que aprendemos sobre prototypes, é IMPORTANTE 
+
+
+ENTENDER QUE a prototype chain (os muitos e muitos '__protos__', um dentro do outro)
+
+NÃO ACABA, SIMPLESMENTE NÃO ACABA, 
+
+DEPOIS DE ALCANÇAR 
+
+
+o 'prototype' daquele objeto, do objeto 'Person'...
+
+
+
+
+-----------------------------------
+
+
+
+
+
+Se tentarmos chamar um método como 'printAge', o qual NÃO FAZ 
+
+PARTE DO OBJETO 'Person' em si (porque nós NÃO O ADICIONAMOS NAQUELA CONSTRUCTOR 
+FUNCTION DE 'Person', naquele 'function Person() {...}', e também porque NÓS NÃO O ADICIONAMOS 
+A ELE ESSE MÉTODO MAIS TARDE...),
+
+se fizermos isso, voltaremos ao OBJETO DE FALLBACK (que é o 'prototype', 
+
+que é o '__proto__' dos novos objetos, certo?),  que 
+
+é 
+
+aquele prototype que tem algumas coisas + o método 'printAge'....
+
+-----------------------------------------
+
+
+ex:
+
+
+
+
+
+
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() { 
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+
+
+
+Person.prototype.printAge = function() { 
+    console.log(this.age);
+}
+
+
+
+------------------------------------
+
+
+
+
+
+SE CHAMARMOS ALGO DIFERENTE DE 'printAge'....
+
+
+
+como por exemplo SE eu tentar chamar 
+
+'console.log(p.toString())'....
+
+
+
+ISSO FUNCIONARIA??? 
+
+
+Esse chamado de 'toString()'  NO OBJETO 
+
+'p', criado a partir de 'Person', FUNCIONARIA?
+
+
+
+-----------------------------------
+
+
+
+Bem, esse chamado FUNCIONOU mais cedo porque NÓS PODÍAMOS 'FALL BACK' para um OBJETO, um 
+
+objeto BASE, que TINHA ESSE MÉTODO 'toString'...
+
+
+
+A questão agora é se ISSO AINDA ACONTECERIA AGORA...
+
+
+
+Se isso aconteceria MESMO COM A NOSSA EDITADINHA NO CÓDIGO, 
+
+NOSSA adição do método 
+
+
+'printAge' AO PROTOTYPE de 'Person'...
+
+
+
+--------------------------------
+
+
+O professor salva o código e recarrega a página.
+
+
+
+
+-----------------------------------
+
+
+
+SIM, AINDA FUNCIONA.
+
+
+Recebemos no devtools console o output de 
+
+
+'[Object Object]', SINAL DE QUE 
+
+O chamado de 'toString()' FUNCIONOU.
+
+
+
+Não recebemos erro algum, e o chamado ainda funciona....
+
+
+
+O CHAMADO AINDA FUNCIONA __PORQUE___ a CHAIN DE PROTOTYPES 
+
+
+NÃO ACABA no prototype 'default'... (no prototype em que adicionamos o método 'printAge').
+
+
+
+
+
+
+SE DERMOS UMA BREVE OLHADA NO NOSSO PROTOTYPE, veremos que 
+
+
+ele é 
+
+o seguinte objeto:
+
+
+'{printAge: f, constructor: f}'
+
+    -> printAge: f() 
+    -> constructor: f Person()
+    -> __proto__: Object
+
+
+
+-------------------------------
+
+
+
+Ou seja, ele tem 
+
+o método 'printAge' e o CONSTRUCTOR METHOD (que aponta à constructor function de 'Person'), 
+
+
+MAS, ALÉM DISSO, ELE TAMBÉM 
+
+TEM __UM PROTOTYPE___ ('__proto__'.)
+
+
+
+-------------------------------------
+
+
+COMO O PROFESSOR JÁ MENCIONOU, TODOS OBJETOS TÊM UM PROTOTYPE...
+
+
+Não somente os objetos que construímos a partir de constructor functions (com base em constructor functions),
+
+
+MAS TAMBÉM OS '''OBJETOS FALLBACK''' (prototypes) DE NOSSOS OBJETOS....
+
+
+----------------------------------------
+
+
+
+AQUELE FALLBACK OBJECT ( o prototype) EM SI TAMBÉM TEM UM 
+PRÓPRIO FALLBACK OBJECT (seu próprio prototype)....
+
+
+
+E NÓS PODEMOS ACESSAR ESSE OBJETO FALLBACK DO OBJETO FALLBACK por meio da PROPRIEDADE
+
+
+'__proto__' (dunder)
+
+
+
+---------------------------------
+
+
+SE NÓS ENTÃO EXPANDIRMOS ESSA PROPRIEDADE 
+
+
+'__proto__' no devtools console,
+
+
+VEREMOS UM OBJETO (é um objeto, sim, é uma FUNCTION, mas functions são objetos, lembra-se?),
+
+
+
+
+
+UM OBJETO QUE REALMENTE TERÁ 
+
+
+
+AQUELE MÉTODO 
+
+
+
+
+'toString();'
+
+
+
+------------------------------
+
+
+A PERGUNTA DE VERDADE, AQUI, DIZ O PROFESSOR, É 
+
+"mas de que lugar esse objeto de fallback do objeto de fallback está vindo?"
+
+
+
+
+DIZ ELE QUE ESSE OBJETO ESTÁ VINDO do OBJETO BASE, o objeto ao qual VOCÊ SEMPRE TEM ACESSO.
+
+(ou seja, é o 'Object', o objeto GLOBAL)
+
+
+-----------------------------
+
+
+
+O prototype DEFAULT que TODO OBJECT RECEBE, graças ao fato de esse prototype 
+
+
+ser definido como um 'default to be assigned' prototype EM TODA E QUALQUER CONSTRUCTOR 
+FUNCTION, 
+
+PODE SER ENCONTRADO NO ___OBJETO ____ GLOBAL (  'global object'  ).
+
+
+
+
+
+Na verdade, pode ser encontrado na CLASSE 'Object' (ou, para ser mais preciso, na constructor function de 'OBJECT', na CONSTRUCTOR FUNCTION GLOBAL de 'Object'.)
+
+
+
+
+--------------------------------------
+
+
+
+
+
+Se o professor ir em frente e fizer o console.log de 'Object', 
+
+
+ele receberá O OBJETO QUE É DISPONÍVEL GLOBALMENTE NO JAVASCRIPT...
+
+
+
+
+ex:
+
+
+
+
+
+
+console.log(Object);
+
+
+
+---------------------------------
+
+
+
+'Object' É UMA CONSTRUCTOR FUNCTION que é 'built-in' no javascript....
+
+
+Se eu fizer o console.log dela, eu recebo 
+
+'ƒ Object() { [native code] }'
+
+-----------------------------------------
+
+
+
+
+Um output bizarro, realmente.
+
+
+
+-------------------------------
+
+
+Professor tenta outro comando, 
+
+
+'console.dir(Object);'
+
+
+------------------------------
+
+
+
+Esse comando consegue nos mostrar as propriedades do objeto global 'Object'.
+
+
+----------------------------------
+
+
+Dentro desse objeto Global, podemos encontrar 
+
+
+UM MONTE DE COISAS INTERESSANTES... 
+
+
+Porém, 'toString()' NÃO FAZ PARTE DESSE OBJETO...
+
+
+
+
+
+Em vez disso, esse objeto global TEM SEU PRÓPRIO ___PROTOTYPE___......
+
+
+
+
+DENTRO DESSE PROTOTYPE É QUE PODEMOS ENCONTRAR o 'toString()'...
+
+
+
+
+
+ENTRETANTO, O FATO DE 'toString()' existir dentro desse prototype do objeto global 'Object' NÃO 
+
+É A RAZÃO DE NÓS TERMOS ACESSO  
+
+à 'toString()' dentro de nosso objeto 
+
+'Person'...
+
+
+----------------------------------------
+
+
+
+Em vez disso, diz o professor, 'Object' É UMA 
+
+
+____CONSTRUCTOR FUNCTION____  com um monte 
+
+
+de  PROPRIEDADES/MÉTODOS 'built-in'   QUE VOCê 
+
+PODE CHAMAR... 
+
+
+-----------------------------------------
+
+
+
+No 'mundo baseado nas classes' (class-based world), nós CHAMARÍAMOS 
+
+ESSAS PROPRIEDADES E MÉTODOS (obs: essas propriedades e métodos dessa constructor function global 
+'Object' NÃO PRECISAM SER INSTANCIADOS PARA QUE POSSAM SER UTILIZADOS, ao contrário de classes padrões que não 
+utilizam 'static'...... OU SEJA, ESSAS PROPRIEDADES E MÉTODOS SÃO ESTÁTICOS/static).......
+
+
+
+-------------------------------------------
+
+
+
+
+E, de fato, quando você vai na sua classezinha e você adiciona 
+
+'static' em uma propriedade/método,  ISSO SIMPLESMENTE SIGNIFICA 
+
+QUE AQUELA PROPRIEDADE/MÉTODO É ADICIONADA ___Diretamente___ ao seu 
+
+objeto 'constructor function'...(constructor function object)....
+
+
+
+
+Ou seja, as propriedades 
+estáticas/métodos funcionam assim: é como se você fosse até 'Person' e
+ adicionasse uma propriedade (a propriedade 'describe') por meio da seguinte sintaxe:
+
+
+
+ 
+
+
+
+ 
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() { 
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+Person.describe = function() {
+    console.log('Creating persons...'); ////////EIS O CÓDIGO.
+}
+
+----------------------------------------------------
+
+
+
+Se eu digitar esse código, farei com que 'describe' PASSE A SER UMA 
+
+PROPRIEDADE do objeto 'Person'... (que é uma constructor function)........
+
+
+CONTINUANDO:  ESSA NÃO SERÁ UMA PROPRIEDADE QUE SERÁ ADICIONADA A OBJETOS CRIADOS 
+
+__A PARTIR___ dessa constructor function de 'Person', e sim será adicionada 
+
+DIRETAMENTE À ELA....
+
+
+
+
+Em objetos criados A PARTIR da constructor function, nós apenas adicionamos AQUILO QUE ESTÁ 
+
+DENTRO DA CONSTRUCTOR FUNCTION; o fato de termos uma adição de uma propriedade por meio desse código de 'Person.describe = xxx' NÃO 
+
+faz um 'TWEAK' NO FUNCTION BODY DA CONSTRUCTOR FUNCTION OU QUALQUER COISA DO GÊNERO,
+
+
+em vez disso esse código INTERAJE COM O OBJETO DA FUNÇÃO que (constructor function) que foi criada.
+
+
+
+Ainda que não seja tão comum, 
+
+
+É CLARO QUE VOCê também PODE ADICIONAR PROPRIEDADES/MÉTODOS ao objeto de uma constructor function (à constructor function em si).
+
+
+OBS::: isso não tem impacto
+
+algum sobre a forma pela qual é executado o function body, é APENAS ALGO 
+
+QUE VOCê PODE FAZER PARA INTERAGIR COM ESSE OBJETO DA CONSTRUCTOR FUNCTION EM SI.
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+Portanto, se o professor então 
+
+CRIAR UMA NOVA 'Person' a partir da constructor function de mesmo nome....
+
+
+e então console.loggar TODO 
+
+ESSE OBJETO 'Person' (que será 'p', nesse exemplo), 
+
+
+ELE NÃO VERÁ ESSA PROPRIEDADE 'describe' ADICIONADA DENTRO DO PROTOTYPE, por causa daquilo que 
+
+ele acabou de explicar: essa propriedade/método será ESTÁTICO E APENAS EXISTIRÁ NA CONSTRUCTOR FUNCTION/Classe em que estava inserida.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+ 
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() { 
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+Person.describe = function() {
+    console.log('Creating persons...'); ////////EIS O CÓDIGO.
+}
+
+
+
+const p = new Person();
+
+
+console.log(p);
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+Ou seja, o devtools nos mostrará que 
+
+
+O nosso objeto 
+
+
+'Person' criado a partir da constructor function 
+
+NÃO TERÁ 
+
+
+
+método 
+
+'describe'...
+
+
+Apenas 
+
+terá 
+
+'constructor', 'printAge' e '__proto__'.
+
+
+
+
+-----------------------------------
+
+
+
+Entretanto, se ele console.loggar a CONSTRUCTOR FUNCTION DE 'Person', ele 
+
+verá QUE ESSA CONSTRUCTOR FUNCTION REALMENTE TERÁ a propriedade 
+
+'describe'.
+
+
+Ou seja, essa propriedade realmente É SOMENTE ADICIONADA 
+
+NO FUNCTION OBJECT EM SI MESMO.
+
+
+
+---------------------------------------
+
+
+
+E 'Object', essa constructor function DISPONÍVEL GLOBALMENTE, 
+
+tem um MONTE DE MÉTODOS/PROPRIEDADES ESTÁTICAS 
+
+PRÉ-DEFINIDAS.
+
+
+
+Mas é importante entender que o 
+
+OBJECT (o objeto global 'Object') EM SI __NÃO___ É ___ O FALLBACK___ OBJECT (o 'fallback prototype' ) QUE 
+TODOS OS OUTROS OBJETOS VÃO SEMPRE VOLTAR/RETORNAR/SEGUIR no final... ('can come back in the end').....
+
+
+
+Caso ele fosse (mas não é), nós seríamos capazes de, por exemplo, chamar 
+
+'length' (um de seus métodos/propriedades) E RECEBER UM VALOR DE '1' EM TODO E QUALQUER 
+
+OBJETO DE NOSSA ESCOLHA...
+
+
+---------------------------------------
+
+Para demonstrar que esse não é o caso, o professor 
+
+alcança 'p' e faz o console.log de sua length.
+
+
+
+--------------------------
+
+
+ex:
+
+
+
+
+console.log(p.length); ///////se 'Object' for realmente o fallback object(prototype) DE TODO E QUALQUER OBJETO, O LENGTH QUE SERÁ OUTPUTTADO será de '1'.
+                            ////----> porque a propriedade 'length' NÃO EXISTE no objeto criado a partir de 'Person', por isso o prototype/fallback value será adotado naturalmente.... como 'length' NÃO EXISTE NO PROTOTYPE desse objeto, O javascript deverá ir para o fallback object do fallback object do objeto... caso esse coiso fosse o prototype do objeto global 'Object', o console nos daria '1'.
+
+
+
+
+
+                            MAS O CONSOLE NOS OUTPUTTA 'undefined', portanto o prototype de 'Object' não é o fallback value/prototype DE TODO E QUALQUER OBJETO NO JAVASCRIPT.
+
+
+
+

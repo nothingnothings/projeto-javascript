@@ -1,0 +1,480 @@
+
+
+
+Certo, mas como conseguiremos essa user location?
+
+
+
+
+
+Devemos usar aquela API  "navigator.geolocation.getCurrentPosition()...."
+
+
+
+
+
+
+GEOLOCATION ---> É UM BROWSER API CONCEDIDO AO JAVASCRIPT... Ele nos permite fazer 
+
+GET da user location....
+
+
+
+
+
+Se formos até o mdn, veremos o geolocation api e sua documentação...
+
+
+
+SE SCROLLARMOS ATÉ A PARTE DE BROWSER COMPATIBILITY, veremos que a compatibilidade dele é muito boa.
+
+
+
+O suporte é bom até no internet explorer 9.
+
+
+
+Isso significa que o geolocation vai funcionar em TODOS OS BROWSERS QUE ESTAMOS OBJETIVANDO.
+
+
+
+
+
+Ainda assim, vocÊ pode ser __SUPER SAFE__ e colocar um if check no seu código:
+
+
+'se navigator.geolocation NÃO EXISTE (is not a thing) ---> EXECUTE UMA MENSAGEM 
+DE ERRO PARA O USUÁRIO"... ---------> para isso, devemos usar BANG (!) ----> 'if (!navigator.geolocation) {}'
+
+
+
+
+ISSO VAI MOSTRAR UMA MENSAGEM DE ERRO AO USUÁRIO, DEFINIDA LOGO EMBAIXO, se 
+
+O BROWSER DELE NÃO SUPORTAR ESSA API 'geolocation'...
+
+
+
+
+Com isso, conseguimos entregar O NOSSO MELHOR em termos de experiência do usuário, pois 
+agora ele saberá que deve usar outro browser para visitar a nossa webpage.
+
+ex:
+
+
+
+
+
+
+locateUserHandler() {
+    if (!navigator.geolocation) {
+
+        alert('Your browser is crap, please change to a more modern one');
+        return;
+    } else {
+        navigator.geolocation.getCurrentPosition(() => {
+
+        });
+
+    }
+}
+
+
+
+---------------------------------------------
+
+
+
+
+LEMBRE-SE:
+
+
+o
+
+
+'getCurrentPosition' ACEITA/EXIGE 2 CALLBACKS diferentes, um 
+
+
+PARA SUCESSO E OUTRO PARA ERRO... ESSES CALLBACKS SÃO FUNÇÕES INTERNAS 
+PASSADAS COMO PARÂMETRO A ESSE MÉTODO 'getCurrentPosition'....
+
+
+CASO OCORRA O CASO DE ERRO, ALERTAMOS O USUÁRIO QUE ELE DEVERÁ INPUTTAR 
+A SUA LOCALIZAÇÃO MANUALMENTE, por meio da outra 'metade' do aplicativo...
+
+
+
+
+
+EX:
+
+
+
+navigator.geolocation.getCurrentPosition( successResult => {
+
+},
+
+  errorResult => {
+      alert('Could not locate you, unfortunately. Please enter an address manually!');
+  } ) 
+
+
+
+  --------------------------------------
+
+
+
+
+
+  no 
+
+
+
+  'successResult', POR OUTRO LADO, SABEMOS QUE 
+
+  NÓS VAMOS CONSEGUIR A 'user location data', 
+
+  POR ISSO É AQUI 
+
+  QUE NÓS VAMOS FAZER COM QUE 
+
+  A USER LOCATION SEJA MOSTRADA NO MAPA, NO FINAL DAS CONTAS. 
+
+
+
+
+  Primeiramente, vou querer as COORDENADAS da localização.
+
+  Posso armazená-las em uma const de nome 'coordinates'...
+
+
+    ESSE VALOR DAS COORDENADAS SERÁ ___UM OBJETO____.
+
+
+    SERÁ UM OBJETO EM QUE EU VOU TER A PROPRIEDADE 'lat' e a propriedade 
+
+    'lng' (longitude).
+
+
+
+  ex:
+
+
+getCurrentPosition(
+  successResult => {
+      const coordinates = {
+          lat: ,
+          lng: 
+      };
+  }
+)
+
+
+  -----------------------------
+
+
+  Professor explica que é claro que poderíamos criar uma nova CLASSE 
+
+  para essE 'coordinates', uma classe que você criaria com 
+  a keyword 'new'... ---> você faria isso, hipoteticamente, para 
+  ASSEGURAR QUE VOCê SEMPRE TIVESSE/TENHA ''properly named properties'' dentro 
+  dessa classe (sempre propriedades com 'lat e const'),
+
+  MAS AQUI O PROFESSOR FARÁ ISSO 'on the fly' COM ESSA 'OBJECT LITERAL NOTATION' ({})....
+
+
+
+
+
+  O VALOR DA PROPRIEDADE 'lat' será OBTIDO POR MEIO DA PROPRIEDADE BUILTIN 
+
+  de 
+  
+  '.coords.latitude'.... ----> no caso, AQUI SERÁ 'successResult.coords.latitude'
+
+
+
+    Fazemos o mesmo com A LONGITUDE.
+
+
+
+
+
+
+Se você quiser ver OUTROS MÉTODOS QUE ESTÃO DENTRO DE 'successResult', VOCÊ 
+
+SEMPRE PODE FAZER O CONSOLE.LOG desse objeto....
+
+
+
+  -------------------------------------
+
+
+
+
+  ex:
+
+
+
+
+
+  getCurrentPosition(
+  successResult => {
+      console.log(successResult);
+      const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude
+      };
+  }
+)
+
+
+-----------------------------------------
+
+
+ok, agora temos essas duas propriedades com os valores corretos em seu interior.
+
+
+
+
+
+----> UMA COISA QUE O PROFESSOR FAZ AQUI, A QUAL VOCÊ NÃO PRECISARÁ PARA O APLICATIVO EM GERAL, 
+
+
+MAS QUE ELE GOSTA DE FAZER,
+ 
+
+ é ADICIONAR 
+
+
+
+ 'Math.random() * 50' 
+
+
+
+ A AMBOS OS VALORES DESSAS PROPRIEDADES 'lat' e 'lng'...
+
+
+
+ ex:
+
+
+
+
+ 
+  getCurrentPosition(
+  successResult => {
+      console.log(successResult);
+      const coordinates = {
+          lat: successResult.coords.latitude //+ Math.random() * 50,
+          lng: successResult.coords.longitude //+ Math.random() * 50
+      };
+      console.log(coordinates);
+  }
+)
+
+
+------------------------------------------------
+
+
+
+
+O PROFESSOR FAZ ISSO PARA QUE ELE SEJA CAPAZ DE MOSTRAR O RESULTADO DO NEGÓCIO NO COMPUTADOR 
+DELE SEM QUE NÓS POSSAMOS ENCONTRÁ-LO COM ESSES DADOS... (então não precisamos disso no nosso código, basicamente).
+
+
+Ele faz isso para que o endereço dele não fique exposto.
+
+
+---> isso não é necessário para o aplicativo, é óbvio.
+
+
+
+Para ver se esse 'get' das coordenadas funcionou, podemos simplesmente fazer 
+
+um console.log das coordenadas do usuário, por meio de 'console.log(coordinates);'
+-------------------------------------------------------------------------
+
+
+
+
+NO futuro, não vamos usar esse console.log das coordenadas; 
+
+VAMOS FAZER COM QUE ESSAS COORDENADAS SEJAM CONVERTIDAS EM UM LUGAR EM UM MAPA, em vez disso.
+
+
+
+
+PARA QUE ESSA FUNÇÃO DE NOSSO APLICATIVO SEJA EXECUTADO, É __ÓBVIO__ QUE PRECISAMOS 
+
+____iNSTANCIAR___ essa classe 'placeFinder'...
+
+
+
+fazemos isso por meio do call 
+
+
+de 
+
+
+
+'new PlaceFinder();' 
+
+Lá embaixo no nosso código...
+
+
+
+ex:
+
+
+
+
+
+class PlaceFinder {
+
+
+    constructor() {
+       const addressForm = document.querySelector('form');
+       const locateUserBtn = document.getElementById('locate-btn');
+
+
+       locateUserBtn.addEventListener('click', this.locateUserHandler);
+       addressForm.addEventListener('submit', this.findAddressHandler);
+
+    }
+    
+    locateUserHandler() {
+        if(!navigator.geolocation) {
+            alert('Location feature is not available in your browser - please use a more modern one');
+            return;
+        } else {
+            navigator.geolocation.getCurrentPosition(successResult => {
+                console.log(successResult);
+                const coordinates = {
+                    lat: successResult.coords.latitude,
+                    lng: successResult.coords.longitude
+                };
+                console.log(coordinates);
+            }, 
+            errorResult => {
+                alert('Could not locate you, unfortunately. Please enter an address manually!');
+            })
+        }
+    }
+
+
+    findAddressHandler() {
+
+    }
+}
+
+
+
+
+
+
+new PlaceFinder();
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+Só que esse negócio NÃO ESTÁ FUNCIONANDO.... 
+
+
+
+NOSSO WEBPACK-DEV-SERVER NÃO ESTÁ COMPILANDO NADA E NÃO ESTÁ EXECUTANDO O .JS...
+
+
+
+
+Provavelmente é porque 
+
+FUNÇÕES/MÉTODOS ESTÃO DEFINIDOS NO LADO DE ___FORA___ da classe 'PlaceFinder'...
+
+
+
+(já vimos esse erro antes).
+
+
+
+
+Não, na verdade é UM PROBLEMA DE __SINTAXE___. Colocamos '=' EM VEZ DE ':' no objeto de nossa 
+const 'coordinates'...
+
+
+
+
+
+Certo.
+
+
+Agora o negócio funcionou.
+
+
+Recebemos esse output no console, ao clicar no botão 'find location'...:
+
+
+
+
+GeolocationPosition {coords: GeolocationCoordinates, timestamp: 1614624243790}coords: GeolocationCoordinates {latitude: -30.159667199999998, longitude: -51.213107199999996, altitude: null, accuracy: 1894, altitudeAccuracy: null, …}timestamp: 1614624243790__proto__: GeolocationPositioncoords: GeolocationCoordinatesaccuracy: 1894altitude: nullaltitudeAccuracy: nullheading: nulllatitude: -30.159667199999998longitude: -51.213107199999996speed: null__proto__: GeolocationCoordinatestimestamp: (...)constructor: ƒ GeolocationPosition()Symbol(Symbol.toStringTag): "GeolocationPosition"get coords: ƒ coords()arguments: (...)caller: (...)length: 0name: "get coords"__proto__: ƒ ()[[Scopes]]: Scopes[0]get timestamp: ƒ timestamp()__proto__: Object
+SharePlace.js?d5a7:25 {lat: -30.159667199999998, lng: -51.213107199999996}
+
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+Como apenas QUEREMOS QUE ESSA INSTÂNCIA EXISTA, não precisamos armazená-la em 
+
+nada, podemos simplesmente chamar ela com 'new PlaceFinder();'
+
+
+
+Você poderia, apesar de tudo, COLOCÁ-LA EM UMA CONSTANTE 
+
+SE VOCê QUISESSE...
+
+
+ex:
+
+
+
+const placeFinder = new PlaceFinder();
+
+
+
+------------------------------------------
+
+
+Salvamos isso e clicamos em get CURRENT location... isso funciona.
+
+
+Nós esperamos alguns poucos segundos, e o browser nos retorna a location...
+
+---------------------------------
+
+
+
+
+Antes de mostrarmos o resultado em um mapa, DEVEMOS MOSTRAR ALGUM FEEDBACK AO USUÁRIO, mostrar 
+a ele que 
+
+ALGO ESTÁ ACONTECENDo, que ele está ESPERANDO PELA LOCATION SER 'retrieved'/get.
+
+
+(tipo um SPINNEr ou um "carregando")...

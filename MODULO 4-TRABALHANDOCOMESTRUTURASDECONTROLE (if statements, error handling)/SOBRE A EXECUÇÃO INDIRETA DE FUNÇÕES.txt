@@ -1,0 +1,402 @@
+Falamos muito sobre variáveis, funções e constantes, mas essas são coisas core que você tem que entender sobre javascript.
+
+
+
+
+
+Nosso objetivo era assegurar que quando clicamos no botão + na calculadora, o programa pegaria o número que ele colocou no campo
+e adicionaria a um segundo resultado.
+
+
+
+Ele faria isso por meio da inserção do valor do usuário no meio da função add ----->
+
+
+function add(num1, num2)
+
+            ''numerodo
+            usuario''
+
+
+            ficaria inputtado naquela adição, que então soltaria um novo
+            resultado, resultado que então outputtaríamos com a função
+            outputResult (currentResult, calculationDescription);
+
+
+
+
+    
+Para fazer isso, precisamos adicionar um "eventListener" ao botão de +.
+
+
+EVENTLISTENERS-->
+
+algo que não entendemos ainda; não sabemos ainda como interagir
+com a página html, já que isso é algo um pouco mais complexo e ainda temos um módulo inteiro
+onde veremos toda a profundidade disso.
+
+
+Por agora, podemos pegar algo do documento vendor.js: podemos pegar aquele "addBtn", 
+cujo nome é uma referência a esse botão que temos na nossa página.
+
+
+Em app.js, podemos usá-lo e substituir  as linhas de código
+
+"currentResult = add(1, 2);
+
+let calculationDescription = `(${defaultResult} + 10) * 3 / 2 - 1;
+
+"
+
+por uma nova fórmula:
+
+addBtn.addEventListener();
+
+
+
+
+
+
+
+
+
+
+
+
+DIRECT EXECUTION VS INDIRECT EXECUTION:
+
+
+
+
+
+
+
+
+
+
+
+
+
+It can be confusing to see that there seem to be two ways of executing a function:
+
+function add() {
+  something = someNum + someOtherNum;
+}
+add() vs add
+
+It's important to understand why we have these "two ways"!
+
+In general, you call a function that you defined by using its name (e.g. add) and adding parentheses (with any parameters the function might need - or empty parentheses if no parameters are required like in the above example).
+
+=> add()
+
+This is how you execute a function from your code. Whenever JavaScript encounters this statement, it goes ahead and runs the code in the function. Period!
+
+Sometimes however, you don't want to execute the function immediately. You rather want to "tell JavaScript" that it should execute a certain function at some point in the future (e.g. when some event occurs).
+
+That's when you don't directly call the function but when you instead just provide JavaScript with the name of the function.
+
+=> someButton.addEventListener('click', add);
+
+This snippet would tell JavaScript: "Hey, when the button is clicked, go ahead and execute add.".
+
+someButton.addEventListener('click', add()); would be wrong.
+
+Why? Because JavaScript would encounter that line when it parses/ executes your script and register the event listener AND immediately execute add - because you added parentheses => That means (see above): "Please execute that function!".
+
+Just writing add somewhere in your code would do nothing by the way:
+
+let someVar = 5;
+add
+alert('Do something else...');
+Why?
+
+Because you just throw the name of the function in there but you don't give any other information to JavaScript. It basically doesn't know what to do with that name ("Should I run that when a click occurs? After a certain amount of time? I don't know...") and hence JavaScript kind of ignores this statement.
+
+
+
+
+
+
+
+
+RESUMINDO: QUANDO CHAMAMOS A FUNÇÃO "DO NADA", DEVEMOS COLOCAR ().
+
+
+ex: add();
+
+
+
+
+
+
+MAS QUANDO A FUNÇÃO ESTÁ ATRELADA A ALGUM EVENTO FUTURO OU INCERTO, AÍ VOCÊ SÓ USA O NOME SIMPLES MESMO.
+
+
+ex:  constante aqui é someButton.
+
+
+someButton.addEventListener('click', add); ----------> aqui, a função add (o seu código/function body) É EXECUTADA NORMAL sempre que há um click nessa constante aí definida.
+
+
+
+
+someButton.addEventListener('click', add()); ----> ESSA FORMA ESTÁ SUPER ERRADA.
+
+
+Por que está errada? 
+
+
+Porque quando o Javascript vai lá ler o seu código, ele vai entender: ''hmmm, devo apenas executar essa função quando acontecer o primeiro argumento, o "click" do EventListener... ah não, ele pediu para eu rodar a função add agora mesmo, olhe só esses () depois da função..." .
+
+É isso que acaba cagando tudo.
+
+
+
+
+A propósito, se você adicionar uma função, como "add", no meio do código, solto, nada irá acontecer.
+O Javascript vai ignorar.
+
+
+ex:
+
+let someVar = 5;
+add
+alert('Do something else...');
+
+
+Porque?
+
+
+
+Porque você só jogou o nome da função ali, mas você ____NÃO DEU NENHUMA OUTRA INFORMAÇÃO AO JAVASCRIPT___. 
+
+ELE BASICAMENTE NÃO SABE O QUE FAZER COM ESSE NOME DA FUNÇÃO:
+
+
+"Devo rodar isso quando um click ocorre? Depois de uma certa quantidade de tempo? Não sei...".
+
+
+Por isso o (), se você quer executar a parada imediamente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//agora, temos um setup em que somos capazes de alterar o resultado atual quando aquele botão + é pressionado. Então, se salvarmos tudo e recarregarmos a página, veremos que quando digitamos 5 e depois apertamos +....
+//Nada acontece. Nada muda. Mas por que isso? Bem, estamos quase lá, mas tenha em mente que ainda estamos chamando outputResult no FINAL DO CÓDIGO. E como falamos há mt tempo, o script roda de cima a baixo. O que isso significa é que depois disso, de rodar uma vez de cima a baixo, ele está ACABADO, ele não roda de novo. A única coisa que roda de novo É ESSA FUNÇÃO ADD, TODA VEZ QUE PRESSIONAMOS AQUELE BOTÃO, PORQUE NÓS, QUANDO O SCRIPT FOI EXECUTADO, DIZEMOS AO BROWSER PARA ELE FICAR FICAR CIENTE DAQUELE CLICK LISTENER, E ELE ENTÃO REGISTRA AQUELE CLICK LISTENER E VAI, ATÉ MESMO DEPOIS DO SCRIPT SER COMPLETADO, SEMPRE EXECUTAR ESSA FUNÇÃO, PORQUE ELE ARMAZENOU ISSO E TODA A MEMÓRIA NECESSÁRIA PARA ISSO FUNCIONAR, NA SUA MEMÓRIA, SEMPRE QUE O BOTÃO FOR CLICADO. 
+//outputResult, POR OUTRO LADO, NÃO É EXECUTADO QUANDO O BOTÃO + É CLICADO, MAS SIM QUANDO O SCRIPT É INICIADO PELA PRIMEIRA VEZ. (opa, encontramos o problema: um desarranjo entre tempos de execução--> outputResult, a função que nos dá o resultado, sempre é executada já no início da página, o que é inútil, pois sempre nos dará 0. Já a função add é rodada toda vez que clicamos o botão +, mas isso é inútil para nós, já que a função outputResult não rodará depois, rodou uma vez no início e ja parou.)
+
+//Então, o que fazemos aqui, a SOLUÇÃO(!!!), é PEGAR O PEDAÇO DE CÓDIGO DE outputResult(currentResult, calculationDescription); e COLOCÁ-LO DENTRO DA FUNÇÃO ADD, PARA QUE SEJA EXECUTADA AO MESMO TEMPO DO OUTRO COMANDO "currentResult".
+//o professor diz que logo poderemos colocar um código de calculationDescription verdadeiro, mas que por enquanto ele apenas usará uma empty string ('') no seu lugar.
+
+//a parte mais importante, porém, é que o código javascript agora usa esse currentResult(soma de currentResult e userInput.value) e outputta isso na nossa webpage sempre que a função add roda.
+
+//ENTRETANTO, SE VOCÊ APERTAR O BOTÃO 5 E +, VOCÊ VERÁ 05. E SE APERTAR +10 LOGO DEPOIS, VERÁ 0510. COMO PODE VER, ESSA NÃO É UMA CALCULADORA VÁLIDA, AINDA.
+
+//boas notícias = o campo da página html está recebendo o output do código javascript ali
+
+//mas notícias = a calculadora ainda não funciona da forma correta. 
+
+//Resumo: as funções estão funcionando, mas estamos claramente errando alguns cálculos matemáticos aqui.
+
+
+
+
+//Nosso problema, na verdade, é o TIPO DE VALOR que estamos usando em "userInput.value". currentResult, no final das contas, é um NÚMERO, certo?
+//começamos com 0 láááá no início, não é mesmo?
+//agora, aquilo que você adiciona à currentResult dentro da função add (currentResult = currentResult + userInput.value) É (algo que você deve saber, por isso que
+//o professor está te dizendo...) UMA STRING. O userInput.value é uma string, porque nós estamos pegando-o do userInput, e mesmo que eu digite um número no campo, e mesmo que 
+//o campo userInput, o elemento html userInput, use o "type=number" no código html... qualquer coisa que você pega do usuário, de um html input no seu código Javascript, ele SEMPRE SERÁ DO TIPO STRING. MESMO SE VOCÊ TENTAR COLOCAR "TYPE=NUMBER", O INPUT DO CARA SERÁ DO TIPO STRING NO CÓDIGO JAVASCRIPT.
+//É algo que você deve memorizar.
+
+
+//Um elemento input, se você LER O SEU VALOR no código javascript, ele SEMPRE TE DARÁ UMA STRING. É assim que o JavaScript no browser funciona.
+//ele não tenta ser "esperto" e checar se aquilo é um número ou não, ele não faz nenhum pré-julgamento, nenhuma presunção.
+//ELE SÓ TE DÁ UMA STRING, TEXTO. Portanto, o que temos aqui é que temos um número e temos um texto, e agora
+//JavaScript está com um problema, porque nós estamos tentando combinar uma string e um número, e como diabos ele iria fazer isso?
+
+//Bem, nós vimos como ele faz isso anteriormente, quando criamos a tal de constante calculationDescription. Lá, nós combinamos texto com um número porque o defaultResult que usamos lá era somente um número e Javascript concatenou aquilo tudo em uma grande/enorme/longa string.
+//É a mesma coisa aqui: temos um número na string... ENTRETANTO, EM VEZ DE CONVERTER OS DOIS VALORES PARA NÚMEROS E ENTÃO FAZER UM CÁLCULO, O JAVASCRIPT FAZ A COISA MAIS SEGURA, PORQUE ELE NÃO SABE SE AQUILO QUE VOCÊ INSERIU AQUI PODE SER TRATADO COMO UM NÚMERO OU NÃO. Portanto, ele simplesmente o converte em uma string e o concatena a uma string, e é isso que vemos aqui. 
+//Nós iniciamos com um valor inicial de 0  (0 no campo) e então depois concatenamos um 5----> por isso ficamos com 05 (é o 0 numeral sucedido do 5 como texto). Se depois adicionamos 10, vemos que ele é adicionado inteiro dentro do campo (0510); isso é porque, de novo, o valor adicionado é considerado como uma string (5 e 10 seriam considerados textos/strings dentro dessa string).
+//De novo, o javascript fez isso porque não sabe se o que você colocou ali de constante pode ser usado como número ou não (por ter sido extraído de um campo input do html), SE
+//é um caracter texto, que não pode ser usado como número. Portanto o default é que ele constrói uma string aqui.
+
+
+//Nós queremos, entretanto, construir um número aqui. Então sabemos que o que o usuário vai inputtar aqui vai ser um número, afinal ele terá que ser usado em equações matemáticas.
+//agora, como podemos converter esse valor (userInput.value) textual em um número, para então dizermos ao javascript que temos um número e que ele deverá então fazer um cálculo matemático em vez de string concatenation(adição de "frases"). 
+
+//para converter esse valor, VOCÊ TEM UMA FUNÇÃO INCORPORADA AO BROWSER/CONSTRUÍDA NO JAVASCRIPT, E SUA FÓRMULA É UM POUCO PARECIDA COM A DE ALERT:
+//o nome dela é "PARSEINT".
+
+//fórmula = parseInt.             há também a alternativa "parseFloat".
+
+
+//a diferença entre as duas é que parseInt tentará parsear/analizar certo texto (string) como se fosse UM NÚMERO, mas SEM as
+//CASAS DECIMAIS.
+
+
+//JÁ PARSEFLOAT FARÁ A MESMA COISA, MAS LEVARÁ EM CONSIDERAÇÃO AS CASAS DECIMAIS.
+
+
+
+//HÁ A FORMA RESUMIDA DE PARSEINT, QUE É O OPERADOR + LOGO NA FRENTE DA VARIÁVEL/CONST STRING QUE VOCÊ QUER MUDAR PARA NÚMERO.
+
+
+//ex: +userInput.value -----------------> é considerado um número pelo javascript, e não uma string.
+
+
+//Entretanto, essa forma de colocar o + na frente é às vezes ruim, porque podemos passar por cima do sinal e nem mesmo vê-lo.
+//
+
+
+
+
+
+
+
+//além disso, parseInt é melhor para assegurar que você vai querer um número integral, e parseFloat é a única opção para quando você quer números decimais.
+
+
+//HÁ TAMBÉM UM MÉTODO INVERSO, PARA CONVERTER VALORES EM STRINGS. PARA FAZER ISSO, UTILIZE A FUNÇÃO "".toString()"".
+
+
+//ex: currentResult.toString();
+
+//é outra função incoporada ao javascript/browser, e sempre é conectada ao número, que é então convertido a uma string.
+
+//essa função, entretanto, é usada em bem menos casos, porque geralmente você precisa converter uma string em números, e não o contrário.
+
+//Você geralmente precisa converter strings para números para que eles sejam usados em cálculos, e não o caminho inverso.
+
+
+//Isso é porque, como vimos antes, o default do Javascript era aquela coisa de concatenar 2 strings, é por isso que o número é tratado como uma string
+//nesse caso, e por isso que precisamos usar o parseInt e o + na variável que queremos converter. 
+
+
+
+
+
+
+
+
+
+IMPORTANTE: SOBRE O OPERADOR +:
+
+
+
+
+
+You saw the example with a number and a "text number" being added
+
+3 + '3' => '33'
+
+in JavaScript.
+
+That happens because the + operator also supports strings (for string concatenation).
+
+It's the ONLY arithmetic operator that supports strings, though. For example, this will not work:
+
+'hi' - 'i' => NaN
+
+NaN is covered a little later, the core takeaway is that you can't generate a string of 'h' with the above code. Only + supports both strings and numbers.
+
+Thankfully, JavaScript is pretty smart and therefore is actually able to handle this code:
+
+3 * '3' => 9
+
+Please note: It yields the number (!) 9, NOT a string '9'!
+
+Similarly, these operations also all work:
+
+3 - '3' => 0
+
+3 / '3' => 1
+
+Just 3 + '3' yields '33' because here JavaScript uses the "I can combine text" mode of the + operator and generates a string instead of a number.
+
+
+
+Just 3 + '3' yields '33' because here JavaScript uses the "I can combine text" mode of the + operator and generates a string instead of a number.
+
+
+Just 3 + '3' yields '33' because here JavaScript uses the "I can combine text" mode of the + operator and generates a string instead of a number.
+
+
+Just 3 + '3' yields '33' because here JavaScript uses the "I can combine text" mode of the + operator and generates a string instead of a number.
+
+
+
+
+
+
+----> SÓ 3 + '3' gera 33 no resultado, porque Javascript usa a lógica do modo "eu posso combinar texto" do operador e cira uma string para o segundo 3, em vez de um número.
+
+
+
+
+//agora, vamos trabalhar sobre o output, o output do LOG da calculadora que nós fizemos, por assim dizer. 
+
+
+eis o código, e a parte que deve ser mudada. 
+//function add() {currentResult = currentResult + parseInt(userInput.value);
+                    outputResult(currentResult, '');}
+
+
+
+
+--------------------------->  (..., '') -----> essa é a parte a ser mudada, a "empty string", o log/relato do cálculo que nós fizemos.
+
+//aqui, no final (''), eu quero outputtar o último cálculo que fizemos.
+//Para isso, eu quero outputtar uma string aqui, e eu vou criá-la com backticks (``),
+//para que eu possa injetar valores dinâmicos com a sintaxe do dollar sign e curly braces. Isso
+//porque o que eu quero outputtar é o currentResult + o novo resultado. ----> modelo= outputResult(currentResult, `${currentResult} + ${novoResultado?}`)
+//O problema que nós temos, é claro, é que depois da linha "currentResult = currentResult + parseInt(userInput.value);  ,  nosso valor do currentResult já mudou, já não é o mesmo.
+
+// a solução encontrada pelo professor é criar uma nova constante dentro da função, a constante da descrição do cálculo ("calcDescription").
+//depois disso, ele pega o template literalmente, e move-o para cima, para a definição da constante CalcDescription.
+
+
+
+ex:
+//const calcDescription = `${currentResult} + ${...}`;  -----------> então, aqui ele se refere a currentResult ANTES DE NÓS O MUDARMOS, porque executamos
+//esta linha antes da outra linha, antes de currentResult = currentResult + parseInt(userInput.value);
+//e ele quer engatar o número que vai ser adicionado no futuro dentro do segundo valor do calcDescription, por isso o negócio fica:
+
+
+//const calcDescription = `${currentResult} + ${parseInt(userInput.value)}`
+
+
+ (resultado atual da calculadora, 
+ do resultado passado,                                                    
+ aparece para o usuário)                            (valor que user inputta no presente vai aparecer aqui tbm, para
+                                                   o usuário ter ciência do número que está inputtando
+                                                    quando estiver usando a calculadora.)
+                         
+          
+//E, é claro, nós não precisaremos analizar/parsear o segundo valor (${parseInt(userInput.value)}) como uma integral, porque nós iremos precisar dele como texto de qualquer forma. Por isso podemos tirar o parseInt.

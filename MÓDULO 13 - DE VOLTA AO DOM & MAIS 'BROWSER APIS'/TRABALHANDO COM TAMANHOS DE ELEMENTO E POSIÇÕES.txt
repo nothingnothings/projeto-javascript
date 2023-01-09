@@ -1,0 +1,578 @@
+
+
+
+
+
+
+Vimos, então, 
+
+
+'xxx.getBoundingClientRect();' , 
+
+
+QUE NOS DÁ UM BOCADO DE 
+
+DADOS 
+
+
+GERAIS A RESPEITO DA POSIÇÃO DE UM DETERMINADO ELEMENTO.
+
+
+
+OBS: ESSAS PROPRIEDADES NÃO SÃO CHAMADAS COM '()'
+
+
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, PODEMOS ACESSAR DADOS MAIS ESPECIALIZADOS do que esses, por meio 
+
+DO 
+
+MERGULHO NOS ELEMENTOS DOM....
+
+
+
+Podemos mergulhar ainda mais nos elementos dom e nos seus tamanhos/posicionamentos 
+
+
+COM PROPRIEDADES ESPECIAIS JAVASCRIPT....
+
+
+
+
+
+
+
+POR EXEMPLO, HÁ UMA PROPRIEDADE CHAMADA 
+
+
+
+'.offsetTop' --------------------->  isso nos dá A DISTÂNCIA DO PONTO MAIS SUPERIOR DA CAIXA (o ponto que está mais 
+
+acima, mais no topo) ATÉ O TOPO DO "SISTEMA DE COORDENADAS" (coordinate system) ------>
+
+
+
+
+
+
+ex (da nossa caixa):
+
+
+
+'box.offsetTop;' ---------> IRÁ RETORNAR "100" (100px, a distância entre a caixa e o TOPO DA PÁGINA, DO OBJETO 'WINDOW'...)
+
+
+
+
+
+
+
+
+
+
+--------> E É CLARO QUE VOCÊ NÃO TEM APENAS 'offsetTop', mas também 
+
+'offsetLeft'.....
+
+
+
+
+ex:
+
+
+
+box.offsetLeft; ------------> RETORNARÁ '200' (200px) , que é a distância entre o canto mais esquerdo da caixa e A PARTE ESQUERDA DA PÁGINA/OBJETO WINDOW...
+
+
+
+
+
+
+
+OBS: 'offsetTop' always is relative TO YOUR DOCUMENT START, NOT TO THE VIEWPORT (i.e. it does NOT change upon scrolling)
+
+
+
+
+
+
+
+
+
+-----------------
+
+
+
+
+
+
+Portanto, esses left/bottom/right/top são 
+
+ESSENCIALMENTE NOSSOS VALORES 
+
+'x' e 'y'...
+
+
+
+----------------------
+
+
+
+Porém, nós também temos 
+
+
+
+'box.clientTop' 
+
+
+
+
+e 
+
+
+'box.clientLeft'
+
+
+
+
+AMBOS NOS RETORNAM '15', NESSE NOSSO CASO CONCRETO.
+
+
+
+
+
+Pode-se perceber QUE ELES SÃO DIFERENTES 
+
+De 'x' e 'y', e diferentes dos 'bottom/left/top/right'....
+
+
+-----------------------------
+
+
+
+DIFERENÇA:
+
+
+
+-->offsetTop/Left/Bottom/Right ---------->  NOS DÃO o 'outer positioning' (POSICIONAMENTO EXTERNO, ou seja, O POSICIONAMENTO DA CAIXA DENTRO DO SISTEMA DE COORDENADAS)
+
+
+
+-->clientLeft/Top/Bottom/Right ---------> JÁ AS 'CLIENT' PROPERTIES NOS DÃO O POSICIONAMENTO INTERNO (inner positioning) ------> e, especificamente, clientTop e clientLeft NOS INFORMAM O QUÃO DISTANTE O PONTO MAIS PARA A ESQUERDA/TOPO DESSA CAIXA ESTÁ EM RELAÇÃO AO ___CONTEÚDO INTERNO____ DA MESMA CAIXA...
+
+                                            E O CONTEÚDO DA CAIXA É BASICAMENTE A CAIXA ___INTEIRA__, SEM QUALQUER BORDER E SCROLL BARS (que seriam consideradas 'filler' POR ESSA PROPRIEDADE).
+
+
+
+
+E É EXATAMENTE POR ISSO QUE 
+
+
+ESSAS PROPRIEDADES, NESSE CASO CONCRETO, VAO NOS RETORNAR VALORES EM PIXEL __MENORES____.
+
+
+ex:
+
+
+
+
+clientLeft/Top/Bottom/Right ---> nos retorna 15 (a distância entre o 'filler'(a borda da caixa) E O CONTEÚDO DE VERDADE...)
+
+
+
+--------------------------------------
+
+
+
+
+
+ATÉ O MOMENTO, NÃO HÁ SCROLLBAR ALGUMA NA NOSSA CAIXA, MAS HÁ UMA BORDA DE 15PX ADICIONADA NO CÓDIGO CSS...
+
+
+
+e essa borda de 15PX é EXATAMENTE A DISTÂNCIA que vemos aqui entre o ponto mais para a esquerda/topo da caixa e o 
+conteúdo da mesma.....
+
+
+-----------------------------------
+
+
+
+TAMBÉM CONSEGUIMOS ACESSAR/DESCOBRIR OS ___VALORES____ DOS ____TAMANHOS___ DESSA CAIXA...
+
+
+
+por meio de 
+
+
+'offsetWidth', recebemos 
+
+
+
+O VALOR DE '300'...
+
+
+
+
+Já com 'offsetHeight', recebemos o valor de 200.
+
+
+
+
+OS 2, offsetWidth e offsetHeight, NOS DÃO 
+
+O TAMANHO INTEIRO DESSE NOSSO OBJETO/CAIXA...
+
+
+(E ISSO INCLUI TODAS AS BORDAS E SCROLLBARS DESSE OBJETO...)
+
+
+---------------------------------
+
+
+
+
+
+Também não nos surpreende o fato de existir 
+
+
+
+'.clientWidth' e 'clientHeight',
+
+
+
+QUE NOS MOSTRAM A HEIGHT E WIDTH """"INTERNAS"""", sem contabilizar 
+
+AS BORDAS E SCROLLBARS EXTERNOS...
+
+
+
+Ex:
+
+
+
+'.clientWidth' ---> RETORNA 270.
+
+
+
+clientHeight -----> RETORNA 170.
+
+
+
+Mas pq esses valores de .70?
+
+
+
+PQ AS BORDAS QUE ESTÃO NESSA CAIXA SÃO DE 15PX. 15px da borda da direita + 15px da borda da esquerda = 30PX.
+                                                15px da borda do topo + 15px da borda de baixo= 30PX.
+
+
+                                    300 - 30 = 270.
+
+                                    200 - 30 = 170.
+
+
+
+
+
+CASO TIVÉSSEMOS UMA SCROLLBAR NESSE OBJETO/CAIXA, A SCROLLBAR TERIA SIDO DEDUZIDA DOS VALORES DESSAS PROPRIEDADES, TAMBÉM.
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+TAMBÉM interessante é O FATO DE QUE 
+
+ESSE CONTEÚDO DA CAIXA É 
+
+
+___SCROLLÁVEL___...
+
+
+
+
+
+
+O SCROLL, DIZ O PROFESSOR, É APENAS RENDERIZADO __TEMPORARIAMENTE__ NO MAC, e por isso 
+
+o scrollbar NÃO É INCLUÍDO NO CÁLCULO QUE O PROFESSOR ACABOU DE NOS MOSTRAR, COM AQUELA PROPRIEDADE.
+
+
+
+
+
+Mas quanto ao scrolling, NÓS PODEMOS VER/RECEBER ALGUNS DADOS 
+
+INTERESSANTES...
+
+
+
+
+
+Podemos, por exemplo, pegar 
+
+
+
+
+
+'box.scrollHeight'  ----------> '.scrollHeight' ---> O QUE SCROLLHEIGHT NOS DÁ É A ALTURA TOTAL DO 
+                                                    CONTEÚDO DO OBJETO/CAIXA, QUE INCLUI A PARTE QUE ESTÁ ATUALMENTE 'NÃO VISÍVEL' NA CAIXA (por causa do 'overflow: scroll'), o conteúdo que precisamos SCROLLAR PARA VER...
+
+
+
+                                        Então 'scrollHeight' É A ALTURA INTEIRA DAQUELE CONTEÚDO DA CAIXA/OBJETO, A ALTURA 
+
+                                        QUE ENGLOBA AS PARTES NÃO VISÍVEIS DO CONTEÚDO DA MESMA (as partes que estão 'scrolled out of view').
+                                                    
+
+
+----------------------------------
+
+
+
+
+
+NÓS TAMBÉM TEMOS OUTRO VALOR INTERESSANTE:
+
+
+'.scrollTop'
+
+
+
+SCROLLTOP NOS DÁ INFORMAÇÃO ACERCA DE QUANTOS PX NÓS SCROLLAMOS O CONTEÚDO NAQUELA 
+
+CAIXA... (em relação ao INÍCIO, ou seja, O TOPO.... ) 
+
+(RESUMINDO: se eu scrollei para baixo ATÉ O FINAL DESSA CAIXA, a propriedade 
+'scrollTop' IRÁ ME MOSTRAR '251'. Se eu retornar a barrinha do scroll ATÉ O INÍCIO, até 
+o começo do conteúdo da caixa, ELE VAI ME MOSTRAR 0, que é a origem... 
+
+Essa propriedade serve para user agreements e pop ups irritantes.)
+
+
+
+
+
+
+$0.scrollTop ---> retorna 0 ---> significa que a scrollbar está posicionada LÁÁÁ no início.
+
+
+$0.scrollTop ---> retorna 251 ---> significa que a scrollbar está posicionada lááá no final da caixa.
+
+
+----------------------------------------
+
+
+
+
+NÓS NÃO PRECISAMOS DECORAR TODAS ESSAS PROPRIEDADES...
+
+
+
+NO MDN, podemos 
+
+checar o artigo 
+
+
+acerca de 
+
+'HTMLElement'.....
+
+
+lá nós podemos encontrar TODAS AS PROPRIEDADES
+
+
+
+Nessa página e na página de 'ELEMENT'....
+
+
+
+Podemos ler mais sobre isso e brincar um pouco com as propriedades...
+
+
+--------------------------------------------
+
+
+
+
+
+APENSO às aulas do professor, temos um simples esquema QUE MOSTRA EXATAMENTE 
+
+COMO FUNCIONA O SISTEMA DE COORDENADAS DO JAVASCRIPT, e como cada 
+
+uma das propriedades que o professor nos mostrou CONTABILIZA OS 
+
+
+PIXELS E TAMANHOS/posicionamento dos objetos/caixas.
+
+
+
+Nesse slide o professor resume os valores CHAVE para nós.
+
+
+
+
+---------------------------------------
+
+
+
+
+
+UM PEQUENO ADENDO:
+
+
+
+
+SE VOCÊ QUER CONSEGUIR 
+
+
+A WIDTH DO DOCUMENTO,
+
+
+
+
+
+HÁ 2 
+
+
+OPÇÕES PARA FAZER ISSO....
+
+
+
+
+
+
+1A OPÇÃO ----->  USAR 
+
+ 
+'window.innerWidth' e 'window.innerHeight' -----------> ISSO DEVERÁ NOS DAR A WIDTH E HEIGHT QUE TEMOS DENTRO DA NOSSA JANELA....
+
+
+(e esses valores mudam CONFORME NÓS MINIMIZAMOS/AFETAMOS O TAMANHO DA PÁGINA POR MEIO DO 'SHOW DEVTOOLS/HIDE DEVTOOLS'...)
+
+
+
+
+
+MAS OS PROBLEMAS COM ESSAS PROPRIEDADES É QUE 
+
+SE VOCÊ TIVESSE UMA SCROLLBAR VISÍVEL em, por exemplo, 
+
+o internet explorer, ESSAS PROPRIEDADES VÃO, NA VERDADE, 
+
+INCLUIR O SCROLLBAR NO TAMANHO DA JANELA (ou seja, deixarão 
+de subtrair o valor do scrollbar DO VALOR TOTAL DA JANELA...
+
+O que pode levar a problemas de display dos objetos na janela... deixarão inclusos os valores das scrollbars...)  ----------> RESULTA EM PROBLEMAS PQ ISSO ACABA DEIXANDO A PÁGINA COM 'MAIS USER WIDTH E HEIGHT' (MAIS WIDTH E HEIGHT DO QUE NÓS REALMENTE TEMOS DISPONÍVEL PARA NOSSO CONTEÚDO...)
+
+
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+
+PORTANTO, UMA MANEIRA MELHOR DE PEGAR O ___VERDADEIRO VALOR___ DA WIDTH E HEIGHT 
+
+
+DE UMA PÁGINA É usar 
+
+
+a SEGUNDA OPÇÃO:
+
+
+
+
+A segunda opção 
+
+
+pede que nós 
+
+
+acessemos 
+
+
+'document.documentElement'   (documentElement, diz o professor, É O NOSSO ELEMENTO 'ROOT', O ELEMENTO ROOT QUE INCLUI TANTO BODY QUANDO HEAD DO HTML...)...
+
+
+
+
+FAZEMOS ISSO E ENTÃO ACESSAMOS 
+
+
+'clientWidth'....
+
+
+
+
+
+ex:
+
+
+
+
+
+document.documentElement.clientWidth;
+
+
+
+e 
+
+
+document.documentElement.clientHeight
+
+
+
+
+
+(nós não vemos diferença no valor mostrado no devTools, pessoalmente, mas entendemos 
+
+a preocupação do professor com os valores afetados pelo scrollbar bosta do internet explorer.)
+
+
+
+
+
+AQUI ESSAS PROPRIEDADES NOS DÃO OS MESMOS VALORES DE 
+
+
+'window.innerHeight' e 'window.innerWidth' SIMPLESMENTE PORQUE 
+
+EU NÃO TENHO SCROLLBAR ALGUMA NA PÁGINA.
+
+
+
+
+Se você tiver scrollbars, esses valores de 'document.documentElement.clientHeight' e etc são 
+
+MAIS CONFIÁVEIS PQ ELES DEDUZEM QUAISQUER SCROLLBARS VISÍVEIS E NOS 
+
+DÃO OS VALORES VERDADEIROS DA ALTURA/LARGURA DISPONÍVEIS A NÓS NA PÁGINA...
+
+
+
+-------------------------------------------------
+
+
+

@@ -1,0 +1,640 @@
+Então, a boa notícia é que nós temos a função "showResult" e podemos passá-la por aí como um CALLBACK.
+
+
+
+Digamos que nós também queremos usar O MESMO PADRÃO EM "subtractUp":
+
+
+
+
+
+
+const subtractUp = function() {
+let sum = 0;
+    for(const num of arguments) { 
+        sum -= num;
+    }
+    return sum;
+};
+
+console.log(subtractUp(1, 10, 15, 20));
+
+
+------------------------------------------------------
+
+
+O professor diz que vai deixar "arguments" ali, para nós, como uma referência àquilo que aprendemos. Poderíamos usar 
+um REST PARAMETER aqui, em seu lugar, mas escolhemos deixar essa variável "MÁGICA" ali.
+
+
+
+Mas o que o professor vai fazer É FAZER O CÓDIGO ESPERAR (EXPECT) UM "resultHandler" COMO PARÂMETRO dessa função.
+
+
+EX:
+
+
+const subtractUp = function(resultHandler) {
+let sum = 0;
+    for(const num of arguments) { 
+        sum -= num;
+    }
+    return sum;
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+
+
+
+console.log(subtractUp(1, 10, 15, 20));
+
+
+
+
+Assim como fizemos com "sumUp", aqui o professor também vai querer receber um "resultHandler" como parâmetro.
+Entretanto, em vez de querer RETORNAR O SUM ao final do código, ele vai querer CHAMAR O RESULTHANDLER e passar "sum" como 
+argumento a ele.
+
+
+ex:
+
+
+
+
+
+
+const subtractUp = function(resultHandler) {
+let sum = 0;
+    for(const num of arguments) { 
+        sum -= num;
+    }
+    resultHandler(sum);
+};
+
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+console.log(subtractUp(1, 10, 15, 20));
+
+
+
+-----------------------------------------------------
+
+
+Agora o professor diz que podemos nos livrar do console.log statement lá embaixo, e simplesmente passar "showResult" como primeiro parâmetro (assim como fizemos com sumUp).
+Ele diz que é essencialmente O MESMO APPROACH que usamos para "sumUp". Usar o que aprendemos na última lição.
+
+
+ex:
+
+
+
+
+
+
+const subtractUp = function(resultHandler) {
+let sum = 0;
+    for(const num of arguments) { 
+        sum -= num;
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+
+subtractUp(showResult, 1, 10, 15, 20));
+
+
+-------------------------------------------------
+
+
+Se agora recaregarmos, receberemos NaN, na verdade. RECEBEMOS "NAN" POR CAUSA DAQUELA COISA DE 
+"ARGUMENTS". O professor se dá conta de que agora nós REALMENTE PRECISAMOS TROCAR PARA O REST OPERATOR, PORQUE 
+"resultHandler" é um dos argumentos nessa função. Não podemos usar o "arguments" pq ele vai querer misturar tudo, 
+vai querer misturar a nossa função "showResult" aos números em um array, e isso criará um NaN. Por isso empregamos o 
+"rest operator" (...) nessa nossa função subtractUp, para que SOMENTE OS NÚMEROS APÓS A FUNÇÃO USADA COMO PARÂMETRO 
+(resultHandler) SEJAM MISTURADAS E ADICIONADAS A UM ARRAY.
+
+REPRESENTAÇÃO:
+
+
+
+const subtractUp = function(resultHandler, ...numbers) {  //eis A PRIMEIRA DAS MUDANÇAS, O USO DO REST OPERATOR.
+let sum = 0;
+    for(const num of numbers) {  //eis A SEGUNDA DAS MUDANÇAS, A DESISTÊNCIA DE USAR "ARGUMENTS", A VARIÁVEL MÁGICA, AQUI. PROFESSOR RESOLVE USAR UMA VARIÁVEL GENÉRICA, "numbers", para que o rest operator funcione sobre os números a serem incorporados no array.
+        sum -= num;
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+
+subtractUp(showResult, 1, 10, 15, 20));
+
+
+
+-----------------------------------------------------
+
+
+Esse é um bom exemplo daquilo que o professor mencionou, aquilo sobre o uso do REST OPERATOR ser muito superior 
+ao uso da variável mágica "arguments".
+
+
+
+Agora recarregamos e recebemos o valor correto no alert. Mas o professor aponta um pequeno errinho:
+
+a mensagem ainda diz "after adding all numbers"; isso está errado, porque estamos, na verdade, os subtraindo uns aos outros. 
+
+Queremos, portanto, MUDAR A MENSAGEM QUE ESTÁ EM SHOWRESULT. Mas como fazer isso? Como fazer isso sem que 
+a mensagem a ser mostrada mude para "sumUp", também?
+
+Professor diz que uma alternativa seria criar um "showResult2" e colocar a mensagem diferente ali... o professor diz 
+que isso funcionaria, mas que aí você criaria muitas funções, e isso seria desnecessariamente pesado.
+
+
+UMA MANEIRA CONVENIENTE DE SOLUCIONAR O PROBLEMA SERIA SE NÓS PUDÉSSEMOS, na verdade, ter 2 argumentos nessa função 
+"showResult"... O PRIMEIRO PARÂMETRO SERIA O "result", e o SEGUNDO SERIA A MENSAGEM, o "messageText". Faríamos isso para que, no final das contas, 
+em alert nós somente combinássemos "messageText" + "result".
+
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+const subtractUp = function(resultHandler, ...numbers) {  
+let sum = 0;
+    for(const num of numbers) {  
+        sum -= num;
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result, messageText) => {
+    alert(messageText + ' ' + result);
+};
+
+
+
+subtractUp(showResult, 1, 10, 15, 20));
+
+
+
+-------------------------------------------
+
+
+
+Temos um problema considerável, aqui.
+
+
+"result" é passado como parâmetro em resultHandler do subtractUp (ele é o sum, result é o "sum"), e 
+também é passado no resultHandler do sumUp. É claro que em cada resultHandler nós poderíamos passar as mensagens específicas adequadas para cada caso.
+
+
+ex:
+
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum, 'The result after adding all numbers is');  //essa função resultHandler terá 2 parâmetros, porque ela será relacionada com o argumento de
+    //"showResult" da função "subtractUp", que por sua vez EXIGE OS argumentos "resultHandler" e "...numbers". Essa função subtractUp ENQUADRA "showResult" como se fosse 
+    // "resultHandler", o primeiro de seus parâmetros.
+
+};
+
+
+
+------------------------------------
+
+
+MAS E SE EXISTISSE UMA FUNÇÃO MAIS REUTILIZÁVEL, EM QUE NÓS TIVÉSSEMOS UMA FUNÇÃO QUE FAZ TANTO sumUp OU subtractUp com base em algum outro parâmetro...
+
+
+Professor diz que, na verdade, é possível nós simularmos isso aqui.
+
+
+Ele vai lá e comenta para fora do código o "subtractUp".
+
+
+Depois disso, ele vai até sumUp e adiciona UM NOVO PARÂMETRO À ESSA FUNÇÃO, O PARÂMETRO "operation".
+Depois diss, ele muda o nome da constante sumUp para "combine" (pense um pouco: ele escolheu esse nome porque a função vai combinar números nas 2 hipóteses, tanto na adição quanto na subtração dos números).
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+ex:
+
+
+
+const combine = (resultHandler, operation, ...numbers) => { //EIS AQUI A ALTERAÇÃO.
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+--------------------------------------------
+
+
+
+Esse novo operador "operation" é criado. Dentro de combine, dentro do for of loop, o professor insere 
+um IF CHECK que checa "se operation é igual a 'SUM', rodar sum += validateNumber(num);"
+
+
+
+
+
+
+ex:
+
+
+
+const combine = (resultHandler, operation, ...numbers) => { //EIS AQUI A ALTERAÇÃO.
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        if(operation === 'ADD') {
+        sum += validateNumber(num);
+    }
+    resultHandler(sum, 'The result after adding all numbers is');}
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+---------------------------------------------------
+
+
+DEPOIS DISSO, O PROFESSOR INSERE UM ELSE, QUE COMPREENDERÁ TODAS AS SITUAÇÕES QUE NÃO FOREM "ADD". Se não for 'ADD', o código deverá 
+rodar  sum -= validateNumber(num);
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+ex:
+
+
+
+const combine = (resultHandler, operation, ...numbers) => { //EIS AQUI A ALTERAÇÃO.
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        if(operation === 'ADD') {
+        sum += validateNumber(num);
+    } else {
+        sum -= validateNumber(num);
+    }
+
+    resultHandler(sum, 'The result after adding all numbers is');}
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+--------------------------------------------------------
+
+
+
+
+AGORA, PORTANTO, TEMOS UMA FUNÇÃO MAIS REUTILIZÁVEL, A FUNÇÃO "combine". Devemos, ademais, mudar os chamados dessa função lá embaixo no código.
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+ex:
+
+
+
+const combine = (resultHandler, operation, ...numbers) => { //EIS AQUI A ALTERAÇÃO.
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        if(operation === 'ADD') {
+        sum += validateNumber(num);
+    } else {
+        sum -= validateNumber(num);
+    }
+
+    resultHandler(sum, 'The result after adding all numbers is');}
+};
+
+
+const showResult = (result) => {
+    alert(message + ' ' + result);
+};
+
+
+combine(showResult, 1, 5, 10, -3, 6, 10, 25, 88);  // EIS AQUI A ALTERAÇÃO.
+
+
+
+
+
+
+----------------------------------------------------------------------------------
+
+
+
+
+ALÉM DISSO, DEVEMOS ALTERAR OS PARÂMETROS QUE SÃO PASSADOS A ESSA FUNÇÃO NO SEU CHAMADO LÁ EMBAIXO. O SEGUNDO PARÂMETRO (operation) DEVERÁ SER 'ADD', para que a condição do if check seja satisfeita.
+
+
+
+
+EX:
+
+
+
+
+const combine = (resultHandler, operation, ...numbers) => { //EIS AQUI A ALTERAÇÃO.
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        if(operation === 'ADD') {
+        sum += validateNumber(num);
+    } else {
+        sum -= validateNumber(num);
+    }
+
+    resultHandler(sum, 'The result after adding all numbers is');}
+};
+
+
+const showResult = (result) => {
+    alert(message + ' ' + result);
+};
+
+
+combine(showResult, 'ADD', 1, 5, 10, -3, 6, 10, 25, 88); 
+combine(showResult, 'SUBTRACT', 1, 5, 10, -3, 6, 10, 25, 88); 
+combine(showResult, 'SUBTRACT', 1, 5, 10, -3, 6, 10, 25, 88); 
+
+
+---------------------------------------------------------------------
+
+
+
+Se recarregarmos a página... veremos que ela funciona como antes, MAS QUE ELA AINDA ESTÁ MOSTRANDO 
+NO ALERTA A MENSAGEM ERRADA.
+
+
+O professor diz que é claro que poderíamos ajustar a mensagem no chamado de resultHandler dentro da função combine, poderíamos settar uma expressão ternária aqui, 
+para que fosse mostrada a mensagem de soma quando 'ADD' e a  de subtração no caso contrário.... 
+
+ENTRETANTO, aponta o professor, QUANTO MAIS OPERAÇÕES SUPORTADAS FORMOS ADICIONANDO AO CÓDIGO, MAIS INCÔMODa
+E CONFUSa VAI FICAR ESSA TERNARY EXPRESSION.
+
+
+No final das contas, o professor apenas quer passar o "sum" ao "resultHandler", e seria MUITO MELHOR  se nós pudéssemos settar 
+a mensagem LÁÁÁÁ EMBAIXO, no chamado de "combine", naquele lugar mesmo, no lugar em que sabemos qual operação será realizada em cada caso.
+E é exatamente isso que iremos solucionar agora: 
+
+
+É claro que poderíamos facilmente passar a nossa mensagem SE PUDÉSSEMOS CHAMAR A FUNÇÃO LÁ EMBAIXO, tipo assim:
+
+
+combine(showResult(), 'ADD', 1, 5, 10, -3, 6, 10, 25, 88); 
+
+....
+
+
+
+
+
+MAS NÓS NÃO PODEMOS CHAMAR ELA DENTRO DE (); por isso nós queremos ENTREGAR A MENSAGEM À FUNÇÃO "COMBINE", queremos entregar À função combine para que 
+ELA CHAME ESSA FUNÇÃO (a função showResult) POR NÓS.
+
+
+Mas então, o que podemos fazer?
+
+
+
+
+Bem, funções são objetos, e elas na verdade tem PROPRIEDADES ESPECIAIS (métodos) ligadas À elas. Um método 
+essencial é o "BIND" method. 
+
+
+ex:
+
+
+"xxxx.bind()";
+
+
+bind deve ser acoplado ao objeto-função, e ele é EXECUTADO (o bind é executado). O que bind faz é 
+CRIAR UMA NOVA FUNÇÃO, UMA ____NOVA _____ REFERÊNCIA à UMA FUNÇÃO____, a qual ele retorna a você, que SERÁ PRÉ-CONFIGURADA 
+de acordo com os argumentos que ela recebe (e é essa a parte interessante).
+
+
+
+Com bind você pode criar uma FUNÇÃO QUE NÃO É IMEDIATAMENTE EXECUTADA. Não é imediatamente executada 
+como o código "combine(showResult();)", mas sim É PREPARADA PARA UMA FUTURA EXECUÇÃO... uma futura execução em que 
+determinados valores para determinados parâmeros que você já conhece naquela altura do campeonato JÁ ESTÃO 
+DEFINIDOS.
+
+
+Mas como isso funciona, aqui?
+
+
+
+Bem, bind aceita PELO MENOS 2 ARGUMENTOS. O primeiro argumento é um que nós devemos ignorar, por enquanto. É um parâmetro que 
+define uma coisa chamada "THIS", que é uma keyword especial em javascript que ainda não aprendemos sobre. Aprenderemos sobre ela 
+no objects deep dive. Por enquanto, podemos passar apenas "this" como primeiro argumento.
+
+
+ex:
+combine(showResult.bind(this, ), 'ADD', 1, 5, 'fdsa', -3, 6, 10);
+
+
+
+O SEGUNDO ARGUMENTO É O PRIMEIRO PARÂMETRO QUE VOCÊ QUER QUE SEJA PRÉ-CONFIGURADO... Você pode passar quantos 
+argumentos você quiser depois dele, btw. 
+
+
+
+ex:
+combine(showResult.bind(this, , , , , , ,), 'ADD', 1, 5, 'fdsa', -3, 6, 10);
+
+
+Você pode pré-configurar quantos parâmetros você quiser, desde que sua função os suporte.
+
+
+Aqui nós colocamos 'The result after adding all numbers is:'. 
+
+ex:
+
+combine(showResult.bind(this, 'The result after adding all numbers is:'), 'ADD', 1, 5, 'fdsa', -3, 6, 10);
+
+-------------------------------------------------------------
+
+
+O professor copia essa mensagem nos outros calls de combine, mas no caso do call de combine que lida com subtração, 
+o professor altera a mensagem para 'The result after subtracting all numbers is:'.
+
+
+ex:
+
+
+combine(showResult.bind(this, 'The result after adding all numbers is:'), 'ADD', 1, 5, 'fdsa', -3, 6, 10);
+combine(showResult.bind(this, 'The result after subtracting all numbers is:'), 'SUBTRACT', 1, 5, 'fdsa', -3, 6, 10);
+combine(showResult.bind(this, 'The result after subtracting all numbers is:'), 'SUBTRACT', 1, 5, 'fdsa', -3, 6, 10);
+
+
+
+
+
+AGORA, PORTANTO, CHAMAMOS A FUNÇÃO "COMBINE" 3 VEZES, E AÍ FAZEMOS BIND DESSAS MENSAGENS À "showResult", em cada caso específico.
+
+De novo, ISSO NÃO EXECUTA "SHOWRESULT" imediatamente, apenas o PREPARA PARA EXECUÇÃO. 
+
+
+The thing is... as coisas que você passa aqui como argumentos (na verdade, a única coisa que você passa como argumento, 
+aquela mensagem lá, porque "this" não conta) SERÃO RECEBIDOS EXATAMENTE NAQUELA ORDEM EM QUE ESTÃO ORGANIZADOS. Ou seja...
+
+
+
+
+         (argumento desconsiderado)        (1o argumento)
+combine(showResult.bind(this, 'The result after adding all numbers is:'), 'ADD', 1, 5, 'fdsa', -3, 6, 10);
+
+
+                    (1o arg)    (2o arg)
+const showResult = (result, messageText) => {
+    alert(messageText + ' ' + result);
+}
+
+
+
+SÓ QUE ISSO AQUI ESTÁ ERRADO. NÃO VAI DAR CERTO. Por que não vai dar certo? Porque a função showResult está com 
+os argumentos na ordem incorreta, o 1o argumento de combine ficaria encaixado no lugar de result (o que está errado), 
+e o "messageText" ficaria com nenhum valor dentro de si (porque a função showResult só tem um argumento de verdade, que 
+é a mensagem que tem de entrar em messageText).
+
+
+O professor nos mostra a solução: devemos trocar os parâmetros de showResult de lugar, trocar o 2o arg pelo 1o.
+
+ex:
+
+
+   (argumento desconsiderado)        (1o argumento)
+combine(showResult.bind(this, 'The result after adding all numbers is:'), 'ADD', 1, 5, 'fdsa', -3, 6, 10);
+
+
+                    (1o arg)    (2o arg)
+const showResult = (messageText, result) => {
+    alert(messageText + ' ' + result);
+}
+
+
+-------------------------------------------------------
+
+Deu, resolvido. A boa notícia aqui é que nós ainda recebemos "result" aqui, porque o verdadeiro lugar de onde 
+você chama "showResult", que é dentro de "combine" (na linha "resultHandler(sum)"), o valor que vocÊ passa para resultHandler lá 
+(o valor "sum", que é result, na verdade) será automaticamente ANEXADO COMO O ÚLTIMO ARGUMENTO (ou argumentos) na função 
+showResult, a qual ligamos à função "bind".
+
+
+Portanto, se vocÊ definir um BIND, seus argumentos definidos dentro dele sempre VIRÃO ANTES, e quaisquer argumentos que 
+então são passados em lugares QUE VOCÊ REALMENTE CHAMOU A FUNÇÃO QUE TEM O BIND ___VIRÃO DEPOIS____ DOS SEUS PRÓPRIOS 
+ARGUMENTOS PRÉ-CONFIGURADOS. showResult, portanto, receberá ambos, receberá "messageText", porque você está definindo 
+a messageText no showResult.bind(this, 'The result after adding all numbers is:') E RESULT VOCÊ ESTÁ DEFININDO LÁ EM CIMA, 
+NO CHAMADO DA FUNÇÃO SHOWRESULT  ( "resultHandler(sum);") DENTRO Da função "combine". O "sum" será automaticamente "appended" como 
+"result" dessa função showResult PELO JAVASCRIPT. Tudo isso acontece por causa DO MÉTODO "BIND".
+
+
+Se salvarmos e recarregarmos a página, veremos 
+
+1) a mensagem após adicionar todos os números 
+
+
+2 a mensagem após subtrair todos os números 
+
+
+3) a mensagem após subtrair todos os números.
+
+
+
+Funciona, portanto, exatamente da maneira que desejávamos, graças À ajuda de bind, que permite a nós pré-configurar funções
+EM LUGARES EM QUE QUEREMOS PASSAR UM VALOR MAS EM QUE TAMBÉM NÃO QUEREMOS EXECUTAR DIRETAMENTE UMA FUNÇÃO.

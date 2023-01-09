@@ -1,0 +1,346 @@
+Aqui veremos mais operadores, que serão então usados com JavaScript.
+
+
+
+
+Uma feature especial do javascript, se você pode chamar disso, é um conjunto especial de operadores que vocÊ pode usar. 
+
+
+revisando:
+
+
+
+=  ----> assign operator
+
+
++ -----> plus operator
+
+
+
+- -----> minus operator
+
+
+
+* -----> mult operator
+
+
+
+/ -----> divide operator
+
+
+
+
+
+Agora, veremos uns "OPERADORES ATALHOS", assim chamados.
+
+
+Primeiramente, o operador utilizado para resumir a presença de uma constante/elemento do javascript em algum pedaço do código.
+
+
+
+
+ex:
+
+
+
+function add(){const enteredNumber = getUserNameInput();
+const initalResult = currentResult;
+currentResult = currentResult + enteredNumber;    ---------------------------------> esta linha tem algo que podemos resumir com um operador shortcut.
+createAndWriteOutput('+', initialResult, enteredNumber);}
+
+
+O operador de que falamos é o +=.
+
+
+currentResult = currentResult + enteredNumber  é  A MESMA COISA que       currentResult += enteredNumber.
+
+
++= é utilizado para "elipsar" a presença de uma constante que é repetida, que aparece tanto no lado esquerdo como direito.
+
+os efeitos no código são os mesmos, mas assim economizamos tempo, pois apenas precisamos digitar += para "copiar" aquele primeiro valor no segundo campo, no campo direito.
+
+Pode parecer banal, mas em Javascript é muito comum ver essas repetições de código idiotas.
+
+
+
+FUNCIONA COM TODOS OS OPERADORES COMUNS:
+
+
++, -, *, /.
+
+
+
+
+
+AINDA HÁ OUTROS ATALHOS:
+
+
+digamos que você quer assignar um novo valor a uma variável. Por exemplo, currentResult. Você quer adicionar apenas 1 (uma unidade) ao valor original da variável. Há um atalho útil para isso, que é ++.
+
+
+currentResult += enteredNumber;
+
+currentResult = currentResult + 1;      --------------> Versão não abreviada.
+
+
+
+currentResult += enteredNumber;
+currentResult++; --------------> É a mesma coisa que currentResult + 1.
+
+
+
+A MESMA COISA FUNCIONA COM MENOS.
+
+
+currentResult - 1   é a mesma coisa que currentResult--.
+
+
+Esse operador/atalho NÃO FUNCIONA com os operadores de multiplicação e divisão, por razões óbvias:
+
+
+currentResult** seria a mesma coisa que currentResult x1x1, que daria 1 (currentResult de novo).
+
+
+currentResult// seria currentResult dividido por 1, dividido por 1, que daria 1 currentResult.
+
+
+esses operadores atalhos são chamados INCREMENT e DECREMENT.       INCREMENT(++) e DECREMENT(--).
+
+
+
+
+
+
+
+IMPORTANTE:
+
+
+
+
+++currentResult e currentResult++ são DIFERENTES. HÁ UMA PEQUENA DIFERENÇA ENTRE ELES, ASSIM COMO --currentResult e currentResult--.
+
+Não é uma diferença que aparece se você usar ela de forma simples, para apenas mudar o valor de uma variável, APENAS APARECE SE VOCÊ ESTÁ
+INTERESSADO NA VERSÃO "RETURN" DESSA OPERAÇÃO.
+
+++currentResult ------------> se vocÊ adicionar ++ ANTES da constante, ele irá adicionar 1 à currentResult, e então irá retornar o valor editado APÓS o +1, após a mudança. Esse comportamento só ocorre com return, lembrando.
+currentResult++ ------------> se você adicionar ++ DEPOIS da constante, ele irá retornar o valor ORIGINAL de currentResult, o valor anterior à adição do +1.
+
+
+No código da calculadora, nós não estamos usando o valor/função de retorno, mas se nós fossemos alertar aquele return value, ele ainda muda currentResult sempre na mesma forma, ou seja, adicionando 1, mas
+essa operação retorna um novo valor que você pode ou não usar dependendo daquilo que você quer.
+
+
+
+ex: professor usa-o por meio do output com a função de alert.
+
+
+
+
+function add{const enteredNumber = getUserNumberInput();
+             const initialResult = currentResult;
+             alert(++currentResult);  ----------> exemplo.
+             createAndWriteOutput('+', initialResult, enteredNumber);
+             }
+
+
+
+Se nós fizermos isso e recarregarmos a página, veremos um alerta dizendo "1."
+
+
+
+Ou seja, recebemos o valor da constante APÓS a mudança.
+
+
+
+
+se trocarmos para alert(currentResult++);  , veremos um alerta dizendo "0".
+
+
+
+OU SEJA, RECEBEMOS O VALOR DA CONSTANTE ____ANTES___ DA MUDANÇA, DA ADIÇÃO.
+
+
+
+
+Então, basicamente: esses operadores ++ e -- RETORNAM alguma coisa, retornam o valor ANTES ou DEPOIS da mudança, dependendo do lugar que você coloca os ++ e --, se no início ou no final.
+
+
+
+De novo: muitas vezes isso não importa, porque a variável em si (a forma simples) é sempre editada da sempre maneira. A única diferença que ocorre é acerca do valor que é retornado.
+
+
+
+
+
+
+
+RESUMO ÚTIL:
+
+
+
+
+
+sing ++/-- After the Operand
+When you use the increment/decrement operator after the operand, the value will be returned before the operand is increased/decreased.
+Check out this example:
+// Increment
+let a = 1;               resultado
+console.log(a++);    // 1
+console.log(a);      // 2
+// Decrement
+let b = 1;
+console.log(b--);    // 1
+console.log(b);      // 0
+When we first log out the value of a, or b, neither has changed. That’s because the original value of the operand is being returned prior to the operand being changed. The next time the operator is used, we get the result of the +1, or -1.
+Using ++/-- Before the Operand
+If you’d rather make the variable increment/decrement before returning, you simply have to use the increment/decrement operator before the operand:
+// Increment
+let a = 1;
+console.log(++a);    // 2
+console.log(a);      // 2
+// Decrement
+let b = 1;
+console.log(--b);    // 0
+console.log(b);      // 0
+As you can see in the above example, but using ++ or -- prior to our variable, the operation executes and adds/subtracts 1 prior to returning. This allows us to instantly log out and see the resulting value.
+
+
+
+
+
+
+
+
+
+
+ESSES OPERADORES EXTRAS SÃO BONS DE SE SABER PORQUE VOCÊ PODE ECONOMIZAR CÓDIGO EXTRA QUANDO VOCÊ USA ESSAS ABREVIAÇÕES.
+
+
+
+
+
+MAS MAIS IMPORTANTE QUE ISSO SÃO NOVOS DATA TYPES.
+
+
+
+
+aprendemos sobre números(decimais/floating points e integrais) e sobre strings(texto).
+
+
+
+HÁ MAIS DATA TYPES:
+
+
+
+NOVO DATA TYPE: Booleans
+
+
+
+
+BOOLEANS são um pouco estranhos e difíceis de entender agora. Eles brilham de verdade quando aprendemos sobre control structures e IF statements.
+
+Booleans são, efetivamente, VALORES/values que tem 1(um) de 2(dois) possíveis valores. Esses valores são TRUE e FALSE.
+
+Essa é a diferença principal, já que com números você pode ter qualquer número de 0-9, e com letras você pode ter qualquer das 26 letras, todos eles combinados.
+
+Já os booleans tem exatamente um único valor: verdadeiro, ou falso.
+
+
+
+
+
+
+MAS AFINAL, QUANDO PRECISO DOS TAIS BOOLEANS? QUANDO PRECISO DE UM DATATYPE TÃO RESTRITIVO? 
+
+
+Nós os usamos muito. Bastante frequência, porque muitas vezes, em códigos, necessitamos de alguma condição (como por exemplo: "por acaso o usuário já está "travado?"/locked in?), condição que sempre é ou FALSA, ou VERDADEIRA.
+
+Baseado no verdadeiro ou falso, você vai querer rodar diferentes códigos baseados naquela condição.
+
+E era disso que o professor estava falando, BOOLEANS brilham quando você tem códigos condicionais, algo que ainda não vimos
+
+
+
+EM RESUMO, BOOLEANS = IMPORTANTÍSSIMOS PARA CONDITIONAL CODES E SITUAÇÕES EM QUE VOCÊ SÓ TEM 2 OPÇÕES.
+
+
+
+veremos os booleans mais a frente, daremos um deep dive, e então um mais deep ainda dive.
+
+
+
+
+Booleans são menos importantes do que uma coisa que veremos agora, os OBJETOS:
+
+
+
+OBJECTS. OBJECTS SÃO UM DATATYPE EXTREMAMENTE IMPORTANTE EM JAVASCRIPT, TALVEZ O TIPO MAIS IMPORTANTE SE VOCÊ TIVESSE QUE ESCOLHER UM.
+Claro que você precisa de todos os datatypes, mas objects são muito importantes.
+
+Te permitem a, vocÊ poderia dizer, AGRUPAR DADOS. alguma coisa como isto:
+
+
+ex: {name: 'Max',           ------------> 'name:max' = é um KEY VALUE PAIR.
+age: 31;}
+
+
+Você cria objetos com CURLY BRACES. PORÉM, FUNCTIONS NÃO SÃO OBJECTS, NÃO CONFUNDA AS COISAS. Mas, se retirarmos a keyword function da frente
+do function body e colocarmos um TEXTO ou um NÚMERO em seu lugar, criamos um OBJETO.
+
+
+Você pode criar um objeto por meio da escrita de curly braces e depois a inserção de KEY VALUE PAIRS dentro do objeto.
+
+
+
+                            group/relate
+Você usa os objetos para AGRUPAR ou RELACIONAR dados. Eles te ajudam a ORGANIZAR dados.
+
+
+Digamos que vocÊ tem um pequeno programa em que você trabalha com
+pessoas, em que você tem dados de usuário (que você + ou - precisa no seu código javascript.).
+
+
+Bem, cada usuário pode ter um NOME e uma IDADE.
+
+É claro que você poderia ter variáveis separadas standalone para isso,
+mas ter um objeto para essa função faz ela ser muito mais fácil de entender que
+esses dados + ou - devem ficar juntos, que estão RELACIONADOS, que você os usa como um
+único pedaço de informação, se você me entende, e é por isso que objetos são muito fortes.
+
+
+
+
+Você pode fazer MUITO MAIS com eles do que apenas agrupar dados, e vamos ver como fazer 
+isso ao longo do curso, mas a funcionalidade de poder agrupar dados por si só já é incrível
+e bem importante.
+
+
+
+
+
+
+POR FIM, FALANDO + OU - DE DADOS ORGANIZADOS OU AGRUPADOS, OUTRO TIPO DE DATATYPE SÃO OS
+
+__ARRAYS____.
+
+
+Arrays são criados com [SQUARE BRACKETS], dentro dos brackets vocÊ coloca números, texto,
+etc, qualquer coisa que você precisar. O array é simplesmente uma LISTA de dados.
+Arrays, portanto, são sempre ótimos para situações em que você precisa armazenar uma grande lista 
+de dados.
+
+Ex: uma lista de transações, ou talvez de cálculos, como em nossa calculadora.
+
+
+
+você pode armazenar qualquer dado ali. Podem ser integrais, decimais (floats), texto, até mesmo um array de
+objetos ou uma array DE ARRAYS. Você pode também MISTURAR dados dentro delas.
+
+OU seja, você pode ter um array com
+
+[cu, 1, 2, olha só, 3, 4]
+
+
+Elementos em um array são divididos por VÍRGULAS, assim como os KEY VALUE PAIRS (coisas que vão dentro de objetos) e objetos,
+mas o professor diz que tudo isso faz muito mais sentido quando trabalhamos com eles.
+

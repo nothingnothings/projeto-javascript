@@ -1,0 +1,1859 @@
+
+
+
+
+
+O professor que focar 
+
+
+
+agora no 
+
+
+
+botão 
+
+
+'More info'...
+
+
+
+
+Por isso ele vai até ao método 
+
+
+
+'connectMoreInfoButton' 
+
+
+
+e começa a adicionar código...
+
+
+
+
+
+
+A PRIMEIRA COISA QUE DEVEMOS FAZER É GANHAR ACESSO 
+
+AO BOTÃO de 'more info'...
+
+
+
+Para isso, podemos utilizar uma lógica similar a do 'connectSwitchButton'...
+
+
+
+trocamos 'last-of-type' por 'first-of-type'.
+
+
+
+
+Também trocamos alguns nomes de const e tal...
+
+
+
+
+ex:
+
+
+
+ connectMoreInfoButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+       
+    }
+
+
+
+------------------------------------------------
+
+
+
+ATÉ O PRESENTE MOMENTO, eu não sei como receber TEXTO algum para mostrar aqui nesse 'info button'...
+
+
+
+
+E eu também não quero renderizar elementos aqui.... 
+
+
+
+
+Professor diz que poderia escrever um console.log aqui, MAS QUE DECIDE POR NÃO FAZÊ-LO;
+
+
+o console.log vai ser utilizado no CONSTRUCTOR da classe 'Tooltip', e não aqui....
+
+
+
+
+Mas agora temos que ADICIONAR UM EVENTLISTENER AO BOTÃo...
+
+
+
+
+ex:
+
+
+
+ connectMoreInfoButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+       moreInfoBtn.addEventListener('click', )
+    }
+
+
+------------------------------------
+
+
+
+
+ESSE ADDEVENTLISTENER deverá ativar OUTRO MÉTODO em 'ProjectItem', o método 
+
+
+'showMoreInfoHandler'....
+
+
+
+
+ex:
+
+
+
+
+ connectMoreInfoButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+       moreInfoBtn.addEventListener('click', this.showMoreInfoHandler)
+    }
+
+
+
+showMoreInfoHandler() {
+
+}
+
+
+------------------------------------
+
+
+
+
+FEITO ISSO, PROFESSOR ENTÃO DECIDE 
+
+
+
+
+QUE IRÁ SEMPRE __CRIAR ___ O TOOLTIP____ dentro desse método 
+
+'showMoreInfoHandler'....
+
+
+-----------------------
+
+
+Ele cria uma const chamada de 'tooltip', e coloca como 
+
+valor um 
+
+
+'new Tooltip();' (instanciamento da classe 'Tooltip'.)
+
+
+---------------------
+
+
+
+ex:
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+
+ connectMoreInfoButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+       moreInfoBtn.addEventListener('click', this.showMoreInfoHandler)
+    }
+
+
+
+showMoreInfoHandler() {
+
+    const tooltip = new Tooltip();
+
+}
+
+
+
+-----------------------------
+
+
+
+
+ELE DECIDE QUE IRÁ CHAMAR um método '.show()' nesse 
+
+
+tooltip (cuja classe que o instancia AINDA ESTÁ INDEFINIDA)....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+
+ connectMoreInfoButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+       moreInfoBtn.addEventListener('click', this.showMoreInfoHandler)
+    }
+
+
+
+showMoreInfoHandler() {
+
+    const tooltip = new Tooltip();
+    tooltip.show();
+}
+
+
+
+--------------------------------
+
+
+
+Esse método 'show' fará o DISPLAY do tooltip...
+
+
+-----------------------------------
+
+
+
+Como o professor mencionou anteriormente, esse tooltip INICIALMENTE só irá 
+
+console.loggar umas informações no console, mas isso mudará em breve.
+
+
+--------------------------------
+
+
+
+Dentro da classe 'Tooltip', nós podemos simplesmente ADICIONAR O MÉTODO 
+
+'show'...., que terá um body de 'console.log('The tooltip...');'
+
+
+-------------------------------
+
+
+
+
+
+ex:
+
+
+
+class Tooltip {
+    show() {
+        console.log('The tooltip...');
+    }
+}
+
+-----------------------
+
+
+
+
+SALVAMOS TODO O CÓDIGO E RECARREGAMOS A PÁGINA.
+
+
+
+
+
+
+---------------------
+
+
+
+O TOOLTIP NO CONSOLE FUNCIONA, MAS 
+
+
+DEVEMOS DEIXAR O CÓDIGO UM POUCO MAIS FANCY...
+
+
+
+
+O tooltip está nos mostrando uma mensagem no console, mas 
+
+nós queremos QUE SEJA RENDERIZADO UM ELEMENTO de 'informação',
+
+nem que esse elemento seja renderizado lááá na parte de baixo da página....
+
+
+
+
+
+Para isso, podemos criar um novo elemento dentro 
+
+DO MÉTODO 
+
+
+'show()'.
+
+
+
+Chamamos a constante que segurará esse elemento de 
+
+
+'tooltipElement'....
+
+
+O valor segurado por ela 
+
+
+será de 
+
+
+
+'document.createElement();'
+
+
+
+CRIAREMOS UMA DIV....
+
+
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+    show() {
+        const tooltipElement = document.createElement('div');
+    }
+} 
+
+
+
+-------------------------------------
+
+
+
+
+NÓS ENTÃO ASSIGNAMOS UMA CLASSE à ESSA DIV....
+
+
+
+usamos uma classe que o professor já preparou, a classe 
+
+
+
+'card'.
+
+
+
+
+ex:
+
+
+
+
+
+
+class Tooltip {
+    show() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+
+
+
+    }
+} 
+
+
+
+
+--------------------------
+
+
+
+
+ISSO FEITO, PODEMOS ENTÃO 
+
+FAZER O 
+
+
+'APPEND' desse elemento à PÁGINA, POR MEIO 
+
+
+DA EXPRESSÃO 
+
+'document.body.append(tooltipElement);'
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class Tooltip {
+    show() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+
+-----------------------------
+
+
+
+
+SE RECARREGARMOS A PÁGINA, VEREMOS QUE AGORA 
+
+
+O APPEND() fará com que 
+
+
+
+um 'elemento' (uma pequena barrinha) 
+
+
+
+SEJA ADICIONADO AO FINAL DA NOSSA PÁGINA (pois append sempre ADICIONA ELEMENTOS AO FINAL DE UMA DETERMINADA LISTA/PÁGINA.)
+
+
+
+Se continuarmos clicando, mais caixas continuarão a serem criadas.
+
+
+
+
+-----------------------------------
+
+
+
+Para ver as caixas um pouco melhor, o professor adiciona um pouco de texto a elas....
+
+
+
+ex:
+
+
+
+class Tooltip {
+    show() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+
+---------------------------------
+
+
+
+TAMBÉM SERIA LEGAL SE FIZÉSSEMOS O TOOLTIP INTERATIVO:
+
+
+
+DEVEMOS FAZER COM QUE ELE POSSA SER REMOVIDO/APAGADO COM UM SIMPLES CLIQUE DO USUÁRio...
+
+
+
+PARA ISSO, precisamos adicionar 
+
+
+UM EVENTLISTENER 
+
+
+em 'show'...
+
+
+
+esse eventListener não será um botão, 
+
+SERÁ O ELEMENTO TOOLTIP EM SI...
+
+
+
+ex:
+
+
+
+
+class Tooltip {
+    show() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        tooltipElement.addEventListener('click', ...)
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+-------------------------
+
+
+
+
+DEVEMOS LINKAR ESSE EVENTLISTENER À UMA FUNÇÃO QUE REMOVA 
+
+
+O TOOLTIP....
+
+
+
+adicionamos, portanto, um método em tooltip, 
+
+chamado de 
+
+
+
+
+
+'dettach'........
+
+
+
+
+(e aí nós mudamos o nome do 'show' para 'ATTACH', pois isso faz mais sentido, 
+
+ele faz o ATTACH da tooltip na página...)
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class Tooltip {
+    
+    
+    
+    
+    
+    dettach() {
+
+    }
+    
+    
+    
+    
+    
+    
+    attach() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        tooltipElement.addEventListener('click', this.dettach)
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+---------------------
+
+
+AGORA AQUI, EM DETTACH, nós vamos querer 
+
+REMOVER o elemento tooltip... (tooltipElement).
+
+
+
+
+para ter acesso ao tooltipElement, o professor o armazena 
+EM UMA INSTANCE PROPERTY.... (por meio de 'this.element = tooltipElement' em 'attach'...)
+
+ex:
+
+
+
+class Tooltip {
+    
+    
+    
+    
+    
+    dettach() {
+
+    }
+    
+    
+    
+    
+    
+    
+    attach() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        tooltipElement.addEventListener('click', this.dettach)
+        this.element = tooltipElement; ///////EIS AQUI O CÓDIGO EM QUESTÃO.
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+----------------------------------
+
+
+
+Agora, desde que nós nos asseguremos que 'this' está se referindo 
+
+A COISA CORRETA (e podemos fazer isso com uso de 'bind()' em 
+
+'this.detach' no addEventListener..... LEMBRE-SE DO 'fix' de 'THIS' EM ADDEVENTLISTENERS, O PODEROSO '.bind(this);'! )
+
+
+----------------------------------
+
+
+
+ex:
+
+
+
+
+
+
+class Tooltip {
+    
+    
+    
+    
+    
+    dettach() {
+
+    }
+    
+    
+    
+    
+    
+    
+    attach() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        tooltipElement.addEventListener('click', this.dettach.bind(this));
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+
+
+------------------------------------
+
+
+
+ALTERNATIVAMENTE, SE NÃO QUISERMOS UTILIZAR A SINTAXE DO '.BIND(this))',  podemos usar, no seu lugar, 
+
+A SINTAXE 
+
+
+
+Da 'SINTAXE DE MÉTODOS FIELD'... (fields method synthax)....
+
+
+
+
+Aprendemos essa sintaxe no módulo passado, é a sintaxe 
+
+QUE UTILIZA UMA ARROW FUNCTION PARA DEFINIR UM MÉTODO....
+
+
+Como arrow functions NÃO CONHECEM 'this' (não definem coisas para ele automaticamente),
+
+O 'this' ACABA SEMPRE SE COMPORTANDO COMO SE ELE ESTIVESSE 'solto' no ROOT 
+
+DA CLASSE/OBJETO em que o método está inserido (nesse caso, em 'Tooltip'...).
+
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+    
+    
+    
+    
+    /////////EIS AQUI O CÓDIGO EM QUESTÃO:
+
+
+    dettach = () => {
+
+    }
+    
+    
+    
+    
+    
+    
+    attach() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        tooltipElement.addEventListener('click', this.dettach));
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+
+
+----------------------------
+
+
+
+
+Entretanto, lembre-se dos detalhes dessa sintaxe: 
+
+
+essa sintaxe tem o benefício do COMPORTAMENTO DO THIS, 
+
+
+mas ela é PIOR EM QUESTÃO DE PERFORMANCE/CUSTO DE MEMÓRIA, 
+
+pois esse método 
+
+
+'detach' terá de ser __RECRIADO___ PARA CADA INSTANCE___ DE TOOLTIP.... (o que não ocorreria normalmente, quando usamos o method shorthand, que faz com que um mesmo método seja compartilhado por todos os prototypes de objetos criados a partir de uma mesma classe.).
+
+
+
+
+
+MAS PARA ESSE APLICATIVO, NÃO HÁ PROBLEMA EM USAR ESSA SINTAXE.
+
+
+
+-------------------------------------
+
+
+como o 
+
+
+'this' de dentro do método funciona já da forma como queremos, 
+
+
+podemos simplesmente adicionar código com 'this' dentro do body de dettach sem maior problemas....
+
+
+
+
+adicionamos 
+
+
+'this.element' (uma referência ao elemento que estamos armazenando mais embaixo, em 'this.element = tooltipElement', inserido dentro do body do attach...)'
+
+
+
+
+
+
+'this.element.remove();' ----------------------> ESSE CÓDIGO É BOM, 
+
+
+mas se nós precisamos suportar BROWSERS MAIS ANTIGOS, devemos utilizar 
+
+
+
+'this.element.parentElement.removeChild(this.element);'
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class Tooltip {
+    
+    
+    
+    
+
+
+
+    dettach = () => {
+        ///this.element.remove(); //versão que não funciona em browsers mais antigos
+
+        this.element.parentElement.removeChild(this.element);////versão que funciona em browsers mais antigos.
+    }
+    
+    
+    
+    
+    
+    
+    attach() {
+        const tooltipElement = document.createElement('div');
+
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY';
+        tooltipElement.addEventListener('click', this.dettach));
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+
+
+
+    }
+} 
+
+
+
+------------------------------
+
+
+
+
+
+Conseguimos fazer com que 
+
+
+o tooltip funcione.
+
+
+Os tooltips agora sempre são deletados quando clicamos neles.
+
+
+-----------------------
+
+
+
+
+Entretanto, ainda não acabamos...
+
+
+
+--------------------------
+
+
+
+
+PROFESSOR DIZ QUE QUER MELHORAR ESSE CÓDIGO UM POUCO...
+
+
+
+Diz que para um aplicativo pequeno como este, não precisaríamos 
+
+fazer isso, mas ainda assim ele quer mexer no código, optimizá-lo.
+
+
+---------------------------
+
+
+
+
+
+O PROFESSOR QUER FAZER COM QUE 
+
+seja checado o TIPO DO PROJECTITEM cujo 
+
+tooltip foi clicado...
+
+
+
+
+
+
+
+('quero checar se eu já tenho um active tooltip, para que eu não 
+possa ABRIR MAIS DE UM TOOLTIP para 1 determinado projeto...')
+
+
+Para fazer isso, professor diz que irá 
+
+
+
+adicionar uma NOVA PROPRIEDADE a 'ProjectItem' (a classe e instâncias).
+
+
+
+
+
+ESSA PROPRIEDADE SERÁ CHAMADA DE 
+
+
+'hasActiveTooltip'....
+
+
+
+
+
+'hasActiveTooltip = false';     (ela terá um valor inicial de 'false' pq INICIALMENTE NÃO HAVERÁ 
+                                    UM TOOLTIP ATIVO..../active tooltip...)
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ProjectItem {
+
+
+    hasActiveTooltip = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+    }
+
+
+   
+
+
+
+
+
+    connectMoreInfoButton() {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+        moreInfoBtn.addEventListener('click', this.showMoreInfoHandler);
+    }
+
+
+
+    showMoreInfoHandler() {
+        const tooltip = new Tooltip();
+        tooltip.attach();
+    }
+
+
+
+
+    connectSwitchButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        let switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn = DOMHelper.clearEventListeners(switchBtn);
+        switchBtn.textContent = type === 'active' ? 'Finish' : 'Activate';
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+update(updateProjectListsFn, type) {
+    this.updateProjectListsHandler = updateProjectListsFn;
+    this.connectSwitchButton(type);  //////CHAMARÁ a função 'connectSwitchButton' dnv, mas dessa vez COM UMA PROPRIEDADE/FUNÇÃO updateProjectListsHandler DIFERENTE SENDO PASSADA COMO PARÂMETRO...(pois alteramos essa propriedade por meio da linha de código logo acima, 'this.updateProjectListsHandler = updateProjectListsFn'.)
+}
+}
+
+
+
+
+----------------------------
+
+
+
+
+
+MAS QUANDO O CÓDIGO DOS TOOLTIPS FOR EXECUTADO, por meio 
+
+
+do 
+
+
+'showMoreInfoHandler',  O PROFESSOR 
+
+
+VAI QUERER QUE ESSE 'hasActiveTooltip' SEJA DEFINIDO como false....
+
+
+(fará isso por meio da adição da linha de código 
+
+
+'this.hasActiveTooltip = true;' em showMoreInfoHandler....)
+
+
+
+
+
+ex:
+
+
+
+
+
+class ProjectItem {
+
+
+    hasActiveTooltip = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+    }
+
+
+   
+
+
+
+
+
+    connectMoreInfoButton() {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+        moreInfoBtn.addEventListener('click', this.showMoreInfoHandler);
+    }
+
+
+
+    showMoreInfoHandler() {
+        const tooltip = new Tooltip();
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+
+
+    connectSwitchButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        let switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn = DOMHelper.clearEventListeners(switchBtn);
+        switchBtn.textContent = type === 'active' ? 'Finish' : 'Activate';
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+update(updateProjectListsFn, type) {
+    this.updateProjectListsHandler = updateProjectListsFn;
+    this.connectSwitchButton(type);  //////CHAMARÁ a função 'connectSwitchButton' dnv, mas dessa vez COM UMA PROPRIEDADE/FUNÇÃO updateProjectListsHandler DIFERENTE SENDO PASSADA COMO PARÂMETRO...(pois alteramos essa propriedade por meio da linha de código logo acima, 'this.updateProjectListsHandler = updateProjectListsFn'.)
+}
+}
+
+
+
+--------------------------------
+
+
+
+
+Mas não é só isso. Para que o conjunto lógico funcione, 
+
+
+o professor precisa inserir um if CHECK no início 
+
+
+
+do 'showMoreInfoHandler'....
+
+
+
+
+
+O if check irá checar 
+
+
+'se this.hasActiveTooltip é true, VOU QUERER RETORNAR...' (o que fará com QUE TODO O CÓDIGO SEGUINTE, ou seja   
+                                                                                                
+                                                                                                
+                                                                                                
+                                                                                                                'const tooltip = new Tooltip();
+                                                                                                                tooltip.attach();
+                                                                                                                this.hasActiveTooltip = true;' --------> TODAS ESSAS LINHAS DE CÓDIGO NÃO SERÃO EXECUTADAS, devido à existência daquele comando de 'return'.)
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+showMoreInfoHandler() {
+    if(this.activeTooltip) {
+        return;
+    }
+    const tooltip = new Tooltip();
+    tooltip.attach();
+    this.hasActiveTooltip = true;
+}
+
+
+
+------------------------------
+
+
+
+se 'this.hasActiveTooltip = true', então, 
+
+
+NÓS RETORNAMOS, E DEIXAMOS DE CRIAR UM NOVO TOOLTIP...
+
+
+
+
+
+AGORA O PROFESSOR APENAS TEM QUE SE CERTIFICAR QUE QUANDO 
+NÓS 
+___FECHAMOS___ UM TOOLTIP (ou seja, quando nós REMOVEMOS um tooltip por meio de 'detach', por meio do 'this.element.remove();'),
+
+
+ou seja, quando o EVENTLISTENER de 'tooltipElement' É ATIVADO, 
+
+A classe 'projectItem' CONSIGA SABER QUE OCORREU ESSA MUDANÇA, 
+
+DESSA remoção do tooltip...
+
+
+
+
+Precisamos que a classe ProjectItem tenha ciência da mudança 
+
+PARA QUE seja possível DEFINIR hasActiveTooltip como 'FALSE' DE NOVO.... (retorno ao estado INICIAL, portanto, de FALSE).
+
+
+
+
+Precisamos fazer isso pq se não fizermos, será IMPOSSÍVEL ABRIR UMA NOVA TOOLTIP depois da primeira ter sido fechada...
+
+
+
+
+
+Para assegurar que tudo isso funcione, o professor adicionará um novo método na classe 'Tooltip'..., 
+
+'closeTooltip'........
+
+
+
+O professor aponta que é claro que poderíamos definir esse 'closeTooltip' em 'detach' também, MAS 
+
+
+O PROFESSOR DAQUI A POUCO VAI QUERER REMOVER 'dettach' e 'attach' de dentro da classe Tooltip (vai querer 
+movê-los para dentro de uma BASE CLASS....)....
+
+
+E é por isso que ele está definindo esse 'closeTooltip' de uma forma um pouco mais genérica....
+
+
+
+
+------------------------------------
+
+
+
+O PROFESSOR ENTÃO SUBSTITUI o 'this.dettach' QUE ESTÁ 
+
+DENTRO DO 'attach()'
+
+
+(ou seja, 
+
+naquela linha de código
+
+'tooltipElement.addEventListener('click', this.dettach));'
+
+
+)
+
+POR ESSE MÉTODO CRIADO RECENTEMENTE, 
+
+'closeTooltip'....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+-----------------------------------
+
+
+
+
+
+EM DECORRÊNCIA DISSO, O MÉTODO closeTooltip TAMBÉM 
+
+
+VAI UTILIZAR AQUELA SINTAXE 'METHOD FIELDS SYNTHAX',
+
+
+que utiliza uma arrow function (queremos, de novo, o comportamento legal de 'this').
+
+
+
+
+ex:
+
+
+
+
+    class Tooltip {
+        
+    
+
+        closeTooltip = () => {
+
+        }
+
+
+    dettach = () => {
+        this.element.parentElement.removeChild(this.element);
+    }
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+    }
+
+------------------------------
+
+
+
+
+
+POR TERMOS DEFINIDO ESSE 'closeTooltip' POR MEIO DAQUELE 
+
+TRUQUE DO 'METHOD FIELDS SYNTHAX', 
+
+
+podemos tirar essa sintaxe especial do método 
+
+'dettach', pois o closeTooltip o englobará.
+
+
+
+
+ex:
+
+
+
+
+  class Tooltip {
+        
+    
+
+        closeTooltip = () => {
+
+        }
+
+
+    dettach() { //////EIS AQUI A MUDANÇA.
+        this.element.parentElement.removeChild(this.element);
+    }
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+    }
+
+
+
+------------------------
+
+
+
+
+DITO E FEITO, o professor 
+
+entõa chama 
+
+
+'this.dettach' de dentro de 'closeTooltip'....
+
+
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+        
+    
+
+        closeTooltip = () => {
+            this.dettach();
+        }
+
+
+    dettach() { //////EIS AQUI A MUDANÇA.
+        this.element.parentElement.removeChild(this.element);
+    }
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+    }
+
+
+
+----------------------------------
+
+
+
+
+Com essa estruturação do código, 
+
+
+o 'this' dentro do body de 'dettach()' IRÁ 
+
+SE REFERIR A COISA CORRETA (ao element/tooltipElement...), 
+
+pois agora estou chamando 'this' dentro de uma arrow function...
+
+
+
+
+----------------------------
+
+
+
+
+
+
+
+MAS EM closeTooltip, ALÉM DE FAZER ESSE 'this.dettach()',
+
+eu também vou querer CHAMAR UM MÉTODO o qual eu 
+
+tamBÉM RECEBO na classe 'Tooltip', vamo dizer...
+
+
+
+
+
+Professor diz que vamos receber esse método ATRAVÉS DO CONSTRUCTOR 
+
+DE 'Tooltip' (que será adicionado agora).
+
+
+
+
+O professor define o nome desse método/1o parâmetro de Tooltip 
+
+como 
+
+
+'closeNotifierFunction'...
+
+
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+        
+
+    constructor(closeNotifierFunction) {
+
+    }
+
+
+
+    
+
+        closeTooltip = () => {
+            this.dettach();
+        }
+
+
+    dettach() { //////EIS AQUI A MUDANÇA.
+        this.element.parentElement.removeChild(this.element);
+    }
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+    }
+
+------------------------------------
+
+
+
+
+Aí ele faz algo que JÁ VIMOS ANTES,
+
+
+ele define um 'this.closeNotifierHandler' dentro do 
+
+body desse constructor de 'Tooltip'....
+
+
+
+ele define O VALOR DESSE 
+
+
+closeNotifierHandler como sendo 'closeNotifierFunction'....
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+    constructor(closeNotifierFunction) {
+        this.closeNotifierHandler = closeNotifierFunction;
+    }
+}
+
+
+
+-------------------------------------------
+
+
+
+PROFESSOR PENSA MELHOR:
+
+ele decide nomear closeNotifierHandler apenas como 'closeNotifier', pois 
+
+ELE NÃO ESTÁ BINDANDO ESSA FUNÇÃO EM ALGUM EVENTO (como fizemos anteriormente com 'updateProjectListsHandler'.).
+
+
+
+
+
+E ENTÃO, ALI, EM 
+
+'closeTooltip', 
+
+o professor 
+
+além de chamar 
+
+
+'this.dettach()', vai chamar 
+
+
+'this.closeNotifier();'  (chamará essa função COMO SE FOSSE UMA PROPRIEDADE, POR MEIO DO TRUQUE DO 'this'... )
+
+
+
+------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+        
+
+    constructor(closeNotifierFunction) {
+    this.closeNotifier = closeNotifierFunction;
+    }
+
+
+
+    
+
+        closeTooltip = () => {
+            this.dettach();
+        }
+
+
+    dettach() { //////EIS AQUI A MUDANÇA.
+        this.element.parentElement.removeChild(this.element);
+    }
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+    }
+
+
+
+--------------------------------
+
+
+
+
+
+
+
+BEM, AGORA O PROFESSOR APENAS TEM QUE SE CERTIFICAR QUE 
+
+UMA FUNÇÃO SEJA 
+
+PASSADA COMO 
+
+'parâmetro closeNotifierFunction' AO CONSTRUCTOR 
+
+
+de 'Tooltip'...
+
+
+
+
+
+
+Certo. Então em projectItem, dentro do 'showMoreInfoHandler',  que é o lugar do código 
+
+em que CRIAMOS UM TOOLTIP (por meio de 'const tooltip = new Tooltip();'), 
+
+
+
+ALI O PROFESSOR VAI QUERER PASSAR UMA FUNÇÃO DENTRO 
+
+DESSE 'chamado de classe' (dentro do parâmetro do constructor dela).....
+
+
+UMA FUNÇÃO QUE CONSIGA DEFINIR 
+
+
+
+o valor  de 
+
+
+'hasActiveTooltip' COMO SENDO 'FALSE'.
+
+
+------------------------------------
+
+
+Para isso, podemos adicionar um novo método OU USAR UMA RÁPIDA ANONYMOUS 
+
+FUNCTION DENTRO DO 'new Tooltip();'....
+
+
+
+
+O professor opta pela anonymous function rápida.
+
+Essa função simplesmente settará o hasActiveTooltip como 'false'.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class Tooltip {
+        
+
+    constructor(closeNotifierFunction) {
+    this.closeNotifier = closeNotifierFunction;
+    }
+
+
+
+    
+
+        closeTooltip = () => {
+            this.dettach();
+        }
+
+
+    dettach() { //////EIS AQUI A MUDANÇA.
+        this.element.parentElement.removeChild(this.element);
+    }
+
+
+
+
+    attach() {
+        //console.log('The tooltip...');
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip); //////EIS O CÓDIGO EM QUESTÃO....
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+    }
+
+
+
+
+
+class ProjectItem {
+
+
+            ...
+
+showMoreInfoHandler() {
+
+    const tooltip = new Tooltip( 
+        () => {
+            this.hasActiveTooltip = false;
+        }
+    )
+
+        ...
+}
+}
+
+
+
+
+--------------------------
+
+
+
+Certo.
+
+
+
+Com isso, nós não poderemos 
+
+abrir o tooltip MAIS DE UMA ÚNICA VEZ (o que é o comportamento desejado.)...
+
+
+Entretanto ---> nossa versão do código NÃO ESTÁ FUNCIONANDO... conseguimos adicionar mais tooltips, ainda.
+
+
+
+---> CONSEGUIMOS CONSERTAR. Era um problema de nome de 
+
+constantes/variáveis....
+
+
+
+
+---> O PROFESSOR QUER QUE A LÓGICA DE 
+
+
+
+'ATTACH/DETTACH' seja outsourceada À UMA CLASSE BASE, externa, para 
+
+que possamos utilizar essa lógica em outros lugares/métodos do código.
+
+
+
+

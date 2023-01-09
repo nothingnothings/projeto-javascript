@@ -1,0 +1,285 @@
+Digamos que aqui temos OUTRO ARRAY, chamado de prices, com vários números.
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+-------------------------------------------
+
+E digamos que queremos queremos fazer uma coisa com CADA PREÇO, queremos ADICIONAR 
+___TAXAS____ nesses preços.
+
+
+Para isso, devemos criar uma nova const chamada "tax". Colocamos um 
+valor de 19% (0.19), que é a taxa da alemanha.
+
+
+
+ex:
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+---------------------------------------
+
+
+Digamos que agora queremos pegar os valores ajustados de cada número. Inicialmente, a constante 
+taxAdjustedPrices segurará um array vazio.
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+
+const taxAdjustedPrices = [];
+
+
+
+
+console.log(taxAdjustedPrices);
+
+
+
+------------------------------------------------
+
+
+
+
+O que podemos fazer agora é adicionar um FOR OF loop e ir por todos os "price" de prices, 
+e então poderíamos fazer o push (empurrão) de um novo item para dentro do array taxAdjustedPrices.
+O professor diz que podemos fazer esse empurrão para dentro da constante porque constantes 
+são REFERENCE TYPES, e reference types apenas não admitem TENTATIVAS DE DEFINIÇÃO DE NOVOS VALORES, 
+mas eles admitem, sim, tentativas de empurrar valores ao seu interior.
+
+
+
+O item que empurramos para dentro será "price * (1 + tax)".
+
+
+ex:
+
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+
+const taxAdjustedPrices = [];
+
+
+for (const price of prices) {
+    taxAdjustedPrices.push(price * (1 + tax));
+}
+
+
+
+console.log(taxAdjustedPrices);
+
+
+
+-------------------------------
+
+
+SE FIZERMOS O CONSOLE.LOG DE "taxAdjustedPrices", VEREMOS OS VALORES MODIFICADOS PELA TAXA DE JUROS.
+professor colocou
+(1 + tax) para que existisse um multiplicador para cada um daqueles números. Funcionou, é claro.
+
+
+(a constante "price", criada dentro e somente dentro do loop, é usada para 'escanear' aquele 
+array, já que ele vai passando por dentro de cada um dos elementos. Por isso que o professor 
+utiliza-a de novo naquele trecho "price * (1 + tax);", porque esse price será substituído por 
+10.99, 5.99, 3.99, 6.59, etc etc.)
+
+
+ENTRETANTO, NÃO É NISSO QUE DEVEMOS PRESTAR ATENÇÃO, AGORA.
+
+7.84209999999999999 -------> É UMA IMPRECISÃO COM NÚMEROS. Não é um bug, é só algo que ocorre com computadores, quando manipulam números floating point.
+
+--------------------------------
+
+NÃO HÁ NADA DE ERRADO COM ESSE FOR OF LOOP. Mas há uma alternativa a ele, o 
+método "forEach()".
+
+
+Se você, por exemplo, precisasse do index de cada um dos preços, você não teria isso disponível 
+a você com o FOR OF LOOP. O professor aponta que, em vez disso, você poderia optar por um for loop, é claro, 
+em que vocÊ gerencia o index manualmente, no final das contas.... OUUUUUUUUUUU
+ VOCÊ PODE USAR OUTRO MÉTODO MUITO NICE QUE VOCÊ TEM EM ARRAYS, 
+ que é o forEach();.
+
+
+
+O forEach funciona de forma similar a find() e findIndex(). Ele também requer uma função adicional 
+nos seus parâmetros, e essa função também, como eles, requer 3 argumentos (ou ATÉ 3 argumentos, segundo o professor).
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+
+const taxAdjustedPrices = [];
+
+
+prices.forEach(() => {});
+
+
+----------------------------------
+
+O valor pelo qual ele procura no primeiro argumento (porque assim como find e findIndex, essa 
+função de dentro de forEach é executada em cada um dos elementos naquele array específico) é o 
+argumento que será cada um dos elementos do array. O segundo argumento será o indexador; o terceiro, 
+o ARRAY INTEIRO (bem parecido com find() e findIndex(), portanto.)
+
+
+
+Professor explica que não precisará do "prices", do array completo nesse exemplo, mas que 
+ele o adicionará na função mesmo assim.
+
+
+OBS: o fato do professor utilizar o mesmo nome "prices" para o argumento 
+do método forEach e para o nome da constante que segura o array com os preços 
+NÃO É UM PROBLEMA. NÃO É UM PROBLEMA GRAÇAS AO SHADOWING DO JAVASCRIPT; A APLICAÇÃO DE CADA 
+UM DESSES NOMES TEM UM SCOPE DIFERENTE, POR ISSO NÃO HÁ PROBLEMA.
+
+
+
+
+Continuando.... o professor utiliza o mesmo código que ele usou no function body do FOR OF LOOP, 
+aquele código de calcular os preços com aqueles juros da constante "tax".
+
+
+ex:
+
+
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+ 
+const taxAdjustedPrices = [];
+
+
+prices.forEach((price, idx, prices) => {
+    taxAdjustedPrices.push(price * (1 + tax));
+});
+
+
+console.log(taxAdjustedPrices);
+
+---------------------------------------
+
+
+
+A única diferença entre "forEach" é que, primeiramente, NÃO USAMOS O FOR OF LOOP.
+Professor aponta que isso não é necessariamente uma vantagem...
+
+
+MAS A VANTAGEM VERDADEIRA É QUE, SE VOCÊ PRECISAR, VOCÊ PODE TER O INDEX 
+DE CADA ITEM/ELEMENTO DISPONÍVEL POR MEIO DESSA FUNÇÃO (graças ao segundo parâmetro, que está como 
+"index", nesse exemplo.).
+
+Isso é bom para hipóteses em que você quer TRANSFORMAR SEUS ENTRIES (seus elementos) EM 
+OBJETOS (objetos em que você armazena o index), isso seria muito fácil de fazer, aqui, com 
+esse método forEach. Professor mostra como fazer isso, por meio da constante "priceObj" (price object).
+Ele também vai lá e coloca um segundo keyname-value pair nesse objeto segurado pela constante "priceObject",
+fazendo com que essa constante segure 2 elementos/pares. Ele então reorganiza o código, fazendo com que o push
+de "price * (1 + tax)" seja substituído por "push(priceObj)", que agora contém 2 informações/keyname-value pairs, 
+a informação acerca do indexador e a informação acerca do preço ajustado por meio da constante tax.
+
+Agora, portanto, temos acesso ao INDEX de cada elemento, coisa QUE NÃO TEMOS COM O FOR OF LOOP.
+
+
+
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+ 
+const taxAdjustedPrices = [];
+
+
+prices.forEach((price, idx, prices) => {
+    const priceObj = {index: idx, taxAdjPrice: price * (1 + tax)};
+    taxAdjustedPrices.push(priceObj);
+});
+
+
+console.log(taxAdjustedPrices);
+
+
+
+
+
+--------------------------------------
+
+
+
+Resultado no console:
+
+
+
+(4) [{...}, {...}, {...}, {...}]
+
+    0 {index: 0, taxAdjPrice: 13.0781}
+    1 {index: 1, taxAdjPrice: yyyyyyy}
+    2 {index: 2, taxAdjPrice: zzzzzzz}
+    3 {index: 3, taxAdjPrice: wwwwwww}
+
+
+    --------------------------------------
+
+
+
+

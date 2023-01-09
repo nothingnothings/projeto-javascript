@@ -1,0 +1,347 @@
+Era isso que precisávamos estudar sobre o SPREAD OPERATOR.
+
+
+
+
+
+
+
+Outra feature legal que o professor pode nos mostrar aqui no nosso app é a de 
+
+
+"OBJECT DESTRUCTURING".
+
+
+
+
+
+Você pode se lembrar de 'array DESTRUCTURING', que nos ajudou 
+a puxar elementos para fora de um array e armazená-los VARIÁVEIS/CONSTANTES....
+
+
+Bem, você pode FAZER A MESMA COISA COM OBJETOS... E PARA ISSO, nós temos 
+um grande exemplo...
+
+
+
+
+O grande exemplo está no trecho do código do aplicativo em que NÓS RENDERIZAMOS 
+TODOS OS FILMES....
+
+                 (todos os filmes de 'filteredMovies')
+O professor vai por dentro de todos os filmes, aqui, por meio de 'forEach', certo?
+
+Dentro dali, EU TENHO AQUELE "FOR IN LOOP" em que eu vou por dentro de "movie.info", em 
+que eu extraio o key-value pair 'title' (e seu valor, também, por meio de '.info[key]'.)...
+
+PERCEBEU O PADRÃO, AQUI? Eu  repito 'movie.info' múltiplas vezes dentro de 'filteredMovies.forEach':
+
+
+    1) let text = movie.info.title
+
+    2) for (const key in movie.info)
+
+    3) text = text + `{key}: ${movie.info[key]};
+
+    ------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+const filteredMovies = !filter 
+                        ? movies 
+                        : movies.filter(movie.info.title.includes(filter));
+
+                        filteredMovies.forEach(movie => {
+                            const movieEl = document.createElement('li');
+                            let text = movie.info.title + ' - ';
+                            for (const key in movie.info) {
+                                if (key !== 'title') {
+                                    text = text + `${key}: ${movie.info[key]}`;
+                                }
+                            }
+                           
+                        });
+                        
+
+
+
+
+
+-----------------------------------------
+
+
+
+EU SEMPRE REPITO 'MOVIE.INFO', PORTANTO.
+
+
+Mas, como você pode imaginar, eu apenas estou interessado, na verdade, na propriedade INFO 
+desse movie... não estou interessado na outra propriedade/propriedades desse objeto 'newMovie', que 
+nesse caso seria a propriedade 'id'.
+
+
+Portanto, aqui podemos utilizar a sintaxe do OBJECT DESTRUCTURING PARA  
+PUXARMOS PARA FORA AQUELE KEY-VALUE PAIR e O ARMAZENAR EM UMA NOVA VARIÁVEL.
+
+
+
+
+Como fazer isso? Bem,  poderíamos adicionar uma CONSTANTE DENTRO de filteredMovies.forEach e então, 
+assim como fizemos com array destructuring
+(a sintaxe do array destructuring era 
+
+
+"
+const nameData = ['Max', 'Schwarz'];
+                                            "
+const [ firstName, lastName] = nameData;
+
+
+(ou seja, "const [] = nomeDaConstQueVocêQuerDesestruturar;")
+
+ ),  SÓ QUE COM {} NO LUGAR DE []. Colocamos um {} no LADO ESQUERDO do sinal de '='. NA DIREITA, 
+ VOCÊ DEVE COLOCAR O NOME DO OBJETO DO QUAL VOCÊ QUER EXTRAIR ALGUMA COISA (nesse caso, as suas propriedades).
+
+ Nesse caso específico, queremos MOVIE e sua PRIMEIRA PROPRIEDADE; portanto, 
+ nas curly braces da ESQUERDA, você deverá inserir um KEYNAME QUE EXISTE 
+ NAQUELE OBJETO DA DIREITA... nesse exemplo, queremos utilizar 'info' (porque a propriedade 'id' não nos interessa).
+
+
+
+
+
+ex:
+
+
+
+
+const {info} = movie;
+
+
+-------------------------
+
+ 
+OBS::::: VOCÊ É OBRIGADO A INSERIR UM KEYNAME AQUI QUE EXISTE NO OBJETO À DIREITA DO '=', senão essa sintaxe não funciona.
+
+            ESSA É UMA DIFERENÇA EM RELAÇÃO AO ARRAY DESTRUCTURING.
+            NO ARRAY DESTRUCTURING, VOCÊ PODIA USAR QUAISQUER NOMES ENTRE O [] À 
+            ESQUERDA DO '='. Isso era permitido porque em arrays VOCê ACESSA 
+            VALORES POR MEIO DE INDEXADORES, E NÃO POR NOMES... era por isso que você podia assignar 
+            qualquer nome, porque nos arrays A ORDEM É IMPORTANTE......  (a ordem é que é importante para puxar elementos para fora de arrays.)
+
+            JÁ NOS OBJETOS, O __NOME___ DAS PROPRIEDADES É A CARACTERÍSTICA PREVALENTE, E NÃO 
+            A ORDEM. (nos objetos, O NOME DAS PROPRIEDADES É MAIS IMPORTANTE DO QUE SUA ORDEM DE ADIÇÃO NO CÓDIGO, NO QUE DIZ RESPEITO À EXTRAÇÃO DE PROPRIEDADES DE SEU INTERIOR.)
+            -------------------> NA VERDADE, A ORDEM DAS PROPRIEDADES, NOS OBJETOS, É TOTALMENTE DISPENSÁVEL, IRRELEVANTE. O QUE INTERESSA, AQUI, SÃO OS NOMES DAS PROPRIEDADES.
+               
+               
+               
+                ----> AS KEYS SÃO AQUILO QUE IMPORTA. É por isso que você só pode inserir 'info', por exemplo, no lado esquerdo SE VOCÊ TIVER UMA PROPERTY NAME EQUIVALENTE NO OBJETO QUE VOCÊ DIGITOU NA DIREITA DO '='.
+
+
+ex:
+
+
+const {info} = movie;   //SINTAXE VÁLIDA. Propriedade/key 'info' já existe dentro de movie.
+
+
+
+const {burguer} = movie; //SINTAXE INVÁLIDA.
+
+
+---------------------------------------------------
+
+
+
+
+
+Então, com esse código 'const {info} = movie;' 
+Nós acabamos puxando tudo que é 'info' (que é outro objeto, na verdade. Mas isso 
+também funcionaria se fosse uma string ou qualquer outra coisa. ) de dentro de movie.
+
+
+
+
+
+********AGORA, POR MEIO DESSA SINTAXE, NÓS TEMOS UMA CONSTANTE 
+CHAMADA "INFO" DISPONÍVEL LOCALMENTE, QUE PODEMOS UTILIZAR NO LUGAR 
+DE 'MOVIE.INFO'.
+
+     (const {info} = movie;)
+Por meio desse código, 'movie.info' pode ser abreviado para 'info' em todas ocorrências no nosso código.
+
+
+
+ex (representação final):
+
+
+
+
+------------------------------------------------------------------
+
+
+const filteredMovies = !filter 
+                        ? movies 
+                        : movies.filter(movie.info.title.includes(filter));
+
+                        filteredMovies.forEach(movie => {
+                            const movieEl = document.createElement('li');
+                            let text = movie.info.title + ' - ';
+                            for (const key in movie.info) {
+                                if (key !== 'title') {
+                                    text = text + `${key}: ${movie.info[key]}`;
+                                }
+                            }
+                           
+                        });
+
+                    ^
+                    |
+                    |
+                    ISSO PASSA A SER:
+
+
+-----------------------------------------------------------------
+
+
+ISSO:
+|
+V
+
+
+const filteredMovies = !filter 
+                        ? movies 
+                        : movies.filter(movie.info.title.includes(filter));
+
+                        filteredMovies.forEach(movie => {
+                            const movieEl = document.createElement('li');
+                            const {info} = movie; //CÓDIGO ALTERADO/ABREVIADO.
+                            let text = info.title + ' - ';
+                            for (const key in info) { //CÓDIGO ALTERADO/ABREVIADO.
+                                if (key !== 'title') {
+                                    text = text + `${key}: ${info[key]}`;  //CÓDIGO ALTERADO/ABREVIADO.
+                                }
+                            }
+                           
+                        });
+
+
+
+        
+
+"info" agora será uma CONSTANTE QUE SEGURARÁ O VALOR QUE FOI ARMAZENADO EM 'MOVIE.INFO', que 
+é meu objeto.
+
+
+
+
+
+
+
+
+
+MAS AINDA NÃO ESTAMOS ACABADOS COM O TÓPICO DO ARRAY DESTRUCUTRING....
+
+
+
+Assim como array destructuring, você também pode usar 
+um PARÂMETRO DE "REST"...  (...). Se você usar esse REST PARAMETER e depois 
+colocar qualquer nome, escolher qualquer nome, esse nome será então assignado A TODAS AS OUTRAS 
+PROPRIEDADES QUE VOCÊ NÃO ASSIGNOU EXPLICITAMENTE por nome NO 1o, 2o, terceiro, infinitos parâmetros anteriores...
+            (por isso que o nome é 'rest', é o resto.)
+NESSE CASO, se escolhermos o nome 'otherProps', SERÁ CRIADA UMA CONSTANTE DE MESMO NOME QUE TERÁ 
+'id' ASSIGNADO COMO SEU VALOR/substituto.
+
+
+
+
+
+ex:
+
+
+
+const {info, otherProps...} = movie;
+
+
+console.log(otherProps); //---> isso nos retornará um objeto com "movie.id", que é a única outra key além de 'info'. 
+
+
+--------------------------------
+
+
+
+PROFESSOR EXPLICA QUE TAMBÉM É POSSÍVEL UTILIZAR O OBJECT DESTRUCTURING AQUI PARA TIRAR, POR EXEMPLO, 
+O 'title'...
+
+
+ele diz que não há nada de errado com o acesso à key 'title' por meio de 'info.title', 
+E COMO 'let text = info.title' É O ÚNICO LUGAR DO CÓDIGO EM QUE ACESSAMOS A KEY 'title', não 
+faz muito sentido utilizar object destructuring aqui. Mesmo assim, para praticar a sintaxe 
+do object destructuring, ele vai lá e faz igual.
+
+
+
+ex:
+
+
+
+const {title} = info; // Professor aponta que o fato de nós criarmos essa 'abreviação de info' NÃO DESTRÓI a constante 'info' criada anteriormente ou qualquer coisa do gênero (ou seja, ainda podemos usar o for in loop nela, logo abaixo, e todas as outras ocorrências de 'info' no código não são afetadas). 
+
+
+
+//let text = info.title + ' - '; // código que será transformado.
+
+
+let text = title + '-'; //código transformado.
+
+
+
+
+----------------------------------------------
+
+
+
+O professor diz que além de todas essas features, também é possível extrair uma propriedade 
+e nomeá-la diferentemente, por meio de array destructuring. 
+
+Mas por que fazer isso? 
+
+
+---> Professor explica que isso talvez possa ser útil nas hipóteses em que você TIVER CONFLITOS 
+ENTRE OUTROS NOMES DE VARIÁVEL E ESSA QUE VOCê ESTÁ QUERENDO USAR COMO 'ABREVIAÇÃO' do nome de uma propriedade...
+
+Bem, não interessa a razão; se você quiser mudar o nome dessa propriedade que você está tentando 'abreviar' por meio 
+do array destructuring, vocÊ deve inserir uma COLON (':') DEPOIS DO NOME DA PROPRIEDADE, e depois desse :, o 
+nome diferente que você vai querer para esse negócio abreviado.
+
+
+ex:
+
+
+
+const {info: briefing} = movie;   ///////----------> ISSO FARÁ COM QUE A "CONSTANTE INFO", que tem assignada a ela o valor de 'movie.info', TENHA O SEU NOME ALTERADO PARA 'briefing'. A única referência válida para ela no código será, então, 'briefing', e não 'info'.
+
+
+
+IMPORTANTE!!!! ----> NÃO CONFUNDIR COM 'uma propriedade dentro de um objeto' ----> pode parecer isso, 
+                                                                                em um primeiro momento, 
+                                                                                mas o fato dessa sintaxe 
+                                                                                estar à esquerda do '=' muda TUDO.
+                                                                                É um assignment de nome distinto a uma 
+                                                                                propriedade que já existe naquele objeto 
+                                                                                referenciado à DIREITA do '='.
+
+
+
+
+
+    
+
+
+
+    VIMOS TUDO SOBRE OBJECT DESTRUCTURING. É MUITO ÚTIL PARA ABREVIAR CÓDIGO.

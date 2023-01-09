@@ -1,0 +1,542 @@
+Com a parte de desenvolvimento (development) fora do caminho, agora devemos ver 
+
+
+a fase DE PRODUÇÃO...
+
+
+
+
+
+
+Por produção, o professor quer dizer QUE 
+
+QUER 'SPIT OUT OPTIMIZED CODE', que ele NÃO QUER QUE TENHAMOS
+
+
+UM SOURCE-MAPPING DETALHADO COMO ESTAMOS USANDO AGORA 
+
+(o que estamos agora é 'devtool: eval-cheap-module-source-map'),
+
+
+
+
+QUEREMOS UM SOURCE-MAPPING MAIS SIMPLIFICADO, para que 
+
+a busca pelo nosso código original seja mais DIFÍCIL (pq esse não é o foco aqui.) ---> 
+
+
+-----> o source-mapping mais simplificado, que torna a busca pelo verdadeiro source code mais DIFÍCIL,
+
+faz com que o CÓDIGO FIQUE BEM MAIS RÁPIDO... 
+
+
+(apesar do source-mapping mais simplificado deixar a busca pelo código source 
+
+mais DIFÍCIL, os usuários de nossa página AINDA CONSEGUEM OBTÊ-LO, só é um pouco mais difícil...).
+
+
+
+
+
+Nós queremos deixar o source-mapping mais 
+
+
+simplificado para que o PROCESSO TODO FIQUE MAIS RÁPIDO;
+
+
+queremos assegurar que OS 'OUTPUT FILES' (aquilo que é 'cagado' na pasta 'dist'...) 
+
+
+SEJAM DO MENOR TAMANHO POSSÍVEL
+
+
+
+PARA QUE ISSO ACONTEÇA, precisamos 
+
+
+DE UMA DIFERENTE CONFIG FILE... 
+
+
+(um diferente arquivo 'webpack.config.js')....
+
+
+
+
+PRECISAMOS DE UMA CONFIG FILE PARA ___PRODUCTION___...
+
+
+para isso, podemos/devemos criar OUTRA 
+
+
+'WEBPACK.CONFIG' FILE....
+
+
+
+
+mas em vez de dar o nome de 'webpack.config.js', como antes, 
+
+dessa vez NOMEAREMOS ESSE ARQUIVO COMO 
+
+
+'webpack.config.prod.js'  (ou seja, é o CONFIG FILE DO 'PRODUCTION JAVASCRIPT' code...).
+
+
+
+
+
+Certo, criamos o negócio.
+
+
+
+
+
+
+
+Professor explica que podemos COPIAR O CÓDIGO DE NOSSA OUTRA CONFIG FILE DO WEBPACK (webpack.config.js) 
+
+
+E ENTÃO IR ALTERANDO AS ENTRADAS/KEY-VALUE PAIRS...
+
+
+
+
+Mas nesse arquivo, devemos alterar o objeto 'config' dentro do module.exports...
+
+
+
+devemos colocar 'mode' como sendo 'production'...
+
+
+
+
+devemos deixar 'entry' e 'output' como as mesmas 
+
+coisas, 
+
+
+MAS 
+
+
+
+O DEVTOOL, aquele negócio dos sourcemaps,
+
+
+
+DEVE SER ALTERADO.
+
+
+
+
+Devemos usar um sourcemap/devTool de 
+
+
+
+PRODUCTION, E NÃO DE DEVELOPMENT (esse 'eval-cheap-module-source-map' É DE DEVELOPMENT).
+
+
+
+
+
+Podemos encontrar os sourcemaps/devtool  de PRODUCTION naquela página 
+
+
+
+https://webpack.js.org/configuration/devtool/ .....
+
+
+
+
+Professor explica que, para produção, podemos OU deixar '(none)' (omitir, basicamente) OU 
+
+
+COLOCAR 
+
+um que é 
+
+
+'cheap-source-map'......
+
+
+
+
+Essa versão/devtool/sourcemap 
+
+
+
+FAZ COM QUE TENHAMOS 
+
+____UM POUCO DE SOURCE MAPPING____ (mas não 0 sourcemapping, como temos com 'none'... )
+
+
+
+
+
+
+
+
+---> A “source map” is a special file that connects 
+a minified/uglified version of an asset (CSS or JavaScript) 
+to the original authored version. Say you've got a filed called _header.
+
+
+
+Typically, source maps are 
+a configuration option from the preprocessor.
+ Here’s Babel’s options. I believe that with Sass,
+  you don’t even have to pass a flag for it in the command
+   or anything because it produces source maps by default.
+
+So, these source maps are for developers.
+ They are particularly useful for you and your 
+ team because they help tremendously for debugging issues 
+ as well as day-to-day work. I’m sure I make use of them just about every day.
+  I’d say in general, they are used for local development.
+   You might even .gitignore them or skip them
+    in a deployment process in order to serve and store fewer assets to production.
+     But there’s been some recent chatter about making sure they go to production as well.
+
+
+-------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Essa versão/devtool/sourcemap 
+
+
+
+FAZ COM QUE TENHAMOS 
+
+____UM POUCO DE SOURCE MAPPING____ (mas não 0 sourcemapping, como temos com 'none'... )...
+
+
+
+
+O professor diz que devemos ter SEMPRE TER UM __POUQUINHO__ de source mapping, até mesmo 
+
+no código de produção, pq às vezes você pode querer debuggar o seu código de produção também,
+ 
+ e se você tiver algo como "none" definido, você não terá esse source mapping, que pode ser muito 
+
+ útil para encontrar o local de erros/problemas no seu código (debugging).
+
+
+
+
+ SOURCE MAP = É UM ARQUIVO ESPECIAL QUE CONECTA UMA VERSÃO MINIFICADA/FEIA (a versão de PRODUCTION do seu projeto)
+ À VERSÃO AUTÊNTICA/FULL/GORDA DO SEU CÓDIGO (development).
+
+
+
+
+
+---->>>> Às vezes você também vai querer fazer debug no seu código de produção (production code)...
+        isso acontece quando você detecta algum bug NA WEBPAGE QUE JÁ ESTÁ RODANDO...
+
+
+
+
+
+....mas com essa setting de 'cheap-source-map', NOSSO DEBUGGING 
+
+NÃO SERÁ TÃO BOM QUANTO O DEBUGGING dos source 
+
+maps do 
+
+'development', mas mesmo assim ainda seremos capazes 
+de dar uma olahda no nosso código em certa medida. 
+
+
+
+-----> se salvarmos tudo isso, estaremos geralmente prontos para produção/prontos/prontos 
+
+para BUILD/CONSTRUIR para produção... 
+
+
+
+
+
+
+AGORA, PODEMOS ADICIONAR UM NOVO SCRIPT em 'package.json'...
+
+
+
+professor sugere o nome 'build:prod'...
+
+
+
+como valor, NÃO VOU QUERER COLOCAR O DEV SERVER ('webpack-dev-server'), 
+
+NÃO; eu não vou querer fazer isso pq eu n vou querer 
+
+executar meu dev server toda hora em production mode...
+
+
+
+((
+
+    TIPICAMENTE, VOCÊ NÃO TESTA SEU CÓDIGO DE PRODUCTION __TANTO ASSIM___;
+
+    você testa o código DURANTE DESENVOLVIMENTO, e aí UM POUCO durante A PRODUCTIOn...
+)).....
+
+
+
+O QUE EU VOU QUERER COLOCAR NESSE SLOT DO VALOR É 
+
+ALGO QUE 
+
+__GERE___ MEUS 'output assets'...
+
+
+PARA ISSO, PODEMOS 
+
+CHAMAR webpack dnv nessa opção,
+
+
+mas dessa vez vamos querer dizer ao webpack QUAL CONFIG FILE USAR...
+
+
+
+
+
+professor diz que devemos usar 
+
+'webpack --config + alguma coisa'...
+
+
+
+ELE EXPLICA QUE 
+
+o '--config' SEMPRE FARÁ COM QUE O WEBPACK PROCURE PELA COISA QUE VOCÊ COLOCOU depois 
+
+disso...
+
+(OBS: o default de 'webpack' é sempre procurar o 'WEBPACK.CONFIG.JS'....)
+
+
+ex:
+
+
+
+'webpack --config webpack.config.prod.js'  -------> ISSO VAI USAR NOSSO WEBPACK.CONFIG.JS DE ___PRODUÇÃO____.
+
+
+
+
+
+
+--------------------------------
+
+
+
+
+CERTO.
+
+
+
+MAS, como sempre, 
+
+o 'npm run build:prod' NÃO VAI FUNCIONAR...
+
+
+
+PRECISAMOS CHAMAR ISSO POR MEIO DE UMA LINHA DIRETA, como fizemos 
+
+
+
+com 
+
+
+'webpack serve' 
+
+
+
+e 
+
+
+com 
+
+
+'node_modules/.bin/webpack'....
+
+
+
+-----------------------
+
+
+
+
+Certo, mas tenho que descobrir como fazer isso.
+
+
+
+
+provavelmente é uma combinação entre 
+
+'node_modules/.bin/webpack'
+
+e mais alguma coisa...
+
+
+
+
+
+CERTO.
+
+CONSEGUI.
+
+
+
+ERA 
+
+
+
+'node_modules/.bin/webpack --config webpack.config.prod.js'  ---------> ISSO FUNCIONA.
+
+
+
+
+
+----> ISSO VAI CONSTRUIR/BUILD NOSSO CÓDIGO PARA PRODUÇÃO E ENTÃO 
+
+OUTPUTTÁ-LO NO NOSSO FOLDER 
+
+'dist'...
+
+
+
+
+Certo. Conseguimos fazê-lo.
+
+
+
+Conseguimos nosso código OPTIMIZADO.
+---------------------------------
+
+
+
+
+
+Ainda devemos testar esse negócio, ver se ele FUNCIONA...
+
+
+Fazemos isso por meio do 
+
+
+'serve', o serve COMUM, NOSSO OUTRO DEVELOPMENT SERVER, mais simples e que NÃO ENVOLVE 
+
+o 'webpack'...
+
+
+
+
+CERTO.
+
+
+O NEGÓCIO ESTÁ FUNCIONANDO.
+
+
+
+NOSSO SITE AINDA FUNCIONA NORMALMENTE...
+
+
+
+
+Estamos recebendo os arquivos todos em UM ÚNICO BUNDLE, COMO QUERÍAMOS, e com tudo OPTMIZADO.
+
+
+
+
+Temos os arquivos 
+
+
+
+'localhost' 
+
+
+
+'app.css'
+
+
+
+'app.js' (bundlado)
+
+
+e 
+
+
+o '331.app.js' (que aparece se clicarmos em 'more info', é o TOOLTIP DINÂMICO).
+
+
+
+
+
+Professor aponta que o CHROME FAZ O NOSSO CÓDIGO 'webbundlado' ser 
+
+MAIS LEGÍVEL no 'preview', mas que isso é uma farsa, pois no arquivo de texto normal ele ainda 
+
+
+é bugadao assim msm (basta que cliquemos no botão '{}' para ver o formato de vdd).
+
+
+
+
+
+E ESSE É O NOSSO CÓDIGO DE PRODUÇÃO, DE VDD MSM. 
+
+
+
+----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+FINALMENTE, TEMOS 2 'WORKFLOWS', E AGORA SOMOS CAPAZES 
+
+DE CONSTRUIR ---> PARA DEVELOPMENT 
+
+            ----> PARA PRODUCTION.
+
+
+
+            SÃO 2 WORKFLOWS DIFERENTES, cada um acessado 
+
+            com COMANDOS DIFERENTES.
+
+
+            (teoricamente, um deles é acessado 
+            pelo script 'build:dev', e o outro por 'build:prod', mas 
+            
+            como nosso código/projeto está BUGADO, SOMOS OBRIGADOS A USAR AQUELAS 
+            
+            VARIANTES BIZARRAS com 'node_modules' e 'webpack serve'...)
+
+
+
+
+
+
+
+            ----> 'build:dev'---> usamos TODA HORA QUANDO ESTAMOS ESCREVENDO CÓDIGO, pois é isso que inicia nosso DEV SERVER.
+
+            ----> 'build:prod' ----> usamos bem antes de ESTARMOS PRONTOS PARA fazer 'deploy' de nossos scripts, logo antes de OS UTILIZARMOS EFETIVAMENTE NA NOSSA/NOSSAS PÁGINAS...
+
+
+
+
+----> tipicamente USAMOS O BUILD:PROD  QUANDO TEMOS UMA NOVA MUDANÇA/NOVA VERSÃO TERMINADA, que 
+
+agora queremos CONSTRUÍ-LA (build it), OUTPUTTÁ-LA e 
+
+fazer push dessa versão ao/aos nosso/nossos servidor/servidores...

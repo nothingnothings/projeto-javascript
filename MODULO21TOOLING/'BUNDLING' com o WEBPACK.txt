@@ -1,0 +1,1092 @@
+
+
+
+
+NÓS ADICIONAMOS "LINTING", 
+
+
+
+AGORA DEVEMOS DAR UMA OLHADA EM 
+
+
+
+"BUNDLING"...
+
+
+
+
+O BUNDLING É A COMBINAÇÃO DE TODOS OS ARQUIVOS INDIVIDUAIS/MÓDULOS .JS de nosso código 
+
+
+em apenas um só...
+
+
+
+
+
+
+
+Fazemos isso para que possamos escrever nosso código de uma maneira " distribuída", 
+
+com múltiplos arquivos, mas que são todos compilados em um único file.
+
+
+
+
+------------------------------------
+
+
+
+PRECISAMOS DO WEBPACK.
+
+
+
+É UMA BUNDLING TOOL, mas tem mais features além dessa.
+
+
+Ele nos ajuda A ORQUESTRAR TODO O NOSSO 'BUILD WORKFLOW'....
+
+
+
+
+
+Para começarmos, vamos apenas usá-lo como bundler, que é sua funcionalidade padrão mesmo.
+
+
+
+
+Webpack tem documentação muito boa em 
+
+webpack.js.org
+
+
+
+--------------------------------
+
+
+
+Você pode ver os diferentes conceitos e tal de webpack.
+
+
+
+
+WEBPACK ---> É UMA FERRAMENTA COMPLEXA. 
+
+
+Para começar a usá-la,
+
+
+não precisamos de muita coias.
+
+
+
+Mas para DOMINAR essa feature, usar todos os requirements que os projetos 
+
+mais avançados precisam,
+
+
+você precisa até mesmo estudar um curso separado.
+
+
+
+
+PARA ISSO, PRIMEIRO DE TUDO PRECISAMOS INSTALÁ-LO.
+
+
+
+
+De volta ao nosso projeto, devemos abrir o terminal integrado 
+
+e instalar webpack 
+
+
+COM NPM, como uma DEVELOPMENT DEPENDENCY desse nosso projeto.
+
+
+
+
+Para isso, 
+
+rodamos 
+
+
+'npm install --save-def webpack webpack-cli' 
+
+
+
+(ou seja, queremos instalar DUAS TOOLS, o webpack em si e o 'webpack cli'.)
+
+
+
+
+
+
+CERTO, INSTALAMOS ESSES 2 NEGÓCIOS. 
+
+
+Eles estarão armazenados na pasta "node_modules". ----> 
+
+
+
+AÍ ELES FICARÃO DISPONÍVEIS A NÓS.
+
+
+
+----------------------------------------------
+
+
+
+
+Você pode checar se eles foram instalados indo em "package.json", 
+
+as 2 coisas em "devDependencies".
+
+
+
+
+
+CERTO, MAS COMO DIABOS USAMOS "WEBPACK"?
+
+
+
+
+
+Para usá-lo, nós tipicamente criamos uma config file, no root level, no mesmo nivel 
+
+de index.html, .eslintrc.json e package.json.
+
+
+O ARQUIVO QUE DEVEMOS CRIAR É UM 
+
+
+"webpack.config.js"...
+
+
+
+
+ESSE É UM ARQUIVO QUE "WEBPACK" UTILIZARÁ para "do its thing", para fazer o seu trabalho.
+
+
+
+
+
+DENTRO DESSE ARQUIVO, DEVEMOS PROVIDENCIAR UMA 
+
+____CONFIGURAÇÃO__ para o webpack...
+
+
+
+
+PROFESSOR EXPLICA QUE ESSA CONFIG FILE __'under the hood'___ (por trás das cenas) USA/É 
+
+EXECUTADO POR NODE.JS...
+
+
+Nós não aprendemos sobre node.js ainda ,
+
+mas geralmente/basicamente node.js É 
+
+JAVASCRIPT COM ALGUMAS FEATURES EXTRAS....
+
+
+
+
+É por isso que nós vamos entender facilmente a linguagem desse arquivo config, pq isso será 
+
+essencialmente linguagem javascript.
+
+
+
+
+
+
+A ÚNICA COISA QUE É NOVA AQUI, no entanto, É A SINTAXE/MANEIRA PELA QUAL __EXPORTAMOS___ 
+
+alguma coisa no "mundo node.js".
+
+
+Em vez de usar a palavra "export" (junto com "Import") PARA 
+
+FAZER ALGO FICAR DISPONÍVEL 
+
+FORA DAQUELE ARQUIVO/de um arquivo, 
+
+
+
+NO NODE.JS nós devemos sempre 
+
+usar a sintaxe 
+
+
+"module.exports" e então definir isso (=) COMO SENDO 
+
+
+UM OBJETO JAVASCRIPT....
+
+
+
+
+ex (você digita isso no config file do webpack):
+
+
+
+module.exports = {};
+
+
+
+-------------------------------
+
+Isso certamente é novo, não vimos isso até agora.
+
+
+ESSA SIMPLESMENTE É A SINTAXE QUE NODE.JS usa para EXPOR ESSE OBJETO ({...}) PARA 
+
+FORA DESSE ARQUIVO...
+
+
+
+E WEBPACK vai ir em frente E __IMPORTAR__ ESSE OBJETO QUE DEFINIMOS AQUI.
+
+Isso significa que ESSE SERÁ O NOSSO "CONFIGURATION OBJECT", pelo qual CONFIGURAREMOS 
+
+WEBPACK.
+
+
+
+
+Entretanto, se colocarmos o mouse em cima de "module", o ESLint nos mostrará que 
+há um erro, 
+
+" 'module' is not defined ". (no-undef).
+
+
+
+PROFESSOR DIZ QUE PODEMOS FAZER O QUICK-FIX DISSO PARA 'disable'.
+
+
+
+ALTERNATIVAMENTE, PODEMOS IR ATÉ a regra 'no-undef' 
+
+
+no .eslintrc.json  e então COLOCAR COMO 'off'. Se fizermos isso, essa setting só será 
+aplicada nesse nosso projeto, sempre lembre-se disso.
+
+
+
+"no-undef": "off";
+
+
+
+AGORA PODEMOS COMEÇAR A CONFIGURAR O OBJETO 'config' que será exportado...
+
+
+
+
+
+
+CERTO.
+
+
+
+MAS WEBPACK PRECISA SABER EM QUE LUGAR 
+
+O SEU APLICATIVO 
+
+EFETIVAMENTE 
+
+______cOMEÇA_____. (the starting point of your app).
+
+
+Ele precisa saber EM QUE LUGAR DAS SUAS SOURCE FILES  o entry point do seu projeto fica...
+
+
+
+
+
+
+
+ELE VAI, ENTÃO, PEGAR ESSE ENTRY POINT (no nosso caso concreto, esse entry point é 'app.js'),
+
+ANALISAR O SEU ARQUIVO e, mais importante, ANALISAR 
+
+___OS IMPORTS___ desse arquivo....
+
+
+analisados os imports, ele VAI 
+
+RESOLVER TODAS AS DEPENDENCIES ('import {xxx} from 'yyy';') DAQUELE ARQUIVO, e aí dos 
+
+
+ARQUIVOS RELACIONADOS ÀQUELE ARQUIVO...
+
+
+
+
+ISSO QUER DIZER QUE, ESSENCIALMENTE, WEBPACK 
+
+NESSE EXEMPLO VAI entrar em 'app.js' e então 
+
+perceber que importamos 
+
+
+a ProjectList....aí ele vai entrar no 
+
+
+arquivo ProjectList e analisará os seus imports.... aí ele vai entrar no DOMHelper, importado por ProjectList, 
+
+e vai continuar o ciclo, sem parar.
+
+
+
+
+
+
+É ISSO QUE WEBPACK faz aqui para analisar o seu script e entender aquilo que acontece dentro dele.
+
+
+
+
+
+
+
+
+
+AGORA, PORTANTO, PRECISAMOS INFORMAR, POR MEIO DESSA CONFIG FILE, A LOCALIZAÇÃO 
+
+DO NOSSO ARQUIVO 'entry point'... (que é app.js).
+
+
+
+
+
+Professor explica que, devido a isso, 
+
+DEVEMOS REORGANIZAR A ESTRUTURA DE NOSSAS PASTAS, um pouquinho.
+
+
+
+Vamos ter que reorganizar nossas pastas pq AGORA NÓS TEREMOS 
+
+QUE ___DIVIDÍ-LAS___  (split it) NAS NOSSAS 
+
+'INPUT SOURCE FILES' E NAS 'OUTPUT GENERATED FILES'...
+
+
+------------------------------------------------
+
+
+Para isso, o professor adicionará um novo folder na root do nosso projeto, o qual 
+
+chamará de 
+
+'src' -----------------> PROFESSOR DIZ QUE NÃO É OBRIGATÓRIO USAR 'SRC', mas que 
+
+É UMA CONVENÇÃO, pois significa 'source', o SOURCE É A PASTA QUE SEGURA 
+
+SUAS 'INPUT FILES'...
+
+
+
+
+Depois disso, professor explica que devemos pegar o conteúdo de todos os folders e arquivos de javascript 
+
+(ou seja, os folders App e Utility, e o arquivo 'app.js') e enfiá-los 
+
+em 'src'.
+
+
+
+
+
+Fazemos isso, explica o professor, para deixarmos os folders 
+
+'assets' e 'scripts' (que ficam dentro daquele)  VAZIOS.
+
+
+
+-------------------------------------------------
+
+
+FEITA ESSA REORGANIZAÇÃO, agora queremos especificar 
+
+
+ESSE 'app.js' que está dentro de 'Utility', dentro do folder 'src', COMO SENDO 
+
+
+O NOSSO ENTRY POINT...
+
+
+Nós também vamos querer especificar 'assets\scripts' COMO SENDO 
+
+NOSSO 'OUTPUT POINT'.
+
+
+
+----------------------------
+
+
+PARA ISSO, VOLTAMOS AO NOSSO WEBPACK CONFIG .js FILE 
+
+
+E EDITAMOS O NOSSO OBJETO CONFIG.
+
+
+
+Dentro desse objeto config, especificamos 
+
+UMA 'ENTRY KEY'...
+
+
+
+
+Professor explica que ESSA KEY PODE SER SIMPLESMENTE UMA STRING QUE 
+
+APONTA à sua "entry file"...
+
+
+Diz ele que esse valor que você coloca ali poderia ser um objeto mais complexo, 
+
+se você desejasse (é possível adicionar MÚLTIPLOS ENTRY POINTS).
+
+Mas nesse projeto simples, e em muitos outros projetos, você 
+
+sempre terá um ENTRY POINT CENTRAL.
+
+
+
+
+
+
+Aqui, portanto, especificamos um "relative path" de esse 
+
+'webpack.config.js' até a entry file...
+
+
+
+
+
+ex:
+
+
+
+
+module.exports = {
+    entry: './src/Utility/app.js'
+}
+
+
+
+
+--------------------------------
+
+
+
+CERTO, E ESSE É UM IMPORTANTE PEDAÇO DE INFORMAÇÃO entregue à 'webpack'.
+
+
+
+
+ALÉM DA 'entry file', também precisamos especificar EM QUE LUGAR O OUTPUT 
+
+deverá ser escrito...
+
+
+Para isso, escrevemos uma key 'output' aqui...
+
+
+
+
+
+O VALOR DESSA KEY, diz o professor, pode ser UM 
+
+OBJETO JAVASCRIPT... ({}). 
+
+
+Dentro desse objeto, podemos 
+
+
+descrever uma key chamada "filename", que 
+
+
+definirá qual nome será utilizado para o arquivo outputtado.
+
+
+
+Professor usa o mesmo nome de sempre, 
+'app.js'. 
+
+
+
+A SEGUNDA KEY, OBVIAMENTE, É O 
+
+___PATH____ do output do nosso arquivo.
+
+
+ex:
+
+
+
+
+module.exports = {
+    entry: './src/Utility/app.js',
+   output: {
+       filename: 'app.js',
+        path: ....
+   }
+}
+
+
+
+----------------------------------------
+
+
+
+TENHA EM MENTE que esse output 
+
+SERÁ 
+O NOSSO 
+
+'bundled code', SERÁ 
+
+NOSSO CÓDIGO .JS TODO FUNDIDO EM UM ÚNICO ARQUIVO...
+
+
+SERÁ UM ARQUIVO DE CÓDIGO QUE CONTARÁ TODOS OS OUTROS ARQUIVOS FUNDIDOS.
+
+
+PARA GERAR O CAMINHO/descobrir o caminho, PODEMOS UTILIZAR Um "UTILITY MODULE', uma 
+
+"UTILITY PACKAGE" builtin NO NODE.JS........
+
+
+Nós já temos essa utility DISPONÍVEL A NÓS, pois instalamos 'node.js', e essa utility é um default...
+
+
+
+
+
+É A PACKAGE do 'path'...
+
+
+---------------------------------
+
+
+ENTRETANTO, PARA USAR ESSA FEATURE, PRECISAMOS IMPORTÁ-LA NO NOSSO CÓDIGO.
+
+
+Para importá-la, não podemos simplesmente usar a sintaxe do javascript ('import {xxx} from 'yyyyy';').
+
+            (ou seja, é parecido com o que fizemos antes, quando DEIXAMOS DE USAR 'export' para exportar alguma coisa, nesse node.js)
+
+
+
+NÃO, em vez disso 
+
+você vai lá 
+
+
+E IMPORTA ESSA FEATURE POR MEIO DESSE CÓDIGO (obs, o nome não precisa ser 'path', mas é bom de 
+nomeá-lo assim.):
+
+
+'const path = ...'
+
+
+
+
+
+NÓS VAMOS QUERER ARMAZENAR ESSA PACKAGE 'path' dentro dessa constante 'path'....
+
+
+
+NÓS IMPORTAMOS EFETIVAMENTE O 'path' por meio do MÉTODO/função
+
+'require()'...
+
+
+
+ex:
+
+
+
+const path = require();
+
+
+
+
+
+
+module.exports = {
+    entry: './src/Utility/app.js',
+   output: {
+       filename: 'app.js',
+        path: ...
+   }
+}
+
+
+
+--------------------------------------------
+
+
+
+
+NESSE método/função 'require', nós simplesmente PASSAMOS O 
+
+'PACKAGE NAME' daquilo que queremos importar....
+
+
+
+
+O package name da package/feature 'path' É JUSTAMENTE 'path'... (essa string.) (OBS: essa string/ package name 'path' É BUILTIN no node.js)
+
+
+
+É por isso que inserimos 'path' dentro do parâmetro de 'require()'.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+module.exports = {
+    entry: './src/Utility/app.js',
+   output: {
+       filename: 'app.js',
+        path: ...
+   }
+}
+
+
+
+
+------------------------------------------------------
+
+
+
+
+ISSO VAI IMPORTAR EFETIVAMENTE A PACKAGE 'path' e ARMAZENAR SUAS FEATURES 
+
+sob a constante 'path'...
+
+
+
+
+CERTO.
+
+
+Agora, lá embaixo, em que 
+
+precisamos passar UM VALOR à key "path", 
+
+
+PODEMOS 
+
+USAR 
+
+
+'path.resolve()' PARA 
+
+BASICAMENTE 
+
+CONSTRUIR UM 
+
+
+""""PATH ABSOLUTO"""' COM A AJUDA DAQUELA FERRAMENTA... (com a ajuda da package 'path').
+
+
+
+Nesse método 'resolve()' nós queremos 
+
+
+COMEÇAR PELO NOSSO 'CURRENT PATH'......
+
+
+E, para isso, 'node.js' TEM UMA constante GLOBAL DEFAULT, que é 
+
+
+'__dirname' (com os underscores no início)...
+
+
+ISSO SIMPLESMENTE NOS DÁ ACESSO 
+
+ao 'CURRENT PATH' desse arquivo em que este código está inscrito (no caso, o CURRENT PATH EM QUE 
+O ARQUIVO 'webpack.config.js' VIVE)
+
+
+
+
+ex(representação):
+
+
+
+
+const path = require('path');
+
+
+
+module.exports = {
+    entry: './src/app.js',
+    output: {
+        filename: 'app.js',
+        path: path.resolve(__dirname)
+    }
+}
+
+
+
+
+-------------------------------------------------
+
+
+
+
+Depois desse primeiro parâmetro de '__dirname', colocamos um segundo e terceiro parâmetros, 
+
+
+'assets' E 'scripts'....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const path = require('path');
+
+
+
+module.exports = {
+    entry: './src/app.js',
+    output: {
+        filename: 'app.js',
+        path: path.resolve(__dirname, 'assets', 'scripts')
+    }
+};
+
+
+
+
+---------------------------------
+
+
+
+CERTO, MAS POR QUE ISSO FUNCIONA?
+
+
+
+
+
+O que 
+
+
+ESSE OBJETO TODO FAZ (ou seja, o 'filename' junto do 'path')
+
+É CONSTRUIR UM 
+
+NOVO 'ABSOLUTE PATH'...........
+
+
+(E 'output' PRECISA DE UM 'ABSOLUTE PATH')...
+
+
+
+
+---> OUTPUT PRECISA DE UM __ABSOLUTE PATH___; um 'relative path' (como './src/app.js') NÃO BASTA....
+
+
+
+ESSE ABSOLUTE PATH PRECISA 
+
+
+______cOMEÇAR____ NO NOSSO ARQUIVO ATUAL
+ 
+ (por isso o '__dirname' como primeiro parâmetro.),
+
+ e aí precisa da adição de 
+
+
+ '/' assets  e '/' scripts A ESSE PATH...
+
+
+
+
+
+ ISSO FARÁ COM QUE NOSSO 'OUTPUT', nossa file outputtada, SEJA 
+
+ JOGADO NESSA 
+
+
+ PASTA 
+
+
+ 'assets/scripts'...
+
+
+
+
+ COM ISSO, SE AGORA SALVARMOS TUDO, teremos 
+
+
+ UM SETUP BÁSICO DE 'webPack'...
+
+
+ ------------------------
+
+
+ PARA USÁ-LO, DEVEMOS IR ATÉ 
+
+ 
+ 'package.json' 
+
+
+ e IR 
+
+ ATÉ 
+
+
+ A SEÇÃO  
+
+
+
+ 'scripts'...
+
+
+
+
+
+
+ Essa seção te permite DEFINIR ALGUNS SCRIPTS, OS QUAIS VOCÊ PODERÁ ENTÃO 
+
+ RODAR POR MEIO DA COMMAND LINE....
+
+
+
+
+você pode adicionar um novo script por meio 
+
+
+da simples adição de uma vírgula (,) 
+
+e então, em double quotes, QUALQUER NOME DE SUA ESCOLHA....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+{
+  "name": "default",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "qualquerNomeDeSuaEscolha"  ////////EIS AQUI O CÓDIGO EM QUESTÃO.
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  }
+}
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+
+O professor usa o nome "build"....
+
+
+
+ex:
+
+
+
+
+
+{
+  "name": "default",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build"  ////////EIS AQUI O CÓDIGO EM QUESTÃO.
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  }
+}
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+AÍ, no valor desse key-value pair, VOCÊ DEVE COLOCAR, no meio de double quotes, AS 
+
+
+INSTRUÇÕES QUE VOCÊ VAI QUERER RODAR...
+
+
+
+
+
+Nós devemos escrever 'webpack' nesse slot....
+
+
+ISSO VAI FAZER 
+
+a ferramenta
+
+
+'webpack-cli', 
+
+definida mais abaixo, 
+
+RODAR QUANDO CHAMAMOS 'build' na command line....
+
+
+
+
+ex:
+
+
+
+{
+  "name": "default",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"  ////////EIS AQUI O CÓDIGO EM QUESTÃO.
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  }
+}
+
+
+---------------------------------------
+
+
+
+
+ISSO VAI USAR A FERRAMENTA 'webpack-cli'...
+
+
+
+POR SUA VEZ, essa ferramenta UTILIZARÁ 
+
+a ferramenta "webpack", que também foi instalada, para bundlar as coisas.
+
+
+
+
+WEBPACK VAI SEMPRE 
+
+
+AUTOMATICAMENTE PROCURAR 
+
+
+POR AQUELE ARQUIVO 
+
+
+'webpack.config.js'....
+
+
+
+ELE VAI PROCURAR ESSE ARQUIVO E USAR 
+
+AQUELE OBJETO em 'module.exports' COMO 
+
+CONFIGURAÇÃO...
+
+
+
+--------------------------------------
+
+
+
+CERTO.
+
+
+SALVAMOS O packages.json 
+
+
+
+E AÍ VAMOS ATÉ O TERMINAL DO IDE,
+
+onde digitamos o código que executará 
+
+
+o WEBPACK...
+
+
+o código é 
+
+
+'npm run build'...
+
+
+
+--------------------------
+
+
+ISSO VAI COMEÇAR O WEBPACK...
+
+
+
+Mas aqui nos será dado um ERRO.

@@ -1,0 +1,422 @@
+Devemos ver a próxima parte de arrays.
+
+
+
+
+
+
+Devemos ver COMO ADICIONAR DADOS A ARRAYS.
+
+
+Digamos que temos a constante hobbies.
+
+
+ex:
+
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+--------------------------------------
+
+
+AGORA, QUEREMOS ADICIONAR NOVOS DADOS A ESSE ARRAY. PARA TAL, PODEMOS USAR "PUSH".
+
+ex:
+
+
+
+hobbies.push('Skating'); -----------> ISSO VAI ADICIONAR A STRING "Skating" NO ARRAY 
+                                            DE "HOBBIES".
+
+
+
+PUSH ---> SEMPRE ADICIONA NOVOS ELEMENTOS ___AO FINAL___ DO ARRAY___.
+
+
+---------------------------------------------
+
+
+ENTRETANTO, O PROFESSOR APONTA QUE HÁ MAIS DE UMA MANEIRA DE FAZER ISSO.
+
+
+
+E se vocÊ quisesse adicionar um elemento ao INÍCIO de um array?
+
+
+Bem, isso também é possível.
+
+
+
+Além de push, há A PROPRIEDADE "unshift".
+
+
+ex:
+
+
+
+hobbies.unshift();
+
+
+unshift ---> adiciona elemento ao início do array.
+
+
+-------------------------------
+
+
+
+Professor diz que esse método pode parecer um pouco estranho, porque 
+pode parecer que estamos desfazendo alguma coisa, mas na verdade esse método 
+ADICIONA UM ITEM AO ARRAY (depois o professor nos explicará a razão desse nome estranho).
+
+
+ex:
+
+const hobbies = ['Sports', 'Cooking'];
+
+hobbies.unshift('Coding');
+console.log()
+
+
+----------------------------
+
+
+Se console.loggarmos isso, VEREMOS QUE AGORA "Coding" É A PRIMEIRA STRING 
+DENTRO DAQUELE ARRAY "hobbies".
+
+
+---------------------------------------------
+
+
+Porém, às vezes nós queremos REMOVER ELEMENTOS. Há métodos simples 
+para remover os primeiros e os últimos elementos:
+
+
+
+ex:
+
+
+hobbies.pop(); -----------> .POP(); FAZ COM QUE O ÚLTIMO ELEMENTO DA LISTA SEJA EJETADO.
+
+
+
+----> Se eu escrever o método "hobbies.pop", a string "COOKING" será EJETADA, POIS É 
+O ÚLTIMO ELEMENTO DO ARRAY.
+
+IMPORTANTE!!!!! ----> .pop(); TAMBÉM ___RETORNA___ O ÚLTIMO ELEMENTO, REMOVIDO POR ELA.
+
+
+Nesse exemplo do hobbies, a string "Cooking" ejetada 
+por meio de ".pop();" simplesmente vai para o vácuo, pois não
+ usamos o seu retorno/seu valor retornado para nada no código. 
+
+
+ Entretanto, você poderia, por exemplo, armazenar o "valor poppado" em uma 
+ constante, tipo assim:
+
+
+ const poppedValue = hobbies.pop(); ----> Essa constante vai armazenar o valor que foi ejetado daquele array.
+
+
+
+IMPORTANTE!!!
+----------> O PROFESSOR EXPLICA QUE "push" e "unshift" TAMBÉM RETORNAM ALGO, ELES 
+RETORNAM UM ___NÚMERO____, que sempre É A NOVA LENGTH DO ARRAY. Você pode, por exemplo,
+ querer armazenar o valor da array modificada dentro de uma constante.
+
+ ex:
+
+const hobbies = ['Sports', 'Cooking'];
+const modifiedArrayLengthNumber = hobbies.push('Reading'); -------> A CONSTANTE modifiedArrayLengthNumber, aqui, vai armazenar o valor de 3.
+console.log(modifiedArrayLengthNumber); ---> Se console.loggarmos essa constante, receberemos o valor de 3, que é a nova length dessa constante.
+
+
+
+---------------------------------------------
+
+
+POP ---> REMOVE UM ITEM AO FINAL DO ARRAY.
+
+
+
+-----------------------------------------
+
+
+
+.SHIFT(); ---------> REMOVE UM ITEM ____ AO INÍCIO___ DO ARRAY.
+
+
+ex:
+
+const hobbies = ['Sports', 'Cooking'];
+
+hobbies.shift();
+
+
+
+-----------> A string "Cooking" será ejetada.
+
+
+-----------------------------
+
+
+RESUMINDO:
+
+
+Shift --> REMOVE um item no INÍCIO.
+
+
+
+unshift --> ADICIONA um item no INÍCIO.
+
+
+
+-------------------------------------
+
+
+Professor faz a indagação fatal:
+
+
+Pq shift ---> reomve 
+
+    unshift --> adiciona
+
+    ?
+
+
+    Porque os comandos são escritos assim, e não ao contrário?
+
+
+
+Professor diz que, na verdade, a nomenclatura faz sentido.
+
+
+SHIFT --> o que esse método faz, na realidade, é O "SHIFT" (mudança de lugar) de 
+todos ELEMENTOS DO ARRAY, UM ESPAÇO PARA A ESQUERDA.
+
+
+ex de shift:
+
+
+
+                ['Sports', 'Cooking'];
+                    |       
+                    |           |
+                    |           |
+                    |           |
+                    |           |
+                    |           |
+                    |           |       
+                    |           |
+                    |           |
+                    |           |
+                    |           |
+                    |           |
+          <---------|   <-------|        
+
+'Sports'  ['Cooking'];   (PRIMEIRO ELEMENTO DO ARRAY FOI REMOVIDO; FOI "EXPELIDO" PARA FORA, POR MEIO DO "SHIFTING" DO CÓDIGO PARA O SENTIDO DA ESQUERDA. Só restou 'Cooking'.)
+   |    (Roubou o lugar de 'Sports').
+   |
+   |
+   |
+   |
+   |
+(Não existe mais).
+
+
+
+--------------------------------------------------- 
+
+
+UNSHIFT(); -----> FAZ O "SHIFT" DE TODOS OS ELEMENTOS DO ARRAY PARA A DIREITA; UM 
+ÚNICO ESPAÇO PARA A DIREITA.
+
+
+
+ex:
+
+const hobbies =  ['Sports', 'Cooking'];
+
+hobbies.unshift('Coding');
+
+--------------------------------------
+
+O que realmente acontece:
+
+-----------------------------------
+
+                        ['Sports', 'Cooking'];
+                            |           |
+                            |           |
+                            |           |
+                            |           |
+                            |           |
+                            |           |
+                            |           |
+                            |           |
+                            |------->   |
+                                        |
+                                        |
+                                        |--------->
+                                      
+                            [ 'empty'  ,  'Sports' , 'Cooking']
+                                ^
+                                |
+                                |   
+                                |
+                                |
+                            'Coding'
+
+
+                            RESULTADO:
+
+
+                            ['Coding', 'Sports', 'Cooking'];
+
+
+--------------------------------------------------------------
+
+
+É POR ISSO QUE "UNSHIFT" ADICIONA UM ELEMENTO AO INÍCIO, PORQUE ELE MOVE TUDO 
+UMA ÚNICA CASA PARA A DIREITA E ENTÃO INSERE O NOVO ELEMENTO NO ESPAÇO BRANCO/SLOT QUE 
+FICOU NO INÍCIO.
+
+
+-------------------------
+
+Shift --> move items para a direita. Aceita parâmetro.
+
+Unshift --> move items para a esquerda. Não aceita parâmetro.
+
+
+------------------------------------------
+
+
+SOBRE A PERFORMANCE DESSES MÉTODOS...
+
+
+
+Se você PRECISA USAR SHIFT/UNSHIFT (não há outro workaround para o seu caso específico), 
+VOCÊ DEVE SE LIGAR QUE "SHIFT/UNSHIFT" AFETAM ____TODOS ____ OS ELEMENTOS NO 
+ARRAY, shiftam __tODOS OS ELEMENTOS__.
+
+Essas operações são BEM mais lentas, é evidente, DO QUE "POP" E "PUSH".
+
+
+Pq isso?
+
+
+Pq push e pop apenas adicionam O ÚLTIMO ELEMENTO DE UM ARRAY, E SIMPLESMENTE NÃO 
+ENCONSTAM EM QUAIQUER OUTROS ELEMENTOS DESSE ARRAY. Apenas 
+adicionam/removem o último elemento de um array, e por isso são bem mais rápidos 
+do que shift/unshift.
+
+APESAR DISSO, HÁ CASOS EM QUE VOCÊ VAI PRECISAR DE SHIFT/UNSHIFT, CASOS 
+EM QUE, POR EXEMPLO, VOCÊ ABSOLUTAMENTE PRECISA DA CAPACIDADE DE ADICIONAR 
+UM ITEM AO INÍCIO DE UM ARRAY. Em casos como esse, vocÊ terá 
+de utilizá-los, ainda que a performance não seja 10/10.
+
+
+------------------------------------------
+
+
+Mas e quanto ao resto dos casos? E quanto aos casos em que você quer adicionar/remover/manipular 
+items em DIFERENTES LUGARES DE UM ARRAY?
+
+
+Bem, o professor explica, para isso vocÊ pode usar o "DIRECT INDEX ACCESS" (a função básica que já sabíamos).
+
+
+ex:
+
+
+const hobbies =  ['Sports', 'Cooking'];
+
+
+hobbies[1] = 'Coding'; //--------------------> ISSO VAI SUBSTITUIR O ITEM 'COOKING', no slot [1], por 'CODING'.
+
+
+
+
+------------------------------------------------
+
+
+BTW: O novo item que você define com o indexador NÃO PRECISA SER DO MESMO TIPO DO ITEM ANTIGO.
+O professor aponta que ele poderia ter usado um número aqui, por exemplo, ainda que o item antigo fosse uma string.
+
+
+
+-----------------------------------------------
+
+
+
+MAS E SE QUISÉSSEMOS INSERIR UM ELEMENTO NO MEIO DE OUTROS 2 ITEMS do array? COMO FARÍAMOS?
+                            
+
+
+Simples, utilizaríamos o método "SPLICE();".
+
+
+Veremos mais sobre o método splice nas próximas aulas.
+
+
+
+
+Antes de vermos esse método, devemos olhar um outro caso:
+
+
+-------------------------
+
+
+E SE EU QUISESSE SELECIONAR/TARGET/LOCKAR em um index QUE NÃO 
+ESTÁ DEFINIDO NO PRESENTE, como por exemplo... [5], nesse caso dos 
+hobbies (array que só tem 2 elementos).
+
+
+ex:
+
+
+
+const hobbies = ['Sports', 'Cooking'];
+hobbies[5]; //--> dá target no 6o elemento, que não existe no presente.
+
+-----------------------------------
+
+Professor faz um teste e adiciona o seguinte código, que adiciona um valor a esse item com index de 5(que ainda não existe no código):
+
+
+const hobbies = ['Sports', 'Cooking'];
+hobbies[5] = 'Reading';
+console.log(hobbies);
+
+
+-----------------
+
+
+NO CONSOLE, VEMOS O RESULTADO DESSE CONSOLE.LOG:
+
+
+(6) ["Sports", "Cooking", empty x 3, "Reading"];
+
+
+-----------------> OU SEJA, A SIMPLES DEFINIÇÃO DE UM ELEMENTO COM INDEXADOR 
+QUE AINDA NÃO É UTILIZADO NO CÓDIGO FAZ COM QUE TODOS OS INDEXADORES EM SEU CAMINHO
+FIQUEM DEFINIDOS COMO "EMPTY".                  [5]
+(["Sports", "Cooking", empty, empty, empty, "Reading"])
+
+
+
+
+3 EMPTY SLOTS aparecem. São realmente 3 slots vazios. Se nós 
+tentarmos acessar um deles (por exemplo, com "hobbies[4]", para selecionar um dos elementos/slots vazios)
+O CONSOLE VAI NOS RETORNAR "undefined". Isso ocorre porque realmente não há 
+nada definido ali, está em branco.
+
+-------------------------------------------------
+
+ESSA MANEIRA DE ADICIONAR ELEMENTOS (com uso da seleção por meio de indexador) É 
+MUITO INCOMUM,  99.99% dos casos você não vai querer adicionar um item por meio 
+de um indexador arbitrário (um número determinado como indexador).
+
+Ainda assim, é legal saber que há como selecionar diretamente e definir valores de elementos 
+que AINDA NÃO EXISTEM, com uso de indexadores.

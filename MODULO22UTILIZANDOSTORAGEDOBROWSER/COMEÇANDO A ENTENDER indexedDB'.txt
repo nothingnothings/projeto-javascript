@@ -1,0 +1,1963 @@
+
+
+
+
+Agora veremos o que é o INDEXEDDB.
+
+
+
+
+
+
+Para isso,
+
+
+
+o professor renomeia o nosso app.js atual para 'cookies', e aí cria um NOVO APP.JS com o qual trabalharemos 
+
+agora.
+
+
+
+
+
+
+FEITO ISSO, DEVEMOS COPIAR E COLAR O CÓDIGO DE 'cookies.js' em nosso 
+
+
+
+'app.js'...
+
+
+
+
+
+Devemos nos livrar do código específico aos cookies, os segundos parâmetros dos addEventListeners...
+
+
+--------------------------------------
+
+
+
+
+
+
+
+DEVEMOS ENTENDER O QUE É O 'INDEXEDDB'
+
+
+
+
+indexedDb é o TIPO MAIS COMPLEXO DE STORAGE...
+
+
+
+
+E, assim como com os cookies/local e session storage,
+
+você encontra 
+
+
+RESOURCES, nesse módulo, dizendo mais sobre essa forma de storage.
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+AQUI, O PROFESSOR APENAS QUER MOSTRAR A FUNCIONALIDADE BÁSICA DO INDEXEDDB.
+
+
+
+
+---> a funcionalidade do indexedDb É TE deixar usar UMA DATABASe ____DENTRO DO BROWSER___ ('in browser database')...
+
+
+
+Para isso, para que consigamos ver isso em prática, devemos deixar o dev server rodando ('serve').
+
+
+
+
+
+
+ENTRETANTO, APONTA O PROFESSOR, VOCÊ TAMBÉM PODE USAR O FILE PROTOCOL 
+
+PARA TESTES COM INDEXEDDB.
+
+
+
+
+----------------------------------------------------
+
+
+
+
+A PRIMEIRA ETAPA COM 'indexedDb' É CRIAR UMA DATABASE/ou abrir uma 
+
+
+CONEXÃO A UMA DATABASE JÁ EXISTENTE.....
+
+
+
+
+
+
+
+
+
+
+-----> para criar uma database, DEVEMOS CHAMAR 
+
+
+'IndexedDB', que é um objeto/global constructor function QUE 
+
+SÓ EXISTE EM WINDOW (é quase a mesma coisa que o 'document.cookie' e o 'window.localStorage'/'window.sessionStorage')...
+
+
+
+
+
+
+DE NOVO, NÓS PODEMOS OMITIR o chamado de 'window' para criar um index 
+
+
+com 'indexedDB'...
+
+
+
+-------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+indexedDB;
+
+
+
+--------------------------------------
+
+
+
+
+
+CERTO. Chamado esse 'indexedDB', podemos chamar 
+
+'.OPEN()' em cima dele, esse método 'open()'.
+
+
+
+
+ex:
+
+
+
+
+indexedDB.open();
+
+
+---------------------------------
+
+
+
+
+
+COMO PARÂMETRO DO 'open()', você PASSA O NOME DA DATABASE que você vai querer...
+
+
+
+
+O NOME FICA A SEU CRITÉRIO, mas é óbvio que 
+
+ESSE NOME NÃO PODE JÁ EXISTIR COMO DATABASE (senão teremos um conflito, pois '.open()' É USADO PARA ____CRIAR__ UMA DATABASE QUE AINDA NÃO EXISTIA).
+
+
+
+
+
+O professor usa como exemplo o nome 'StorageDummy'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+indexedDB.open('StorageDummy');
+
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+JÁ O SEGUNDO ARGUMENTO É UTILIZADO PARA DEFINIR 
+
+
+A ____VERSÃO____ DA DATABASE........
+
+
+Essas versões/segundos argumentos SÃO USADOS PARA 
+
+VOCÊ ACOMPANNHAR QUAL VERSÃO DA DATABASE VOCÊ ESTÁ USANDO....
+
+
+
+A medida que você vai atualizando a database, esse número vai aumentando....
+
+
+
+---------------------------------------
+
+
+
+
+ex:
+
+
+
+indexedDB.open('StorageDummy', 1); 
+
+
+
+--------------------------------------
+
+
+
+
+Não é algo que exploraremos aqui, esse negócio da versão, por isso a manteremos como '1', coisa simples.
+
+
+
+
+
+
+OBS:
+
+
+
+quando 'indexedDB.open()' É EXECUTADO PELA PRIMEIRA VEZ, A DATABASE NÃO EXISTE AINDA, nossa 
+
+engine javascript ainda tem de CRIÁ-LA............
+
+
+caso contrário, esse comando APENAS ABRIRÁ UMA CONEXÃO.....
+
+
+
+
+
+
+
+
+
+IndexedDB é uma forma de armazenar dados no navegador do usuário. Com ele você pode criar aplicações web com possibilidade de fazer query sem necessidade de conexão, suas aplicações podem funcionar tanto online quanto offline. 
+
+
+
+------------------------------------------------------
+
+
+
+
+Certo. Essa era a primeira etapa.
+
+
+
+
+O API do 'indexedDB' NÃO É PROMISE-BASED NEM UM POUCO, por isso não podemos 
+
+chamar '.then()'/async await. 
+
+
+
+NÃO PODEMOS USAR '.then()'/asyncawait PARA CONSEGUIR 
+
+
+A 'DATABASE CONNECTION OBJECT' como argumento...
+
+
+
+
+NÃO É ASSIM QUE O NEGÓCIO FUNCIONA.
+
+
+
+
+
+
+
+EM VEZ DISSO, ESSE MÉTODO 'OPEN()' RETORNA ALGO QUE É CHAMADO DE 
+
+
+'request', UM 'DB REQUEST'....
+
+
+
+
+Em razão disso, o professor decide armazenar esse request em uma const de nome 
+'dbRequest'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+  
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+CERTO.
+
+
+JÁ nessa const 'dbRequest' (que segura o nosso REQUEST de conseguir uma database),
+
+
+VOCê PODE 
+
+
+ADICIONAR 'eventListeners' ..........
+
+
+
+
+VOCÊ PODE ADICIONAR LISTENERS a ele por meio de 
+
+
+'.addEventListener()' 
+
+
+
+OU 
+
+
+
+
+POR MEIO DE 
+
+
+'.onsuccess = function() {}' ------------------->>>> ESSA VERSÃO/ALTERNATIVA 
+
+TEM UM BROWSER SUPPORT MELHOR....
+
+
+
+
+ex:
+
+
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+forma 1:
+
+
+dbRequest.addEventListener();
+
+
+
+forma 2:
+
+
+
+dbRequest.onsuccess = function () {};
+
+
+------------------------------------------ 
+
+
+
+
+
+
+
+
+MAS, SE VOCÊ OPTAR PELA ALTERNATIVA DO 'onsuccess', vocÊ não deve se 
+
+ESQUECER DE TAMBÉM COLOCAR O LISTENER DE 'FALHA'/'ERRO'...
+
+
+
+ex:
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+
+
+
+dbRequest.onsuccess = function () {};
+
+
+
+
+dbRequest.onerror = function () {};
+
+
+--------------------------------------------------
+
+
+
+
+
+USAREMOS O MODELO DO 'onsuccess'/'onerror'...
+
+
+
+
+
+
+CERTO.
+
+
+
+
+
+EM AMBAS FUNÇÕES VOCÊ GANHA ACESSO 
+
+
+AO OBJETO 'event'... (como já vimos antes, no módulo de events).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+
+
+
+dbRequest.onsuccess = function(event) {};
+
+
+
+
+dbRequest.onerror = function(event) {};
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+FEITA ESSA DEFINIÇÃO DO parâmetro 'event', PODEMOS 
+
+INTERAGIR COM ESSE CÓDIGO/com dbRequest...
+
+
+
+
+
+NO CÓDIGO DE 'onerror', o professor apenas faz console.log de 
+
+
+'ERROR'....
+
+
+
+
+ELE EXPLICA QUE, É CLARO, EM SEU APLICATIVO, EM QUE VOCÊ REALMENTE DEPENDE DE 'indexedDB', vocÊ 
+
+
+DEVE/VAI PROVIDENCIAR ALGUMA LÓGICA  DE FALLBACK LÓGICA, mas aqui, nesse exemplo, esse simples console.log 
+
+já serve...
+
+
+
+
+
+
+
+ex:
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+
+
+
+dbRequest.onsuccess = function(event) {};
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR');
+};
+
+
+
+---------------------------------------------------
+
+
+
+Já em 'onsuccess', NO ENTANTO, O PROFESSOR VAI QUERER CONTINUAR 
+O FLUXO DO CÓDIGO... 
+
+
+
+Lá, nós estabelecemos/ganhamos contato À DATABASE A QUAL DESEJAMOS CONECTAR/RECÉM CRIAMOS COM 
+
+
+'indexedDb.open()'  POR MEIO DAQUELE 
+
+OBJETO 'event'...
+
+
+
+POr isso, o professor chama 'event' NO SECO...
+
+
+
+ex:
+
+
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+    event;
+};
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR');
+};
+
+
+
+
+--------------------------------------------
+
+
+ENTRETANTO, O PROFESSOR NÃO FAZ APENAS ISSO:
+
+
+
+ele chama '.target.result' NESSE EVENTO, pois isso, segundo ele,
+
+É UM FIELD, UMA ___PROPRIEDADE___, que você pode acessar E QUE 
+
+SEGURARÁ/MANTERÁ ACESSO À DATABASE QUE FOI RECÉM CRIADA.
+
+
+
+
+
+O professor armazena esse field/propriedade em uma constante de nome 'db'...
+
+
+EX:
+
+
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+    const db = event.target.result;
+};
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR');
+};
+
+
+
+
+-------------------------------
+
+
+
+
+FEITO ISSO, FEITA ESSA CRIAÇÃO DA CONSTANTE QUE SEGURARÁ A NOSSA DATABASE, 
+
+
+PODEMOS COMEÇAR A CONFIGURÁ-LA................
+
+
+
+
+
+
+OBS:::
+
+
+VOCÊ TEM QUE SE LEMBRAR DISSO:
+
+
+
+
+o 'dbRequest.onsuccess' É SEMPRE ATIVADO 
+
+
+_______NO MOMENTO___ EM QUE O request de  'indexed.DB.open()' É 
+
+
+ABERTO com sucesso ('indexedDB.open('Storage Dummy'));     (OPEN().)
+
+
+-----------------------------------------
+
+
+
+
+
+Certo mas como configuramos esse objeto de 'db request...'?
+
+
+
+------------------------------------------------------
+
+
+
+
+--> BEM, o professor mencionou que 'indexedDB' funcionaria com TABLES e RECORDS, com databases TÍPICAS DE SERVIDORES...
+
+...
+
+
+---> mas, na verdade, a TERMINOLOGIA É UM POUCO DIFERENTE, não falamos em 'tables' e 'records'...
+
+
+--> podemos alterar o comportamento por meio do API..
+
+----------------------------------------------
+
+
+
+
+
+
+Porém, professor explica QUE A TERMINOLOGIA É UM POUCO DIFERENTE... ----> VOCÊ 
+
+TRABALHA COM 'OBJECT STORES', ou seja, com coisas PARECIDAS COM __TABLES__.
+
+
+
+
+
+--->
+
+
+VOCê PODE TER MÚLTIPLOS 'OBJECT STORES'... ----> e cada OBJETO 'STORADO' pode ter 
+
+MÚLTIPLOS OBJETOS STORADOS EM SI... ----> mas ainda assim, é parecido com TABLES e RECORDS.
+
+
+--> O OBJETO 'dbRequest' (o qual segura O PEDIDO DE ARMAZENAMENTO EM 'indexDb' por parte de nosso código.)
+
+
+
+
+
+
+O OBJETO 'dbRequest' ARMAZENA AS COISAS COM AS QUAIS VOCê TRABALHA UM POUCO, 
+
+
+COMO 'TABLES'......
+
+
+
+
+
+
+
+
+
+
+
+
+
+o objet
+
+
+
+
+
+
+
+
+
+
+---------> INDEXEDdb ----> MUITO USADO COM SERVIDORES...
+
+
+
+
+o objeto 'ssd aramazena tudo qcom o qual você trabalh,
+
+
+
+
+
+VOCÊ PODE TER __MÚLTIPLOS _____OBJECT STORE____, 
+
+e 
+
+
+
+
+CADA 'OBJECT STORE' PODE ARMAZENAR MÚLTIPLOS OBJETOS...
+
+
+Mas, nesse quesito, o uso do indexedDb pode se assemelhar 
+
+ÀS TABLES E AOS RECORDS, NO FINAL DAS CONTAS.
+
+
+
+
+
+BEM, COM O ACESSO AO DATABASE, 
+
+você pode usá-la PARA CRIAR UM 
+
+
+'object store' (criar um store de objetos) POR MEIO 
+
+DO CALL 
+
+
+
+dO MÉTODO 
+
+
+
+'.createObjectStore();'
+
+
+
+ex:
+
+
+
+
+const db = event.target.result;
+
+
+
+db.createObjectStore();
+
+
+---------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+dbRequest.onsuccess = function(event) {
+    const db = event.target.result;
+
+    db.createObjectStore();
+}
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+
+storeBtn.addEventListener('click', () => {
+  
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+
+-------------------------------------
+
+
+
+
+
+Certo, mas essa função 
+
+
+'db.createObjectStore()' EXIGE ALGUNS PARÂMETROS... 
+
+
+
+
+
+O PRIMEIRO PARÂMETRO É O ____NOME ___ DO OBJETO____ QUE SERÁ 
+
+ARMAZENADO/STORADO___...... (nome do 'object store').
+
+
+
+
+POR EXEMPLO, ESSE NOME PODE SER 'products'....
+
+
+
+
+---> DIGAMOS QUE ESTMAOS CONSTRUINDO UM APLICATIVO EM QUE QUEREMOS ARMAZENAR ALGUNS PRODUTOS 
+
+NO LADO DO BROWSER ('clientside').....
+
+
+
+
+---> ENTRETANTO, LEMBRE-SE DAQUILO QUE O PROFESSOR FALOU MAIS CEDO NESSE MÓDULO:
+
+
+'business critical', INFORMAÇÕES DE SEGURANÇA RELEVANTES E DADOS QUE 
+
+DEVEM/TEM DE  SER __COMPARTILHADOS___ COM os clientes NÃO DEVEM SER ARMAZENADOS 
+
+NESSES STORAGES TEMPORÁRIOS... ('indexedDB', no caso, é um storage temporário)....
+
+
+
+
+
+OS ÚNICOS DADOS QUE PODEMOS ARMAZENAR EM 'indexedDB' são DADOS QUE __PODEM ___ SER PERDIDOS (não há problema em perdê-los),
+
+DADOS QUE APENAS USAMOS PARA MELHORAR A USER EXPERIENCE....
+
+
+
+
+
+
+
+Certo.
+
+
+
+
+Digamos que estamos armazenando alguns produtos...
+
+
+
+ex:
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+db.createObjectStore('products');
+
+}
+
+
+----------------------------------------------
+
+
+
+
+CERTO.
+
+
+CADA 'object' ARMAZENADO PRECISA DE UMA __KEY___, PRECISA DE UMA 
+
+___PROPRIEDADE____ que existirá/existe EM TODO E CADA OBJETO ARMAZENADO, UMA KEY PELA QUAL 
+
+ TODOS ELES SERÃO/PODEM SER IDENTIFICADOS...
+
+
+
+
+
+ VOCÊ CONFIGURA ISSO NO SEGUNDO ARGUMENTO QUE VOCÊ PASSA à 'createObjectStore'...
+
+
+ NESSE SEGUNDO PARÂMETRO, VOCÊ PASSA UM OBJETO DE CONFIGURAÇÃO ('{}') 
+
+
+QUE DEVE, NECESSARIAMENTE, TER UMA PROPRIEDADE 'keyPath:'.... É AQUELA TAL DE KEY PELA QUAL TODOS 
+OS OBJECTS DEVERÃO SER IDENTIFICADOS.... É UM VALOR QUE DEVE SER PASSADO COMO STRING.
+
+
+
+
+ex:
+
+
+
+
+
+ex:
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+db.createObjectStore('products', {keyPath: ''}); //////////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+}
+
+
+
+-----------------------------------
+
+
+
+
+
+DIGAMOS QUE, PARA UM PRODUTO, essa key é um ID... ('id'), um 'ID FIELD'...
+
+
+
+ex:
+
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+db.createObjectStore('products', {keyPath: 'id'}); //////////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+}
+
+
+
+---------------------------------------------
+
+
+
+
+
+Professor diz que a key pode ser o que você desejar, que a única coisa exigida é que esse negócio seja 
+
+uma key QUE MAIS TARDE EXISTIRÁ.../vai existir. ('a field which later exists ONCE YOU START ADDING DATA').
+
+
+
+
+
+Essa linha de código comprida 'db.createObjectStore('products', {keyPath: 'id'});' 
+
+NOS RETORNA ACESSO AO """"oBJECT STORE"""""....
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE PODEMOS ARMAZENAR O ACESSO A ESSE OBJETO 'objectStore' 
+
+EM UMA NOVA CONSTANTE, chamada de 'objStore'...
+
+
+
+
+ex:
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'}); //////////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+}
+
+
+
+
+-----------------------------------
+
+
+
+FEITO ISSO, AGORA PODEMOS __INICIALIZAR___ ESSE 'OBJECT STORE'...
+
+
+Nós talvez queiramos ADICIONAR ALGUNS DADOS INICIAIS NELE...
+
+
+
+
+Claro que tudo isso depende do seu APLICATIVO, se isso é algo necessário no seu aplicativo ou não.
+
+
+
+
+PARA QUE POSSAMOS VER ALGUM RESULTADO dessa adição, o professor fará algo aqui...
+
+
+
+
+
+O PROFESSOR USA O objeto 'objStore'....
+
+
+DENTRO DO OBJETO criado por 'createObjectStore', 
+
+NÓS TEMOS UMA 
+
+PROPRIEDADE '.transaction()'......
+
+
+
+
+
+ESSA PROPRIEDADE 
+
+'.transaction();' TEM 
+
+UM LISTENER 
+
+'.oncomplete'....
+
+
+
+
+O PROFESSOR FAZ EXATAMENTE ISSO, CHAMA/DEFINE O LISTENER 'oncomplete' NA PROPRIEDADE 'transaction'..
+
+
+
+ex:
+
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete;
+}
+
+
+---------------------------------------
+
+
+
+
+
+MAS NÃO ACABAMOS POR AÍ: 
+
+
+o 'transaction.oncomplete' SEMPRE APONTA 
+
+PARA UMA FUNÇÃO ('= function()' ), 
+
+UMA FUNÇÃO EM QUE TAMBÉM GANHAMOS/PEGAMOS/RECEBEMOS UM OBJETO 'event'...
+
+
+
+(OBS: nós não precisamos desse objeto 'event' aqui, mas ainda assim o professor escreve ele dentro do parâmetro).
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { ////////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+}
+}
+
+
+
+---------------------------
+
+
+
+DENTRO DESSA FUNÇÃO atrelada ao 'oncomplete', podemos EXECUTAR CÓDIGO, finalmente...
+
+
+
+
+'.ONCOMPLETE' fará com que o código daquela função 'function(event){}' 
+SEJA 
+EXECUTADO QUANDO 
+
+O PROCESSO DE 'db.createObjectStore()' ACABAR....
+
+
+
+
+ISSO SIGNIFICA QUE É DENTRO DESSA FUNÇÃO ATRELADA AO '.oncomplete' QUE PODEMOS 
+
+INTERAGIR COM A DATABASE e esse 'objectStore'...................
+
+
+
+
+CERTO.
+
+
+
+PARA ARMAZENAR NOVOS DADOS, DEVEMOS ALCANÇAR A DATABASE com o chamado de 'db'.... (porque, com o chamado de 'db', você pode ARMAZENAR OS DADOS NOVOS EM ___QUALQUER OBJECTSTORE_____, não só aquele criado com 'createObjectStore()'.)....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+db; ////EIS AQUI O CÓDIGO EM QUESTÃO.
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALCANÇADA A  DATABASE, POR MEIO DE 'db', VOCê DESCOBRIRÁ QUE 
+
+___TAMBÉM____ EXISTE UM MÉTODO '.transaction' DENTRO DE ESSE 'db'/dessa database...
+
+
+
+
+
+ENTRETANTO, NÓS NÃO USAREMOS O MÉTODO '.transaction' como antes (por antes, quero dizer 'objStore.transaction.oncomplete'),
+
+
+NÃO; AQUI O USAREMOS COMO UM MÉTODO COMUM, chamando-o com '.transaction();'
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+db.transaction();
+}
+}
+
+
+
+--------------------------------------------
+
+
+
+
+Esse método '.transaction()' que é executado 
+
+
+EXIGE 2 ARGUMENTOS....
+
+
+
+
+O PRIMEIRO ARGUMENTO É O ___NOME___ DO SEU_____ OBJECT____ STORE...
+
+
+
+
+
+No caso do nosso exemplo, é o nome do OBJECT STORE QUE CRIAMOS POR meio do código 'db.createObjectStore('products', {keyPath: 'id'});'
+
+
+
+
+
+É O PRIMEIRO PARÂMETRO DESSA PARADA, desse objectStore que críamos...
+
+
+
+
+
+ex:
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+db.transaction('products');
+}
+}
+
+
+
+-----------------------------------------
+
+
+
+
+
+O SEGUNDO ARGUMENTO É O __MODO__ PELO QUAL VOCÊ VAI QUERER 
+
+ACESSAR ESSE 'object store'.......
+
+
+
+
+ESSE MODO PODE SER:
+
+
+
+
+1) 'readonly'
+
+
+
+2) 'readwrite'....
+
+
+
+---------------------------
+
+
+
+COMO O PROFESSOR QUER SER CAPAZ DE ____ESCREVER____ nesse store também, ele escreve 
+
+'readwrite'.......
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE O SEGUINTE CÓDIGO:
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+db.transaction('products', 'readwrite');
+}
+}
+
+
+
+
+
+
+EXPLICA QUE ESSE CÓDIGO DEVE/VAI ABRIR UMA CONEXÃO àquele 'objectStore'...
+
+
+
+
+Como ele vai abrir uma CONEXÃO ÀQUELE OBJETO, com esse simples chamado, VOCê 
+
+PODE ENTÃO CHAMAR '.objectStore()', como um método, POR CIMA DELE (desse 'objeto resultado') PARA ENTÃO ACESSAR 
+
+O OBJECTSTORE específico de 'products' (para isso, você deve passar o argumento/parâmetro da string 'products', que é o nome desse object store)...
+
+
+(bem confuso isso).
+
+
+
+
+
+ex:
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+db.transaction('products', 'readwrite').objectStore('products'); //////EIS O CÓDIGO EM QUESTÃO.
+}
+}
+
+
+
+----------------------------------------------------
+
+
+
+
+
+
+---> professor explica que VOCÊ ___PRECISA___ CHAMAR AQUELE MÉTODO 'object store' PORQUE 
+
+
+VOCÊ PODERIA, NESSE ESPAÇO, PASSAR __MÚLTIPLOS___ OBJECT STORE NAMES AO MÉTODO '.transaction'...., 
+
+
+se você fizesse isso, passasse múltiplos store names ao '.transaction()', ISSO TE DEIXARIA SELECIONAR 
+
+__UM ÚNICO___ OBJECT STORE............
+
+
+
+
+
+
+
+RESUMINDO:
+
+
+
+esse longo código de 
+
+
+'db.transaction('products', 'readwrite').objectStore('products');'
+
+
+
+VAI NOS DAR ACESSO AO OBJECT STORE AO QUAL ESTAMOS TENTANDO NOS CONECTAR...
+
+
+
+
+É evidente que iremos ARMAZENAR ESSE OBJETO ABSURDO em uma CONSTANTE, 
+
+de nome 'productsStore', por exemplo...
+
+
+
+
+--------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+const productsStore = db.transaction('products', 'readwrite').objectStore('products'); //////EIS O CÓDIGO EM QUESTÃO.
+}
+}
+
+
+
+---------------------------------------
+
+
+
+
+FEITO ISSO, AGORA PODEMOS TRABALHAR COM ESSE OBJETO...
+
+
+
+
+Aqui, podemos usar 'productsStore.add()' PARA 
+
+
+
+ADICIONAR ___UM NOVO ITEM___.
+
+
+
+
+ESSE NOVO ITEM DEVE, OBRIGATORIAMENTE, SER UM 
+
+___________OBJETO JAVASCRIPT______ ('{}')....
+
+
+UM OBJETO JAVASCRIPT QUE DEVERÁ 
+
+TER AQUELA 
+
+
+KEY definida em 'keyPath'... (aqui, no caso, é 'id'...), 
+
+
+no caso, AQUI A COISA OBRIGATÓRIA É 
+
+UMA 
+
+___PROPRIEDADE___ de 'id'...
+
+
+
+(a propriedade/keyname é o importante, o VALOR NÃO INTERESSA. Por isso o professor coloca 'p1').
+
+
+
+
+ex:
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+const productsStore = db.transaction('products', 'readwrite').objectStore('products'); 
+productsStore.add({id: 'p1'});
+}
+}
+
+
+
+--------------------------------------------
+
+
+
+
+
+Além da KEY OBRIGATÓRIA, esse objeto PODE TER QUAISQUER FIELDS EXTRAS QUE VOCÊ DESEJAR...
+
+
+
+Por exemplo, podemos ter 'title' (um title para o produto)...., um price, tags, ETC ETC.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+const productsStore = db.transaction('products', 'readwrite').objectStore('products'); 
+productsStore.add({id: 'p1', title: 'A First Product', price: 12.99, tags: ['Expensive, Luxury'] });
+}
+}
+
+
+-------------------------------------------------
+
+
+
+
+QUALQUER OBJETO PODE SER ADICIONADO 
+
+com '.add()'... DESDE QUE TENHA AQUELA KEY OBRIGATÓRIA definida no object store...  (no 'keyPath'...)...
+
+
+
+ESSA É A ÚNICA COISA QUE DEVE SER RESPEITADA NO OBJETO...
+
+
+
+
+
+
+ex (bonito):
+
+
+
+
+
+
+dbRequest.onsuccess = function(event) {
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+const productsStore = 
+db
+.transaction('products', 'readwrite')
+.objectStore('products'); 
+productsStore.add({
+    id: 'p1', 
+    title: 'A First Product', 
+    price: 12.99, 
+    tags: ['Expensive, Luxury'] });
+}
+}
+
+
+
+------------------------------------
+
+
+
+
+FEITO ISSO, O PROFESSOR SALVA E RECARREGA A PÁGINA.
+
+
+
+
+AO FAZER ISSO, O PROFESSOR RECEBE UM ___ERRO___ NO CONSOLE...
+
+
+
+
+
+
+O erro é o seguinte:
+
+
+
+
+
+
+Uncaught DOMException: Failed to execute 'createObjectStore' on 'IDBDatabase': The database is not running a version change transaction.
+    at IDBOpenDBRequest.dbRequest.onsuccess (http://localhost:5000/app.js:18:25)
+dbRequest.onsuccess @ app.js:18
+IndexedDB (async)
+(anonymous) @ app.js:9
+
+
+
+----------------------------------
+
+
+
+
+ESSE ERRO NOS DIZ QUE 'A DATABASE NÃO ESTÁ RODANDO UMA TRANSAÇÃO DE 'TROCA DE VERSÃO'...' 
+
+
+
+
+
+Professor explica que NÓS DEFINIMOS, ANTERIORMENTE, UM CALLBACK DE 'SUCCESS' por meio de '.onsuccess'....
+
+
+
+essa é uma função 'on success'...
+
+
+É/ERA UMA FUNÇÃO QUE SERIA ATIVADA QUANDO A DATABASE FOSSE CRIADA COM SUCESSO.........
+
+
+
+
+
+O problema aqui é que NÓS ACABAMOS INTERAGINDO DIRETAMENTE COM A DATABASE... (nós acabamos ATUALIZANDO 
+A DATABASE COM NOVOS VALORES, POR MEIO DO MÉTODO '.add()')...
+
+por termos interagido E ALTERADO A DATABASE DIRETAMENTE POR MEIO DE NOSSO CÓDIGO JAVASCRIPT, o que 
+ocorre aqui 
+
+É QUE PRECISAMOS DE UM DIFERENTE HANDLER (um diferente 'onxxx': 'onblocked', 'onerror', 'onsuccess', 'ONUPGRADENEEDED' --> é esse que iremos utilizar)...
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE O QUE IREMOS FAZER AQUI É TROCAR O '.onsuccess' em 'dbRequest' POR 
+
+
+'onupgradeneeded'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+dbRequest.onupgradeneeded = function(event) { //////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+const db = event.target.result;
+
+const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+objStore.transaction.oncomplete = function(event) { 
+const productsStore = 
+db
+.transaction('products', 'readwrite')
+.objectStore('products'); 
+productsStore.add({
+    id: 'p1', 
+    title: 'A First Product', 
+    price: 12.99, 
+    tags: ['Expensive, Luxury'] });
+}
+}
+
+
+
+---------------------------------------
+
+
+
+SE SALVARMOS O CÓDIGO E RECARREGARMOS A PÁGINA, observaremos que o erro sumirá.
+
+
+
+
+
+
+AGORA DEVEMOS CHECAR A ABA 'application' E ENTÃO CHECAR O 'IndexedDB'....
+
+LÁ VEREMOS NOSSO 'StorageDummy'...
+
+
+
+É A NOSSA DATABASE 'StorageDummy'...
+
+
+
+ENTRETANTO, O NEGÓCIO ESTÁ DIZENDO '0 OBJETOS STORADOS'...
+
+
+
+
+MAS SE VOCÊ DELETÁ-LO E ENTÃO RECARREGAR A PÁGINA, conseguiremos 
+
+A VERSÃO MAIS ATUALIZADA DESSA DATABASE, com 
+
+a adição DAQUELE NOSSO OBJECT STORE ('products') criado com 'createObjectStore' E 
+
+ADICIONADO POR MEIO 
+
+
+DE 'add()'...
+
+
+
+
+SE VOCê ENTÃO EXPANDIR ESSA DATABASE, você 
+
+
+___VERÁ____ O NOSSO OBJECT STORE de 'products'..., que 
+
+
+
+TERÁ A NOSSA DEFINIÇÃO DE 'id' (o 'keyPath') EM UMA COLUNA, E OS VALORES 
+
+
+EM OUTRA....
+
+
+
+
+
+O VALOR PARA NOSSA KEY 'id', NESSE CASO, É AQUELE 
+
+OBJETO JAVASCRIPT de 
+
+'{id: 'p1', title: 'xxx', price: 19.99}'
+
+
+----------------------------------------------------
+
+
+
+
+Isso aqui, o indexedDB, é um tipo de ARMAZENAMENTO DE DADOS ___MAIS ESTRUTURADO___, E 
+
+SEM A NECESSIDADE DE CONVERSÃO EM JSON ou qualquer coisa do gênero (como precisávamos
+com 'localStorage' e 'sessionStorage')...
+
+
+
+
+E, É CLARO, VOCÊ PODE ARMAZENAR MÚLTIPLOS OBJETOS COMO ESSE sob essa KEY, todos identificados por ela.
+
+
+
+
+
+
+
+------> PASSAMOS BASTANTE TRABALHO, MAS ISSO NOS MOSTRA 
+
+QUE INDEXEDDB é mais difícil de entender e de se trabalhar com, MAS 
+
+QUE É MAIS COMPLEXO E PODEROSO.
+
+
+
+--------------------------------
+
+
+
+O próximo passo é fazer com que ALGO SEJA ARMAZENADO QUANDO O BOTÃO 'store' é clicado...
+
+(vincular o add e etc ao EVENTLISTENER do botão 'store').
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+DOCS DO INDEXEDDB:
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+
+
+
+
+
+IndexedDB is a way for you to persistently store data inside a user's browser. Because it lets you create web applications with rich query abilities regardless of network availability, your applications can work both online and offline. 
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

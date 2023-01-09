@@ -1,0 +1,377 @@
+Professor diz que 
+
+podemos Estruturar nosso código de maneiras mais elegantes, mas que 
+
+
+ele escolheu esse formato porque ele nos possibilitou ver um grande número 
+
+
+de features de classes...
+
+
+
+
+
+O professor também nos mostrou COMO AS CLASSES PODEM NOS AJUDAR 
+
+A SPLITTAR O NOSSO CÓDIGO em unidades LÓGICAS, que 
+podemos utilizar para COMPOR O NOSSO APLICATIVO 
+
+EM UM GRANDE TODO...
+
+
+
+Porque essa é realmente a ideia por trás do 'object oriented programming'... (e por trás das classes e 
+por trás da ideia de usar objetos por todas as  partes de nosso código).
+
+
+
+----> tratamos da ideia de TER 
+
+SEMPRE NOSSA LÓGICA E DADOS AGRUPADOS em conjuntos... para que 
+
+então apenas precisemos USAR ESSES PACOTES 
+
+DE 'dados' e lógica para construir nossos aplicativos...
+
+
+
+Há mais algumas coisas sobre classes e objetos que são bem úteis de se saber....
+
+
+
+
+
+Para examinarmos isso, devemos ir até o console e criar uma nova CLASSE.
+
+
+
+A classe será chamada de 'person'...
+
+
+
+
+
+ex:
+
+
+
+
+
+class Person {
+
+name = 'Max';
+
+}
+
+
+------------------------
+
+
+
+
+Depois disso, INSTANCIAMOS essa classe por meio do call e store de 'new Person' dentro de uma const, const 'p'.
+
+
+
+
+ex:
+
+
+
+
+class Person {
+
+name = 'Max';
+
+const p = new Person();
+
+}
+
+
+
+
+-----------------
+
+'p' é um OBJETO de tipo 'Person', com uma propriedade 'name' de 'Max'....
+
+
+
+E É ESSE 'tipo PERSON' que é interessante...
+
+
+
+
+
+O professor NÃO HAVIA FALADO SOBRE ISSO ANTES PORQUE NÓS 
+PRECISÁVAMOS APRENDER SOBRE CLASSES PARA ENTENDER 
+O CONCEITO DE 'types', que temos agora....
+
+
+
+NÃO É UM 'type' OFICIAL......
+
+
+
+Se nós escrevermos 
+
+'typeof p', VEREMOS QUE ESSE 'p' É CONSIDERADO 
+
+UM ___OBJETO____. 
+
+
+É 'TYPE: OBJECT', e não 'TYPE: PERSON'...
+
+
+
+
+Ainda assim, de alguma forma JAVASCRIPT MANTÉM em 
+mente que ESSE OBJETO 'p' FOI CRIADO COM BASE NAQUELA 
+CLASSE 'Person'.
+
+
+
+o objeto 'p' NÃO É DAQUELE TIPO PROPRIAMENTE FALANDO, 
+
+mas ESSA INFORMAÇÃO (a informação de que 
+a constante 'p' é do mesmo tipo da classe 
+'Person') TEM DE SER ARMAZENADA EM ALGUM LUGAR, CASO CONTRÁRIO 
+
+O BROWSER NUNCA TERIA SIDO CAPAZ DE NOS MOSTRAR O RESULTADO 
+
+> p 
+
+<- Person {name: 'Max'}
+
+
+-------------------------------
+
+
+
+
+E DE FATO, DIZ O PROFESSOR, ESSA INFORMAÇÃO __ESTÁ___ ARMAZENADA 
+EM ALGUMA LUGAR...
+
+
+
+
+
+
+Professor diz que há UM OPERADOR ESPECIAL, 
+
+'instanceof'...
+
+
+
+Você pode utilizá-lo para CHECAR SE UM DETERMINADO OBJETO 
+FOI CRIADO com base em alguma classe/blueprint....
+
+
+
+
+
+Para utilizá-lo, você DEVE USAR O SEU OBJETO CONCRETO....
+(nesse caso, 'p', que é a CONSTANTE QUE SEGURA O OBJETO...)
+
+
+
+
+
+ex:
+
+
+
+'nome do objeto concreto' + instanceof + 'type/classe que você quer checar'.
+
+(esse código todo vai sem parênteses algum, o nome1 + operator + type/classe...)
+
+
+
+ex:
+
+
+
+p instanceof Person -----------> ISSO NOS RETORNARÁ 'true', pois realmente é verdade, 'p' é baseado na classe 'Person'...
+
+
+(retornará False se esse objeto/const não foi baseado naquela classe/tipo )
+
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+Na verdade, explica o professor, em JAVASCRIPT há um punhado 
+
+de CLASSES 'built-in'....
+
+(na verdade, elas NÃO SÃO CLASSES; tecnicamente, há um outro nome para 
+aquilo que elas são... mas apenas veremos isso mais tarde... por enquanto, as chamaremos de classes.  )
+
+
+
+
+Por exemplo, se selecionarmos um BOTÃO E O ARMAZENARMOS POR MEIO DO CÓDIGO 
+
+
+
+
+
+
+ex:
+
+
+
+
+'const btn = document.querySelector('button');'
+
+
+---------------------------------
+
+
+
+
+Se o professor usar o lendário comando 'console.dir()' em conjunto 
+com esse 'btn'...
+
+ex:
+
+const btn = document.querySelector('button');
+
+console.dir(btn);
+
+-------------------------------------
+
+
+
+SE ELE FIZER ISSO, ELE VAI RECEBER O ___OBJETO___ no devtools...
+
+
+
+
+Professor diz que aqui ELE RECEBE UMA DIFERENTE REPRESENTAÇÃO do 
+
+objeto 'btn', mas A PARTE INTERESSANTE É QUE 
+EXISTE 
+
+UM TIPO/CLASSE  INCORPORADA AO JAVASCRIPT... (e você encontra algo 
+parecido com isso no MDN, é assim que o professor conhece essa curiosidade),
+
+ESSE TIPO/CLASSE É CHAMADO DE 
+
+
+'HTMLButtonElement'....
+
+
+
+esse negócio É ___BASICAMENTE__ UMA CLASSE..., 
+
+uma classe 'built-in' no javascript/browser...
+
+--------------------------------
+
+
+
+O BOTÃO 'btn' É UMA INSTÂNCIA (instance) DISSO, desse 'HTMLButtonElement'... 
+
+(the 'btn' button IS AN INSTANCE OF HTMLButtonElement...)
+
+(the 'btn' button IS AN INSTANCEOF HTMLButtonElement...)
+
+        btn instanceof HTMLButtonElement; ----->
+
+---->>>>----------->>>> TRUE.
+
+ESSA LINHA DE CÓDIGO 
+
+'btn instanceof HTMLButtonElement' VAI NOS RETORNAR TRUE, PORQUE 
+REALMENTE É VERDADE.
+
+
+
+
+
+
+
+
+SIDENOTE::::::::
+
+
+'HTMLButtonElement' ESTENDE-SE lááá do HTML.... ('extends from the HTML'), 
+
+POR ISSO ESSE TYPE/OBJECT 'HTMLButtonElement' É UMA CLASSE BASE ('base class'), POR ASSIM 
+SE DIZER.
+
+
+É POR ISSO QUE 'btn' É TAMBÉM UMA INSTÂNCIA DO 'HTMLELEMENT'...
+
+
+ex:
+
+
+btn instanceof HTMLElement;
+
+
+------> retorna 'TRUE'...
+
+
+
+
+----------------------------
+
+
+
+
+Entretanto, 'btn' NÃO É UMA INSTÂNCIA DE 'Person', por exemplo...
+
+
+
+ex:
+
+
+
+
+btn instanceof Person;
+
+
+
+-------> FALSE.
+
+
+
+
+
+
+
+O professor vai nos mostrar muito mais sobre ESSES 
+
+
+HTMLElements (sobre como ler mais sobre eles, 
+onde encontrar tudo sobre isso) 
+
+NO MÓDULO 
+
+
+DO 'DOM DEEP DIVE'....
+
+
+
+
+MAS É LEGAL SABER AGORA QUE ESSAS CLASSES 
+
+'built-in' EXISTEM, e que 
+
+
+esse 'instanceof' operator TE AJUDA 
+
+A DESCOBRIR se UM OBJETO QUE VOCÊ TEM 
+
+É BASEADO NAQUELA CLASSE/TYPE OU NÃO...
+
+
+(bem útil, mesmo).

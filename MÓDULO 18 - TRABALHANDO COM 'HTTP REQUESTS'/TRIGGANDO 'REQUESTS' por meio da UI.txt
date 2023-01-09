@@ -1,0 +1,471 @@
+
+
+
+
+O ENVIO DE REQUESTS FUNCIONA, EM UM GERAL, EM NOSSO PROJETO
+
+
+
+AGORA DEVEMOS  linkar ESSE ENVIO À NOSSA UI, porque isso é um pouco mais realista, algo 
+
+que geralmente acontece em sites...
+
+
+
+
+
+
+
+
+
+
+PARA ISSO, TAMBÉM PRECISAMOS DE ACESSO À 'FORM'....
+
+
+à form e ao bottão 'fetch posts'....
+
+
+
+
+PARA ISSO VAMOS USAR OS CLÁSSICOS QUERYSELECTORS...
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+const form = document.querySelector('#new-post form'); //////OU: const form = document.querySelector('form');
+
+
+const fetchButton = document.getElementById('available-posts'); 
+
+
+
+--------------------------
+
+
+AGORA, PORTANTO, TEMOS ACESSO A ESSES 2 ELEMENTOS....
+
+
+
+
+
+Certo.
+
+
+Para o fetching, nós vamos lá para 
+
+o fetchBUtton 
+
+E ADICIONAMOS UM EVENTLISTENER A ELE....
+
+
+ex:
+
+
+
+
+fetchButton.addEventListener('click', ...);
+
+
+
+-----------------------------------------
+
+
+
+aí eu vou lá e digito como segundo parâmetro (coisa que será ativada, a função que será ativada)
+
+
+UMA FUNÇÃO ANÔNIMA (() => {}) EM QUE 
+
+CHAMAMOS 
+
+'fetchPosts();'
+
+
+
+
+ex:
+
+
+
+
+fetchButton.addEventListener('click', () => {
+    fetchPosts();
+});
+
+
+
+--------------------------------------
+
+
+
+PROFESSOR ADMITE, NO ENTANTO, QUE PODERÍAMOS SIMPLIFICAR 
+
+TODA ESSA EXPRESSÃO como :
+
+
+
+
+fetchButton.addEventListener('click', fetchPosts);
+
+
+
+
+-------------------------------------------------
+
+
+
+PARA A 'FORM', 
+
+
+eu vou adicionar um addEventListener ao 
+
+EVENTO 'submit'... AÍ EU VOU 
+
+RECEBER COMO PARÂMETRO O OBJETO 'EVENT'...
+
+dentro desse 'event' eu vou querer EXECUTAR O MÉTODO 
+
+
+'preventDefault'....
+
+
+
+ex:
+
+
+
+
+form.addEventListener('submit', event => {
+    event.preventDefault();
+})
+
+
+----------------------------------------
+
+
+
+ESSE 'preventDefault' VAI FAZER COM QUE EVITEMOS 
+
+
+O COMPORTAMENTO PADRÃO DO BROWSER NOS BOTÕES EM FORM (ou seja, 
+o browser não vai 'enviar/submittar' a form e então recarregar a página,
+como geralmente faz.)
+
+
+
+
+AGORA NÓS PODERÍAMOS VALIDAR A FORM AQUI, se assim o desejarmos...
+
+Professor não fará isso, mas é uma boa ideia.
+
+
+Se você quisesse isso, você checaria os inputs, checaria 
+
+OS VALORES que o usuário inputtaria, 
+
+usaria if checks e tal..., retornando erros e etc...
+
+
+
+
+-------------------------------------
+
+
+
+EM VEZ DISSO, PROFESSOR QUER SIMPLESMENTE PEGAR O input do field de tipo 'text' 
+
+dentro da form....
+
+
+tbm o field de id 'content'....
+
+
+PARA GANHAR ACESSO A ELES, 
+
+o professor vai criar uma constante de 
+
+nome 
+
+
+'enteredTitle'......
+
+
+ela terá o valor 
+
+
+de 
+
+'event.currentTarget' (target é uma propriedade dentro de 'event', é uma propriedade 
+                        que SELECIONA O VALOR DO LUGAR EM QUE 
+                        O USUÁRIO/EVENTO OBJETIVOU... nesse caso, é o botão...).....
+
+
+
+                        ELE VAI DIGITAR
+ 
+
+
+event.currentTarget.querySelector('#title');    (ISSO FARÁ COM QUE O QUERYSELECTOR PROCURE ALGO COM ESSA ID DENTRO DESSE TARGET... você pode estar se perguntando: ok, mas o currentTarget não seria o 'button'...? NÃO! O CURRENTTARGET É, NA VERDADE, A SECTION/ELEMENTO PAI QUE CONTÉM O BOTÃO, PQ QUANDO O USUÁRIO CLICA, ACONTECE AQUELE NEGÓCIO DE 'bubbling' (eu acho)... enfim, o que interessa é que o ELEMENTO MAIS 'de baixo', ou seja, o QUE CONTÉM OS OUTROS ELEMENTOS, O QUE É O 'PARENT' acaba sendo o currentTarget do click nesse elemento 'button'... )
+
+
+
+depois ele vai lá e coloca '.value', pois é nisso que ele está interessado 
+
+desse elemento 'title'..
+
+
+
+ex:
+
+
+
+
+const enteredTitle = event.currentTarget.querySelector('#title').value;
+
+
+
+
+----------------------------------
+
+
+
+ELE FAZ A MESMA COISA PARA O 'CONTENT' dos posts....
+
+
+
+ex:
+
+
+
+event.currentTarget.querySelector('#content').value;
+
+
+
+
+
+Feito isso, professor pode finalmente chamar 'createPost()' dentro dessa função 
+
+interna do eventListener de 
+
+'fetchbutton'....
+
+
+Dentro do 'createPost()', professor passa os parâmetros 
+
+'enteredTitle' e 'enteredContent'...
+
+
+
+ex:
+
+
+
+
+
+fetchButton.addEventListener('click', event => {
+  
+  event.preventDefault();
+  const enteredTitle = event.currentTarget.querySelector('#title').value;
+  const enteredContent = event.currentTarget.querySelector('#content').value;
+
+
+
+  createPost(); 
+}
+)
+
+
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+}
+
+
+
+
+
+
+
+
+fetchButton.addEventListener('click', event => {
+  
+  event.preventDefault();
+  const enteredTitle = event.currentTarget.querySelector('#title').value;
+  const enteredContent = event.currentTarget.querySelector('#content').value;
+
+
+
+  createPost(enteredTitle, enteredContent); 
+}
+)
+
+
+
+----------------------------------------------
+
+
+
+
+COM ISSO, PROFESSOR SALVA E RECARREGA NOSSA PÁGINA.
+
+
+(OOOPS.. ENCONTRAMOS UM ERRO NO NOSSO CÓDIGO:
+
+havíamos colocado toda essas linhas de lógica, 
+
+
+'  event.preventDefault();
+  const enteredTitle = event.currentTarget.querySelector('#title').value;
+  const enteredContent = event.currentTarget.querySelector('#content').value;
+
+
+
+  createPost(enteredTitle, enteredContent);' DENTRO 
+  
+  DO LISTENER DE 'fetchBUtton', mas deveríamos ter colocado tudo 
+  
+  ISSO DENTRO DO LISTENER de 'form' (que nem mesmo tinha sido criado).)
+
+
+
+
+
+
+  RESULTADO:
+
+
+
+
+
+
+
+
+
+
+
+
+
+fetchButton.addEventListener('click', fetchPosts);
+
+
+
+
+
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const enteredTitle = event.currentTarget.querySelector('#title').value;
+  const enteredContent = event.currentTarget.querySelector('#content').value;
+
+
+  createPost();
+});
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+
+CERTO.
+
+AGORA o botão 'fetch' funciona... quando clicamos nele, carregamos a lista de posts...
+
+
+
+
+PODEMOS DIGITAR COISAS NA FORM E ENTÃO CLICAR 'submit'... (ADD)....
+
+
+SE O FIZERMOS, A INTERFACE NÃO SERÁ ATUALIZADA (a lista de posts não crescerá em 1 item, por exemplo), 
+
+
+MAS MESMO ASSIM, SE ABRIRMOS A ABA 'NETWORK' DO DEVTOOLS e então 
+
+
+olharmos as fontes da página, 
+
+veremos QUE UM 
+
+
+'posts' É ADICIONADO QUANDO CLICAMOS EM 'ADD'(o botão de submit....)
+
+
+isso SIGNIFICA QUE ESSE 
+
+
+REQUEST DO TIPO 'POST' É, DE FATO, ENVIADO....
+
+
+e esse post terá OS DADOS QUE RECÉM INPUTTAMOS...
+
+
+
+
+
+PORTANTO, CONSEGUIMOS CONECTAR ESSES 2 REQUESTS À UI... (único problema é que a UI não atualiza quando 
+criamos/enviamos um post....)
+
+
+
+
+
+AGORA DEVEMOS VER COMO ENVIAR UM ___REQUEST ___ DE TIPO ____ 'DELETE'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Just a quick note to avoid confusion: In the demo app, the "Fetch" button always appends data without clearing existing data first. That means that pressing the button multiple times will add more and more items.
+
+You can of course adjust the code to clear the content first. (para fazer 'fetch' de verdade...).
+
+
+
+

@@ -1,0 +1,383 @@
+Com tudo isso, aprendemos muito sobre EVENTS, como fazer listen to a eles, COMO TRABALHAR 
+
+COM O OBJETO 'EVENT', com o que podemos EXTRAIR do objeto 'event'....
+
+
+
+
+e TAMBÉM SOBRE AQUELE TAL DE 'EVENT DELEGATION PATTERN'...
+
+
+
+
+
+
+AGORA, HÁ VEZES EM QUE VOCê NÃO QUER SIMPLESMENTE FAZER LISTEN TO A UM EVENTO (ou pelo menos, não fazer APENAS um listen to a um evento....)....
+
+HÁ VEZES EM QUE VOCÊ QUER _____TRIGGAR___ (ATIVAR) UM EVENTO 
+
+
+PROGRAMATICAMENTE (programmatically)... 
+
+
+(há casos em que você vai querer fazer os 2, btw).
+
+
+
+O PROFESSOR NOS MOSTRARÁ UM EXEMPLO de situação em que você poderia utilizar isso um pouco mais tarde neste módulo...
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+AGORA DEVEMOS VER COMO ISSO FUNCIONA:
+
+
+
+
+
+Bem. Quando eu clicar EM QUALQUER LIST-ITEM na ul por QUALQUER razão, eu também 
+
+
+
+VOU QUERER TRIGGAR UM CLICK EVENT EM MEU BOTÃO ('button.addEventListener('click', event => {});) 
+
+
+
+
+-----------------------------
+
+
+
+
+ANTES DE MAIS NADA, ALI NO 'BUTTON' O PROFESSOR VAI FAZER 'LISTEN TO' A UM CLICK EVENT:
+
+
+
+
+ex:
+
+
+button.addEventListener('click', event => {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+})
+
+--------------------------
+
+
+CERTO. Mas agora, dentro do list item (list.addEventListener('click', event => {...};')),
+
+
+DE DENTRO DESSE EVENTLISTENER DO 'list' EU VOU QUERER TRIGGAR O ___OUTRO EVENTLISTENER___, 
+
+O EVENTLISTENER DE 'button'...
+
+ex:
+
+
+
+
+
+button.addEventListener('click', event => {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+})
+
+
+list.addEventListener('click', event => {  //////VOU QUERER QUE ESTE EVENTLISTENER TRIGGE O OUTRO EVENTLISTENER, DE BUTTON.
+    event.target.closest('li').classList.toggle('highlight');
+})
+
+
+
+
+
+-----------------------------
+
+Professor explica que é claro que poderíamos armazenar O SEGUNDO PARÂMETRO DO ADDEVENTLISTENER 
+
+DE BUTTON EM OUTRA FUNÇÃO, em uma função nomeada, E ENTÃO SIMPLESMENTE CHAMAR ESSA FUNÇÃO LÁ DENTRO DO OUTRO ADDEVENTLISTENER (teríamos o mesmo resultado no código, na verdade), 
+
+MAS DIGAMOS QUE, POR QUALQUER QUE SEJA A RAZÃO, ISSO NÃO É UMA OPÇÃO PARA NÓS, HIPOTETICAMENTE.
+
+
+ISSO NÃO É UMA OPÇÃO; NESSA HIPÓTESE NÓS REALMENTE QUEREMOS CLICAR NESSA 'LIST' para que ela de trigger no 'button'...
+
+
+
+
+
+UM EXEMPLO MELHOR TALVEZ SERIA A NOSSA 'FORM'... imagine uma situação em que nós queremos 
+
+SUBMITTAR A FORM não quando o usuário clica no botão submit, MAS SIM QUANDO ALGUMA OUTRA COISA 
+
+ACONTECE NA PÁGINa (um evento na página, portanto, daria trigger nesse eventListener que está na form...).
+
+
+
+Professor diz que esse exemplo é um pouco melhor do que o outro porque é mAIS REALISTA.
+
+
+
+
+
+QUE ESSE EXEMPLO SEJA UTILIZADO, ENTÃO.
+
+
+
+Digamos, portanto, que queremos que quando for clicado qualquer list item da nossa página, a form 
+
+seja submittada em resposta a esse evento (por qualquer razão, whatever).
+
+
+
+
+PARA FAZER ISSO, ANTES DE MAIS NADA, PRECISAMOS DE ACESSO ÀQUELE ELEMENTO 'FORM'... 
+
+
+
+
+PRECISAMOS DE ACESSO, PORTANTO, AO ELEMENTO PARA O QUAL NÓS VAMOS QUERER ATIVAR UM EVENTO...
+
+
+ex:
+
+
+const form = document.querySelector('form');
+
+
+------------------------------------
+
+
+
+Aqui, nesse caso, quando o LIST ITEM FOR CLICADO, ou quando a lista é clicada, OU QUALQUER 
+
+ITEM É CLICADO, vou querer um determinado resultado.
+
+Como vamos querer algo relacionado a UM CLIQUE EM 'LIST', 
+
+
+devemos ir até o list:
+
+
+
+ex:
+
+
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight');
+})
+
+
+--------------------------------------------
+
+
+DENTRO DO LIST, VOU QUERER CHAMAR 'form'
+
+
+
+
+ex:
+
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight');
+    form.
+})
+
+------------------------------------------
+
+
+CHAMADO O FORM, vou então chamar ou '.click();' (ESSE MÉTODO SIMULA UM CLIQUE DO MOUSE NAQUELE ELEMENTO...)
+
+OU 'SUBMIT();' (esse é um método, também. É UM MÉTODO QUE EXISTE NÃO SÓ EM 'FORM', MAS EM TODOS OS ELEMENTOS DOM EXISTENTES.
+
+                        UM MONTE DOS EVENTOS AOS QUAIS VOCÊ PODE FAZER 'LISTEN TO' PODEM SER 
+                        TRIGGADOS ___PROGRAMATICAMENTE____, ESPECIALMENTE ALGO COMO 
+                        'CLICKS' OU 'FORM SUBMISSIONS'... )
+
+
+
+ex:
+
+
+
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight');
+    form.click();
+})
+
+
+
+OU (ambas sintaxes rendem o mesmo resultado).
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight');
+    form.submit();
+})
+
+
+
+---------------------------------------------------- 
+
+
+CÓDIGO FINAL:
+
+
+
+
+
+
+const form = document.querySelector('form'); 
+
+
+
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(event);
+}) 
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight');
+    form.submit();
+})
+
+
+
+-----------------------
+
+
+
+SE EU CLICAR EM QUALQUER PEDAÇO PRÓXIMO/DENTRO DO <LI>, A PÁGINA IRÁ RECARREGAR 
+EM RAZÃO DO SUBMIT DA FORM...
+
+
+
+OBS::: VOCê PODE ESTAR SE PERGUNTANDO SOBRE A RAZÃO DO CÓDIGO DE 
+
+
+
+'form.addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(event);
+}) 
+
+'
+
+NÃO ESTAR PREVENINDO O SUBMIT DA FORM, NESSE NOSSO EXEMPLO (pois essa era a tarefa dessas linhas de código, a final de contas).
+
+---------> PROFESSOR EXPLICA:
+
+Bem, se você faz trigger em um EVENTO SUBMIT PROGRAMATICAMENTE, ALGO QUE 
+
+ACONTECE É QUE O EVENTLISTENER DE 'submit' (que temos nessas linhas de código, btw) É 
+REALMENTE _____SKIPPADO_____... E ESSE SKIP ACABA FAZENDO COM QUE O 
+
+PREVENTDEFAULT() NÃO SEJA ATIVADO.
+
+
+
+
+----> tipicamente, eventListeners SÃO EXECUTADOS. Se eu, por exemplo, em vez 
+
+de submittar a form, decidir SIMULAR UM CLIQUE NO ELEMENTO 'button', 
+
+
+
+---------------------------------------------------
+
+ex:
+
+
+
+
+button.addEventListener('click', event => {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+})
+
+
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight');
+    button.click(); ////////EIS AQUI O CÓDIGO.
+})
+
+--------------------------------------
+
+
+......SE EU FIZER ISSO, se ADICIONAR AQUELA LINHA DE CÓDIGO ALI E ENTÃO RECARREGAR A PÁGINA, VEREI 
+
+QUE DE FATO AGORA O CLICKLISTENER de 'button' É EXECUTADO QUANDO EU CLICO EM UM elemento 'list' (tudo graças 
+à essa execução DA SIMULAÇÃO DE 'CLICK' EM BUTTON, feita em 'list'.)
+
+
+
+----> o CLICK LISTENER de 'button' realmente é executado, embora 
+
+ELE SEJA EXECUTADO COM UM 'DUMMY MOUSEEVENT' (ele é dummy PQ TODAS 
+AS COORDENADAS DELE SÃO 0; NORMALMENTE COM UM MOUSEEVENT NÓS TEMOS AS COORDENADAS DO MOUSE DO USUÁRIO 
+NO MOMENTO EM QUE ELE CLICOU NO ELEMENTO...)...
+
+
+
+
+
+
+
+
+JÁ PARA A FORM SUBMISSION, O EVENTLISTENER DE FORM NÃO É TRIGGADO....
+
+
+
+
+PORTANTO, FAZER TRIGGER DE UM EVENTO 
+
+MOUSECLICK/FORM SUBMISSION DE FORMA PROGRAMÁTICA (triggering such events programmatically) NÃO 
+É EXATAMENTE A MESMA COISA QUE FAZER 
+TRIGGER DE ESSE EVENTO POR MEIO DA AÇÃO DE UM USUÁRIO (clique de um usuário, por exemplo).
+
+
+O TRIGGER PROGRAMÁTICO DE EVENTOS PODE FAZER BYPASS DE CERTOS LISTENERS, COMO 
+
+O LISTENER DE FORM SUBMISSIONS.... (e isso às vezes é ruim).
+
+
+
+Ainda assim, DE TEMPOS EM TEMPOS ESSE RECURSO PODE SER ÚTIL, e é bom 
+
+conhecê-lo.
+
+
+
+
+BEM, SE VOCê AINDA QUISESSE FAZER UM 'WORKAROUND' dessa situação, 
+
+você poderia, é claro, SELECIONAR O BOTÃO 'SUBMIT' no 'form' e então, 
+
+em vez de CHAMAR SUBMIT na 'form' INTEIRA ('form.submit()'), VOCÊ PODERIA 
+
+CHAMAR '.click()' NO BOTÃO DE SUBMIT ('buton.click();') --------------> SE VOCê FIZER ISSO, ISSO VAI BASICAMENTE RENDER O MESMO RESULTADO DE O USUÁRIO CLICAR NO BOTÃO DE SUBMIT, o que consequentemente dará o trigger no eventListener que tem o 'preventDefault();'... 
+PORTANTO, MESMO SE VOCÊ PRECISAR FAZER O SUBMIT DA FORM, VOCÊ AINDA PODE FAZER ISSO 
+DE FORMA PROGRAMÁTICA POR MEIO DA ______SIMULAÇÃO_____ DE CLICK EVENTS em 
+elementos do DOM (no button, nesse caso), em vez de FAZER O TRIGGER DA FORM SUBMISSION em si.
+
+----------------------------------------
+
+
+
+

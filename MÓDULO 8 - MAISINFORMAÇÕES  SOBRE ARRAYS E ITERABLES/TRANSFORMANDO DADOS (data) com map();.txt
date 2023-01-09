@@ -1,0 +1,186 @@
+No final das contas, o que fizemos com "forEach" foi UMA TRANSFORMAÇÃO
+DO ARRAY, CERTO?
+
+prices = []
+
+Nós transformamos o array.... transformamos o array de PREÇOS (valores) EM UM 
+ARRAY DE OBJETOS ( {index: 0, taxAdjPrice: xxxxxx}, etc.), um array de objetos em que, 
+é claro, cada preço MUDOU.
+
+
+PODEMOS TRANSFORMAR ARRAYS COM FOREACH(), É LÓGICO, MAS EXISTE UMA MANEIRA MAIS FÁCIL DE 
+FAZER ISSO.
+ 
+PQ isso? pq com forEach e for of loops, o que temos que fazer é ADMINISTRAR NOSSO 
+ARRAY NOVO, no qual vamos fazer o empurrão (push) de items transformados...
+É claro que podemos usar esse método, mas HÁ UMA 
+ALTERNATIVA MAIS SIMPLES E CURTA:
+
+
+para demonstrar isso, primeiramente copiamos todo o código antigo da última aula:
+
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+const tax = 0.19;
+
+ 
+const taxAdjustedPrices = [];
+
+
+prices.forEach((price, idx, prices) => {
+    const priceObj = {index: idx, taxAdjPrice: price * (1 + tax)};
+    taxAdjustedPrices.push(priceObj);
+});
+
+
+console.log(taxAdjustedPrices);
+
+
+--------------------------------------------
+
+
+
+Usaremos isso como referência.
+
+
+
+Primeiramente, retiramos "taxAdjustedPrices = [];".
+
+
+Agora, em vez de forEach, podemos usar MAP();
+
+Map é OUTRO MÉTODO ESPECIAL DISPONÍVEL EM ARRAYS.
+
+
+
+
+
+
+ex:
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+const tax = 0.19;
+
+
+
+
+prices.map((price, idx, prices) => {
+    const priceObj = {index: idx, taxAdjPrice: price * (1 + tax)};
+    taxAdjustedPrices.push(priceObj);
+});
+
+
+console.log(taxAdjustedPrices);
+
+
+-------------------------------------------------
+
+
+MAP() tem o trabalho de PEGAR UM ARRAY RODANDO UMA FUNÇÃO QUE TEM ESSE 
+FORMATO/FORMA (o formato igualzinho ao de find(), findIndex e forEach) EM CADA 
+ELEMENTO DO ARRAY.... e então (e essa é a parte importante) ESSA FUNÇÃO 
+DEVERÁ RETORNAR, agora, UM _____NOVO _____ELEMENTO PARA ___CADA____ ELEMENTO NESSE ARRAY...
+Um novo, possivelmente transformado, elemento.
+
+
+
+
+REsumindo:
+
+
+forEach----> a função que vocÊ passa a esse método NÃO PRECISA RETORNAR COISA ALGUMA. Você pode 
+fazer qualquer coisa que vocÊ quiser em forEach. Ele é uma ferramenta que te permite fazer loops.
+
+
+Map ---> A FUNÇÃO QUE VOCÊ PASSA A "map()" TEM QUE FAZER ALGUMA COISA, TEM QUE RETORNAR 
+ALGUMA COISA... essa função tem que RETORNAR O MAPA QUE TRANSFORMOU O NOVO 
+ELEMENTO para aquele array específico. Nesse exemplo, o professor vai retornar "priceObj".
+
+
+
+ex:
+
+
+
+ex:
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+const tax = 0.19;
+
+
+
+
+prices.map((price, idx, prices) => {
+    const priceObj = {index: idx, taxAdjPrice: price * (1 + tax)};
+    //taxAdjustedPrices.push(priceObj);
+     return priceObj;
+});
+
+
+console.log(taxAdjustedPrices);
+
+
+
+
+---------------------------------------------
+
+Isso significa que AGORA O MÉTODO MAP VAI SUBSTITUIR TODOS OS ELEMENTOS EM "pRICES" (a array em que foi chamado) POR
+ESSE OBJETO/ELEMENTO AJUSTADO. Entretanto, isso NÃO É TOTALMENTE VERDADE. Map, NA VERDADE, NÃO 
+SUBSTITUI O ARRAY ORIGINAL. O array _____ORIGINAL CONTINUA INTOCADO______.
+
+EM VEZ DISSO, ELE CRIA UM ARRAY NOVINHO EM FOLHA, COM UM ENDEREÇO NOVINHO EM FOLHA ONDE 
+CADA ELEMENTO FOI MUDADO (has been changed).
+
+
+Professor demonstra isso por meio de uma reorganização do código: Ele vai lá e armazena o valor retornado 
+pelo método map(); em uma constante, a constante "taxAdjustedPrices". Aí ele vai lá e coloca um console.log 
+no final do código, para mostrar que os "prices" (A const prices) em si ficam intocados quando usamos map 
+para copiá-los, o professor mostra que seu comportamento é similar ao de "slice();".
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+const taxAdjustedPrices = prices.map((price, idx, prices) => {
+    const priceObj = { index: idx, taxAdjPrice: price * (1 + tax) };
+    return priceObj
+});
+
+console.log(prices, taxAdjustedPrices);
+
+
+
+
+
+taxAdjustedPrices VAI SER OS PRICES TRANSFORMADOS COM A AJUDA DE MAP. Se dermos reload na página, vemos que 
+"prices" continua aquele array de [10.99, 5.99, 3.99, 6.59];  ,  e que taxAdjustedPrices é um array que nos foi retornado 
+por meio do código da função map (que tem o "return", lá no final, do valor de "priceObj".)
+
+
+
+
+MAP, PORTANTO, É UM MÉTODO MUITO BOM PARA QUANDO VOCê QUER TRANSFORMAR UM ARRAY, POIS ELE REALIZA A FUNÇÃO DE
+ALTERAR/MUDAR ELEMENTOS E CONSEGUIR UM ARRAY NOVO BASEADO NESSES ELEMENTOS ALTERADOS/MUDADOS de forma muito, muito fácil.

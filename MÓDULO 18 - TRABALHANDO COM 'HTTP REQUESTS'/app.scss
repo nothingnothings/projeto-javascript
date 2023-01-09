@@ -1,0 +1,133 @@
+$color-blue: #000053;
+$color-light-blue: #12128a;
+
+
+
+
+
+
+
+* {
+    box-sizing: border-box;
+    }
+
+
+
+    html {
+        font-family: sans-serif;
+    }
+
+
+
+
+body {
+    margin: 0;
+}
+
+
+
+button {
+    font:inherit;
+
+    border: 1px solid $color-blue;
+    color: white;
+    background: $color-blue;
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+
+
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover, 
+    &:active {
+        background: $color-light-blue;
+        border-color: $color-light-blue;
+    }
+}
+
+
+
+
+label, input, textarea {
+    display: block;
+    margin: 0.5rem 0;
+}
+
+
+
+input, textarea {
+    width: 100%;
+    font: inherit;
+    padding: 0.15rem 0.25rem;
+    border: 1px solid #ccc;
+    &:focus {
+        outline: none;
+        border-color: $color-blue;
+
+    }
+}
+
+
+
+section {
+    width: 40rem;
+    max-width: 90%;
+    margin: 2rem auto;
+    border: 1px solid #ccc;
+    padding: 1.5rem;
+}
+
+
+
+.form-control {
+    margin: 0.5rem 0;
+}
+
+
+
+
+.posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.post-item {
+    margin: 1rem 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
+    padding:1 rem;
+
+
+    h2,
+    p {
+        margin: 0.5rem 0;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        color: #414141;
+    }
+    
+
+    button {
+        border-color: #920101;
+        background: #920101;
+
+
+        &:hover,
+        &:active {
+            border-color: #dd2929;
+            background: #dd2929;
+        }
+    }
+
+
+
+}

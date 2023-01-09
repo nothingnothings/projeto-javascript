@@ -1,0 +1,610 @@
+
+
+
+
+
+
+AGORA QUE TEMOS UM "PANORAMA GERAL",
+
+
+devemos dar uma olhada mais de perto nesse tal de 
+
+
+'http request'...
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+COMO ISSO FUNCIONA DE VERDADE?
+
+
+
+
+
+
+
+Bem, nós temos o nosso script (CLIENTSIDE script),
+
+
+
+O CÓDIGO QUE RODA NO NOSSO BROWSER...
+
+
+
+E AÍ TEMOS O NOSSO SERVER.
+
+
+
+
+O NOSSO BACKEND, SERVERSIDE.
+
+-----------------------------------------
+
+
+
+
+CLIENTSIDE ---> FRONTEND, pq é o que o usuário VÊ, COM O QUE ELE INTERAGE
+
+
+
+
+
+
+SERVERSIDE ----> É 'DETTACHED' (desligado) DE NOSSO FRONTEND.... ELE PODE RODAR 
+                    EM UM 'DOMAIN'/server TOTALMENTE DIFERENTE DE NOSSO 
+                    'FRONTEND'...
+
+                    (May run on diferrent server (different domain)).
+
+
+                    ----> portanto nós podemos ESTAR SERVINDO A PÁGINA HTML 
+                    E O CÓDIGO JAVASCRIPT QUE SÃO RESPONSÁVEIS POR RENDERIZAR 
+                    AQUILO QUE O USUÁRIO ENXERGA na minhapágina.com, 
+                    enquanto que A LÓGICA 'serverside' PODE ESTAR SENDO 
+                    HOSTEADA EM UM SERVER TOTALMENTE DIFERENTE, como 
+                    em um domain/server chamado 'mydomain.com' (ou qualquer outra coisa).
+
+
+
+
+
+AINDA ASSIM, ESSAS 2 PARTES, ESSES DOIS 'ENDS' PODEM SE COMUNICAR UM COM O OUTRO, 
+
+E A FUNÇÃO DO 'CLIENTSIDE', sua atribuição, 
+é 
+
+VALIDAR O USER INPUT E ENVIÁ-LO AO SERVIDOR....
+
+
+
+
+PQ A FUNÇAO DO SERVER SIDE É A DE 
+
+ARMAZENAR ESSE INPUT E 'RETRIEVE IT' (recuperá-lo) EM UMA 
+
+DATABASE, tipicamente...
+
+
+
+E ESSA DATABASE RODA/RODARIA TIPICAMENTE EM 
+
+AINDA OUTRO SERVIDOR...
+
+
+
+
+Portanto, dividimos assim:
+
+
+
+
+
+
+---------------------------------------     
+                                    |
+<Script>(Client-side)               |
+                                    |   
+--------------------------------------
+-> Frontend, detached from backend      |  
+                                        |
+                                        |
+-> Responsible for fetching & sending   |
+data                                    |
+                                        |
+                                        |
+------------------------------------    |
+
+
+
+
+
+-----------------------------------------------------------------
+                                                                |
+SERVER                                                          |
+----------------------------------------------------------------
+
+-> May run on different server (different domain)
+
+-> Responsible for storing & retrieving data (with database)
+
+---------------------------------------------------------------
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+É IMPORTANTE ENTENDER, ATÉ O MOMENTO, QUE VOCÊ 
+
+NÃO CONECTA DIRETAMENTE SEU JAVASCRIPT 'CLIENTSIDE' À 
+
+UMA DATABASE... não, para isso você precisa de UM 
+
+BACKEND... PQ O BACKEND VAI SEMPRE DESEMPENHAR UMA 
+TAREFA DE ___SEGURANÇA___ (security reasons).
+
+
+
+A CONEXÃO NÃO É FEITA DESSA FORMA PORQUE VOCÊ 
+
+DEIXARIA EXPOSTAS AS CREDENCIAIS DE SEUS USUÁRIOS 
+
+GUARDADAS NA DATABASE, 
+
+AS CREDENCIAIS FICARIAM EXPOSTAS 
+
+NO CÓDIGO 'CLIENTSIDE', algo que você nunca 
+
+gostaria que acontecesse.
+
+
+
+----------------------------------------------------------------------------
+
+
+EM VEZ DISSO, O QUE ACONTECE É QUE VOCê/CLIENT conversa com 
+
+um 'web server' (backend), e esse webserver vai, talvez/provavelmente, 
+falar 
+
+com UM DATABASE SERVER.....
+
+
+
+
+É CLARO QUE USAR UMA DATABASE É TOTALMENTE OPCIONAL, 
+
+
+MAS FREQUENTEMENTE O 'SERVERSIDE' UTILIZARÁ UMA DELAS PARA 
+
+ARMAZENAR E RECUPERAR (retrieve) DADOS PERSISTENTEMENTE.
+
+
+
+
+
+CERTO.
+
+
+
+A COMUNICAÇÃO ENTRE O 'CLIENTSIDE' E O SERVIDOR (backend)
+
+ACONTECE COM A AJUDA DE 
+
+___________HTTP REQUESTS_______________. 
+
+HTTP REQUESTS E RESPONSES, na verdade, e essas RESPONSES 
+
+TÊM DE ESTAR CONFIGURADAS e definidas de UMA CERTA MANEIRA...,
+
+
+seguindo uma CERTA ESTRUTURA.
+ 
+
+
+
+QUANDO VOCÊ ESTÁ ENVIANDO UM REQUEST AO SERVIDOR,                   mypage.com/posts
+                                                                    mypage.com/path
+ele precisa SABER O ENDEREÇO, ELE PRECISA SABER O URL (composto do 'domain' e do 'path'...).
+
+
+
+
+
+
+ALÉM DISSO, CADA HTTP REQUEST TEM UM 'MÉTODO HTTP' que é assignado a ele...
+
+
+
+
+VOCÊ TEM UM PUNHADO DE HTTP REQUESTS DISPONÍVEIS A VOCÊ....
+
+
+
+VOcê tem, por exemplo:
+
+
+
+'get'
+
+
+'post' 
+
+
+'patch'
+
+
+'put'
+
+
+'delete' 
+
+
+
+
+--------------------------------------------------
+
+
+ESSES MÉTODOS DESCREVEM ____AQUILO QUE VOCê ___ QUER FAZER____....
+
+
+
+Embora, diz o professor, seja totalmente a critério do 
+
+servidor decidir PARA QUAL 
+
+
+combinação
+ 
+
+ ''METHOD---URL'' o servidor FARÁ TAL COISA...
+
+
+ (as reações no servidor dependem de uma estipulação no servidor.
+ 
+ O servidor diz: 
+ 
+ tal efeito acontecerá quando 
+ 
+ TAL MÉTODO (get, post, patc, put, delete) acontecer NESSA URL (domain + path)).
+
+
+ ------------------------------------------
+
+
+
+
+ OU SEJA, COM OS MÉTODOS VOCÊ NÃO 'MANDA O SERVIDOR FAZER TAL COISA', 
+ você apenas 
+
+ INFORMA QUE VOCê 'quer' tal coisa, tal ação...
+
+
+ VOCê SÓ PODE 'agir' sobre o que você 'quer' 
+
+ SE O SERVER ___EXPOR____ UM ENDPOINT PARA VOCÊ... (essa é a função do servidor/API: expor alguns 'endPoints'... que você poderá acessar com os http requests em uma URL (domain + path) específica.)
+
+
+
+ UM SERVIDOR/API PODE, POR EXEMPLO,
+  
+
+  SUPORTAR 
+
+  UM 'POST REQUEST'... em '/posts'  ('mypage.com/posts'), 
+
+  enquanto que o mesmo servidor pode 
+
+  NÃO SUPORTAR um 'PATCH REQUEST' na mesma url... (mypage.com/posts).
+
+
+
+
+
+  DE NOVO, TUDO ISSO DEPENDE DAS PESSOAS QUE ESTÃO ESCREVENDO A LÓGICA 'SERVERSIDE'....
+
+
+
+  SÃO ELES QUE DECIDEM QUAIS 'HTTP METHODS' EM QUAIS 'URLS' são 
+
+  suportados...
+
+
+  ---->>>>TIPICAMENTE 
+
+
+  OS DESENVOLVEDORES 'BACKEND' vao sempre 
+
+  tentar fazer combinações 
+
+
+  URL--http method 
+
+
+  QUE FAZEM SENTIDO...
+
+
+  QUE FAZEM SENTIDO LOGICAMENTE...
+
+
+
+---------> PQ LÁ NOS HTTP METHODS,
+
+
+
+'get' --> GERALMENTE É USADO PELO USUÁRIO PARA 
+
+
+____PEGAR DADOS____ no servidor;
+
+
+
+
+'POST' --> GERALMENTE É USADO PELO USUÁRIO PARA ___CRIAR DADOS___ NO SERVIDOR___...
+                (ou para criar DADOS NO SERVER QUE TALVEZ ESTEJAM/SEJAM ARMAZENADOS NA DATABASE...)
+
+
+
+
+'PATCH' ---> 
+
+E 
+
+PUT -----> EXISTEM PARA ___UPDATAR___ DADOS...
+
+
+
+
+PATCH ---> UPDATA A DATA/DADOS que já existem; adiciona sem DELETAR O QUE HAVIA ANTES.
+
+
+
+PUT----> UPDATA A DATA/DADOS NO SENTIDO DE 'OVERWRITE'; acaba passando por cima dos dados que existiam anteriormente no servidor.
+
+
+
+
+DELETE ----> deletar dados do servidor/no servidor.
+
+
+----------------------------------------------
+
+
+
+ESSES SÃO OS MÉTODOS USADOS COM MAIS FREQUÊNCIA,
+
+MAS, DE NOVO, É O SERVERSIDE que decide 
+
+QUAL 'http method-URL' combinations SÃO 
+
+SUPORTADAS no 
+
+'clientside'...
+
+
+-----------------------------------
+
+VOCÊ ENTÃO PODE MANDAR 
+
+
+
+
+_________REQUESTS____ À essas combinações/por essas combinações...
+
+
+
+
+SE VOCÊ UTILIZAR UMA COMBINAÇÃO ___QUE NÃO É SUPORTADA ___ pelo 
+
+
+'SERVERSIDE', você simplesmente receberá um 
+
+____HTTP ERROR___ COMO 
+
+'RESPONSE'...
+
+
+---------------------------------
+
+
+
+
+CERTO.
+
+OUTRAS PARTES 
+
+
+DE 'http requests' 
+
+
+SÃO potenciais 
+
+'HEADERS'.... 
+
+
+HEADERS === METADADOS EXTRAS (extra metadata) OS QUAIS 
+
+PODEM SER ANEXADOS/ATTACHED a 'HTTP REQUESTS' e a alguns requests...
+
+
+
+
+E, ALÉM DISSO, 
+
+ALGUNS REQUESTS, 
+
+POR EXEMPLO UM 'POST REQUEST', 
+
+TAMBÉM SEGURAM UM 'REQUEST BODY'......
+
+
+ESSE REQUEST BODY é basicamente DADOS EXTRAS (extra data) que 
+SÃO ANEXADOS/ATTACHED A UM REQUEST...
+
+
+
+
+
+
+
+
+
+
+
+RESUMO:
+
+
+
+
+
+HTTP Request/Response =
+
+URL (domain + path)
+Http Method 
+Http Headers 
+Http Body (Data)
+
+-
+
+
+---------------------------------------
+
+
+
+
+COMO VOCÊ PODE IMAGINAR, 
+
+SE NÓS ESTAMOS FAZENDO 'GET' DE UMA LISTA DE 'POSTS', 
+
+NÃO HÁ DADO ALGUM QUE PODERÍAMOS FAZER 
+'ATTACH' em cada um dos posts........
+
+Nesse exemplo, nós queremos uma lista de POSTS e APENAS ISSO, recebemos 
+
+essa lista E ESTAMOS ACABADOS.
+
+
+-------------------------------------------
+
+
+
+
+
+JÁ SE VOCÊ QUER ___ADICIONAR UM POST______, se você quer 
+
+CRIAR UM POST NOVINHO EM FOLHA, isso, é claro, é diferente 
+
+de você simplesmente querer FAZER UM 'GET' de uma lista de posts...
+
+
+
+SE VOCÊ QUER ISSO, VOCê VAI QUERER ANEXAR/ATTACH os dados/data QUE 
+
+SÃO NECESSÁRIOS/REQUERIDOS 
+
+PARA A CRIAÇÃO DO POST (como o 'title' e o 'content')  AO 
+
+REQUEST QUE VOCê ESTÁ ENVIANDO.....
+
+
+
+E ESSA A IDEIA QUE NÓS TEMOS AQUI....
+
+
+
+------------------------------------
+
+
+CERTO.
+
+
+Esses dados anexados PODEM ENTÃO SER 
+
+ENVIADOS EM DIFERENTES FORMATOS....
+
+
+e, de novo, É O SERVER QUE TE DIZ QUAIS FORMATOS SÃO suportados/ESPERADOS 
+
+POR ELE....
+
+
+
+
+
+O FORMATO MAIS COMUM DE DADOS É 
+
+'JSON data' (JSON Format)....
+
+
+
+O PROFESSOR NOS MOSTRARA  'JSON' data em detalhes mais adiante....
+
+
+
+MAS NÓS TAMBÉM TEMOS  
+
+
+'FormData', o qual TAMBÉM É SUPORTADO EM JAVASCRIPT E MUITO POPULAR...
+
+
+
+
+
+POR FIM, VOCê TAMBÉM PODE ENVIAR 
+
+____ARQUIVOS BINÁRIOS___ (binary files) 
+
+OU OUTROS FORMATOS....
+
+
+
+
+
+MAS, DE NOVO, DEPENDE DO SERVER DECIDIR QUAL 
+
+FORMATO DE DADOS ('data format') É SUPORTADO 
+
+ PARA CADA HTTP METHOD-URL COMBINATIOn....
+
+
+ ------------------------------------------
+
+
+
+
+ ISSO TUDO É A TEORIA DO NEGÓCIO...
+
+
+
+
+
+ SE TUDO ISSO É NOVO PARA VOCÊ, 
+
+ ANEXADO ÀS LIÇÕES VOCÊ ENCONTRA ALGUNS RESOURCES QUE 
+
+ TE PERMITEM MERGULHAR MAIS FUNDO 
+
+ NO ASSUNTO DE COMO A WEB FUNCIONA, HTTP REQUESTS E METHODS...
+
+
+
+ -----------------------------------------
+
+
+ O PROFESSOR AGORA IRÁ ADIANTE E NOS MOSTRARÁ 
+
+
+___COMO ____ PODEMOS ___ ENVIAR, DE FATO, http requests a um servidoR 
+
+____DE DENTRO DO JAVASCRIPT___ (FROM INSIDE JAVASCRIPT).

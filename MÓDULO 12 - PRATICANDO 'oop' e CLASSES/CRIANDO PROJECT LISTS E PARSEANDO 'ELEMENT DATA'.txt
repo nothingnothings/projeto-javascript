@@ -1,0 +1,484 @@
+
+
+
+
+
+Aqui, em 'app.js', nós começamos 
+
+
+
+COM A ADIÇÃO DE 
+
+UM METODO 'init()' NA CLASSE 
+
+'app'...
+
+
+
+O PROFESSOR ENTAO TRANSFORMA ESSE METODO INIT() em 
+
+um metodo estático por meio da keyword 'static'.
+
+
+
+
+
+O professor torna esse metodo em ESTÁTICO pq ele 
+
+APENAS CHAMARÁ ESSE MÉTODO UMA ÚNICA VEZ ('App.init();', no contexto global), 
+
+
+
+
+OU SEJA, INIT() só será EXECUTADO UMA ÚNICA VEZ, quando o código 
+
+todo é lido e executado pelo javascript pela primeira vez...
+
+
+
+
+
+DENTRO DE INIT(), devemos adicionar a lógica para 
+
+PARSEAR (ler/analisar) OS DIFERENTES ITEMS....
+
+
+
+Entretanto, o professor Aponta que ele criou essa classe 
+
+chamada 'ProjectList'...  
+
+
+SE pensarmos melhor um pouco, faria mais sentido que essa tarefa 
+
+de DISCERNIR OS DIFERENTES ITEMS fosse uma tarefa 
+
+DA CLASSE PROJECTLIST.... (ou de UMA INSTANCIA CRIADA 
+
+A PARTIR DESSA CLASSE.)....
+
+
+A lógica de dentro dessa classe irá desempenhar a tarefa de 
+
+PARSEAR O CONTEÚDO DA PÁGINA E DETERMINAR QUAIS 
+PROJETOS PERTENCEM à Lista... (ao projectList).
+
+
+
+----------> COMO SAO 2 LISTAS, UMA PARA 
+
+ACTIVE PROJECTS E OUTRA PARA FINISHED PROJECTS, 
+
+
+
+TEREMOS DE INSTANCIAR 
+
+
+ESSA CLASSE 'projectList' 2x, uma para cada caixa....
+
+
+
+Então, nós dizemos ao javascript 
+
+
+A QUAL CAIXA (a caixa COM QUAL ID) está essa instancia da lista está
+
+conectada, fazemos isso PARA QUE 
+
+A LISTA EM SI (a productList) REALIZE O PARSING dos projetos...
+
+
+
+
+Para tal, devemos ir 
+
+até o ProjectList 
+
+
+E ESCREVER LÓGICA NELA...
+
+
+Devemos fazer isso antes de configurar o método 'init' em 'app'.
+
+
+
+
+Dentro do projectList, podemos ADICIONAR UM 
+
+CONSTRUCTOR, pois nosso OBJETIVO É CRIAR 
+
+DOIS PROJECT LISTS diferentes  EM 'init()' (dentro do método 'init')...
+
+
+Queremos isso PQ NÓS TEMOS 2 PROJECT BOXES/2 listas de produtos...
+
+
+
+---------------------------------
+
+
+
+
+E ENTÃO, QUANDO UMA PROJECTLIST dessas é CONSTRUÍDA, quando 
+
+
+é INSTANCIADA, essa projectList deverá RECEBER TODA A 
+INFORMAÇÃO DE QUE 
+
+PRECISA, como por exemplo a informação acerca dos 
+
+objetos active/finished; feito isso, a projectList fará 
+o parseamento das informações de todos os projetos relacionados...
+
+
+--------------------------------
+
+
+
+Portanto, em projectList faria sentido esperar 
+
+
+um parâmetro de 'type' (o TIPO de projectList) NO CONSTRUCTOR... (pois nós temos 2 TIPOS DIFERENTES, um com id de 'active-projects' e outro com id de 'finished-projects')
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    constructor(type) {
+
+    }
+}
+
+
+
+
+class App {
+   static init() {
+
+    }
+}
+
+
+
+
+-------------------------------
+
+
+
+
+
+PORTANTO, em init() e app() nós PODERÍAMOS CRIAR 
+
+UMA PROJECTLIST ___ATIVA__....
+
+
+fazemos isso por meio 
+
+de:
+
+
+
+
+
+'const activeProjectsList = new ProjectList('active');'    (OU SEJA, COMO PARÂMETRO DESSE INSTANCIAMENTO DA CLASSE 'projectList' NÓS INSERIMOS 'active'... isso será inserido no constructor da classe...)
+
+
+
+
+
+
+
+Fazemos a mesma coisa com a lista de PROJETOS FINISHED, mas
+
+alterando as informações de acordo...
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    constructor(type) {
+        
+    }
+}
+
+
+
+
+class App {
+   static init() {
+       const activeProjectsList = new ProjectList('active');
+       const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+-----------------------------------------
+
+
+
+'active' e 'finished' COMO PARÂMETROS A SEREM INSERIDOS NA CLASSE 'ProjectList'...
+
+
+
+São duas palavras QUE PODEM SER ENCONTRADAS NO DOCUMENTO HTML, 
+
+exatamente iguais a seus 'correspondentes' no html...
+
+
+
+temos 'projects' após active/finished, MAS OS INÍCIOS DESSES 
+
+SÃO DIFERENTES UM EM RELAÇÃO AO OUTRO.
+
+
+
+-------------------------------
+
+
+
+
+Agora, com essa informação passada para dentro de ProjectList, 
+
+nós podemos COMEÇAR A ALCANÇAR, dentro do Constructor, OS ITEMS 
+
+QUE SAO PARTE DA LISTA...
+
+
+
+Para isso, o professor cria uma constante chamada de 
+
+'projectItems'...
+
+
+essa constante terá um seletor DE QUERY SELECTOR ALL....
+
+
+O professor usará a versão ALL do querySelector PARA RECEBER UMA LISTA 
+
+DE ITEMS (não só o primeiro item que o querySelector encontrar, e sim uma 
+lista com aquele termo) com um 
+DETERMINADO TERMO.
+
+Nós então utilizamos uma template expression (ou seja, ``) para 
+
+DEFINIR UMA STRING (a nossa QUERY STRING)....
+
+
+dentro desse querySelector, vou querer PROCURAR POR UM CERTO 
+
+ID, E ESSE ID VAI CONSIDERAR O MEU 'TYPE' (e é por isso que o professor 
+está usando # e ``, o template literal)...
+
+
+
+OBS::::: O QUERY SELECTOR SEMPRE CONSIDERA '#' se for um id, '.' se for uma classe....
+
+
+
+
+Como assim?
+
+
+Bem, o professor ESTÁ PROCURANDO PELAS SEÇÕES (sections) DO 
+
+HTML QUE são 'finished-projects' e 'active-projects'... 
+
+O que elas têm em comum? 'projects'.
+
+
+
+É por isso que nessa parte do querySelectorAll nós 
+
+VAMOS INJETAR 
+
+'#${type}-projects' -----------> a coisa '${type}' É DINÂMICA, 
+
+ENQUANTO QUE 'projects' NAO É.
+
+
+
+Além disso, o professor não está APENAS INTERESSADO NAS SECTIONS 
+
+em geral, mas também NOS ITEMS ABRIGADOS POR ESSAS SECTIONS....
+
+é por isso que ele coloca 'li' depois do 'projects', pois 
+ele está interessado nos list items...
+
+o 'li' é o CSS selector PARA TODOS OS LIST ITEMS 
+
+dentro das sections (sections de finished e active projects)
+
+
+
+
+O professor tbm faz rapidamente um console.log de 
+
+'projectItems', para ver se NÓS ESTAMOS NO CAMINHO CERTO...
+
+
+
+
+------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`)
+        console.log(projectItems);
+
+    }
+}
+
+
+
+
+class App {
+   static init() {
+       const activeProjectsList = new ProjectList('active');
+       const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+---------------------------
+
+
+
+
+Se recarregarmos a página e analisarmos o output 
+
+no console, veremos 
+
+que terá sido outputtado 
+
+
+2 NODE LISTS:
+
+
+
+>NodeList(2) [li#p1.card, li#p2.card]
+
+
+>NodeList(2) [li#p3.card]
+
+
+
+
+---------->
+
+
+
+A PRIMEIRA NODELIST É A 
+
+
+PRIMEIRA CAIXA, a dos 'active projects', que tem DOIS ITEMS.
+
+
+
+Já a SEGUNDA NODELIST É 
+
+
+A SEGUNDA CAIXA, a dos 
+
+'Finished Projects'..., que tem 1 único item.
+
+
+
+-------------------
+
+Começamos bem:
+
+
+agora temos acesso A ESSES ITEMS NO DOM/do DOM.
+
+
+AGORA PODEMOS ACESSAR/LER INFORMAÇÕES DESSES DOM NODES... 
+
+
+
+
+
+Na verdade, há mais um pedaço de informação que interessa o professor, 
+
+que é O __ID___.... veremos isso na próxima lição.

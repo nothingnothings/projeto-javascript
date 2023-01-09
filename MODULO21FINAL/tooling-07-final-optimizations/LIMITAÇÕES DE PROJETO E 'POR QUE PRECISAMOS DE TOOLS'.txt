@@ -1,0 +1,562 @@
+
+
+
+PARA ENTENDER QUAIS TOOLS PODEMOS PRECISAR, 
+
+
+
+
+devemos ver as POTENCIAIS LIMITAÇÕES QUE PODEMOS ENFRENTAR 
+
+
+
+
+COM PROJETOS JAVASCRIPT BÁSICOS...
+
+
+
+
+
+
+Por exemplo, talvez precisemos FAZER MICROMANAGEMENT DE 
+
+TODOS OS NOSSOS IMPORTS....
+
+
+
+(bem, não precisamos mais: aprendemos sobre javascript modules,
+ 
+ uma técnica que facilita muito a nossa vida).
+
+
+
+-------------------------------------------------------------------
+
+
+
+ ------> ainda temos o problema DOS MÚLTIPLOS HTTP REQUESTS....
+
+
+
+
+
+ --------> outro problema QUE PODEMOS ENFRENTAR, que o professor citou durante o módulo 
+
+ de 'third party libraries, 
+
+ É QUE NOSSO CÓDIGO PODE NÃO 
+
+ ESTAR REALMENTE OPTIMIZADO DA 
+
+
+ MELHOR MANEIRA POSSÍVEL... 
+
+ (Unoptimized code (not as small as possible))
+
+
+
+ATÉ AGORA, NÃO ESCREVEMOS APLICATIVOS GIGANTES, MAS CERTAMENTE JÁ ESCREVEMOS BASTANTE CÓDIGO...
+
+
+
+
+
+
+durante a escrita de um código, nós sempre DEIXAMOS UM MONTE DE ESPAÇOS E COISAS PARA FAZER 
+
+O CÓDIGO SER MAIS LEGÍVEL A NÓS, HUMANOS.
+
+
+
+Mas essas coisas não são importantes PARA COMPUTADORES...
+
+
+
+
+SE TIRÁSSEMOS TODAS ESSAS FEATURES E SHIPPASSEMOS O 
+
+MENOR CODE BUNDLE POSSÍVEL, 
+
+
+poderíamos fazer nossa página CARREGAR BEM MAIS RÁPIDO, POIS O COMPUTADOR 
+
+TERIA DE BAIXAR MENOS BYTES...
+
+
+
+SE USARMOS FUNCTION NAMES ___MENORES__, haverá
+ 
+
+ MENOS BYTES A SEREM BAIXADOS, 
+
+ E ISSO FAZ COM QUE O SITE SEJA BAIXADO MAIS 
+
+ RÁPIDO.
+
+
+
+
+
+MAS É CLARO QUE A NÓS, HUMANOS, USAR FUNCTION NAMES COMO 
+
+'a'
+
+'b'
+
+'c'
+
+'d'
+
+
+FAZ COM QUE O CÓDIGO SE TORNE BEM MAIS DIFÍCIL DE LER...
+
+
+
+E é AÍ que algo como UMA FERRAMENTA pode ser 
+
+capaz de nos ajudar...
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+---------------> OUTRO PROBLEMA QUE PODEMOS 
+
+ENFRENTAR É O '''___BROWSER SUPPORT_____''....
+
+(veremos isso em um módulo próprio).
+
+
+O problema é simples:
+
+
+queremos usar as features mais modernas e avançadas do javascript, 
+
+mas os browsers antigos e seu support bosta não nos permite. 
+
+
+
+
+(Potentially sub-optimal Browser support)...
+
+
+
+
+
+PRECISAMOS DE UMA FERRAMENTA QUE CONSIGA CONVERTER NOSSO 'CÓDIGO MODERNO' EM CÓDIGO 
+
+ANTIGO.....
+
+
+
+
+----------------> OUTRO PROBLEMA:
+
+
+
+
+Quando estamos trabalhando com nosso site, precisamos constantemente recarregar 
+
+nossa página para ver mudanças na webpage....
+
+
+
+
+
+E SE TIVÉSSEMOS UMA FERRAMENTA, UM DEV SERVER, QUE 
+
+AFASTASSE A NECESSIDADE 
+
+DE TER QUE RECARREGAR PÁGINAS MANUALMENTE?
+
+
+
+(tool que faz a página recarregar automaticamente A CADA MUDANÇA QUE VOCÊ FAZ. )
+
+
+Isso seria ótimo, melhoraria o seu workflow tremendamente.
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+---> POR FIM, OUTRA COISA QUE NÃO FIZEMOS ATÉ AGORA 
+
+
+É 'CHECAR A QUALIDADE DO NOSSO CÓDIGO' 
+
+
+(Code quality is not checked)
+
+
+
+
+
+---> 'QUALIDADE DE CÓDIGO' É UM TERMO AMPLO:
+
+
+
+
+HÁ CERTAS CONVENÇÕES QUE VOCÊ DEVE SEGUIR, 
+
+mas também há muitas 'loose rules',
+
+
+
+MUITAS IDEIAS de como escrever o seu código...
+
+
+
+
+
+
+
+NÃO HÁ UMA MANEIRA 'CERTA' E UMA MANEIRA 'ERRADA' de escrever o seu código...
+
+
+
+
+
+
+
+AINDA ASSIM, VOCÊ QUER SER CONSISTENTE, POR ISSO talvez fosse interessante 
+
+ser capaz de configurar PARA VOCÊ MESMO, 
+
+e então automaticamente CHECAR SE SEU CÓDIGO ESTÁ SEGUINDO AS REGRAS QUE VOCÊ DEFINIU 
+
+PARA SEUS PRÓPRIOS PROJETOS/A SI MESMO...
+
+
+ISSO GARANTIRÁ QUE SEU CÓDIGO SERÁ 
+
+ESCRITO DE MANEIRA CERTA E QUE TERÁ UMA BOA QUALIDADE.
+
+
+
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+CERTO, VIMOS AS LIMITAÇÕES E OS PROBLEMAS QUE PODEMOS QUERER ENFRENTAR.
+
+
+
+
+
+
+
+
+
+DEVEMOS SOLUCIONÁ-LOS.
+
+
+
+PARA ISSO, 
+
+PODEMOS 
+
+USAR DIVERSAS TOOLS QUE FORAM CRIADAS...
+
+
+
+
+
+
+veremos:
+
+
+
+----> TOOL PURPOSE 
+
+
+
+----> TOOL NAME 
+
+
+
+----> what it does & why
+
+
+
+------------------------------------
+
+
+IMPORTANTE: PARA A MAIOR PARTE DESSAS TAREFAS/PROBLEMAS, 
+
+TEMOS MAIS DE 1 ÚNICA TOOL no mercado...
+
+
+
+
+
+O PROFESSOR NOS MOSTRARÁ AS MAIS POPULARES E USADAS...
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+
+COMEÇAMOS COM O DEV SERVER....
+
+
+
+
+
+---> TOOL PURPOSE: A development Server 
+
+
+
+
+----> TOOL NAME: "SERVE" (usamos até agora, mas ele não faz auto-reload da página)....
+
+
+HÁ MÚLTIPLAS ALTERNATIVAS à 'SERVE', mas uma particularmente interessante 
+
+é a 
+
+'webpack-dev-server'  ------> É ATÉ __MELHOR___ do que 'serve'...
+
+
+Professor nos explicará o  porquê de ela ser tão boa. --------> ESSA TOOL TAMBÉM TEM RELAÇÃO COM O SEGUNDO PROBLEMA QUE QUEREMOS RESOLVER...
+
+
+
+
+
+----> WHAT IT DOES & WHY: 'serve under (more) realistic circumstances, auto-reload'
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+----> TOOL PURPOSE: UMA 'BUNDLING TOOL'
+
+
+
+----> TOOL NAME: A MAIS USADA É 'Webpack'... ---> Ela possui relação com o 'webpack-dev-server'...  
+
+
+
+----> what it does & why:  a ideia por trás de uma bundling tool é que 
+
+
+            ELA ANALISA TODOS OS NOSSOS IMPORTS E EXPORTS quando usamos javascript modules 
+
+            e então COMBINA TODOS ESSES ARQUIVOS DIFERENTES EM UM ÚNICO ARQUIVO 'BUNDLED' 
+
+            (Combine multiple files into bundled code (less files)  ).
+
+
+
+
+----> nem sempre é um ÚNICO arquivo 'bundled', às vezes são múltiplos que acabam como 
+
+resultados do seu projeto... mas ainda assim isso reduz o número de http requests de seus projetos...
+
+
+Os bundling tools AINDA TE DEIXAM ESCREVER O SEU CÓDIGO EM MÚLTIPLOS ARQUIVOS, o que 
+
+facilita a leitura para os humanos, mas ao mesmo tempo ele vai lá 
+
+e COMPILA TUDO EM UM ÚNICO ARQUIVO... (melhor para as máquinas)...
+
+
+
+
+-------> COM ISSO, VOCÊ TEM A MELHOR DEVELOPMENT EXPERIENCE junto do melhor formato de código,
+com menor quantidade de http requests.....
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+PROFESSOR EXPLICA QUE O 'webpack-dev-server' É BEM FÁCIL DE SER INSTALADO 
+
+EM UM SETUP QUE JÁ TEM O 'Webpack' settupado...
+
+
+
+
+O PROFESSOR NOS ENSINARÁ COMO INSTALAR ESSAS 2 FERRAMENTAS.
+
+
+
+
+
+-------------------------------------------------------
+
+
+ÚLTIMA FERRAMENTA QUE ELE NOS MOSTRARÁ:
+
+(é uma ferramenta de OPTIMIZAÇÃO, usada quando estamos 'shippando' nosso código, ou quando 
+estamos o construindo para produção..) ----> em outras palavras, ele é utilizado QUANDO ESTAMOS PRONTOS PARA UPLOADAR O CÓDIGO EM UM SERVER DE VERDADE....
+
+(Durante o desenvolvimento nu e cru, você tipicamente não 
+se importa com tais optimizações, mas no final do processo elas são necessárias.)
+
+
+
+(OPTIMIZAÇÃO ---> VOCê QUER NOMES DE FUNÇÃO MENORES, remover espaço em branco inútil, remover tudo inútil.)
+
+
+
+
+
+----> TOOL PURPOSE: Code Optimization Tool
+
+
+
+----> TOOL NAME: "Webpack optimizer" PLUGINS 
+
+
+
+----> what it does & why:  Optimize code (shorten function names, remove whitespace, ...).
+
+
+
+
+
+
+--------------------------------------------------------
+
+
+
+De novo, a ferramenta que o professor indica
+
+tem a ver com 
+
+o 'webpack'...
+
+
+
+É O WEBPACK OTIMIZER... ---> são alguns plugins BUILTIN no webpack, os quais 
+
+podemos utilizar para automaticamente optimizar o nosso código uma vez que 
+
+estejamos prontos para 'deployment'.
+
+
+
+------------------------------------------------------------
+
+
+
+
+ESSA ERA A OPTIMIZAÇÃO. NÓS TAMBÉM TALVEZ QUEIRAMOS ESCREVER 
+
+__CÓDIGO MODERNO___, escrever código moderno e SHIPPAR code que 
+
+TAMBÉM FUNCIONARÁ 
+
+
+EM BROWSERS ANTIGOS...
+
+
+Há uma ferramenta para isso:
+
+(é necessária uma FERRAMENTA DE 'COMPILAÇÃO'/TRANSPILAÇÃO...)
+
+
+
+
+
+
+
+----> TOOL PURPOSE: Code Compilation/transpilation Tool
+
+
+
+----> TOOL NAME: A FERRAMENTA MAIS POPULAR É 'Babel'... ----> não vamos querer ver isso no presente momento, mas depois sim (no browser support module).
+
+
+
+----> what it does & why ---> É UMA FERRAMENTA QUE ESSENCIALMENTE PEGA O NOSSO CÓDIGO 
+                                e 'transpila-o' EM CÓDIGO QUE FUNCIONA EM BROWSERS ANTIGOS...
+
+                                    (Write modern code, get "older" code as output).
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+
+POR FIM, VOCê TALVEZ QUEIRA  """CHECAR A QUALIDADE DO SEU CÓDIGO"""",
+
+assegurar que você siga efetivamente algumas diretrizes, padrões e convenções, tudo 
+
+para que você ESCREVA SEU CÓDIGO DE FORMA CONSISTENTE...
+
+
+
+A FERRAMENTA MAIS POPULAR PARA JAVASCRIPT, NESSE QUESITO, 
+
+É 'ESLint'...
+
+
+
+
+
+
+----> TOOL PURPOSE: Code Quality Checker
+
+
+
+----> TOOL NAME: ESLint
+
+
+
+----> what it does & why ---> Check code quality, check for conventions and patterns.
+
+
+
+
+
+
+
+Só não veremos 'babel' nesse módulo, o resto instalaremos e utilizaremos.

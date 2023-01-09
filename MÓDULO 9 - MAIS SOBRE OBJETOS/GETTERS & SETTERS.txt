@@ -1,0 +1,794 @@
+Chega de falar sobre 'this'.....
+
+
+
+
+AGORA DEVEMOS VER UMA ÚLTIMA FEATURE SOBRE OBJETOS QUE  o professor quer nos introduzir.
+
+
+
+SÃO OS 
+
+
+"GETTERS" e os "SETTERS"...
+
+
+-------------------------------
+
+
+
+
+O professor aponta que nós temos PROPRIEDADES NORMAIS DENTRO de newMovie, como 'info', por exemplo.
+
+
+
+
+
+ex: 
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue
+    }, 
+    id: Math.random().toString(), 
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+}
+
+
+
+
+PROFESSOR EXPLICA QUE ÀS VEZES NÓS QUEREMOS CONTROLAR 
+
+
+_____cOMO_______ UMA CERTA PROPRIEDADE________ PODE SER DEFINIDA______. (how it can be set).
+
+
+Ou seja, controlar COMO um valor pode ser assignado __OU___...
+
+
+COMO O VALOR PODE SER CONSEGUIDO (how you can get it, or 'how you can retrieve it').
+
+
+
+
+
+--------------------------------------
+
+
+
+Peguemos, por exemplo, o nosso 'title'...
+
+Lá em cima, no início do código do addMovieHandler, temos um if check 
+PARA CHECAR A VALIDADE DO TITLE INPUTTADO PELO USUÁRIO... (if check para validar os inputs)...
+
+Fizemos tudo isso antes, já:
+
+
+Depois que estabelecemos o if check, nós tínhamos criado todas aquelas propriedades que seguram 
+os valores obtidos pelos inputs, TUDO DE UMA VEZ SÓ.
+
+Todos esses inputs acabaram criando o OBJETO 'newMovie'/movie.
+
+
+-------------------------------------
+
+
+Mas digamos que para o title (ou seja, para uma propriedade que nós SABEMOS 
+A FRENTE DO TEMPO QUE SERÁ PARTE DE UM DETERMINADO OBJETO... ) EU QUEIRA 
+FAZER ESSE PROCESSO DE FORMA DIFERENTE....
+
+
+
+Para exemplificar isso, o professor começa removendo o if check do 'title' lá em cima E TAMBÉM 
+REMOVENDO O 'TITLE' DE DENTRO DA PROPRIEDADE 'info'.
+
+
+ex:
+
+
+if (
+    extraName.trim() === '' ||
+    extraValue.trim() === '' 
+) {
+    return;
+}
+
+
+
+
+
+
+const newMovie = {
+    info: {
+        ///////removido 
+        [extraName]: extraValue
+    }, 
+    id: Math.random().toString(), 
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+}
+
+
+
+-------------------------------
+
+em vez disso (no lugar de title em 'info'), o que o professor 
+vai adicionar ali É UMA 
+
+_____KEYWORD ESPECIAL____, chamada de 'get'.
+
+
+GET.
+
+
+
+Ele vai adicionar 'get' e depois o NOME DA PROPRIEDADE DE SUA ESCOLHA....
+
+(nesse caso, será a propriedade 'title').
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+    info: {
+        ///////removido 
+        get title
+        [extraName]: extraValue
+    }, 
+    id: Math.random().toString(), 
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+}
+
+
+----------------------------
+
+
+Após a definição do nome do negócio, o professor diz que VOCÊ 
+DEVE ADICIONAR PARÊNTESES COMO SE ISSO FOSSE UM MÉTODO...
+
+Por fim, deve-se adicionar CURLY BRACES para o 'method body' desse negócio (que é um método, na verdade)
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+    info: {
+        ///////removido 
+        get title() {
+
+        },  
+        [extraName]: extraValue
+    }, 
+    id: Math.random().toString(), 
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+}
+
+-----------------------------
+
+
+
+O QUE ESSA SINTAXE VAI FAZER ("get title () {},") É 
+CRIAR AQUILO QUE 
+CHAMAMOS DE "GETTER".
+
+O JAVASCRIPT DETECTA ESSA PALAVRA ESPECIAL 'get' e então, em combinação com O MÉTODO INSERIDO LOGO DEPOIS (método inserido no () e no {}.), 
+faz com que esse 
+código POSSA SER ACESSADO COMO SE FOSSE UMA PROPRIEDADE (ou seja, sem adicionar PARÊNTESES quando chamado em lugares aleatórios do código).
+
+ex:
+
+
+
+const newMovie = {
+    info: {
+        ///////removido 
+        get title() {
+
+        },  
+        [extraName]: extraValue
+    }, 
+    id: Math.random().toString(), 
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+}
+
+
+newMovie.info.title; //////ESSE CHAMADO SERIA SINTAXE VÁLIDA, POR EXEMPLO.
+
+
+
+----------------------------------
+
+
+
+Os getters tem a peculiaridade de SEREM SEMELHANTES A PROPRIEDADES (são acessados como se fossem propriedades estáticas) MAS AINDA 
+SEREM CAPAZES DE RODAR CÓDIGO/executar um pouco de lógica PARA RETORNAR O VALOR/UM VALOR....
+
+
+
+O mesmo aplica-se à "SETTERS". Você pode definir um setter por meio da keyword "SET". Set + property name + () + {}.....
+
+ENTRETANTO, PARA 'SETTERS' (ou 'setting', como o professor mencionou), VOCÊ TEM QUE "ACEITAR" UM PARÂMETRO, 
+geralmente chamado de 'value'.)
+
+
+ex:
+
+
+const newMovie = {
+    info: {
+        set title(value) {
+            
+        },
+    }
+}
+
+
+
+
+-------------------------------------------
+
+
+É claro, diz ele, que você pode escolher qualquer nome que você quiser para o parâmetro, mas esse é o mais comum. ESSE 
+PARÂMETRO SEGURARÁ O VALOR QUE VOCÊ ESTÁ TENTANDO DEFINIR (that you are trying to set).
+
+
+
+BEM, DENTRO DO "SETTER", VOCÊ PODE, ENTÃO, 'target' (mirar) UMA PROPERTY/propriedade com a keyword 'THIS' (que se refere 
+a 'newMovie', nesse caso).  Ou seja, 'this' dentro desse setter de 'title' VAI SEMPRE SE REFERIR 
+AO 'newMovie'....
+
+ex:
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            this.
+        },  
+        [extraName]: extraValue
+    }, 
+ 
+}
+
+---------------------
+
+
+MAS NÃO ACABAMOS POR AÍ:
+
+dentro do setter, ao lado de this, você pode EXECUTAR OUTRA PROPRIEDADE (OBS::: ESSA PROPRIEDADE 
+CHAMADA AQUI NÃO PODE SER A MESMA 'propriedade/método' que o PRÓPRIO SETTER. Não pode ser 'title', portanto; não pode 
+ter o mesmo nome)...
+
+
+FREQUENTEMENTE PESSOAS USAM "this._title" OU AFINS, para deixar bem claro que essa sintaxe é como se fosse 
+O VALOR INTERNO (the internal value); para o "outside world", você tem 'title' com o seu GETTER 
+E SEU SETTER (e não o _title, que é o VALOR INTERNO, 'oculto').
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            this._title
+        },  
+        [extraName]: extraValue
+    }, 
+ 
+}
+
+
+-------------------------
+
+
+Você coloca, então, 'this._title = value', por exemplo...
+
+
+
+
+MAS, DIZ O PROFESSOR, AQUI DENTRO DESSE SETTER VOCÊ PODE FAZER UM 
+EXTRA CHECK (if check) e CHECAR SE 'val.trim()' é igual a uma empty string, e que 
+se esse for o caso, o javascript deverá definir esse 'this._title' como outro valor, um VALOR DEFAULT.
+Depois disso, deve ser adicionado um 'return' para essa hipótese, para que não continuemos 
+com a linha de execução 'this._title = value;', logo abaixo.
+
+
+
+
+ex:
+
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            if(value.trim() === '') {
+                this._title = 'DEFAULT';
+                return;
+            }
+            this._title = value;
+        },  
+        get title() {
+
+        }
+        [extraName]: extraValue
+    }, 
+ 
+}
+
+-----------------------------------
+
+
+
+O PROFESSOR EXPLICA QUE, É CLARO, O RESULTADO NÃO SERÁ O MESMO DE ANTES. 
+
+......ANTES, NÓS PARÁVAMOS TODA A EXECUÇÃO DA FUNÇÃO QUANDO ENCONTRÁVAMOS UM INPUT INVÁLIDO (
+    if (title.trim() === '' ||
+        extraName.trim() === '' ||
+        extraValue)   , etc etc...
+)...................
+
+
+AGORA, POR MEIO DOS SETTERS E GETTERS, NÓS CONTINUAMOS A EXECUÇÃO...
+
+Continuamos a execução E DEFINIMOS UM VALOR DE 'DEFAULT' na hipótese do usuário ter inserido uma empty string...
+
+
+
+
+
+
+
+
+
+
+******SE VOCÊ TEM UM CASO/CENÁRIO EM QUE VOCÊ QUER TER UM VALOR DEFAULT APLICADO NO CASO DE UMA 
+EMPTY STRING, VOCÊ PODE USAR UM "SETTER" PARA FAZER UMA VALIDAÇÃO (uns if checks) quando um valor é 
+assignado à propriedade 'title'... e com base nesse valor, você pode fazer com que o código OU O ACEITE OU O 
+DEFINA COMO QUALQUER OUTRO VALOR (nesse caso, como 'DEFAULT').
+
+
+(you can also throw an error if you want to stop code execution/ trigger try-catch).
+
+
+
+E QUANTO À 'get'? 
+
+
+Para o 'getter', vocÊ tem que definir  O QUE VOCÊ QUER FAZER NOS CASOS 
+EM QUE AS PESSOAS TENTEM ACESSAR 'title'...
+
+
+você pode também OMITÍ-LO (ao omitir o 'getter', você faz 
+com que a propriedade se torna NON READABLE), OU SEJA, FAZER A PROPRIEDADE 
+SE TORNAR "NON-READABLE"...
+
+
+
+BTW ----> SE VOCÊ OMITIR UM "SETTER", você terá uma propriedade READ ONLY.
+
+
+---> Getter Definido, Setter omitido ---> propriedade será READ ONLY.
+
+
+---> Setter Definido, Getter omitido ---> propriedade será NON READABLE
+
+
+
+--------------------------------------------------
+
+
+ENTRETANTO, NESSE EXEMPLO O PROFESSOR TEM OS 2, tem tanto o getter como o setter.
+
+
+Ele vai lá e faz com que o getter execute o código "return this._title;".
+
+Ele fará com que essa PROPRIEDADE INTERNA (this._title) seja retornada.
+
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            if(value.trim() === '') {
+                this._title = 'DEFAULT';
+                return;
+            }
+            this._title = value;
+        },  
+        get title() {
+            return this._title;
+        }
+        [extraName]: extraValue
+    }, 
+ 
+}
+
+
+------------------------------------------------
+
+
+MAS, AFINAL, COMO DIABOS UTILIZAMOS ELES?
+
+
+
+Bem, você pode simplesmente ir até a linha logo após 
+A CRIAÇÃO 
+
+DO OBJETO 'newMovie' e ENTÃO CHAMAR 
+
+'newMovie.info.title' ............             <--------------------
+
+
+Professor explica QUE VOCÊ DEVE USAR OS GETTERS/SETTERS COMO SE FOSSEM UMA PROPRIEDADE COMUM (ou seja, nós não adicionamos parênteses no seu chamado).
+
+Em vez de inserir um parâmetro dentro de um parênteses, com os getters/setters você DEVERÁ 
+DEFINIR UM VALOR (exatamente como fazemos com propriedades normais):
+
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            if(value.trim() === '') {
+                this._title = 'DEFAULT';
+                return;
+            }
+            this._title = value;
+        },  
+        get title() {
+            return this._title;
+        }
+        [extraName]: extraValue
+    }, 
+ 
+}
+
+
+newMovie.info.title =  valor;    ////////////O CÓDIGO EM QUESTÃO.
+
+
+
+
+------------------------------------------------
+
+
+
+Você deve chamá-los (os getters/setters) assim PORQUE ELES SÃO, NA VERDADE, UM TIPO ESPECIAL 
+DE PROPRIEDADE, UMA SINTAXE ESPECIAL DE PROPRIEDADE.
+
+É uma sintaxe especial entendida pelo javascript.... 
+
+Podemos, por exemplo, assignar 
+
+o 'title' dos getters/setters como sendo o TITLE QUE NÓS CONSEGUIMOS LÁ NO INÍCIO DE NOSSO PROJETO 
+(ex: 'const title = document.getElementById('title').value;') 
+
+
+
+ex:
+
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            if(value.trim() === '') {
+                this._title = 'DEFAULT';
+                return;
+            }
+            this._title = value;
+        },  
+        get title() {
+            return this._title;
+        }
+        [extraName]: extraValue
+    }, 
+ 
+}
+
+
+newMovie.info.title =  title;
+
+
+
+
+---------------------------------
+
+
+
+AGORA, POR MEIO DESSAS ALTERAÇÕES NO CÓDIGO E POR CAUSA DOS GETTERS/SETTERS, SE O CÓDIGO 
+DO TITLE ESTIVER VAZIO, SE O USUÁRIO INPUTTAR UMA EMPTY STRING, NÓS NÃO VAMOS PARAR 
+NAQUELE IF CHECK LÁÁÁ EM CIMA (porque não estamos mais checando por empty titles lá),
+
+EM VEZ DISSO, ESSE "setter", que será ATIVADO (triggered) SEMPRE QUE NÓS ASSIGNARMOS UM VALOR 
+À ESSA PROPRIEDADE 'title' (porque o 'setter' está definido em 'title', dentro da propriedade 'info'.), VAI 
+ENTÃO CHECAR O VALOR QUE TENTAMOS ASSIGNAR (por meio de 'newMovie.info.title = title;')... ESSE VALOR QUE TENTAMOS 
+ASSIGNAR É AUTOMATICAMENTE PASSADO COMO ___O ÚNICO PARÂMETRO____ DO ____ SETTER.... (é o 'value' em 'set title(value)'.)....
+Com base nesse valor que é passado com o parâmetro, 
+nós OU O ACEITAMOS OU, CASO ELE SE ENQUADRE NO IF CHECK DEFINIDO NO 'setter' ("value.trim() === '' "),
+faremos com que o setter faça com que fiquemos com  UM DEFAULT ("this._title = 'DEFAULT' ").....
+
+
+JÁ O 'GETTER' É ACIONADO __SEMPRE QUE NÓS__ ACESSAMOS A tal propriedade, no caso,  ____ 'title'____.
+
+
+ex (de acesso de 'getter'):
+
+
+
+
+
+console.log(newMovie.info.title); /////// QUANDO QUERO ACESSAR E LER ESSA propriedade 'title', O 'GETTER' É ENTÃO EXECUTADO...; ou seja, o javascript vai ir lá e procurar por aquela propriedade 'title', e vai encontrar O GETTER E EXECUTAR O CÓDIGO QUE ESTÁ DENTRO DE SUA METHOD/FUNCTION BODY.
+
+
+
+
+///Professor explica que, dentro do getter de 'title', poderíamos COLOCAR 
+TRANSFORMAÇÕES ADICIONAIS, IF CHECKS ADICIONAIS....
+
+ex: em 'return this._title' poderíamos ADICIONAR O MÉTODO DE CONVERTER EM 'upperCase'....
+
+
+ex:
+
+
+
+
+const newMovie = {
+    info: {
+       
+        set title(value) {
+            if(value.trim() === '') {
+                this._title = 'DEFAULT';
+                return;
+            }
+            this._title = value;
+        },  
+        get title() {
+            return this._title.toUppercase();
+        }
+        [extraName]: extraValue
+    }, 
+    ...
+
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+ 
+}
+
+
+newMovie.info.title =  title;
+
+--------------------------------------------------
+
+
+
+
+------> ESSA EXECUÇÃO DO 'toUpperCase' dentro do getter é muito boa, pois faz com que nós não precisemos mais 
+do código  getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase(); /////////// ESSA FUNÇÃO É DEPRECADA, TORNADA INÚTIL POR MEIO DO GETTER....
+
+    }
+
+
+
+OU SEJA, AGORA, SEMPRE QUE NÓS TENTARMOS ACESSAR O 'title' (tanto por meio do próprio javascript ou por nossas próprias mãos), 
+O GETTER nos retornará o valor da propriedade 'title' AFETADO PELO MÉTODO 'upperCase'.
+
+
+O professor nos explica que GETTERS SÃO UMA FORMA ELEGANTE DE SEMPRE CONVERTER UMA PROPRIEDADE EM ALGUMA COISA NO NOSSO CÓDIGO...
+
+
+
+----------------------------
+
+
+
+O professor vai lá e recarrega a página, tentando nos mostrar as diferenças.
+
+
+
+Ele nos mostra o resultado 
+
+
+de 
+
+
+'console.log(newMovie.info.title);' , que 
+
+é 
+
+O NOME DO TÍTULO QUE VOCÊ INSERIU.....( que foi obtido na linha do 
+getter...
+)
+
+
+
+O professor diz que o 'Setter'/setting também parece ter funcionado, 
+porque caso contrário, nós não teríamos conseguido pegar o valor 
+de 'title' definido pelo getter... (e ficaríamos sem o output, no console, do 
+valor inputtado pelo usuário ).
+
+
+
+
+
+SIDENOTE === ENTRETANTO, AÍ SURGE UM 
+PROBLEMA....
+
+
+Feitas essas alterações com getters e setters, que agora acabaram VIRANDO A PROPRIEDADE 
+'TITLE' ( + ou - isso), PERCEBEMOS 
+
+QUE OS FILMES AGORA FICAM MOSTRADOS MEIO BUGADOS NO CÓDIGO...
+
+
+ex:
+
+
+
+
+FILME - Adam: 35_title: Filme                  (isso com 'favorite movie' - Filme; 'Extra information' - Adam;  'Extra Value' = 35.)
+
+
+----------------------
+
+
+
+PROFESSOR DIZ QUE 
+ESSA 'CONFUSÃO' É CONSEQUÊNCIA DE 
+
+A VARIÁVEL INTERNA ('this._title' ) SER 
+REFLETIDA AQUI EM BAIXO, TAMBÉM. 
+
+
+(a coisa '_title' está sendo refletida aqui, também...)
+
+
+
+
+
+PROFESSOR EXPLICA QUE VOCÊ DEVE, OBRIGATORIAMENTE, 
+EXCLUIR 
+ESSE NEGÓCIO NO 
+SEU 'if check' de filteredMovies.forEach, por meio 
+de um 
+
+check ADICIONAL....
+   (esse if check vai EVITAR ESSA REPETIÇÃO DA VARIÁVEL INTERNA...)
+
+ex:
+
+
+
+if (key !== 'title' && key !== '_title') {
+    text = text + `${key}: ${info[key]};
+}
+
+
+------------------------------
+
+
+ISSO FARÁ COM QUE O '_title' NÃO 
+SEJA OUTPUTTADO TAMBÉM... (não será repetido; situação similar àquela que tínhamos com 'title', bem no início do projeto.)
+
+
+
+OU SEJA, CONSERTAMOS O PROBLEMA....
+
+
+----------------------------
+
+
+
+RESUMINDO:
+
+
+GETTERS E SETTERS PODEM SER MUITO LEGAIS SE VOCÊ QUER 
+ADICIONAR ___AINDA MAIS ___ UM POUCO DE VALIDAÇÃO___ (talvez um fallback, como fizemos com 'this._title = 'DEFAULT'), 
+ou talvez ADICIONAR UMA ___TRANSFORMAÇÃO__ EXTRA___ SEMPRE 
+QUE VOCÊ/O JAVASCRIPT PEGAR ('get') UM VALOR.
+
+
+
+Além disso, conforme fora mencionado, o que também é legal é QUE 
+ELES TE PERMITEM TRABALHAR 
+
+
+COM VALORES + OU - READ ONLY... (kind of 'read only' values.)....
+
+
+
+SE NÓS NÃO TIVÉSSEMOS UM 'SETTER' definido para 'title', e tentássemos definir o getter (no nosso exemplo DOS MOVIES)
+ nÓS RECEBERÍAMOS UM ERRO:
+
+
+ 'Cannot set property title of <Object> which has only a getter at HTMLButtonElement.addMovieHandler'
+
+
+
+ NÃO POSSO DEFINIR UMA PROPRIEDADE QUE SOMENTE TEM UM GETTER, E NÃO UM SETTER...
+
+
+Esse comportamento NOS PERMITE TRABALHAR COM 'READ ONLY PROPERTIES', ou seja, 
+
+te dá a possibilidade de estabelecer propriedades que SÓ PODEM 
+SER DEFINIDAS INICIALMENTE (ex: no código, antes do usuário mexer), que nunca 
+poderão ser alteradas depois....
+
+Isso é a definição de 'read only'. São propriedades que podem SER LIDAS/ACESSADAS, 
+mas que não podem ser definidas/redefindas/alteradas depois.
+
+
+
+SÃO CRIADAS POR MEIO DE:   () 1 setter, 0 getter       (X) 0 Setter, 1 Getter.
+
+
+
+
+------------------------------------
+
+
+PROFESSOR RESSALTA QUE VOCÊ NÃO PRECISARÁ DE GETTERS E SETTERS PARA CADA PEQUENA 
+PROPRIEDADE QUE VOCÊ USAR EM SEUS PROJETOS....
+
+Você apenas os usará algumas vezes, mas é bom saber sobre eles e 
+sobre como criar 
+READ ONLY PROPERTIES, adicionar validações extras com comportamentos de VALORES FALLBACKS e 
+também sobre COMO DEFINIR ALGUMAS TRANSFORMAÇÕES PADRÃO, para quando 
+você tentar alcançar algum 
+pedaço de dado específico...

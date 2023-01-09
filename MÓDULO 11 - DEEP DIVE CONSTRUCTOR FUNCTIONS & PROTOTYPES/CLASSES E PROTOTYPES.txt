@@ -1,0 +1,577 @@
+O professor comenta 
+
+
+
+QUE SABE QUE ESSE NEGOCIO DE PROTOTYPES E __PROTOS__ 
+
+
+pode ser BEM CONFUSO (em grande parte pelos nomes serem tao similares).
+
+
+
+
+
+MAS 'E REALMENTE BEM IMPORTANTE ENTENDER A DIFERENCA 
+
+ENTRE 
+
+A PROPRIEDADE 
+
+'prototype' nas constructor functions (nas qual/nas quais voce configura aquilo que sera adicionado a objetos que serao/sao criados a partir daquela constructor function...)
+
+
+
+E A PROPRIEDADE `__proto__`, que E DISPONIVEL EM TODOS OS 
+OBJETOS, NAO SENDO EXCLUSIVA AS CONSTRUCTOR FUNCTIONS/FUNCTION OBJECTS.......
+
+
+
+essa propriedade __proto__, no final das contas, APONTA AO PROTOTYPE (ao fallback object) QUE FOI 
+ASSIGNADO A ESSE OBJETO... ----------------------->>>>> ESSA E A PARTE QUE VOCE DEVE ENTENDER 100%.
+
+
+
+
+
+
+E essa e a ideia por tras dos prototypes...
+
+
+
+
+
+Pode-se argumentar que o uso de classes e 'extend' facilita muito esse processo (e e exatamente por isso que temos as classes, e porque as utilizamos),
+
+MAS E SUPER IMPORTANTE ENTENDER ESSAS COISAS DOS BASTIDORES DO JAVASCRIPT, POIS 
+A LINGUAGEM TODA SE SUSTENTA NISSO.
+
+
+Voce encontrara isso em muitos interviews, e sera forcado a usar isso em codigos (porque as vezes nao nos e permitido usar classes, por qualquer razao).
+
+
+
+
+
+Esses conceitos te ajudam a entender o codigo que voce escreve...
+
+
+
+
+e um conceito core do javascript que existe desde sempre, e devemos conhece-lo.
+
+
+
+
+
+Ha mais algumas especialidades relacionadas a esses conceitos... e o professor mencionou mais 
+cedo 
+
+que essa constructor function
+
+(
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max'
+    this.greet = function() {
+        console.log(...)
+    }
+}
+
+
+)
+
+
+ NAO E, NA VERDADE, UM SUBSTITUTO PERFEITO PARA UMA CLASSE SIMILAR A ELA....
+
+
+ (
+
+     class Person extends AgedPerson {
+        name = 'Max';
+
+        constructor() {
+            super();
+            this.age = 30;
+        }
+        greet() {
+            console.log(...)
+        }
+     }
+
+    
+
+ )
+
+
+
+ --------------------------------------
+
+
+
+
+
+
+
+
+ E, ATE AGORA, NAO SABIAMOS COMO ESCREVER AQUELE CODIGO DA CLASSE DE UMA MANEIRA MELHOR, 
+ 
+
+ MAS AGORA SABEMOS...
+
+
+ porque TUDO AQUILO QUE EXISTE DENTRO DO CONSTRUCTOR DA CLASSE 'Person' (na verdade, tudo aquilo que existe nesse constructor que NAO SEJA `super()`..., pois super() e algo especial das classes),
+
+
+
+ TUDO QUE VOCE TEM NO CONSTRUCTOR DE UMA CLASSE ___PODE____ SER 
+
+
+ COLOCADO DENTRO DE UMA CONSTRUCTOR FUNCTION EQUIVALENTE, QUE TE DARA O MESMO COMPORTAMENTO.
+
+
+
+
+TODOS OS FIELDS QUE VOCE DEFINE EM UMA CLASSE ___TAMBEM____ SERAO ADICIONADOS exatamente como 
+se voce tivesse os escrito dentro do constructor da classe......
+
+A unica coisa importante de destacar aqui e que esses fields somente serao adicionados automaticamente 
+na classe/constructor function APOS qualquer chamado de 'super()' que voce tiver 
+la dentro.... (isso ocorre porque voce e obrigado a usar `this` dentro de classes, 
+e a utilizacao de um 'field' vai efetivamente criar esse field como uma INSTANCE PROPERTY ___depois___ que voce chamar super(). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+PORTANTO, FIELDS EFETIVAMENTE SAO CONVERTIDOS/TRADUZIDOS EM PROPRIEDADES QUASE EXATAMENTE 
+
+da mesma forma que voce o faria por meio da 'in-constructor synthax'.
+
+
+
+
+
+
+No codigo da classe Person, podemos observar isso com 'name = 'Max' '  
+
+e 
+
+'this.age', que fica dentro da constructor function. VOCE PODERIA ENFIAR O 'name = 'Max' ' DENTRO 
+DA CONSTRUCTOR FUNCTION, COM AQUELA SINTAXE DO 'this', que ele iria funcionar exatamente da mesma forma, com 
+o mesmo comportamento. Mesma coisa se tirassemos o age e o definissemos como um field ('age = 30;'), ele teria 
+o exato mesmo comportamento da sintaxe 'in-constructor', tambem.
+
+
+
+-----------------------------------------
+
+
+
+
+AINDA ASSIM, HA UMA DIFERENCA IMPORTANTE ENTRE CONSTRUCTOR FUNCTIONS E CLASSES...
+
+
+
+
+
+
+
+A diferenca reside na FORMA PELA QUAL OS METODOS SAO ADICIONADOS....
+
+
+
+
+Tomemos o metodo `greet()` da classe Person, por exemplo...
+
+
+
+
+
+O professor comenta um monte de coisas para fora do codigo.
+
+
+
+Ele comenta para dentro a classe base e a subclasse.
+
+
+
+---------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+    class AgedPerson {
+        printAge() {
+            console.log(this.age);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+     class Person extends AgedPerson {
+        name = 'Max';
+
+        constructor() {
+            super();
+            this.age = 30;
+        }
+        greet() {
+            console.log(...)
+        }
+     }
+
+
+--------------------------------------
+
+
+
+
+O professor vai ate o final do codigo e adiciona um novo objeto person por meio 
+
+
+de new Person();
+
+
+Depois disso, ele faz o console.log de 'p'
+
+
+
+
+
+
+------------------------------------
+
+
+
+ex:
+
+
+
+
+
+
+
+    class AgedPerson {
+        printAge() {
+            console.log(this.age);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+     class Person extends AgedPerson {
+        name = 'Max';
+
+        constructor() {
+            super();
+            this.age = 30;
+        }
+        greet() {
+            console.log(...)
+        }
+     }
+
+
+
+
+
+
+const p = new Person();
+
+
+
+
+
+console.log(p);
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+RECARREGAMOS A PAGINA E CHECAMOS O OUTPUT.
+
+
+
+Person {name: "Max", age: 30}
+
+age: 30
+name: "Max"
+
+__proto__: AgedPerson
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+Se expandirmos o prototype ('__proto__'), VEREMOS QUE ESSE PROTOTYPE 
+
+
+
+__TAMBEM___ TERA O METODO GREET().......
+
+
+
+
+Professor indaga-se:  `espere um segundo, um PROTOTYPE QUE TEM O METODO GREET()...? mas de onde que isso esta vindo?`
+
+
+
+
+-----> professor diz que isso e bizarro:   o metodo greet() NAO DEVERIA, AFINAL DE CONTAS,
+                                            FAZER PARTE DO OBJETO EM SI? (e nao do prototype)...
+
+
+
+
+
+
+Afinal, o professor definiu esse greet() dentro da subclasse 'Person`, nao deveria ele aparecer outputtado 
+como parte integrante da subclasse?
+
+
+
+
+
+
+
+AgedPerson deveria apenas ter o metodo 'printAge', nao?
+
+
+
+
+
+
+
+BEM, AQUI PARECE QUE O GREET(), esse metodo, acabou fazendo parte do 
+
+
+PROTOTYPE DE AGEDPERSON, e nao de `PERSON`, que e a subclasse....
+
+
+
+
+
+
+Portanto, diz o professor, temos aqui um PROTOTYPE EXTRA, que foi adicionado pelo javascript quando 
+nos trabalhamos com as classes...
+
+
+
+Isso e interessante.
+
+
+
+
+'Name', por outro lado, DE FATO FOI ADICIONADO COMO PROPRIEDADE DO MEU OBJETO QUE FOI 
+CONSTRUIDO A PARTIR DA CLASSE `person`...
+
+
+
+
+
+Portanto, se nos adicionarmos um field dessa maneira, `name = `Max``, esse field 
+
+REALMENTE SERA ADICIONADO COMO PROPRIEDADE ao objeto que esta sendo criado...
+
+
+
+A UNICA DIFERENCA DA ADICAO DE UMA PROPRIEDADE POR MEIO DE FIELDS (em oposicao a alternativa, que e a de digitar a propriedade dentro do constructor da classe)
+e que aqui, quando voce utiliza um field solto no codigo, 
+
+NAO FICA TAO OBVIO COMO QUANDO VOCE ADICIONA A PROPRIEDADE APOS O CHAMADO DE SUPER....
+
+
+
+
+
+(caso voce tente chamar super() DEPOIS DE ADICIONAR AS CLASSES NO CONSTRUCTOR, VOCE 
+RECEBERA UM ERRO... sera o erro que nos diz que devemos chamar super() ANTES DE TENTAR DEFINIR 
+PROPRIEDADES POR MEIO DE 'this'. ).....
+
+
+
+Ou seja, em super() nos somos obrigados a escrever o codigo naquela ordem especifica de primeiro o super(), depois os `this`s.
+
+
+
+CASO VOCE TENTE PASSAR `NAME` (o field `name`) DENTRO DO SUPER (ou seja, repassar `name` a classe base, superior na hierarquia), 
+
+VOCE FALHARIA....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+  class AgedPerson {
+
+
+
+
+        constructor() {
+            console.log(this.name);  ///////ISSO NOS RETORNARA `UNDEFINED`.
+        }
+
+
+
+
+
+
+
+        printAge() {
+            console.log(this.age);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+     class Person extends AgedPerson {
+        name = 'Max';
+
+        constructor() {
+            super();
+            this.age = 30;
+        }
+        greet() {
+            console.log(...)
+        }
+     }
+
+
+
+
+
+
+const p = new Person();
+
+
+
+
+
+console.log(p);
+
+
+
+
+
+
+---------------------------
+
+
+
+
+Certo, eu falharia... mas por que?
+
+
+Bem, porque COMO O PROFESSOR EXPLICOU, voce adicionar 
+
+
+uma propriedade/metodo por meio de um field `solto` no codigo E A MESMA 
+COISA QUE VOCE ADICIONAR ELE POR MEIO DA SINTAXE `THIS` NO INTERIOR 
+DO CONSTRUCTOR DA SUBCLASSE.. (e como nao nos e permitido definir 
+propriedades ANTES de chamar super(), o codigo nos retornara 'undefined' no console.log
+de'name' na classe base.)...   a razao 
+
+para o console.log de 'this.name' (propriedade da subclasse) no constructor da classe base 
+RETORNAR ___UNDEFINED____ (e se tentassemos chamar um metodo nessa propriedade 
+'name', receberiamos um erro, um erro dizendo que 'ESSE METODO NAO EXISTE EM UNDEFINED'...) e
+ simples:
+
+ocorre porque a propriedade 'name' e adicionada como 
+propriedade no MESMO LUGAR EM QUE AS PROPRIEDADES DE DENTRO 
+
+DO CONSTRUCTOR DA SUBCLASSE (ou seja, 'this.age' e outras propriedades adicionadas 
+por meio de 'this', que sao sempre digitadas DEPOIS de super(). ) , OU SEJA, LOGO APOS 
+A CALL DE SUPER() ter acabado...
+
+
+E esse e um problema que enfrentamos no ultimo modulo estudado: 
+essencialmente tentamos utilizar ALGUMAS COISAS NA BASE CLASS que tinham 
+sido definidas COMO FIELDS dentro de uma subclasse... (e isso fazia com que 
+a propriedade BASICAMENTE NAO EXISTISSE AINDA, NAO EXISTIA PARA QUE A CLASSE BASE A UTILIZASSE.)
+
+
+
+Portanto, isso e algo para se ter em mente....
+
+
+
+mas, GERALMENTE,A FORMA PELA QUAL voce define um field EM UMA CLASSE, QUE e ENTAO traduzido como 
+um 'assignment de propriedade',  E BASICAMENTE EQUIVALENTE A FORMA DE DEFINICAO 'DENTRO DO CONSTRUCTOR' (por meio de 'this.propriedade').
+
+
+
+
+
+PARA PROPRIEDADES, PORTANTO, ADICIONAR PROPRIEDADES FORA/DENTRO DO CONSTRUCTOR E A MESMA COISA; NAO HA DIFERENCA.
+
+
+
+
+
+MAS O MESMO NAO SE APLICA A ___METODOS___; PARA ELES, HA UMA FUNDAMENTAL DIFERENCA ENTRE ADICIONA-LOS 
+POR DENTRO VS ADICIONA-LOS POR FORA.

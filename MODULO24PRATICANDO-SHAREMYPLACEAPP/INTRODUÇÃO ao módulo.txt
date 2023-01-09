@@ -1,0 +1,44 @@
+
+
+
+
+
+
+
+
+
+É HORA DE PRATICAR, DE NOVO.
+
+
+
+
+VAMOS CONSTRUIR UMA WEBPAGE.
+
+
+
+
+
+
+----> DEVEMOS PRATICAR AS COISAS QUE APRENDEMOS AO LONGO DO CURSO, AO LONGO DOS MÓDULOS PRÉVIOS.
+
+
+
+
+
+
+---> CONSTRUÍREMOS UMA WEBPAGE BÁSICA, UMA WEBPAGE EM QUE TRABALHAREMOS COM UMA 
+
+________THIRD PARTY LIBRARY________, COM O 'GOOGLE MAPS', PARA PERMITIR AOS USUÁRIOS 
+
+VISUALIZAR O ENDEREÇO DE UM USUÁRIO... ou PODER COLOCAR ALGUM ENDEREÇO 
+
+
+E ENTÃO VER O DISPLAY DESSE ENDEREÇO EM ALGUM LUGAR DE UM MAPA...
+
+por fim, esse display poderá ser compartilhado com os outros usuários.
+
+
+
+
+
+Veremos muitos dos conceitos estudados ao longo do semestre.

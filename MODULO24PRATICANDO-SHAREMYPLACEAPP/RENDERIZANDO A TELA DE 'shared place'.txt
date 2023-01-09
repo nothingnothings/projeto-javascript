@@ -1,0 +1,1452 @@
+
+
+
+
+
+DEVEMOS NOS CERTIFICAR, AGORA, QUE, 
+
+
+QUANDO NÓS ACESSAMOS AQUELA 2A PÁGINA HTML (aquela página 
+
+que acessamos por meio da home page, por meio 
+daquele link do lugar...),
+
+
+NÓS CONSIGAMOS 
+
+
+RENDERIZAR O ENDEREÇO 
+
+
+QUE O USUÁRIO INPUTTOU NO HEADER DESSA PÁGINA...
+
+
+
+o endereço deverá ser renderizado 
+
+
+nesse espaço do HTML:
+
+
+
+'<body>
+    <header>
+        <h1></h1>
+    </header>
+
+<..>
+
+'
+
+
+
+------------------------
+
+
+
+Nós TAMBÉM TEMOS QUE RENDERIZAR O MAPA,
+
+que reside nesse espaço:
+
+
+
+'<section id="selected-place">
+    <div id="map"></div>
+</section>'
+
+
+----------------------------------
+
+
+PARA ISSO, 
+
+
+
+NÓS PODEMOS USAR O ARQUIVO JAVASCRIPT 
+
+
+'MyPlace.js'....
+
+
+
+
+ESSE ARQUIVO JAVASCRIPT É 
+ 
+
+ O ARQUIVO QUE ACABA SENDO IMPORTADO 
+
+ NO 'index.html' DESSA 
+
+
+ PÁGINA SECUNDÁRIA À principal...
+
+
+
+
+-------------------------------------
+
+
+
+
+Dentro de 'MyPlace', o professor 
+
+CRIARÁ UMA 
+
+NOVA CLASSE, 
+
+
+chamada de 
+
+'Place'...
+
+
+
+Na verdade, será chamada de 'LoadedPlace'...
+
+
+
+
+
+DENTRO DO CONSTRUCTOR DESSA CLASSE, o professor ESPERARÁ 
+
+RECEBER 
+
+
+
+OS PARÂMETROS 
+
+'coordinates' e 'address' (ou seja, os DOIS PEDAÇOS DE INFORMAÇÃO QUE PODEMOS CONSEGUIR POR MEIO DA URL, NO FINAL DAS CONTAS...):
+
+
+
+
+(RESUMINDO: NÓS DEPENDEMOS DA URL, NESSE CASO... A URL QUE É GERADA PELA PÁGINA ANTERIOR É O NEGÓCIO 
+
+QUE USAREMOS PARA EXTRAIR INFORMAÇÕES DA LOCALIZAÇÃO DO USUÁRIO--- endereço e coordenadas... isso pq ela tem os 2 pedaços de dados ENCODADOS EM SEU INTERIOR...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+
+    }
+}
+
+
+
+-------------------------------------------------
+
+
+
+
+
+DENTRO de 'MyPlace', 
+
+EU NÃO QUERO CONSTRUIR UM ___'MAP'___ NOVO DO ZERO, definir tudo dnv DO 0, POR 
+
+
+ISSO EU VOU QUERER IMPORTAR 'Map' from 'Map.js'....
+
+
+
+
+ex:
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+
+    }
+}
+
+
+
+
+----------------------------------------
+
+
+
+
+
+
+FEITO ISSO, O PROFESSOR VAI QUERER ____CRIAR UM NOVO MAP AQUI___, criar um novo 
+
+MAP POR MEIO DO CHAMADO DE 
+
+'new Map()' E COM A PASSAGEM DO PARÂMETRO/DE UM PARÂMETRO 'coords' 
+
+
+PARA SEU INTERIOR....
+
+
+
+É EVIDENTE QUE O PARÂMETRO USADO POR ELE SERÁ AS 'coordinates' QUE 
+
+'LoadedPlace' ACEITA/EXIGE COMO PARÂMETROS...
+----------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); /////EIS O CÓDIGO EM QUESTÃO.
+    }
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+ALÉM DISSO, O PROFESSOR TAMBÉM VAI QUERER __OUTPUTTAR___ O ENDEREÇO 
+
+
+NO __HEADER__ dessa nossa 2a página html...
+
+
+
+
+PARA ISSO, ELE DIZ QUE PODEMOS ACESSAR 'headerTitle' E ENTÃO ARMAZENAR 
+
+ESSE ELEMENTO EM UMA CONSTANTE com esse nome....
+
+
+
+FAZEMOS ISSO POR MEIO DE 'document.querySelector('header h1');'
+
+
+
+PROFESSOR COLOCA 'header h1' PQ É ISSO QUE NOS INTERESSA, E NÃO O HEADER EM SI...
+
+'header h1' É UM SELETOR CSS QUE SELECIONA O PRIMEIRO ELEMENTO H1 NO PRIMEIRO ELEMENTO HEADER nessa 
+
+página...
+
+
+(
+aqui, deve ser relembrada a disposição de elementos no index.html:
+
+
+
+'<body>
+    <header>
+        <h1></h1>
+    </header>
+
+<..>
+
+'
+
+
+
+
+
+)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+    }
+}
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+FEito isso, ele vai querer alterar o text content desse elemento, certo...?
+
+(acertei!!!!).
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = 
+    }
+}
+
+
+
+----------------------------------------------
+
+
+
+ELE VAI DEFINIR O 'textContent'
+
+
+COMO SENDO 
+
+
+O _____ADDRESS____ que estaremos recebendo NO INSTANCIAMENTO DA CLASSE 
+
+
+'LoadedPlace'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+
+FEITO ISSO, PODEMOS __INSTANCIAR___ essa classe 'LoadedPlace'...
+
+
+
+
+ex:
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+new LoadedPlace();
+
+
+
+
+---------------------------------------
+
+
+
+
+MAS AS COISAS NÃO SÃO TÃO SIMPLES:
+
+
+AINDA PRECISAMOS __PARSEAR___ ALGUNS DADOS DA URL PARA QUE ELES SE ENCAIXEM 
+
+COMO PARÂMETROS DE 'LoadedPlace'....
+
+
+
+
+
+PARA ISSO, DE NOVO, NÓS 
+
+
+TEMOS UM MÉTODO/FUNÇÃO UTILIZADO ESPECIFICAMENTE PARA ISSO, PARA 
+
+QUE URLs POSSAM SER CONVERTIDAS EM DADOS 'secos' (dados que podem ser utilizados 
+
+COMO STRINGS...)..........
+
+
+
+
+PROFESSOR EXPLICA QUE EXISTE UMA CONSTRUCTOR FUNCTION/CLASSE BUILTIN no javascript 
+
+chamada de 
+
+'URL'............
+
+
+
+
+NÓS DEVEMOS INSTANCIAR UMA DESSAS COISAS, uma dessas 'URL',
+
+
+POR MEIO DO CALL DE 
+
+
+
+'new URL();'
+
+
+
+
+
+
+A ESSE OBJETO, NÓS VAMOS QUERER PASSAR UMA ________URL________.
+
+
+
+
+A url que vamos querer passar é A CURRENTURL DO USUÁRIO...............
+
+
+
+E, COMO HAVÍAMOS APRENDIDO ANTERIORMENTE, HÁ UM CÓDIGO ESPECÍFICO PARA REFERENCIAR 
+
+A "CURRENTURL" de um usuário...
+
+
+
+Tente se lembrar....
+
+
+
+
+ME LEMBREI:
+
+
+
+
+É 
+
+'location.origin'...
+
+
+
+
+BÉÉÉÉ.
+
+
+ERRADO.
+
+
+É 
+
+'location.href', aparentemente.
+
+
+
+'location.origin' ---> É A URL EM QUE O USUÁRIO ESTAVA ANTERIORMENTE, aparentemente.
+
+
+
+Devemos chamar 'new URL()' e passar esse parâmetro...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+new URL(location.href);
+new LoadedPlace();
+
+
+
+
+------------------------------
+
+
+
+
+
+
+Certo, passamos esse negócio a essa 'builtin' URL CONSTRUCTOR FUNCTION...
+
+
+ELA CRIARÁ UM _________OBJETO___________ COM OPÇÕES____ PARA NÓS 
+
+
+CONSEGUIRMOS ______iNFORMAÇÕES____ por meio dessa URL....
+
+
+
+É EXATAMENTE ISSO QUE A UTILITY CONSTRUCTOR FUNCTION/CLASSE de 'URL' 
+
+
+
+FAZ.....
+
+
+--------------------------
+
+
+
+O professor armazena esse objeto URL em uma constante 
+
+de nome 
+
+'url'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+new LoadedPlace();
+
+
+------------------------------------------------------
+
+
+
+
+FEITO ISSO, O PROFESSOR DIZ QUE PODEMOS ENTÃO CONSEGUIR O NOSSO 'query Parameter'...
+
+ELE IRÁ ARMAZENAR ESSE PARÂMETRO EM UMA CONST de nome 'queryParams'....
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = 
+new LoadedPlace();
+
+
+
+
+-----------------------------------------
+
+
+
+
+CONSEGUIREMOS ESSES PARÂMETROS POR MEIO 
+
+
+DO MÉTODO 'searchParams' (que é providenciado pelo objeto 'URL')
+
+
+DENTRO DO OBJETO 'URL' (da classe/constructor function URL....)
+
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = url.searchParams;
+new LoadedPlace();
+
+
+
+----------------------------------------------------
+
+
+
+
+
+ESSAS SERÃO NOSSAS OPÇÕES DINÂMICAS (as coisas APÓS O SINAL DE '?' NA URL...), aqui, 
+
+
+
+ARMAZENADAS COMO "KEY VALUE PAIRS" em 
+
+
+'queryParams', agora...  (graças ao '.searchParams()')
+
+
+
+-----------------------------------
+
+
+
+Podemos ver o que há dentro de 'queryParams' (essas OPÇÕES DINÂMICAS) por meio 
+
+
+de 
+
+
+'console.log(queryParams)'...
+
+
+
+---> mas esse negócio, esse SEGUNDO HTML, não parece estar updateando direito...
+
+------------------------
+
+
+
+
+Feito isso, CRIAMOS UMA 
+
+CONSTANTE CHAMADA 
+
+'coords'... É nela que serão inseridas as NOSSAS 
+
+COORDENADAS EXTRAÍDAS DA URL.... (que estão inseridas, em formato ENCODADO, na URL...).
+
+
+Nós armazenaremos essas coordenadas EM UM __OBJETO__, nessa constante...
+
+
+
+ex:
+
+
+
+const coords = {
+
+}
+
+
+----------------------------------
+
+
+Esse objeto terá uma propriedade 'lat' e uma 'lng'...
+
+
+
+
+
+a propriedade 'lat' terá 
+
+um valor de 
+
+'queryParams.get()' -----------> PQ DENTRO DAQUELE OBJETO 'queryParams', QUE CRIAMOS POR MEIO DE 'url.searchParams()', TEMOS UM MÉTODO CHAMADO DE 'get()'........  ESSE MÉTODO PODE SER USADO PARA ____PEGAR VALORES DE "ARGUMENTOS" ___ DENTRO DE ___ URLs ___...
+
+
+
+Nós passaremos o argumento de 'lat'...
+
+
+ex:
+
+
+const coords = {
+    lat: queryParams.get('lat');
+}
+
+-----------------------------------
+
+
+
+
+ESSE CÓDIGO BASICAMENTE DIRÁ:
+
+
+'hey, eu quero PEGAR (get) O VALOR QUE ESTÁ ARMAZENADO PARA/NESSE 'IDENTIFICADOR' 'lat'
+ NESSA MINHA URL....'
+
+
+
+ LEMBRANDO O FORMATO DA URL:
+
+
+
+                                                        (EIS AQUI O MODIFICADOR, 'lat')
+ `${location.origin}/my-place?address=${encodeURI(address)}&lat=${coordinates.lat}&lng=${coordinates.lng}`;......
+
+
+
+
+
+
+ O valor, no final das contas, É ESSE VALOR DINÂMICO DE '${coordinates.lat}'
+
+ INSERIDO LOGO APÓS O 'lat'....
+
+
+
+
+
+
+
+ EX(REPRESENTAÇÃO DO CÓDIGO INTEIRO):
+
+
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = url.searchParams;
+
+
+const coords = {
+    lat: queryParams.get('lat'),
+
+}
+new LoadedPlace();
+
+
+
+
+
+
+---------------------------
+
+
+
+É EVIDENTE QUE EU VOU QUERER REPETIR O MESMO PROCESSO PARA 
+
+A KEY 'lng'...
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = url.searchParams;
+
+
+const coords = {
+    lat: queryParams.get('lat'),
+    lng: queryParams.get('lng')
+
+
+}
+new LoadedPlace();
+
+
+
+------------------------------------------------------
+
+
+
+
+IMPORTANTE::::: O QUE É 'RETRIEVADO' AQUI, em/por 
+
+'lat: queryParams.get(xxx)', 
+
+SEMPRE SERÁ ___UMA STRING_____...
+
+
+
+
+ENTRETANTO, PROFESSOR NOS EXPLICA QUE PRECISAMOS _______dE UM NÚMERO_____ 
+NESSE LUGAR, E NÃO UMA STRING... (o fato de esse negócio ser uma string CAUSARÁ 
+
+___ERROS___ NO NOSSO CÓDIGO__).
+
+
+
+
+
+Ok, mas como podemos solucionar isso?
+
+
+
+Professor explica que devemos CONVERTER ESSAS STRINGS EM ___NÚMEROS___ por meio 
+
+
+
+DE 2 ALTERNATIVAS:
+
+
+
+1a alternativa = CONVERSÃO do valor dinâmico da string (queryParams) EM UM NÚMERO POR MEIO DA ADIÇÃO DO OPERADOR '+' NA FRENTE DESSE VALOR.... (ex:  'lat: +queryParams.get('lat'))'
+
+
+
+
+2a alternativa = CONVERSÃO DO VALOR DINÂMICO (queryParams) DA STRING EM UM NÚMERO POR MEIO DO MÉTODO 'parseFloat()'....   ------> EX: 'parseFloat(queryParams.get('lat'))'
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = url.searchParams;
+
+
+const coords = {
+    lat: parseFloat(queryParams.get('lat')),
+    lng: +queryParams.get('lng')
+
+
+}
+new LoadedPlace();
+
+
+----------------------------------------
+
+
+
+COM ISSO, AGORA FICAMOS COM AS _____COORDINATES_____ que devemos 
+passar 
+
+ao instanciamento de 'loadedPlace' (new loadedPlace())....
+
+
+
+----------------------------------------------
+
+
+
+
+
+JÁ PARA O 'address', o PROFESSOR VAI ARMAZENÁ-LO EM UMA CONSTANTE....
+
+
+ELe vai conseguir o valor dessa constante por meio 
+
+de 
+
+queryParams.get(), MAS DESSA VEZ 
+
+
+PASSANDO 'address' COMO 
+
+PARÂMETRO...
+
+
+
+ex:
+
+
+
+const address = queryParams.get('address');
+
+
+
+
+
+---------------------------------------------
+
+
+
+PROFESSOR REITERA, EXPLICA, QUE AS COISAS QUE 
+
+NÓS TENTAMOS 'GET' COM O MÉTODO 'GET'(nesse caso, 'lat', 'lng' e 'address'
+) ____DEVEM/SERÃO SEMPRE ___ SER OS VALORES DAS 
+
+KEYS___ QUE VOCê TEM/ENCONTRA NO SEU URL, NO SEU URL, NAQUELE 
+
+ESPAÇO POSTERIOR AO '?' (que é chamado de 'query string')....
+
+
+
+
+
+? -----> Its name is Query string. 
+After the question mark you can pass 
+key-value pairs and use them server-side.
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+Aqui, portanto, o professor estará, por meio do código 'queryParams.get('address')', 
+
+GANHANDO ACESSO AO VALOR DINÂMICO COLOCADO NA NOSSA URL APÓS 'address'...
+
+
+esse valor é o de 
+
+
+
+${encodeURI(address)}.....
+
+
+(que é um VALOR ENCODADO PARA A URL, pois veja o 'encodeURI' que utilizamos ali...)
+
+---------------------------------------------------------
+
+
+
+
+POR MEIO DESSE MÉTODO 'get', ESSE VALOR É __ RETRIEVADO__ E 
+
+_______AUTOMATICAMENTE____ PARSEADO ____ EM UM 'HUMAN READABLE FORMAT'....
+
+
+Isso quer dizer que O VALOR QUE VOCÊ QUER QUE SEJA RETRIEVADO É AUTOMATICAMENTE 
+
+CONVERTIDO daquele 'OPTIMIZED URI FORMAT' PARA UM FORMATO 
+__LEGÍVEL__ PARA HUMANOS....
+
+
+
+
+É por isso que podemos, agora, 
+
+
+FAZER FORWARD DOS 2 PARÂMETROS PARA O NOSSO INSTANCIAMENTO DE 'LoadedPlace', 
+
+PODEMOS PASSAR TANTO 
+
+'coords' COMO 'address'...
+
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map.js';
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates); 
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = url.searchParams;
+
+
+const coords = {
+    lat: parseFloat(queryParams.get('lat')),
+    lng: +queryParams.get('lng')
+}
+
+const address = queryParams.get('address');
+new LoadedPlace(coords, address); ///////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+
+------------------------------------------------
+
+
+
+
+SALVAMOS E RECARREGAMOS O CÓDIGO....
+
+
+
+Com isso, agora teremos 
+
+UM 
+
+
+
+___ERRO___.
+
+
+
+O ERRO É ESSE:
+
+
+'Uncaught ReferenceError: 
+google is not defined'....
+
+
+
+
+
+
+--------> PROFESSOR DIZ QUE ISSO __fAZ SENTIDO__.
+
+
+FAZ SENTIDO PORQUE ELE/NÓS ESTAMOS USANDO 
+
+
+a classe 
+
+
+'MAP' 
+
+
+
+em 
+
+
+'MyPlace'.......... (naquele trecho:
+
+
+'class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates);
+    }
+}'
+
+
+
+
+
+)
+
+
+
+
+
+E, PARA 'MAP', É EVIDENTE QUE EU TENHO QUE USAR/sou obrigado a usar 
+
+___a GOOGLE_MAPS_API___....
+
+
+
+
+
+(BASTA QUE OBSERVEMOS O CÓDIGO DA CLASSE 'map':
+
+
+export class Map {
+    constructor(coords) {
+        //this.coordinates = coords;
+        this.render(coords);
+    }
+    render(coordinates) {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: coordinates,
+            setMap: map
+        })
+}
+
+
+}
+
+
+
+
+OU SEJA, CHEIO DE REFERÊNCIAS AO GOOGLE, com 'new google.maps.Map'
+
+
+
+)
+
+
+
+---------------------------------------
+
+
+
+E ESSA API 'MAPS' DO GOOGLE ESTÁ 
+
+
+IMPORTADA NO 
+
+
+NO NOSSO 'root HTML', por meio 
+
+
+daquele código do import, 
+
+
+por meio 
+
+
+de 
+
+
+
+
+
+'<script src="https://maps.googleapis.com/maps/api/js?key=" defer> </script>',
+
+
+
+
+
+
+MAS ESSE SCRIPT NÃO ESTÁ COLOCADO 
+
+NO NOSSO OUTRO 'INDEX.HTML', O INDEX.HTML DE 
+
+
+'MyPlace.js'...
+
+
+
+
+
+
+Nós rapidamente copiamos e colamos essa linha do import dessa API do google no nosso outro index.html...
+
+Adicionamos esse import ANTES DO IMPORT DO NOSSO SCRIPT...
+
+
+
+
+DEVEMOS FAZER ISSO PARA QUE NÓS ____TENHAMOS ___ ACESSO ___ à 'google maps API' EM 
+
+TODAS AS PÁGINAS DE NOSSO WEBAPP...
+
+
+------------------------------------
+
+
+
+PROFESSOR RECARREGA A PÁGINA...
+
+
+O ERRO 
+
+
+AINDA APARECE....
+
+
+O erro de 
+
+
+'Uncaught ReferenceError: google is not defined'...
+
+
+
+
+
+PROFESSOR DIZ QUE AINDA FALHAMOS...
+
+
+
+A RAZÃO PARA ESSE ERRO, DIZ ELE, É QUE NÓS 
+
+TEMOS ___"ASYNC"_____ DEFINIDO 
+
+
+NO CÓDIGO DE IMPORT DA 'google maps API'...
+
+
+ex:
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=" async defer> </script>
+
+
+
+---------------------------------
+
+
+
+
+
+ESSE 'async', esse atributo, DEVE SER ___REMOVIDO___. REMOVIDO EM AMBOS OS IMPORTS...
+
+
+
+
+---------------------------------
+
+
+ex:
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=" defer> </script>
+
+
+
+---------------------------------
+
+
+
+PROFESSOR DIZ QUE DEVEMOS TIRAR ESSE ATRIBUTO PQ ELE PODE RESULTAR NO 
+
+SCRIPT DO 'GOOGLE MAPS' CARREGAR TARDE DEMAIS DURANTE A EXECUÇÃO 
+
+
+DA PÁGINA..... E ESSE 'CARREGAMENTO TARDIO' pode cagar tudo na nossa página, pois aí 
+
+nosso script pode, ocasionalmente, ACABAR CARREGANDO ___aNTES____ DO GOOGLE MAP TER SIDO 
+CARREGADO (ou seja, choverão erros).
+
+
+
+--------------------------------
+
+
+
+DEIXAMOS APENAS 'defer' nesse import, e RECARREGAMOS A PÁGINA....
+
+
+
+AGORA TUDO FUNCIONA...
+
+
+
+TODAS AS FEATURES ESTÃO FUNCIONANDO (o único problema é A FALTA 
+
+DA "GOOGLE_API_KEY", que eu não tenho por não ter inserido meu cartão de crédito 
+
+nas informações da conta google.)
+
+
+-----------------------------------
+
+
+
+ISSO TUDO ESTÁ FUNCIONANDO, NOSSO APLICATIVO ESTÁ FUNCIONANDO...
+
+
+
+
+ESTAMOS USANDO UM MONTE DE BROWSER APIs, google map API, 
+
+browser support aplicado, 
+
+
+Funções de webpack, tudo, tudo.
+
+
+USAMOS ASYNC AWAIT, 
+
+
+usamos promises com .then() e .catch() blocks,
+
+
+
+USAMOS FETCH API, 
+
+
+
+usamos template literals, 
+
+etc etc...
+
+
+
+muitas features do curso FORAM USADAS NESSE APLICATIVO...
+
+
+
+ESSE APLICATIVO É UM RESUMO DE TUDO AQUILO QUE APRENDEMOS.

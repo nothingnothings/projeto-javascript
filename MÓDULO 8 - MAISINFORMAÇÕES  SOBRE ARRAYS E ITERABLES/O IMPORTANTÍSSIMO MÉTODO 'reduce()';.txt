@@ -1,0 +1,367 @@
+Há um último método IMPORTANTÍSSIMO DE ARRAYS, que devemos saber.
+
+
+É obrigatório saber isso.
+
+
+
+
+É o método "reduce();". 
+
+
+
+
+
+
+O professor está nos mostrando por último essa função por que é uma 
+das funções MAIS COMPLEXAS E DESAFIADORAS.
+
+
+
+
+Ele diz que ela ainda é simples, mas que devemos estudá-la passo a passo.
+
+
+
+Devemos colocar aqui os preços sem filtro, sem mudanças:
+
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+---------------------------------
+
+
+VOCê QUER SOMÁ-LOS TODOS, UNS AOS OUTROS.
+
+
+Professor diz que para isso você pode usar um for of loop, ou um 
+forEach...
+
+ex:
+
+
+
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+
+
+let sum = 0;
+
+
+
+prices.forEach((price, index, prices) => {
+    sum += price;
+});
+
+
+console.log(sum);  // -----> ISSO, esse loop, DEVERÁ NOS DAR A SOMA DE TODOS AQUELES NÚMEROS.
+                    //vai nos retornar "27.56", a soma de todos os preços.
+
+
+
+
+
+
+Professor diz que isso não é muito problemático/difícil, é um código 
+curto para uma função/tarefa curta.
+
+MASSSSSS... ELE DIZ QUE PODEMOS ESCREVER ISSO COM BEM MENOS CÓDIGO.
+Ele comenta o loop para fora do código e então cria uma constante chamada sum, que então 
+tem seu valor definido como "prices.reduce();".
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+
+const sum = prices.reduce();
+
+
+----------------------------------------------
+
+
+O MÉTODO "REDUCE" é outra função built-in na engine do javascript/browser. É um método built-in DISPONÍVEL 
+EM ARRAYS.
+
+Ele toma UMA FUNÇÃO COMO PARÂMETRO. Essa função, como podemos ver, aceita vários argumentos.
+
+
+1o argumento ----> é o chamado "previousValue" (prevValue)
+
+
+2o argumento ----> é o chamado "currentValue" (curValue)
+
+
+3o argumento ---> é o chaamdo "currentIndex" (curIndex);  ---> (esse argumento só existe se você quiser).
+
+
+4o argumento ---> é o chamado "originalArray" (origArray/ "prices") --> é o clássico último argumento desses métodos de arrays, que sempre é o array em si, array original (antigo) inteiro.
+
+
+
+
+O 3o e 4o argumentos são os argumentos que você usa bem menos do que os outros dois.
+
+
+
+ex:
+
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+
+const sum = prices.reduce((prevValue, curValue, curIndex, prices) => {
+
+});
+
+
+---------------------------------------
+
+
+
+A função/método "reduce()" em si TAMBÉM RECEBE OUTRO ARGUMENTO/PARÂMETRO OPCIONAL...
+
+Lembre-se: ____O PRIMEIRO PARÂMETRO_____ DO MÉTODO "REDUCE()" É ESSA FUNÇÃO GRANDINHA. ESSA FUNÇÃO COM OS 4 argumentos.
+
+                JÁ O SEGUNDO PARÂMETRO (QUE É OPCIONAL) É OUTRA COISA...
+
+
+-----------------------------------------
+
+
+Mas deixando isso de lado um pouco....
+
+
+
+O que diabos "reduce()" faz?
+
+
+
+
+Reduce, como sugere o nome, FAZ A REDUÇÃO DE UM ARRAY PARA UM VALOR MAIS SIMPLES.
+
+Ex: ele pode reduzir um array de números À UMA SOMA DESSES NUMEROS (sum).
+
+    É claro que essa não é a única forma de redução que ele pode fazer, diz o professor.
+    Você pode reduzir QUALQUER ARRAY a QUALQUER VALOR que você desejar.
+
+
+A ideia básica é que você sempre reduz um array, torna-o em um valor mais simples.
+
+
+O mais comum é converter um array inteiro em um único número (single number) ou uma única string.
+
+-----------------------------------------
+
+
+
+O SEGUNDO ARGUMENTO QUE VOCÊ PASSA a reduce() é  _______O VALOR INICIAL____ COM O QUAL___ 
+VOCÊ QUER COMEÇAR.
+
+
+
+Aqui, nesse exemplo concreto, queremos o SUM, a soma de todos os números do array. Como queremos 
+essa soma, devemos começar com "0", para que nenhum valor interfira nessa operação matemática.
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+
+const sum = prices.reduce((prevValue, curValue, curIndex, prices) => {
+
+}, 0);
+
+
+-------------------------------
+
+
+O que acontece aqui é que "reduce()" executa essa função do function body EM CADA ELEMENTO DO ARRAY 
+(mesmo modus operandi de find e map). "previousValue", para A PRIMEIRA EXECUÇÃO, É ESSE VALOR INICIAL (segundo parâmetro de reduce();) 
+QUE VOCÊ DEFINIU ALI (no caso do exemplo, o valor de 0). Se esse segundo argumento/parâmetro do método reduce() não for passado a ele, 
+o argumento/slot será computado como UNDEFINED pela máquina.
+
+JÁ "currentValue", o segundo parâmetro da função anônima interna de reduce(), é O PRIMEIRO ELEMENTO DO ARRAY. Ou seja, 
+geralmente É ____O ELEMENTO DO ARRAY____ EM QUE___ ESSE ____ MÉTODO/FUNÇÃO___ ESTÁ SENDO____ EXECUTADO____ NO PRESENTE.
+
+Portanto, para a primeira execução, "currentValue" É O VALOR DO PRIMEIRO ELEMENTO DO ARRAY. É diferente de "previousValue", que 
+É ESSE VALOR INICIAL, VALOR INICIAL DA REDUÇÃO.
+
+OBS: Nessa função, você DEVE ________RETORNAR____ SEU VALOR ATUALIZADO. O VALOR REDUZIDO ATUALMENTE/NO PRESENTE.
+        No exemplo concreto do professor, isso seria "return prevValue + curValue;".
+
+
+
+        ex:
+
+
+
+
+
+        const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const tax = 0.19;
+
+
+
+const sum = prices.reduce((prevValue, curValue, curIndex, prices) => {
+    return prevValue + curValue;
+}, 0);
+
+----------------------------
+
+Para a primeira execução, portanto, prevValue é 0, e curValue é "10.99", pois é o primeiro elemento do array.
+
+Para A SEGUNDA EXECUÇÃO, ESSA FUNÇÃO INTERNA É EXECUTADA NO __SEGUNDO__ELEMENTO DO ARRAY. "prevValue" será 10.99, e 5.99 será o "curValue".
+"prevValue", portanto, na segunda execução, DEIXA DE SER AQUELE VALOR INICIAL QUE VOCÊ COLOCOU COMO SEGUNDO 
+PARÂMETRO, E PASSA A SER O RESULTADO DÁ ULTIMA EXECUÇÃO DE FUNÇÃO QUE VOCÊ RETORNOU NESSA PRÓPRIA FUNÇÃO, NO MÉTODO REDUCE().
+
+
+prevValue na segunda execução ---> vai segurar o valor RETORNADO NA PRIMEIRA EXECUÇÃO. Esse é o resumo do que isso faz.
+
+
+
+
+As execuções continuam, e acabam passando por todos os elementos do array.
+
+
+
+
+
+É CLARO QUE O ARRAY ORIGINAL NÃO SE TORNA VAZIO OU ALGO DO GÊNERO. Não, ele continua INTACTO. Não é editado de qualquer maneira.
+
+É apenas criada uma cópia de seus items, mas reduzidos a algum número/string.
+
+
+
+NA ÚLTIMA EXECUÇÃO, CASO O SISTEMA PERCEBA QUE NÃO HÁ ELEMENTOS EM QUE RODAR AQUELE MÉTODO, ELE SIMPLESMENTE 
+IRÁ RETORNAR O VALOR "overall" de tudo que ele fez com essa função, o retorno da soma/subtração/redução de todos elementos que aglutinou.
+
+
+Nesse exemplo do professor, tudo isso que o método reduce fez será ARMAZENADO NESSA CONSTANTE CHAMADA DE "sum".
+
+
+Console.loggamos "sum", e vemos que o resultado está correto. Esse método funciona.
+
+
+Professor faz outro adendo: diz que ainda podemos reduzir a sintaxe/formato desse método.
+Diz que devemos usar (prevValue, curValue), não podemos tirar, porque ainda 
+temos 2 argumentos principais que devem ser passado. Entretanto, quanto aos curly braces 
+da função e à keyword "return" não podemos dizer o mesmo: podemos suprimí-los.
+
+
+
+ex:
+
+
+
+
+
+const sum = prices.reduce((prevValue, curValue, curIndex, prices) => {
+    return prevValue + curValue;
+}, 0);
+
+
+
+VIRA 
+
+
+
+const sum = prices.reduce((prevValue, curValue) => prevValue + curValue, 0);
+
+
+
+----------------------------------------
+
+
+COMO VOCÊ PODE PERCEBER, AGORA TEMOS UMA VERSÃO BEM CONCISA E REDUZIDA 
+DAQUELA EXPRESSÃO/função ANTIGA.
+
+
+
+Reduce pode ser muito útil, facilita a combinação de múltiplos elementos/valores em 
+apenas um único valor/elemento.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+With all these useful array methods you learned about, it's important to understand how you can combine them. Let's take map() and reduce() as an example:
+
+const originalArray = [{price: 10.99}, {price: 5.99}, {price: 29.99}];
+const transformedArray = originalArray.map(obj => obj.price); // produces [10.99, 5.99, 29.99]
+const sum = transformedArray.reduce((sumVal, curVal) => sumVal + curVal, 0); // => 46.97
+Of course, you could skip the map step and just add the extraction logic to reduce():
+
+const originalArray = [{price: 10.99}, {price: 5.99}, {price: 29.99}];
+const sum = originalArray.reduce((sumVal, curVal) => sumVal + curVal.price, 0); // => 46.97
+But let's say you have a more complex extraction logic and hence want to split this into multiple method calls. Or you have a re-usable map function which you want to be able to use in different places of your app. Then you can still write the initial example in a more concise way if you leverage method chaining:
+
+const originalArray = [{price: 10.99}, {price: 5.99}, {price: 29.99}];
+const sum = originalArray.map(obj => obj.price)
+    .reduce((sumVal, curVal) => sumVal + curVal, 0); // => 46.97
+We call .reduce() directly on the result of map() (which produces an array, that's why this is possible). Hence we can avoid storing the mapped array in a separate constant or variable that we might not need in any other place.

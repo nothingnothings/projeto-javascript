@@ -1,0 +1,352 @@
+A IDEIA POR TRÁS DE TRY-CATCH É DE FAZER 
+WRAP DO TRY CATCH POR VOLTA DO CÓDIGO QUE VOCÊ ESPERA QUE VAI FALHAR.
+
+
+Você pode pensar: "vou colocar meu código inteiro dentro de try, aí todo meu código será solucionado!".
+
+Mas isso não existe. Não há como pegar todos os erros direto.
+
+
+
+Não faça wrap de todo o código com try.
+
+
+
+Isso é horrível para performance, e é um estilo de programação ruim.
+
+
+
+VOcê quer escrever código que NÃO RENDE ERROS. Você pode usar 
+a seção de debugging para resolver erros de sintaxe e lógica.
+
+
+
+VOCÊ SÓ QUER MOVER CÓDIGO PARA DENTRO DE TRY QUANDO 
+VOCê NÃO CONSEGUE CONTROLAR ESSE PEDAÇO DE CÓDIGO, VOCÊ NÃO CONSEGUE 
+SABER QUE ERRO VAI DAR (NEM CONSEGUE REPLICAR O ERRO), ENTÃO VOCê COLOCA NO TRY. 
+
+Esse é o caso em
+
+ex (do que NÃO FAZER, de não inserir um blocão de código no try):
+
+
+try{
+
+function getMaxLifeValues() {
+  const enteredValue = prompt ('Maximum Life for you and the monster.', '100');
+
+const parsedValue = parseInt(enteredValue);
+if (isNaN(parsedValue) || parsedValue <= 0) {
+  throw {
+    message: 'Invalid user input, not a number!'};
+  
+  
+}
+return parsedValue;
+}
+
+}
+
+
+
+
+NÓS NÃO CONSEGUIMOS CONTROLAR SE O USUÁRIO VAI COLOCAR UM INPUT VÁLIDO OU NÃO.
+Portanto, movemos apenas UMA ÚNICA LINHA de código (o código pertinente ao input do user) para dentro de 
+try, o resto fica onde está. 
+
+ex:
+
+try {
+    let chosenMaxLife = getMaxLifeValues();
+}
+
+
+MAS, COMO EU VOU QUERER USAR A VARIÁVEL MAIS TARDE, NA FUNÇÃO "getMaxLifeValues();", 
+EU PRECISO DE uma CÓPIA DESSA VARIÁVEL, para uma ficar DENTRO DO TRY E OUTRA FORA, PORQUE ELA 
+É UMA VARIÁVEL GLOBAL, FUNDAMENTAL PARA A EXECUÇÃO DE GETMAXLIFEVALUES.
+
+
+EX:
+
+
+
+
+let chosenMaxLife;   //Aqui apenas declararei a variável, não assignarei valores à ela. Deixarei para fazer isso dentro do try block.
+
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+}
+
+
+
+
+
+RESULTADO FINAL:
+
+
+
+
+
+
+
+function getMaxLifeValues() {
+  const enteredValue = prompt ('Maximum Life for you and the monster.', '100');
+
+const parsedValue = parseInt(enteredValue);
+if (isNaN(parsedValue) || parsedValue <= 0) {
+  throw {
+    message: 'Invalid user input, not a number!'};
+  
+  
+}
+return parsedValue;
+}
+
+let chosenMaxLife; 
+
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+}
+
+
+AGORA NÓS TEMOS ESSE TRY BLOCK QUE "TENTA" ESSE CÓDIGO DE chosenMaxLife...
+Mas esse bloco, do jeito que está, NÃO É VÁLIDO, não nos é útil (a sintaxe é inválida).
+Para que esse catch block funcione, você PRECISA DE UM ___CATCH____ BLOCK.
+O catch é seguido de um parâmetro, dentro de parênteses. O parâmetro que você deve 
+inserir é o nome daquilo que você está caracterizando. Geralmente vocÊ escreverá "error".
+O try-catch, quando completo, é basicamente uma função, tem a mesma fórmula que uma função.
+DENTRO DOS CURLY BRACES FINAIS, DEPOIS DO PARÂMETRO DO CATCH, É QUE O ERRO 
+CAPTURADO SERÁ DISPONIBILIZADO. Dentro das curly braces o erro "error", que foi capturado, 
+será disponibilizado. O try-catch, portanto, é chamado como uma função 
+pelo javascript, e "ERROR" é o erro que foi jogado no código. Nesse caso, é o 
+seu próprio error object que você criou (message: 'Invalid user input, not a number!'), 
+se for algum erro de sistema (como o system error: network request, que o professor mencionou anteriormente), 
+o javascript vai te mostrar um erro criado por ele mesmo, de autoria dele, e não sua.
+
+
+
+
+                --exemplo--
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+
+}
+
+
+
+
+
+---> CONTINUANDO:
+
+
+
+Agora, por exemplo, podemos console.loggar o erro, para ver o que está dentro dele.
+Podemos também dizer, complementando, que "ok, então agora chosenMaxLife será 100"; 
+essa SERÁ A NOSSA LÓGICA DE FALLBACK, PARA CASO AS COISAS DEÊM ERRADO.
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
+    chosenMaxLife = 100;
+}
+
+
+
+Ou seja: se "chosenMaxLife = getMaxLifeValues();" FALHAR (código tentado com "TRY"), 
+O CÓDIGO EM CATCH(error) SERÁ EXECUTADO. CASO O PRIMEIRO CÓDIGO, O CÓDIGO NO BLOCO TRY, 
+FUNCIONAR, NÓS IGNORAMOS COMPLETAMENTE O CÓDIGO A SER EXECUTADO EM CATCH.
+
+
+
+Com a ajuda de catch, podemos settar um código alternativo que rodará e fará o resto 
+do nosso código funcionar... isso é útil para eventualidades, problemas que acarretarão em 
+erros. É O CÓDIGO DE FALLBACK, basicamente.
+
+
+
+ENTRETANTO, ISSO NEM SEMPRE É POSSÍVE. ÀS VEZES O MELHOR QUE VOCÊ PODE FAZER 
+É MOSTRAR UMA MENSAGEM DE ERRO E "DEIXAR QUIETO"----> o app vai crashar, o usuário vai se ferrar, 
+mas pelo menos você mostrou um indicativo de qual pode ser o problema.
+
+
+EX: SERVIDOR ESTÁ OFFLINE, VOCÊ NÃO PODE SALVAR DADOS NO SERVIDOR. Há pouquíssimas 
+coisas a se fazer, vocÊ pode alertar o usuário, e é isso.
+Você pode dizer ao usuário que ele não deve sair da página, e que deve tentar 
+de novo em alguns segundos, etc. 
+
+
+Mas em casos como o nosso, fallbacks são possíves.
+No nosso caso, o usuário nem mesmo PERCEBERIA que o valor de fallback foi usado, 
+e que um erro ocorreu, porque tudo ocorre automaticamente. Poderíamos alertá-lo do 
+erro, colocando um "alert('An error has occurred. Default values were set.')", 
+mas isso é opcional.
+
+ex:
+
+
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
+    chosenMaxLife = 100;
+    alert('An error has occurred. Default values were set.');
+}
+
+
+
+Agora, se recarregarmos a página e tentarmos uma letra no input field, 
+nos será mostrada aquela mensagem ali, de alerta.
+
+"um erro bla bla bla".
+
+
+Nos será mostrada a mensagem de alerta, mas para nós não aparecerá aquela 
+mensagem de erro antiga, a "uncaught", isso é porque a mensagem lançada por "THROW" agora 
+não está ancorada em um erro de sistema. A mensagem de throw agora é uma simples mensagem 
+no log, nada mais que isso.
+
+
+
+Agora temos um sistema de fallback gracioso (apresentação de mensagem de erro 
+em caso de falha no código, falha que vem em decorrÊncia de um user input).
+
+
+Em muitos casos, try-catch é ABSOLUTAMENTE NECESSÁRIO.
+
+Por que há casos em que vocÊ VAI ACHAR UM ERRO, QUER VOCÊ QUEIRA OU NÃO, E VOCÊ 
+PRECISA SABER COMO LIDAR COM ELE. Por isso que é importante praticar 
+o try-catch aqui, AINDA QUE A LÓGICA ANTERIOR ESTIVESSE CORRETA, E NÃO NOS JOGASSE UM ERRO POR SI SÓ (parseInt não nos dava um erro).
+(ou seja, o try-catch block que escrevemos poderia ser evitado por inteiro, a lógica antiga já bastava, mas é bom de testar essas coisas novas.)
+
+
+
+
+Não acabamos com try catch. Há também a ÚLTIMA KEYWORD desse tipo de comando, 
+a keyword "FINALLY".
+
+
+
+
+A keyword finally deve ser adicionada APÓS O CATCH (ou após o "try").
+OBS: try-catch/finally sem TRY não EXISTE.
+
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
+    chosenMaxLife = 100;
+    alert('An error has occurred. Default values were set.');
+} finally {
+
+}
+
+
+
+A ideia por trás de finally é que o código no seu interior VAI SEMPRE EXECUTAR, INDEPENDENTEMENTE 
+SE VOCê RECEBEU UM ERRO/O CÓDIGO FALHOU, OU NÃO.
+
+
+Você pode se perguntar qual é a utilidade disso, pois o código que 
+vem depois de try-catch, todo o resto do código do documento, é executado 
+normalmente a despeito da execução de try-catch, então qual seria o propósito do 
+finally?
+
+Bem, você pode usar finally para fazer qualquer tipo de trabalho de CLEANUP;
+se você tem um caso em que OUTRO ERRO ACONTECE DENTRO DO SEU "TRY-CATCH" statement, talvez porque vocÊ 
+decidiu REJOGAR um erro no código (isso é algo que usuários mais avançados do javaScript fazem), isso é chamado de 
+"RE-THROW DE ERROS". ex de rethrow de erros:
+
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
+    chosenMaxLife = 100;
+    alert('An error has occurred. Default values were set.');
+    throw error;  // é o RE-THROW.
+} finally {
+
+}
+
+
+
+
+Nós estamos fazendo um pouco de error handling aqui (a definição de uma mensagem de erro e a definição de um valor de fallback), mas não estamos fazendo algo que 
+muitas vezes é feito, a enviada de erros para UM SERVIDOR ANALÍTICO. ESSA É UMA DAS 
+UTILIDADES DO RE-THROW DE ERROS. Queremos enviar o erro para um servidor analítico para que 
+sejamos NOTIFICADOS DAQUELE ERRO QUE TIVEMOS EM NOSSO APLICATIVO. ISSO (o envio do erro 
+para um servidor análitico) É USADO 
+EM CASOS EM QUE NÃO HÁ A OPÇÃO DE UM FALLBACK, APENAS A OPÇÃO DE MOSTRAR UMA MENSAGEM DE ERRO.
+Por isso fazemos o rethrow do erro no meio do catch, para que 
+em outra parte do código possamos ADMINISTRAR ESSE ERRO E ENTÃO MOSTRAR 
+A SUA MENSAGEM DE ERRO PARA O USUÁRIO. Isso pode ser meio difícil de imaginar aqui, pois 
+esse é um projeto básico, que ainda não lida com isso. Mas fique sabendo que você 
+pode ter múltiplos try-catch blocks em diferentes lugares do seu código. Aqui você 
+só tem um erro ("error"), que você então relança na função catch.
+
+
+
+ex:
+
+
+
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
+    chosenMaxLife = 100;
+    alert('An error has occurred. Default values were set.');
+    throw error;  // é o RE-THROW.
+} finally {
+
+}
+
+
+
+AINDA ASSIM, A DESPEITO DE TUDO AQUILO QUE FOI MENCIONADO, VOCÊ TALVEZ AINDA QUEIRA 
+REALIZAR UM TRABALHO DE "CLEANUP" aqui, no seu código. Talvez libertar alguns dados
+que você armazenou, talvez limpar algumas variáveis, etc, tudo isso em finally...
+
+
+O professor é honesto conosco: EM MUITOS CENÁRIOS VOCÊ NÃO PRECISARÁ DE FINALLY, especialmente 
+nesse exemplo, porque nesse exemplo podemos fallback perfeitamente para a opção do valor default 
+de 100 pontos de vida... e o código que vem depois, as muitas linhas de código abaixo, vão rodar normalmente, por isso não há razão 
+para utilizar finally, muito menos de RE-THROW aquele erro. Caso fizéssemos o rethrow daquele 
+erro "error", O RESTANTE DO CÓDIGO NÃO EXECUTARIA. Por isso o re-throw de erros é utilizado 
+para debugging/error handling no código.
+
+
+IMPORTANTE!!!!!--------> EIS A VANTAGEM DE FINALLY PARA O PROPÓSITO DE ERROR HANDLING: 
+SE VOCÊ FAZ O RE-THROW DE UM ERRO NO CÓDIGO COM "THROW", TODO O CÓDIGO QUE VEM DEPOIS É IGNORADO, NÃO É 
+EXECUTADO. TODO O CÓDIGO _____EXCETO______ AQUILO QUE ESTÁ INSERIDO DENTRO DE FINALLY, O CÓDIGO QUE ESTÁ 
+DEFINIDO DENTRO DE FINALLY É EXECUTADO NORMALMENTE. ISSO É PARA EFEITOS DE HANDLING DE ERROS.
+O resto do código crasha, mas o código dentro de finally, não.
+
+
+
+
+Mas é bom saber que a opção de finally existe, para casos que ATÉ MESMO EM CATCH vocÊ 
+encontrará erros, aí o finally estará ali para te salvar.
+
+ex: 
+
+try ----> resulta em erro, pulamos para catch ---> catch resulta em erro... fodeu, não executaremos nada do restante do código? não, porque temos 
+finally -------------> código dentro de finally é executado, enquanto o restante do código fora do mesmo é IGNORADO.
+
+
+
+Assim como os outros constructs mostrados aqui nesse módulo, veremos try-catch-finally em outras partes do curso.
+Quando trabalharmos com network requests, veremos mais sobre isso.

@@ -1,0 +1,274 @@
+Operadores AND e OR.
+
+
+
+
+Algumas vezes quando vocÊ quer escrever um if statement, você quer combinar
+condições, há casos onde não há apenas uma condição a ser atendida, mas DUAS, 
+ou, outra hipótese, há DUAS CONDIÇÕES ___ALTERNATIVAS____.
+
+
+
+casos extras, então, seriam:
+
+
+
+
+condição1 + condição2 ----> aí executa a operação
+
+
+
+
+condição1 OU condição2 -------> aí executa a operação.
+
+
+------------------------------------------------------
+Digamos, então, que temos 3 condições no nosso código que deverão ser 
+atendidas em um if statement.
+
+
+
+CONDITION A
+
+
+name === 'Max'
+
+
+
+
+CONDITION B 
+
+Age === 30
+
+
+
+
+Condition C
+
+
+isAdmin        (condição de a flag isAdmin estar ligada) -----------> isso poderia ser um valor boolean de verdadeiro, que sempre seria verdadeiro para esse user Max, nesse exemplo.
+
+
+
+
+
+Agora talvez vocÊ queira combinar essas condições... talvez vocÊ queira, digamos, estabelecer 
+que SE A CONDIÇÃO _A_ é ATENDIDA, E A _B_ TAMBÉM, aí eu quero executar o código.
+Para isso, devo usar a expressão "AND". 
+
+
+Para continuar o exemplo: tudo bem, se A e B são atendidas, rodo o código. Mas posso estabelecer uma outra condição, alternativa...
+posso estabelecer que, caso a condição C seja atendida (isAdmin como true,  flag de admin ligada), dispensar-se-á a 
+necessidade da condição A e B serem atendidas. Bastará a condição C.
+
+Para isso, UTILIZAMOS A EXPRESSÃO "OR".
+
+
+
+
+CONDITION _A_  AND  CONDITION _B_  OR CONDITION _C_
+
+
+
+Porém, em javascript, não escrevemos AND e OR, escrevemos:
+
+
+
+&& ------> double ampersand operator ---> significa AND.
+
+
+||-----> double pipe operator -----> significa OR.
+
+
+
+
+
+Então, nesse caso, as condições A e B seriam avaliadas conjuntamente, e 
+apenas se ambas tiverem seus resultados como true (booleans), essa condição combinada
+(condição A + B) resultará em True e rodará o código. A alternativa com o OR é avaliada
+SEPARADAMENTE, e portanto essa condição total/overall em que você combinaria 
+essas três condições somente daria TRUE se a parte 1 ou 2 estivesse TRUE.
+
+Isso significa que, se o admin for TRUE, o código irá rodar independentemente 
+da idade ou name que você colocar... se o admin for FALSE, você apenas rodaria 
+o código CASO O NOME FOSSE MAX E A IDADE FOSSE 30 (condição A + B, and, &&), por exemplo.
+
+Portanto, se A e B são verdadeiros, então você não se importa com o fato de 
+C ser TRUE; se C é true, você não se importa com o fato de A e B serem true.
+
+
+
+
+Mas às vezes vocÊ quer combinar as condições DIFERENTEMENTE. 
+Digamos que você não quer ter A e B combinados; em vez disso, você quer:
+
+
+se a condição A é TRUE e tanto B ou C (qualquer um dos dois) é verdadeiro, 
+rodar o código.
+
+
+Se vocÊ quisesse isso, você pode sempre colocar parênteses ao redor de suas condições para 
+controlá-las (USAR PARÊNTESES PARA CONTROLAR QUAIS CONDIÇÕES SÃO AVALIADAS CONJUNTAMENTE).
+
+
+
+
+Então, vamos dar uma olhada nisso.
+
+
+De volta à calculadora,  na função calculateResult, lembramos do que havíamos feito, 
+que tinhamos checado por ADD com IF, depois Subtract, Multiply e divide.
+
+
+Mas o problema aqui é que se calculateResult for chamado com QUALQUER outro valor que não seja 
+ADD/SUBTRACT/MULTIPLY/DIVIDE (falamos aqui do parâmetro da função calculateResult: lembre-se, funções muitas vezes tem parâmetros, cuja posição deve ser preenchida por uma variável/constante. Nesse caso,
+temos function calculateResult(calculationType) {} ---------> o que isso significa é que, quando chamamos essa função calculateResult, como 
+o fizemos lá embaixo, com as outras funções, nós devemos sempre colocar um parâmetro aqui. ex: function add() {calculateResult('ADD')}---------> aqui colocamos como parâmetro a string ADD, que tem 
+referência no próprio código da função calculateResult, que aceita esse valor e usa ele para rodar a função de adição. O problema aqui, que o professor referenciou, é que 
+se nós chamarmos qualquer outro valor que não seja ADD/SUBTRACT/MULTIPLY/DIVIDE no slot do parâmetro, nosso código QUEBRARÁ. O professor usa o exemplo de você
+compartilhar seu código com um coleguinha, e ele trocar o valor 'DIVIDE' na function divide() pelo valor alternativo 'DIV'; nesse caso, quando 
+o babaca apertasse no botão de divisão, a calculadora não funcionaria corretamente. Ex: colocamos 5 na calculadora e depois tentamos dividir por 2,
+o resultado sairá "5 undefined 2" - Result: 5. ----> output inválido, típico omportamento de um erro de lógica no código.
+Isso ocorre porque o chamamento por meio de "DIV"/o uso de DIV como parâmetro não é uma hipótese 
+abrangida pelo código de calculateResult.)
+
+
+Digamos que não queiramos mudar a lógica do código (aquilo tudo de if, else if, else if, else if), 
+mas ainda queremos nos assegurar de que não TENTAMOS CRIAR UM OUTPUT (createAndWriteOutput) ou 
+escrever para um log(WriteToLog) se nós/o usuário não atendermos nenhum desses valores (add,subtract, divide, multiply).
+Para isso, adicionamos outro if statement no código de calculateResult, 
+depois do último else if, mas algumas linhas abaixo, pois ele será totalmente 
+STANDALONE do resto dos if statements, para que eles não trabalhem juntos
+magicamente, ou algo do gênero.
+
+Mas aqui poderíamos "checar se calculationType não for igual a ADD E (and) calculationType não for igual a SUBTRACT E não for igual a MULTIPLY E não for igual a DIVIDE...
+nós vamos não querer executar esse código, e por isso, para acabar com a execução de código, determinamos que a função RETURN deverá ser executada.
+
+
+modelo do que foi descrito:
+
+... (código anterior de calculateResult)
+
+if (
+    calculationType !== 'ADD' &&
+    calculationType !== 'SUBTRACT' &&
+    calculationType !== 'MULTIPLY' &&
+    calculationType !== 'DIVIDE' 
+) {
+        return;
+}
+
+createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+writeToLog(calculationType, initialResult, enteredNumber, currentResult);
+}
+
+
+
+
+Você se lembra? se usamos return, se vocÊ chamar return com a return keyword, isso significa 
+que a função retornará um valor, que nesse caso será um valor vazio, porque não colocamos nada, porque não esperamos 
+um valor. Mas a utilidade de return aqui é que, QUANDO INPUTTAMOS RETURN, TODO O CÓDIGO QUE VEM 
+APÓS O RETURN SERÁ IGNORADO/NÃO SERÁ EXECUTADO. Isso significa que createAndWriteOutput e 
+writeToLog NÃO SERÃO EXECUTADOS, serão completamente ignorados, e não teremos mais aquele comportamento indesejado 
+da calculadora. Afinal, a função não funcionará com valores diferentes daqueles que eu te dei, então talvez seja melhor você voltar/return.
+
+O ideal nesse caso é colocar essa função de pausar o código/pará-lo  bem no início, porque aí ele já parará tudo caso não sejam proporcionados os valores requisitados pelas 
+funções que estão escritas mais abaixo.
+
+
+A condição COMBINADA de -------> calculationType !== 'ADD' &&
+                                 calculationType !== 'SUBTRACT' &&
+                                 calculationType !== 'MULTIPLY' &&
+                                 calculationType !== 'DIVIDE'
+
+SÓ
+RESULTARÁ NO VALOR BOOLEAN DE "TRUE" SE TODAS ELAS FOREM SATISFEITAS, OU SEJA, 
+SE O VALOR CHAMADO PELO calculateResult for DISTINTO DESSES 4 VALORES (!==)
+
+ex: se o valor for 'SUBTRACT', então a segunda expressão, 
+"calculationType !== 'SUBTRACT', nos retornaria FALSE, e isso contaminaria
+A CONDIÇÃO TOTAL NA SUA INTEGRALIDADE (contaminaria a 1a, 3a e 4a condições/afirmações)
+
+
+tudo ficaria False, o código da função return não rodaria e o resto do código continuaria a ser rodado.
+
+
+Nesse caso, o operador && funcionou bem, mas há casos em que você vai querer 
+usar o double pipe operator (OR), porque vocÊ vai querer ter multiplas condições em que 
+apenas uma delas precisará ser atendida (condições alternativas). Nesse caso, apenas o atendimento 
+de uma das hipóteses já resultaria no conjunto todo ser avaliado como TRUE (valor boolean: TRUE).
+
+
+O professor diz que poderíamos reescrever esse código anterior com o OR operator (||), 
+por meio da checagem por equalidade. ficaria assim:
+
+
+
+if(calculationType === 'ADD' || 
+calculationType === 'SUBTRACT' || 
+calculationType === 'MULTIPLY' ||
+calculationType === 'DIVIDE' )
+
+
+Agora, por meio desse código, se calculationType for igual a ADD, OU for igual a SUBTRACT, OU for igual a MULTIPLY, OU FOR IGUAL A DIVIDE... se for 
+igual a qualquer um deles, nossa condição inteira será retornada como VERDADEIRA (o falso das 3 outras expressões não contaminaria a condição, basta que apenas uma afirmação seja verdadeira para que o conjunto também o seja)
+
+
+
+
+if(calculationType === 'ADD' || 
+calculationType === 'SUBTRACT' || 
+calculationType === 'MULTIPLY' ||
+calculationType === 'DIVIDE' ) {
+
+                const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  let mathOperator;
+  if (calculationType === 'ADD') {
+    currentResult += enteredNumber;
+    mathOperator = '+';
+  } else if (calculationType === 'SUBTRACT') {
+    currentResult -= enteredNumber;
+    mathOperator = '-';
+  } else if (calculationType === 'MULTIPLY') {
+    currentResult *= enteredNumber;
+    mathOperator = 'X';
+  } else if (calculationType === 'DIVIDE') {
+    currentResult /= enteredNumber;
+    mathOperator = '/';
+  }
+   
+  createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+  writeToLog(calculationType, initialResult, enteredNumber, currentResult);
+}
+
+}
+
+
+
+O que queremos dizer aqui, em outras palavras e sem código, é que:
+
+
+if(calculationType === 'ADD' || 
+calculationType === 'SUBTRACT' || 
+calculationType === 'MULTIPLY' ||
+calculationType === 'DIVIDE' ) {
+
+                            CÓDIGO INTEIRO DA FUNÇÃO A SER RODADA.
+                        }  
+
+
+Se optamos pelo caminho do OR (||), simplesmente trocamos && por ||
+e RETIRAMOS A FUNÇÃO DE RETURN. O efeito disso é simples: agora, o código da função 
+calculateResult SÓ SERÁ RODADO SE UMA DAS 4 CONDIÇÕES DENTRO DE IF FOREM SATISFEITAS, 
+SE APENAS UMA DELAS TER TRUE COMO RESULTADO E CONTAMINAR O TODO DAS CONDIÇÕES COMO TRUE.
+
+
+
+O professor diz, apesar de tudo, que é melhor você usar o primeiro approach, o approach dos !== e do &&(and).
+A razão para tal é simples: é porque quando usamos o OR,  ficamos com um monte de código nested dentro 
+do IF block, o que pode ser um pouco mais difícil de ler e entender do que a primeira opção.
+A primeira opção também nos permite definir um código para hipóteses de "parada" mais facilmente.
+
+
+Você também pode combinar os 2 em uma condição só, se vocÊ tiver AND e OR inseridos nessa função.

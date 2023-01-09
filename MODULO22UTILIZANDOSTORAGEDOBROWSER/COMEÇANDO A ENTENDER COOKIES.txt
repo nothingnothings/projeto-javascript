@@ -1,0 +1,820 @@
+ 
+
+
+ DEVEMOS RENOMEAR ESSE ARQUIVO '.JS' para 'localstorage.js', para que 
+
+ o tenhamos como referência.
+
+
+
+
+
+
+ CRIAMOS UM NOVO ARQUIVO APP.JS
+
+
+
+
+
+ AGORA VEREMOS COOKIES.
+
+
+
+
+ Cookies é UM TIPO ESPECIAL DE STORAGE, EM CERTO SENTIDO.
+
+
+
+
+
+ SÃO ESPECIAIS PORQUE PODEM SER APENSOS (appended) A OUTGOING HTTP REQUESTS...
+
+ E isso pode ser muito útil dependendo do tipo de aplicativo que você está construindo.
+
+
+
+
+
+--------> CLARO QUE SEU SERVIDOR PRECISA SER ___PREPARADO___ PARA FAZER ALGO 
+
+COM OS SEUS COOKIES... pq a simples remessa/anexo dos cookies a um http request NÃO
+RESULTA EM NADA, é preciso que seu servidor 
+
+seja configurado para recebê-los e fazer coisas com eles.
+
+
+
+--> a simples colocação de cookies em um http request NÃO TRARÁ PROBLEMAS, MAS TAMBÉM NÃO 
+TRARÁ BENEFÍCIOS (é necessária a configuração 'serverside'.)
+
+
+
+
+
+
+
+
+--> PRECISAMOS DE SERVER SIDE CODE PARA CONSEGUIR USAR OS COOKIES para alguma coisa...
+
+
+
+
+
+
+
+
+---> tudo isso depende do seu use-case, do aplicativo que você está 
+criando...
+
+
+
+
+
+
+
+-----> Se você quiser aprender sobre SERVERSIDE JAVASCRIPT, o curso do professor 
+
+é um excelente próximo passo.
+
+
+
+
+
+--> DEVEMOS VER O QUE PODEMOS FAZER COM COOKIES NO BROWSER...
+
+
+
+
+
+--------------------------------------
+
+
+
+
+Para acessar/definir/começar a trabalhar com cookies no browser, 
+
+
+
+você deve invocar 
+
+
+
+'document.cookie'...
+
+
+
+
+ISSO PODE DAR A IMPRESSÃO DE QUE ESTAREMOS ACESSANDO UM ÚNICO COOKIE, mas na verdade 
+
+
+ISSO NOS DÁ ACESSO A TODOS OS DADOS 'COOKIE' ARMAZENADOS NA NOSSA PÁGINA...
+
+
+
+
+
+
+Para começarmos com o básico, o professor faz um simples console.log de 
+
+'document.cookie'...
+
+
+
+ex:
+
+
+
+
+console.log(document.cookie);
+
+
+
+
+
+
+
+SE O PROFESSOR SALVAR ESSE CÓDIGO E RECARREGAR A PÁGINA, RECEBEREMOS 
+
+PORRA NENHUMA NO CONSOLE.
+
+
+SERÁ UM CONSOLE.LOG DE ___nada__.
+
+
+
+
+
+ganhamos nada POIS NÃO TEMOS NADA ARMAZENADO NESSA PÁGINA.
+
+
+
+Isso faz sentido, pois essa página é BRAND NEW, não está nem conectada a um servidor ,
+
+POR ISSO NÃO É POSSÍVEL QUE JÁ EXISTAM COOKIES NELA...
+
+
+
+
+Não há cookies pq NÃO HÁ UM SERVIDOR QUE TENHA SETTADO OS COOKIES (ou um código javascript browserside, como faremos daqui a pouco)...
+
+
+
+ESSA É OUTRA COISA: 
+
+
+SERVIDORES PODEM, SIM, __DEFINIR__ COOKIES.... ELES FAZEM ISSO 
+
+POR MEIO DOS HEADERS DE SUAS RESPONSES...
+
+
+
+
+
+
+
+
+
+
+
+E é por isso que não temos dados nos nosso objeto 'cookie'...
+
+
+
+
+
+
+
+NO ENTANTO, PODEMOS ALTERAR ESSA SITUAÇÃO...
+
+
+
+
+
+
+
+Para isso, o professor pega OS CÓDIGOS DOS BOTÕES, lá em 'localStorage',
+
+
+
+E OS COLOCA NESSE NOVO CÓDIGO DE app.js...
+
+
+
+
+
+
+ELE TAMBÉM TRANSFERE O CÓDIGO DOS LISTENERS (os quais ele adaptará nesse novo código).
+
+
+
+
+Ele limpa os segundos parâmetros dos listeners...
+----------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  
+});
+ 
+
+
+ -------------------------------------------
+
+
+
+
+ PROFESSOR DIZ QUE PODEMOS COMEÇAR 
+
+
+
+ PELO 
+
+
+ 'storeBtn'...
+
+
+
+ Ele diz que o que podemos fazer, aqui, é ACESSAR 
+ 'document.cookie' E ENTÃO DEFINIR 
+
+
+ ESSE 'document.cookie' (e isso pode parecer bem estranho) 
+
+ COMO IGUAL ('=') A UMA STRING....................
+
+
+
+ ESSA DEFINIÇÃO DO COOKIE COMO SENDO ESSA STRING ___FARÁ___ COM QUE 
+
+ UMA NOVA ''ENTRY'' SEJA ADICIONADA AO COOKIE....
+
+
+
+ISSO SIGNIFICA QUE ESSA ENTRY NÃO VAI DAR OVERWRITE/LIMPAR 
+
+OS COOKIES JÁ EXISTENTES, e sim APENAS 
+
+que SERÁ ADICIONADA AO QUE JÁ HAVIA ALI.
+
+
+
+(E ISSO PODE PARECER ESTRANHO; PODE PARECER QUE VOCÊ ESTÁ 
+
+ASSIGNANDO UM NOVO VALOR A ESSE OBJETO, DANDO OVERWRITE NELE, POIS GERALMENTE 
+
+NO JAVASCRIPT É ASSIM QUE AS COISAS FUNCIONAM).   ---> ainda assim, isso apenas adicionará essa entry, sem fazer replace de nada.
+
+
+
+
+
+
+
+APENAS É FEITO O 'REPLACE' DE ALGO EM UM COOKIE QUANDO 
+
+
+A 'KEY' DE ALGUMA COISA É A MESMA DA ____OUTRA COISA____ QUE JÁ EXISTIA PREVIAMENTE____.
+
+
+ex:
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+ 
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    document.cookie = '';
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  
+});
+ 
+
+
+ ------------------------------------
+
+
+
+ POR TRÁS DAS CENAS, 
+
+ essa definição 
+
+ 'document.cookie = '' '
+
+
+
+ USA UMA SIMPLES SETTER FUNCTION que é ativada quando você 
+
+ define um novo valor...
+
+ E essa 'setter function' VAI ENTÃO ADICIONAR ESSE NOVO 
+
+ VALOR/COISA COMO UM NOVO 'KEY-VALUE' pair AOS PARES JÁ 
+
+ EXISTENTES, EM VEZ DE SUBSTITUIR OS PAIRS QUE JÁ EXISTIAM...
+
+
+
+ ----------------------------------------------
+
+
+
+
+ CERTO, MAS COMO DIABOS ADICIONAMOS UMA ENTRY AQUI?
+
+
+
+
+ Bem, digamos que queremos, de novo, armazenar um userId...
+
+
+
+para isso, criamos uma constante 'userId', de valor 'u123'.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+ 
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    document.cookie = '';
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  
+});
+ 
+
+
+
+
+ ------------------------------------------
+
+
+
+
+ FEITO ISSO, PODEMOS ADICIONAR 
+
+
+ ESSA CONSTANTE/VALOR de 'u123' DENTRO DOS NOSSOS COOKIES 
+
+
+ por meio daquele 'document.cookie'...
+
+
+
+ PRIMEIRAMENTE, VOCÊ DEVE COLOCAR o nome da KEY que você vai querer que 
+ essa entry tenha nos cookies....
+
+ Queremos, aqui, a key de 'uid'...
+
+
+
+
+ ex:
+
+
+
+
+
+
+ 
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    document.cookie = 'uid';
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  
+});
+ 
+
+
+ ---------------------------------------
+
+
+
+
+ CERTO. FEITO ISSO, DEVEMOS DEFINIR O 
+
+ ___VALOR___ QUE ESSA KEY TERÁ...
+
+
+
+ Para fazer isso,
+
+ é bem simples:
+
+
+ devemos 
+
+
+ colocar '=' COLADO no lado da key E ENTÃO 
+
+ COLOCAR O VALOR NO LADO DIREITO DESSE '='...
+
+
+
+
+ ex:
+
+
+
+
+
+ 
+ 
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    document.cookie = 'uid=userId';
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  
+});
+
+
+
+----------------------------------------------
+
+
+
+
+
+
+OK, MAS ALGO ESTÁ FALTANDO/ERRADO AÍ.
+
+
+
+
+Se quisermos COLOCAR UM VALOR DINÂMICO (como 'userId') DENTRO 
+
+DE UMA MARCAÇÃO DE STRINGS (''), SOMOS OBRIGADOS A USAR UM TEMPLATE LITERAL (double ticks, aqueles ``)
+
+UM TEMPLATE LITERAL E A MARCAÇÃO '${valorDinâmico}'.
+
+
+
+
+ex:
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    document.cookie = `uid=${userId}`;
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  
+});
+
+
+
+------------------------------------------
+
+
+
+
+
+
+
+CERTO, AGORA DEFINIMOS O VALOR DE 'userId'  para 
+
+
+A KEY de 'uid' NOS NOSSOS COOKIES...
+
+
+
+
+
+
+
+SE SALVARMOS TUDO ISSO E RECARREGARMOS NOSSO CÓDIGO, CLICARMOS NO BOTÃO 'STORE', 
+
+veremos NA NOSSA ABA 'application' no devconsole,
+
+
+em storage,
+ 
+
+A ABA 'COOKIES'...
+
+
+
+
+
+Certo, mas nós NÃO CONSEGUIMOS ENXERGAR NADA ALI DENTRO...
+
+
+Não há nada nessa aba....
+
+
+
+NÃO IMPORTA QUANTAS VEZES PRESSIONEMOS 'STORE', NADA IRÁ ACONTECER, nada irá aparecer nessa aba...
+
+
+
+
+
+A razão para isso é que, ao contrário de LOCAL E SESSION STORAGE, 
+
+
+COOKIES REALMENTE SÓ FICAM/SÃO DISPONÍVEIS/APARECEM SE SUA WEBPAGE 
+
+ESTÁ SENDO SERVIDA ___POR UM SERVIDOR___ DE ___VERDADE____ (não pode ser falso).
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+O professor já cobriu o básico acerca disso na seção de MÓDULOS e na seção de tooling,
+
+
+por isso você já deve saber A RAZÃO DE ESSE SERVIDOR SER NECESSÁRIO.
+
+
+
+
+
+
+DE FATO, SE USARMOS O 'serve' OU O SERVIDOR DE DESENVOLVIMENTO 
+
+do 'webpack', VEREMOS QUE O COOKIE será mostrado 
+
+com sucesso na aba 'Cookies'...
+
+
+
+
+Isso acontece pq o FILE PROTOCOL simplesmente não simula de forma satisfatória as circunstâncias 
+nas quais nossa página seria servida....
+
+
+
+
+
+
+
+
+professor nos instruí a seguir os ensinamentos dos módulos anteriores...
+
+
+
+'serve' serve nosso endereço automaticamente.
+
+
+
+
+
+
+
+PORTANTO, AGORA PODEMOS ACESSAR COOKIES POR MEIO DO JAVASCRIPT...
+
+
+
+PARA CONSEGUIR ___LER____ O VALOR DOS COOKIES por meio do javascript, 
+
+
+SIMPLESMENTE 
+
+
+
+IR NO 
+
+
+retrieve button e então 
+
+
+colocar 
+
+um console.log 
+
+
+de 
+
+
+'document.cookie' ----------------> A REFERÊNCIA A ESSE OBJETO, de forma seca, REALIZARÁ O OUTPUT DAQUILO QUE ESTÁ DENTRO DOS COOKIES/armazenamento dos cookies....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    document.cookie = `uid=${userId}`;
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  console.log(document.cookie);
+});
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+SE CLICARMOS EM RETRIEVE, veremos o output do cookie que foi settado por nós...
+
+
+
+
+A cookie with no expiration date specified will expire when the browser is closed. 
+
+
+
+
+
+
+PROFESSOR NOS MOSTRA OUTRA COISA SOBRE OS COOKIES:
+
+
+
+alguns cookies tem 
+UMA 
+
+"FLAG" especial....
+
+
+
+é a flag 
+
+
+
+'HttpOnly' 
+
+
+
+
+
+cookies 'HTTPONLY' (que têm essa flag MARCADA com um 'certinho') 
+
+SÃO COOKIES QUE 
+
+___SÓ SÃO ACESSÍVEIS PELO SERVIDOR___, E NÃO PELO BROWSERSIDE JAVASCRIPT....
+
+
+ISSO É UMA MEDIDA ADICIONAL DE SEGURANÇA... ----> É POR ISSO QUE, 
+
+COM BROWSERSIDE JAVASCRIPT, quando printamos TODOS OS COOKIES DE UMA PÁGINA 
+
+por meio de 
+
+
+'console.log(document.cookie)', NÃO VEMOS, NA VERDADE, TODOS OS COOKIES DA PÁGINA (pq alguns deles são 'httponly', OU SEJA, EXCLUSIVOS AO SERVERSIDE/apenas acessíveis pelo browserside).
+
+

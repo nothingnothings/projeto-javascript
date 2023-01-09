@@ -1,0 +1,316 @@
+Um lugar em que o bind() poderia nos ajudar é no nosso aplicativo da calculadora.
+
+
+
+Lá, nós temos um punhado de addEventListeners... tanto para adicionar, como para subtrair, multiplicar, dividir, 
+etc.
+
+
+
+Lá, nós fizemos o bind de cada um dos eventListeners a diferentes funções... isso porque, como você deve se lembrar, 
+enquanto que um monte de código era compartilhado entre funções, nós AINDA TINHAMOS ALGUMAS DIFERENÇAS ENTRE ELAS, 
+diferenças entre o tipo de operação que realizávamos e O QUE EXATAMENTE ESCREVÍAMOS EM UM LOG.
+
+
+Agora, com if statements e com valores "BOUNDEADOS" dinamicamente, podemos fundir tudo aquilo 
+em uma única função.
+
+O professor quer nos mostrar como fazer isso.
+
+ 
+Ele cria uma função chamada "calculate".
+
+
+EX:
+
+
+function calculate() {
+
+}
+
+
+Aí, ele coloca como valor esperado no parênteses um valor de "operation".
+
+
+
+
+
+EX:
+
+
+function calculate(operation) {
+    if(operation === 'ADD')
+}
+
+
+
+Então, ele adiciona if checks para checar " se operation for igual a 'ADD', se esse for o caso, vou querer 
+realizar o cálculo de "currentResult -= enteredNumber;
+                        createAndWriteOutput('-', initialResult, enteredNumber);
+                        writeToLog('SUBTRACT', initialResult, enteredNumber, currentResult);" "
+
+
+Ele também coloca um else if, para o caso de subtract. Ele coloca outro ELSE IF para multiply, e aí um 
+else para divide.
+
+
+O professor, por fim, pega aquelas constantes globais que devem ser inseridas localmente nessa função, 
+as linhas de código 
+
+"const enteredNumber = getUserNumberInput();
+const initialResult = currentResult; " , 
+
+e as coloca no início da função calculate.
+
+
+Agora, portanto, temos essa grande ALL-IN-ONE FUNCTION.
+
+
+
+function calculate(operation) {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  if(operation === 'ADD') {
+    currentResult += enteredNumber;
+    createAndWriteOutput('-', initialResult, enteredNumber);
+    writeToLog('ADD', initialResult, enteredNumber, currentResult);
+  } else if (operation === 'SUBTRACT') {
+    currentResult -= enteredNumber;
+    createAndWriteOutput('-', initialResult, enteredNumber);
+    writeToLog('SUBTRACT', initialResult, enteredNumber, currentResult);
+  } else if (operation === 'MULTIPLY') {
+    currentResult *= enteredNumber;
+    createAndWriteOutput('X', initialResult, enteredNumber);
+    writeToLog('MULTIPLY', initialResult, enteredNumber, currentResult);
+  } else {
+    currentResult /= enteredNumber;
+    createAndWriteOutput('/', initialResult, enteredNumber);
+    writeToLog('DIVIDE', initialResult, enteredNumber, currentResult);
+  }
+}
+
+
+O professor diz que podemos reduzir essa função ainda mais, por meio da adição de uma nova variável, "operator". 
+
+
+veja como se faz, e o que ele faz:
+
+
+
+
+
+
+
+function calculate(operation) {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  let operator;
+  if(operation === 'ADD') {
+      operator = '+'
+    currentResult += enteredNumber;
+    createAndWriteOutput(operator, initialResult, enteredNumber);
+    writeToLog('ADD', initialResult, enteredNumber, currentResult);
+  } else if (operation === 'SUBTRACT') {
+      operator = '-'
+    currentResult -= enteredNumber;
+    createAndWriteOutput(operator, initialResult, enteredNumber);
+    writeToLog('SUBTRACT', initialResult, enteredNumber, currentResult);
+  } else if (operation === 'MULTIPLY') {
+      operator = 'X'
+    currentResult *= enteredNumber;
+    createAndWriteOutput(operator, initialResult, enteredNumber);
+    writeToLog('MULTIPLY', initialResult, enteredNumber, currentResult);
+  } else {
+      operator = '/'
+    currentResult /= enteredNumber;
+    createAndWriteOutput(operator, initialResult, enteredNumber);
+    writeToLog('DIVIDE', initialResult, enteredNumber, currentResult);
+  }
+}
+
+
+MAS, ELE VAI ALÉM. ELE SÓ DEIXA A DEFINIÇÃO DO OPERATOR EM CADA HIPÓTESE (CADA IF/ELSE IF/ELSE), 
+e então ____DELETA____ "CREATEANDWRITEOUTPUT" E "WRITETOLOG" DE TODOS ELES (porque isso é código compartilhado entre todos eles, 
+código desnecessário). ELE DEIXA CREATEANDWRITEOUTPUT E WRITELOG APENAS NO FINAL DA FUNÇÃO, COMO CÓDIGO QUE 
+SERÁ EXECUTADO DE QUALQUER MANEIRA, EM QUALQUER HIPÓTESE.
+
+
+
+
+Resultado:
+
+
+
+
+
+
+function calculate(operation) {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  let operator;
+  if(operation === 'ADD') {
+      operator = '+'
+    currentResult += enteredNumber;
+  } else if (operation === 'SUBTRACT') {
+      operator = '-'
+    currentResult -= enteredNumber;
+  } else if (operation === 'MULTIPLY') {
+      operator = 'X'
+    currentResult *= enteredNumber;
+  } else {
+      operator = '/'
+    currentResult /= enteredNumber;
+  }
+  createAndWriteOutput(operator, initialResult, enteredNumber);
+  writeToLog('DIVIDE', initialResult, enteredNumber, currentResult);
+}
+
+
+
+
+ELE, ENTÃO, SUBSTITUI AQUELE PARÂMETRO ANTIGÃO DO WRITELOG, AQUELE PRIMEIRO ARGUMENTO, QUE 
+ACEITAVA 'ADD'/DIVIDE/MULTIPLY/SUBRACT  POR "OPERATION", que será O PARÂMETRO PASSADO À ESSA FUNÇÃO 
+"CALCULATE" POR TODOS OS EVENTLISTENERS DO NOSSO CÓDIGO (1 eventListener para cada tipo de operação/cálculo).
+
+
+
+function calculate(operation) {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  let operator;
+  if(operation === 'ADD') {
+      operator = '+'
+    currentResult += enteredNumber;
+  } else if (operation === 'SUBTRACT') {
+      operator = '-'
+    currentResult -= enteredNumber;
+  } else if (operation === 'MULTIPLY') {
+      operator = 'X'
+    currentResult *= enteredNumber;
+  } else {
+      operator = '/'
+    currentResult /= enteredNumber;
+  }
+  createAndWriteOutput(operator, initialResult, enteredNumber);
+  writeToLog(operation, initialResult, enteredNumber, currentResult);  //EIS AQUI A ALTERAÇÃO.
+}
+
+
+Agora, portanto, temos uma única função "ALL-IN-ONE" que nós apenas temos que bindar lá embaixo, nos addEventListeners.
+
+
+
+EX:
+
+
+function calculate(operation) {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  let operator;
+  if(operation === 'ADD') {
+      operator = '+'
+    currentResult += enteredNumber;
+  } else if (operation === 'SUBTRACT') {
+      operator = '-'
+    currentResult -= enteredNumber;
+  } else if (operation === 'MULTIPLY') {
+      operator = 'X'
+    currentResult *= enteredNumber;
+  } else {
+      operator = '/'
+    currentResult /= enteredNumber;
+  }
+  createAndWriteOutput(operator, initialResult, enteredNumber);
+  writeToLog(operation, initialResult, enteredNumber, currentResult);  //EIS AQUI A ALTERAÇÃO.
+}
+
+
+
+
+addBtn.addEventListener('click', add);
+subtractBtn.addEventListener('click', subtract);
+multiplyBtn.addEventListener('click', multiply);
+divideBtn.addEventListener('click', divide);
+
+--------------------------------------------------------
+
+
+
+O professor faz a alteração da seguinte forma: ele troca todos os function calls de "add", "subtract", "multiply" e "divide" por 
+aquela função genérica "all-in-one".
+
+
+EX:
+
+
+
+addBtn.addEventListener('click', calculate);
+subtractBtn.addEventListener('click', calculate);
+multiplyBtn.addEventListener('click', calculate);
+divideBtn.addEventListener('click', calculate);
+
+
+
+Agora sempre chamamos calculate, MAS DEVEMOS NOS ASSEGURAR QUE SÃO PASSADOS ARGUMENTOS DIFERENTES 
+PARA OPERATION EM CADA UM DESSES CASOS DIFERENTES DE CÁLCULO. O professor diz que isso é super fácil de fazer, 
+apenas precisamos chamar "bind" depois de cada calculate e aí passar o parâmetro que queremos que vá nessa função.
+
+ex:
+
+
+addBtn.addEventListener('click', calculate.bind(this, 'ADD')); //AQUI COLOCAMOS ADD, PORQUE QUEREMOS QUE "add" vá no parâmetro daquela função calculate, para que seja encaixado no if statement do add.
+
+
+
+
+
+
+
+
+REPRESENTAÇÃO DO CÓDIGO:
+
+
+
+
+function calculate(operation) {
+  const enteredNumber = getUserNumberInput();
+  const initialResult = currentResult;
+  let operator;
+  if(operation === 'ADD') {
+      operator = '+'
+    currentResult += enteredNumber;
+  } else if (operation === 'SUBTRACT') {
+      operator = '-'
+    currentResult -= enteredNumber;
+  } else if (operation === 'MULTIPLY') {
+      operator = 'X'
+    currentResult *= enteredNumber;
+  } else {
+      operator = '/'
+    currentResult /= enteredNumber;
+  }
+  createAndWriteOutput(operator, initialResult, enteredNumber);
+  writeToLog(operation, initialResult, enteredNumber, currentResult);  
+}
+
+
+addBtn.addEventListener('click', calculate.bind(this, 'ADD'));
+subtractBtn.addEventListener('click', calculate.bind(this, 'SUBTRACT'));
+multiplyBtn.addEventListener('click', calculate.bind(this, 'MULTIPLY'));
+divideBtn.addEventListener('click', calculate.bind(this, 'DIVIDE'));
+
+
+
+
+DEU. AGORA PODEMOS DELETAR TODAS AS OUTRAS FUNÇÕES (ADD, SUBTRACT, DIVIDE, MULTIPLY) E MANTER APENAS 
+O "CALCULATE".
+
+
+
+
+Se recarregarmos isso tudo e dermos reload, veremos que a calculadora está funcionando exatamente 
+como antes, mas agora temos muito menos código desnecessário, e que agora tem a ajuda 
+de BIND() E IF STATEMENTS.
+
+
+O código agora é bem mais conciso. Isso nos mostra a utilidade de BIND, que realmente é ótimo.

@@ -1,0 +1,592 @@
+Agora é hora para A LÓGICA DE ___SEARCH_____.
+
+
+
+
+Afinal, a lógica de ADICIONAR FILMES FUNCIONA, e o professor não quer 
+fazer com que eles sejam deletáveis, já que isso não é o foco desse módulo.
+
+
+
+
+
+Em vez disso, devemos nos certificar de que é POSSÍVEL INSERIR UM TERMO AQUI, por exemplo 
+"complete", para que ele filtre os filmes que já foram adicionados e somente nos mostre 
+aqueles que possuem o termo.
+
+
+
+PARA CONSEGUIR ESSE RESULTADO, PRECISAMOS DE UMA NOVA FUNÇÃO AQUI, a qual o professor 
+chamará de "searchMovieHandler".
+
+
+
+
+
+ex:
+
+const searchMovieHandler = () => {
+
+};
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+--------------------------------------------
+
+
+EM "SEARCHMOVIEHANDLER", o professor quer que o javascript LEIA O QUE QUER QUE O 
+USUÁRIO TENHA INPUTTADO NESSE CAMPO DE SEARCH e então TAMBÉM ATIVE A FUNÇÃO 
+'renderMovies'...
+
+Porém, o professor aí vai querer dizer À essa função renderMovies que ELA NÃO DEVERÁ 
+RENDERIZAR TODOS OS FILMES, MAS SIM APENAS OS MOVIES QUE FORAM FILTRADOS.
+
+Devemos fazer isso passo por passo.
+
+
+Primeiramente, devemos LER O USERINPUT. Pegamos o userInput desse 
+campo de search por meio de 
+
+
+"                                               "
+
+const filterTerm = document.getElementById('filter-title'); 
+
+
+-------------------------------
+
+INSERIMOS ESSE USERINPUT DENTRO DO searchMovieHandler, que é onde 
+será utilizado (como não utilizamos essa constante em mais nenhum outro lugar, 
+faz sentido não defini-la como uma constante global, e sim local).
+
+
+O professor coloca ".value" no final PARA QUE APENAS O VALOR INPUTTADO NESSE CAMPO SEJA SELECIONADO, E NÃO O CAMPO INTEIRO EM SI.
+
+
+
+ex:
+
+
+
+
+
+
+const searchMovieHandler = () => {
+    const filterTerm = document.getElementById('filter-title').value;
+};
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+---------------------------------------------------------------
+
+
+
+
+
+Agora que o professor tem esse seletor/constante dentro dessa função, agora 
+ele vai querer chamar RENDERMOVIES() e então PASSAR COMO ARGUMENTO ("forward", ou "forwardar") 
+O "filterTerm".
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const renderMovies = () => {
+    const movieList = document.getElementById('movie-list');
+
+    if (movies.length === 0) {
+        movieList.classList.remove('visible');
+        return;
+    } else {
+        movieList.classList.add('visible');
+    }
+    movieList.innerHTML = '';
+
+
+    movies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        let text = movie.info.title + ' - ';
+        for (const key in movie.info) {   //ex de for in loop.
+            if (key !== 'title') {
+                text = text + `${key}: ${movie.info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+        //"${key}" --> esse será O KEYNAME QUE O USUÁRIO INPUTTOU em 'extraInfo'.
+        //"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+        
+        
+        
+        
+        movieEl.textContent = text;
+        //movieEl.textContent = movie.info.title;
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+const searchMovieHandler = () => {
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);  //O CÓDIGO EM QUESTÃO.
+};
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+
+
+--------------------
+
+
+
+
+Agora, é claro, renderMovies AINDA NÃO VAI FAZER NADA COM ESSE PARÂMETRO QUE FOI PASSADO 
+A ELE. DEVEMOS ALTERAR NOSSO CÓDIGO PARA QUE ELE FAÇA ALGO COM ISSO.
+
+Por enquanto, devemos conectar o searchBtn com um addEventListener (já o fizemos).
+
+
+
+
+
+AGORA "renderMovies" PRECISA ACEITAR o "filterTerm"....
+
+MAS _______ NÃO SEMPRE_____, Não poderá 
+aceitar o filterTerm SEMPRE, POIS em outros lugares do código 
+nós temos instâncias em que o chamado de "renderMovies" não 
+passa parâmetro algum (ex: "addMovieHandler" tem ele, lá no final de seu function body.)
+
+O forward desse parâmetro "filterTerm" deve acontecer SOMENTE QUANDO 
+O BOTÃO DE SEARCH FOR APERTADO.
+
+Nós já aprendemos como fazer isso:
+
+
+
+
+Em "renderMovies", nós podemos trabalhar com UM ARGUMENTO DEFAULT...
+ou seja, o professor pode adicionar um argumento em renderMovies, como 
+"filter" (ou qualquer outra coisa que você quiser) E ENTÃO ASSIGNÁ-LO 
+COMO UMA EMPTY STRING (esse será o valor padrão).
+
+ex: 'const renderMovies = (filter = '')' => {
+    ...
+}
+
+
+
+ --------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+const renderMovies = (filter = '') => {
+    const movieList = document.getElementById('movie-list');
+
+    if (movies.length === 0) {
+        movieList.classList.remove('visible');
+        return;
+    } else {
+        movieList.classList.add('visible');
+    }
+    movieList.innerHTML = '';
+
+
+    movies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        let text = movie.info.title + ' - ';
+        for (const key in movie.info) {   //ex de for in loop.
+            if (key !== 'title') {
+                text = text + `${key}: ${movie.info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+        //"${key}" --> esse será O KEYNAME QUE O USUÁRIO INPUTTOU em 'extraInfo'.
+        //"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+        
+        
+        
+        
+        movieEl.textContent = text;
+        //movieEl.textContent = movie.info.title;
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+const searchMovieHandler = () => {
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);  //O CÓDIGO EM QUESTÃO.
+};
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+
+-----------------------------------
+
+
+
+
+ISSO SIGNIFICA QUE, POR DEFAULT, O PARÂMETRO PASSADO A RENDERMOVIES SERÁ UM 
+EMPTY STRING. "const renderMovies = (filter = '')" SIGNIFICA QUE 
+SEU PARÂMETRO SERÁ SEMPRE UMA EMPTY STRING SE NÓS NÃO PASSARMOS UM VALOR MAIS 
+ESPECÍFICO.
+
+Agora devemos adicionar um trecho de código logo abaixo do comando 
+que LIMPA O INNERHTML da lista de filmes...
+
+
+O professor diz que devemos FAZER AJUSTES aos "movies" (ao array movies) pelo qual 
+passamos por dentro, aqui nessas linhas de código.
+
+
+
+
+
+os "movies" utilizados no método "forEach" NÃO DEVERÃO SEMPRE 
+SER TODOS OS FILMES, diz o professor.... isso tem que mudar.
+
+Em vez disso, ele quer ter, aqui, FILTEREDMOVIES...
+
+
+Para tal, ele cria uma nova constante, chamada de "filteredMovies".
+
+O professor diz que o código de filteredMovies deverá ser tal que 
+
+ELE VAI SER OU "TODOS OS FILMES", na hipótese de 'filter is falsy' (empty string),
+OU ... ELE SERÁ "filteredMovies" SE O "FILTER" NO PARÂMETRO 
+DE RENDERMOVIES for UMA STRING QUE NÃO SEJA UMA EMPTY STRING...
+
+
+Devemos checar, portanto, "se filteredMovies for 'not trueish' (operador !)", ou seja, 
+se NÃO FOR TRUTHY, se for falsy... "EU VOU QUERER USAR ______TODOS OS MOVIES_____" (porque nessa hipótese nós teremos uma empty string, ou qualquer coisa do gênero) , e eu vou 
+querer usar TODOS os filmes porque NENHUM FILTRO FOI DEFINIDO NAQUELE CASO, ESSENCIALMENTE (aí todos os filmes continuarão aparentes na página, em vez de uns poucos filmes, no caso do filtro ter sido aplicado)...
+"caso contrário, vou querer 'MOVIES.FILTER()'" ...  (é um método novo, que o professor vai nos explicar agora).
+
+
+
+
+
+
+Representação:
+
+
+const filteredMovies = !filter ? movies : movies.filter();
+
+
+
+-------------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+const renderMovies = (filter = '') => {
+    const movieList = document.getElementById('movie-list');
+
+    if (movies.length === 0) {
+        movieList.classList.remove('visible');
+        return;
+    } else {
+        movieList.classList.add('visible');
+    }
+    movieList.innerHTML = '';
+
+
+
+const filteredMovies = !filter ? movies : movies.filter();
+
+
+
+...
+
+
+
+}
+
+
+------------------------------------
+
+
+O PROFESSOR APONTA QUE NÓS APRENDEMOS SOBRE O MÉTODO "FILTER()" NO MÓDULO 
+DE ARRAYS E ITERABLES. Filter pega/EXIGE uma função que é executada EM 
+CADA ELEMENTO DO ARRAY...   "filter()" é um método de arrays, portanto ele funciona daquela maneira que nós já temos como familiar: ele aceita parâmetros do ELEMENTO pelo qual está passando, INDEXADOR de cada elemento e O ARRAY INTEIRO (essas 2 pouco usadas.) Para o primeiro elemento, professor utiliza o nome, na função interna, de "movie" (não confunda com o 'movie' que está mais abaixo, no for in loop dentro do método forEach.)
+
+
+O professor utiliza a arrow function como função interna desse método, pois, 
+diz ele, ela nos possibilita usar uma sintaxe bem curta aqui.
+
+O professor diz que ELE NÃO SE IMPORTA COM MAIS NENHUM OUTRO ARGUMENTO AQUI.... (por isso o uso da arrow function).
+
+Em vez disso, ele apenas quer checar se O FILME QUE ELE  ESTÁ OLHANDO AGORA,
+esse filme, que será UMA STRING, SE ELE INCLUI (.includes(), método especial, professor diz que existe um MÉTODO DE 'INCLUDES()' EM STRINGS...)
+ UM CERTO VALOR... esse valor será o FILTER referenciado lá em cima...
+ ele vai checar se esse filme TEM O VALOR DO FILTER INCLUIDO NO SEU INTERIOR.
+
+ 
+
+EX:
+
+
+
+
+
+
+const filteredMovies = !filter ? movies : movies.filter(movie => movie.includes(filter));
+
+
+-------------------------------
+
+
+
+
+FORMA MAIS BONITA:
+
+
+
+
+
+
+const filteredMovies = !filter 
+    ? movies 
+    : movies.filter(movie => movie.includes(filter));
+
+
+
+
+-----------------------------------
+
+
+
+ex completo:
+
+
+
+
+
+
+
+
+
+
+
+
+const renderMovies = (filter = '') => {
+    const movieList = document.getElementById('movie-list');
+
+    if (movies.length === 0) {
+        movieList.classList.remove('visible');
+        return;
+    } else {
+        movieList.classList.add('visible');
+    }
+    movieList.innerHTML = '';
+
+
+
+const filteredMovies = !filter 
+    ? movies 
+    : movies.filter(movie => movie.includes(filter));
+
+
+
+
+    movies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        let text = movie.info.title + ' - ';
+        for (const key in movie.info) {   //ex de for in loop.
+            if (key !== 'title') {
+                text = text + `${key}: ${movie.info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+        //"${key}" --> esse será O KEYNAME QUE O USUÁRIO INPUTTOU em 'extraInfo'.
+        //"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+        
+        
+        
+        
+        movieEl.textContent = text;
+        //movieEl.textContent = movie.info.title;
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+const searchMovieHandler = () => {
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);  //O CÓDIGO EM QUESTÃO.
+};
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+
+
+
+---------------------------------------
+
+
+COM ISSO, NÓS ESTAREMOS FILTRANDO TODOS OS FILMES EM BUSCA DE APENAS 
+FILMES EM QUE O "movie" inclua o 'filterTerm'... ENTRETANTO, é claro 
+que olhar POR DENTRO DE TODO O FILME NÃO FAZ O MENOR SENTIDO, esclarece o professor, 
+dizendo que o javascript deve, na verdade, procurar apenas em "movie.info.title", 
+e checar se o title desse filme POSSUI OU NÃO O filterTerm.
+
+
+
+
+ex:
+
+
+
+
+const filteredMovies = !filter 
+    ? movies 
+    : movies.filter(movie => movie.info.title.includes(filter));
+
+
+
+
+------------------
+
+
+Portanto, se meu filme, se o title dentro de movie.info INCLUI O FILTER,
+ aí eu vou querer adicioná-lo aos meus filmes, senão, NÃO.  ---> é nisso que a ternary expression, resultará, basicamente.
+
+
+
+
+ RESUMO DA TERNARY EXPRESSION:
+
+
+
+ filteredMovies serão iguais à "movies" QUANDO O FILTER FOR INEXISTENTE (empty string). filteredMovies serão igual a movies.filter() (ou seja, o resultado do filtro de movies por meio daquele termo que você inputtou no campo de search QUE NÃO FOI UMA EMPTY STRING).
+
+
+
+ O toque final, aqui, para que o negócio FUNCIONE, é trocar o "movies" de "movies.forEach" por uma referência à "filteredMovies", que 
+ será essa constante regida por uma ternary expression, que alternará entre a forma filtrada dos movies (por meio de um input do usuário que não seja uma empty string) e uma 
+ forma completa, sem o filtro.
+
+
+
+ ex:
+
+
+
+
+
+
+ const renderMovies = (filter = '') => {
+    const movieList = document.getElementById('movie-list');
+
+    if (movies.length === 0) {
+        movieList.classList.remove('visible');
+        return;
+    } else {
+        movieList.classList.add('visible');
+    }
+    movieList.innerHTML = '';
+
+
+
+
+const filteredMovies = !filter 
+    ? movies 
+    : movies.filter(movie => movie.info.title.includes(filter));
+
+
+
+
+    filteredMovies.forEach((movie) => {   //A ALTERAÇÃO EM QUESTÃO.
+        const movieEl = document.createElement('li');
+        let text = movie.info.title + ' - ';
+        for (const key in movie.info) {   //ex de for in loop.
+            if (key !== 'title') {
+                text = text + `${key}: ${movie.info[key]}`;  //[key], aqui, vai acessar 
+            }
+        }
+        
+        //"${key}" --> esse será O KEYNAME QUE O USUÁRIO INPUTTOU em 'extraInfo'.
+        //"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+        
+        
+        
+        
+        movieEl.textContent = text;
+        //movieEl.textContent = movie.info.title;
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+const searchMovieHandler = () => {
+    const filterTerm = document.getElementById('filter-title').value;
+    renderMovies(filterTerm);  //O CÓDIGO EM QUESTÃO.
+};
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+
+
+
+----------------------------
+
+
+
+Fazemos um pequeno ajuste (adicionamos '.value' à "const filterTerm", o que faz com que 
+o código agora funcione corretamente).
+
+
+
+AGORA PODEMOS TESTAR O SEARCH.
+
+
+
+SE colocamos algo básico, como uma vogal (ex: a), e há TERMOS QUE CONTÉM "A", 
+eles serão mostrados. Termos mais complexos (ex: 'java') FAZEM COM QUE 
+APENAS OS MOVIES/OBJETOS COM ESSES TERMOS ESPECÍFICOS EM SEUS 'titles' sejam selecionados.
+
+
+É UMA FUNCIONALIDADE DE SEARCH BÁSICA, MAS QUE FUNCIONA. É assim que podemos fazer ela funcionar 
+por MEIO DO NOSSO CONHECIMENTO DE JAVASCRIPT.... até mesmo utilizamos 
+certa "magia de arrays", aqui.

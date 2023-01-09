@@ -1,0 +1,580 @@
+Devemos começar a trabalhar no pequeno demo de nosso aplicativo. Devemos editar object.js
+
+
+
+
+
+A ideia por trás desse aplicativo-demonstração É QUE NÓS TEMOS ESSA ÁREA DE INPUT ali, onde 
+o usuário PODE COLOCAR UM TITLE DE UM FILME FAVORITO, depois uma informação extra  (em que o usuário 
+pode definir o NOME DA PROPRIEDADE) e então uma outra informação extra que deixa o usuário definir 
+o VALOR DA PROPRIEDADE. É aqui que a "dynamic square bracket notation" vai entrar em jogo.
+
+Se então clicarmos em "add movie", aquele filme com aquela informação deverá ser adicionado e outputtado 
+lááá em baixo, em uma lista de filmes em que será outputtado o título do filme e também 
+as informações extras...
+
+
+A parte "tricky" aqui será que nós NÃO SABEREMOS A KEYNAME A FRENTE DO TEMPO....
+teremos de usar aquele método especial do professor em que definimos variáveis 
+como keynames/keys/propriedades e então as passamos para dentro dos objetos com 
+"[nomedavariável]:"
+
+
+Por último, mas não menos importante, teremos de arrumar a search bar, que deixará ao usuário 
+a opção de procurar por um filme por meio de uma keyword... SE O TITLE DE UM MOVIE INCLUIR
+ ESSE SEARCH TERM, nós queremos mostrá-lo ao usuário. Todos os filmes que incluírem aquele termo 
+ deverão ser outputtados/mostrados na lista lá de baixo.
+
+
+ EDITAMOS O INDEX.HTML E ADICIONAMOS TODOS OS DOM NODES NECESSÁRIOS.
+
+
+
+ Agora resta selecioná-los por meio dos seletores adequados, em objects.js
+
+
+
+
+ const addMovieBtn...
+
+
+
+
+
+ const searchBtn = document.getElementById('search-btn');
+
+
+
+
+ AGORA PRECISAMOS DE FUNÇÕES QUE SEJAM ATIVADAS QUANDO ESSES BOTÕES FOREM PRESSIONADOS. PARA ISSO, UTILIZAREMOS EVENT LISTENERS.
+
+
+
+
+
+
+ agora para as funções que serão iniciadas quando houver o "click" event....
+
+
+ O professor começará por add movie, porque PROCURAR POR MOVIES (com searchBtn) é difícil 
+ se OS MOVIES NUNCA EXISTIREM PARA COMEÇO DE CONVERSA.
+
+
+
+
+
+ ex:
+
+
+
+ const addMovieHandler = () => {
+
+};
+
+
+
+
+Em addMovieHandler, o professor quer reunir/juntar todos os userinputs e então adicioná-los a um objeto "Movie"...
+
+
+
+
+OS USER INPUTS SÃO 3: um input com id de "title", outro com id de "extra-name" e outro com id de "extra-value".
+
+
+
+O professor diz que selecionará esses 3 inputs dentro do addMovieHandler, e não globalmente, porque não precisará 
+DELES EM MAIS NENHUM OUTRO LUGAR.
+
+
+
+Temos, então, uma constante que segurará o input do TITLE inputtado pelo usuário...
+
+
+ex:
+
+
+//const title = document.getElementById('title'); // isso nos DARÁ O FULL DOM NODE, MAS O PROFESSOR NÃO ESTÁ INTERESSADO NO DOM NODE INTEIRO... Ele está interessado apenas no VALOR abrigado nesse dom node, por isso ele usa a propriedade ".value".
+
+
+const title = document.getElementById('title').value; //ASSIM O PROFESSOR PEGA O VALOR DESSE INPUT, QUE É O QUE INTERESSA, E NÃO O DOM INTEIRO (inútil para o que queremos).
+
+
+------------------------
+
+
+Como é um ELEMENTO DO TIPO INPUT, ELE SEMPRE TERÁ UMA PROPRIEDADE "VALUE" 
+QUE SEGURARÁ QUALQUER COISA QUE O USUÁRIO TENHA INPUTTADO.
+
+
+Professor faz a mesma coisa com os outros 2 input types...
+
+
+
+-----------------------------
+
+
+
+DEPOIS DISSO, PROFESSOR DECIDE QUE PODEMOS COLOCAR UMA ESPÉCIE DE ___VALIDAÇÃO___ AQUI, 
+POR MEIO DE IF CHECKS...
+
+
+
+se "title.trim()" = empty string (engloba a hipótese de zeros nesse campo...) ------------>
+--------->
+
+representação:
+
+
+const addMovieHandler = () => {
+
+const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+if (title.trim() === '') {
+
+}
+
+}
+
+
+--------------------
+
+
+PROFESSOR TAMBÉM UTILIZA || (OR), para o caso de extraInfo também 
+ser uma empty string e para o caso de extraValue também ser uma empty string.
+
+
+REPRESENTAÇÃO:
+
+
+
+
+const addMovieHandler = () => {
+
+const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+if (title.trim() === '' || extraName.trim() === '' || extraValue.trim() === '') {
+    alert('Please input movie into input fields');
+    return;
+    
+    
+}
+
+}
+
+
+-----------------------
+
+
+AGORA QUE TEMOS INPUTS VÁLIDOS, QUEREMOS QUE UM NOVO OBJETO "MOVIE" SEJA CONSTRUÍDO 
+A PARTIR DELES.
+
+
+
+O professor cria uma nova constante, chamada 
+de "newMovie". Essa constante deverá segurar UM OBJETO. Faremos isso por meio 
+das curly braces, as chamadas "object literal notation".
+
+
+ESSE NOVO MOVIE DEVERÁ SEGURAR UM TÍTULO. O título será uma propriedade que segurará 
+o valor "title" (que, na verdade, é uma referência à constante definida localmente, aqui).
+
+AQUI, O PROFESSOR QUER NOS MOSTRAR UMA MUITO ÚTIL SHORTHAND NOTATION:
+
+
+*********SE VOCÊ TEM UMA PROPERTY NAME QUE É EXATAMENTE IGUAL AO NOME DO SEU VALOR, ou seja, "propriedade: propriedade" (exemplo).******
+******** SE VOCÊ TEM UMA SITUAÇÃO DESSAS, VOCÊ PODE SIMPLESMENTE DIGITAR O NOME REPETIDO 2X uma única vez dentro do objeto e sem a vírgula, que 
+o javascript vai automaticamente, nos bastidores,  SETTAR A PROPRIEDADE COMO LIGADA AO VALOR DE MESMO NOME, BASICAMENTE.
+
+Representação:
+
+
+cont newMovie = { ...
+    title: title,           --------------------> SHORTHAND:      const newMovie {  ...
+                                                                                    title  //(sem a repetição, mesmo.)
+                                                                                    ... }
+    }                                                                                           
+    ...
+
+
+
+
+
+
+
+
+OBS::::: ISSO NÃO FUNCIONARIA SE VOCÊ TIVESSE ALGO DIFERENTE COMO O VALOR, COMO POR EXEMPLO UMA STRING HARDCODEADA:
+
+
+ex:
+
+
+const newMovie = { ....
+    title: 'title'  //////-----------> SE VOCÊ TIVER ALGO ASSIM, VOCÊ NÃO PODE USAR AQUELE SHORTHAND, ELE NÃO VAI FUNCIONAR E NÃO VAI RESUMIR ESSE CÓDIGO PARA VOCÊ. Você não poderá omitir a segunda ocorrência do "title", no slot do valor.
+    ...                                                     ///essa omissão da segunda ocorrência do termo só pode ser utilizado se o seu valor é derivado DINAMICAMENTE DE ALGUMA VARIÁVEL e somente se essa variável/const for IGUAL ao seu keyname; só nessa hipótese você poderá utilizar essa shorthand/notation.
+}
+
+
+
+
+
+
+
+ex do resultado atual desse "addMovieHandler..."
+
+
+ex:
+
+
+
+
+
+
+const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+
+    if (title.trim() === '' ||
+        extraInfo.trim() === '' ||
+        extraValue.trim() === ''
+        ) {
+            return;
+        }
+
+    const newMovie = {
+        title
+       
+    }
+
+};
+
+
+
+
+..........ENTRETANTO, PROFESSOR NÃO QUER DEIXAR "title: title" como key-value pair.
+ELE QUER QUE ESSE KEY-VALUE PAIR DE "Title: title" FIQUE DENTRO DE OUTRO KEY-VALUE Pair (no slot do valor, que será um objeto com o keyvalue de "title" e "title", se vocÊ me entende...), CUJO
+KEY ELE CHAMARÁ DE "INFO". Será um objeto nesteado dentro do objeto newMovie, essencialmente.
+
+DENTRO DESSE OBJETO "INFO" (na verdade, é o valor do key-value pair de info que é um objeto...) , 
+que é parte de newMovie, VOU QUERER TAMBÉM ADICIONAR OS DADOS EXTRAS QUE ESTÃO LOGO ACIMA (as constantes extraInfo e extraValue).
+--------> O PROFESSOR APONTA AQUI QUE NÓS NÃO TEMOS COMO SABER O QUE DIABOS 
+O USUÁRIO INPUTTOU COMO "extraInfo" aqui, nem o que ele inputtou como "extraValue"...,
+ por isso não podemos utilizar aquela notação especial do shorthand (escrever apenas "extraInfo" e "extraValue"), 
+ isso não irá funcionar.
+
+
+
+ex:
+
+
+
+
+
+const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+
+    if (title.trim() === '' ||
+        extraInfo.trim() === '' ||
+        extraValue.trim() === ''
+        ) {
+            return;
+        }
+
+    const newMovie = {
+       info: {
+           title,
+           //extraInfo,   // Não podemos utilizar essas shorthands porque não sabemos o que diabos o usuário inputtará nesses campos... (se colocássemos apenas "extraName", por exemplo, o javascript criaria uma keyname/key aqui com esse nome, com o nome de "extraName", MAS ELE NÃO CRIARIA UMA KEY DINÂMICA VINCULADA ÀQUELAS CONSTANTES LOCAIS MAIS ACIMA, que é o que desejamos)
+         
+    }
+
+};
+
+
+
+
+
+COMO A SHORTHAND QUE O PROFESSOR NOS ENSINOU AGORA ___NÃO FUNCIONA___ PARA CASOS COMO ESSE, CASOS 
+EM QUE ___NECESSITAMOS___ DEFINIR______ UMA _______ KEY _______ DINÂMICA, VINCULADA À UMA CONSTANTE/VARIÁVEL, 
+nós devemos fazer aquilo que o professor nos ensinou na lição passada sobre os square Brackets; devemos utilizá-los 
+para assignar, aqui, PROPERTY NAMES DINÂMICOS.
+
+
+
+ex:
+
+
+
+
+
+
+const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+
+    if (title.trim() === '' ||
+        extraInfo.trim() === '' ||
+        extraValue.trim() === ''
+        ) {
+            return;
+        }
+
+    const newMovie = {
+       info: {
+           title,
+          // [extraInfo],     //////ENTRETANTO, ESSE CÓDIGO ESTÁ ERRADO. NÃO VAI FUNCIONAR, POIS O SHORTHAND DE FALAR APENAS 1 VEZ O ELEMENTo (que terá os mesmos nomes para o key e para o value do key-value pair) SÓ FUNCIONA PARA chaves e valores que não forem dinâmicos...
+         
+       }
+    }; 
+
+
+    -----------------------------
+
+
+
+    O valor, além disso, também será dinâmico, mas isso é algo que já vimos antes: apenas 
+    devemos apontar essa chave ao nome da variável/constante correspondente.
+
+
+    ex:
+
+
+
+
+
+
+
+
+const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+
+    if (title.trim() === '' ||
+        extraInfo.trim() === '' ||
+        extraValue.trim() === ''
+        ) {
+            return;
+        }
+
+    const newMovie = {
+       info: {
+           title,
+           [extraInfo]: extraInfo,
+          
+       }
+    }; 
+
+};
+
+
+
+
+    Agora, portanto, temos o objeto nesteado "info" dentro desse objeto newMovie. Entretanto, o professor tem mais 
+    um key-value pair que ele vai querer adicionar dentro do objeto "newMovie", que será o key-value pair 
+    representado pela chave "id".
+
+
+
+    ex:
+
+
+
+
+
+
+    const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+
+    if (title.trim() === '' ||
+        extraInfo.trim() === '' ||
+        extraValue.trim() === ''
+        ) {
+            return;
+        }
+
+    const newMovie = {
+       info: {
+           title,
+           [extraInfo]: extraInfo,
+          
+       }
+       
+       id: Math.random(),
+
+    }; 
+
+    };
+
+
+
+-----------------------------
+
+
+Dentro de id, o professor vai usar "Math.random" (o método do objeto globalmente disponível de "Math") para
+GERAR UM NÚMERO ALEATÓRIO (fazemos isso para obter sempre, no código, um ID __PSEUDOÚNICO___).
+
+O professor diz que "ok, newMovie pode ser considerado um filme, então..." 
+
+----> AGORA, DEVEMOS ARMAZENAR ESSE MOVIE EM UM ARRAY DE MOVIES.
+
+--> criamos, portanto, uma constante que segurará um array de movies.
+
+
+ex:
+
+
+const movies = [];
+
+
+-----------
+
+
+
+---> o professor nos lembra daquela pequena peculiaridade/detalhe:
+
+constantes realmente não podem ser alteradas, não podem ter '=' para inventar novas definições...
+
+
+CONTUDO, UM ARRAY É UM VALOR REFERENCIAL, E ESSE ARRAY QUE ESTÁ 
+DENTRO DESSA CONSTANTE PODE TER SEU INTERIOR EDITADO POR MEIO 
+DOS MÉTODOS "PUSH", "POP", ETC ETC.
+
+
+E, de fato, o professor quer fazer o PUSH do objeto newMovie para DENTRO DESSE ARRAY.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const movies = [];
+
+
+
+
+ const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+
+    if (title.trim() === '' ||
+        extraInfo.trim() === '' ||
+        extraValue.trim() === ''
+        ) {
+            return;
+        }
+
+    const newMovie = {
+       info: {
+           title,
+           [extraInfo]: extraInfo,
+          
+       }
+       
+       id: Math.random(),
+
+    }; 
+
+    movies.push(newMovie);  //Isso vai fazer com o que o filme seja empurrado para dentro daquele array de filmes...
+    console.log(newMovie);
+ };
+
+
+--------------------
+
+
+
+ ENTRETANTO, CONFORME O QUE VIMOS NO PROJETO DO "MONSTER KILLER" e na página dos filmes, ISSO NÃO ATUALIZARÁ 
+ A USER INTERFACE (o visual da página) automaticamente. Devemos criar funções que realizem essa tarefa, que façam o output visual na página web, que outputte alguma coisa no nosso dom.
+
+
+
+Mesmo que isso ainda não esteja implementado, o professor diz que devemos utilizar "console.log(newMovie)" para 
+ver se nosso código está funcionando.
+  
+
+Também precisamos conectar o nosso método ao nosso botão (Addeventlistener...).
+
+
+
+
+
+TESTAMOS O CÓDIGO E OBSERVAMOS QUE ELE FUNCIONA.
+
+
+Nos devtools, podemos ver o resultado:
+
+
+{info: {...}, id: 0.19208981905810215}
+
+info: 
+    aaaa: "aaaa"    -----------> isso ocorre porque a key do negócio está configurada para ser o mesmo nome do valor dele (da constante que recebe o input do usuário).
+    title: "1111"   
+
+
+-----------------------------
+
+
+
+
+Ops, fizemos um erro...
+
+
+o código dos key-value pairs de dentro do objeto "newMovie" deve ser 
+
+"[extraInfo]: extraValue", e não """[extraInfo]: extraInfo"""" (porque isso seria meio idiota e completamente inútil, agora que paramos para pensar). 
+
+Fazemos, então, as alterações necessárias no nosso código.
+
+
+
+
+RESULTADO:
+
+
+
+{info: {...}, id: 0.19208981905810215}
+
+info:               (extraValue)
+ (extraInfo)Gênero: "comédia"    
+    title: "Filme"   
+
+
+
+------------------------------------------
+
+
+Não vamos deixar aquele código de limpar inputs porque o professor não está interessado...
+MAS SABEMOS COMO FAZER (está em alguma das aulas).
+
+
+
+A coisa importante aqui é que nós CONSEGUIMOS CRIAR O NOSSO OBJETO "MOVIE".
+
+
+
+Agora devemos fazer com que o filme APAREÇA NESSA LISTA NA PARTE DE BAIXO DA PÁGINA...

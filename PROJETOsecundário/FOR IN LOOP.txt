@@ -1,0 +1,408 @@
+Vimos o FOR OF LOOP e o FOR LOOP,
+
+
+agora devemos ver o FOR IN LOOP, que é usado para IR POR DENTRO DE TODOS OS KEY-VALUE PAIRS EM UM 
+OBJETO. 
+
+
+O professor quer nos mostrar como isso funciona por meio daquela mesma função, printLogHandler().
+Ele quer fazer isso porque lá no for of loop, aquele logEntry que foi criado, 
+aquela constante logEntry, na verdade é um OBJETO, não?
+
+
+O professor aponta, nessa hora, que o que está escrito no console do dev tools, a informação do battleLog:
+
+
+
+"{event: "PLAYER_ATTACK", value: 0.212521512905219, finalMonsterHealth: 84.2184190281908, finalPlayerHealth:
+93.421909421048210, target: "monster"}" -----> 
+-----------------------------> ISSO TUDO É UM OBJETO, NÃO?
+
+
+É UM OBJETO, SIM...
+
+
+E você pode, na verdade, ter LOOPS DENTRO DE LOOPS. Você pode ter nested loops.
+
+Você pode ter um for loop dentro de um for loop... um for loop dentro de um for of loop...
+Você pode misturá-los como quiser.
+
+Você pode também ter IF STATEMENTS dentro de FOR LOOPS, e IF STATEMENTS 
+DENTRO DE FOR LOOPS.
+
+O mesmo é verdadeiro para while loops. Você pode combinar essas estruturas
+e conceitos como você quiser, isso é algo muito importante de entender.
+
+Você não está limitado a usar for loops (ou qualquer outro loop)  apenas 
+no nível mais superficial de uma função... VOCÊ PODE USÁ-LOS FORA DE FUNÇÕES, 
+DENTRO DE IF STATEMENTS, DENTRO DE ELSE BLOCKS DE IF STATEMENTS, DENTRO DE OUTROS LOOPS, DENTRO 
+DE IF STATEMENTS DENTRO DE LOOPS, E POR AÍ VAI.
+
+você pode fazer nest dessas estruturas o quanto você quiser.
+
+
+
+Aqui, por exemplo, quero ajustar o meu output do console.
+Para isso, quero fazer console.log de um PEQUENO STRING IDENTIFIER (``), 
+em que eu uso backticks para checar o valor dinamicamente... e então eu 
+insiro um HASH SYMBOL (#) e depois um dollar sign (${}) dentro dos backticks.
+
+
+O que os backticks fazem é possibilitar uma sintaxe alternativa, os "template literal", que 
+é uma sintaxe que nos permite concatenar strings de maneira mais simples e fácil.
+Por meio do ${}, podemos inserir valores dinâmicos no meio da string, que não precisam ser separados 
+por outros sinais. Podemos colocar uma variável dentro do ${}, que no caso será a variável "i", que mudará 
+ao longo do tempo, ao longo dos loops. Eu coloco # (hashtag) antes do dollar sign porque o # será lido como uma string; quero 
+usar como marcador de número
+(ex:  #1, #2, #3, etc... de acordo com o número de ciclos/loops).
+
+O "i" nesse caso é o INDEX do logEntry, o número do logEntry, que começa por 0.
+
+
+
+fórmula:
+
+
+
+function printLogHandler() {
+    for (let i = 0; i < 3; i++) {
+        console.log('----------');
+    }
+
+    let i = 0;
+    for (const logEntry of battleLog) {
+        console.log(`#${i}`);
+    }
+}
+
+
+
+
+Mas não paramos por aí: fazemos aquilo que o professor disse, fazemos NEST de outro for loop 
+dentro desse FOR OF LOOP. Aí eu não vou querer fazer o console.log da entry inteira (logEntry inteiro), mas em vez disso 
+passar por todos os key-value pairs dentro da entry... farei isso por meio de um FOR IN LOOP,
+
+ex da fórmula:
+
+
+function printLogHandler() {
+    for (let i = 0; i < 3; i++) {
+        console.log('----------');
+    }
+
+    let i = 0;
+    for (const logEntry of battleLog) {
+        console.log(`#${i}`);   ---------> isso na verdade é traduzido para "console.log(`#0`);" , porque o ${} é usado para introduzir um valor dinâmico na string, é claro, mas nesse caso a variável foi definida na função printLogHandler como sendo 0 (lembre-se que a variável i definida dentro da função printLogHandler NÃO É A MESMA VARIÁVEL "i" CRIADA DENTRO DAS PARTES DO PRIMEIRO FOR LOOP DESSA FUNÇÃO printLogHandler!!! AS DUAS VARIÁVEIS SÃO AUTÔNOMAS/INDEPENDENTES/NÃO RELACIONADAS, APESAR DE TEREM O MESMO NOME ("i").
+    }
+}
+
+
+
+Vamos querer um for in loop para passar por todos os key-value pairs que estão dentro da entry logEntry.
+A FÓRMULA DO FOR IN LOOP se parece MUITO com a do for of loop.
+Devemos criar uma constante; constante que também será dumpada e recriada para cada iteração de loop.
+Colocamos o nome de key, mas você pode colocar qualquer coisa que você quiser, você pode colocar "Property", ou whatever.
+Depois disso colocamos a "IN" keyword e objeto pelo qual você vai passar pelo meio. No caso, será o objeto logEntry (vocÊ se lembra? é aquela coisa no javascript definida como "logEntry = {};").
+Você pode criar um objeto no mesmo lugar em que você está definindo esse for in loop (ex: for(const key in {nome: 'Max', carro:'Ford'};)), 
+VOCÊ TAMBÉM PODE FAZER/PODERIA TER FEITO A MESMA COISA COM O FOR OF LOOP (ex: for (const logEntry of []);).
+Mas é mais comum a referência à alguma prévia variável/constante que segura algum objeto nesse slot. Colocamos 
+naquele slot, nesse caso, a variável logEntry, que é a variável empurrada para dentro do array BattleLog por meio da função
+writeToLog() (dentro dessa função, há a função battleLog.push(logEntry);) 
+Além disso, colocamos também o loop body após a definição 
+do loop.
+
+
+
+fórmula do que fizemos:
+
+
+
+
+for(const key in logEntry) {
+
+}
+
+
+------------------------------------------------
+
+fórmula completa do que fizemos até agora:
+
+
+
+
+
+
+
+
+
+
+
+function printLogHandler() {
+    for (let i = 0; i < 3; i++) {
+        console.log('----------');
+    }
+
+    let i = 0;
+    for (const logEntry of battleLog) {
+        console.log(`#${i}`);   
+    }
+
+for(const key in logEntry) {
+            ---Loop body----
+}
+}
+
+
+
+
+*** É CLARO QUE O FATO DE TER UM LOOP NESTEADO DENTRO DE OUTRO LOOP TEM IMPLICAÇÕES PRÁTICAS.
+
+
+
+O RESULTADO DISSO É: O LOOP MAIS EXTERNO VAI RODAR PRIMEIRO, E PARA CADA ITERAÇÃO NOVA DAQUELE 
+LOOP EXTERNO, O LOOP INTERNO INTEIRO VAI RODAR... E SOMENTE QUANDO A ITERAÇÃO DO LOOP 
+____INTERNO ACABAR____ É QUE A PRÓXIMA ITERAÇÃO DO LOOP EXTERNO IRÁ COMEÇAR.
+É assim que os loops funcionam em conjunto, sempre.
+Outer loop -> inner loop -> outer loop -> inner loop.
+Inner loop sempre deve ser completado para que o outer loop continue.
+
+
+
+Aqui, podemos console.log o valor de KEY, por exemplo, e key aqui 
+é, na verdade, o nome da key, do negócio à esquerda dos dados armazenados com 
+":", no caso seria "event, finalMonsterHealth, finalPlayerHealth, target, etc etc".
+Essas são as keys, E É ISSO QUE ESTÁ ARMAZENADO DENTRO DA CONSTANTE CHAMADA KEY.
+Em outras palavras, a constante definida em um for in loop, independentemente do nome escolhido, sempre 
+passará pelo meio das keys definidas em um objeto, e executará o código 1x para cada uma delas. E se agora 
+quisermos ganhar acesso AOS VALORES PARA ESSAS CHAVES... Bem, aí teremos que usar uma SINTAXE DIFERENTE.
+deveremos chamar o console assim:
+
+
+
+
+ex:
+
+
+
+for(const key in logEntry) {
+            console.log(key);
+}
+}
+
+
+
+
+Em outras palavras, a constante definida em um for in loop, independentemente do nome escolhido, sempre 
+passará pelo meio das keys definidas em um objeto, e executará o código 1x para cada uma delas. E se agora 
+quisermos também ganhar acesso AOS VALORES PARA ESSAS CHAVES... Bem, aí teremos que usar uma SINTAXE DIFERENTE.
+deveremos chamar o console.log assim:
+
+        (primeiramente, fazemos o console.log do objeto inteiro, de logEntry inteiro) (depois disso, não usamos a dot notation ("."), 
+        porque ela não vai funcionar. ex: tentar colocar logEntry.key ----> se fizermos isso, javascript 
+        tentará encontrar uma propriedade chamada "KEY" dentro do objeto logEntry, e essa propriedade NÃO EXISTE. Apenas 
+        temos aquelas 5 propriedades, "event: PLAYER_ATTACK", "finalMonsterHealth: monsterHealth,", etc. ), não EXISTE ESSA PROPRIEDADE.
+        "Key" é apenas o nome da constante definida no FOR IN loop, e não uma propriedade no objeto. MAS O VALOR DESSA CONSTANTE KEY É 
+        O NOME DE UMA PROPRIEDADE DE DENTRO DO OBJETO. Então o valor dessa key será "event"... aí na próxima iteração: "finalMonsterHealth", aí na próxima:
+        finalPlayerHealth, etc."
+
+Portanto, para o nosso objeto, queremos acessar a propriedade com o nome "event", aí depois com o nome "finalMonsterhealh", aí depois... etc.
+E esses nomes são todos armazenados em key, então o que queremos dizer ao javascript é que ELE NÃO DEVERIA USAR 
+"KEY" como o nome, mas sim os VALORES ARMAZENADOS EM KEY como um nome. E nós fazemos isso por meio da utilização de uma 
+sintaxe alternativa para acessar propriedades, QUE AINDA NÃO VIMOS. Uma sintaxe alternativa, usada com objetos, que ainda não
+vimos. Essa sintaxe é o uso de [] aqui, do lado da variável logEntry em console.log. 
+
+IMPORTANTE === NÃO USAMOS [] COM _____OBJETOS_____ DA MESMA FORMA QUE O UTILIZAMOS COM ARRAYS (aquela nóia de especificar o index number com 
+[...], como [0], etc etc.).
+
+EM VEZ DISSO, COM OBJETOS, VOCÊ TEM QUE ESPECIFICAR UMA PROPERTY NAME DENTRO DOS SQUARE BRACKETS (você também pode fazer um hardcode nesse lugar,
+por exemplo: logEntry['event'] acessará especificamente o key name da esquerda "event", contido em logEntry na linha 1...) (esse uso do hardcode para o square bracket é semelhante ao uso de . (dot) para selecionar coisas dentro de um objeto. É DO CASO logEntry.target de que estou falando.
+
+
+
+
+
+
+                                                                                                                                      Para adicionar eventuais "targets" nas hipóteses do objeto/objetos, vocÊ simplesmente usa o comando/função
+                                                                                                                                        logEntry.target = 'MONSTER';, por exemplo.
+
+                                                                                                                                        (aqui, você chama o objeto só com a menção da variável (que segura o objeto, é claro), e aí você pode SELECIONAR ITEMS DE DENTRO DO OBJETO
+                                                                                                                                         com o formato .xxxx)  )
+
+
+
+******OUTRA COISA IMPORTANTE === O NOME CONTIDO DENTRO DE [] DEVE SEMPRE SER UMA STRING (ou uma variável que segure o property name que você quer acessar).
+
+
+
+
+
+
+Nesse caso concreto, passamos para dentro dos [] o nome "key"... ficaria   "console.log(logEntry[key]); 
+--------------> Javascript vai então EXTRAIR OS VALORES armazenados nessa constante e depois disso irá acessar
+A PROPRIEDADE COM ESSE NOME DENTRO DE __LOGENTRY____. E agora, portanto, O inner loop vai logar o nome 
+da PROPRIEDADE E ENTÃO O SEU VALOR, LOGO DEPOIS.
+
+Chega de papo, altere o código e cheque o console do dev tools.
+
+
+
+
+for(const key in logEntry) {
+            console.log(key);
+            console.log(logEntry);
+
+}
+
+
+
+
+
+
+FORMATO FINAL DESSE CODE SNIPPET:
+
+
+
+
+
+
+function printLogHandler() {
+    for (let i = 0; i < 3; i++) {
+        console.log('----------');
+    }
+
+    let i = 0;
+    for (const logEntry of battleLog) {
+        console.log(`#${i}`);   
+    }
+    for(const key in logEntry) {
+            console.log(key);
+            console.log(logEntry[key]);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+FORMATO DEFAULT DO FOR IN LOOP --->
+
+
+
+for (const key in obj) {
+console.log(key);
+console.log(obj[key]);
+}
+
+
+
+
+Se checarmos o console, veremos primeiramente o event property, seguido de seu valor, que é PLAYER_STRONG_ATTACK; 
+DEPOIS, VEREMOS O VALUE PROPERTY, SEGUIDO DE SEU VALOR, 1.8521921907U2190709; AÍ VEREMOS O TARGET PROPERTY, E ENTÃO SEU VALOR, "MONSTER".
+
+
+O professor percebe um problema: como nunca alteramos "i" no loop, o número da iteração sempre fica #0.
+Para alterar isso, o professor coloca i++ no final da função printLogHandler, logo após o inner for in loop do for of loop.
+
+
+
+
+/*for in loop*/
+/*//Objeto 
+var obj = {a:1, b:2, c:3};
+
+//Para prop (propriedade) in obj (objeto) faça
+for (var prop in obj) {
+  // ctrl+shift+k (para abrir o console no mozilla firefox)
+  console.log("obj." + prop + " = " + obj[prop]);
+}
+
+//A saída (output) deverá ser:
+// "obj.a = 1"
+// "obj.b = 2"
+// "obj.c = 3"*/
+
+
+
+Nome da const/variável realmente não faz diferença; pode ser key, prop (propriedade), qualquer bosta.
+O comportamento é sempre o mesmo, o negócio passa pelos espaços das key names do objeto.
+
+
+var obj = {a:1, b:2, c:3};
+
+
+
+for (var key in obj) {
+    console.log ("obj." + key + " = " + obj[key]);}
+
+
+
+
+isso fará o output ser 
+
+// "obj.a = 1"
+// "obj.b = 2"
+// "obj.c = 3"*/
+
+
+--------------------------
+
+
+
+PORÉM:
+
+
+var obj = {a:1, b:2, c:3};
+
+
+
+for (var key in obj) {
+    console.log ("obj." + key + " = ";}
+
+
+isso fará o output ser 
+
+
+
+// "obj.a ="
+// "obj.b ="
+// "obj.c ="
+
+
+
+----------------------
+
+var obj = {a:1, b:2, c:3};
+
+
+
+for (var key in obj) {
+    console.log ("obj." + " = " + obj[key]);}
+
+
+
+Já isso fará o output ser:
+
+
+//"obj. = 1"
+//"obj. = 2"
+//"obj. = 3"
+
+
+
+OU SEJA, KEY/PROP SOLTO = VALOR DA ESQUERDA (KEY NAME) DO OBJETO, A TAL DE PROPRIEDADE. ex: "key".
+
+
+
+KEY/PROP COLOCADO DENTRO DE [] e do lado do OBJETO = OUTPUTTARÁ O VALOR À DIREITA DO "=" NAQUELE OBJETO.
+ex: "obj[key]".
+
+
+
+
+

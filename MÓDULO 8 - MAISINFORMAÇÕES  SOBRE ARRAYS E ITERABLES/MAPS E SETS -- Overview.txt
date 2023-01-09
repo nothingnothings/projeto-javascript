@@ -1,0 +1,134 @@
+Acabamos com os arrays.
+
+
+
+
+Muita informação sobre muitas coisas diferentes. 
+
+
+
+
+AGORA VEREMOS DOIS "CONSTRUCTS"/iterables totalmente diferentes. Bem, não são totalmente diferentes, 
+mas BEM DIFERENTES.
+
+Existem ao lado de arrays.
+
+SÃO OS ___MAPS___ E OS ____SETS___.
+
+
+
+
+
+Em javascript, temos 3 MAJOR "DATA-ITERABLE STRUCTURES".
+
+
+
+
+
+
+
+
+
+1) arrays ------> SÃO AS ESTRUTURAS MAIS IMPORTANTE. Você as utiliza muito mais do que os outros. Objetos também sao importantes, mas objetos são algo MAIS ALÉM DE UM DATA CONTAINER. Isso é algo que veremos mais no módulo de objetos.
+                    Quando falamos de estruturas de dados, armazenar dados, conectar dados, ARRAYS 
+                    SÃO O PRINCIPAL INSTRUMENTO.
+
+                    ("Store (nested) data of any kind and length").
+
+                    Você pode ter nested data de qualquer tipo, de qualquer "length", pode misturar 
+                    data types, 
+
+
+                    --> É UMA ITERABLE. ("Iterable, also many special array methods available").
+                    Tem muitos método especiais  disponíveis a elas.
+
+
+
+                    --> CARACTERÍSTICAS ESSENCIAIS: A ordem dos elementos é sempre garantida (não muda magicamente), 
+                                                    DUPLICATAS DE ELEMENTOS SÃO PERMITIDAS (podemos ter 2 elementos/números iguais no mesmo array, por exemplo), 
+                                                    e dispõe de um index baseado em zero (zero-based index) 
+                                                    para acessar seus elementos.
+
+
+2) sets = são também DATA STRUCTURES. Também ARMAZENAM DADOS DE QUALQUER TIPO E QUALQUER LENGTH.
+                                                    ("store (nested) data of any kind and length").
+
+        -->Isso quer dizer que você pode ter sets de arrays, de números, de strings, etc etc.
+
+
+        --> assim como os arrays, __TAMBÉM___ É UMA ITERABLE.
+
+
+
+        --> POSSUEM MÉTODOS ESPECIAIS, PRÓPRIOS A ELES (set-specific methods). A grande maioria desses sets existe para gerenciar os dados que ficam dentro dos sets... gerenciar, MAS NÃO ___TRANSFORMAR__. (gerenciar dados = coisa fácil com sets. Alterar dados = difícil de se fazer com sets.)
+
+
+
+        --> Entretanto, métodos de arrays ___não são___ suportados___ em sets.
+
+
+        --> Apesar disso, você ____PODE____ TRANSFORMAR QUALQUER ITERABLE (ou seja, sets, que são iterables) EM 
+        UM ARRAY, POR MEIO do método "fromArray();". Se fizer isso, você pode então utilizar os métodos próprios de arrays.
+
+
+        --> características principais de um set, e diferenças deles em relação a arrays:
+
+        Professor explica que, em sets, a ORDEM DOS ELEMENTOS NÃO É GARANTIDA COMO NOS ARRAYS.
+        Ele diz que isso pode parecer ruim, mas isso não é necessariamente um problema; você 
+        nem sempre precisa de um ordem específica no seu código...
+
+        MAS MAIS IMPORTANTE DO QUE ISSO É O FATO DE QUE _____DUPLICATAS____DE ELEMENTOS____ NÃO 
+        SÃO PERMITIDAS. Essa distinção faz deles uma excelente opção para armazenar dados que você 
+        quer que sejam únicos, como IDs e outras coisas que não deverão ser copiadas múltiplas vezes.
+        
+        ALÉM DISSO, NÃO EXISTE ACESSO A ELEMENTOS POR MEIO DE INDEXES. ("no index-based access").
+        Apenas existe o acesso de elementos por meio de buscas específicas, como aquele "includes();", que 
+        checa se um determinado elemento está dentro do set ou não.
+
+
+
+
+
+3) maps ----> OUTRA ESPÉCIE DE DATA CONTAINER. É UM DATA CONTAINER EM QUE VOCÊ ARMAZENA 
+                QUAISQUER DADOS "key-value" ("keyname: value" pairs). Esses key-data values podem ser 
+                DE QUALQUER TIPO E LENGTH. Professor diz que maps são um pouco parecidos com objetos porque 
+                nos objetos nós também temos key-value data.
+
+               --> Mas uma diferença importante entre objetos e maps é que em objetos você SÓ PODE 
+                TER STRINGS OU NÚMEROS (ou symbols, mas não os estudamos ainda) COMO KEYS (keynames/keys), 
+                já em MAPS VOCÊ PODE USAR QUALQUER COISA COMO KEY, não só strings/números/símbolos.
+                Isso significa que você pode USAR UM ARRAY COMO KEY, UM outro OBJETO COMO KEY, qualquer coisa mesmo.
+                Isso nos dá uma flexibilidade muito maior.
+
+                Maps TAMBÉM SÃO ITERABLES, iterables que possuem 
+                métodos especiais próprios a elas (map specific special methods). No entanto, não podem 
+                utilizar métodos de arrays (ninguém pode usar esses métodos dos arrays, são exclusivos a eles.)
+
+
+                Os métodos de "Maps" geralmente existem para te ajudar a gerenciar os elementos/items 
+                dentro do map.
+
+
+                -----> EM MAPS, DIFERENTEMENTE DO QUE ACONTECE COM OS SETS, A ORDEM DOS ELEMENTOS NO 
+                ARRAY É ASSEGURADA. Ordem dos elementos é, geralmente, garantida. Por que "geralmente"? 
+                Porque ___OBJETOS___ NÃO RESPEITAM ESSA ORDEM. Dentro deles, a ordem dos key-value pairs NÃO 
+                É GARANTIDA. Isso, na grande maioria dos casos, não importa, pois você geralmente recupera/pega 
+                valores por meio de chaves, e não por meio de indexadores.
+
+
+                ---> HÁ A POSSIBILIDADE DE ACESSO DE ELEMENTOS POR MEIO DE ___CHAVES____. (key-based access).
+                    Com esse acesso por meio de chaves, você não precisa se importar com o lugar em que 
+                    cada um dos elementos/objetos é armazenados (é diferente daquilo que ocorre com arrays, onde a ordem/localização dos items na memória é importante e utilizada nos acessos por meio de indexadores.)
+
+
+            -----> DUPLICATAS DE ___CHAVES___ ("keynames") NÃO SÃO PERMITIDAS. 
+            -----> DUPLICATAS DE ___VALORES___ SÃO PERMITIDAS___.
+
+            ---> você acessa valores por meio de chaves.
+
+
+
+
+
+            Agora devemos trabalhar um pouco com essas data structures e nos acostumar com suas características, aprender sobre 
+            quando e onde utiizá-las.

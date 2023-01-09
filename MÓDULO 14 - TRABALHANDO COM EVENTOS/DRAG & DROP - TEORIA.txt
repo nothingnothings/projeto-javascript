@@ -1,0 +1,350 @@
+
+
+
+
+
+AGORA QUE CONSEGUIMOS ALGUMA EXPERIENCIA COM EVENTOS, vimos um monte de exemplos 
+sobre como trabalhar com eventos em javascript, 
+
+
+AGORA DEVEMOS TRABALHAR COM O DRAG AND DROP, COM A SUA IMPLEMENTAÇÃO EM UMA WEBPAGE...
+
+
+
+
+
+
+FAREMOS ISSO NO PROJECT EXAMPLE COM O QUAL JÁ TRABALHAMOS NO PASSADO...
+
+
+
+
+Mas primeiro, devemos APRENDER COMO FAZER ELEMENTOS SEREM 'DRAGGABLE' NO NOSSO SITE....
+
+
+
+
+Também DEVEMOS APRENDER COMO FAZER COM QUE ELES POSSAM SER 'DROPPADOS' em algum lugar da página...
+
+
+
+POR FIM, TEMOS QUE APRENDER COMO FAZER ALGO 'ACONTECER' QUANDO ELES SEREM DROPPADOS NESSE LUGAR DA PÁGINA....
+
+
+------------------------------
+
+
+
+
+
+PARA FAZER OS ELEMENTOS SEREM DRAGGABLE, VOCê TEM QUE MARCÁ-LOS COMO 'DRAGGABLE..
+
+
+
+-----> VOCê FAZ ISSO POR MEIO DE 
+
+
+
+1) adição do atributo 'draggable='true' NO HTML. ex: '<li draggable="true">Cu</li>'
+
+
+
+2) DEFININDO A PROPRIEDADE 'draggable' no determinado DOM ELEMENT como 'true'.
+
+
+
+
+-----------------------------
+
+
+UMA VEZ QUE VOCÊ FEZ ISSO, esse elemento se tornará 'draggable'....
+
+
+
+A PRÓXIMA ETAPA, ENTÃO, É FAZER 'LISTEN TO' A UM EVENTO 'DRAGSTART' ('dragstart') 
+NO ELEMENTO QUE É 'DRAGGABLE'.... 
+
+ESSE EVENTLISTENER (que faz o listen to) SERÁ TRIGGADO SEMPRE QUE O USUÁRIO COMEÇAR A DRAGGAR o elemento (pois esse é o evento 'DRAGSTART'...)
+
+
+
+DENTRO DO EVENTLISTENER, VOCê PODE, TAMBÉM, INTERAGIR COM O OBJETO 'event' PARA DESCREVER A 
+
+OPERAÇÃO DE 'DRAG' (drag operation)....
+
+
+Essa descrição vai DESCREVER SE VOCÊ/O USUÁRIO ESTARÁ COPIANDO/MOVENDO O ELEMENTO....
+ESSA DESCRIÇÃO VAI AFETAR COMO ESSE 'DRAG' É MOSTRADO AO USUÁRIO: COMO O CURSOR MUDA (vira uma maozinha, por exemplo)...
+VOCÊ TAMBÉM PODE FAZER APPEND de dados AO EVENTO...................
+(Isso pq uma OPERAÇÃO DE DRAG AND DROP É, NA VERDADE, UMA COMBINAÇÃO DE DIFERENTES 
+EVENTOS EM DIFERENTES ELEMENTOS NA SUA PÁGINA... e para assegurar que todos eles consigam trabalhar em conjunto 
+e que VOCÊ/A ENGINE CONSIGA SABER QUE no lugar em que vocÊ DROPPOU ALGUMA COISA (que era a coisa que vocÊ 
+começou a draggar EM OUTRO LUGAR...), aí vocÊ pode ADICIONAR DADOS A ESSE DRAG EVENT, DADOS QUE SÃO ENTÃO 
+INVISIVELMENTE 'kindof' PASSADOS POR AÍ AOS OUTROS EVENTOS, dados relativos ao DRAGGING E O DROPPING... )
+
+
+
+
+
+RESUMO DOS PASSOS ATÉ AGORA:
+
+
+
+1) Mark Elements as "draggable" 
+
+
+2) Listen to "dragstart" Event -------------> [DESCRIBE OPERATION & APPEND DATA].
+
+
+
+
+
+-----------------------------------------------
+
+
+
+CERTO. UMA VEZ QUE COMEÇAMOS A NOSSA 'DRAG OPERATION' E CONFIGURAMOS O NOSSO DRAG EVENT,
+
+temos que dizer ao javascript  ____EM QUAL LUGAR O ITEM PODERÁ SER DROPPADO_______.
+
+
+
+É EVIDENTE QUE O USUÁRIO __PODE ____ DROPPAR O ITEM EM QUALQUER LUGAR DA PÁGINA, MAS NÓS 
+
+TIPICAMENTE NÃO SUPORTAMOS o drop em todos os lugares de nossas páginas....
+
+
+EM VEZ DISSO, NÓS 'kindof' MARCAMOS AS ÁREAS EM QUE UM ITEM PODE SER DROPPADO 
+
+____POR MEIO DA _______ ADIÇÃO DE UM _______ EVENTLISTENER.... AO ELEMENTO EM QUE 
+
+O OUTRO ELEMENTO PODERÁ SER DROPPADO...
+
+
+NÓS, PORTANTO, ADICIONAMOS UM LISTENER AOS EVENTOS 'DRAGENTER' e 'dragover'.....
+
+PROFESSOR EXPLICA QUE É POSSÍVEL OMITIR O 'DRAGENTER' event, MAS QUE O 'DRAGOVER' EVENT É OBRIGATÓRIO...
+
+AMBOS SERÃO TRIGGADOS/ATIVADOS SEMPRE QUE UM ITEM FOR 'DRAGGADO' PARA CIMA DAQUELE ELEMENTO 
+'DROPZONE'...
+
+
+A DIFERENÇA ENTRE OS 2 EVENTOS é que 'dragover' BASICAMENTE TAMBÉM TRIGGA/triggers/é ativado PARA 
+
+ELEMENTOS 'CHILD' DO ELEMENTO EM QUE VOCê o ADICIONOU....
+
+JÁ 'DRAGENTER' não é triggado por elementos draggable passados por cima de seus elementos filhos....
+
+
+
+E, ENTÃO, O TRUQUE AQUI É QUE  _______DENTRO DOS EVENTLISTENERS __________ QUE VOCÊ DEFINIU COMO 
+'LISTEN TO' DESSES ELEMENTOS 'dragover' e 'dragenter', 
+
+VOCÊ É OBRIGADO/TEM DE CHAMAR 'PREVENTDEFAULT()'.....
+
+
+você tem que chamar 'preventDefault' PQ O COMPORTAMENTO DEFAULT É O DE QUE SEMPRE 
+A DROP OPERATION SERÁ 
+
+______________CANCELADA___________ (por isso que vocÊ vê o símbolo de 'PROIBIDO' quando tenta arrastar um elemento da página...)....
+
+Isso é feito para que VOCê NÃO POSSA FAZER DRAG AND DROP DE UM ELEMENTO EM CIMA DO OUTRO....
+
+Isso acontece nas páginas pq NA MAIOR PARTE DAS PÁGINAS VOCê NÃO VAI 
+
+QUERER DEIXAR QUE ISSO ACONTEÇA, e É EM RAZÃO DISSO QUE O DEFAULT DO BROWSER É SEMPRE ESSE COMPORTAMENTO...
+
+
+E É POR ISSO QUE VOCê TEM QUE PREVENIR ESSE DEFAULT POR MEIO DE 'preventDefault()' NA ÁREA/ELEMENTO EM QUE OS NEGÓCIOS 
+
+SERÃO DROPPADOS...  
+
+Portanto, é muito importante essa etapa, a etapa de fazer 'listen to' aos eventos 'dragenter' e 'dragover' e de 
+
+escrever 'preventDefault()' para PARAR o cancelamento das drop operations... (para permitir um DROP).
+
+
+
+
+
+
+
+
+RESUMO DOS PASSOS ATÉ AGORA:
+
+
+
+
+
+1) Mark Elements as "draggable" 
+
+
+2) Listen to "dragstart" Event -------------> [DESCRIBE OPERATION & APPEND DATA].
+
+
+
+3) Accept Drop via "dragenter" and "dragover" Events => preventDefault()
+
+
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+CERTO. Agora, antes de reagirmos a um drop, você pode, opcionalmente, fazer 'listen to' A UM 
+
+evento 'DRAGLEAVE' ('dragleave')....
+
+
+Você pode fazer isso se VOCÊ QUISER, NAQUELE CASO CONCRETO, __UPDATAR A UI, por exemplo....
+
+
+Updatar alguns estilos quando o ITEM É DRAGGADO PARA FORA/PARA LONGE DO ELEMENTO DO QUAL ELA FOI PUXADA para fora (dragged over)....
+
+
+
+MAS ISSO É OPCIONAL.
+
+
+O QUE NÃO É OPCIONAL (pelo menos se você QUISER ALGUM RESULTADO COM O DROP) é que você FAÇA 
+
+O ___LISTEN TO___ AO evento 'DROP' ________NO MESMO ELEMENTO____ (IMPORTANTE!!!!) em que vocÊ 
+
+FAZ o 'LISTEN TO' a 'DRAGENTER' e 'DRAGOVER'....
+
+
+O EVENTO 'DROP' SÓ SERÁ TRIGGADO/ATIVADO se você ___PREVENIR O DEFAULT____ (preventDefault()) 
+
+
+
+EM 'DRAGENTER'/'DRAGOVER'.....  SE VOCÊ FIZER ISSO COM SUCESSO, O ITEM É ENTÃO DROPPADO 
+
+DENTRO DESSE MESMO ELEMENTO EM QUE FOI DEFINIDO O 'DRAGENTER'/'DRAGOVER'....
+
+
+
+
+
+RESUMO DAS ETAPAS ATÉ AGORA:
+
+
+
+
+
+
+1) Mark Elements as "draggable" 
+
+
+2) Listen to "dragstart" Event -------------> [DESCRIBE OPERATION & APPEND DATA].
+
+
+
+3) Accept Drop via "dragenter" and "dragover" Events => preventDefault()
+
+
+
+4) Optional: Listen to "dragleave" Event -------------> E.g.  update styles
+
+
+
+
+5) Listen to "drop" Event & Update Data/UI
+
+
+
+------------------------------
+
+
+
+BEM, NAQUELE EVENTO 'DROP', VOCÊ PODE FAZER QUALQUER COISA QUE QUISER QUANDO OCORRER O 'drop' do elemento...
+
+
+
+VOCÊ PODE, POR EXEMPLO:
+
+Updatar alguns dados,
+
+updatar a UI, 
+
+
+mover o elemento na UI...
+
+
+QUALQUER COISA DO GÊNERO...
+
+
+
+PORQUE, e isso é importante, QUANDO VOCÊ FAZ UM ELEMENTO SER 'DRAGGABLE', vocÊ sempre ganha algum 
+
+FEEDBACK VISUAL QUE FAZ COM QUE REALMENTE PAREÇA QUE O USUÁRIO ESTÁ 'PUXANDO' (dragging) O ELEMENTO....
+
+Mas, na verdade, ESSE ELEMENTO ______NÃO ESTÁ ____ SENDO MEXIDO NO DOM____, TECNICAMENTE...
+
+
+
+Você TEM QUE FAZER ESSE MOVIMENTO ___PROGRAMATICAMENTE___ PELO JAVASCRIPT SE VOCÊ QUER 
+
+QUE O DOM SEJA UPDATADO APÓS REALIZAR TAL OPERAÇÃO DE DRAG AND DROP....
+
+
+
+
+
+Você também, opcionalmente, pode então FAZER 'LISTEN TO' a um evento DRAGEND ('dragend'),
+
+É EVIDENTE QUE NÃO NO LUGAR EM QUE ELE FOI DROPPADO, mas sim NO 'DRAGGED ELEMENT' EM SI... (no elemento que você/o usuário arrastou...)...
+
+
+Com isso, você poderia então fazer também o UPDATE DA UI ou de alguns dados, qualquer coisa que você quisesse fazer. 
+
+
+PORÉM, O evento 'dragend' É SEMPRE ATIVADO, MESMO SE O DROP DO ELEMENTO FEITO PELO USUÁRIO FOR CANCELADO...
+(ou seja, se o elemento FOI DROPPADO EM UMA ÁREA INVÁLIDA) ----------------> MAS, COMO O PROFESSOR NOS MOSTRARÁ, 
+                                                                            TEMOS UMA PROPRIEDADE NO OBJETO 'EVENT' QUE NOS DIZ SE O 'DROP' DAQUELE ELEMENTO FOI BEM SUCEDIDO (ou não)....
+
+
+
+
+
+ESSA É A TEORIA; AGORA DEVEMOS IMPLEMENTAR O DRAG AND DROP ETAPA POR ETAPA NO NOSSO PROJETO.
+
+
+
+
+
+
+RESUMO FINAL: 
+
+
+
+
+
+
+
+
+1) Mark Elements as "draggable" 
+
+
+2) Listen to "dragstart" Event -------------> [DESCRIBE OPERATION & APPEND DATA].
+
+
+
+3) Accept Drop via "dragenter" and "dragover" Events => preventDefault()
+
+
+
+4) Optional: Listen to "dragleave" Event -------------> E.g.  update styles
+
+
+
+
+5) Listen to "drop" Event & Update Data/UI
+
+
+
+6) Optional: Listen to "dragend" Event & Update Data/UI

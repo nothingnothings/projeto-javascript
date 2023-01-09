@@ -1,0 +1,78 @@
+Quando comparando valores em javascript, há um estranho comportamento que você pode perceber se você começar a comparar
+objetos com arrays; isso ocorre porque eles não funcionam como números e strings.
+
+
+Considere o seguinte exemplo:
+
+você tem um objeto com uma name property que segura a string 'Max' como um valor, e outro objeto, com o mesmo valor.
+
+
+
+
+
+
+
+
+{name: 'Max'}                 {name: 'Max'}
+
+
+
+
+
+Bem, esses dois NÃO são o MESMO objeto, não estamos falando aqui de uma mesma variável que quero 
+comparar a si mesma (como currentResult = currentResult + xx), já que isso seria redundante, mas digamos 
+que essas são 2 variáveis com 2 diferentes objetos, objetos esses que, por um acaso, acabam tendo 
+o mesmo valor contido no seu interior (kind of equal, para nós humanos). MESMO ASSIM, SE VOCÊ COMPARAR 
+ESSES 2 ELEMENTOS, NÃO IMPORTANDO SE VOCê UTILIZOU === OU ==, VOCÊ DESCOBRIRÁ QUE O VALOR NÃO É 
+"TRUE", COMO VOCÊ ESPERAVA, MAS "FALSE"!
+
+
+Mas por que não são iguais? por que javascript nos dá um falso para essa comparação?
+
+
+O motivo é o de que objects e arrays, e para arrays é o mesmo comportamento, o javascript te dará falso também 
+se você tentar comparar 2 arrays iguais (não deveria nos surpreender o fato de arrays se comportarem como objetos aqui, 
+afinal, no final das contas, arrays SÃO OBJETOS, ainda que objetos especiais) com o uso de == e ===; VOCÊ TEM QUE ENTENDER QUE 
+OBJECTS E ARRAYS SÃO, DE CERTA FORMA, ESPECIAIS NO JAVASCRIPT (kind of a big deal).
+
+
+Veremos o que é realmente especial neles mais tarde, quando examinarmos os aspectos mais técnicos de javascript e
+algumas das coisas core que você deve ter em mente.
+
+
+
+Pelo presente momento, vocÊ deve se lembrar que arrays e objects são especiais, que mesmo quando são iguais, não são tidos como 
+iguais pelo código.
+
+
+Podemos checar isso com o console no devtools, se compararmos uma constante person1 = {name: 'Max'} e uma outra constante igual, mas de nome person2, com 
+o operador === ou o operador ==, veremos que ele nos retornará falso. Nos retorna um boolean do valor ''FALSE'', aqui.
+
+
+Tudo isso tem a ver com a forma como são armazenados os objetos e arrays na memória do javascript, mas veremos 
+isso mais tarde.
+
+
+Mas, por agora, tenha em mente que dois objetos, armazenados em diferentes variáveis, NUNCA SERÃO A MESMA 
+COISA/OS MESMOS.
+
+
+É diferente se você tem um objeto armazenado em uma variável ou constante e então vocÊ cria uma nova constante 
+ ou variável, digamos person3, que você define como igual a person1. Aí, nesse caso, você verá que person3 é de fato igual a person1. Mas isso 
+ é porque essas const estão numa mesma variável/const, e não em const/variáveis distintas. person3 === person1 aí nos retornaria TRUE.
+
+ O mesmo aplica-se aos arrays; 
+ 
+ Há um tipo de comparação que você pode fazer entre elementos iguais; é o caso da comparação de valores individuais contidos dentro 
+ dos objetos, como comparar o nome max no exemplo do objeto.
+
+
+
+ ex no console do devtools: 
+            (.name = seleciona o valor name:) --------> isso faz o javascript acessar a string que está atribuída a name, e por isso essa comparação funciona. Contudo, conforme exposto anteriormente, a comparação overall entre array e objeto não pode ser feita, sempre dará false, ainda que exatamente iguais os 2. 
+
+ person1.name === person2.name
+
+
+
+ person1.name ===

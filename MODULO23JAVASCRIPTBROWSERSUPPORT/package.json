@@ -1,0 +1,32 @@
+{
+  "name": "my-webpack-project",
+  "version": "1.0.0",
+  "description": "My webpack project",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dev": "webpack",
+    "build:devServer": "webpack serve --hot",
+    "build:prod": "webpack --config webpack.config.prod.js",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "browserslist": "> 0.2%",
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.1",
+    "@babel/preset-env": "^7.13.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^7.20.0",
+    "lodash": "^4.17.21",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "core-js": "^3.9.0",
+    "regenerator-runtime": "^0.13.7"
+  }
+}

@@ -1,0 +1,100 @@
+Vimos um pouco sobre a vida bonus, mas e quanto a resetar o jogo, uma vez que o mesmo terminou?
+
+
+
+Para isso, o professor adicionará uma nova função em app.js, chamada de reset();
+
+
+
+Não resetGame, porque essa é, na verdade, uma das funções definidas em vendor.js para atualizar as barras de vida lá.
+
+
+Na função reset, o professor quer fazer essencialmente o que fez no início do código 
+app.js. Ele vai lá e copia currentMonsterHealth = chosenMaxLife
+                            currentPlayerHealth = chosenMaxLife.
+
+
+IMPORTANTE: ELE RETIRA A KEYWORD LET, PORQUE ele não quer reinicializar
+essas variáveis, definir coisas para elas, em vez disso, ele quer usar apenas
+as variáveis globais e definí-las de volta para o chosenMaxLife. Ele não quer reiniciar o bonus life, não é esse o intento do professor.  
+O professor não resettará a bonus life, não é esse o intento do jogo.
+O professor, além disso, não possui uma função em vendor.js para atualizar a UI em relação À vida extra, então ele não vai fazer isso 
+Se você quisesse adicionar uma tal função, de reiniciar a vida também, vocÊ teria que escrever seu próprio código em vendor.js
+Bonus life só funciona 1 vez ao longo de múltiplos jogos, ou até o cara reiniciar a página.
+
+
+function reset() {
+    currentMonsterHealth = chosenMaxLife;
+    currentplayerHealth = choosenMaxLife
+    resetGame;
+
+}
+
+
+
+
+Agora podemos chamar reset sempre quando queremos resettar, e isso será sempre que ganharmos perdemos, ou tivermos um empate (sempre que o jogo tiver acabado, basicamente. OU SEJA, DEVEMOS MEXER EM "endRound"!!!).
+POR ISSO, VAMOS ATÉ "ENDROUND" E COLOCAMOS RESET NO FIM DAS 3 HIPÓTESES, NA DE WIN, LOSS E DRAW.
+
+Professor diz que isso é meio ruim, reutilizar 3 vezes um código. Duplicação de código, práticas ruins.
+Ele diz que a forma de evitar repetir 3 vezes esse código é 
+
+reescrever dessa forma, adicionando um if check depois das 3 condições if/else if/else if:
+
+
+o que o professor faria é colocar todas as 3 condições aqui, enfiadas na condição, e aí rodar o reset();.
+
+
+
+/*MODELO ALTERNATIVO, sem tanta repetição do código reset();:
+
+
+
+if(
+currentMonsterHealth <= 0 && currentPlayerHealth > 0 ||
+currentPlayerHealth <= 0 && currentMonsterHealth > 0 ||
+currentPlayerHealth <= 0 && currentMonsterHealth <= 0;
+) {
+    reset();
+}
+
+
+
+|| (OR) faz toda a mágica aqui.
+
+
+com ||, se uma condição só é verdadeira, todas são verdadeiras. */
+
+
+
+
+
+Na verdade, podemos abreviar essa expressão grandona dos OR (||). 
+Para isso, podemos simplificar toda a expressão como:
+
+if(
+currentMonsterhealth <= 0 || currentPlayerHealth <=0       
+)
+
+Isso é porque, caso o monstro OU O JOGADOR fiquem com a vida igual ou menor a 0, 
+o jogo irá acabar, porque é um mata-mata, o primeiro a morrer encerra o andamento da partida.
+E caso ambos morram, as 2 condições serão satisfeitas, mas o importante aqui é que um deles morra, 
+que um dos statements declarados ali seja verdadeiro.
+
+
+
+Mesmo depois de tudo isso, ao testarmos a página, percebemos que o reset não funcionou. 
+As vidas não foram resettadas. Mas o que houve de errado?
+
+
+O problema está em vendor.js, onde resetGame pede um value como parâmetro, e não colocamos value nenhum no slot desse parâmetro, no chamamento da função em app.js.
+
+Por isso, vamos até o () do parâmetro de resetGame(), em app.js, e inserimos lá a constante chosenMaxLife.
+
+
+Agora percebemos que as barras funcionam.
+
+
+O que resta agora é deixar o player poder inputtar o valor que quer para a vida dos personagens.
+
+

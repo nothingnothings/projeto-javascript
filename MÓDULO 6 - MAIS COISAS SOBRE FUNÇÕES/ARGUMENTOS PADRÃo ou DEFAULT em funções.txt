@@ -1,0 +1,679 @@
+Então, o que mais devemos aprender sobre FUNÇÕES?
+
+
+
+
+Bem, e que tal aprender sobre ARGUMENTOS DEFAULT?
+
+
+
+
+
+
+
+
+Nós temos funções que aceitam alguns argumentos, como "const getWinner = (cChoice, pChoice) => {...}";
+
+No presente momento, essa função irá produzir RESULTADOS INDESEJADOS se nós não passarmos valores a todos esses argumentos.
+
+
+
+
+Bem, vamos fazer uma tentativa; vamos tentar colocar um argumento default para essa função.
+
+
+
+Digamos que o usuário não inputtou/escolheu entre rock, paper ou scissors... porque ele INPUTTOU ALGO 
+ERRADO, algo do gênero. Bem, nessa hipótese, não queremos retornar "DEFAULT_USER_CHOICE", mas sim queremos 
+que a função APENAS RETORNE (sem nada) aqui, sem retornar com o valor do "default_user_choice" (que é rock,
+no presente momento).
+
+
+
+modelo (ex da alteração):
+
+
+
+
+
+
+
+
+const getPlayerChoice= () => {
+    const selection = prompt(
+        `${ROCK}, ${PAPER} or ${SCISSORS}?`, ''
+    ).toUpperCase();
+if (selection !== ROCK && selection !== PAPER && selection !== SCISSORS) {
+    alert(`Invalid choice! we chose ${DEFAULT_USER_CHOICE} for you`);
+    return DEFAULT_USER_CHOICE;
+}
+return selection;
+};
+
+
+
+
+
+
+VIRA ------>
+
+
+
+
+
+
+const getPlayerChoice= () => {
+    const selection = prompt(
+        `${ROCK}, ${PAPER} or ${SCISSORS}?`, ''
+    ).toUpperCase();
+if (selection !== ROCK && selection !== PAPER && selection !== SCISSORS) {
+    alert(`Invalid choice! we chose ${DEFAULT_USER_CHOICE} for you`);
+    return; //alteração ocorreu aqui.
+}
+return selection;
+};
+
+
+
+
+SE DEIXARMOS O CÓDIGO ASSIM, O QUE ACONTECERÁ É O SEGUINTE:
+
+a execução do código seguirá normal até atingir a linha logo depois de alert, 
+que tem o "return;". Ao chegar nesse "return", a função imediatamente para/termina. ELA NÃO CHEGA 
+A ALCANÇAR "return selection", porque ACABA PARANDO ANTES, NESSE COMANDO DE RETURN VAZIO/undefined (tratado como undefined).
+será tratado como undefined no lugar em que chamamos essa função em que tentamos trabalhar com o valor retornado.
+
+
+Portanto, retornamos NADA aqui, nessa função. Se o usuário não escolheu alguma daquelas opções, RETORNAMOS NADA.
+
+
+É claro que o professor ainda quer ter aquele DEFAULT_USER_CHOICE, e ele diz que poderíamos ter deixado o código 
+do jeito que ele estava antes, mas como ele quer nos mostrar essa feature interessante, essa feature dos 
+argumentos default, ele seguirá esse caminho alternativo por enquanto.
+
+
+
+Como essa função retorna NADA, isso significa que lá embaixo, na constante playerChoice, podemos 
+IMAGINAR QUE ESSA CONSTANTE TAMBÉM FICARÁ "UNDEFINED", JÁ QUE ELA CHAMA ESSA FUNÇÃO DO "getPlayerChoice" para adquirir
+a definição do seu valor... 
+
+Ela fica undefined, né???  Undefined porque aquela outra função retorna nada, né??
+
+
+...
+
+
+salvamos o código e recarregamos a página.
+
+
+recebemos a mensagem 
+
+"you picked undefined, computer picked PAPER, therefore you lost".
+
+
+Sempre é essa mensagem que será mostrada a nós, porque o comportamento assignado ao "else block" é o de derrota, 
+sempre que não for nenhum daqueles casos (RESULT_PLAYER_WINS, RESULT_DRAW), o negócio nos mostrará a derrota.
+
+
+É óbvio o que aconteceu: undefined foi passado ao getWinner, porque NOSSA PLAYERCHOICE TAMBÉM FICA UNDEFINED 
+EM DECORRÊNCIA DO UNDEFINED DE "GETPLAYERCHOICE();".
+
+
+Mas o professor diz que devemos alterar o código dessa função getWinner um pouco, também. Vamos adicionar um if statement 
+que dirá:
+
+" se playerChoice (se playerChoice === true, basicamente), vou querer derivar 
+o vencedor por meio de 'const winner = getWinner(computerChoice, playerChoice);' "...
+
+
+
+
+ex (representação):
+
+
+if(playerChoice) {
+    const winner = getWinner(computerChoice, playerChoice);
+}
+
+
+
+
+
+
+
+
+
+É claro que o professor cria a variável "winner" localmente, nessa mesma função, antes 
+de ela ser referenciada nesse if block.
+
+
+
+
+
+ex (representação):
+
+
+
+
+let winner;
+
+if(playerChoice) {
+    winner = getWinner(computerChoice, playerChoice);
+}
+
+
+
+
+
+
+CÓDIGO INTEIRO:
+
+
+
+
+const getPlayerChoice= () => {
+    const selection = prompt(
+        `${ROCK}, ${PAPER} or ${SCISSORS}?`, ''
+    ).toUpperCase();
+if (selection !== ROCK && selection !== PAPER && selection !== SCISSORS) {
+    alert(`Invalid choice! we chose ${DEFAULT_USER_CHOICE} for you`);
+    return; //alteração ocorreu aqui.
+}
+return selection;
+};
+
+
+
+
+
+
+
+
+startGameBtn.addEventListener('click', () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    console.log(playerChoice);
+    const computerChoice = getComputerChoice();
+    let winner;
+    if (playerChoice) {         //ALTERAÇÃO.
+         winner = getWinner(computerChoice, playerChoice); // ALTERAÇÃO
+    };
+    console.log(`Computer played ${computerChoice}`)
+    console.log(winner);
+    let message = `You picked ${playerChoice}, the machine has picked ${computerChoice}, therefore you `; //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if (winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+            message += 'had a DRAW.'; }
+            else if (winner === RESULT_PLAYER_WINS) {
+                message += 'WON.'; }
+                    else {
+                        message += 'LOST.';
+            }
+            alert(message);
+            gameIsRunning = false; //variável "gameIsRunning" é aqui definida como false para QUE SEJA POSSÍVEL JOGAR DE NOVO SEM RECARREGAR A PÁGINA. O nome aqui faz sentido, pois realmente o jogo não está mais rodando.
+});
+
+
+
+
+
+O PROFESSOR CRIOU ESSA VARIÁVEL WINNER NO LADO DE FORA DESSE IF BLOCK PARA QUE 
+ELE EXISTISSE LOCALMENTE NESSA FUNÇÃO GETWINNER, E NÃO APENAS LOCALMENTE NAQUELE IF BLOCK.
+
+O professor também adiciona um ELSE block a esse IF BLOCK...
+
+no caso do código chegar no else block (são os casos em que 
+playerChoice NÃO ESTÁ DEFINIDO, CASOS EM QUE ELE ESTÁ UNDEFINED), ele vai querer que 
+winner seja igual a "getWinner();" com UM PARÂMETRO ÚNICO, O PARÂMETRO DE "computerChoice".
+
+representação:
+
+
+let winner;
+if(playerChoice) {
+    winner = getWinner(computerChoice, playerChoice);
+} else {
+    winner = getWinner(computerChoice);       //AQUI ESTÁ A PARTE REPRESENTADA.
+}
+
+
+
+
+
+O que isso significa? que chegaremos ao "ELSE" block toda vez que playerChoice for falsy/undefined/NaN.
+
+
+
+
+
+A PRIMEIRA COISA INTERESSANTE QUE ACONTECERÁ AQUI (e, BTW, essa coisa interessante 
+independe totalmente de você usar function expressions (com a "function" keyword), arrow functions ou 
+function declarations. Isso que o professor nos mostrará agora sempre se comporta assim, sempre funciona dessa 
+forma, independentemente da sintaxe que você utilizar)  ÉÉÉ
+
+
+
+que se o professor recarregar a página e começar um novo jogo, e se ele digitar algo inválido na caixa 
+do prompt, ele vai receber a mesma mensagem de antes:
+
+"you picked undefined, computer picked PAPER, therefore you lost".
+
+
+A COISA INTERESSANTE AQUI É QUE NÓS NÃO RECEBEMOS UM _____ERRO_____.
+
+
+em muitas outras linguagens de programação, VOCê CERTAMENTE RECEBERIA UM ERRO. Você teoricamente deveria receber um erro porque 
+o que essencialmente estamos fazendo aqui é chamar uma função, a função "getWinner", que na verdade ESPERA DOIS 
+ARGUMENTOS, dois parâmetros, e NÓS ESTAMOS PASSANDO APENAS UM ÚNICO ARGUMENTO ("computerChoice", naquele else block lá).
+
+
+MAS NÃO RECEBEMOS UM ERRO. POR QUE?
+
+
+
+Porque javascript é uma linguagem misericordiosa. Linguagems de programação geralmente não são tão misericordiosas.
+
+
+
+Em outras linguagens, você receberia um erro, porque o que você está fazendo aqui é o chamado de uma função de MANEIRA INCORRETA.
+
+
+javascript perdoa essa cagada, mas ela tenta consertar o problema por meio do USO DE UNDEFINED COMO VALOR PARA O 
+ARGUMENTO QUE ESTÁ FALTANDO (o que faz sentido, porque o argumento realmente não está/foi definido). 
+
+
+É AÍ QUE ARGUMENTOS DEFAULT ENTRAM EM JOGO. Você assigna um valor default por meio da inserção de '=' dentro dos parâmetros, 
+seguido do seu valor default. 
+
+EX:
+
+                                 (aqui está o uso do argumento de fault, colocamos "= valor/constante/variável/function call default")
+const getWinner (cChoice, pChoice = DEFAULT_USER_CHOICE) =>
+    cChoice === pChoice
+    ? RESULT_DRAW
+    : (cChoice === ROCK && pChoice === PAPER) ||
+      (cChoice === PAPER && pChoice === SCISSORS) ||
+      (cChoice === SCISSORS && pChoice === ROCK)
+    ? RESULT_PLAYER_WINS
+    : RESULT_COMPUTER_WINS;
+
+
+
+
+    Aqui, colocamos default_user_choice como valor default desse parâmetro "pChoice", default_user_choice é rock, 
+    portanto rock será o default dessa função.
+
+
+É ASSIM QUE DEFINIMOS UM VALOR DEFAULT.
+
+
+Além dessa alteração no código, devemos ir mais para baixo e alterar outro pedaço do código, um pedaço do código do addEventListener.
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+startGameBtn.addEventListener('click', () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    console.log(playerChoice);
+    const computerChoice = getComputerChoice();
+    let winner;
+    if (playerChoice) {         //ALTERAÇÃO.
+         winner = getWinner(computerChoice, playerChoice); // ALTERAÇÃO
+    };
+    console.log(`Computer played ${computerChoice}`)
+    console.log(winner);
+    let message = `You picked ${playerChoice}, the machine has picked ${computerChoice}, therefore you `; //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if (winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+            message += 'had a DRAW.'; }
+            else if (winner === RESULT_PLAYER_WINS) {
+                message += 'WON.'; }
+                    else {
+                        message += 'LOST.';
+            }
+            alert(message);
+            gameIsRunning = false; //variável "gameIsRunning" é aqui definida como false para QUE SEJA POSSÍVEL JOGAR DE NOVO SEM RECARREGAR A PÁGINA. O nome aqui faz sentido, pois realmente o jogo não está mais rodando.
+});
+
+
+
+
+
+
+nesse addEventListener, a constante "playerChoice" ainda renderia um valor de UNDEFINED, isso porque a 
+função que resulta no seu valor retorna um valor undefined. Para remediar isso, o professor diz que podemos 
+adicionar uma PEQUENA EXPRESSÃO TERNÁRIA DENTRO DA VARIÁVEL "MESSAGE".
+
+
+"se playerChoice é truthy, use "playerChoice", caso contrário, use 'DEFAULT_USER_CHOICE' ".
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+let message = `You picked ${playerChoice ? playerChoice : DEFAULT_USER_CHOICE}, machine picked ${computerChoice}`;
+
+
+
+PORTANTO, 
+PODEMOS USAR ESSE NEGÓCIO DE VALORES DEFAULT POR MEIO DE EXPRESSÕES TERNÁRIAS, TAMBÉM (E podemos utilizar a sintaxe 
+dos back ticks com esses negócios, também). 
+
+
+
+SINTAXE ALTERNATIVA DESSA MESMA EXPRESSÃO:
+
+
+
+
+let message = `You picked ${playerChoice || DEFAULT_USER_CHOICE}, machine picked ${computerChoice}`;
+
+
+
+
+isso significa "escolha playerChoice (se truthy) OU DEFAULT_USER_CHOICE (caso o primeiro valor for falsy.)
+
+
+
+Agora, se recarregarmos a página, veremos que o comportamento default já está estabelecido no aplicativo.
+
+
+Se digitamos algo inválido no prompt, o negócio nos informa que a escolha foi inválida e que rock foi 
+escolhido como valor default.
+
+
+
+
+Só para esclarecer, novamente: obviamente o antigo approach, de apenas retornar um valor default lá em cima em 
+"getPlayerChoice" era mais curto.... é provavelmente o approach que você usaria normalmente. Mas 
+esse método alternativo que o professor escolheu é uma boa oportunidade para ele nos mostrar 
+ARGUMENTOS DEFAULT, que são convenientes em muitos lugares, como lugares em que vocÊ tem uma função que 
+pode ser chamada DE UMA FORMA OU DE OUTRA. NESSAS SITUAÇÕES, TER ESSES ARGUMENTOS DEFAULT PODE SER BEM, BEM LEGAL.
+
+
+
+Vejamos mais um pouco sobre argumentos defaults e o que nós podemos fazer com eles:
+
+
+
+
+
+Para isso, vejamos o que acontece se eu realmente passar meu valor "undefined" (de "playerChoice") para esse segundo parâmetro 
+daquela função getWinner...
+
+
+
+ex:
+
+
+
+
+
+
+startGameBtn.addEventListener('click', () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    console.log(playerChoice);
+    const computerChoice = getComputerChoice();
+    let winner;
+    if (playerChoice) {         
+         winner = getWinner(computerChoice, playerChoice);
+    };
+    console.log(`Computer played ${computerChoice, playerChoice}`)  // SEGUNDO ARGUMENTO ADICIONADO, É UMA CONSTANTE QUE SEGURA UM VALOR DE "UNDEFINED".
+    console.log(winner);
+    let message = `You picked ${playerChoice}, the machine has picked ${computerChoice}, therefore you `; //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if (winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+            message += 'had a DRAW.'; }
+            else if (winner === RESULT_PLAYER_WINS) {
+                message += 'WON.'; }
+                    else {
+                        message += 'LOST.';
+            }
+            alert(message);
+            gameIsRunning = false; //variável "gameIsRunning" é aqui definida como false para QUE SEJA POSSÍVEL JOGAR DE NOVO SEM RECARREGAR A PÁGINA. O nome aqui faz sentido, pois realmente o jogo não está mais rodando.
+});
+
+
+
+
+O que acontece, então?
+
+
+
+
+Tenha em mente que o que nós passamos dentro daquela variável winner NÃO SERÁ a mesma coisa que 
+será outputtada lá embaixo, na variável "message", pois o que foi passado lá em cima foi um valor undefined, 
+e lá embaixo nós não passamos esse valor undefined, passamos um valor diverso (isso porque o valor alternativo, 
+DEFAULT_USER_CHOICE, foi passado como alternativa à "playerChoice").
+
+
+
+
+
+PARA VER COMO ESSE COMANDO DE "winner = getWinner(computerChoice, playerChoice);" se comporta, podemos utilizar 
+o DEV TOOLS do chrome.
+
+
+
+
+Dentro do dev tools, em app.js, simplesmente colocamos um PEQUENO MARKER (brekapoint) dentro da  função
+"getWinner". Depois disso, clicamos no botão de começar o jogo, digitamos algum lixo na caixa e aí o browser 
+vai pausar bem na hora da execução dessa função.
+
+Se agora você passar o mouse por cima do "pChoice", você verá que o valor "ROCK" é mostrado. pChoice tem um 
+valor de "ROCK" nesse momento.
+
+
+
+
+pChoice, então, tem o valor de ROCK, ainda que o valor que estamos passando (playerChoice) É UNDEFINED. Ou seja, o comportamento 
+do "argumento default" está funcionando perfeitamente.
+
+O professor scrolla um pouco para baixo, até o addEventListener. Dentro dele, ele coloca um breakpoint logo antes 
+da função "alert".
+
+
+Se você agora RESUMIR a execução, você verá que é possível ver que variáveis estão sendo usadas dentro desse EventListener...
+e, de fato, você pode ver que playerChoice está como UNDEFINED. Mesmo estando undefined, winner ainda usou 
+ROCK como default.
+
+
+
+
+TAKEAWAY---> se você passar UNDEFINED DENTRO DE GETWINNER como um argumento, QUANDO VOCÊ TEM UM ARGUMENTO DEFAULT...
+AÍ O ARGUMENTO DEFAULT SERÁ SELECIONADO. É ASSIM QUE FUNCIONA O ARGUMENTO DEFAULT.
+
+
+REsumo:
+
+
+
+Ah, o input do usuário deu "undefined"/inválido... ----> o argumento default será selecionado (POR ISSO ESCREVEMOS ARGUMENTOS DEFAULT.)
+
+
+
+MAS ISSO AÍ DO ARGUMENTO DEFAULT SER SELECIONADO _____SOMENTE_____FUNCIONA_____COM_____UNDEFINED.
+                                                    OUTROS VALORES FALSY NÃO FUNCIONARÃO!!! NÃO TERÃO ESSE COMPORTAMENTO!!!
+
+
+Ou seja, se nós tentássemos passar um falsy value como "null", uma empty STRing ou UM ZERO nesse lugar, ESSES 
+VALORES FALSY SERIAM MANTIDOS. Não seria escolhido o argumento default nesse caso... o que aconteceria, nesse caso, é que 
+o argumento "ruim" (o zero, a empty string ou o null) SERIA MANTIDO E UTILIZADO NA FUNÇÃO/CONSTANTE.
+
+
+
+ex:
+
+
+
+winner = getWinner(computerChoice, 0);
+
+
+
+------------->Aqui, esse 0 será usado como parâmetro. 
+
+
+
+MAS POR QUE ISSO? porque há muitas funções em que 0 REALMENTE SERÁ UM VALOR NORMAL, EM QUE ELE REALMENTE 
+SERÁ USADO NO CÓDIGO como parâmetro.
+
+EX: uma função de adição em que você quer adicionar 2 números, e talvez você queira adicionar 0... 
+talvez isso não faça todo o sentido do mundo, mas você certamente não quer pegar um valor default nesse caso, você 
+não vai querer dar overwrite no desejo do usuário de adicionar um zero, nesse caso.
+
+É por isso que outros falsy values não são substituídos por argumentos default. Undefined ___é substituído____, porem.
+
+
+Passar undefined, ou OMITIR O VALOR tem o mesmo efeito.
+
+
+
+
+
+
+ALÉM DISSO, VOCÊ PODE DEFINIR ARGUMENTOS/PARÂMETROS DEFAULT ANTES DE DEFINIR PARÂMETROS QUE NÃO TEM UM PARÂMETRO DEFAULT.
+
+
+ex: 
+
+
+const getWinner = (pChoice = DEFAULT_USER_CHOICE, cChoice);
+
+
+
+
+
+ESSA SINTAXE É VÁLIDA. HÁ OUTRAS LINGUAGENS DE PROGRAMAÇÃO QUE NÃO PERMITEM ESSA SINTAXE; TAIS SINTAXES PERMITEM 
+APENAS A DEFINIÇÃO DE ARGUMENTOS/PARÂMETROS DEFAULT AO FINAL DAS LISTAS DE PARÂMETROS.
+
+EX: "const getWinner = (pChoice, cChoice = DEFAULT_USER_CHOICE);" -----------> Essa seria a única opção em outras linguagens de programação.
+
+
+
+
+
+
+
+...MAS E SE EU TENTASSE CHAMAR 
+
+
+"winner = getWinner(computerChoice);", com 
+
+
+
+"const getWinner = (pChoice = DEFAULT_USER_CHOICE, cChoice);"? O que aconteceria?
+
+
+
+BASICAMENTE, a função de getWinner rodaria COM ESSE PARÂMETRO "computerChoice" NO LUGAR 
+DO SLOT DEFAULT ("pChoice = DEFAULT_USER_CHOICE"). O professor explica: a ordem da função ainda é respeitada, 
+o fato do chamado de winner lá embaixo ter apenas um parâmetro ("computerChoice") não significa que ela é derrogada/desrespeitada.
+Esse computerChoice ainda vai no slot de pChoice, passando por cima do default de DEFAULT_USER_CHOICE estabelecido previamente.
+
+
+
+
+Javascript NÃO VAI PROCURAR POR OUTROS PARÂMETROS SEM DEFAULT VALUES E TENTAR ASSIGNAR SEUS VALOR Àqueles com default values.
+Isso seria um comportamento terrível, pois isso faria o JS tentar ser mais esperto do que você, 
+e isso levaria a um monte de comportamentos indesejados no código. Por isso javascript não faz essa coisa, e por isso você 
+pode ter argumentos default antes de outros argumentos, mas isso significa que se você só passar 1 único argumento no chamado dessa função, 
+o primeiro parâmetro terá seu valor definido, mas o segundo não terá NADA, NÃO TERÁ PORRA NENHUMA E FICARÁ COMO 
+"UNDEFINED".
+
+
+
+então a resposta detalhada À pergunta de cima é:
+
+
+
+computerChoice entraria no primeiro slot do chamado (pChoice), e o segundo slot(cChoice) ficaria com um 
+valor de ___UNDEFINED___.
+
+
+
+
+
+Isso é apenas um detalhe para se lembrar.
+
+
+
+
+Tipicamente, na grande maioria dos casos, você terá um primeiro argumento que será 
+bem definido, fixo... e aí LÁÁÁÁ no último argumento você terá um default, porque esse comportamento é meio 
+instintivo das máquinas, o default vem por último. O "worst case scenario" vem por último.
+Geralmente são os últimos argumentos de funções que podem ser omitidos/undefined, e é aí que os argumentos 
+default entram em jogo.
+
+
+
+
+
+
+OUTRA FEATURE INTERESSAnte quando falamos de valores default:
+
+
+
+Quando estamos assignando um valor default, podemos até mesmo USAR PARÂMETROS QUE VIERAM ANTES 
+DAQUELE PARÂMETRO.
+
+
+EX:
+
+
+getWinner = (cChoice, pChoice = cChoice + DEFAULT_USER_CHOICE);
+
+
+
+-------------------------------------------------------
+
+ISSO É POSSÍVEL, VOcê pode usar o parâmetro definido anteriormente nesse novo default.
+
+
+outro ex:
+
+
+getWinner = (cChoice, 
+pChoice = cChoice === 'ROCK' ? PAPER : DEFAULT_USER_CHOICE);
+
+
+
+
+Professor diz que isso é essencialmente um "CHEAT MODE" desse nosso jogo, porque sempre que 
+o computador jogar pedra, agora, nós venceremos.
+
+
+
+
+Mas o que importa é que é possível se referenciar a outros parâmetros dentro dos parâmetros default,
+desde QUE OS OUTROS PARÂMETROS TENHAM VINDO ANTES DOS PARÂMETROS DEFAULT.
+
+
+
+Acabamos os default arguments. É uma feature útil que nos permite escrever funções mais flexíveis.

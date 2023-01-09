@@ -1,0 +1,49 @@
+Acabamos o módulo.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VIMOS ELEMENT POSITIONS E TAMANHOS, SCROLLING -----> vimos como descobrir quanto o usuário já scrollou na página, além de forçar o browser do usuário a scrollar até certo trecho de um elemento...
+
+
+
+
+
+
+
+TAMBÉM APRENDEMOS OUTRAS FEATURES LEGAIS DO BROWSER, COMO 
+
+
+ADIÇÃO DINÂMICA DE SCRIPTS e 
+
+template TAGS...
+
+
+
+
+APRENDEMOS SOBRE TIMERS E INTERVALS.
+
+
+
+
+
+APRENDEMOS SOBRE HISTORY, NAVIGATOR E LOCATION, 
+
+
+OBJETOS LEGAIS QUE NOS DEIXAM INTERAGIR COM O BROWSER DO USUÁRIO e que 
+
+proporcionam melhores user experiences.

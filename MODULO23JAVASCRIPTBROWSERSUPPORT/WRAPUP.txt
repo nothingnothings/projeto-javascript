@@ -1,0 +1,77 @@
+
+
+
+
+
+-----> COM ISSO, TERMINAMOS O MÓDULO DE BROWSER SUPPORT.
+
+
+
+
+
+
+
+
+---> APRENDEMOS SOBRE COMO ANALISAR O MERCADO, QUAIS RECURSOS UTILIZAR, COMO DETERMINAR 
+QUAIS FEATURES SÃO SUPORTADAS POR QUAIS BROWSERS, 
+
+
+
+
+aprendemos técnicas como FEATURE DETECTION com fallback code, 
+
+
+APRENDEMOS SOBRE POLYFILLS (que você pode adicionar de forma manual, alternativamente.)....
+
+
+
+
+
+
+POLYFILLING AUTOMATICO POR MEIO DO BABEL, QUE TAMBÉM TRANSPILA SEU CÓDIGO PARA BROWSERS MAIS 
+ANTIGOS...
+
+
+
+
+
+
+
+
+-----> AGORA TEMOS UM MONTE DE COISAS PARA PENSAR, MAS ISSO TUDO FAZ PARTE DO WEBDEVELOPMENT:
+
+
+escrever código bom QUE FUNCIONA EM BROWSERS MAIS ANTIGOS.
+
+
+
+Agora temos todas as ferramentas de que precisamos para construir webapps que usam 
+
+features antigas e novas ao mesmo tempo, e que funcionam em praticamente todos os browsers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Attached, you find the source code for this section. The snapshots are also attached to individual lectures throughout this module (i.e. the lectures to which each snapshot belongs).
+
+---
+
+The following resources may be helpful.
+
+Babel (Official Docs): https://babeljs.io/docs/en/
+
+babel-loader Docs: https://github.com/babel/babel-loader
+
+@babel/preset-env Docs: https://babeljs.io/docs/en/babel-preset-env
+
+core-js Docs: https://github.com/zloirock/core-js

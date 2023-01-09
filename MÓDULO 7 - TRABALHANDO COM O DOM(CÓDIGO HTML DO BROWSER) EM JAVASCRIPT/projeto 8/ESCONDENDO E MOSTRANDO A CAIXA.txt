@@ -1,0 +1,428 @@
+Agora o código está + ou - acabado.
+
+A única coisa que falta é UM MODAL QUE AINDA NÃO UTILIZAMOS NO JAVASCRIPT, O MODAL 
+
+
+"div class="modal card" id="delete-modal">
+    <h2 class="modal__title">Are you sure?</h2>
+    ...."
+
+--------------------------------
+
+
+O professor quer mostrar esse MODAL SEMPRE QUE NÓS 
+APERTARMOS O BOTÃO DE DELETAR (yes ---> para deletar).
+
+Ou seja, devemos conectar esse modal À OPERAÇÃO DE CLICAR (eventListener) em 
+"newMovieElement", que faz o newMovieElement ser DELETADO.
+
+O professor quer essencialmente uma etapa extra de confirmação para 
+se assegurar de que o usuário realmente quer deletar o filme, para que 
+ele não o delete acidentalmente.
+
+
+
+O professor explica que para fazer isso funcionar, devemos 
+REESTRUTURAR NOSSO CÓDIGO UM POUCO.
+
+
+
+Devemos adicionar uma nova função, chamada 
+de 
+
+"deleteMovie".
+
+Essa função terá como parâmetro o "movieId", que é o argumento 
+que esperamos receber nela. 
+
+Depois disso, o professor pega TODO O CÓDIGO 
+DE DELETEMOVIEHANDLER e o enfia dentro do "deleteMovie".
+
+ex:
+
+
+const deleteMovie = movieId => {
+    let movieIndex = 0;
+        for (const movie of movies) {
+            if (movie.id === movieId) {
+                break;
+            }
+            movieIndex++;
+        }
+
+        movies.splice(movieIndex, 1);
+        const listRoot = document.getElementById('movie-list');
+        listRoot.children[movieIndex].remove();
+};
+
+--------------------------------------------
+
+
+O PROFESSOR FAZ A TRANSFERÊNCIA DO CÓDIGO 
+DE DELETEMOVIEHANDLER PARA O DELETEMOVIE PORQUE 
+ELE QUER ___CHAMAR___ ESSA FUNÇÃO "DELETEMOVIE" DE DENTRO 
+DO DELETEMOVIEHANDLER. Ele faz isso, coloca o chamado 
+de deleteMovie lá dentro, com o argumento "movieId" sendo 
+passado a esse chamado.
+
+ex:
+
+
+const deleteMovie = movieId => {
+    let movieIndex = 0;
+        for (const movie of movies) {
+            if (movie.id === movieId) {
+                break;
+            }
+            movieIndex++;
+        }
+
+        movies.splice(movieIndex, 1);
+        const listRoot = document.getElementById('movie-list');
+        listRoot.children[movieIndex].remove();
+}
+
+
+const deleteMovieHandler = movieId => {
+    deleteMovie(movieId);
+}
+
+---------------------------------------
+
+ENTRETANTO, É AQUI QUE ENTRA O DETALHE:
+
+O PROFESSOR SÓ QUER REALIZAR ESSA OPERAÇÃO (deleteMovie) caso
+NÓS TENHAMOS MOSTRADO O MODAL E CASO O USUÁRIO TENHA 
+APERTADO EM "yes".
+
+ex:
+
+
+
+const deleteMovie = movieId => {
+    let movieIndex = 0;
+        for (const movie of movies) {
+            if (movie.id === movieId) {
+                break;
+            }
+            movieIndex++;
+        }
+
+        movies.splice(movieIndex, 1);
+        const listRoot = document.getElementById('movie-list');
+        listRoot.children[movieIndex].remove();
+}
+
+
+const deleteMovieHandler = movieId => {
+    
+    deleteMovie(movieId);
+}
+
+---------------------------------
+
+
+Professor tem que codificar a lógica que fará com 
+que o MODAL SEJA MOSTRADO e com que os cliques nos 
+botões resultem em efeitos no código.
+
+A primeira coisa que ele tem de fazer é SELECIONÁ-LOS:
+
+
+ex:
+const deleteMovieHandler = movieId => {
+
+const deleteMovieModal = document.getElementById('delete-modal');
+}
+
+--------------------------------------------------
+
+
+Selecionado esse elemento, o professor o utilizará para selecionar 
+os outros elementos (os botões de yes e no).
+
+
+ex (esse é o método que eu utilizei):
+
+const deleteMovieModal = document.getElementById('delete-modal');
+
+
+const modalActionsConfirmation = deleteMovieModal.children[2];
+
+
+const btnPassive = modalActionsConfirmation.querySelector('.btn--passive');
+const btnDanger = modalActionsConfirmation.querySelector('.btn--danger');
+
+
+--------------------------------------------------
+
+
+Errrr... problema: professor não fez isso, na verdade. Ele não fez select desses elementos ainda.
+O que ele fez foi:
+
+ex:
+
+const deleteMovieHandler = movieId => {
+
+const deleteMovieModal = document.getElementById('delete-modal');
+deleteMovieModal.classList.add('visible');
+
+}
+
+----------------------------------
+
+
+Essencialmente, o que interessa explicar aqui é que ESSE ELEMENTO 'delete-modal' TEM UMA CLASSE 
+DE "MODAL", POR ISSO ELE É NATURALMENTE ___INVISÍVEL____, PORQUE NO SEU SELETOR CSS 
+HÁ A PROPRIEDADE "display:none;". Ou seja, esse modal é QUASE IGUAL AO PRIMEIRO MODAL 
+QUE CONFIGURAMOS NESSA PÁGINA, QUE INICIAVA INVISÍVEL. TAL QUAL FIZEMOS COM AQUELE MODAL,
+DEVEMOS FAZER O MESMO PROCESSO AQUI: DEVEMOS ADICIONAR A CLASSE ".visible" à esse elemento, 
+para que ele passe a ter a propriedade "display: block" e apareça na tela do usuário.
+Não usamos toggle porque seria estúpido; o elemento com a classe "modal" já começa invisível, 
+apenas precisamos fazer com que ele apareça quando é chamado (quando ocorre um clique em um dos 
+elementos movie).
+
+O que o professor precisou fazer aqui, por outro lado, foi CHAMAR A FUNÇÃO 
+"toggleBackdrop()", para que o backdrop apareça junto com o chamado dessa função.
+
+ex:
+
+
+
+const deleteMovieHandler = movieId => {
+
+const deleteMovieModal = document.getElementById('delete-modal');
+deleteMovieModal.classList.add('visible');
+toggleBackdrop();
+//deleteMovie();
+}
+
+----------------------------------------------------------------
+
+
+
+Feito tudo isso, agora percebemos que o modal realmente aparece na nossa página pronta, juntamente do 
+backdrop por meio de "toggleBackdrop();".
+
+É claro que os botões ainda não funcionam, mas nós vamos ver isso AGORA:
+
+
+Há ainda um problema BIZARRO: Se nós abrirmos o segundo modal e então clicarmos no backrop, O BACKDROP 
+FARÁ COM QUE O OUTRO MODAL ABRA. Muito bizarro.
+
+O outro modal aparece quando clicamos no backdrop PORQUE sempre que nós clicamos no backdrop, o que no final das contas ocorre é que 
+O "BACKDROPCLICKHANDLER" é executado. BACKDROPCLICKHANDLER, por sua vez, faz com que toggleMovieModal seja executado, 
+e toggleMovieModal faz aparecer aquele modal indesejado.
+
+Anteriormente, isso não era um problema, porque havia apenas UM ÚNICO MODAL NO CÓDIGO, e a única 
+coisa que adicionava um backdrop era o movieModal, mas agora 
+isso se tornou um problemão, porque temos 2 coisas que adicionam um backdrop, 2 modais q fazem isso.
+
+
+Antigamente, o toggle dessa função toggleMovieModal sempre faria com que o backdrop se comportasse (fosse adicionado e removido).
+Isso não funciona mais, agora.
+
+
+
+Para fazer com que isso funcione, precisamos dar uma boa mexida no nosso código e DEVEMOS NOS LIVRAR 
+DA "TOGGLE" functionality. O toggle funcionou de forma explêndida anteriormente, mas agora não adianta mais.
+
+
+
+O professor cria uma nova função, chamada de "closeMovieModal". Essa função vai ir em frente e 
+executar "addMovieModal.classList.remove('visible');". Essencialmente, ela vai sempre "fechar" (remover a classe ".visible" do elemento) sempre 
+que for chamada.
+
+ex:
+
+
+const closeMovieModal = () => {
+    addMovieModal.classList.remove('visible');
+}
+
+----------------------------------------------------
+
+Feito isso, o professor também vai lá e MUDA O toggleMovieModal; ELE ALTERA O NOME DESSA FUNÇÃO PARA 
+"showMovieModal". 
+
+ex:
+
+        (nome mudado)
+const showMovieModal = () => {
+    addMovieModal.classList.toggle('visible');
+    toggleBackdrop();
+}
+
+------------------------------------------------
+
+
+ALÉM DISSO, ELE VAI LÁ E FAZ AQUILO QUE JÁ DEVÍAMOS TER FEITO HÁ UM TEMPO: TROCA ".toggle" por 
+".add" '.visible'. Agora essa função "showMovieModal" vai adicionar essa classe "visible" toda 
+vez que for chamada, e não fará aquilo que fazia antes, de dar um simples toggle nessa classe.
+
+ex:
+
+
+    (nome mudado)
+const showMovieModal = () => {
+    addMovieModal.classList.add('visible');
+    toggleBackdrop();
+}
+
+
+
+
+É claro, diz o professor, que isso significa que ele deverá mudar TODOS OS LUGARES EM QUE 
+ELE UTILIZOU "toggleMovieModal"; deverá trocar todas as ocorrências desse nome para 
+"addMovieModal".
+
+Ele também faz uma alteração no código da função "cancelAddMovieHandler", que antes 
+tinha "addMovieModal" como função a ser chamada no seu function body. O professor a troca por 
+"closeMovieModal", essa função nova cujo function body tem addMovieModal.classList.remove('visible');
+
+Há outro lugar que deve ser mudado, também: na função newMovie, que fica dentro de addNewMovieElement, 
+o professor, o professor também vai querer chamar essa função "closeMovieModal". Ele troca 
+a função "toggleMovieModal", que é aquela que adiciona a classe "visible" ao elemento modal, por closeMovieModal.
+
+
+Em backdropClickHandler, ele também faz outra substituição: substitui 
+toggleMovieModal por "closeMovieModal", novamente, pois queremos que, quando o usuário clique no 
+backdrop, o modal SEJA FECHADO; nunca iremos querer que o modal seja aberto quando clicamos no backdrop,
+somente fechado.
+
+
+Por fim, o professor faz uma alteração no código do eventListener do "startAddNewMovieButton":
+
+anteriormente, essa função executava "toggleMovieModal", mas AGORA 
+ELA VAI EXECUTAR "showMovieModal", o novo nome de toggleMovieModal (que agora adiciona a classe "visible", e não 
+mais simplesmente faz o toggle dessa classe).
+
+ex:
+
+startAddNewMovieButton.addEventListener('click', showMovieModal);
+
+
+
+----------------------------------------------------
+Feito tudo isso, devemos ter nos livrado daquele comportamento chato dos cliques 
+no backdrop chamando outro modal à user interface.
+
+
+
+Agora o professor também quer se assegurar de que 
+
+quando nós cliquemos no backdrop nós consigamos fechar 
+o modal que esteja aberto (tanto o backdrop do add movie, quanto o da deleção de movie que já foi adicionado.)
+
+Ele vai até a função "deleteMovieHandler" e 
+agarra a constante "deleteMovieModal" que fica dentro 
+dela e a move um nível para fora, para que se torne uma CONSTANTE 
+GLOBAL.
+
+Isso nos permite adicionar uma NOVA FUNÇÃO. Função 
+chamada de 
+
+"cancelMovieDeletion".
+
+
+ex:
+
+
+const cancelMovieDeletion = () => {
+
+}
+
+-----------------------------------------
+
+Dentro dessa função, o professor vai querer fazer o toggle do backdrop(toggleBackdrop) e TAMBÉM 
+ALCANÇAR (chamar) o elemento  "deleteMovieModal" (aquela caixa de diálogo com "voce tem certeza") e 
+REMOVER A CLASSE "VISIBLE". Isso fará com que tanto o backdrop como o modal sejam removidos quando 
+clicamos no backdrop. Essa "cancelMovieDeletion" DEVERÁ SER CHAMADA 
+DE DENTRO DE "backdropClickHandler".
+
+Representação: ex:
+
+const cancelMovieDeletion = () => {
+    toggleBackdrop();
+    deleteMovieModal.classList.remove('visible');
+}
+
+
+const backdropClickHandler = () => {
+    closeMovieModal();
+    cancelMovieDeletion();
+}
+
+
+---------------------------------------------
+
+O professor se esqueceu de um "toggleBackdrop()" dentro 
+da função "addMovieHandler".
+
+ex:
+
+
+const addMovieHandler = () => {...
+
+closeMovieModal();
+toggleBackdrop();
+
+}
+
+
+
+--------------------------------
+
+
+OK, PARECE QUE AGORA TUDO ESTÁ FUNCIONANDO. Menos... os botões do segundo modal.
+
+
+
+
+
+-------------------------------
+
+O professor continua suas explicações. Agora ele quer fazer com que os botões dentro do segundo modal 
+funcionem (um deles já funciona, resta apenas o botão "yes", que de fato remove o item movie no qual vocÊ clicou)
+
+
+Utilizamos constantes globais para armazenar os botões; o professor por sua vez, utilizou constantes LOCAIS, pois 
+só vai precisar delas em um único local (melhor para organizar o código).
+
+O professor (nós, na verdade) escreve:
+
+ex:
+
+
+
+btnDanger.addEventListener('click', deleteMovie);
+
+
+
+-------------------------------------------------------
+
+
+
+MAS APENAS ISSO NÃO BASTA: ele vai lá e adiciona o método "bind" à execução de deleteMovie, para que possa 
+passar o parâmetro "movieId".
+
+ex:
+
+
+
+btnDanger.addEventListener('click', deleteMovie.bind(null, movieId));
+
+----------------
+
+OBS: precisamos mover esse addEventListener de btnDanger para dentro de "deleteMovieHandler", porque apenas lá 
+está definido o "movieId".
+
+------------------------------------
+
+
+Fazemos tudo aquilo que o professor nos diz, mas AINDA HÁ UM BUG QUE DEVE SER CONSERTADO:
+
+
+Quando clicamos em "yes", REALMENTE CONSEGUIMOS REMOVER AQUELE ELEMENTO MOVIE. CONTUDO, O SEGUNDO MODAL 
+NÃO DESAPARECE, FICA NA TELA MESMO ASSIM E NUNCA SOME. Precisamos 
+fazer com que o item movie continue sendo deletado e que esse modal suma junto dele.

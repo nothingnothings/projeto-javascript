@@ -1,0 +1,42 @@
+Agora, para praticar tudo aquilo de if statements, vamos trabalhar em um novo pequeno website.
+
+
+
+
+
+Queremos ter um visual output para tudo aquilo que fazemos/realizamos.
+
+
+
+
+Pegamos a página index, o css e todo o resto. O arquivo app.js, que é um tipo de caixa preta para nós agora, ele basicamente estabelece um communication channel entre 
+nosso código html e o javascript, para que possamos manipular o documento que nós vemos lá, ALGO QUE VEREMOS EM MAIOR DETALHE MAIS TARDE NO CURSO.
+Não estamos lá ainda. Por enquanto, tratamos esse arquivo inteiro como uma black box que nos rende alguns valores globais que podemos usar para fazer listen 
+de button clicks (por meio de eventListeners) e assim por diante.
+
+
+O app.js é onde escreveremos nosso código, e é claro que temos alguns estilos em app.css (sidenote: todos esses estilos estão optimizados para o chrome.)
+
+
+Primeiramente, veremos como adicionar uma attack function/button. O attack button deverá reduzir as lifebars.
+Precisamos, antes de mais nada, configurar o quanto de vida estará disponível. Mais tarde faremos com que a página pergunte 
+ao usuário qual deveria ser esse valor de vida inicial, mas por enquanto, vamos HARDCODÁ-LO. 
+
+
+
+
+
+//o que escrevi aqui? "caso currentPlayerHealth chegue a 0 ou menos que 0, e na hipótese do sujeito ter uma vida extra, O JAVASCRIPT DEVE (por meio do que está escrito nesse function body) REDUZIR O hasBonusLife para ZERO (porque o cara não mais terá uma vida extra) e "removeBonusLife", função fornecida por vendor.js.
+
+
+
+"feature do bonus life", resumida:
+
+                    //antes = tem bonus life.  Depois = não tem bonus life, removida pela execução desse function body.
+if(currentPlayerHealth <=0 && hasBonusLife) {
+    hasBonusLife = false;
+    removeBonusLife();
+    currentPlayerHealth = initialPlayerHealth;
+    alert('You would be dead, but the bonus life saved you!');
+
+}

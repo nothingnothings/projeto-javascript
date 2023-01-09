@@ -1,0 +1,1276 @@
+Conseguimos criar/adicionar nossa primeira classe ao código.
+
+
+
+
+ENTRETANTO, NOSSO CÓDIGO AINDA funciona de tal modo que 
+TODA A NOSSA LÓGICA AINDA VIVE 
+
+
+DENTRO DO NOSSO 'const productList'...
+
+
+
+
+É hora de mudar isso, também.
+
+
+
+
+
+
+
+Devemos adicionar outra classe, porque NÓS NÃO ESTAMOS 
+LIMITADOS a criar classes que são OBJETOS 
+PRÉ-DEFINIDOS QUE SÃO BASICAMENTE DATA CONTAINERS...
+NÓS TAMBÉM PODEMOS CRIAR CLASSES PARA OBJETOS QUE 
+SEGURAM MAIS LÓGICA...
+
+
+Podemos fazer isso para que, no final, toda nossa lógica 
+do aplicativo fique dividida em MÚLTIPLAS CLASSES, as quais 
+nós então apenas conectamos de alguma maneira inteligente.
+
+
+
+Para tal, criamos uma classe aqui que chamamos de 
+
+'ProductList'.
+
+
+
+ex:
+
+
+
+class ProductList {
+
+}
+
+
+
+--------------------------------
+
+
+
+ESSA CLASSE 'productList' pode segurar 
+o nosso ARRAY DE PRODUTOS. 
+
+
+ex:
+
+
+
+
+
+class ProductList {
+    products = []
+}
+
+
+--------------------------------
+
+
+Professor diz que esse é um caso em que nós definimos 
+UM FIELD (um field que pode ser necessário, ao contrário 
+dos fields que vimos nos objetos que são data containers comuns, 
+que dispensam os fields inteiramente, trocados pela grande utilidade das constructor functions...)
+
+
+Recortamos o código do array de produtos que está lá embaixo (com os chamados da classe de 'Product') e 
+o inserimos dentro dessa nova classe.
+
+
+--------------------------------------
+
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )]
+}
+
+
+-----------------------------------------
+
+
+
+
+De novo: o que acontecerá aqui é que, quando nós criarmos 
+um objeto baseado nessa classe 'ProductList',  a propriedade 
+
+'products' SERÁ ADICIONADA AUTOMATICAMENTE, e o valor 
+DEFAULT será aquele array de produtos (composto pelo produto do tapete e do travesseiro.)
+
+
+
+
+----------------------------------------
+
+
+
+
+
+
+BEM, NÓS PODERÍAMOS definir um CONSTRUCTOR dentro 
+dessa classe, mas NÓS NÃO PRECISAREMOS DEFINIR 
+ESSE 'this.products' a qualquer coisa, porque 
+nós já o inicializamos de qualquer forma dentro 
+dessa função... por isso não precisamos fazer isso aqui.
+
+
+
+
+
+
+(tenha isso em mente: o field 'products' é "MAGICAMENTE" ADICIONADO COMO 
+PROPRIEDADE DURANTE O PROCESSO DE CONSTRUÇÃO DO OBJETO, de qualquer forma.)
+
+
+
+
+
+Deixaremos o constructor VAZIO por enquanto... ainda 
+não sabemos se vamos precisar dele no futuro.
+
+
+
+Em vez disso, o que o professor QUER adicionar aqui é um 
+MÉTODO, e o tal método é O MÉTODO "RENDER()", 
+que nós tinhamos dentro de productList. Pegamos a lógica 
+do render que temos em productList e enfiamos aqui.
+
+Com isso, o 'productList' em si próprio TORNOU-SE INÚTIL:
+
+nós já havíamos copiado seus 'products' e os enfiado nessa classe 
+do productList; agora nós copiamos também seu render().... 
+
+
+Por isso, podemos simplesmente deletar o 'const productList', 
+deletamos o objeto 'productList'.
+
+
+
+
+
+
+ex:
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+      render() {
+          const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+      }
+}
+
+
+
+
+--------------------------
+
+
+
+AGORA NOSSA CLASSE TEM PRATICAMENTE TODO O CÓDIGO do antigo 
+objeto productList.
+
+
+
+Professor aponta que, com isso, não ganhamos muita coisa, mas que estamos 
+
+'chegando lá'.
+
+
+
+
+AGORA TEMOS QUE CONSERTAR O CÓDIGO QUE RESTOU LÁ EMBAIXO...
+
+
+o 'productList.render();' -----> esse chamado desse método dentro do objeto productList já não faz sentido, pois o objeto não existe mais.
+devemos apagá-lo.
+
+
+
+Em vez disso, agora nós temos que INSTANCIAR (instantiate) a nossa 
+classe, TALVEZ CRIAR UM OBJETO 'productList', mas 
+dessa vez com uso 
+da nossa 
+
+classe 'Product'.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+      render() {
+          const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+      }
+}
+
+
+
+
+
+
+
+
+
+
+const productList = new ProductList();
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+
+FEITO ISSO, PODEMOS SIMPLESMENTE UTILIZAR O método 'render()' exatamente 
+como fazíamos antigamente, chamá-lo pela referência ao productList, com a diferença 
+de que, dessa
+vez, será um productList criado POR UMA CLASSE.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+      render() {
+          const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+      }
+}
+
+
+
+
+
+
+const productList = new ProductList();
+productList.render();
+
+
+
+
+
+
+-------------------------------------
+
+
+
+RECARREGAMOS A PÁGINA E VEMOS O MESMO RESULTADO.
+
+
+
+
+
+-----------------------------------
+
+
+
+
+Entretanto, professor diz que esse não é o resultado final que 
+ele quer...
+
+em vez disso, ele quer agora fazer O OUTSOURCE da lógica 
+para UM ÚNICO PRODUTO...
+
+Quer fazer  o outsource da lógica de renderização de UM 
+ÚNICO PRODUTO em uma OUTRA CLASSE...., dividir nosso código em 
+pedaços menores ainda, colocá-lo
+em outra classe.
+
+
+
+Para tal, o professor adiciona uma NOVA CLASSE (BTW, a ordem das classes NÃO IMPORTA...) (se eu definir uma classe DENTRO Da classe 'productList', por exemplo, eu NÃO PRECISO DEFINI-LA GLOBALMENTE antes de escrevê-la dentro dessa outra classe.)
+
+
+
+
+IMPORTANTE!!!    a ordem das classes no código NÃO IMPORTA. 
+
+                        UMA ÚNICA EXCEÇÃO: SUAS CLASSES DEVEM ESTAR DEFINIDAS NO CÓDIGO ANTERIORMENTE AOS LUGARES EM QUE VOCÊ IRÁ CHAMÁ-LAS.
+
+
+
+ex:
+
+
+
+class Product {
+    ...
+}
+
+const product = new Product(); 
+
+------------------------------------------>>>> ISSO FUNCIONA SEMPRE.
+
+
+---------------------------------------------
+
+
+
+const product = new Product(); 
+
+
+class Product {
+    ...  
+}
+
+----------------------------------------> ISSO NUNCA FUNCIONA. (te dará um erro de sintaxe; você sempre precisa definir a classe ANTES DO SEU CHAMADO.)
+
+
+
+
+
+
+----------------------------------------------------
+
+
+
+
+
+
+
+Voltemos à nossa nova classe...
+
+
+ela deverá 
+
+ser a classe 'ProductItem', relativa aos produtos/items 
+individuais renderizados pelo javascript.
+
+Essa classe deverá ser responsável por renderizar um único 
+productItem.
+
+
+Para tal, podemos adicionar uma constructor function (porque é um objeto simples, de armazenamento de dados)
+
+E poderíamos aceitar um punhado de propriedades QUE COMPÕEM um 
+product... para ser mais 
+preciso, as propriedades 
+'title', 'price', 'description' e 'imageUrl'.
+
+
+Essencialmente, é o que já temos dentro da classe 
+
+'Product' (que tem um constructor com title, image, desc e price).
+
+
+
+
+Em razão desse compartilhamento de coisas que queremos, podemos 
+simplesmente utilizar 'product' como parâmetro 
+do constructor de 'ProductItem' (? Não entendi a razão disso).
+
+
+Continuando.... aí nós poderíamos 
+colocar 
+
+'this.product=product;' dentro do corpo da constructor function.
+
+
+
+(Just to re-iterate what we learned: "this.product = product" adds 
+a NEW 'PRODUCT' PROPERTY TO THE EVENTUALLY CREATED OBJECTS)
+
+
+
+
+
+
+
+
+ex:
+
+
+
+class Product  {
+
+constructor(title, image, desc, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+
+
+}
+}
+
+
+
+
+
+
+
+
+class Productitem {
+    
+    constructor(product) {
+        this.product = product;   ////isso vai criar uma nova propriedade 'product' ao objeto que será criado a partir da classe 'ProductItem'.
+    }}
+
+
+
+
+---------------------------------------
+
+
+
+Por meio dessa definição do constructor, essa classe 'productItem' vai esperar 
+um PRODUTO como parâmetro (esse produto, no caso, será a classe Product, chamada por meio de 'new Product' dentro do parâmetro de 'new ProductItem'.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O professor diz que dividiu o código em objetos 'product' e 'ProductItem' porque 
+aquele 'Product' 
+
+deverá simplesmente apenas definir 
+COMO UM simples PRODUTO DEVERÁ SE PARECER, COMO DEVERÁ SER SUA 
+ESTRUTURA, quais dados ficarão lá dentro... ele apenas está no nosso código para AGRUPAR dados,
+
+enquanto que productItem NÃO FAZ 
+O AGRUPAMENTO DE DADOS (pelo menos não primariamente), 
+e sim SEGURA A LÓGICA PARA RENDERIZAR 
+
+UM ÚNICO 'productItem', por meio de um chamado de 
+
+'render()', que faremos agora:
+
+
+
+
+
+ex:
+
+
+
+
+
+class Product  {
+
+constructor(title, image, desc, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+
+
+}
+}
+
+
+
+
+
+
+
+
+class Productitem {
+    
+    constructor(product) {
+        this.product = product;   ////isso vai criar uma nova propriedade 'product' ao objeto que será criado a partir da classe 'ProductItem'.
+    }
+    
+    
+    render() {
+
+    }
+    }
+
+
+
+-------------------------
+
+
+
+Dentro de render(), o professor vai querer ter a lógica para 
+RENDERIZAR/CRIAR AQUELE ÚNICO PRODUTO.
+
+
+
+
+ex:
+
+
+
+
+
+
+class Product  {
+
+constructor(title, image, desc, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+
+
+}
+}
+
+
+
+
+
+
+
+
+class Productitem {
+    
+    constructor(product) {
+        this.product = product;   ////isso vai criar uma nova propriedade 'product' ao objeto que será criado a partir da classe 'ProductItem'.
+    }
+    
+    
+    render() {
+         const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+    }
+    }
+
+
+-------------------------------------------
+
+
+
+
+ENTRETANTO, AQUI PROFESSOR FAZ UMA ALTERAÇÃO...
+
+uma alteração dentro do código de 'render() {}'.
+
+
+Ali dentro, ele trocará 'prod' pela propriedade 'product'... porque aqui, 
+como render() pertence à classe "ProductItem', ele(o render) deverá 
+ser criado EM OBJETOS COM ESSA CLASSE... por isso, 
+devemos trocar o 'prod' por 'this' (que fará a referência à 'product'...).
+
+'This' deverá se referir AO OBJETO CRIADO COM BASE NA CLASSE 'ProductItem'.
+
+
+ex:
+
+
+
+
+
+class Product  {
+
+constructor(title, image, desc, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+
+
+}
+}
+
+
+
+
+
+class Productitem {
+    
+    constructor(product) {
+        this.product = product;   ////isso vai criar uma nova propriedade 'product' ao objeto que será criado a partir da classe 'ProductItem'.
+    }
+    
+    
+    render() {
+         const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${this.imageUrl}" alt="${product.title}">
+                        <div class="product-item__content">
+                            <h2>${this.title}</h2>
+                            <h3>\$${this.price}</h3>
+                            <p>${this.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+    }
+    }
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+PORÉM, NÃO PARAMOS POR AÍ. COMO O NOVO OBJETO CRIADO A PARTIR DE 
+'PRODUCTITEM' terá UMA PROPRIEDADE 'product' (essa propriedade 'product' será 
+criada a partir do comando/propriedade 'this.product = product' dentro 
+do constructor da classe 'ProductItem'...),    NÓS DEVEMOS 
+
+INSERIR OS a propriedade 'product' DEPOIS DE 'this', para que o objeto criado 
+com render() seja criado adequadamente.
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Product  {
+
+constructor(title, image, desc, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+
+
+}
+}
+
+
+
+
+
+class Productitem {
+    
+    constructor(product) {
+        this.product = product;   ////isso vai criar uma nova propriedade 'product' ao objeto que será criado a partir da classe 'ProductItem'.
+    }
+    
+    
+    render() {
+         const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+                        <div class="product-item__content">
+                            <h2>${this.product.title}</h2>
+                            <h3>\$${this.product.price}</h3>
+                            <p>${this.product.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+    }
+    }
+
+
+
+
+
+-----------------------------------
+
+
+
+Com tudo isso, agora eu tenho a lógica necessária para renderizar um único 
+PRODUTO dentro de 'productItem'.
+
+
+
+
+O PROBLEMA AQUI É QUE ESSA CLASSE ('ProductItem') CRIA UM ELEMENTO 'product' MAS 
+NÃO SABE ONDE FAZER APPEND DESSE ELEMENTO...
+
+
+-------------------------------------
+
+
+
+Temos 2 possíveis soluções para esse problema:
+
+
+
+
+
+1a solução (não utilizaremos) --->  depende do Método 'render()'. O método render ACEITA UM ELEMENTO/UM OBJETO DO DOM 
+em que nós podemos chamar 'append' e fazer o append desse elemento criado por ele...
+
+O parâmetro de render é EM QUE LUGAR DO CÓDIGO QUE QUEREMOS QUE O TAL ELEMENTO SEJA RENDERIZADO.
+
+
+
+
+2a solução ----> OU podemos fazer com que nesse método 'render()' nós em vez disso 
+RETORNEMOS o produto criado e SEMPRE QUE NÓS CHAMEMOS 'render()' nós ENTÃO teremos 
+a responsabilidade de USAR AQUELE OBJETO RETORNADO E FAZER O APPEND DELE...
+Essa é a approach que o professor irá utilizar.
+
+Ele irá fazer o return de 'prodEl' no final de render()....
+
+
+
+ex:
+
+
+render() {
+    const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+                        <div class="product-item__content">
+                            <h2>${this.product.title}</h2>
+                            <h3>\$${this.product.price}</h3>
+                            <p>${this.product.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            return prodEl;
+}
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+Depois disso, podemos simplesmente ir até o "productList"...
+
+
+E AÍ, NAQUELE FOR OF LOOP em que o professor vai por 
+dentro de todos os produtos, O PROFESSOR 
+VAI AGORA CRIAR UM PRODUTO
+
+por meio da classe 'ProductItem' que utilizamos antes.
+
+
+ex:
+
+
+for (const prod of this.products) {
+    const productItem = new ProductItem()      ///////CÓDIGO EM QUESTÃO.
+    prodList.append(prodEl);
+}
+renderHook.append(prodList);
+
+
+
+
+--------------------------------
+
+
+
+Ou seja, ele vai fazer isso por meio do uso da classe 'new ProductItem' na qual trabalhamos, 
+a qual ele vai utilizar para construir um objeto em cima.
+
+
+COMO PARÂMETRO DESSE 'new ProductItem()', VOCÊ VAI PASSAR UM PRODUCT (é isso que o constructor dentro de 'ProductItem' espera, ele espera um PRODUCT. E esse 'product' vai ser 'prod', o objeto QUE CONSTRUÍMOS A PARTIR DE OUTRA CLASSE, a classe 'Product', definida lá em cima....).
+
+
+
+
+ex:
+
+
+
+
+for (const prod of this.products) {
+    const productItem = new ProductItem(prod);      ///////CÓDIGO EM QUESTÃO.
+    prodList.append(prodEl);
+}
+renderHook.append(prodList);
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+Representação do código completo:
+
+
+
+class Product  {
+                    constructor(title, image, desc, price) {  /////como usar constructor functions junto de classes.
+                    this.title = title;
+                    this.imageUrl = image;
+                    this.description = desc;
+                    this.price = price;
+
+
+}
+}
+
+
+class ProductItem {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+
+    render() {
+
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+                        <div class="product-item__content">
+                            <h2>${this.product.title}</h2>
+                            <h3>\$${this.product.price}</h3>
+                            <p>${this.product.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            return prodEl;
+        }
+    
+
+    }
+
+
+
+
+
+class ProductList {
+    products = [
+            new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )
+      ];
+
+
+
+        constructor() {}
+
+
+
+        render() {
+                 const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) {
+        const productItem = new ProductItem(prod);
+        prodList.append(prodEl);
+        }
+        renderHook.append(prodList);
+
+
+}
+
+}
+
+
+
+
+
+const productList = new ProductList();
+productList.render();
+
+
+
+--------------------------------------------------
+
+
+
+
+Depois disso, em render() dentro da ProductList, podemos criar 
+um objeto 'prodEl', armazenado em uma constante de mesmo nome, 
+por meio de 'const prodEl = productItem.render()'....
+
+
+Render(), como você sabe/aprendeu, o render que nós 
+definimos TEM UM 'return prodEl' no seu final, por isso 
+ele sempre retornará 'prodEl' como seu valor final. É POR ISSO 
+QUE DEFINIMOS 
+
+"const prodEl = productItem.render();'
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class Product  {
+                    constructor(title, image, desc, price) {  /////como usar constructor functions junto de classes.
+                    this.title = title;
+                    this.imageUrl = image;
+                    this.description = desc;
+                    this.price = price;
+
+
+}
+}
+
+
+class ProductItem {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+
+    render() {
+
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+                        <div class="product-item__content">
+                            <h2>${this.product.title}</h2>
+                            <h3>\$${this.product.price}</h3>
+                            <p>${this.product.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            return prodEl;
+        }
+    
+
+    }
+
+
+
+
+
+class ProductList {
+    products = [
+            new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )
+      ];
+
+
+
+        constructor() {}
+
+
+
+        render() {
+                 const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) {
+        const productItem = new ProductItem(prod);
+        const prodEl = productItem.render(); ////////EIS O CÓDIGO EM QUESTÃO.
+        prodList.append(prodEl);
+        }
+        renderHook.append(prodList);
+
+
+}
+
+}
+
+
+
+
+
+const productList = new ProductList();
+productList.render();
+
+
+
+
+
+
+
+--------------------------------------------------------------
+
+
+
+
+'productItem.render()' VAI RETORNAR ESSE NOVO OBJETO...
+
+
+Agora, portanto, nós podemos fazer o append de 'prodEl' por meio 
+
+
+de 'prodList.append(prodEl);', porque, de novo, prodEl é um OBJETO DOM criado 
+por 'render()'.
+
+
+
+
+
+....AGORA NÓS TALVEZ SEJAMOS CAPAZES DE VER AS VANTAGENS DESSE 'oop'....
+
+
+
+Agora nós já dividimos nossa lógica em algumas classes...
+
+
+
+e, sim, é claro que tudo isso está em um mesmo arquivo, MAS SE VOCÊ 
+
+ESTIVER CHEGANDO NESSE CÓDIGO DO NADA, se você é um novo desenvolvedor trabalhando 
+no projeto E VOCÊ QUER 
+SABER 
+ONDE A LÓGICA PARA RENDERIZAR UM ÚNICO PRODUTO ESTÁ, você não precisa 
+ir procurando por todo o documento, 
+você apenas precisa encontrar 
+
+a classe 
+
+'ProductItem' e então vocÊ já saberá que 'ah, aqui, esse código é o responsável por renderizar um único elemento...'.
+
+Aí o desenvolvedor sabe que não precisa se preocupar com o resto do código.
+
+
+
+ISSO PODE FAZER SEU CÓDIGO FICAR MAIS LEGÍVEL E MAIS BEM ESTRUTURADO.
+
+
+
+
+Essa é a ideia por trás do oop (object oriented programming).
+
+
+
+Agora devemos salvar e recarregar essa página.
+
+
+
+Temos o mesmo resultado de antes, mas agora temos 2 classes envolvidas na renderização 
+de conteúdo dessa página.
+
+
+
+
+
+ESSE EXEMPLO TAMBÉM NOS MOSTRA COMO VOCÊ PODE TER 
+CLASSES COM LÓGICA ANEXADA A ELAS...
+
+
+VOcê não é obrigado a usar classes como blueprints para data containers, vocÊ PODE utilizá-las para 
+rodar lógica.
+
+
+Classes nos ajudam a dividir a nossa lógica, o que torna o código muito mais legível.

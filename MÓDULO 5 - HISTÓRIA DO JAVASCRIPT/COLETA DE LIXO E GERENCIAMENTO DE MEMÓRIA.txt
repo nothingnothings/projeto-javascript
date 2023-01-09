@@ -1,0 +1,432 @@
+Gastamos muito tempo na parte interna do javascript. Mas isso é importante, porque 
+quando você trabalha com uma linguagem, é importante que você 
+entenda como ela funciona por dentro, para que você não seja surpreendido por comportamentos 
+estranhos.
+
+
+
+
+O ÚLTIMO CONCEITO IMPORTANTE QUE O PROFESSOR QUER NOS MOSTRAR É O CONCEITO 
+DA "COLETA DE LIXO" (garbage collection).
+
+
+
+
+Por agora, ignoremos o STACK. O stack é a memória de curto prazo, como vocÊ aprendeu,  
+e ele também é sempre limpado automaticamente, porque items, function calls e contextos de execução 
+são TODOS EJETADOS QUANDO ACABAM SEUS PROCEDIMENTOS.
+
+
+
+
+Mas e quanto ao HEAP? E quanto À essa memória longo termo? Como 
+é administrada essa memória?
+
+É essencial que ela seja administrada,  caso contrário ela pode TRANSBORDAR em certo 
+momento no futuro. O sistema operacional do nosso computador/da nossa máquina aloca 
+só certa quantidade limitada de memória ao chrome, e se essa memória acabasse sendo excedida, 
+o sistema operacional simplesmente MATARIA O CHROME. Na verdade, isso nunca vai acontecer, 
+porque o chrome também tem ARMAZENAMENTO INTERNO DE MEMÓRIA, e ele vai matar seu website antes 
+que ele ocupe muita memória. Você quer evitar isso. A boa notícia é que você realmente não 
+precisa gerenciar ativamente a memória de seu site, a não ser que você esteja construindo 
+aplicativos tridimensionais super super super complexos e intensivos, cheios de cálculos, os quais 
+você talvez queira construir em maneiras totalmente diferentes, para início de conversa.
+
+
+Ignoremos tudo isso. Mas há ainda algumas coisas que você deve ter em mente e que você deve entender.
+
+
+COMO É FEITO O GERENCIAMENTO DE MEMÓRIA PELO CHROME?
+
+
+Bem, há um negócio chamado COLETOR DE LIXO. O v8 tem ele, 
+que realmente é chamado de garbage collector.
+
+
+
+
+
+Toda javascript engine tem um garbage collector.
+
+Aqui, digamos que estamos falando sobre o garbage collector do V8, que é a 
+engine do chrome.
+
+
+
+
+MAS O QUE O GARBAGE COLLECTOR FAZ?
+
+
+Há um anexo À aula, um link que mostra detalhes de como o V8 garbage collector funciona.
+Professor não nos mostrará isso em tanto detalhe.
+
+
+
+
+O que ele faz?
+
+
+ ELE CHECA O HEAP PERIODICAMENTE POR OBJETOS INUSADOS. OBJETOS INUSADOS (UNUSED) SÃO 
+ OBJETOS SEM REFERÊNCIAS.
+
+ Lembre-se: referências são aquelas coisas, os ENDEREÇOS que são armazenados em variáveis.
+O garbage collector vai ir adiante e basicamente REMOVER TODOS OS UNUSED OBJECTS DA MEMÓRIA HEAP.
+TODOS OS OBJETOS QUE ELE PERCEBE QUE VOCÊ CERTAMENTE NÃO MEXERÁ MAIS NO SEU CÓDIGO, não 
+trabalhará mais com esses unused objects no código.
+
+
+
+Isso é ótimo.
+
+
+O professor quer deixar isso claro por meio de uma demonstração.
+
+Devemos usar aquele mini aplicativo/mini demonstração que utilizamos algumas lições 
+atrás.
+
+
+
+é o do terceiro projeto.
+
+
+
+
+
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const AddListenerBtn = document.getElementById('add-listener-btn');
+const clickableBtn = document.getElementById('clickable-btn');
+const messageInput = document.getElementById('click-message-input');
+
+
+function printMessage() {
+    const value = messageInput.value;
+    console.log (value || 'Clicked me!');
+}
+
+function addListener() {
+    clickableBtn.addEventListener('click', printMessage);
+}
+
+AddListenerBtn. addEventListener('click', addListener); //adicionamos um breakpoint aqui, por meio do dev tools do google chrome.
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dentro desse código, adicionaremos uma nova variável, digamos que seja a variável "person".
+Não precisamos dessa variável para esse aplicativo, mas digamos que em algum aplicativo aleatório precisemos dela.
+
+Essa variável segurará um objeto com o nome 'Max', e como isso é um objeto, esse valor armazenado 
+na variável É UM REFERENCE VALUE, E POR ISSO É ARMAZENADO NO HEAP. Enquanto tivermos essa variável, 
+a variável "person", que segura o endereço desse objeto, JAVASCRIPT VERÁ QUE NÓS SEGURAMOS UMA REFERÊNCIA A ESSE OBJETO, QUE 
+ESTAMOS INTERESSADOS NO SEU ENDEREÇO... 
+
+
+
+let person = {name: 'Max'};
+
+
+
+e contanto que isso continue assim, javascript NÃO VAI LIMPAR 
+ESSE OBJETO DA MEMÓRIA. Em vez disso, o que o JS está procurando é pela existência de alguma variável 
+ou algum lugar em seu código em que você esteja referenciando um objeto como este daqui.
+
+
+
+
+Mas então, quando que o "garbage collection" entra em jogo?
+
+
+Bem, nesse exemplo aqui, assim que nós, por exemplo, definimos "person" como o valor "null",
+
+
+ex:
+
+
+
+person = null;
+
+
+
+O que nós fazemos aqui é ASSIGNAR UM NOVO VALOR À ESSA VARIÁVEL.
+
+
+
+
+A consequência disso é que esse objeto ({name: 'Max'};, o endereço do objeto criado durante a inicialização de person, pouco antes dessa variável ter seu valor definido como o valor primitivo 'NULL'.) NÃO É MAIS REFERENCIADO 
+POR NADA NESSE NOSSO SCRIPT. Ou seja, NÃO HÁ LUGAR ALGUM NESSE SCRIPT QUE ESTEJA
+INTERESSADOS NO SEU ENDEREÇO. Depois que person é definido como null, 
+o endereço objeto {name: 'Max'}; não é mais armazenado nessa variável, nem em qualquer outro lugar.
+O javascript detecta isso, essa inutilidade, e percebe que esse endereço, esse pointer direcionado àquele objeto, não 
+é usado em mais nenhum lugar, que vocÊ NÃO TEM NENHUMA VARIÁVEL, NENHUM OUTRO LUGAR NO SEU CÓDIGO 
+QUE REFERENCIE ESSE OBJETO, e por isso ele pode agora limpá-lo (it can now clean this up, clean this variable up).
+
+Na verdade, a forma como engines modernas de javascript funcionam é de um jeito que 
+até objetos, arrays (que também são objetos) e outros dados que são armazenados em variáveis 
+que você criou com LET OU CONST ____PODEM_____ ser limpados por browsers modernos, com engines de javascript 
+modernas. Isso se vocÊ não está mais usando essas variáveis em qualquer lugar do seu script...
+POR ISSO VOCÊ NÃO PRECISA DEFINIR UMA VARIÁVEL COMO "NULL" PARA DEIXAR QUE O BROWSER LIMPE ESSA VARIÁVEL, ELE JÁ 
+FARÁ ISSO AUTOMATICAMENTE SE PERCEBER QUE EM NENHUM OUTRO LUGAR DO SEU CÓDIGO ELA É CHAMADA. O garbage collector 
+trabalha dessa forma, com base na lei do "desuso".
+
+Esses são alguns dos exemplos das vezes que o garbage collector é ativado e tenta, então, 
+limpar um pouco de memória inutilizada. 
+
+
+MAS O GARBAGE COLLECTOR NÃO VAI LIMPAR TUDO INSTANTANEAMENTE na mesma hora que você definiu person como 
+null; isso é porque o garbage collector do javascript NÃO PODE SER ATIVADO MANUALMENTE POR NÓS, DESENVOLVEDORES. NÓS NÃO PODEMOS 
+FORÇAR O JAVASCRIPT A IR EM FRENTE E COLETAR LIXO, EM VEZ DISSO ELE RODARÁ SEU PRÓPRIO ALGORITMO, SUA PRÓPRIA LÓGICA PARA ISSO.
+EM ANEXO VOCê ENCONTRA UM RECURSO QUE MOSTRA UM POUCO MAIS DOS ASPECTOS INTERNOS.
+O GARBAGE COLLECTOR SEGUE SUA PRÓPRIA "AGENDA", SEGUE SUA PRÓPRIA LÓGICA. ENTRETANTO, EVENTUALMENTE ELE  
+VAI PEGAR ESSA VARIÁVEL INÚTIL E A LIMPARÁ DA MEMÓRIA.
+
+
+
+
+resumindo: é um bom mecanismo, e, geralmente, você não precisa fazer nada para que 
+ele seja ativado. Você não precisa dizer ao browser que ele deve ir em frente e começar a coleta de lixo, por exemplo.
+O browser vai tentar fazer isso de uma maneira inteligente, sem interromper sua webpage 
+ou deixá-la mais lenta, sem ficar visível para os usuários.
+
+
+
+
+MASSSSSS... VOCê AINDA TEM QUE TER CUIDADO COM OS CHAMADOS ___MEMORY LEAKS____.
+
+("beware of "Memory Leaks": Unused objects, where you still hold references to")
+
+ 
+ Memory leaks ocorrem quando você escreve código em que você tem um objeto que 
+ , na verdade, vocÊ não trabalha mais, mas que você AINDA TEM UMA REFERÊNCIA A ELE, ou seja, você ainda 
+ tem uma variável em algum lugar do seu código que ainda segura uma referência àquele objeto, 
+ e ainda que você não esteja mais interessado naquele objeto, ele ainda está no código e ainda há uma referência a ele, 
+ PORTANTO (por ele ter uma referência a ele) O COLETOR DE LIXO NÃO PODE COLETÁ-LO, MESMO QUE VOCÊ NÃO O DESJE NEM UM POUCO NO PRESENTE.
+ Mesmo que você não o queira mais, você escreveu código que NÃO DEIXA CLARO QUE VOCê NÃO O QUER MAIS.
+Você basicamente tem um BUG no seu código, e nessa nossa pequena aplicação aqui, o projeto 4, há 
+um exemplo perfeito disso.
+
+
+
+
+O professor nos mostra como adicionar um PEQUENO BUG À essa aplicação.
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+const AddListenerBtn = document.getElementById('add-listener-btn');
+const clickableBtn = document.getElementById('clickable-btn');
+const messageInput = document.getElementById('click-message-input');
+
+
+let person = {name: max};
+
+
+person = null;
+
+
+
+
+function printMessage() {
+    const value = messageInput.value;
+    console.log (value || 'Clicked me!');
+}
+
+function addListener() {
+    clickableBtn.addEventListener('click', printMessage);
+}
+
+AddListenerBtn.addEventListener('click', addListener);
+
+
+
+
+-----------------------------------------------------
+
+
+
+Nós temos 2 eventListeners, certo?
+
+
+
+O eventListener mais de baixo executa (ou é "setup") quando esse script (o resto do script acima dele) é executado, 
+JÁ O OUTRO EVENTLISTENER (que está dentro da função "addListener") aqui SÓ É SETTADO quando nós 
+ATIVAMOS ESSE NOSSO PRIMEIRO EVENTLISTENER (o eventListener mais de baixo).
+
+
+
+ordem de acontecimentos --->
+
+1) o eventlistener "addListenerBtn.addEventListener('click', addListener);" É ATIVADO.
+
+
+2) então, o eventListener "clickableBtn.addEventListener('click', printMessage);" É ATIVADO (porque ele é executado por meio da função addListener, que por sua vez é chamada por "addListenerBtn.addEventListener". )
+
+
+ 
+
+
+O eventListener mais de baixo é o primeiro a ser executado porque ELE ESTÁ VINCULADO AO BOTÃO DE "ADD A LISTENER BUTTON" de nossa webpage. Quando apertamos nesse "add a listener button", nós 
+ativamos essa função de "addListener", que desencadeia todo o processo, toda reação em cadeia.
+O eventListener desse botão ADICIONA UM EVENTLISTENER AO OUTRO BOTÃO.
+RESUMINDO: O SEGUNDO BOTÃO É INÚTIL SEM O PRIMEIRO. O segundo botão só ganha um eventListener uma vez que 
+tenhamos apertado o primeiro botão.
+
+
+Quando nós clicamos aquele "click me" button, nós executamos a função "printMessage"... podemos ver 
+o resultado do apertamento desse botão no browser:
+
+
+
+Se clicarmos primeiramente em "click me", nada acontece, mas se apertarmos primeiro em "add a listener to the other button" e então apertarmos em click me, 
+veremos que o console nos outputtará aquilo que digitamos no input field da página. Se eu mudo o texto, 
+o texto a ser outputtado muda também.
+
+
+Agora, se eu apertar "add a listener" múltiplas vezes, eu AINDA VEREI APENAS 1 OUTPUT POR CLIQUE.
+
+Portanto aqui não há a hipótese dessa função "printMessage" rodar múltiplas vezes por click; não podemos 
+adicionar mais de 1 eventListener e ficar avacalhando e printando múltiplas mensagens por vez.
+ Você poderia pensar que estamos adicionando cada vez mais e mais eventListeners a esse outro botão, mas 
+ NÃO É ISSO QUE ESTÁ ACONTECENDO. A razão para isso é a de que JAVASCRIPT/O BROWSER É MUITO ESPERTO, e 
+ se você adicionar um eventListener a um botão ou a qualquer elemento ao qual você vai ESCUTAR (listen) e uma função 
+ que você já usou, o JAVASCRIPT VAI SUBSTITUÍR ESSE LISTENER VELHO COM O NOVO, e não adicionar um novo em folha. Ele não vai stackar 
+ múltiplos eventListeners, velhos e novos, ele vai simplesmente jogar o listener velho fora e ficar com o novo que foi adicionado.
+
+
+ESSE É UM EXCELENTE COMPORTAMENTO, PORQUE DO CONTRÁRIO VOCê FACILMENTE PODERIA ACABAR COM 
+CENTENAS DE EVENT LISTENERS NO MESMO OBJETO, E ISSO LEVARIA A UM COMPORTAMENTO NO SEU APLICATIVO QUE VOCê NÃO QUER, ALÉM 
+DE INTRODUZIR OS TAIS DE ___MEMORY LEAKS____, PORQUE VOCÊ ESTÁRIA POVOANDO SUA MEMÓRIA COM TODAS ESSAS FUNÇÕES, e funções, no final das contas, 
+são + ou - uma espécie de objetos, e portanto são todas elas armazenadas na memória HEAP (de longo termo), e elas vão 
+"clutter up" (bagunçar, desorganizar) aquela memória, com o passar do tempo.
+
+
+Por isso é bom que o browser não permita esse comportamento.
+
+
+
+
+Podemos, na verdade, enganar o browser se copiarmos a função "printMessage()" e colarmos ela no segundo slot (parâmetro) de 
+"clickableBtn.addEventListener('click', printMessage); ", mas com seu nome removido. NÓS NÃO VIMOS ISSO, esse movimento, AINDA NO CURSO. ESSA FUNÇÃO, 
+QUE NÃO TEM NOME, É CHAMADA DE """FUNÇÃO ANÔNIMA"""".
+
+
+
+
+
+
+const AddListenerBtn = document.getElementById('add-listener-btn');
+const clickableBtn = document.getElementById('clickable-btn');
+const messageInput = document.getElementById('click-message-input');
+
+
+let person = {name: max};
+
+
+person = null;
+
+
+
+
+function printMessage() {
+    const value = messageInput.value;
+    console.log (value || 'Clicked me!');
+}
+
+function addListener() {
+    clickableBtn.addEventListener('click', function() { // ----------> EXEMPLO DE FUNÇÃO ANÔNIMA.
+    const value = messageInput.value;
+    console.log (value || 'Clicked me!');
+} );
+}
+
+AddListenerBtn.addEventListener('click', addListener);
+
+
+
+
+Veremos mais sobre as funções anônimas no módulo das funções. Mas por mais que esse formato de código possa parecer estranho, o que 
+isso faz é CRIAR UMA FUNÇÃO AQUI NESTE LUGAR, ELE SÓ NÃO ASSIGNA UM NOME À ELA, MAS ELA AINDA ESTÁ SENDO ARMAZENADA 
+NA MEMÓRIA, E O ___POINTER____ NA DIREÇÃO DESSA FUNÇÃO, O ENDEREÇO DA FUNÇÃO, É SIMPLESMENTE PASSADO, ENTÃO, COMO UM SEGUNDO ARGUMENTO AO
+"addEventListener". Essa função, portanto, é criada NA HORA (on the fly), por assim dizer... ela/ele (o function body da função, na real, 
+é isso que é uma função anônima) não é executada imediatamente 
+ou algo do gênero, ela FUNCIONA EXATAMENTE COMO QUANDO A APONTAMOS À FUNÇÃO "PRINTMESSAGE", MAS A DIFERENÇA AQUI, 
+A DIFERENÇA CRUCIAL, __________É QUE___________ ESSA FUNÇÃO __________ NÃO TEM UM NOME________________ E É ,de fato, CRIADA COMO UM 
+OBJETO NOVINHO EM FOLHA SEMPRE QUE ESSA FUNÇÃO "ADDLISTENER" roda, porque essa função (a função anônima) é sempre criada 
+NA HORA, NAQUELE LOCAL ONDE FOI COLOCADA. 
+Anteriormente, essa função "printMessage" SÓ ERA CRIADA uma vez, era criada quando o script inteiro fosse executado 
+pela primeira vez... Depois disso, esse código da função printMessage nunca rodaria de novo, portanto 
+apenas um "OBJETO FUNÇÃO" era/é criado. 
+Mas com esse padrão de escrita que o professor nos ensinou (funções anônimas), podemos adicionar incontáveis 
+eventListeners àquele outro botão, o que fará a memória ficar sobrecarregada e eventualmente crashará a página. Nesse modelo de escrita, 
+criamos um novo eventListener SEMPRE QUE "ADDLISTENER" roda.
+
+O comportamento advindo dessa alteração pode ser visto no console do dev tools. Quanto mais eu clico no botão 
+"add a listener to the other button", e depois no "click me", mais e mais repetições do input field são outputtadas no console.
+Isso, como explicamos, ocorre simplesmente porque uma nova função é criada agora para toda que vez que executamos 
+addListener.
+
+
+
+Isso é perigoso, ou um problema em potencial, dependendo do seu ponto de vista, porque isso pdoe levar a leaks de memória, porque 
+você tem dezenas, centenas de objetos funcionais (inúteis, mas que teóricamente seriam úteis) na sua memória, e o javascript 
+simplesmente não é capaz de limpá-los porque o código tem referências a esses objetos, ou seja, estão sendo usados 
+em variáveis e coisas do gênero.
+
+
+Cada vez que addListener roda, criamos UM NOVO OBJETO, INDEPENDENTE DOS DEMAIS. O javascript não percebe que esse objeto 
+faz a MESMA COISA QUE O ANTERIOR, QUE SÃO TODOS IGUAIS... para o javascript, aquela função anônima é sempre uma nova função, 
+não é reconhecida como algo que já existia na memória... por isso que pode ser reexecutada ad nauseam no código.
+
+
+
+Claro que esse é um cenário raro, e construído (o professor construíu). Veremos mais sobre as funções anônimas 
+no futuro. Veremos mais sobre eventListeners e administração de performance mais tarde no curso. 
+
+
+
+
+Mas agora entendemos o funcionamento do garbage collector, e que ele não é uma ferramenta mágica.
+
+Mais tarde veremos como identificar e consertar memory leaks.
+
+
+Entretanto, fique sabendo que na maior parte dos casos você não introduz memory leaks no código, porque 
+não é tão fácil adicioná-los, felizmente. O garbage collector é bem esperto.

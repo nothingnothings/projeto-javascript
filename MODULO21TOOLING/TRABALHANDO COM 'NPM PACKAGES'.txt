@@ -1,0 +1,263 @@
+
+
+
+
+
+
+
+
+CERTO.
+
+
+
+NÓS SETTAMOS ESSE PROJETo e criamos um arquivo  'package.json' ,
+
+
+QUE SERÁ AGORA ADMINISTRADO POR 
+
+'NPM'...
+
+
+
+
+
+
+NÓS TAMBÉM INSTALAMOS 
+
+
+
+A EXTENSÃO 'ESLint' no visual studio code....
+
+
+
+
+
+Com isso fora do caminho, agora podemos INSTALAR NOSSA PRIMEIRA PACKAGE por meio 
+
+
+dessa linha no terminal:
+
+
+
+
+'npm install --save-dev'
+
+
+
+
+(ou seja, professor n coloca o '-g' de global, e sim '--save-dev'. 
+
+
+ESSE CÓDIGO SINALIZA AO NPM que queremos INSTALAR esse pacote de agora COMO UMA 'DEVELOPMENT DEPENDENCY'
+
+desse nosso projeto...
+
+
+Chamamos de 'development dependency' PQ NÃO É uma 'third party library' QUE EU VOU QUERER USAR COMO 
+
+PARTE DE MEU PROJETO, ELA NÃO SERÁ PARTE DO CÓDIGO que vou querer uploadar a algum servidor, ela 
+
+É APENAS UM PACOTE QUE EU VOU PRECISAR USAR COM MEU CÓDIGO __DURANTE O DESENVOLVIMENTO__. )
+
+
+
+
+
+
+(para isso, preciso desinstalar globalmente o 'eslint'... por isso vou lá e escrevo 'npm uninstall -g eslint' no terminal do IDE.)
+
+
+
+
+
+
+O nome do package que vou querer instalar, é claro, é eslint...
+
+
+
+Aí o código fica 
+
+
+''npm install --save-dev eslint''.
+
+
+
+
+CERTO.
+
+
+
+
+INSTALEI O CÓDIGO.
+
+
+
+--------------------------------------------
+
+
+
+
+BTW, você sempre pode procurar por ESLint 
+
+
+na internet, com 'npm eslint'...
+
+
+
+VOCÊ Vê A PÁGINA DA NPJMS sobre 
+
+
+a npm....
+
+
+Há muitas coisas que vocÊ pode investigar/aprender sobre o eslint...
+
+
+
+
+
+
+
+
+FEITO ISSO, VOCÊ AGORA 
+
+TERÁ UMA ALTERAÇÃO EM 'packages.json'...
+
+
+
+
+packages.json 
+
+
+
+terá uma propriedade/entry
+
+
+
+'devDependencies', que 
+
+terá um valor 
+
+
+de 
+
+
+'eslint: ^6.4.0
+
+--------------------------------------------------------
+
+
+
+
+
+NÓS TAMBÉM TEREMOS UM ARQUIVO 
+
+
+'package-lock.json', a qual SEGURA MAIS INFORMAÇÕES 
+
+
+ACERCA DESSA 'dependency'.... E DE TODAS AS __DEPENDENCIES___ DESSA DEPENDENCY....
+
+
+
+
+VOCÊ PODE SIMPLESMENTE IGNORAR ESSE ARQUIVO...
+
+
+
+--------------------------------------------------------
+
+
+
+
+O MAIS IMPORTANTE AQUI É QUE UM FOLDER CHAMADO 'node_modules' TERÁ 
+
+SIDO CRIADO...
+
+
+
+ESSE FOLDER SEGURA AS DEPENDENCIES QUE VOCÊ INSTALOU NO SEU PROJETO...
+
+
+
+
+
+ESSE FOLDER É ___bEM GRANDE___....
+
+
+
+
+Esse folder terá TODAS AS 'DEPENDENCIES DAS DEPENDENCIES DA DEPENDENCY.... ', e é por isso que ele é tao grande....
+
+
+
+
+
+NÓS PODEMOS VER AQUI, DENTRO DAS COISAS, O próprio código utilizado por eslint....
+
+
+É TUDO CÓDIGO JAVASCRIPT......
+
+
+mas, importante:
+
+
+VOCÊ NUNCA DEVE MEXER NO CÓDIGO DOS 'node_modules'....
+
+
+
+o código dos node modules É 
+
+
+'THIRD PARTY PACKAGE CODE'... ----> não é da sua conta, literalmente, devemos apenas aceitar como É.
+
+
+
+
+
+
+
+E ESSE FOLDER 'node_modules' É GERENCIADO/ADMINISTRADO PELO 'npm'...
+
+
+
+
+E, de fato, vocÊ pode DELETAR ESSE FOLDER  (e, se você quer compartilhar seu código, você deve SEMPRE deletá-lo)
+
+
+
+
+E RECRIÁ-LO COM 'npm install' no seu folder do projeto (no IDE, no terminal, basta que você digite 'npm install'.)
+
+
+
+
+---------------------------------------------------------------------
+
+
+QUANDO VOCÊ DIGITA 'npm install' no terminal, 
+
+o NPM vai ir até o folder de seu projeto e OLHARÁ 
+
+
+O ARQUIVO 'package.json'...
+
+
+e examinará 'devDependencies'... ---------> SE ELE ENCONTRAR UMA PROPRIEDADE 'eslint', por exemplo, ELE INSTALARÁ TODAS AS DEPENDENCIAS DELE E ELE EM SI...
+
+
+
+
+NPM INSTALL vai instalar '''PELO MENOS''' a versão que está escrita ali....
+
+
+
+CERTO, TEMOS O ESLINT INSTALADO, mas como podemos utilizá-lo?
+
+
+
+
+----------------------------------------------------------------
+
+
+

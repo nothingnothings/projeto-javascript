@@ -1,0 +1,114 @@
+HÁ TAMBÉM UM MÉTODO ÚTIL PARA ADICIONAR ELEMENTOS A UM ARRAY e para, além disso, RETORNAR UM 
+ARRAY NOVINHO EM FOLHA. É o método concat();
+
+
+
+Esse método pode ser útil em situações em que você quer criar uma cópia do array 
+depois de você ter adicionado novos elementos a ele.
+
+
+O professor explica:
+
+
+
+Ele vai lá e cria uma constante chamada de storedResults.
+
+-----------------------------------------------------------
+
+
+ 
+
+ex:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+const storedResults = testResults.concat();
+
+
+-----------------------------------------------
+
+
+ESSE MÉTODO PERMITE A VOCÊ a concatenar (ou seja, adicionar elementos AO FINAL DE UM ARRAY).
+
+
+O professor explica que é um pouco parecido com .push(); (que também te deixa adicionar elementos a um array).
+
+
+BTW----> PUSH TE DEIXA ADICIONAR MAIS DE UM ELEMENTO Ao final de um array. (ex: testResults.push(1, 2, 3, 4);)
+
+
+
+----------------------------------------------
+
+
+
+MAS CONCAT() É DIFERENTE. CONCAT ACEITA COMO ARGUMENTO UM ARRAY (ou múltiplos arrays), mas NÃO 
+ITEMS ISOLADOS/NÚMEROS/STRINGS/COISAS SOZINHAS.
+
+
+ex:
+
+
+const storedResults = testResults.concat([]);
+
+-----------------------------------------------
+
+
+O que esse método faz, então, é combinar esses arrays enumerados nos seus argumentos com 
+O ARRAY QUE VOCÊ ACOPLOU A ELE.
+
+
+OU SEJA... ESSE MÉTODO NÃO FAZ COM QUE OS SEUS ARRAY-ARGUMENTOS SEJAM ADICIONADOS COMO __NESTED__ARRAYS__
+DENTRO DO OUTRO ARRAY, MAS SIM COMBINA TODOS ELES EM UM ÚNICO ARRAY (se você quisesse que um array fosse NESTEADO dentro de outro array, o método que vocÊ utilizaria seria push.)
+
+
+
+exemplo de nesting de arrays por meio de ".push();" :
+
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+
+
+testResults.push(['cu']);
+                                                                                            (o array ['cu'] foi adicionado ao final)
+
+console.log(testResults) // ---------> vai nos retornar "(7) [1, 5.3, 1.5, 10.99, -5, 10, ['cu']];
+
+
+----------------------------------------------------------------
+
+
+
+CONCAT(), por outro lado, vai puxar para fora todos os elementos desse array que você está passando nos 
+argumentos e então os adicionará como elementos ao array já existente. Além disso, 
+concat vai criar uma CÓPIA do array depois de adicionados todos esses items de seus parâmetros a ele.
+Essa cópia do array acaba criando um ____NOVO____, INÉDITO____ ESPAÇO NA MEMÓRIA, e um novo endereço.
+
+
+ex:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+const storedResults = testResults.concat([3.99, 2]); //---> isso vai fazer com que 3.99 e 2 sejam adicionados NO INTERIOR DA CÓPIA DO ARRAY DE testResults (lembre-se, é uma CÓPIA. NÃO É O ARRAY DE testResults, MAS SIM UMA CÓPIA IDÊNTICA DELE, COM A ADIÇÃO DESSES ELEMENTOS CONCATENADOS, CRIADA POR MEIO DO USO DO MÉTODO CONCAT();).
+
+
+                                [1, 5.3, 1.5, 10.99, -5, 10, 3.99, 2];  --------> serão adicionados ao final da cópia do array de testResults. É uma verdadeira CONCATENAÇÃO.
+
+-------------------------------
+
+
+concat pode ser bem útil em casos em que você tem dados de arrays que você quer combinar 
+com items de um array já existente, mas que todos esses dados/items sejam registrados 
+num array NOVO, INDEPENDENTE do array antigo que foi copiado.
+
+
+O fato de que você recebe um novo array NOVINHO EM FOLHA é bem conveniente, pois isso frequentemente 
+faz com que você evite problemas como casos em que você acaba manipulando um array que já 
+existia quando você na verdade queria deixá-lo intacto (só queria adicionar as suas informações em um novo array, e deixar as informações atuais do array antigo intactas).

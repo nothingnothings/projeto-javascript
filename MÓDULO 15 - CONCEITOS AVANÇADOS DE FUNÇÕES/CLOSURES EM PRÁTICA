@@ -1,0 +1,715 @@
+
+
+
+
+AGORA DEVEMOS EXPLORAR AQUILO QUE APRENDEMOS SOBRE CLOSURES COM MAIS DETALHES....
+
+
+
+
+
+
+
+PARA ISSO, DEVEMOS CRIAR UMA NOVA FUNÇÃO, com a function declaration,  CHAMADA DE 'greetUser()'....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+function greetUser() {
+
+}
+
+
+------------------------------
+
+
+
+DENTRO DESSA FUNÇÃO, O PROFESSOR VAI QUERER FAZER O CONSOLE.LOG de 'Hi' + username   (username, nesse caso, será uma variável....).
+
+O professor então cria username no contexto global e o define como sendo 'Max'.
+
+
+
+
+
+ex:
+
+
+
+let userName = 'Max';
+
+
+
+
+function greetUser() {
+    console.log('Hi' + userName);
+}
+
+
+--------------------------------------
+
+
+
+
+
+SE O PROFESSOR ENTÃO CHAMAR essa função normalmente, com o chamado 
+
+
+'greetUser();', O QUE ESPERARÍAMOS VER NO CONSOLE DO DEVTOOLS?
+
+
+
+
+ex:
+
+
+
+
+
+let userName = 'Max';
+
+
+
+
+function greetUser() {
+    console.log('Hi' + userName);
+}
+
+
+
+greetUser();
+
+
+
+-------------------------------
+
+
+BEM, ESPERARÍAMOS VER 
+
+
+'Hi Max'...
+
+
+E É DE FATO ISSO QUE RECEBEMOS NO CONSOLE...S
+
+
+--------------------
+
+
+
+BEM, ISSO PODE PARECER NATURAL PARA NÓS.
+
+
+TEMOS 'username' definido aqui, o qual referenciamos DE DENTRO DE NOSSA FUNÇÃO 
+
+'greetUser'....
+
+
+
+JÁ APRENDEMOS TUDO ISSO: VOCÊ PODE ALCANÇAR/FAZER REFERÊNCIA A VARIÁVEIS/CONSTANTES QUE FORAM 
+CRIADAS NO LADO DE FORA DA FUNÇÃO...
+
+
+
+OU, COMO APRENDEMOS RECENTEMENTE, PODEMOS DIZER QUE ESSA FUNÇÃO 'greetUser' TEM SEU PRÓPRIO 
+
+'AMBIENTE LÉXICO' (lexical environment), E DENTRO DE ESSA FUNÇÃO, O ENVIRONMENT 
+
+tem basicamente NADA....
+
+O ÚNICO NEGÓCIO QUE ESSE ENVIRONMENT TEM, NA VERDADE, É UM POINTER (um apontador/endereço) AO 
+
+AMBIENTE LÉXICO ___EXTERNO___ (outer lexical environment), ONDE TEMOS UMA VARIÁVEL 
+
+chamada 'userName'....
+
+
+
+E COMO NÓS TEMOS ACESSO AOS AMBIENTES QUE CERCAM AS NOSSAS FUNÇÕES, NÓS PODEMOS 
+
+ACESSAR 'userName' PELO LADO DE DENTRO DA FUNÇÃO...
+
+
+
+Isso não é novo.
+
+
+
+
+MAS O QUE VOCÊ ESPERARIA VER NO CONSOLE SE MUDÁSSEMOS O valor de userName
+para ser 
+'Manuel'...?
+
+
+
+
+ex:
+
+
+
+
+
+
+
+let userName = 'Max';
+
+
+
+
+function greetUser() {
+    console.log('Hi' + userName);
+}
+
+
+
+
+userName = 'Manuel';
+
+
+greetUser();
+
+
+
+
+-------------------------------------
+
+
+
+Ou seja, o professor MUDA o valor da variável __APÓS___ A FUNÇÃO TER SIDO DEFINIDA ('function greetUser() {}' ---> aqui, o valor de userName para essa função está como 'Max'...), 
+
+
+MAS ANTES DO CHAMADO DA FUNÇÃO.... ('greetUser();') 
+
+
+
+
+--------------------------------------
+
+
+
+
+-------------> BEM, EU ACHO QUE O QUE VAI ACONTECER É QUE O CONSOLE IRÁ NOS OUTPUTTAR 
+                'Hi Manuel'...
+
+                (de acordo com a nova definição do valor dessa variável.)
+
+
+                ****E EU ESTAVA CERTO.
+
+
+
+
+------------------------------------------------------
+
+
+
+
+--> HI MANUEL...
+
+
+
+
+ISSO É BASICAMENTE ALGO QUE O PROFESSOR JÁ NOS EXPLICOU.
+
+
+
+----> nós temos 'userName' aqui na função greetUser, E A VARIÁVEL 
+
+
+'userName' ESTÁ DEFINIDA NO AMBIENTE ___EXTERNO__  À FUNÇÃO....
+
+
+ELE NÃO FAZ PARTE DO AMBIENTE DA PRÓPRIA FUNÇÃO...
+
+
+
+DIZEMOS, nesse caso, QUE A FUNÇÃO 'closes over this' (a função 'closes over the global variable'), E 
+
+FAZ O STORE DE 'userName' DENTRO DE SEU BODY...
+
+
+
+MAS, COMO O PROFESSOR EXPLICOU NA ÚLTIMA LIÇÃO, SE ESSA VARIÁVEL ENTÃO ___MUDAR ____ (como, por exemplo, com a nossa redefinição de 'Manuel', por meio da linha de código 'userName = 'Manuel' ),
+
+A VARIÁVEL DE 'userName' ARMAZENADA DENTRO DA FUNÇÃO 
+
+REFLETIRÁ ESSA MUDANÇA (como vimos ocorrer nesse nosso exemplo.)
+
+
+
+
+-------> OU SEJA, A FUNÇÃO, na posição em que foi escrita, NÃO VAI 'COPIAR' O VALOR DE USERNAME original (que é 'Max', nesse caso),
+
+ELA NÃO VAI FAZER 'LOCK IN' DESSE VALOR ORIGINAL... O QUE ELA REALMENTE VAI FAZER LOCK IN 
+
+É A ____VARIÁVEL EM SI______ (ou LOCK DO 'ACESSO A VARIÁVEL' , em outras palavras).
+
+
+
+
+É POR ISSO QUE QUANDO VOCÊ CHAMA A FUNÇÃO LÁÁAÁ EMBAIXO, ela vai lá e pega O VALOR MAIS RECENTE DESSA VARIÁVEL QUE ELA CONSSEGUE ENCONTRAR; 
+
+pega o valor mais recente dessa variável pq O ACESSO À VARIÁVEL GLOBAL É AQUILO QUE FOI 'LOCKADO' DENTRO DAQUELA FUNÇÃO...
+
+
+
+-----------------------------
+
+
+
+
+AGORA, DEVEMOS FICAR UM POUCO MAIS 'TRICKY...'
+
+
+
+
+
+
+E se eu adicionasse uma VARIÁVEL 'name' 
+
+
+DENTRO DA FUNÇÃO 'greetUser' E ENTÃO DEFINISSE SEU VALOR COMO SENDO A VARIÁVEL 'userName'?
+
+
+
+ex:
+
+
+
+
+
+let userName = 'Max';
+
+
+
+
+function greetUser() {
+    let name = userName; //eis o código em questão.
+    console.log('Hi' + userName);
+}
+
+
+
+
+userName = 'Manuel';
+
+
+greetUser();
+
+
+
+--------------------------------------
+
+
+
+
+'let name = userName' -------> POR MEIO DESSA LINHA DE CÓDIGO, O PROFESSOR ARMAZENA 
+
+O VALOR QUE ESTÁ ASSIGNADO COMO VALOR DE 'userName'.....
+
+
+
+
+CERTO.... MAS Qual dos dois valores ele armazenará em 'name', 'Max' (valor definido antes) ou 'Manuel' (valor definido depois)?
+
+
+.... qual nome será mostrado em 
+
+'console.log(name)'?
+
+
+ex:
+
+
+let userName = 'Max';
+
+
+
+
+function greetUser() {
+    let name = userName; //eis o código em questão.
+    console.log('Hi' + userName);
+    console.log(name)/// Max ou Manuel? qual dos dois?
+}
+
+
+
+
+userName = 'Manuel';
+
+
+greetUser();
+
+
+
+
+---------------------------------
+
+
+
+
+EU CHUTEI 'MANUEL'....
+
+
+
+
+
+ESSA VARIÁVEL INTERNA DE 'name' TERÁ COMO VALOR A STRING DE 'Manuel'...
+
+
+
+
+OBS:: agora 'name' É PARTE DO 'ENVIRONMENT' (lexical environment) DA FUNÇÃO 'greetUser()'...
+        ---> ENTRETANTO, ELA APONTA (points to) À 'userName', que é UMA VARIÁVEL QUE FAZ PARTE 
+                DO AMBIENTE LÉXICO ___EXTERNO__ À função greetUser....
+
+
+
+
+------------> HI MANUEL É MOSTRADO AQUI...
+
+
+
+
+
+
+A RAZÃO PARA ISSO É A MESMA DE ANTES:
+
+
+ 
+
+
+ Nós de fato fizemos uma referência, dentro de greetUser(), à variável 'userName'...
+
+MAS QUANDO A FUNÇÃO 'greetUser' É EXECUTADA, ELA ALCANÇA AQUELE 'AMBIENTE LÉXICO EXTERNO' (afinal, a greetUser() tem 
+
+UM POINTER, que é a referência a userName....) E 
+
+____SEMPRE PEGA____ O ÚLTIMO VALOR ____ DAQUELA VARIÁVEL ___ QUE FOI DEFINIDA LÁ FORA...
+
+
+
+E É POR ISSO QUE VEMOS 'Hi Manuel'...
+
+
+
+
+
+----------------------------
+
+
+CERTO.
+
+
+MAS E O QUE VOCÊ ACHA QUE ACONTECERÁ SE O PROFESSOR ___ CRIAR UMA NOVA VARIÁVEL___ DENTRO DE 
+
+'greetUser', uma variável que segurará um valor de 'Anna', e então ELE IR NO AMBIENTE LÉXICO EXTERNO (no contexto global) 
+
+E ADICIONAR UMA VARIÁVEL DE MESMO NOME, MAS DESSA VEZ COM UM VALOR DIFERENTE?
+ 
+
+
+ O QUE VOCÊ ACHA QUE SERÁ OUTPUTTADO PELA LINHA DE CÓDIGO 'console.log(name);'?
+
+
+
+
+
+
+ex:
+
+
+
+
+let userName = 'Max';
+
+
+
+
+function greetUser() {
+    let name = 'Anna'; //////
+    console.log('Hi' + userName);
+    console.log(name);  ////////
+}
+
+
+
+
+    let name = 'Maximillian' /////
+
+
+userName = 'Manuel';
+
+
+greetUser();
+
+
+
+
+
+----------------------------------
+
+
+
+
+EU CHUTEI 'Anna', e é exatamente isso que é outputtado....
+
+
+
+
+
+PROFESSOR EXPLICA:
+
+
+eu tenho uma MESMA VARIÁVEL nesses 2 lugares, mesma variável, mesmo nome de variável....
+
+
+
+
+-------> Professor diz que recebemos 'hi anna'.
+
+
+
+ISSO NÃO NOS SURPREENDE.
+
+
+
+ISSO OCORRE, DIZ O PROFESSOR, PQ 'name' dentro do greetUser É CRIADO COMO 
+
+UMA VARIÁVEL DENTRO DA FUNÇÃO.... 
+
+
+
+NÓS APRENDEMOS BEM CEDO NO CURSO QUE ___VOCÊ PODE ____ TER UMA FUNÇÃO COM UMA VARIÁVEL 
+
+
+QUE TENHA O MESMO NOME DE OUTRA VARIÁVEL, mas externa à essa função....
+
+
+
+ERA AQUELE CONCEITO CHAMADO DE 'shadowing'...
+
+
+
+
+
+NO 'SHADOWING'/graças ao shadowing, A FUNÇÃO INTERNA, O AMBIENTE INTERNO, __VENCE__ O 
+
+AMBIENTE EXTERNO...
+
+
+
+
+Ou seja, a função 'greetUser' TEM SEU PRÓPRIO 'AMBIENTE LÉXICO', e dentro desse ambiente 
+
+ele adiciona/cria uma variável 'NAME'........
+
+
+ELE ___TAMBÉM____ TEM UM POINTER (que é o 'name', mesmo) AO AMBIENTE LÉXICO EXTERNO, E 
+
+
+ESSE AMBIENTE EXTERNO __TAMBÉM ___ TERÁ, NO MOMENTO DO RUNTIME do código (na primeira leitura/parsing das funções/código), 
+
+UMA VARIÁVEL 'name'....
+
+
+
+
+
+MAS....., ____ E ESSA É A PARTE REALMENTE IMPORTANTE,  
+
+QUANDO A FUNÇÃO EXECUTA, ELA PRIMEIRAMENTE CHECA O SEU AMBIENTE __INTERNO___...
+
+
+........... ____ APENAS SE ELA ___NÃO DESCOBRIR ____ UMA VARIÁVEL COM AQUELE NOME ESPECÍFICO (ex: 'name'), APENAS 
+
+NESSA HIPÓTESE É QUE ELA IRÁ PROCURAR 'UM NÍVEL ACIMA', IRÁ TENTAR DESCOBRIR UMA VARIÁVEL COM AQUELE NOME 
+
+NO AMBIENTE GLOBAL/EXTERNO... (global context/ ambiente de uma FUNÇÃO EXTERNA)...
+
+
+
+
+AÍ ELA VAI LÁ E CHECA ESSE AMBIENTE EXTERNO, PROCURANDO POR UMA VARIÁVEL DE MESMO NOME...
+
+
+
+
+
+
+Aqui, no entanto, JÁ TEMOS UMA VARIÁVEL COM NOME DE 'name', por isso o JAVASCRIPT PENSA QUE NÃO 
+
+HÁ NECESSIDADE ALGUMA DE IR ATÉ O AMBIENTE/CONTEXTO EXTERNO PROCURAR POR UMA VARIÁVEL COM esse nome...
+
+
+
+
+
+E é exatamente por isso que recebemos 'Hi Anna'...
+
+
+
+
+
+É EVIDENTE QUE AS COISAS MUDARÍAMOS SE o professor fosse no nosso código e COMENTASSE PARA FORA a declaração
+
+'let name = 'Anna' DENTRO DA FUNÇÃO 'greetUser()'...
+
+
+
+
+----------------------------------
+
+
+
+
+BEM, se o professor fizer essa edição (A remoção 
+de 'let name = 'Anna'), ELE AINDA ESTARÁ SE REFERINDO, AQUI, dentro de greetUser(), À uma variável de nome 'name', A QUAL NEM MESMO 
+
+ESTAVA DECLARADA ('let name = 'Maximillian') QUANDO A FUNÇÃO 'greetUser' FOI CRIADA...., mas que 
+
+ESTAVA DECLARADA ___ ANTES ___ DA FUNÇÃO  'greetUser()' SER CHAMADA.... ('greetUser();')...
+
+
+COMO ESSA VARIÁVEL FOI DECLARADA __ANTES__ DO CHAMADO DA FUNÇÃO 'greetUser()', SE RECARREGARMOS O CÓDIGO, 
+
+veremos 'Maximillian', tudo normal.
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+function greetUser() {
+    console.log(name);  //////// 'criação da função que usa variável externa' 
+}
+
+
+
+
+    let name = 'Maximillian' ///// 'declaração da variável externa/global'
+
+
+
+greetUser(); ////chamado da função 'greetUser();'    /////////FUNÇÕES SÓ FUNCIONAM SE VARIÁVEIS (nesse caso a variável 'name') JÁ ESTIVEREM DECLARADAS....
+
+
+
+
+------------------------------------------------
+
+
+
+NESSE EXEMPLO FINAL, a função 'greetUser()' ACABA USANDO O 'name' DEFINIDO NO CONTEXTO GLOBAL, 
+
+
+que é uma variável com um valor de 'Maximillian'....
+
+
+----------------------------------------
+
+
+
+
+CERTO.
+
+
+ESSE FOI O TÓPICO DAS FUNÇÕES E CLOSURES... 
+
+
+funções, closures e esses 'scope/environment'...
+
+
+-----------------------------------------
+
+
+ISSO NÃO É EXATAMENTE NOVO:
+
+
+
+aprendemos sobre scope antes, 
+
+e scope é basicamente ESSE NEGÓCIO 'lexical environment'...
+
+
+
+
+
+Mas scope é TUDO AQUILO SOBRE 'ter diferentes scopes para funções, para if blocks, for loops, etc'... ----> PARA TUDO QUE TENHA CURLY BRACES, BASICAMENTE.
+
+
+
+
+-------------------------------------
+
+
+NO FINAL DAS CONTAS, OS SCOPES são essencialmente esse fenômeno de CRIAR 'LEXICAL ENVIRONMENTS' para esses curly braces...
+
+
+
+E, NO FINAL DAS CONTAS, NÃO É APENAS AS FUNÇÕES E O CONTEXTO GLOBAL QUE SE RENDEM 
+
+AO 'lexical environment'...
+
+
+FOR LOOPS, POR EXEMPLO, TAMBÉM POSSUEM SEUS PRÓPRIOS 'SCOPE/lexical environment'...
+
+
+
+UM IF STATEMENT, TAMBÉM.
+
+
+
+VOCÊ PODE USAR 'SCOPE' E 'LEXICAL ENVIRONMENT' INTERCHANGEABLY (intercambiavelmente).
+
+
+
+
+
+MAIS IMPORTANTE É SABER QUE FUNÇÕES/IF STATEMNETS/ FOR LOOPS são capazes DE ACESSAR 
+
+AMBIENTES EXTERNOS __E FAZER __ REFERÊNCIAS A ELES....
+
+
+
+
+A COISA ESPECIAL EXCLUSIVA DAS FUNÇÕES É QUE ELAS FAZEM UM __'LOCK-IN' DO AMBIENTE 
+
+
+QUE AS ENVOLVE, do ambiente e de suas variáveis.... ELAS FAZEM ESSE LOCK-IN PARA QUE 
+
+POSSAM LEMBRAR DELES E UTILIZÁ-LOS, MESMO SE ELES (as variáveis e ambientes) NÃO FOREM UTILIZADOS 
+NO LADO DE FORA DA TAL FUNÇÃO; ELA VAI SE LEMBRAR DESSAS VARIÁVEIS E AMBIENTES QUANDO ELA EVENTUALMENTE CHAMADA (ainda que eles estejam 'inutilizados' no lado de fora dessa função; não tenham sido utilizados/não serão utilizados 
+em mais lugar algum do código.)...
+
+
+
+
+OU SEJA, O JAVASCRIPT __NÃO SE LIVRA___ DESSAS VARIÁVEIS QUE NÃO FORAM UTILIZADAS; 
+
+ELE AS MANTÉM PARA QUE A FUNÇÃO QUE TALVEZ AINDA ESTEJA INTERESSADA NELES 
+
+AINDA POSSA UTILIZÁ-LOS ....
+
+
+
+
+ESSA É A IMPORTÂNCIA DE CLOSURE E O COMPORTAMENTO DAS FUNÇÕES EM GERAL... (comportamento de SEMPRE SE LEMBRAR DAS VARIÁVEIS QUE AS CERCAM/CERCAVAM)....

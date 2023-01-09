@@ -1,0 +1,166 @@
+Aquele assunto do block scope é extremamente importante, e uma das maiores mudanças 
+advindas da troca do ES5 para o ES6.
+
+
+
+
+Outras mudanças do ES5  para o ES6 envolvem coisas/sintaxes que ainda não aprendemos.
+
+
+
+
+
+UMA OUTRA GRANDE DIFERENÇA ENTRE VAR E LET/const (e outra razão para usar 
+let/const) É A FORMA COMO O JAVASCRIPT Lê E INICIALIZA 
+AS VARIÁVEIS CRIADAS POR ESSES MÉTODOS.
+
+
+aqui há um pequeno exemplo (vá para app.js e comente tudo para fora, e digite 
+essas linhas de código):
+
+
+
+console.log(userName);          //Na primeira linha escrevo uma function call, um console.log de uma variável que nunca defini anteriormente.
+
+
+
+var userName = 'Max';        //Na segunda linha (abaixo daquela function call), defino uma variável que segura o valor de MAX.
+
+
+
+------------------------------------
+
+
+E então, vocÊ acha que esse código funcionaria? Nenhum erro seria mostrado a nós (perceba que estamos usando VAR, e não let/const)?
+
+
+
+Bem, a resposta é a de que NÃO RECEBEMOS UM ERRO. NÃO RECEBEMOS UM ERRO, MAS RECEBEMOS 
+UMA MENSAGEM DE "UNDEFINED" no console. Undefined para a linha onde escrevemos o console.log.
+
+Não printamos Max, mas PRINTAMOS UNDEFINED.
+
+
+Agora, e se trocarmos var para let/const, o que acontece?
+
+
+
+Bem, agora recebemos um grande ERRO. "Cannot access 'userName' before initialization".
+
+
+
+Com lat e const, então, recebemos um ERRO; com var, não.
+
+
+Mas por que isso acontece?
+
+
+
+Bem, JS tem uma feature especial chamada HOISTING. O que isso significa é que 
+ quando a engine do javascript/o browser carrega o seu script, ela dá uma passada por cima do 
+ seu código e faz coisas como procurar por funções (que então ela automaticamente carrega e registra, 
+ para que você possa escrever funções antes das variáveis que vocÊ vai usar) E PROCURAR POR VARIÁVEIS. E PARA VARIÁVEIS 
+ CRIADAS COM VAR, A ENGINE PUXA ESSA DECLARAÇÃO DE VARIÁVEL PARA O INÍCIO 
+ DO ARQUIVO. O browser faz isso de maneira invisível. E quanto à declaração do valor 
+ da variável... o browser coloca-a no lugar onde você colocou a declaração da existência da variável originalmente.
+ Ou seja, ela faz uma substituição "sneaky".
+
+
+Representação visual do que foi dito:
+
+
+EX:
+
+
+
+
+
+console.log(userName);
+
+
+
+var userName = 'Max';  //variável declarada depois, como pode ver.
+
+
+
+
+------------> ISSO É LIDO E INTERPRETADO (substituições) PELO CÓDIGO ASSIM:
+
+
+
+
+
+let userName; //A variável é trazida pra cá e declarada, mas com nenhum valor.
+
+
+
+console.log(userName);
+
+
+
+let userName = 'Max';  //é criada uma duplicata/substituta daquela expressão que você colocou aqui originalmente, mas aí INICIALIZANDO COM O SUPOSTO VALOR QUE VOCÊ QUERIA.
+
+
+
+
+---------------------> E É POR ISSO QUE "console.log(userName)" nos retornou 'undefined' no código, quando usamos var 
+daquela forma, antes do console.log. A variável, afinal de contas, existe no banco de memória/registro da engine javascript assim que 
+ela carrega o documento, MAS A TAL VARIÁVEL AINDA NÃO FOI INICIALIZADA, AINDA NÃO FOI ATRIBUÍDO O VALOR DE MAX A ELA, 
+JÁ QUE ESSA EXPRESSÃO(a let userName = 'Max';, que SUBSTITUIU A "var userName = 'Max', que foi digitada originalmente) ESTÁ ESCRITA DEPOIS DO CONSOLE.LOG. 
+Tudo isso ocorre invisivelmente.
+
+
+
+
+
+-----------------------------------------------
+
+
+OUTRA CURIOSIDADE: o browser não faz isso apenas para VAR, ele faz também, tecnicamente, para let e const. O conceito 
+de HOISTING existe para elas, também. MAS COM ELAS, O BROWSER NÃO AS INICIALIZA COMO 
+'UNDEFINED'. Ele somente as declara mas não assigna valor inicial algum, e por isso 
+você recebe esse erro que "não houve inicialização, não é possível acessar userName antes da inicialização."
+
+
+Para VAR isso é diferente, o browser puxa a variável para cima e também assigna 
+um valor inicial de undefined para que você não recebe uma mensagem de erro.
+
+
+
+É uma diferença, mas não é necessariamente uma vantagem que você tem com VAR, porque 
+isso leva a um código que É MAIS DIFÍCIL DE ENTENDER.
+
+
+ISSO é PORQUE:
+
+
+Se eu sou um desenvolvedor, e digamos que tenho mais código no documento, e que
+a declaração (var userName) está beeeem no final do documento.
+E digamos que encontro a expressão "console.log(userName)" solta lá no início do código.
+
+O professor, como um desenvolvedor, pode pensar "espere, de onde diabos esse userName está vindo?"
+"não vi isso até agora..."
+
+Aí, como ele conhece e sabe javascript, ele tem ciência de que a variável userName pode estar 
+definida lá embaixo, mas POR QUE DIABOS VOCÊ FARIA ISSO? É MUITO MAIS DIFÍCIL DE ENTENDER.
+
+Você teria que escavar o arquivo inteiro para encontrar a variável definida láááá embaixo.
+
+
+Por isso é muito melhor declarar a variável ANTES de começar a usá-la, para que você seja forçado
+a mover sua declaração para o topo. É claro que vocÊ poderia fazer isso com var e versões mais antigas do javascript, 
+mas com LET E CONST, VOCÊ É FORÇADO A FAZER; FORÇADO A DECLARAR NO INÍCIO DO ARQUIVO. 
+Esse é um avanço, certamente.
+
+
+RESUMO:
+
+
+console.log(userName);
+
+
+var userName = 'Max'; 
+
+
+-------------------------------> essa ordem de coisas funcionava no passado com VAR (e ainda funcionam hoje, caso você ainda queira usar VAR para ter melhor suporte em browsers antigos), mas hoje não funciona 
+mais com let e const, vocÊ DEVE DECLARAR AS VARIÁVEIS/CONSTANTES ANTES DE ELAS SEREM USADAS.

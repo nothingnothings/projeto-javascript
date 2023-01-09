@@ -1,0 +1,338 @@
+Para acabar este módulo,
+
+
+
+HÁ MAIS UMA 'global constructor function'/object BUILT-IN no javascript que devemos 
+
+
+conhecer...
+
+
+
+
+
+É UMA GLOBAL CONSTRUCTOR FUNCTION QUE NOS AJUDA 
+
+A LIDAR COM ___DATAS___.
+
+
+
+
+é o objeto 'Date'...
+
+
+
+
+
+Você pode usar 'Date' em uma AMPLA GAMA DE SITUAÇÕES.
+
+
+
+Há um documento anexado à esta aula, uma documentação que nos 
+permite SABER MAIS SOBRE DATE.
+
+
+
+
+
+
+Professor diz que vocÊ pode criar um novo objeto 'Date' por meio do código 
+
+
+
+'new Date();'
+
+
+
+
+---------------------------
+
+
+
+O QUE ESSE OBJETO NOS DÁ É A DATA ATUAL, junto da hora presente.
+
+
+
+ex:
+
+
+new Date();
+
+
+
+
+-----> Sun Dec 27 2020 01:10:35 GMT-0300 (Horário Padrão de Brasília)
+
+
+
+
+------------------------------------------
+
+
+
+
+
+
+NA VERDADE, DIZ O PROFESSOR, ESSE É UM OBJETO COM O QUAL VOCê PODE _____TRABALHAR___ 
+
+
+SE VOCÊ O ARMAZENAR EM UMA CONSTANTE....
+
+
+
+
+ex:
+
+
+
+const date = new Date();
+
+
+
+--------------------------
+
+
+
+Se armazenarmos essa data em uma constante, NÓS PODEMOS ATIVAR DIVERSOS MÉTODOS EM CIMA 
+
+DESSA DATA...
+
+como 'getDate()'.
+
+
+
+
+
+ex:
+
+
+
+
+const date = new Date();
+
+
+date.getDate();
+
+
+---> retorna '27'
+
+---------------------------------
+
+
+
+'getDate' NOS DÁ O DIA DO MÊS... 
+
+
+
+
+'getDay()' NOS DÁ O DIA DA SEMANA...
+
+
+ex: '7' --> domingo.
+
+
+E ASSIM POR DIANTE...
+
+
+--------------------------
+
+
+HÁ MUITOS E MUITOS MÉTODOS que te ajudam a ANALIZAR esse 'Date'....
+
+
+
+
+método interessante é 
+
+'getTime()', que mostra O TEMPO TRANSCORRIDO EM MILLISEGUNDOS DESDE O MOMENTO EM QUE 
+
+O JAVASCRIPT FOI CRIADO...
+
+
+
+E essa estatística pode ser útil, pois nos mostra quando alguma coisa foi inventada...
+
+
+
+---------------------------------------
+
+
+
+VOCÊ TAMBÉM PODE CONSTRUIR UMA 'date' com 
+
+'new Date()' POR MEIO DA PASSAGEM DE ARGUMENTOS AO CONSTRUCTOR DE 'Date'....
+
+
+
+
+ex:
+
+
+
+
+const date2 = new Date(); ----------> SE VOCÊ NÃO PASSA NADA COMO ARGUMENTO, VOCÊ GANHA O 'timestamp' atual, a hora do dia...
+
+
+
+----------------------
+
+
+MAS VOCÊ PODE, EM VEZ DISSO, PASSAR UMA __DATA___ COMO ARGUMENTO DESSE 'Date'...
+
+
+
+
+Se você passa uma DATA, o javascript vai tentar PARSEAR essa data...
+
+
+
+Professor aponta que VOCÊ PODE QUERER 
+
+PASSAR UM objeto 'date' ja existente....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const date = new Date();
+
+
+const date2 = new Date(date);
+
+
+-----------------------------------------
+
+
+
+----> o resultado disso seria SIMPLESMENTE QUE A DATA ANTIGA AGORA SERIA ARMAZENADA 
+
+COMO UM NOVO OBJETO EM 'date2'...
+
+
+
+
+
+MAS VOCÊ TAMBÉM PODE PASSAR UMA ___STRING__ como parâmetro desse 'Date'.... uma string 
+
+
+PARA DESCREVER UMA DATE... se vocÊ fizer isso, o javascript vai tentar o seu melhor para 
+
+tentar parsear essa string como se fosse uma date...
+
+
+
+
+O professor cita como exemplo a string '07/11/19'
+
+
+ex:
+
+
+
+
+
+const date = new Date();
+
+
+const date2 = new Date('07/11/19');
+
+
+---------------------------------------------
+
+
+
+Se eu digitar isso no devtools, o que o javascript extrairá dessa string é 
+
+'Thu Jul 11 2019 00:00:00 GMT+0200 (Central European Summer Time);'
+
+
+----------------------------
+
+
+
+
+OS RESOURCES ANEXADOS A ESSA LIÇÃO NOS AJUDAM A VER MAIS SOBRE ISSO, COMO 
+
+
+ESPECIFICAR MINUTOS E HORAS, MUDAR OS FORMATOS DE HORA, ETC ETC.
+
+
+
+esses objetos 'Date' PODEM SER MUITO ÚTEIS....
+
+
+
+digamos que queremos calcular a DIFERENÇA entre 
+
+
+
+essa primeira data, '07/11/19' e outra data, em dezembro...
+
+
+
+SE QUISERMOS FAZER ISSO, VER A DIFERENÇA DE TEMPO ENTRE UMA DATA1 E UMA DATA2, simplesmente 
+
+
+
+podemos escrever 
+
+
+'date1 - date2' NO CÓDIGO, QUE ELE NOS DIRÁ A DIFERENÇA EM MILISSEGUNDOS...
+
+
+
+
+SE NÓS ENTÃO PEGARMOS ESSA DIFERENÇA E ENTÃO DIVIDIRMOS POR 1000, teremos O NÚMERO 
+
+DE SEGUNDOS ENTRE ESSAS 2 DATAS.
+
+
+SE ENTÃO DIVIDIRMOS ESSES SEGUNDOS POR 60 (afinal, 60 segundos sao 1 minuto), TEREMOS 
+
+A DIFERENÇA EM MINUTOS. 
+
+
+SE ENTÃO DIVIDIRMOS POR 60 DNV, teremos a diferença em horas. 
+
+
+E se dividirmos de novo, dessa vez por 24, teremos A DIFERENÇA EM DIAS.
+
+
+
+
+ex:
+
+
+
+
+6517204758 / 1000 /60 / 60 /24 
+
+
+------------------------
+
+
+DATE, PORTANTO, É ÚTIL SE VOCÊ PRECISA ARMAZENAR DATES, CALCULAR DATAS, ETC ETC.
+
+
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+
+
+
+
+
+Date.now();
+
+
+
+
+18623.184775162033 -----> número de dias desde que o javascript foi inventado... (1970).

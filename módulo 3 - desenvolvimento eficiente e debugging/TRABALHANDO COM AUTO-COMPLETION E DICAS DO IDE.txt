@@ -1,0 +1,9 @@
+TRABALHANDO COM AUTO-COMPLETION E HINTS DO IDE.
+
+
+
+
+
+
+Nenhum shortcut consegue fazer com que você pare de escrever código ruim. O IDE pode tentar te ajudar,
+ele tem muitas funções de autocomplete.

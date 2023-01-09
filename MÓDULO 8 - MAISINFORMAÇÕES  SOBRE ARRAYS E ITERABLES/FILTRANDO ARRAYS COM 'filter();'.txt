@@ -1,0 +1,100 @@
+Estamos lentamente chegando ao fim dos métodos interessantes de arrays.
+
+
+
+
+
+Outro método útil de arrays que nos permite FILTRAR OS ELEMENTOS EM um array é "filter()";
+
+
+
+
+
+Demos uma boa olhada nos métodos de "find()" e "findIndex()", que são muito bons para 
+encontrar elementos únicos (single elements).
+
+Mas e se você quisesse basicamente REDUZIR A QUANTIDADE DE ELEMENTOS NO SEU ARRAY com base em algum filter?
+
+
+
+
+Digamos que aqui, no exemplo dos prices, nós queiramos somente ter preços que sejam 
+maiores do que 6.... (para que apenas 6.59 e 10.99 permaneçam no nosso array).----->
+
+Para tal, o professor vai lá e cria uma nova constante, "filteredArray".
+
+
+Ele vai lá e utiliza o método "filter();" na constante prices, que segura o array de preços.
+
+
+
+PROFESSOR EXPLICA= Bem, como todos os outros métodos de array, FILTER VAI NOS RETORNAR UM ARRAY NOVINHO EM FOLHA.
+Isso quer dizer que ele não vai encostar no array antigo (um exemplo de método que toca no antigo é "reverse"),
+e em vez disso vai nos trazer um array novo (que então armazenamos na const "filteredArray").
+
+
+
+O MÉTODO "FILTER();" TAMBÉM ACEITA UMA FUNÇÃO ANÔNIMA/FUNÇÃO STANDALONE EM SEU INTERIOR.
+
+Essa função funciona exatamente da mesma forma que as funções internas que você passou para 
+map(), find(), findIndex() e assim por diante.
+
+Você primeiramente coloca como parâmetro o VALOR que o método está vendo no momento (nesse caso, "price"). VocÊ deve 
+fazer isso porque, como todas as outras funções internas, esse elemento do valor é então executado 
+para cada um dos items no array em que você chamou .filter();. ---> nesse exemplo, cada item seria cada 
+preço, essencialmente. Esse método vai rodar sua função interna em cada preço do array "prices".
+
+O segundo argumento é o index; o terceiro, o array inteiro (se você tiver interesse nele... nesse caso do exemplo, professor 
+coloca o nome dessa const local de "prices".). Professor reitera que nós raramente iremos utilizar esse último argumento.
+
+
+
+Aí você precisa retonar alguma coisa (como quase todas as funções de arrays que vimos até agora).
+O método filter(), portanto, é um método que espera (expects) QUE A FUNÇÃO QUE VOCÊ PASSA A ELE RETORNE UM VALOR. 
+Mais precisamente, ele quer que essa função retorne um valor de VERDADEIRO OU FALSO (true or false). 
+ 
+Ele quer "true" se o item em que essa função está executando atualmente deve ser MANTIDO NO 
+ARRAY INÉDITO CRIADO APÓS A SUA EXECUÇÃO,  e "false" se esse elemento deve ser jogado fora/ignorado e não colocado no novo array.
+
+ 
+Nesse exemplo, o professor quer manter todos os items que tiverem um valor maior do que 6, portanto 
+ele vai retornar  "price > 6".
+
+Essa comparação boolean ("price > 6", é uma comparação boolean, pois renderá 'true' ou 'false') VAI RETORNAR 
+TRUE PARA CADA ITEM em que o preço for maior do que 6.
+
+Todos items com valor maior do q 6 serão mantidos no novo array. Items com menos de 6 vao ser descartados.
+Descartados do novo array; o array antigo continua intacto.
+
+
+
+ex:
+
+ 
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+tax = 0.19;
+
+
+
+const filteredArray = prices.filter((price, index, prices) => {
+    return price > 6; //comparação boolean.
+});
+
+console.log(filteredArray);
+
+
+----------------------------
+
+
+
+Se recarregarmos aqui, veremos que os 2 únicos valores mantidos foram 6.59 e 10.99, que realmente são maiores do q 6.
+
+
+
+
+
+FILTER É MUITO ÚTIL PARA FILTRAR UM ARRAY. É uma operação que você fará frequentemente.

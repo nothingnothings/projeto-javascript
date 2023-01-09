@@ -1,0 +1,474 @@
+
+
+Além de timers, OS BROWSERS TAMBÉM TÊM
+
+
+
+UM PUNHADO DE OUTRAS FEATURES E OBJETOS LEGAIS expostos a nós...
+
+
+
+
+
+
+
+
+
+
+Por exemplo, mostra o professor no devtools console,
+
+
+
+HÁ O OBJETO 'location'....
+
+
+
+
+
+ESSE OBJETO FICA SEMPRE EM 
+
+
+'window', no objeto global 'window'...
+
+
+
+ex: 'window.location'...
+
+
+
+
+
+MAS COMO TODOS OUTROS OBJETOS DE WINDOW, PODEMOS SIMPLESMENTE 
+
+
+ACESSÁ-LO SEM DIGITAR 'window' antes....
+
+
+----------------------------------------
+
+
+
+
+Se digitarmos 'location' no devtools, receberemos um objeto com 
+
+
+ex:
+
+
+
+Location {replace: f, href: "file:///users/......index.html", ancestorOrigins: DOMStringList, origin: ....}'
+
+
+
+
+UM OBJETO COM BASTANTE COISA, PORTANTO.
+
+
+-----------------
+
+
+UM OBJETO COM MUITAS PROPRIEDADES E MÉTODOS, TODOS RELACIONADOS 
+
+
+COM A NOSSA URL E A PÁGINA EM QUE ESTAMOS.
+
+
+----------------------- 
+
+
+
+'LOCATION' TAMBÉM PODE SER UTILIZADO PARA NAVEGAR O USUÁRIO PARA LONGE...
+
+
+
+ex:
+
+
+
+se definirmos 
+
+
+"location.href = 'nova-url-diferente-do-site-em-que-usuário-está.com' ", 
+
+
+
+FAREMOS COM QUE O USUÁRIO TROQUE DE PÁGINA.
+
+
+SE DIGITARMOS ISSO NO NOSSO PRÓPRIO DEVCONSOLE, NÓS ACABAREMOS TROCANDO DE PÁGINA.
+
+
+-----------------------------------------------
+
+
+
+
+Você também pode navegar 
+
+com o comando 
+
+
+'location.replace();'
+
+
+
+
+
+ESSE É UM METODO QUE VOCÊ EXECUTA NO QUAL VOCÊ PASSA UMA URL...
+
+
+
+
+A DIFERENÇA ENTRE DEFINIR 
+
+'location.href' e 
+
+
+'location.replace()'  É QUE 
+
+
+COM 'location.replace()' VOCÊ SIMPLESMENTE NÃO PODE VOLTAR à página anterior....
+
+
+Você não pode voltar À página anterior PQ O 
+
+REPLACE VAI FAZER COM QUE ESSA PÁGINA PASSADA NO PARÂMETRO __SUBSTITUA___ a página 
+
+anterior na history do browser...
+
+
+Ou seja, o BOTÃO DE 'voltar' NÃO FUNCIONARÁ, NÃO SERÁ CAPAZ DE TRAZER O USUÁRIO À PÁGINA ANTIGA...
+
+
+
+
+
+
+UMA OUTRA ALTERNATIVA SERIA O MÉTODO 'location.assign('')', QUE É BASICAMENTE A MESMA COISA QUE 
+
+
+
+A PROPRIEDADE 'location.href'; VOCê PODE USAR tanto  '.href' como  '.assign('')', os dois fazem  + ou - 
+
+a mesma coisa (você deve escolher: quer navegar o usuário/você por meio de UMA PROPRIEDADE ('location.href = xxxx')?  OU POR 
+
+MEIO DO CHAMADO DE UM MÉTODO ('location.assign('')')? )
+
+------------------------------------------------------------------------------------
+
+
+
+
+E É CLARO QUE NÓS TEMOS OUTRAS PROPRIEDADES E MÉTODOS DENTRO DE LOCATION....
+
+
+
+
+Temos, por exemplo, 
+
+
+'location.host', O 'HOST', QUE NOS 
+
+DIZ ____EM QUAL___ HOST____ ESSA PÁGINA ESTÁ SENDO EXECUTADA/running....
+
+
+
+COMO NÓS SERVIMOS ('serve') ESSA PÁGINA LOCALMENTE, por meio dos arquivos do seu computador, NÓS 
+
+
+NÃO TEMOS NADA DEFINIDO DENTRO DA PROPRIEDADE 'HOST'... (está em branco, devtools console nos retorna UMA EMPTY STRING.).
+
+
+
+
+Mas se estivermos em um site como o 'google', se digitarmos 
+
+
+'location.host', O DEVTOOLS IRÁ NOS RETORNAR 
+
+
+'google.com', que é O DOMAIN do site....
+
+
+
+
+
+UMA ALTERNATIVA à propriedade 'host' é 
+
+
+
+'origin'...
+
+
+
+ex:
+
+
+
+'location.origin'  NO SITE GOOGLE NOS RETORNARÁ 
+
+
+'https://google.com'
+
+
+
+ISSO É O DOMAIN 'COMPLETO', INCLUINDO O PROTOCOLO QUE FOI USADO PARA O TAL DOMÍNIO.
+
+
+
+------------------------------------------------
+
+
+
+
+
+TAMBÉM HÁ OUTRA PROPRIEDADE, CHAMADA DE 'pathname'....
+
+pathname é a PARTE QUE ESTÁ ___DEPOIS___ DO DOMAIN do site....
+
+
+
+
+ex:
+
+
+
+'location.pathname' na home do google:
+
+
+
+NOS RETORNARÁ "/" (um slash com NADA, pois nós não estamos em um subdomínio do domínio/alguma página nesteada dentro desse site).
+
+
+
+
+outro exemplo:
+
+
+
+https://academind.com/courses/ 
+
+
+---->
+
+se digitarmos 
+
+'location.pathname' aqui, 
+
+o devtools console irá nos retornar 
+
+
+"/courses/", pois esse é o pathname desse domínio.... (é a parte APÓS O NOME DO DOMÍNIO...)
+
+
+
+
+
+ESSES COMANDOS PODEM SER ÚTEIS PARA DESCOBRIR ___EM QUE LUGAR ___ DA PÁGINA VOCÊ ESTÁ, 
+
+por meio do javascript....
+
+
+-----------------------------
+
+
+
+Uma feature legal, especialmente para aplicativos COM JAVASCRIPT MAIS COMPLEXO, é uma feature 
+
+que faz você RENDERIZAR 
+
+CONTEÚDO DIFERENTE COM BASE NO PATH QUE FOI DIGITADO PELO USUÁRIO...
+
+Você talvez queira CONTROLAR TODA A NAVEGAÇÃO DO USUÁRIO 
+
+POR MEIO DE JAVASCRIPT, O QUE É ALGO REALMENTE POSSÍVEL, mas que não 
+
+vamos aprender aqui...
+
+
+TIPICAMENTE ESSES APLICATIVOS COMPLETOS SÃO CONSTRUÍDOS COM A AJUDA DE 
+
+'JAVASCRIPT FRAMEWORKS'... (que é outra coisa que veremos ao longo desse curso.)
+
+
+
+
+-----------------------------------------
+
+
+
+
+ESSE, PORTANTO, FOI O 'location' object...
+
+
+----------------------------------------
+
+
+
+NÓS TAMBÉM TEMOS O OBJETO 
+
+'window.history', ou apenas 'history'...
+
+
+
+--------------------------------
+
+
+ex (history no devtools):
+
+
+history -------->
+
+
+VAI NOS RETORNAR 
+
+um objeto com 
+
+'History {length: 24, scrollRestoration: "auto", state:null}'
+
+
+-------------------------------
+
+
+
+PROFESSOR EXPLICA QUE 'location' e 'history' FUNCIONAM + OU - 
+
+EM CONJUNTO...
+
+
+'Location' PERMITE A NÓS, DESENVOLVEDORES, EDITAR O 'browser history' POR MEIO 
+
+DA NAVEGAÇÃO POR AÍ ('navigating around') OU POR MEIO DA SUBSTITUÍÇÃO ('replace()') DA PÁGINA...
+
+
+
+
+
+
+HISTORY, POR SUA VEZ, NOS POSSIBILITA A __INTERAÇÃO____ COM AQUELA BROWSER HISTORY...
+
+
+
+Por exemplo, você pode chamar o método 
+
+
+'history.back()' PARA VOLTAR....
+
+
+-----------------------------
+
+
+Ex prático:
+
+
+
+
+professor pode definir 
+
+
+
+'location.href = 'https://academind.com'
+
+
+e ENTÃO, AO ESCREVER 'history.back()' no dev console, 
+
+O PROFESSOR SERÁ MANDADO DE VOLTA A NOSSA PÁGINA DE PROJETOS, ONDE ESTÁVAMOS ANTERIORMENTE.
+
+
+
+
+Isso te deixa, por exemplo, fazer com que o USUÁRIO SEJA TRANSPORTADO PARA A PÁGINA DE 
+
+ONDE ELE VEIO, uma feature MUITO VISTA EM SITES EM QUE PERGUNTA-SE 'você é velho o bastante 
+para ler esse conteúdo?'
+
+Ou seja, muito utilizados em sites impróprios (pornográficos)
+
+
+
+
+
+----------------------------------------
+
+
+
+VOCÊ TAMBÉM TEM 'history.forward()', que faz com que VOCê VÁ PARA A PÁGINA EM QUE VOCÊ ESTAVA ANTES, 
+
+SE VOCÊ navegou antes para lá...
+
+
+
+
+
+VOCê TAMBÉM PODE INSPECIONAR A 'LENGTH' DA history....
+
+
+
+ex:
+
+
+
+'history.length;'
+
+
+
+
+
+VOCÊ FAZ ISSO PARA DESCOBRIR QUANTOS PASSOS/ETAPAS/PÁGINAS O USUÁRIO ACESSOU NESSA ABA DO BROWSER, COMO UM TODO...
+
+
+
+
+Ou seja, quantas vezes você foi em frente para uma nova página, essencialmente;
+
+
+
+na verdade, te mostra QUÃO PARA TRÁS O USUÁRIO PODE SER ENVIADO (quantas páginas/passos há no passado dessa aba do usuário.)
+
+
+
+
+
+Complementando 'history.length()', TEMOS 
+
+
+'history.go()', 
+
+QUE É UM 
+
+
+
+
+MÉTODO QUE FARÁ COM QUE O USUÁRIO SEJA MANDADO PARA O NÚMERO DA STEP QUE VOCê INSERIR NO PARÂMETRO...
+
+
+
+ex:
+
+
+
+'history.go(5);' -----------> USUÁRIO SERÁ ENVIADO 5 PASSOS PARA TRÁS, 5 passos atrás da história/histórico da aba em que está agora.
+
+
+Envia o usuário para onde ele estava 5 NAVEGAÇÕES ATRÁS....
+
+
+
+
+-----------------------------------------------
+
+
+
+
+LOCATION E HISTORY, DUAS PROPRIEDADES/OBJETOS ESSENCIAIS PARA MOVER OS USUÁRIOS POR NOSSAS WEBPAGES.
+
+
+
+
+Mover os usuários automaticamente NÃO É SEMPRE A MELHOR USER EXPERIENCE, por isso você 
+
+deve escrever esses códigos com CUIDADO.
+
+
+
+--------------------------------------------

@@ -1,0 +1,454 @@
+Devemos ver uma nova maneira de definir funções.
+
+
+Até agora, sempre utilizamos a "function" keyword, ainda que 
+tenhamos empregado a sintaxe de "statement/declaração"  ( function cocô() {};
+}) e a sintaxe alternativa, de EXPRESSÃO (const função = function() {};)
+
+
+
+Essas eram as 2 maneiras que tinhamos para criar funções.
+
+
+Agora, sempre que você tem uma função anônima vocÊ pode usar 
+UMA SINTAXE DIFERENTE... e para essa sintaxe... digamos que temos aquela função já definida, 
+"getWinner".
+
+ex:
+
+
+const getWinner = function(cChoice, pChoice) {
+
+    if(cChoice === pChoice) {
+        return RESULT_DRAW;
+    } else if (cChoice === ROCK && pChoice === PAPER ||
+               cChoice === PAPER && pChoice === SCISSORS ||
+               cChoice === SCISSORS && pChoice === ROCK) {
+                return RESULT_PLAYER_WINS;
+    } else {
+        return RESULT_COMPUTER_WINS;
+    }
+}
+
+
+
+---------------------------------------------
+
+
+
+
+
+COM GETWINNER, VOCÊ PODE ___REMOVER____ A KEYWORD "FUNCTION". Se fizermos isso, receberemos um 
+ERRO. Mas nós não deixamos ela desse jeito... nós 
+ADICIONAMOS UM NEGÓCIO ENTRE OS PARÂMETROS ( () ) E O FUNCTION BODY ( {} ). No meio dos dois,
+NÓS INSERIMOS UMA ____SETA_____. SIM, UMA SETA. SETA SERIA " => ".
+
+
+ex:
+
+                                            (bem aqui.)
+const getWinner = function(cChoice, pChoice) => {
+
+    if(cChoice === pChoice) {
+        return RESULT_DRAW;
+    } else if (cChoice === ROCK && pChoice === PAPER ||
+               cChoice === PAPER && pChoice === SCISSORS ||
+               cChoice === SCISSORS && pChoice === ROCK) {
+                return RESULT_PLAYER_WINS;
+    } else {
+        return RESULT_COMPUTER_WINS;
+    }
+}
+
+
+
+é um = e um > juntos, que formam uma seta.
+
+
+o "=>" É UMA KEYWORD ESPECIAL, NO FINAL DAS CONTAS. => é entendido pelo javascript, e não tem 
+NADA A VER COM O operador '=' e os "=> e <=" operators. É uma nova keyword, mesmo.
+
+
+É A ______"ARROW FUNCTION"_____.
+
+
+Mas o que é especial sobre essa "arrow function"?
+
+
+Bem, obviamente nós a construímos de uma maneira diferente das formas de "expressão" e "declaração/statement".
+
+                                                                    (é uma derivação dela)
+O estilo da arrow function sempre se utiliza da forma "EXPRESSIONAL" das funções. Ela não funciona com a forma de statement/declaração.
+
+
+function() => {};        -------------------> ISSO NÃO EXISTE.
+
+
+
+
+const getWinner = function(cChoice, pChoice) => {
+                                                ...
+                                                        }; -------------> APENAS ISSO EXISTE.
+
+
+
+OU seja, você só pode usar arrow functions em lugares onde você usaria uma função anônima.
+                                                    
+
+ELA É UMA FUNÇÃO ANÔNIMA EM QUE VOCÊ NÃO PODE ASSIGNAR UM NOME DE QUALQUER MANEIRA POSSÍVEL.
+
+
+Você sempre a usará no lado direito do sinal de '=', do lado direito desse operador, ou em lugares 
+como os eventListeners. Você sempre a utilizará em lugares 
+em que você precisa passar uma função e onde você pode usar funções anônimas.
+
+
+
+Essa é a primeira diferença. Pode soar como uma desvantagem, À primeira vista, mas há uma 
+vantagem: sua sintaxe é um pouco menor; vocÊ economiza código (não precisa usar a keyword "function")... claro 
+que não é muita economia, mas , de fato, menor que a outra sintaxe.
+
+
+MAS ALÉM DESSA MINI-ECONOMIA, ESSA SINTAXE DE FUNÇÃO TEM OUTRAS CARTAS NA MANGA:
+
+
+ Há um comportamento útil/bem legal que você só vai entender um pouco mais tarde, visto que 
+ tal comportamento se relaciona com OBJETOS... arrow functions nos ajudam com eles.
+
+ Por isso voltaremos a essas arrow functions mais tarde.
+
+
+ Mas mesmo sem objetos e sem aquela coisa lá, já existem algumas coisas legais que podemos fazer 
+ com elas.
+
+
+
+
+ Por exemplo, você podem por meio das arrow functions, REDUZIR O CÓDIGO INTEIRO DE "GETWINNER" de uma maneira muito conveniente:
+
+
+
+
+O professor diz que devemos escrever esse código da função getWinner como uma EXPRESSÃO TERNÁRIA.
+Professor diz que isso será meio "borderline", porque será uma expressão ternária meio comprida e cheia de nesting, mas é 
+possível fazê-lo.
+
+
+Então... você pode escrever uma expressão ternária em que você imediatamente retorna o resultado dela. Uma 
+ternary expression assim:
+
+ex:
+
+
+const getWinner = function(cChoice, pChoice) => {
+
+    return cChoice === pChoice ? RESULT_DRAW : 
+
+
+
+
+
+
+
+
+                                                        (Obs: ternary expressions são escritas assim:
+                                                         
+                                                        condição ? resultado/valorseacondição1fortrue : resultado/valorseacondição1forfalse) ---------------> MAS HÁ UMA PECULIARIDADE NESSE CASO AQUI, DO PROFESSOR: AQUI NÓS FAZEMOS O NEST DE UMA TERNARY EXPRESSION DENTRO DE OUTRA TERNARY EXPRESSION, O QUE PODE LEVAR À CERTA CONFUSÃO. O professor insere no "else" block da expressão ternária as hipóteses que não são de draw no nosso joguinho.
+
+
+EX DO NESTING DESSA OUTRA TERNARY EXPRESSION DENTRO DESSA NOSSA TERNARY EXPRESSION:
+
+
+
+const getWinner = function(cChoice, pChoice) => {
+
+    return cChoice === pChoice ? RESULT_DRAW : (cChoice === ROCK && pChoice === PAPER ||
+               cChoice === PAPER && pChoice === SCISSORS ||
+               cChoice === SCISSORS && pChoice === ROCK)
+
+
+
+
+Continuando: fazemos isso, e aí colocamos OUTRO "?" depois dessa condição. O question mark
+é para colocarmos o valor a ser retornado NO CASO DESSA CONDIÇÃO GIGANTE SER SATISFEITA.
+
+
+
+const getWinner = function(cChoice, pChoice) => {
+
+    return cChoice === pChoice ? RESULT_DRAW : (cChoice === ROCK && pChoice === PAPER ||
+               cChoice === PAPER && pChoice === SCISSORS ||
+               cChoice === SCISSORS && pChoice === ROCK) ? RESULT_PLAYER_WINS : RESULT_COMPUTER_WINS;
+
+
+
+Como devemos ler essa expressão ternária gigante?
+
+
+" caso pChoice e cCHoice não forem iguais, mande draw... mas só mande draw se ESSAS OUTRAS HIPÓTESES 
+CONTEMPLADAS NESSA OUTRA NESTED TERNARY EXPRESSION NÃO FOREM SATISFEITAS". Ou seja, a primeira parte 
+da ternary expression ("cChoice === pChoice ? RESULT_DRAW") acaba virando o else block de uma função, basicamente.
+Essencialmente ela vira o "last case scenario".
+
+
+Se deixarmos esse código assim, podemos deletar todo aquele if block gigante no nosso projeto 5 original.
+
+
+O professor diz para nós não entendermos mal, não há nada de errado com o if block original, ele só queria nos mostrar 
+esse nesting de ternary expressions.
+
+
+Mas qual é a vantagem dessa forma de escrever o código? Bem, se você tem uma função, uma ARROW FUNCTION... arrow function 
+em que você SÓ TEM UMA ÚNICA EXPRESSÃO dentro dela, você pode, na verdade, OMITIR OS CURLY BRACES e também (obrigatório) OMITIR 
+A "RETURN" keyword. A função inteira, então, no final acaba parecendo assim:
+
+
+
+ex:
+
+
+const getWinner = function(cChoice, pChoice) => 
+                cChoice === pChoice 
+                ? RESULT_DRAW 
+                : (cChoice === ROCK && pChoice === PAPER ||
+               cChoice === PAPER && pChoice === SCISSORS ||
+               cChoice === SCISSORS && pChoice === ROCK) 
+               ? RESULT_PLAYER_WINS 
+               : RESULT_COMPUTER_WINS;
+
+---------------------------------------------------------
+
+A função é lida pelo javascript como uma loooonga linha, sem curly braces.
+
+
+
+
+A sintaxe desse tipo de função fica mais clara a nossos olhos se escrevermos algo mais simples.
+EX:
+
+
+
+
+const add = (a,b) => a + b;
+
+
+
+(ESSA FUNÇÃO É LIDA NORMALMENTE PELO JAVASCRIPT, REALMENTE NÃO PRECISAMOS DO USO DE {} QUANDO UTILIZAMOS 
+ARROW FUNCTIONS.)
+
+
+(EX da mesma função, mas com a sintaxe de expressão padrão):
+
+
+const add2 = function(a, b) {
+    return a + b;
+}
+
+
+
+
+Não é taaaanta diferença assim, mas a segunda versão certamente é menor.
+
+
+Especialmente em locais em que você só quer passar uma função anônima rápida para fazer um cálculo veloz, essa forma de 
+sintaxe é muuuuito mais curta do que a outra.
+
+
+
+Não é como se a forma padrão fosse terrivelmente errada, mas essa maneira alternativa é MUITO útil.
+
+
+
+Junto de outras vantagens que entenderemos mais tarde, a disponibilidade de variedades EXTRAS de sintaxe
+açucaradas, como essa, que encurta nossas funções, sempre é algo legal de se ter.
+
+Mas há mais coisas que podemos fazer com arrow functions:
+
+
+
+
+
+
+
+
+
+SINTAXE GERAL DE ARROW FUNCTIONS:
+
+
+(arg1, arg2) => {...};
+
+
+
+Lista de argumentos --->  function body.
+
+
+-----------------------------------------
+
+
+Nos casos em que você NÃO TEM ARGUMENTOS/parâmetros, você escreve essa parada assim:
+
+
+
+() => {...}
+
+
+Você tem que ter os parênteses para que a arrow function seja criada, não importa que eles estejam em branco.
+
+
+------------------------------------------------------
+
+
+
+UMA OUTRA FEATURE BOA QUE O PROFESSOR AINDA NÃO MOSTROU:
+
+
+
+Se vocÊ tiver exatamente 1 único argumento, e não dois, você pode 
+escrevê-lo assim:
+
+
+arg => {...};
+
+
+OU SEJA, VOCÊ PODE OMITIR ATÉ MESMO OS PARÊNTESES. MAIS CÓDIGO SALVO, MAIS ECONOMIA.
+
+Você pode omitir também os {}.
+
+
+ex:
+
+
+
+arg => arg = true;
+
+
+
+
+Se você tem EXATAMENTE UMA ÚNICA EXPRESSÃO DENTRO DO FUNCTION BODY, VOCê PODE FAZER A MESMA COISA COM ELE, 
+OMITIR "{}". Mas isso somente se aplica se você tiver 1 única expressão. MAS SE VOCê 
+OMITIR OS {}, VOCÊ DEVE RETORNAR QUAISQUER RETURN STATEMENTS QUE VOCÊ TEM LÁ DENTRO. O resultado 
+do cálculo/operação da função sempre será retornado, ainda que não tenha o return statement lá dentro.
+Isso pode não ser um problema, mas é ALGO QUE VOCÊ DEVE SABER. Sempre existirá uma return keyword invísivel
+na frente daquela parte que fica à frente da seta ( na frente do seu function body). e, de novo, isso só é permitido se você tiver 
+exatamente 1 única expressão no lado direito do '='.
+
+
+OBS: se você tem um "If statement" lá dentro, ou qualquer outra coisa que não funcionaria depois de 
+um '=' normal, ele não funcionará, nada disso funcionará.
+
+
+
+Se você tem mais de 1 expressão no function body, você deve adicionar {}. Deve também 
+adicionar os return statements, o resultado da função não é implicitamente retornado como acontece 
+no caso de haver apenas 1 única expressão.
+
+
+
+Bem, essas são as arrow functions.
+
+
+Mesmo sem a vantagem, que veremos mais tarde, é legal ter elas por causa da potencial economia de código.
+Isso reduz o tempo que você gasta escrevendo código. Códigos mais resumidos são mais fáceis de ler.
+
+Professor vai usar muito =>, ele gosta disso. Por isso ele vai converter todas as funções 
+desse arquivo para arrow functions.
+
+
+
+
+
+
+
+-------------------------------------------
+
+
+OBs: examinar caso 5 abaixo, da sintaxe correta.
+
+
+
+
+
+
+
+For arrow functions, you got a couple of different syntaxes which you can use - here's a summary.
+
+Important: Don't miss the "function only returns an object" special case at the end of this article!
+
+1) Default syntax:
+
+const add = (a, b) => {
+    const result = a + b;
+    return result; // like in "normal" functions, parameters and return statement are OPTIONAL!
+};
+Noteworthy: Semi-colon at end, no function keyword, parentheses around parameters/ arguments.
+
+2) Shorter parameter syntax, if exactly one parameter is received:
+
+const log = message => {
+    console.log(message); // could also return something of course - this example just doesn't
+};
+Noteworthy: Parentheses around parameter list can be omitted (for exactly one argument).
+
+3) Empty parameter parentheses if NO arguments are received:
+
+const greet = () => {
+    console.log('Hi there!');
+};
+Noteworthy: Parentheses have to be added (can't be omitted)
+
+4) Shorter function body, if exactly one expression is used:
+
+const add = (a, b) => a + b;
+Noteworthy: Curly braces and return statement can be omitted, expression result is always returned automatically
+
+5) Function returns an object (with shortened syntax as shown in 4)):
+
+const loadPerson = pName => ({name: pName });
+Noteworthy: Extra parentheses are required around the object, since the curly braces would otherwise be interpreted as the function body delimiters (and hence a syntax error would be thrown here).
+
+That last case can be confusing: Normally, in JavaScript, curly braces always can have exactly one meaning.
+
+const person = { name: 'Max' }; // Clearly creates an object
+if (something) { ... } // Clearly used to mark the if statement block
+But when using arrow functions, curly braces can have two meanings:
+
+1) Mark the function body (in default form)
+
+2) Create an object which you want to return (in shorter function body form)
+
+To "tell" JavaScript what you want to do, wrap the expression (e.g. object creation) in parentheses like shown above.
+
+
+
+
+
+
+
+
+
+
+
+
+5) Function returns an object (with shortened syntax as shown in 4)):
+
+
+
+
+
+
+const loadPerson = pName => ({name: pName });
+
+
+Noteworthy: Extra parentheses are required around the object, since the curly braces would otherwise be interpreted as the function body delimiters (and hence a syntax error would be thrown here).
+
+That last case can be confusing: Normally, in JavaScript, curly braces always can have exactly one meaning.
+
+const person = { name: 'Max' }; // Clearly creates an object
+if (something) { ... } // Clearly used to mark the if statement block
+But when using arrow functions, curly braces can have two meanings:
+
+1) Mark the function body (in default form)
+
+2) Create an object which you want to return (in shorter function body form)
+
+To "tell" JavaScript what you want to do, wrap the expression (e.g. object creation) in parentheses like shown above.

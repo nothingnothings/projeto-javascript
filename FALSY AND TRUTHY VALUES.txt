@@ -1,0 +1,300 @@
+Agora, em javascript, vocÊ tem um conceito chamado 
+
+
+"false and truthy values".
+
+
+É a forma como javascript avalia condições por trás dos bastidores.
+
+
+
+
+
+
+Geralmente, javascript funciona com Booleans (verdadeiro ou falso, OUUUU COM 
+"FALSY"/"TRUTHY" VALUES).
+
+
+
+para exemplificar isso, imagine que você tem uma constante que segura a string 'Max' como valor.
+
+
+
+const nameInput = 'Max';
+
+
+
+Então comparamos o valor de max  com nameInput..., e inserimos numa função condicional.
+
+
+
+if (nameInput === 'Max') {...}
+
+
+
+Essa função rodaria, é claro, pois nameInput é igual a Max.
+
+
+Para ser mais preciso, essa condição renderia TRUE (o boolean value de true),
+E a função funcionaria. Vimos isso antes.
+
+
+
+
+Agora considere esse code snippet: 
+
+ 
+constNameInput = 'Max';
+if(nameInput) {...} 
+
+
+agora, na if condition, eu não comparo nameInput a valor algum, eu apenas tenho 
+nameInput solto, declarado simplesmente. Aí surge uma questão: esse nameInput, na verdade, não segura 
+um valor boolean, como a função que escrevemos anteriormente, que segurava um boolean de true (porque nameInput === 'Max' estava verdadeiro, por isso o valor boolean que estava armazenado ali era TRUE.),
+mas sim uma STRING (porque nameInput é uma constante que segura uma string, a string 'Max'.). 
+
+Ainda que dentro do parênteses tenhamos colocado uma STRING, e não um VALOR BOOLEAN de TRUE OU FALSE, essa função 
+mesmo assim funcionará. Isso funciona porque Javascript tenta COAGIR valores normais (strings e numeros) para valores BOOLEAN, 
+CASO UM BOOLEAN SEJA REQUERIDO NAQUELA SITUAÇÃO.
+
+
+Então, sim, if statements FUNCIONAM COM BOOLEANS, mas Javascript TENTA CONVERTER UM VALOR EM UM BOOLEAN SE ELE NÃO RECEBER UMA 
+COMPARAÇÃO-BOOLEAN (nameInput === 'Max') OU UM VALOR BOOLEAN POR SI SÓ (TRUE OU FALSE).
+
+
+
+
+
+Então, por exemplo, se você tem uma variável passada dentro da condição e ela não é comparada a nada, apenas atirada lá dentro, 
+ela receberá definições boolean de acordo com o número que ela possui.
+
+
+
+Se a variável segurar um valor de 0, ela será convertida para um boolean do tipo FALSE.
+
+
+SE A VARIÁVEL SEGURAR QUALQUER OUTRO VALOR, ____INCLUSIVE NÚMEROS NEGATIVOS____, ELA RESULTARÁ EM UM BOOLEAN DO TIPO TRUE.
+
+
+0, portanto, é um caso especial que é tratado como false.
+
+
+
+Onde que isso pode ser útil? ex: casos de divisão. você está fazendo divisões, mas você NÃO QUER DIVIDIR POR 0; digamos que os valores são 
+providenciados pelo usuário, o usuário inputta um valor e você quer se assegurar de que o negócio não vai dividir por 0. É claro que você 
+pode checar "IF userInput = 0, return", mas sempre será uma alternativa esse uso desse shortcut, de só plugar no slot da condição o 
+nome da variável, solto. O javascript vai ler aquele variable name, ver que ele tem um valor de 0, e decretar false.
+
+
+Nossa calculadora é um grande exemplo:
+
+It never makes sense in our calculator se o usuário adiciona 0 no input field, adicionar 0, subtrair 0... você até poderia dizer que 
+multiplicar 0 faz sentido, mas nenhuma outra operação faz. Dividir é até mesmo ilegal, não é permitido dividir por 0.
+
+O que poderíamos fazer na nossa calculadora com relação à "proibição do 0", em function calculateResult, é alterar umas linhas de código para ele ficar assim:
+
+
+
+
+MODELO CÓDIGO ANTIGO:
+
+
+function calculateResult (calculationType) {if (
+                                                calculationType !== 'ADD' &&
+                                                calculationType !== 'SUBTRACT' &&
+                                                calculationType !== 'MULTIPLY' &&
+                                                calculationType !== 'DIVIDE'
+                                                ) {
+                                                    return;
+                                                }
+                                                const enteredNumber = getUserNumberInput();   // é movido para cima, na versão que você vê embaixo daqui.
+                                                const initialResult = currentResult;
+                                                let mathOperator;
+                                                if (calculationType === 'ADD') {
+                                                    currentResult += enteredNumber;
+                                                    mathOperator = '+';
+                                                } else if (calculationType === 'SUBTRACT') {
+                                                    currentResult -= enteredNumber;
+                                                    mathOperator = '-';
+                                                } else if (calculationType === 'MULTIPLY') {
+                                                    currentResult *= enteredNumber;
+                                                    mathOperator = 'x';}
+                                                    else if (calculationType === 'DIVIDE') {
+                                                    currentResult /= enteredNumber;
+                                                    mathOperator = '/';
+                                                 }
+
+                                                 createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+                                                 writeToLog (calculationType, initialResult, enteredNumber, currentResult);
+                                                }
+
+
+
+CÓDIGO NOVO :
+
+
+
+function calculateResult (calculationType) {
+                                                const enteredNumber = getUserNumberInput()               //professor retira lá de baixo essa definição da constante enteredNumber, porque ele precisa declará-la aqui antes de poder chamá-la ali embaixo, lembra-se? devemos sempre declarar as constantes antes de usá-las.
+                                            if (
+                                                calculationType !== 'ADD' &&
+                                                calculationType !== 'SUBTRACT' &&
+                                                calculationType !== 'MULTIPLY' &&
+                                                calculationType !== 'DIVIDE' ||             //professor adiciona aqui um "OR", para explicitar outra condição para dar return, a condição de que se o usuário INPUTTAR O VALOR 0 no field, nenhuma operação deverá ser executada. Para isso, ele escreve "enteredNumber === 0".
+                                                enteredNumber === 0;
+                                                ) {
+                                                    return;
+                                                }
+                                                const initialResult = currentResult;
+                                                let mathOperator;
+                                                if (calculationType === 'ADD') {
+                                                    currentResult += enteredNumber;
+                                                    mathOperator = '+';
+                                                } else if (calculationType === 'SUBTRACT') {
+                                                    currentResult -= enteredNumber;
+                                                    mathOperator = '-';
+                                                } else if (calculationType === 'MULTIPLY') {
+                                                    currentResult *= enteredNumber;
+                                                    mathOperator = 'x';}
+                                                    else if (calculationType === 'DIVIDE') {
+                                                    currentResult /= enteredNumber;
+                                                    mathOperator = '/';
+                                                 }
+
+                                                 createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+                                                 writeToLog (calculationType, initialResult, enteredNumber, currentResult);
+                                                }
+
+
+
+Com essas alterações (que descrevemos do lado de //), a calculadora agora para suas operações toda vez que tentamos rodar operações com 0.
+
+PORÉM, NÃO É ESSA A MANEIRA QUE O PROFESSOR ADOTOU AQUI. AGORA AS COISAS FICAM MALUCAS: O PROFESSOR SIMPLESMENTE CHAMOU A FUNÇÃO ALI SEM INICIALIZÁ-LA, 
+COLOCOU-A SOLTA DENTRO DA FUNÇÃO. lembre-se: uma constante/variável que é colocada como condição é sempre lida 
+de acordo com o seu valor. Queremos, lembre-se, que a operação PARE no caso de o número ser 0 (número ser declarado false), e que ela 
+CONTINUE no caso de ele ser um número diferente de 0 (true.).
+
+
+O professor usa aqui um dos operadores especiais na constante de enteredNumber, o operador !. Esse operador checa algum valor por FALSO.
+
+
+
+então o código ficaria:
+
+
+
+
+function calculateResult (calculationType) {
+                                                const enteredNumber = getUserNumberInput()               
+                                            if (
+                                                calculationType !== 'ADD' &&
+                                                calculationType !== 'SUBTRACT' &&
+                                                calculationType !== 'MULTIPLY' &&
+                                                calculationType !== 'DIVIDE' ||             
+                                                !enteredNumber                     // AQUI, O PROFESSOR REMOVE === 0, o valor boolean original, e coloca uma constante com valor dinâmico no seu lugar. Porém, ele coloca também o operador !, que checará pelo valor de falso nessa constante.
+                                                ) {
+                                                    return;
+                                                }
+                                                const initialResult = currentResult;
+                                                let mathOperator;
+                                                if (calculationType === 'ADD') {
+                                                    currentResult += enteredNumber;
+                                                    mathOperator = '+';
+                                                } else if (calculationType === 'SUBTRACT') {
+                                                    currentResult -= enteredNumber;
+                                                    mathOperator = '-';
+                                                } else if (calculationType === 'MULTIPLY') {
+                                                    currentResult *= enteredNumber;
+                                                    mathOperator = 'x';}
+                                                    else if (calculationType === 'DIVIDE') {
+                                                    currentResult /= enteredNumber;
+                                                    mathOperator = '/';
+                                                 }
+
+                                                 createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+                                                 writeToLog (calculationType, initialResult, enteredNumber, currentResult);
+                                                }
+
+
+
+
+                                                o ! pode parecer estranho, mas o que ele significa é "IF NOT EnteredNumber" ---->  Esse operador NEGA UM VALOR e checa 
+                                                se ele é NOT TRUE. Nesse caso, se enteredNumber for 0, ele é tratado como FALSE pelo JAVASCRIPT, é "FALSY", e portanto, por meio da inserção de 
+                                                ! no início da constante, nós basicamente INVERTEMOS esse valor, nós basicamente dizemos "SE ESSE NÃO FOR O CASO, SE NOT TRUE (false), AÍ VAMOS QUERER RETURN.".
+
+
+
+O ! nega um valor e checa se ele é not true.
+
+
+
+!enteredNumber {return;} -----------> tradução: "se enteredNumber não for true (como 0, que é considerado false pelo javascript.), rode return."
+
+ 
+Então, se enteredNumber for um FALSY VALUE (0), então NOT TRUE vai retornar verdadeiro, e se retornamos verdadeiro aqui, nós rodamos a função return. 
+
+
+
+
+Caso enteredNumber for qualquer outro número que não 0, inclusive números negativos, o enteredNumber será TRUTHY, 
+e com o ! (checa por NOT TRUE) na sua frente, ele é convertido em FALSE (porque ele não não é verdadeiro, se você me entende),  e aí não executamos a função return, pois a condição está como falsa.
+
+            ! ------> ("is enteredNumber not true?"----> "false, it is not not true".)
+
+
+
+
+TRUTHY = números positivos na variável.
+
+
+FALSY = 0 definido na variável.
+
+
+
+
+
+É assim que funcionam valores truthy e falsy. Você nem sempre precisa fazer 
+uma comparação explícita (como enteredNumber === 0), você pode também atirar, no lugar dessas comparações explícitas, 
+uma variável solta (ou o seu valor), e aí usar a variável em si como uma condição... e se 
+e se ela não segurar true ou false, Javascript tenta atribuir a ela um valor verdadeiro ou falso/convertê-la para true ou false naturalmente.
+Isso é o truthy e falsy. 
+
+
+
+
+OUTRO DETALHE IMPORTANTE:  EMPTY STRINGS ("") ------> SÃO CONSIDERADAS COMO FALSO. FALSY.
+
+
+
+                            QUAISQUER OUTRAS STRINGS (até mesmo uma string dizendo "false") ---------> SÃO CONSIDERADAS COMO TRUE. TRUTHY.
+
+     {}, [],       e                TODOS OUTROS OBJETOS E ARRAYS ----------------> SÃO CONSIDERADOS COMO TRUE. TRUTHY. SÃO VERDADEIROS ATÉ MESMO QUANDO ESTÃO VAZIOS, QUANDO NÃO HÁ DADOS NELES.
+
+                                NULL, UNDEFINED e NaN --------> SÃO SEMPRE CONSIDERADOS COMO FALSE. FALSY.
+
+
+
+
+
+                                VOCÊ TEM QUE DECORAR ESSES VALORES.
+
+
+
+                                false 0
+                                true 1
+                                false ""
+                                true string
+                                true []
+                                false null, undefined, NaN
+
+
+                                VER O SLIDE EXEMPLO E DECORAR TUDO.
+
+                                SÃO OS CASOS ESPECIAIS EM JAVASCRIPT.
+
+                                Se você jogar uma variável ou um valor dentro de uma if condition sem um "comparison operator"(===, !==), ele tentará converter em true ou false, 
+                                e é assim que ele faz.
+
+
+
+                                ANTES DE AVANÇAR PARA LOOPS, É MELHOR TRABALHAR UM POUCO MAIS COM IF STATEMENTS, BOOLEANS, COMPARISON OPERATORS E ETC ETC. 

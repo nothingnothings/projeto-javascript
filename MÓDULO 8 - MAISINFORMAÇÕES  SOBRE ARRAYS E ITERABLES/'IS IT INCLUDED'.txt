@@ -1,0 +1,70 @@
+Outro método útil para descobrir se algo faz parte de um array ou não:
+
+
+
+É O MÉTODO ".includes()".
+
+
+
+
+
+Esse método é mais útil em casos de valores primitivos, porque ele só faz checagens 
+simples de valores (bem parecido com "indexOf()".)
+
+
+Poderíamos checar, por exemplo, se testResults INCLUI um valor de 10.99.
+
+
+ex:
+
+
+const testResults = [1, 5.3, 1.5, 10.99, 1.5, -5, 10];
+
+console.log(testResults.includes(10.99));
+
+
+------------------------------------------
+
+
+--> ESSE CONSOLE.LOG VAI NOS RETORNAR "TRUE", pois 10.99 realmente está 
+dentro de testResults, há um valor "10.99" dentro de testResults.
+
+
+
+
+
+INCLUDES é uma excelente opção SE VOCÊ NÃO ESTÁ INTERESSADO OU NO INDEX, OU NO VALOR; É ÚTIL SE VOCÊ 
+SOMENTE TEM INTERESSE NO FATO DO NEGÓCIO ESTAR INCLUÍDO NO ARRAY OU NÃO.
+
+
+
+
+Mas é importante se lembrar que "indexOf" vai retornar '-1' SE NADA FOR ENCONTRADO. 
+ESSENCIALMENTE, "includes()" é a MESMA COISA QUE "indexOf" comparado com -1 (!==)
+
+ex:
+                                (se !== -1 der verdadeiro, significa que HÁ UM VALOR 10.99 DENTRO DESSE ARRAY. Se der false, significa que não há)
+
+console.log(testResults.indexOf(10.99) !== -1) -------> É A MESMA COISA QUE "console.log(testResults.includes(10.99));"
+                                                (e os dois vão retornar a mesma coisa, "true", pois realmente há um valor 10.99 dentro desse array testResults)
+
+
+
+
+se testResults.indexOf(10.99) !== -1 for TRUE, significa que o valor "10.99" existe dentro 
+do array. Se for false, significa que ele não existe.
+
+
+
+---------------------------------------------------------------
+
+
+
+ENTRETANTO, PROFESSOR APONTA QUE "includes()" é um pouco mais curto, e que essa versão 
+economiza um pouco de código em relação à versão mais longa contendo !+= e ".indexOf()". 
+
+
+Por isso, includes() é bom para checar se certo elemento existe dentro de certo array (ISSO COM VALORES PRIMITIVOS. ESSE MÉTODO NÃO FUNCIONA COM VALORES REFERENCIAIS).
+
+
+

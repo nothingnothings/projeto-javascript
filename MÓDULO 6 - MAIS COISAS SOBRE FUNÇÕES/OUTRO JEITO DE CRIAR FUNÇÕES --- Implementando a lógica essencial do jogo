@@ -1,0 +1,374 @@
+Continuando... Agora vamos possibilitar ao computador TAMBÉM FAZER UMA ESCOLHA.
+
+
+Para isso, podemos adicionar uma nova função ao nosso projeto 5. Adicionamos essa função por meio de uma constante, a constante
+"getComputerChoice". Sua definição será similar a de "getPlayerChoice", uma constante que segura uma função 
+anônima, a qual será chamada pelo nome da constante.
+
+
+
+
+const getComputerChoice = function() {
+
+}
+
+
+
+Dentro dessa função, o professor quer calcular um número aleatório entre 0 e 1... E se o número for entre 
+0 e 0.33, o resultado será ROCK. Se for entre 0.34 e 0.67, será paper. E se for entre 0.68 e 1, será scissors. O 
+professor vai querer armazenar isso em uma constante, que ele chamará de "randomValue". Ele então usa 
+aquele comando que aprendemos em uma das aulas, "Math.random".
+
+
+const getComputerChoice = function() {
+    const randomValue = Math.random();
+    if(randomValue < 0.34) {
+        return ROCK;
+    } else if (randomValue < 0.67) {
+        return PAPER;
+    } else if (randomValue > 0.67) {
+        return SCISSORS;
+    }
+}
+
+
+Professor explica que não usamos isso em detalhes ainda: Math É UM OBJETO DISPONÍVEL GLOBALMENTE, disponibilizado 
+pelo próprio javascript/browser... ele tem um método aleatório que GERA UM NÚMERO ALEATÓRIO ENTRE 0 E 1.
+
+Agora podemos adicionar um if check dentro dessa função, "se randomValue for menor do que 0.34, vou querer retornar o valor 'rock' ".
+Como aqui colocamos um return, essa função vai parar nesse ponto, se o negócio entrar nesse if block.
+
+Colocamos um else if, que rodará na hipótese do primeiro if check não ser cumprido. Não há necessidade
+de colocar " 0.34 < randomValue < 0.67"; podemos só colocar "randomValue < 0.67", porque é óbvio que 
+esse else if block só rodará na hipótese do negócio não ser menor do que 0.34, que é o if block anterior.
+
+PARA A HIPÓTESE DE QUE NENHUM OUTRO DOS 2 CASOS É SATISFEITO, AÍ VOU QUERER RETORNAR SCISSORS (HIPÓTESE 
+DO RANDOMVALUE SER MAIOR DO QUE 0.67, QUE É A ÚNICA HIPÓTESE PLAUSÍVEL QUE RESTOU).
+
+
+
+
+
+const getComputerChoice = function() {
+    const randomValue = Math.random();
+    if(randomValue < 0.34) {
+        return ROCK;
+    } else if (randomValue < 0.67) {
+        return PAPER;
+    } else {
+        return SCISSORS;
+    }
+}
+
+
+
+
+É assim, portanto, que o computador escolhe um valor. É simplesmente uma escolha de número aleatório entre 0 e 1.
+
+Ele não olha oq escolhemos, porque queremos que seja q nem na vida real, em que o nosso adversário nunca sabe oq escolhemos antes de escolher.
+
+Para terminar o processo de escrita do comportamento do computador, armazenamos essa função/constante getComputerChoice
+dentro de uma constante local, que fica
+dentro daquele addEventListener.
+
+
+EX:
+
+
+
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+
+let gameIsRunning = false; //---> a variável em questão.
+
+
+
+const getComputerChoice = function() {
+    const randomValue = Math.random();
+    if(randomValue < 0.34) {
+        return ROCK;
+    } else if (randomValue < 0.67) {
+        return PAPER;
+    } else {
+        return SCISSORS;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toUpperCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+}
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+    const playerSelection = getPlayerChoice();  //aqui está a nova constante.
+    console.log(playerSelection); //console.log do valor retornado dessa mesma constante.
+    const computerChoice = getComputerChoice();
+})
+
+
+
+-------------------------------------------------
+
+
+Agora, portanto, nós temos ambas as escolhas dentro 
+daquele eventListener que começa o jogo por meio do botão do html.
+
+Agora é hora de saber quem venceu.
+
+Para isso, AINDA PRECISAREMOS DE OUTRA FUNÇÃO.  O professor irá nomeá-la "determineWinner", e a definirá dentro de uma constante de mesmo nome.
+
+ex:
+
+const getWinner = function() {
+
+}
+
+
+ 
+Essa FUNÇÃO DEVERÁ ACEITAR ALGUNS ARGUMENTOS. Ela aceitará a escolha do computador (que o professor chamará de "cCHoice") e 
+A ESCOLHA DO USUÁRIO, que o professor nomeará "pChoice".
+
+
+ex:
+
+const getWinner = function(cChoice, pChoice) {
+
+}
+
+
+
+Bem, esses são os parâmetros. Agora, para o function body... precisamos de um if check para ir por todas as diferentes combinações que podemos ter.
+
+
+A primeira combinação que temos é que a escolha do computador É A MESMA DO JOGADOR.
+
+EX:
+
+
+
+const getWinner = function(cChoice, pChoice) {
+
+    if (cChoice === pChoice) {
+        return 'DRAW';
+        
+    }
+
+}
+
+
+
+SEMPRE É MELHOR USAR CONSTANTES COMO REFERÊNCIAS, E NÃO OS VALORES/STRINGS/NÚMEROS HARDCODADOS. ISSO É FEITO 
+PARA EVITAR TYPOS. POR ISSO, DEVEMOS CRIAR UMA NOVA CONSTANTE PARA DRAW.
+
+
+EX:
+
+
+
+const RESULT_DRAW = 'DRAW';
+const RESULT_PLAYER_WINS = 'PLAYER_WINS';
+const RESULT_COMPUTER_WINS = 'COMPUTER_WINS';
+
+const getWinner = function(cChoice, pChoice) {
+
+    if (cChoice === pChoice) {
+        return RESULT_DRAW;
+        
+    } 
+
+    
+
+}
+
+
+
+DEPOIS DISSO, ADICIONAMOS UM ELSE IF, PARA OS CASOS EM QUE NÃO HÁ EMPATE; ESSE ELSE IF SÓ SERÁ EXECUTADO NOS 
+CASOS EM QUE A PRIMEIRA HIPÓTESE NÃO FOR SATISFEITA.
+
+
+
+
+
+EX:
+
+
+
+const RESULT_DRAW = 'DRAW';
+const RESULT_PLAYER_WINS = 'PLAYER_WINS';
+const RESULT_COMPUTER_WINS = 'COMPUTER_WINS';
+
+const getWinner = function(cChoice, pChoice) {
+
+    if (cChoice === pChoice) {
+        return RESULT_DRAW;
+        
+    } else if (cChoice === ROCK && pChoice === PAPER || 
+           cChoice === PAPER && pChoice === SCISSORS || 
+           cChoice === SCISSORS && pChoice === ROCK) {
+         return RESULT_PLAYER_WINS;
+    } else {
+        return RESULT_COMPUTER_WINS;
+    };
+
+    }
+
+
+OBS: usamos "OR" aqui para definir as múltiplas condições de vitória do jogador.
+
+---------------------------------------------
+
+POR FIM, COLOCAMOS TAMBÉM UM "ELSE", QUE SERÁ EXECUTADO NA ULTIMA HIPÓTESE, NA HIPÓTESES DO PLAYER PERDER. Não precisamos 
+estabelecer uma condição para o else, porque tudo que não for aquelas hipóteses definidas acima, será realmente a derrota do jogador. Só 
+restarão as hipóteses de derrota no else block.
+
+
+
+
+ESSA É, PORTANTO, NOSSA FUNÇÃO "getWinner", QUE É A MECÂNICA PRINCIPAL DO JOGO. A LÓGICA ESSENCIAL. Depois de definida 
+essa função bem trabalhadinha, devemos chamá-la lá embaixo, passando como argumentos as constantes "playerSelection"
+e "computerChoice", que ficam dentro da função addEventListener.
+
+
+
+resultado final:
+
+
+
+
+
+
+
+
+
+const ROCK = 'Rock';
+
+const PAPER = 'Paper';
+const SCISSORS = 'Scissors';
+const DEFAULT_USER_CHOICE = ROCK;
+
+let gameIsRunning = false; //---> a variável em questão.
+
+
+
+
+
+
+const RESULT_DRAW = 'DRAW';
+const RESULT_PLAYER_WINS = 'PLAYER_WINS';
+const RESULT_COMPUTER_WINS = 'COMPUTER_WINS';
+
+
+
+
+
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toUpperCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+};
+
+
+
+
+const getComputerChoice = function() {
+    const randomValue = Math.random();
+    if(randomValue < 0.34) {
+        return ROCK;
+    } else if (randomValue < 0.67) {
+        return PAPER;
+    } else {
+        return SCISSORS;
+    }
+}
+
+
+
+
+
+
+
+
+
+const getWinner = function(cChoice, pChoice) {
+
+    if (cChoice === pChoice) {
+        return RESULT_DRAW;
+        
+    } else if (cChoice === ROCK && pChoice === PAPER || 
+           cChoice === PAPER && pChoice === SCISSORS || 
+           cChoice === SCISSORS && pChoice === ROCK) {
+         return RESULT_PLAYER_WINS;
+    } else {
+        return RESULT_COMPUTER_WINS;
+    };
+
+    }
+
+
+
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();  //aqui está a nova constante.
+    console.log(playerChoice); //console.log do valor retornado dessa mesma constante.
+    const computerChoice = getComputerChoice();
+
+    const winner = getWinner(computerChoice, playerChoice);    //AQUI PASSAMOS OS ARGUMENTOS DESSAS CONSTANTES/FUNÇÕES À FUNÇÃO GETWINNER, QUE DETERMINARÁ O VENCEDOR. Registramos o valor desse vencedor dentro da constante "winner".
+    console.log(winner);
+})
+
+
+
+
+ESSA CONSTANTE/CONSTANTE QUE SEGURA A FUNÇÃO QUE DETERMINA O VENCEDOR NOS DARÁ O NOME DO VENCEDOR. O PROFESSOR ENTÃO CONSOLE.LOGGA ESSE RESULTADO POR MEIO DA FUNÇÃO CONSOLE.LOG.
+
+
+É claro que esse não será o output final no nosso projeto, mas deixamos esse console.log ali para ver se tudo realmente está funcionando.
+colocamos um console.log para ver o que o computador joga, também.
+
+
+Agora devemos dar um passo para trás e aprender MAIS SOBRE FUNÇÕES E MAIS SOBRE MANEIRAS DIFERENTES DE CRIÁ-LAS.

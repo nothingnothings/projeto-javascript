@@ -1,0 +1,89 @@
+ESSE É UM MÓDULO 'GROUNDBREAKING'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DAREMOS UMA OLHADA EM 'MÓDULOS JAVASCRIPT'...
+
+
+
+
+
+
+SABER SOBRE MÓDULOS JAVASCRIPT vai, e isso não é exagero,
+
+MUDAR A MANEIRA QUE VOCÊ ESCREVE CÓDIGO JAVASCRIPT/PROJETOS...
+
+
+
+
+
+
+
+
+
+
+É UMA CORE FEATURE, SUPORTADA POR BROWSERS MODERNOS...
+
+
+
+no próximo módulo, 
+
+
+você aprenderá 
+
+
+sobre COMO 
+
+
+
+
+FAZER ESSA FEATURE FUNCIONAR EM 
+
+
+___tODOS OS BROWSERS____.....
+
+
+
+
+
+Professor está falando de uma feature CORE 
+
+que te ajuda a organizar seus scripts
+
+
+
+
+E ESCREVER CÓDIGO 'MULTI-ARQUIVO' (multi-file code)....
+
+
+
+
+NESSE MÓDULO, VOCÊ 
+
+
+APRENDERÁ EXATAMENTE O QUE O PROFESSOR ESTÁ falando...
+
+
+
+
+
+
+
+1) O QUE E PORQUE USAR MÓDULOS?
+
+
+
+
+2) COMO USAR?   --> diferentes exemplos das sintaxes que você pode usar com essa feature...

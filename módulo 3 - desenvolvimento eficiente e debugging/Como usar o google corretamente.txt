@@ -1,0 +1,29 @@
+Bem, digamos que você não lembra o exato nome de algo, mas você ainda quer saber mais sobre ele?
+
+
+
+
+Certo, primeira coisa que você faz é escrever "Javascript"--->
+
+
+
+----> Isso vai afunilar os resultados.
+
+
+
+
+
+-----> Aí você poderia colocar "convert string to number".
+(colocar a coisa que o negócio faz, e não o seu nome.)
+
+
+--->você encontra, então, o parseInt em várias páginas.
+
+
+
+
+
+fórmula = 
+
+
+JAVASCRIPT + TIPO DE PROBLEMA/DESCRIÇÃO DA COISA QUE VOCÊ QUER FAZER. (poucas keywords, sem usar frases inteiras.)

@@ -1,0 +1,66 @@
+
+
+
+
+E QUANTO O NODE-JS? COMO FUNCIONA ESSE SUPORTE NO NODE-JS?
+
+
+
+
+
+
+
+JAVASCRIPT ----> É UMA 'HOSTED LANGUAGE', ela funciona não 
+
+só nos browsers, MAS TAMBÉM EM OUTRAS RUNTIMES, COMO EM 'NODEJS'...
+
+
+
+
+
+
+
+OK, mas como funciona o suporte a funcionalidades no NODEJS?
+
+
+
+
+
+Bem, com nodejs E TODOS OS OUTROS ___AMBIENTES__, O IMPORTANTE É 
+__QUE VOCÊ ___ É QUEM CONTROLA ____qUAL VERSÃO ___ DE JAVASCRIPT 
+VOCê VAI QUERER USAR, OU QUAL VERSÃO DE NODEJS VOCê VAI USAR...
+
+
+('you control which version of JS/NodeJS you use).
+
+
+----> a versão de nodejs que vocÊ escolhe/usa, por sua vez, tem suas próprias features.
+
+
+
+
+
+---> VOCÊ TEM CONTROLE DIRETO SOBRE O AMBIENTE ONDE SEU CÓDIGO IRÁ RODAR...
+
+
+
+E essa é a GRANDE DIFERENÇA EM RELAÇÃO AO JAVASCRIPT 'BROWSERSIDE'/webapplication...
+
+
+
+
+
+
+----> NO NODE.JS, SE ALGUMA FEATURE ESTIVER DISPONÍVEL, __VOCê PODE USÁ-LA IMEDIATAMENTE__. NÃO HÁ PROBLEMAS DE COMPATIBILIDADE.
+
+
+
+
+
+---> NO BROWSERSIDE JAVASCRIPT, Você pode usar essa feature EM UM 'CONTROLLED ENVIRONMENT' ou em um 'uncontrolled environment'......
+
+POR EXISTIREM ESSES 'uncontrolled ENVIRONMENTS', NÓS TEMOS QUE CONSTRUIR APLICATIVOS 
+
+___COM AS FERRAMENTAS SOBRE AS QUAIS APRENDEMOS NESTE MÓDULO___, ferramentas de compatibilidade que 
+
+ASSEGURARÃO QUE SEU CÓDIGO VAI RODAR EM BROWSERS MERDA (para fazer os aplicativos funcionarem em TODOS OS BROWSERS QUE QUEREMOS OBJETIVAR.)

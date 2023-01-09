@@ -1,0 +1,658 @@
+
+
+
+
+
+DEVEMOS VOLTAR AO NOSSO PROJETO.
+
+
+PROFESSOR PREPAROU UM PROJETO BÁSICO
+
+
+
+
+
+DEVEMOS FAZER OS HTML E CSS...
+
+
+
+
+Dessa vez há 2 arquivos html...
+
+
+
+Usaremos o html das 2 listas de projetos, o html antigo.
+
+
+
+
+TAMBÉM TEREMOS 2 ARQUIVOS '.js'.
+
+
+
+app.js e events.js.
+
+
+
+
+Certo.
+
+
+terminamos de editar.
+
+(ainda não ficou bom).
+
+
+Certo. Agora ficou bom.
+
+
+
+
+
+
+TEMOS em 'events.html', essa página nova, UM 
+
+
+
+BOTÃO 'click me' QUE AINDA NÃO FAZ COISA ALGUMA...
+
+
+
+ELE AINDA NÃO TEM EFEITO NA PÁGINA PORQUE NÃO COLOQUEI EVENTLISTENERS NELE....
+
+
+Aprendemos, muitas aulas atrás, que PODEMOS 
+
+
+ADICIONAR EVENTLISTENERS A BOTÕES....
+
+
+
+
+1) selecionar o botão por meio de seletores/ getXbyY.
+
+
+2) conectar ao addEventListener. ('addEventListener', O MÉTODO, EXISTE EM QUALQUER DOM NODE...)
+
+
+3) conectar função qualquer ao EVENTLISTENEr...
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+
+Poderíamos fazer isso agora, MAS ANTES DE FAZERMOS ISSO, 
+
+
+
+
+O PROFESSOR QUER NOS MOSTRAR 
+
+
+
+2 OUTRAS MANEIRAS DE ADICIONAR EVENTOS NO CÓDIGO...
+
+
+
+
+
+
+
+1a MANEIRA ----> é uma maneira BEM VELHA. É velha e você não deve utilizá-la hoje em dia, teoricamente... 
+
+
+---> ainda assim, o professor quer nos mostrar. Devemos ir até o NODE HTML NO CÓDIGO HTML E lá, dentro do node, podemos 
+
+colocar um ATRIBUTO de 'onclick'....
+
+
+
+ex:
+
+
+
+<button onclick>Click me</button>
+
+
+
+----------------------------
+
+
+DETALHE: ESSE NÃO É UM NOME ARBITRÁRIO DEFINIDO PELO PROFESSOR; não, AFINAL EXISTEM 
+
+VÁRIOS ATRIBUTOS 'on' PARA DIFERENTES EVENTOS QUE ESSE ELEMENTO SUPORTA... (podemos ver isso se digitarmos apenas 'on' --> IDE nos mostrará mais opções de ATRIBUTOS 'ON' para diferentes eventos que esse elemento suporta.  )
+
+
+ex: 'onabort', 'onchange' ---> PARA BOTÕES, TEMOS MUITOS DESSES ATRIBUTOS...
+
+
+
+'ondbclick', 'oncontextmenu' (rightclick).
+
+
+
+TEMOS MUITOS DESSES ATRIBUTOS DE EVENTOS...
+
+
+
+
+COMO PROFESSOR ESTÁ INTERESSADO EM 'onclick', ele o adiciona no 'button'.
+
+
+
+
+mas ele não pode ser solto assim. VOcê deve definir UM JAVASCRIPT CODE COMO VALOR 
+
+DESSE 'onclick'... 
+
+ex:
+
+
+'<button onclick="">Click me</button>'
+
+
+
+
+ESSE JAVASCRIPT CODE DEVERÁ SER EXECUTADO QUANDO/SE ESSE EVENTO ACONTECER DURANTE O RUNTIME...
+
+
+
+
+
+
+ex:
+
+
+
+
+<button onclick="alert('You clicked on the button');">Click me</button>
+
+
+
+
+
+
+
+
+E ISSO REALMENTE FUNCIONA, ISSO FARÁ COM QUE UM addEventListener seja adicionado ao elemento 'button', e 
+
+
+esse EVENTLISTENER, no caso, ATIVARÁ A FUNÇÃO 'alert('You clicked on the button') QUANDO O BOTÃO 
+
+FOR CLICADO (graças ao atributo 'onclick'.).
+
+
+
+
+
+
+
+------------------------
+
+
+
+
+
+Professor também aponta/explica que aqui nesse NODE PODERÍAMOS EXECUTAR UMA FUNÇÃO QUE 
+
+ESTIVESSE DEFINIDA NO ARQUIVO .JS, SE QUISÉSSEMOS....
+
+
+
+Ou seja, podemos tanto 
+
+
+1) usar INLINE JAVASCRIPT CODE (como fizemos neste exemplo).
+
+
+
+2) REFERENCIAR ALGUMA FUNÇÃO QUE TEMOS NO ARQUIVO .js...
+
+
+-----------------------------------
+
+
+
+
+
+
+ESSE APPROACH É IMPRESTÁVEL. QUASE NINGUÉM USA.
+
+
+
+-----------> ELE FAZ COM QUE A MANUTENÇÃO DO SEU PROJETO SEJA MUITO DIFÍCIL...
+
+
+É COMPLETAMENTE __INESPERADO__ QUE DO NADA ENCONTREMOS CÓDIGO JAVACRIPT NO MEIO 
+
+DE CÓDIGO HTML, ESPECIALMENTE quando TEMOS 
+
+VÁRIOS ARQUIVOS JAVASCRIPT NO MESMO PROJETO...
+
+
+Colocar códigos javascript INLINe FAZ COM QUE A EDIÇÃO DO SEU PROJETO SEJA 
+
+UM PESADELO, ESPECIALMENTE EM PROJETOS MAIS LONGOS/COMPLICADOS.
+
+------------------------------------
+
+REsumo: Não misture attributos HTML e código javascript ---> É UMA PRÁTICA MUITO RUIM.
+
+
+
+
+--------------------------------
+
+
+
+
+DEVEMOS REGISTAR EVENTOS, PORTANTO, NO NOSSO ARQUIVO JAVASCRIPT; ESSA OPÇÃO É MUITO MELHOR 
+
+DO QUE ESCREVÊ-LOS DENTRO DO HTML...
+
+
+
+
+--------------------------
+
+
+Abrimos o events.js e começamos nosso trabalho com a 
+
+
+SELEÇÃO DO BOTÃO...
+
+
+usamos 
+
+
+
+ex:
+
+
+
+const button = document.querySelector('button'); 
+
+
+
+
+-------------------------
+
+
+
+Obtido esse acesso ao botão, 
+
+
+simplesmente adicionamos um addEventListener a ele.... OU NÃO.
+
+NÃO UTILIZAREMOS 'addEventListener' NESSE EXEMPLO (mas deveríamos usar, diz o professor; apenas não o utilizaremos porque ele quer nos mostrar outra forma de adicionar eventos no código...)
+
+
+
+ex:
+
+
+const button = document.querySelector('button'); 
+
+---------------------------------------------
+
+
+EM VEZ de usar o addEventListener, O PROFESSOR OPTA POR UMA SOLUÇÃO 
+
+
+QUE ASSEMELHA-SE COM AQUILO QUE ELE FEZ HÁ POUCO, AQUELE NEGÓCIO DE ENFIAR ATRIBUTOS NOS DOM NODES 
+
+NO HTML...
+
+
+
+Nós vamos enfiar atributos nos dom nodes, MAS DESSA VEZ UTILIZAREMOS O JAVASCRIPT PARA ISSO..
+
+
+
+O professor diz que devemos DEFINIR UM VALOR PARA A PROPRIEDADE 
+
+'onclick' de button.....
+
+
+
+
+ex (representação):
+
+
+
+
+const button = document.querySelector('button'); 
+
+
+
+button.onclick = ....;
+
+
+
+---------------------------------------
+
+
+
+OU SEJA, AQUELE ATRIBUTO 'onclick' POSSUI UMA CONTRAPARTE, uma 'versão' PROPERTY (que é igual a ele, basicamente).
+
+
+O VALOR ATRIBUÍDO À ESSA PROPRIEDADE 'onclick' É A FUNÇÃO/MÉTODO QUE SERÁ EXECUTADA 
+
+ASSIM QUE O EVENTO '''click''' (onclick) ACONTECER...
+
+
+
+ex:
+
+
+button.onclick = alert('this is a message');
+
+
+---------------------------------------
+
+
+
+
+
+DETALHE: esse valor de 'onclick' (ou qualquer outro evento ou coisa similar a ele) 
+
+DEVE SER SEMPRE 
+
+UMA FUNÇÃO... pode até ser uma anonymous function.... (arrow functions TAMBÉM FUNCIONAM)
+
+
+pode ser uma função nomeada, também.
+
+
+
+
+AÍ, ESSA FUNÇÃO SERÁ EXECUTADA ASSIM QUE O EVENTO ACONTECER.
+
+
+SERÁ EXECUTADA TANTO COMO ANONYMOUS FUNCTION como função normal (também com a shorthand, se vocÊ quiser).
+
+
+
+
+
+PROFESSOR OPTA AQUI PELA ARROW FUNCTION, POR PREFERÊNCIA....
+
+
+
+Professor decide criar uma const chamada de 
+
+
+'onButtonClick'/'buttonClickHandler' ----------> PROFESSOR AFIRMA QUE 
+
+AMBOS OS NOMES SÃO MUITO UTILIZADOS PARA NOMEAR FUNÇÕES QUE SÃO ATIVADAS POR MEIO DE EVENTOS....
+
+
+
+
+
+
+ex:
+
+
+
+const button = document.querySelector('button');
+
+
+
+const buttonClickHandler = ....;
+
+
+
+--------
+
+ELE ENTÃO VAI LÁ 
+
+E DEFINE QUE A FUNÇÃO QUE SERÁ ATIVADA 
+
+
+POR 
+
+'buttonClickHandler' SERÁ 
+
+alert('Button was clicked...');
+
+
+
+
+ex:
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+
+const buttonClickHandler = () => {
+    alert('Button was clicked');
+}
+
+
+
+------------------------
+
+
+
+Feito isso, o professor vai até 
+
+'Button' e define sua  ''''PROPRIEDADE''''  'onclick' COMO TENDO O VALOR DE ('segurando')
+
+'buttonClickHandler' (portanto, essa é uma alternativa à definição de um EVENTLISTENER... Tem o mesmo efeito, basicamente.)
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+
+const buttonClickHandler = () => {
+    alert('Button was clicked');
+}
+
+
+
+
+button.onclick = buttonClickHandler;
+
+
+
+
+-------------------------
+
+
+
+
+OBS: a definição do valor, ali, é sempre feita com 'buttonClickHandler', E NUNCA COM 'buttonClickHandler();' (NÃO DEVEMOS ADICIONAR OS PARÊNTESES DE FUNÇÕES/MÉTODOS APÓS O CHAMADO DO HANDLER, porque isso fará COM QUE AS FUNÇÕES/MÉTODOS SEJAM EXECUTADAS IMEDIATAMENTE AO CARREGAR A PÁGINA, ou seja, as funções/métodos não serão executadas quando o evento 'click' no button ocorrer, porque acionarão IMEDIATAMENTE quando o site for carregado...)
+
+
+------------------------
+
+
+
+
+PROFESSOR APONTA QUE ESSA OPÇÃO É MELHOR DO QUE USAR O PRIMEIRO APPROACH, porque 
+
+
+COM ELE NÓS AO MENOS ESTAMOS AGRUPANDO TODO CÓDIGO JAVASCRIPT EM UM TODO, integral.
+
+
+
+Ele explica que essa sintaxe/approach é legal de usar EM PROJETOS MENORES, MAS 
+
+
+POSSUI UMA GRANDE DESVANTAGEM...
+
+
+
+A ____DESVANTAGEM____ É QUE NÓS PODEMOS 
+
+
+ADICIONA __aPENAS___ 1 ÚNICO HANDLER PARA ESSE TIPO DE EVENTO que está vinculado ao elemento...
+
+
+
+Se você, então, por exemplo, quer rodar 2 DIFERENTES FUNÇÕES A PARTIR DE UM MESMO CLIQUe, SÓ PODEMOS 
+
+
+RODAR 1 'HANDLER' EM UM EVENTO QUE ESTEJA DEFINIDO 
+
+COMO 'xxxx.onclick', 'xxxx.ondbclick', etc etc.
+
+
+
+ex:
+
+
+
+button.onclick = buttonClickHandler;
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+
+SE VOCÊ, POR EXEMPLO, QUER RODAR 2 DIFERENTES FUNÇÕES PARA UM MESMO EVENTO (como um 'click'), 
+
+
+ex (de duas funções em 1 mesmo evento...):
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+
+const buttonClickHandler = () => {
+    alert('Button was clicked');
+}
+
+
+
+const anotherButtonClickHandler = () => {
+    console.log('this was clicked.');
+}
+
+
+button.onclick = buttonClickHandler;        ////CÓDIGOS NÃO FUNCIONARÃO
+button.onclick = anotherButtonClickHandler; ///CÓDIGOS NÃO FUNCIONARÃO
+
+---------------------------------------
+
+
+, VOCê NÃO PODERÁ USAR esse modelo 'onclick', você será obrigado a usar o addEventListener....
+
+
+
+
+este código:
+
+
+
+'button.onclick = buttonClickHandler;
+button.onclick = anotherButtonClickHandler',
+
+PORTANTO, 
+
+
+NÃO FUNCIONARÁ!!! ---------> Podemos até escrever esse código terrível, mas as coisas não funcionarão direito:
+
+                                A primeira função nunca rodará, apenas a última será considerada/lida.
+
+
+
+
+----------------------------------------------------------
+
+
+
+A razão para esse comportamento é simplesmente que o javascript FAZ OVERWRITE do primeiro comando PELO ÚLTIMO ('button.onclick = anotherButtonClickHandler')...
+
+
+Ou seja, o primeiro código NÃO É APPENDEADO, COPIADO, ANEXADO NEM NADA, simplesmente é IGNORADO.
+
+
+
+
+
+
+UM workaround, diz o professor, seria CRIAR UMA TERCEIRA FUNÇÃO,
+
+UMA TERCEIRA FUNÇÃO QUE CHAMASSE ESSAS 2 FUNÇÕES... (buttonClickHandler e anotherButtonClickHandler), MAS 
+
+ISSO RAPIDAMENTE TORNARIA-SE INCÔMODO E ATRAPALHADO, porque NÓS DEIXARÍAMOS DE TER 
+
+'FINE GRAINED CONTROL' (controle específico, detalhista) SOBRE QUANDO VOCê QUER USAR 
+
+CADA UM DOS HANDLERS... (ex: talvez você queira REMOVER UM DOS HANDLERS no futuro, aí vocÊ não poderia
+
+fazer isso de forma fácil.) ----------> tudo isso é bem tricky.
+
+
+
+É POR ISSO QUE ESSE APPROACH NÃO É RECOMENDADO, apesar de realmente existir a opção.
+
+
+-------------------------------------------------------------------
+
+
+
+
+EM VEZ DISSO, É BEM MAIS RECOMENDADO QUE VOCÊ USE addEventListener, como utilizamos ao longo do curso, 
+
+PORQUE ISSO TE PERMITE ADICIONAR 
+
+____MÚLTIPLOS EVENTLISTENERS____ A UM MESMO ELEMENTO.... 
+
+
+
+
+E, ALÉM DISSO, VOCÊ TAMBÉM TEM UM método 'removeEventListener()', QUE É MUITO ÚTIL.
+
+
+ELE REMOVE QUAISQUER EVENTLISTENERS -------> ISSO É MUITO BOM EM APPS MAIS COMPLEXOS, em que 
+
+você tem certos cenários em que, em certas circunstâncias, você VAI QUERER 
+
+REMOVER UM LISTENER DE UM ELEMENTO, para então querer READICIONÁ-LO em um momento futuro...
+
+isso é super fácil de se fazer com ADDEVENTLISTENER E REMOVEEVENTLISTENER.
+
+
+
+
+
+-----------------------------------------------
+
+
+
+

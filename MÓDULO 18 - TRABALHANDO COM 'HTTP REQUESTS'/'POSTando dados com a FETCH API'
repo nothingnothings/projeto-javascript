@@ -1,0 +1,407 @@
+
+
+
+
+
+PARA SERMOS CAPAZES DE CRIAR UM POST, PRECISAMOS 
+
+ ASSEGURAR QUE A FUNÇÃO 
+
+
+
+'async function createPost(title, content) {
+    ...
+}'
+
+
+
+SEJA BEM SUCEDIDA.....
+
+
+
+
+ESSA FUNÇÃO é:
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+ 
+}
+
+
+
+-----------------------------
+
+
+
+
+PARA ISSO, DEVEMOS CERTIFICAR QUE NÓS USEMOS o 'http method' NO 'FETCH API', 
+
+e também que usemos a DATA, o body que deve ser 'APPENDED' ao 'outgoing request'....
+
+
+
+
+Até o presente momento, nós sempre enviamos/enviávamos um 'fetch request' A uma url, 
+
+ por isso nós 
+
+ deixamos um get request simples na nossa função 'sendHttpRequest'...
+
+
+ ENTRETANTO, AGORA PRECISAMOS ___MUDAR ESSE CÓDIGO___ PARA ACEITAR/ENVIAR DIFERENTES 
+
+ TIPOS DE http requests....
+
+
+
+
+
+ ASSIM como 'XMLHttpRequest', podemos 
+
+ CONFIGURAR O OUTGOING request da 'fetch api'...
+
+
+
+
+
+
+
+ CONTUDO, CONTRARIAMENTE AO 'XMLHttpRequest', 
+
+
+ VOCê NÃO PASSA O  'request method' DIRETAMENTE COMO ARGUMENTO
+
+
+À função 'fetch'... em vez disso, vocÊ 
+
+
+passa UM SEGUNDO PARÂMETRO, um segundo argumento à 'fetch', 
+
+
+QUE DEVERÁ 
+
+
+SER ___UM OBJETO____ , ___UM OBJETO____ ONDE VOCÊ CONFIGURARÁ 
+
+O OUTGOING REQUEST...
+
+
+
+ex:
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+ 
+}
+
+
+
+
+  function sendHttpRequest(method, url, data) {
+
+  
+
+
+
+    return fetch(url, {}).then(response => {  ////////EIS O CÓDIGO EM QUESTÃO.
+      return response.json();
+    })
+
+
+
+
+  }
+
+
+
+----------------------------------------------
+
+
+DENTRO DESSE OBJETO HÁ UMAS CERTAS KEYS QUE VOCê PODE DEFINIR...
+
+VOcê pode vê-las por MEIO DO ___IDE___...
+
+
+COMO VOCÊ PODE VER, muitas delas SÃO BEM 'niche' e raramente utilizadas,
+
+
+MAS 'method' É uma DAS MAIS IMPORTANTES...
+
+
+'method' DEVE SEMPRE ESR DEFINIDO à UMA STRING...
+
+
+
+ex:
+
+
+
+
+return fetch(url, {
+  method: 'string';
+})
+
+
+
+------------------------------------
+
+
+
+POR DEFAULT, SEMPRE 'method' ESTARÁ ASSIGNADO 
+
+À string 'GET'....
+
+
+isso signfica que você nunca 
+
+
+precisa escrever esse seguinte código, pois ele é o default:
+
+ex:
+
+
+
+
+return fetch(url, {
+  method: 'GET';
+})
+
+
+
+---------------------------------------
+
+
+
+ENTRETANTO, SE VOCÊ QUER OS OUTROS TIPOS DE 'http requests/methods', quer que esses outros tipos de request sejam enviados,
+
+VOCÊ DEVE ESCREVÊ-LOS ALI...
+
+
+ex:
+
+
+
+post,
+
+
+delete, 
+
+
+patch, 
+
+
+put, 
+
+etc etc.
+
+
+
+
+
+
+ex:
+
+
+return fetch(url, {
+  method: 'POST'
+})
+
+
+
+-------------------------------
+
+
+ALÉM DISSO, VOCÊ PODE TAMBÉM APONTAR esse 'valor' (esse slot do valor DESSE KEY-VALUE pair de 'method: string')
+
+PARA UMA VARIÁVEL/CONSTANTE, OU SEJA, USAR VALORES REFERENCIAIS....
+
+
+Aqui o professor usará aquele parâmetro 'method' DEFINIDO no 'sendHttpRequest' (definimos isso há bastantes aulas).
+
+
+
+
+ex:
+
+
+
+
+return fetch(url, {
+  method: method;
+})
+
+
+
+----------------------------------
+
+
+
+
+AGORA SEMPRE QUE CHAMARMOS 'sendHttpRequest' E ENTÃO PASSARMOS 
+
+um 'method' (POST, DELETE, PATCH, PUT, ETC ETC),
+ 
+
+essa string que dirá o method SERÁ INSERIDA NESSE METHOD que está 
+
+aqui na FETCH Api...
+
+
+
+
+
+
+CERTO.
+
+ISSO SETTARÁ o 'método'....
+
+
+
+
+MAS VOCê TAMBÉM PODE SETTAR o 
+
+'body', E 
+
+esse body TEM QUE SER DEFINIDO À 'json DATA'...
+
+VOCÊ TEM QUE DEFINIR SEU VALOR COMO SENDO 'DADOS JSON'...
+
+
+(OBS::: MAS ISSO É SOMENTE NESSA API! EM GERAL, VOCê PODE ENVIAR DIFERENTES TIPOS DE DADOS 
+      POR MEIO DE HTTPREQUESTS, COMO dados binários, JSON, form data, etc etc...)
+
+
+      (OBS: FOR THIS API! IN GENERAL, YOU CAN SEND DIFFERENT KINDS OF DATA...)
+
+
+
+
+
+
+ISSO SIGNIFICA QUE você 
+
+
+não pode referenciar o parâmetro 'data' que temos em 'sendHttpRequest' de forma 
+
+'nua e crua' como temos em:
+
+
+------------------------------
+
+
+return fetch(url, {
+  method: method, 
+  body: data
+})...
+
+---------------------------------
+
+
+
+
+E SIM REFERENCIAR com uma ___CONVERSÃO____ DESSES 
+
+DADOS JAVASCRIPT___ EM 'JSON DATA'...
+
+
+
+E como fazemos isso? Como convertemos nossos dados javascript de dentro 
+do nosso código em 
+
+DADOS 'JSON'?
+
+
+
+Simples, com 
+
+
+aquele objeto 'JSON' e seu método 'stringify' (pq no final das contas dados json SÃO SEMPRE ___STRINGS____).
+
+
+chamamos esse método de JSON e passamos 'data', o parâmetro de 'sendhttpRequest', como parâmetro.
+
+
+
+
+
+ex:
+
+
+
+return fetch(url, {
+  method: method,
+  body: JSON.stringify(data) /////////EIS O CÓDIGO EM QUESTÃO.
+})
+
+
+
+-----------------------------------------------
+
+
+
+
+
+SE NÓS FIZERMOS ISSO, SALVARMOS E RECARREGARMOS O CÓDIGO, 
+
+
+veremos na aba network que...
+
+
+
+OS POSTS que podemos escerver na nossa página REALMENTE ESTÃO SENDO ENVIADOS ao 'API'...
+
+
+Eles apenas não ESTÃO APARECENDO na nossa página/SENDO TRANSMITIDOS ao servidor 
+
+PQ O SERVIDOR É UM 'FAKE API'...
+
+
+
+
+OU SEJA, O REQUEST REALMENTE FOI ENVIADO, TUDO COM A AJUDA DO 'FETCH API'...
+
+
+
+
+
+POdemos testar se a função/request 'DELETE' também está funcionando....
+
+
+clicamos em 'delete' e PERCEBEMOS QUE O NEGÓCIO ESTÁ FUNCIONANDO...
+
+
+
+
+
+AGORA, ANTES DE EXAMINARMOS 
+
+__________COMO FAZER O HANDLING DE ERROS___ com essa 'fetch API', devemos 
+
+VER ____COMO PODEMOS ____ ADICIONAR HEADERS____ a HTTP REQUESTS...
+
+
+
+adicionar headers NÃO SÓ COM A 'FETCH API', mas também 
+
+com o OBJETO 
+
+'XMLHttpRequest'...

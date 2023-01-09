@@ -1,0 +1,699 @@
+
+
+
+
+AGORA, PORTANTO, temos o setup básico de webpack....
+
+
+
+Somos capazes de CRIAR NOSSO OUTPUT....
+
+
+
+
+O que nós NÃO TEMOS, entretanto, é aquele DEVELOPMENT SERVER, aquele server que nos permitiria/permite 
+
+
+ver os resultados de alterações no nosso código SEM 
+
+PRECISAR RECARREGAR A PÁGINA da internet...
+
+
+
+
+
+
+-----> para isso, precisamos instalar OUTRA PACKAGE por meio do npm...
+
+
+
+digitamos 
+
+
+'npm install --save-dev webpack-dev-server'
+
+
+
+no terminal do VISUAL STUDIO CODE.
+
+
+
+------------------------------------------
+
+
+
+ISSO VAI INSTALAR ESSE NEGÓCIO LOCALMENTE, COMO UMA 'DEVELOPMENT DEPENDENCY' desse projeto.
+
+
+
+
+
+Podemos usar esse webserver PARA SERVIR nosso aplicativo...
+
+
+
+
+Para fazer esse webserver funcionar, devemos ir 
+
+até 
+
+
+o webpack.config.js 
+
+
+
+E ENTÃO ADICIONAR um keyname 
+
+
+de 
+
+
+'devServer', logo abaixo dos outros...
+
+
+
+'devServer' PODE SER UM OBJETO (você cria um {}) 
+
+EM QUE VOCÊ 
+
+
+
+DEFINE uma key de 'contentBase'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+module.exports = {
+    mode: 'development',
+    entry: './src/app.js',
+    output: {
+        filename: 'app.js',
+        path: path.resolve(__dirname, 'assets', 'scripts'),
+        publicPath: 'assets/scripts'
+    },
+    devServer: { /////////eis o código em questão.
+        contentBase: 
+    }
+};
+
+
+----------------------------------------
+
+
+
+o 'contentBase' diz ao root server EM QUE LUGAR 
+
+
+SEU arquivo 'ROOT HTML' PODE SER ENCONTRAdo...
+
+
+
+Para usar efetivamente o webpack dev server, 
+
+
+nós devemos 
+
+
+IR ATÉ 
+
+
+'package.json' 
+
+
+
+E TWEAKAR O NOSSO SCRIPT...
+
+
+
+Nós já temos o script 
+
+
+
+'build' 
+
+no 
+
+
+package.json....
+
+
+
+
+AGORA PRECISAMOS ADICIONAR UM 
+
+
+
+outro comando...
+
+chamaremos ele 
+
+
+de 
+
+"build:dev"...
+
+
+aí nós rodaremos "webpack-dev-server".
+
+
+
+
+
+DE NOVO, ISSO USARÁ O 
+
+WEBPACK.config.js 
+
+
+em consideração para executar o servidor com aquele html......
+
+
+
+ELE VAI FAZER TODAS AS COISAS DO WEBPACK, MAS TAMBÉM RODARÁ UM devServer 
+
+
+QUE ESTARÁ VINCULADO AO NOSSO OUTPUT...
+
+
+ex:
+
+
+{
+  "name": "learn-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js",
+    "build:dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "serve": "^11.3.2",
+    "webpack": "^5.21.2"
+  }
+}
+
+
+
+-------------------------------
+
+
+
+
+
+Certo. Agora precisamos resolver esse problema do CÓDIGO DE 
+
+
+
+'webpack-dev-server'... (que deve ser semelhante ao problema do 'node_modules/.bin/webpack-dev-server')...
+
+
+
+
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+First of all, you have installed webpack, webpack-cli and webpack-dev-server the wrong way. You made them dependencies and not devDependencies. To change that, uninstall them:
+
+npm uninstall webpack webpack-cli webpack-dev-server
+and then install them properly:
+
+npm install webpack webpack-cli webpack-dev-server --save-dev
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+ENCONTREI A SOLUÇÃO:
+
+
+
+ELA É BIZARRA, ENCONTREI EM UM FÓRUM DA INTERNET.... 
+
+
+
+Aparentemente, o webpack-cli versão 4.0 NÃO SUPORTA DE FORMA 
+
+'NORMAL' o 'webpack-dev-server'... 
+
+
+
+
+
+PARA RODAR O DEV SERVER NESSA VERSÃO DO 'webpack-cli', VOCê 
+
+
+DEVE USAR O SEGUINTE CÓDIGO:
+
+
+
+'webpack serve'
+
+
+
+
+NO TERMINAL...
+
+
+
+link do fórum:
+
+
+
+https://github.com/webpack/webpack-dev-server/issues/2759
+
+
+
+'''''''''''''''''''''
+
+Yes webpack-cli v4 comes with out of box support of @webpack-cli/serve which means you can use webpack serve to invoke the webpack-dev-server.
+
+
+'''''''''''''''''''''''''''
+
+
+
+
+
+
+
+CERTO.
+
+
+
+AGORA O DEV SERVER ESTÁ 
+
+
+_________FUNCIONANDO______.
+
+
+
+
+
+
+
+
+output no console:
+
+
+
+
+
+
+
+
+
+PS C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2> webpack serve
+i ｢wds｣: Project is running at http://localhost:8080/
+i ｢wds｣: webpack output is served from /
+i ｢wds｣: Content not from webpack is served from ./
+i ｢wdm｣: asset app.js 371 KiB [emitted] (name: main)
+asset src_App_Tooltip_js.app.js 5.29 KiB [emitted]
+runtime modules 6.84 KiB 10 modules
+modules by path ./node_modules/ 335 KiB
+  modules by path ./node_modules/webpack-dev-server/ 21.2 KiB 12 modules
+  modules by path ./node_modules/html-entities/lib/*.js 61 KiB 5 modules
+  modules by path ./node_modules/webpack/hot/ 1.58 KiB 3 modules
+  modules by path ./node_modules/url/ 37.4 KiB 3 modules
+  modules by path ./node_modules/querystring/*.js 4.51 KiB 3 modules
+modules by path ./src/ 14.8 KiB
+  modules by path ./src/App/*.js 10.7 KiB
+    ./src/App/ProjectList.js 3.92 KiB [built] [code generated]
+    ./src/App/ProjectItem.js 2.56 KiB [built] [code generated]
+    ./src/App/Tooltip.js 2.61 KiB [built] [code generated]
+    ./src/App/Component.js 1.59 KiB [built] [code generated]
+  ./src/app.js 3.57 KiB [built] [code generated]
+  ./src/Utility/DOMHelper.js 576 bytes [built] [code generated]
+webpack 5.21.2 compiled successfully in 459 ms
+i ｢wdm｣: Compiled successfully.
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+CERTO, O NEGÓCIO ESTÁ FUNCIONANDO...
+
+
+
+
+ESSE PROCESSO __TAMBÉM__ vai compilar/executar nossa build, 
+
+
+MAS AGORA ESSE PROCESSO DE 'dev server' TAMBÉM SERÁ EXECUTADO JUNTO DO OUTRO...
+
+
+
+Isso significa que esse processo 'dev server' FICARÁ RODANDO NO BACKGROUND...
+
+
+para ver nossa página SEM ACESSAR O DATABASE, 
+
+
+você deve primeiro navegar até 
+
+a pasta 
+
+
+
+'dist'
+
+
+PARA ENTÃO CHAMAR 
+
+
+
+'webpack serve' no 
+
+CONSOLE....
+
+
+
+
+CERTO, MAS MAIS ERROS BROTARAM...
+
+
+
+
+
+Erros de ''não conseguir resolver .src'', ou whatever...
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+CONSEGUI RESOLVER!!!!
+
+
+
+ERA OUTRO PROBLEMA DE CONFIGURAÇÃO DE DIRETÓRIOS....
+
+
+
+Eu consigo fazer com que o 'webpack-dev-server' 
+
+ACESSE O MEU ARQUIVO HTML 
+
+
+por meio da definição do 'folder padrão' em que 
+ele busca...
+
+
+Isso fica naquele lugar 
+
+que nós já vimos antes, 
+
+
+no objeto config 
+
+
+de 
+
+
+'webpack.config.js'...
+
+
+
+
+É EM 
+
+
+'devServer: {
+  contentBase: '...';
+}
+
+------------------------------------
+
+
+
+ANTES, ISSO ESTAVA COMO O DEFAULT, 
+
+
+seu valor estava 
+
+como 
+
+
+'./'   (QUE SIGNIFICA "mesmo folder em que o arquivo 'webpack.config.js' está....).
+
+
+
+
+
+EU ALTEREI ISSO PARA 
+
+
+O FOLDER 'dist', QUE É ONDE NOSSO ARQUIVO HTML ESTÁ, efetivamente.
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* eslint-disable quote-props */
+const path = require('path');
+
+
+
+
+module.exports = {
+
+
+    devServer: {
+        contentBase: './dist' /////
+    
+    },
+    devtool: false,
+
+    entry: './src/app.js',
+    
+    mode: 'development',
+   
+
+    node: {
+        
+    },
+    output: {
+        filename: 'app.js', 
+        path: path.resolve(__dirname, 'dist')
+        //, publicPath: 'assets/scripts'
+  
+    },
+    resolve: {
+        extensions: ['.js']
+    }
+    
+
+  
+
+  
+};
+
+
+
+
+---------------------------------------------------
+
+
+
+
+
+
+CERTO.
+
+
+
+
+
+PROFESSOR DIZ QUE 
+
+
+
+ESSE DEV SERVER É MUITO ÚTIL, E QUE DEVEMOS USÁ-LO.
+
+
+
+
+Devemos sempre deixá-lo rodando no fundo...
+
+
+
+
+Quando não quisermos mais que ele fique rodando, simplesmente apertamos 'control + C'...
+
+
+
+
+
+Aí podemos RE-EXECUTÁ-LO por meio 
+
+de 
+
+
+
+
+
+'webpack serve'.....
+
+
+
+---------------------------
+
+
+
+
+
+Enquanto esse dev server estiver rodando, ele vasculhará as mudanças 
+
+NO SEU CÓDIGO/arquivos do seu código E ENTÃO AS APLICARÁ AUTOMATICAMENTE A SUA PÁGINA...
+
+
+
+O endereço da página sempre 
+
+
+será 
+
+
+
+'http://localhost:8080/'....
+
+
+
+
+
+vocÊ verá que há um negócio 
+
+
+
+'info?t=15693120' ou algo assim...
+
+
+
+
+
+PROFESSOR QUER, AGORA, NOS MOSTRAR ESSA FUNCIONALIDADE DO
+
+'live-save'...
+
+
+
+ele vai até 
+
+
+o 
+
+código de projectList 
+
+
+e então 
+
+BOTA NO CÓDIGO UM CONSOLE.LOG de 'globalThis', em connectDroppable()...
+
+
+
+
+
+
+
+CONFORME NÓS COLOCAMOS/TIRAMOS, A MUDANÇA É REFLETIDA 
+
+NA PÁGINA __EM TEMPO REAL___.
+
+--------------------------------------
+
+
+
+ele faz "watch" nas mudanças em seu código...
+
+
+
+
+AÍ ele rebuilda tudo sempre que você altera alguma coisa no seu código......
+
+
+
+
+
+---------------------------
+
+
+
+"[WDS] Live Reloading enabled"
+
+
+
+
+
+
+
+
+AGORA, PORTANTO, NÃO PRECISAMOS 
+
+MAIS DE 
+
+
+'SERVE'; agora nós temos esse 
+
+
+'webpack-dev-server', o qual automaticamente 
+
+
+RECONSTRÓI NOSSO SERVER SEMPRE QUE NÓS ALTERAMOS ALGUMA COISA NELE.

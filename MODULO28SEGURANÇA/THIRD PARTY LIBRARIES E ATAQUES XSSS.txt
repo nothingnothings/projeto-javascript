@@ -1,0 +1,406 @@
+
+
+
+
+Professor falou bastante sobre xss, mas esse é um padrão de ataque importante...
+
+
+
+
+
+
+
+Há também outro método de ATAQUE XSS que é importante E QUE 
+
+VOCÊ DEVE TER EM MENTE....
+
+
+
+
+
+
+Digamos que você consertou __TODOS __ OS buracos__ DE SEGURANÇA NO ESU CÓDIGO...
+
+
+
+
+Tanto porque você decidiu usar 
+
+
+
+'textContent' em vez de 'innerHTML', 
+
+
+
+ou então TALVEZ VOCÊ, EM LUGARES EM QUE 
+
+É NECESSÁRIO RENDERIZAR CÓDIGO HTML por meio da ação do usuário, 
+
+USOU 'SANITIZE-HTML' ou algo do gênero (há alternativas)....
+
+
+
+
+
+
+
+-----> AINDA ASSIM, MESMO COM TUDO ISSO FEITO, VOCÊ AINDA PODERÁ ESTAR VULNERÁVEL 
+
+
+A 'CROSS SITE SCRIPTING ATTACKS'... --------->
+
+
+
+
+Ué, mas de onde eles poderão vir? 
+
+
+
+Como alguém poderá conseguir ENFIAR CÓDIGO JAVASCRIPT NA MINHA PÁGINA,
+
+CÓDIGO QUE SERÁ EXECUTADO QUANDO OS USUÁRIOS FUTUROS VISITAREM MINHA PÁGINA..?
+
+
+
+
+
+Certo...
+
+
+Consertamos o buraco NÚMERO 1,
+
+
+aquele buraco 
+
+
+de 
+
+
+'OUTPUT USER GENERATED CONTENT' ----> ESSE É O PRIMEIRO FURO.
+
+
+
+
+
+
+
+
+BEM, MAS E QUANTO A THIRD PARTY PACKAGES NO NOSSO PROJETO????
+
+
+Como fazemos para evitar QUE ___ELAS__ lancem xss attacks???? 
+
+
+
+
+
+---> Por exemplo, nesse projeto dos mapas, o professor instalou uma SDK
+ 
+
+ do __GOOGLE__, a google maps SDK.... o que essa SDK faz é o download DE 
+
+ ______UM SCRIPT __________ ESCRITO POR UMA EQUIPE NO GOOGLE....
+
+ (é o script 
+ 
+ na nossa html, 
+ 
+ aquele 
+ 
+ 
+ 'script src="https://maps.googleapis.com/maps/api.....")..
+
+
+
+
+
+
+ ISSO SIGNIFICA QUE ESSE SCRIPT É SEMPRE BAIXADO PELOS USUÁRIOS DO NOSSO SITE...
+
+ É BAIXADO E EXECUTADO NAS MÁQUINAS DOS MEUS USUÁRIOS...
+
+
+
+
+
+
+ ----> QUALQUER THIRD PARTY JAVASCRIPT PACKAGE que vocÊ adiciona ao seu projeto 
+
+
+ ________EXECUTA____ CÓDIGO___ quando seu aplicativo é executado...
+
+
+
+
+ --------> elas executam código PQ ELAS __UTILIZAM O CÓDIGO__ DAQUELE PACKAGE (e a javascript 
+ engine do browser, também....)
+
+
+
+
+ ----> no caso do 'google maps', nós utilizamos 
+
+
+ o código do google naquele arquivo/documento 
+
+ 'Map.js'....
+
+
+
+ (naquelas linhas de código 
+ 
+ 'const map = new google.maps.Map(document.getElementById('map'), {
+     center: coordinates,
+     zoom: 16
+ });')
+
+
+
+
+
+
+
+ DE ONDE VOCÊ ACHA QUE ESSE 
+
+
+
+
+ 'google.maps.Map()' está vindo...?
+
+
+
+
+ É ÓBVIO QUE ELE É EXTRAÍDO/UTILIZADO DAQUELE SDK JAVASCRIPT DO GOOGLE MAPS... daquele 'google maps API'....
+
+
+
+
+ISSO SIGNIFICA QUE ESSA CLASSE/CONSTRUCTOR É __BASEADO__ NO CÓDIGO JAVASCRIPT QUE NÓS IMPORTAMOS 
+DOS SERVIDORES DO GOOGLE...
+
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE NÓS ___CONFIAMOS___ QUE O CÓDIGO DO GOOGLE É SEGURO, PQ SE N FOSSE,
+
+COMO ISSO RODA NAS MÁQUINAS DOS NOSSOS USUÁRIOS, essa API seria capaz DE RODAR CÓDIGO MALICIOSO 
+NESSAS MÁQUINAS...
+
+
+
+
+
+
+RESUMINDO: QUANDO VOCê ADICIONA THIRD PARTY LIBRARIES NO SEU CÓDIGO, 
+
+VOCê TEM QUE TER CERTEZA DE QUE ELAS SÃO TPLs CONFIÁVEIS....
+
+
+
+
+
+
+
+----> GOOGLE ---> BEM CONFIÁVEL.
+
+
+
+
+
+
+
+
+--------> MAS VOCê TAMBÉM TEM QUE TER CERTEZA QUE ESSAS COMPANHIAS/library authors 
+
+SE PROTEGEM CONTRA ATAQUES ('against being compromised'...).
+
+
+
+
+
+---> VOCê TALVEZ CONFIE NO GOOGLE... MAS SE ALGUÉM CONSEGUE ACESSO A ESSE CÓDIGO ('maps.googleapis.com')
+
+
+
+
+NOS SERVIDORES DELES (o que pode parecer IMPROVÁVEL) ---> mas isso PODE acontecer...
+
+
+Ex: 'frustrated google engineer'...
+
+
+
+
+
+---> Essa pessoa poderá, é claro, REESCREVER o código que vocÊ importa,
+
+de forma que ELE AINDA FUNCIONA, MAS AO MESMO TEMPO EM QUE ELE FUNCIONA/FUNCIONARÁ COMO ANTES,
+ELE PODERÁ FAZER ALGO EXTRA, ALGO MALICIOSO...
+
+
+
+
+TPLs ---> podem ser hackeadas ----> e se forem hackeadas, o código malicioso que roda 
+
+nessas libraries vai ser rodado no seu aplicativo e nas máquinas dos usuários.
+
+
+
+
+
+
+
+
+----> É por isso que você tem que ter certeza de que as TPLs que você usa são 
+
+trustworthy e que SÃO PROTEGIDAS CONTRA HACKS.... devem ser 'actively mantained' ---> 
+
+EX: OPEN SOURCE LIBRARIES ----> contribuições de usuários.... ----> 'CONTRIBUTIONS' 
+
+DEVEM SEMPRE __SER ___ CHECADAS____ ....... se o desenvolvedor da TPL não checa 
+
+as contribuições, elas podem zoar todo o código dele...  ----> essa é uma 
+
+'potential security issue' ----> por isso que  você deve ser desconfiado, 
+
+
+cauteloso, 
+
+
+sempre verificar as coisas/TPLs que você instala...
+
+
+
+ 
+
+
+
+--->  SE VOCÊ INSTALA ALGO POR MEIO DO 'NPM', você 
+
+
+
+também 
+
+
+
+
+GANHA 1 PEQUENO 'HINT':
+
+
+
+
+
+
+Se você rodar o npm install, 
+
+
+
+
+ELE VAI INSTALAR AS COISAS E TAL (seja o que for)....
+
+
+
+UMA VEZ QUE ELE CONCLUI A INSTALAÇÃO, ele sempre nos 
+
+fala 
+
+
+'found 0 vulnerabilities' -------> ISSO É JUSTAMENTE 
+
+O TÓPICO QUE O PROFESSOR ESTÁ NOS ENSINANDO AGORA:
+
+
+FUROS DE SEGURANÇA que fodem seus usuários e  você também.
+
+
+
+
+
+
+
+
+'found 0 vulnerabilities' ----> ENTRETANTO, NEM 
+
+
+TODA 'VULNERABILITY' que esse negócio encontra aqui É 
+
+UM PROBLEMA... (às vezes essa 'vulnerab' não dá em nada....)
+
+
+
+
+
+
+
+
+
+
+----> alguns projetos terão várias vulnerabilities aparecendo aqui....
+
+
+
+
+
+---> muitas vulnerabilities ---> isso apenas significa que PODEM EXISTIR 
+
+
+'POTENTIAL SECURITY HOLES'... --> mas esses security holes podem dizer respeito 
+
+a ferramentas QUE APENAS RODAM __NO SEU COMPUTADOR__, AQUELAS TOOLS que vocÊ vê 
+
+
+definidas em 'package.json'... (aí essas vulnerabilidades não teriam efeito algum
+ sobre os usuários do seu código, pois elas apenas EXISTIRÃO na etapa de 'development', no seu pc, 
+ e não no pc deles..... --> podem ser vulnerabilidades PRÓPRIAS DAS FERRAMENTAS/PACKAGES QUE VOCÊ 
+ ESTÁ USANDO...)
+
+
+
+
+
+
+
+
+A MAIOR PARTE DOS PACKAGES QUE VOCÊ USA EM PROJETOS MODERNOS ____aPENAS ___ RODAM __ NA SUA __ PRÓPRIA 
+MÁQUINA....
+
+
+
+
+---> e você não quer isso, nãõ quer 'security holes' na sua máquina, MAS PELO MENOS VOCê NÃO 
+ESTÁ/NÃO ESTARÁ COMPARTILHANDO ESSES FUROS DE SEGURANÇA COM SEUS USUÁRIOS...
+
+
+
+----------------------------------------------------------------------------------
+
+
+
+'VULNERABILIDADE'  --> mtas vezs uma vulnerabilidade é exatamente isso, uma 'vulnerabilidade'... não signifcica 
+necessariamente que essa vulnerabilidade está/estará sendo exploitada naquele exato momento ('point of time')....
+
+
+
+
+
+
+
+AINDA ASSIM, TER UM '0 VERDE' no npm É SEMPRE UMA BOA COISA....
+
+
+
+SEMPRE USE PACKAGES QUE SÃO TRUSTWORTHY E SECURE....
+
+
+
+
+
+
+
+
+ -------------------------------------------------------------

@@ -1,0 +1,1234 @@
+
+
+
+PARa que possamos treinar inheritance também,
+
+
+
+
+devemos adicionar uma classe 
+
+
+base ...
+
+
+
+
+
+
+O professor aponta que podemos utilizar o nome que quisermos, mas que 
+
+
+ele utilizará o nome 
+
+
+'component' (como sempre. Ele gosta de utilizar esse nome PARA CLASSES QUE TÊM RELAÇÃO COM O CONTROLE DE PARTES DO DOM....)
+
+
+
+
+
+ex:
+
+
+
+
+
+class Component {
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+----------------------
+
+
+
+
+O professor pega 'attach' e 'dettach' e enfia seus códigos 
+
+
+dentro de 'Component'.
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class Component {
+
+    
+
+
+
+
+
+
+
+    
+    attach() {
+       
+
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = 'DUMMY!';
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;
+        document.body.append(tooltipElement);
+    }
+
+
+
+
+
+
+
+ detach() {  
+
+    this.element.parentElement.removeChild(this.element);////versão que funciona em browsers mais antigos.
+    }
+
+}
+
+
+
+
+------------------
+
+
+Professor enfia esses métodos ali dentro;
+
+no entanto, 'attach' não está da forma que ele quer... 
+
+
+Sua forma deve ser alterada: esse método 
+
+deve apenas se preocupar COM O APPEND DE ALGUMA COISA à NOSSA PÁGINA....
+
+
+
+é por isso que cortamos quase toda essa parte do código, deixando 
+
+apenas 
+
+'document.body.append(tooltipElement);'
+
+
+
+ex:
+
+
+
+    attach() {
+       
+
+
+    
+        document.body.append(tooltipElement);
+    }
+
+
+
+-------------------------
+
+
+
+Essa parte cortada do código 
+
+
+é então movida para dentro de um novo método criado 
+
+na classe 'Tooltip', um método chamado 'create()':
+
+
+
+
+
+ex(representação):
+
+
+
+
+
+
+
+class Component{
+
+  attach() {
+        document.body.append(tooltipElement);
+    }
+
+
+}
+
+
+
+
+class Tooltip {
+
+    constructor(closeNotifierFunction) {
+        this.closeNotifier = closeNotifierFunction;
+    }
+
+
+
+    closeTooltip{
+        ...
+    }
+
+
+    create() {
+            const tooltipElement = document.createElement('div');
+            tooltipElement.className = 'card';
+            tooltipElement.textContent = 'DUMMY!';
+            tooltipElement.addEventListener('click', this.closeTooltip);
+            this.element = tooltipElement;
+
+    }
+
+
+}
+
+
+---------------------------------
+
+
+
+
+
+Feito isso, essa 'divisão de tarefas', 
+
+o professor agora vai querer chamar, em 'Tooltip', 
+
+'this.create()' DE DENTRO DO CONSTRUCTOR...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class Component{
+
+  attach() {
+        document.body.append(tooltipElement);
+    }
+
+
+}
+
+
+
+
+class Tooltip {
+
+    constructor(closeNotifierFunction) {
+        this.closeNotifier = closeNotifierFunction;
+        this.create();
+    }
+
+
+
+    closeTooltip{
+        ...
+    }
+
+
+    create() {
+            const tooltipElement = document.createElement('div');
+            tooltipElement.className = 'card';
+            tooltipElement.textContent = 'DUMMY!';
+            tooltipElement.addEventListener('click', this.closeTooltip);
+            this.element = tooltipElement;
+
+    }
+
+
+}
+
+
+---------------------------------
+
+
+
+
+ELE FAZ ISSO, DEFINE 'create()' NO CONSTRUCTOR, PARA QUE 
+
+SEMPRE ESSE MÉTODO SEJA EXECUTADO QUANDO FOR CRIADO UM NOVO 
+
+TOOLTIP (quando for instanciada essa classe) com o chamado da classe 'Tooltip'.......
+
+
+
+Esse chamado do método 'create()' faz com que O TOOLTIP SEJA 
+
+
+CONSTRUÍDO....
+
+
+
+A única coisa que deixa de ser feita aqui, nesse constructor, é O ATTACH (o 'append') DO 
+
+
+TOOLTIP À PAGINA DA WEB...
+
+
+No entanto, esse tooltip ainda é armazenado 
+
+
+na propriedade 'element', por meio da 
+
+
+expressão 
+
+
+'this.element = tooltipElement'...
+
+
+
+
+
+E ISSO É BEM IMPORTANTE, PQ O PROFESSOR IRÁ SE REFERENCIAR 
+
+À ESSA PROPRIEDADE 'element' em 
+
+
+'attach()'   ('document.body.append(tooltipElement)'...)     (???? não entendi a relação entre a propriedade 'element' e o objeto 'tooltipElement'...)
+
+
+
+e 
+
+
+'detach()'.
+
+
+-------------------------
+
+
+
+
+Feito tudo isso, a única coisa que o professor precisa fazer 
+
+é EXTENDER COMPONENT em 'Tooltip'....
+
+
+ex:
+
+
+
+class Tooltip extends Component {
+
+        ....
+
+}
+
+
+-----------------------------
+
+
+
+
+O professor faz isso para que nós TENHAMOS ACESSO 
+
+
+AOS MÉTODOS 'detach()' e 'attach' DE DENTRO DA CLASSE 
+
+'Tooltip'...
+
+
+-----------------------
+
+
+
+E como nós aprendemos em aulas passadas, 
+
+
+o 'this' dentro de classes BASE sempre VAI SE 
+
+REFERIR àS SUBCLASSES (aos objetos criados a partir da subclasse em que foi extendida...).
+
+
+
+
+Portanto, tudo funcionará OK.
+
+
+o 'this' estará definido certinho lá, quando 'detach' for chamado...
+
+
+mesma coisa com 'attach()'..........
+
+
+
+ENTRETANTO, O ÚNICO AJUSTE QUE DEVE SER FEITO EM 
+
+'attach' É TROCAR 
+
+
+'tooltipElement' em 
+
+
+'document.body.append(tooltipElement)' 
+
+POR 
+
+
+'this.element'.
+
+-----------------------------
+
+ex:
+
+
+
+attach() {
+    document.body.append(this.element);
+}
+
+
+
+----------------------------------
+
+
+
+DEVEMOS FAZER ESSA TROCA DE TERMOS PQ 
+
+
+'this.element' (ou 'element') É A PROPRIEDADE 
+
+
+QUE SEGURARÁ 'tooltipElement' DENTRO DESSA CLASSE 
+
+'Tooltip'...
+
+
+
+----------------------
+
+
+COM isso, apenas resta fazer uma pequena mudança,
+
+ 
+ QUE É 
+
+ CHAMAR 
+
+
+ 'super()' DE DENTRO DA CLASSE 
+
+ 'TOOLTIP' (para que o inheritance FUNCIONE. Para que A CLASSE BASE, SEU CONSTRUCTOR, SEJA CHAMADO).
+
+
+
+
+ Se vocÊ adicionou o seu próprio constructor e você está EXTENDENDO OUTRA CLASSE,
+  
+  VOCÊ PRECISA CHAMAR 'super()' DENTRO DO SEU PRÓPRIO CONSTRUCTOR...
+
+
+
+  Feito isso, podemos salvar e recarregar a página.
+
+
+
+  ----------------------------------------------
+
+
+
+
+Percebemos que o botão 'more info' ainda funciona exatamente como antes, 
+
+mas agora utiliza inheritance para pegar os métodos 
+
+'attach' e 'detach'.
+
+
+
+
+A função que previne a abertura de múltiplos 'tooltips' também ainda funciona.
+
+
+
+
+
+
+
+Tudo funciona, e agora temos essa classe mais genérica 'Component'....
+
+
+
+
+
+
+
+ENTRETANTO, até o presente momento a classe genérica ('COMPONENT')
+
+
+Não faz tantas coisas úteis...
+
+
+
+Professor diz que podemos melhorar o seu código um pouquinho...
+
+
+
+
+
+
+
+Por exemplo, podemos adicionar um if check dentro de 'detach' e checar 
+
+
+por 
+
+
+'se this.element estiver definido (true), só então vou querer removê-lo...'
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+class Component {
+    detach() {
+        if (this.element) {
+            this.element.remove();
+        }
+    }
+}
+
+
+-------------------------------------------
+
+
+
+Isso é apenas um detalhezinho no código que faz COM QUE A FUNÇÃO DETACH 
+
+APENAS REMOVA ALGO DA PÁGINA (this.element) SE ESSE ALGO TIVER SIDO 
+
+
+DEFINIDO (se um 'element' tiver sido definido na nossa página...) ----> caso contrário, esse detach não vai remover coisa alguma...
+
+
+
+é apenas um check 'sanitário' extra, você poderia dizer.
+
+
+
+-----------------------------------------------------
+
+
+
+Component também deverá ser UM POUCO MAIS FLEXÍVEL QUANTO AOS ELEMENTOS QUE SÃO/PODERÃO 
+
+ser 'attached' à PÁGINA....
+
+
+
+
+O professor adiciona um constructor na classe 
+
+
+base.
+
+
+
+Dentro do constructor, o professor coloca como parâmetros esperados 
+
+'hostElementId' e 'insertBefore'....
+
+
+
+O professor também define esse 'insertBefore' como FALSE... (ou seja, 
+
+
+ESSE SERÁ O ___DEFAULT____ desse argumento....)
+
+
+
+ex:
+
+
+
+
+class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+
+    }
+
+
+
+}
+
+
+
+
+--------------------------------------------
+
+
+Depois disso, o professor insere um if check dentro do constructor, 
+
+
+checando 
+
+
+'se hostElementId está definido (true, ou seja, SE HOSTELEMENTID FOI PASSADO 
+À ESSA CLASSE, caso contrário é falsy/null...), 
+
+
+vou QUERER RODAR 
+
+
+'this.hostElement = document.getElementById(hostElementId);'  (ou seja, para os casos que hostElementId NÃO É FALSY/NULL, VAMOS QUERER ESSA PROPRIEDADE DEFINIDA COM ESSE VALOR, COM ESSE SELETOR.)
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        if (hostElementId) {
+            this.hostElement = document.getElementById(hostElementId);
+        }
+    }
+
+
+
+}
+
+
+
+
+----------------------------------
+
+
+
+CONTINUANDO O IF CHECK, se o 'hostElementId' FOR FALSY/FALSE (else),
+
+
+
+vou querer 
+
+
+
+definir 
+
+
+'this.hostElement' TAMBÉM, MAS VOU QUERER DEFINIR 
+
+
+
+'this.hostElement = document.body'. ------------------>
+
+
+-------------------->  
+
+
+OU SEJA, RESUMINDO:
+
+
+
+
+Aqui nos é dada a opção/caminho de adicionar 
+
+qualquer elemento no DOM por meio da passagem do parâmetro 'hostElementId'....
+
+
+
+MAS SE NÓS SIMPLESMENTE NÃO PASSAMOS hostElementId ALGUM, nenhum parâmetro desses, 
+nós essencialmente 
+
+ficamos com a opção de FALLBACK, que é utilizar 
+
+
+'document.body' para então fazer o append desse elemento que está 
+
+sendo criado (que está sendo criado para levar 'attach' e 'detach'...)...
+
+
+
+
+
+EX (representação):
+
+
+
+
+
+class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        if (hostElementId) {
+            this.hostElement = document.getElementById(hostElementId);
+        } else {
+            this.hostElement = document.body;
+        }
+    }
+
+
+
+detach() {
+    ...
+}
+
+
+}
+
+
+-------------------------------------------
+
+
+
+
+E mais:
+
+
+
+'insertBefore' PODE SER UTILIZADO....
+
+
+
+podemos armazenar seu valor em uma propriedade 
+por meio de 
+
+
+'this.insertBefore = insertBefore'....
+
+
+
+------------------------------------
+
+
+
+Feito isso, podemos utilizar 
+
+ISSO EM 
+
+ATTACH(), substituir o código do body do attach por 
+
+algo relacionado a 'insertBefore'....
+
+
+podemos utilizar insertBefore em attach para não utilizar 
+
+sempre 
+
+'document.body.append(this.element);'
+
+
+
+
+E SIM, EM VEZ DISSO, 
+
+'this.hostElement.insertAdjacentElement();'.....
+
+
+
+
+-----------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        if (hostElementId) {
+            this.hostElement = document.getElementById(hostElementId);
+        } else {
+            this.hostElement = document.body;
+        }
+    }
+
+
+
+attach() {
+
+    this.hostElement.insertAdjacentElement();
+
+}
+
+
+}
+
+
+
+---------------------------------------------
+
+
+
+
+
+Mas não é só isso. O professor precisa de um parâmetro para o método 
+
+'insertAdjacentElement'....
+
+
+
+------------------------------------------
+
+OBS:: ESTRUTURA DO MÉTODO 'insertAdjacentElement':
+
+
+
+insertAdjacentElement(position, element)
+
+
+
+position
+A DOMString representing the position relative to the targetElement; must match (case-insensitively) one of the following strings:
+'beforebegin': Before the targetElement itself.
+'afterbegin': Just inside the targetElement, before its first child.
+'beforeend': Just inside the targetElement, after its last child.
+'afterend': After the targetElement itself.
+
+
+element
+The element to be inserted into the tree.
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+O professor enfia 
+
+
+'this.insertBefore ? 'beforebegin' : 'beforeend' '
+
+COMO PARÂMETRO.
+
+
+(ou seja, uma ternary expression...
+
+
+Ela significa 
+
+
+'CASO this.insertBefore SEJA 'TRUE', DEVE-SE 
+
+ UTILIZAR 'beforebegin' COMO PRIMEIRO PARÂMETRO DESSE insertAdjacentElement...
+ 
+ 
+ CASO CONTRÁRIO, DEVE-SE UTILIZAR 'beforeend' COMO PRIMEIRO PARÂMETRO... )
+
+
+
+
+ Representação:
+
+
+
+
+
+
+
+ class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        if (hostElementId) {
+            this.hostElement= document.getElementById(hostElementId);
+        } else {
+            this.hostElement = document.body;
+        }
+    }
+
+
+
+attach() {
+
+    this.hostElement.insertAdjacentElement(this.insertBefore ? 'beforebegin' : 'beforeend');
+
+}
+
+
+}
+
+
+
+-------------------------------------------------------
+
+
+
+
+
+É CLARO, DIZ O PROFESSOR, VOCÊ PODERIA TAMBÉM SER MAIS FLEXÍVEL EM RELAÇÃO 
+
+ÀQUILO QUE VOCÊ ACEITA NO 
+
+
+SEGUNDO SLOT do constructor como parâmetro....... entretanto, o professor 
+
+já está satisfeito com essas 2 opções que ele inseriu aqui ('beforebegin' e 'beforeend'.)
+
+
+
+
+POR FIM, O PROFESSOR ADICIONA O SEGUNDO PARÂMETRO DE insertAdjacentElement, que é 
+
+o próprio elemento que deverá ser adicionado à página naquela posição do primeiro parâmetro...
+
+
+
+Nesse caso, o elemento é 'this.element'.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+ class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        if (hostElementId) {
+            this.hostElementId = document.getElementById(hostElementId);
+        } else {
+            this.hostElement = document.body;
+        }
+    }
+
+
+
+attach() {
+
+    this.hostElement.insertAdjacentElement(this.insertBefore ? 'beforebegin' : 'beforeend', this.element);
+
+}
+
+
+}
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+COM isso, temos agora um MÉTODO 'attach' MAIS FLEXÍVEL,  o que faz 
+
+nosso componente SER MAIS GENÉRICO 
+
+
+E ÚTIL....    É ÚTIL EM DIVERSOS USE-CASES, e não apenas 
+
+no use-case em que queremos fazer o append de algo 
+
+ao final do nosso document.body......
+
+
+
+Pq agora nós podemos usar QUALQUER ELEMENTO ('hostElementId'...), e esses elementos podem  
+
+
+
+ser adicionados TANTO AO FINAL COMO AO INÍCIO do document.body.... ('insertBefore'.)
+
+
+
+Ou seja, adicionamos MUITO CONTROLE ao nosso código....
+
+
+
+
+
+
+AGORA APENAS TEMOS QUE AJUSTAR o nosso 'Tooltip'...
+
+
+
+
+
+Lá no tooltip, eu chamei 'super()', E ESSE SUPER é, NA VERDADE, O CONSTRUCTOR 
+
+DA CLASSE BASE, QUE AGORA ESTÁ ACEITANDO ARGUMENTOS...
+
+
+
+
+Se passarmos 'null' como primeiro argumento (ou seja, como 'hostElementId'), 
+
+
+o IF CHECK no constructor fará com QUE NÓS recorramos ao 
+
+
+FALLBACK de 'document.body'... (this.hostElement = document.body).
+
+
+
+
+
+SE PASSARMOS 'null' ou nada COMO SEGUNDO ARGUMENTO (ou seja, para/como 'insertBefore'),
+
+O CÓDIGO VAI CONTINUAR COM 
+
+
+'false', (insertBefore = false), O QUE SIGNIFICA QUE O ITEM SERÁ ADICIONADO AO FINAL...  (graças à ternary expression --->  'this.insertBefore ? 'beforebegin' : 'beforeend' -----> 'beforeend' é definido como parâmetro de insertAdjacentElement, nesse caso. VER EXPLICAÇÃO DO QUE ESSA TERNARY está nos dizendo, logo acima.)
+
+
+
+
+
+
+E COMO ISSO É EXATAMENTE O QUE QUEREMOS COM 'Tooltip', QUEREMOS 
+
+QUE ELE SEJA ADICIONADO AO FINAL DO DOCUMENT.BODY,
+
+
+NÓS PODEMOS ____REALMENTE______ CHAMAR SUPER() sem passar valor algum, 
+
+
+sem enfiar valores nos slots do constructor da classe Component,
+
+
+PORQUE EU ESTOU SATISFEITO COM OS VALORES DEFAULT que são assumidos 
+pelo javascript....
+
+-------------------------------------------------
+
+
+
+É por isso que agora, quando salvamos e recarregamos a página, 
+
+percebe-se que o comportamento do 
+
+botão 
+
+'more info' continua o mesmo....
+
+
+---------------------------------------------------
+
+
+
+ENTRETANTO, O PROFESSOR EXPLICA QUE AGORA O CÓDIGO TEM MAIS USE-CASES... :
+
+
+por exemplo, se enfiarmos um parâmetro NO super() DE TOOLTIP, 
+
+
+COMO 
+
+'activeProjects', ESSE VALOR (id) SERÁ PASSADO COMO PRIMEIRO PARÂMETRO DO CONSTRUCTOR 
+
+de 'Component', que é 'hostElementId'.....
+
+
+
+
+ex:
+
+
+class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        if (hostElementId) {
+            this.hostElementId = document.getElementById(hostElementId);
+        } else {
+            this.hostElement = document.body;
+        }
+        this.insertBefore = insertBefore;
+    }
+
+
+
+attach() {
+
+    this.hostElement.insertAdjacentElement(this.insertBefore ? 'beforebegin' : 'beforeend', this.element);
+
+}
+
+
+}
+
+
+
+
+class Tooltip extends Component {
+
+
+
+
+    constructor(closeNotifierFunction) {
+        super('active-projects');
+        this.closeNotifier = closeNotifierFunction;
+        this.create();
+
+    }
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+Se fizermos isso e recarregarmos a página, VEREMOS QUE 
+
+
+
+
+AGORA ___O TOOLTIP___ ESTARÁ SENDO ADICIONADO À CAIXA DE 'activeProjects' (exemplo da utilidade da classe genérica 'Component', e dos seus use cases.)
+
+
+
+
+
+Além disso, se o PROFESSOR ADICIONAR
+
+
+'true' COMO SEGUNDO PARÂMETRO DESSE CHAMADO DE 'super()', 
+
+
+
+
+ELE VERÁ QUE AGORA O 
+
+
+TOOLTIP SERÁ ADICIONADO AO TRECHO ANTERIOR AO 'activeProjects' (ou seja, insertAdjacentElement receberá o parâmetro 'beforebegin', no final das contas....)
+
+
+
+
+-------> OU seja, esse formato do código nos deixa 
+
+
+alterar o posicionamento de elementos dentro da página 
+
+
+da forma que quisermos:
+
+
+
+Se eu quiser, por exemplo, que o elemento 
+
+FIQUE NA PARTE SUPERIOR DO CONTAINER activeProjects (ou seja, antes do letreiro 'active projects', mas ainda DENTRO DO CONTAINER), 
+
+
+devo alterar a ternary expression para 
+
+
+'this.insertBefore ? 'afterbegin' : 'beforeend';', para que o código fique 
+
+ASSIM:
+
+
+
+
+ex:
+
+
+
+
+class Component {
+
+attach() {
+    this.hostElement.insertAdjacentElement(
+        this.insertBefore ? 'afterbegin' : 'beforebegin',
+        this.element
+    );
+}
+
+}
+
+
+
+class Tooltip extends Component {
+    constructor(closeNotifierFunction) {
+        super('active-projects', true);
+        this.closeNotifier = closeNotifierFunction;
+        this.create();
+    }
+}
+
+
+
+---------------------------------
+
+
+
+Mas, de novo, não é isso que o professor quer aqui...
+
+
+Por isso professor remove 
+
+
+o primeiro e segundo parâmetros do call de super() em 
+
+'Tooltip'...
+
+
+Entretanto, esse componente genérico foi importante, 
+
+
+pois nos possibilitou treinar um pouco mais de inheritance...

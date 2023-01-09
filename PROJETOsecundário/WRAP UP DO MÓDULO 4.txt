@@ -1,0 +1,61 @@
+Módulo bem longo, pois 
+control structures são fundamentais para javascript e para programação em geral.
+
+
+
+
+
+
+if, else, else if.    < >  <=  =>, ===, ==, 
+
+
+
+&& e ||
+
+
+
+
+Comportamentos de && e ||, como usar || para assignar defaults.
+
+
+
+
+
+Booleans, verdadeiro e falso.
+
+Truthy e falsy.
+
+
+
+
+
+Ternary operator/expressions  ----> usados para escrever INLINE if statements.
+
+
+
+
+
+XXX ? YYYYY: ZZZZZ
+
+(é o if statement resumido)
+
+
+
+
+
+LOOPS --> for loop, while loop, for-of loop, for-in loop.
+
+
+
+
+
+Error Handling -> também é um control structure, pois 
+te permite CONTROLAR CÓDIGO QUE PODE FALHAR e então AGIR EM CIMA DISSO, em cima de algum erro 
+e talvez escrever uma lógica de fallback, uma mensagem de erro ao usuário, etc. etc.
+
+
+
+
+Control Structures (MDN): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling
+
+JavaScript Loops (MDN): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration

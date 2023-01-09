@@ -1,0 +1,193 @@
+Após estudarmos children e childNodes, passamos ao estudo dos 
+"pais".
+
+
+
+
+Digamos que nós já selecionamos um "list-item". Digamos que seja o primeiro, para que o 
+queryMethod funcione sem nenhum problema.
+
+
+Mas agora queremos alcançar a UNORDEREDLIST (<UL>). É claro que poderíamos utilizar querySelector para 
+selecionar UL diretamente, mas queremos NAVEGAR PELO DOM, NAVEGAR PARA CIMA, 
+PARA O PARENTE. Por isso vamos querer selecionar <li> com querySelector. isso é para os cenários em que você tem doms mais complicados.
+
+
+ex:
+
+
+
+const li document.querySelector('li'); // ---> primeiramente o professor constata que esse nome de constante já está no nosso código, e por isso 
+                                                    não podemos utilizá-lo. Ele cria um novo nome de constante, liFirst.
+
+
+
+
+ex:
+
+
+
+const liFirst = document.querySelector('li');
+
+
+------------------------------------------------------
+
+
+Agora, para conseguir o parente, podemos utilizar o seguinte código:
+
+            (.parentElement, ou .parentNode) --> (aqui não temos "parentsNodes" e "elementNodes" PORQUE OS ELEMENTOS SÓ PODEM TER 1 PAI. É assim que código html, e por extensão, o objeto dom funciona)
+                                                    (você pode ter MÚLTIPLOS CHILDELEMENTS/NODES, MAS NUNCA MÚLTIPLOS PAIS. Você só pode ter 1 parent node.)
+ 
+const liFirst = document.querySelector('li');
+
+liFirst.parentNode;  // ISSO NOS DÁ ACESSO ao "pai" de li, que é <UL>.
+
+
+
+
+
+
+
+
+
+
+(.parentElement, ou .parentNode)----------> aqui nesse caso do professor, os 2 dão o mesmo 
+resultado. Na verdade, diz ele, na maior parte dos casos os 2 dão o mesmo resultado.
+Por que? Bem, porque SÓ ELEMENTNODES PODEM TER CHILDNODES, portanto é claro que se vocÊ 
+está num childNode e você quer saber mais sobre o pai, é evidente que ele será um element node, porque 
+TEXTNODES NÃO PODEM TER CHILDNODES (filhos). Você NÃO PODE FAZER NEST de OUTROS CONTEÚDOS DENTRO 
+DE TEXTNODES, por exemplo. Os textNodes só podem segurar texto, e não elementos/conteúdo.
+
+
+Você pode estar se perguntando "POR QUE temos .parentNode e .parentElement, então?"
+
+
+
+Bem, há uma única exceção À essa regra, que é O "document.documentElement".
+
+Em "document.documentElement", se vocÊ tentar alcançar o "parentElement"...
+
+
+------>
+
+
+document.documentElement.parentElement; ---->
+
+VOCÊ VERÁ QUE RECEBEMOS "NULL".
+
+
+
+MAS SE O PROFESSOR REPETIR O CÓDIGO E USAR "PARENTNODE" em vez disso...
+
+---->
+
+document.documentElement.parentNode; ---------------> ISSO  NOS 
+RETORNARÁ "document", ou seja, TODO O OBJETO "document" como um 
+parentNode.
+
+
+O professor vai ser honesto conosco: isso pode ser legal de saber, 
+mas é algo que nós nunca provavelmente vamos utilizar no nosso código.
+
+
+
+Por que? porque se você quer ganhar acesso ao documento, você pode 
+simplesmente selecioná-lo por meio do 
+simples comando do document object:
+
+
+"document.xxxx"  ;    document.exemplo.
+
+
+
+Cruzar o dom até ele por meio de childnodes é muito trabalhoso para algo 
+que é fundamentalmente inútil, visto que já está disponível por meio desse 
+comando instantâneo.
+
+
+Para TODOS OS OUTROS ELEMENTOS EXISTENTES NO JAVASCRIPT, 
+parentNode e parentElement SEMPRE SE REFEREM AO MESMO ELEMENTO PAI 
+DE UM DETERMINADO ELEMENTO, e esse pai sempre será (100% garantido) um 
+element node, pois eles são os únicos que podem segurar conteúdo.
+ 
+
+ Você pode usar qualquer um dos 2.
+
+
+
+
+continuando o exemplo:
+
+
+
+const liFirst = document.querySelector('li');
+
+
+---------------------------------------------------
+
+
+Digamos que queremos chegar ao body, partindo desse elemento <li> selecionado.
+
+
+ex:
+
+
+
+const liFirst = document.querySelector('li');
+
+
+-------------------------------------------------------------------
+
+
+Professor diz que esse é um tipo de exemplo redundante, porque você sempre pode 
+ganhar acesso ao body com o simples comando 
+
+"document.body.xxxx", 
+
+mas que é bom saber como fazer isso, especificamente.
+
+
+
+Mas o professor quer nos mostrar esse exemplo também porque não há uma ancestralidade
+direta entre o body e o li. Queremos ganhar acesso àquele ancestral "body", mas 
+não conseguimos fazer isso com o simples comando "parentNode/element".
+
+
+Para ganhar acesso ao body, que é um ancestor, podemos usar o método "CLOSEST".
+
+
+closest(); -----------> ESSE MÉTODO SÓ FUNCIONA COM ANCESTRAIS/DESCENDANTS (coisas que tenham parentesco indireto uma com a outra)
+
+----> o método closest recebe como parâmetro UM SELETOR CSS (mesma coisa que o querySelector, que também recebe classes, ids, tags, etc, seletores em geral).
+
+
+Aqui, por exemplo, o professor insere 'body'.
+
+
+ex:
+
+
+liFirst.closest('body'); ----> ISSO FAZ COM QUE BODY SEJA FACILMENTE SELECIONADO.
+
+
+
+------------------------------------
+
+
+O professor afirma que esse método não funcionaria com 'header', porque header NÃO É UM ANCESTRAL 
+DE 'li', como 'body' o é.
+
+MÉTODO CLOSEST() NÃO FUNCIONA COM COISAS QUE NÃO SÃO ANCESTRAIS DE OUTRAS COISAS.
+Funciona com quaisquer ancestrais, desde que eles realmente façam wrap de um elemento descendant.
+
+
+
+Para conseguir o DESCENDANT MAIS PRÓXIMO, vocÊ utilizaria o comando
+"querySelector", que é utilizado PARA DIVAR DENTRO DE ELEMENTOS NESTEADOS. 
+ESSA É A SUA FUNÇÃO.
+
+ex:
+
+
+liFirst.querySelector('list-item'); ---> selecionará o primeiro item com a matching 
+tag 'list-item'.

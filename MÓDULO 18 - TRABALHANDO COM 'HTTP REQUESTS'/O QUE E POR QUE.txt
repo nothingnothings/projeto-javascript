@@ -1,0 +1,977 @@
+
+
+
+
+
+
+
+
+
+
+MAS SOBRE O QUE EXATAMENTE ESSE MÓDULO TRATA?
+
+
+
+
+
+Bem, sobre network requests.
+
+
+
+
+
+Mas o QUE SÃO NETWORK REQUESTS,
+
+
+E PQ ELES IMPORTAM?
+
+
+
+Pq saber o que eles são importa?
+
+
+-----------------------------------------------
+
+
+
+
+
+Bem, digamos que temos nosso script em nossa 
+
+
+webPage....
+
+
+
+
+
+
+<Your Script>                                                   Web Page (Rendered HTML)
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+
+
+CERTO.
+
+
+TEMOS O CÓDIGO HTML RENDERIZADO na nossa página e 
+
+a lógica do script...
+
+
+
+
+
+Nesse código html renderizado podemos ter uma 
+
+
+
+FORM na qual o usuário pode inserir alguns DADOS,
+
+e uma UNORDEREDLIST (ul)....
+
+
+
+uma lista em que outputtamos uma LISTA DOS POSTS 
+
+criados pelo usuário, podemos dizer...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+<form>
+UserInput
+</form>
+
+<ul>
+List of POSTS
+</ul>
+
+
+
+
+-----------------------------------
+
+
+
+
+Uma webpage simples, portanto.
+
+
+
+
+CERTO.
+
+NÓS PODEREMOS ESTAR 'powering' essa página com a 
+
+
+AJUDA DO JAVASCRIPT....
+
+
+
+
+
+
+ENTRETANTO, DIZ O PROFESSOR, ELE QUER ENFATIZAR QUE 
+
+VOCÊ PODERIA/CONSEGUE CONSTRUIR UMA PÁGINA COMO ESSA 
+
+________SEM NENHUM____ CÓDIGO JAVASCRIPT 'clientside'...
+
+
+
+
+----> você poderia GERAR DINAMICAMENTE ESTE CÓDIGO HTML, 
+
+inclusive a LISTA DE POSTS QUE PODE SER CRIADA PELO USUÁRIO,
+
+____DINAMICAMENTE__ E TOTALMENTE NO 
+
+____SERVIDOR___.
+
+
+------------------------------------>
+
+
+
+----------> VOCÊ PODERIA FAZER TUDO ISSO ____NO SERVIDOR___ COM 
+
+UMA LINGUAGEM COMO 'php', POR EXEMPLO,
+ 
+ em que você recebe dados (get data) DE UMA 
+
+ DATABASE no servidor/em um servidor,
+
+
+ e aí 
+ VOCÊ RENDERIZA CONTEÚDOS DIFERENTES HTML COM BASE 
+
+ NA PÁGINA QUE O USUÁRIO  
+ 
+ESTÁ VISITANDO.....
+
+
+----------------------------------------------------
+
+
+
+MAS EM ADIÇÃO A ISSO, OU COMO __ALTERNATIVA___ A ISSO, 
+
+podemos utilizar 
+
+
+BROWSERSIDE JAVASCRIPT CODE para 
+
+___PROVIDENCIAR____ UMA MELHOR ____ EXPERIÊNCIA DO USUÁRIO.....
+
+
+UMA EXPERIÊNCIA MELHOR QUE EVITA 
+
+RELOADS DE PÁGINA DESNECESSÁRIOS, POR EXEMPLO.....
+
+
+-------------------------------------
+
+
+
+Poderíamos/podemos então ter algum CÓDIGO JAVASCRIPT QUE RODA 
+
+NO BROWSER, ANEXADO à essa webpage, basicamente, 
+
+
+EM QUE NÓS, por exemplo, 
+
+
+REUNIMOS/GATHER o 'userInput'.....
+
+
+
+
+ex:
+
+
+
+'getUserInput()' -------------> PARA O TRECHO HTML '<form>UserInput</form>'
+
+
+
+
+---------------------------------------------------
+
+
+Nós faríamos o clássico código de validação desse input, 
+
+para que seja mostrado uma mensagem de erro ao usuário caso ele inputtasse algo inválido....
+
+ex: TÍTULO de um post criado pelo usuário está faltando. Mensagem de erro.
+
+
+
+
+
+ESTAMOS ARMAZENANDO/GATHERING TODOS OS DADOS DESSE INPUT DO USUÁRIO.
+
+
+
+--------------------------------------------
+
+
+TAMBÉM 
+
+ESTAMOS ADMINISTRANDO 
+
+
+CLICKS em 'posts' 
+
+
+
+NAQUELA LISTA DE POSTS ('List of Posts'), por exemplo.
+
+
+
+
+Faríamos isso tbm para que a experiência seja interativa:
+
+
+ex: usuário clica 2x em um post E O DELETA (deletion process).
+
+
+
+
+
+Qualquer coisa como isso.
+
+
+
+--------------------------------------------------
+
+
+
+
+
+ALÉM DISSO, 
+
+ALÉM DESSE GERENCIAMENTO BÁSICO DE AQUILO QUE NÓS VEMOS 
+
+NA TELA, 
+
+
+essas ferramentas básicas QUE NOS AJUDAM A INTERAGIR COM O USERINPUT, 
+
+talvez nós queiramos 
+
+
+fazer algo mais com esse userInput, 
+
+dentro do javascript 'clientside'.
+
+
+
+
+DIGAMOS QUE O USUÁRIO
+
+
+DÁ 
+
+'SUBMIT' nesse formulário...
+
+
+
+
+
+A MANEIRA TRADICIONAL DE ENVIAR ESSE INPUT AO SERVIDOR 
+
+
+SERIA/É A DE DEIXAR O _____BROWSER_____ fazer 
+
+
+o trabalho 'default' e enviar o resultado desse serviço 
+
+
+a um servidor em que 
+
+você tem/teria código 
+
+PARA ADMINISTRAR ESSE INPUT....
+
+
+
+
+
+CERTO. COM JAVASCRIPT, como você aprendeu, 
+
+É POSSÍVEL 
+
+'PREVENIR O DEFAULT' ('preventDefault();'), 
+
+
+um método utilizado para que você possa PREVENIR ESSE ENVIO 
+
+DEFAULT DE USERINPUT, impedí-lo de acontecer....
+
+
+
+SE VOCê FAZ ISSO, A FORM NÃO É ENVIADA AUTOMATICAMENTE 
+
+AO SERVIDOR....
+
+
+
+Em vez disso, você pode 'step in' com o javascript para, por exemplo, 
+
+VALIDAR ESSE INPUT, 
+
+mas não só isso, 
+
+também para ARMAZENAR 
+
+
+ESSE INPUT NO SERVIDOR 
+
+_______POR MEIO DO CÓDIGO QUE ESTÁ NO INTERIOR 
+
+DO SEU DOCUMENTO JAVASCRIPT 'CLIENTSIDE'..___________ ('then also to store it on the server FROM INSIDE JAVASCRIPT'. )
+
+
+
+
+ex:
+
+
+
+getUserInput()
+
+storeOnServer();
+
+
+----------------------------------------------------
+
+
+
+
+ISSO É O ENVIO DE UM HTTPREQUEST A UM 'backend'/servidor 
+
+
+___SEM RECARREGAR A PÁGINA___ (RECARREGAR A PÁGINA: ISSO É ALGO 
+QUE TIPICAMENTE ACONTECE QUANDO VOCÊ PERMITE O COMPORTAMENTO
+ DEFAULT DAS FORM E DOS SUBMIT NO JAVASCRIPT...).
+
+
+
+
+ O DEFAULT DO USUÁRIO EM RELAÇÃO A 'SUBMIT' E 'FORMS' SEMPRE 
+
+
+RECARREGA/RELOAD A PÁGINA....
+
+
+
+----------------------------------------------------
+
+
+
+
+E VOCÊ FARIA A MESMA COISA COM 
+
+
+O 'FETCH' DE 'POSTS' (fetching posts); 
+
+
+
+você faria isso para que PUDESSE FAZER FETCH DE POSTS PARA UPDATAR 
+
+A LISTA DE POSTS CRIADOS PELO USUÁRIO, SEM RECARREGAR A PÁGINA INTEIRA...
+
+
+
+
+
+PQ se nós realmente só pegarmos/fetchearmos POSTS UPDATADOS, nós 
+
+não precisamos, na verdade, recarregar A PÁGINA INTEIRA (certo? pq isso seria um desperdício de tempo do usuário).
+
+
+--------------------------------
+
+
+
+
+PORTANTO, TALVEZ SEJA INTERESSANTE/QUEIRAMOS NÓS TRABALHARMOS COM O NOSSO 'BACKEND', 
+
+o qual nós PRECISAMOS TER EM QUALQUER SITUAÇÃO, DE DENTRO DO NOSSO CÓDIGO JAVASCRIPT.... (em vez 
+de deixar o browser FAZER ISSO COM OS comportamentos default)...
+
+
+
+'WE MIGHT want to work with our backend, which we might need in any case, from inside javascript....'
+
+
+
+-------------------------------------
+
+
+
+
+
+NOSSO BACKEND SERVER, aqui, TIPICAMENTE 
+
+
+É/SERIA UM '''''____API______''''''''.
+
+
+
+
+
+API ----------->  
+
+'Application Programming Interface'
+
+
+
+
+
+
+API (definição) ------------> ISSO SIGNIFICA QUE 
+
+API É UM 
+
+___WEB SERVER___ que expõe DIFERENTES 
+
+'end points' (é assim que são chamados), 
+
+DIFERENTES 'URLS' (URLS === endpoints), Às quais podemos 
+
+ENVIAR HTTP REQUESTS; 
+
+
+E, DEPENDENDO DE ____QUAL REQUEST____ ENVIAMOS PARA ___ QUAL ____ 
+URL____, TEREMOS DIFERENTES 
+
+EFEITOS NO NOSSO SERVER, DIFERENTES COISAS OCORRENDO NO NOSSO SERVER.
+
+
+
+E SÃO AS PESSOAS/ENGENHEIROS QUE TRABALHAM NO 'SERVERSIDE CODE'  responsáveis 
+
+
+POR DECIDIR ___QUAIS___ 'ENDPOINTS' EXISTEM..., quais endpoints 
+
+podem ser utilizados por nosso código clientside...
+
+
+---------> ou seja, são eles QUE DECIDEM ___QUAIS HTTP REQUESTS___ SÃO 
+
+SUPORTADOS, QUAIS URLS SÃO OFERECIDAS, ETC ETC.
+
+ 
+
+ --------------------------------------------
+
+
+
+
+
+ COMO O PROFESSOR MENCIONOU,
+
+ tradicionalmente a webpage e o browser pode/podem ter se comunicado 
+
+ com o SERVIDOR ___dIRETAMENTE____,
+
+ mas isso tipicamente NÃO É O QUE QUEREMOS AQUI, NOS NOSSOS PROJETOS.
+
+
+
+ Não é aquilo que queremos pq isso significaria que nosso SERVIDOR 
+
+ SEMPRE PRECISARIA RETORNAR UMA 
+ PÁGINA 
+
+ HTML NOVINHA EM FOLHA, e isso faria com que a página tivesse a necessidade 
+
+ constante de se recarregar, re-renderizar... isso, por consequência, pode levar 
+
+ a 'page flickering' e à uma user experience ruim.
+
+
+
+ --------------------------------------
+
+
+
+
+ EM VEZ DISSO, O QUE QUEREMOS FAZER É ALCANÇAR (reach out to these) os 
+
+ DIFERENTES ENDPOINTS, os quais o professor descreveu antes, endpoints em que 
+
+
+ nós, POR EXEMPLO, podemos/poderíamos 
+
+
+ supportar NO 
+
+ SERVERSIDE um  'POST REQUEST'
+
+
+AO 'serverdomain.com/posts',
+
+
+ E UM 'GET REQUEST' AO MESMO DOMÍNIO 
+
+ 'serverdomain.com/posts',
+
+ EM QUE 
+
+ NÓS TALVEZ POSSAMOS SUPORTAR/SUPORTAMOS 
+
+ CERTOS PEDAÇOS 
+
+ DE DADOS QUE PODEM 
+
+ SER ANEXADOS AO 
+
+ 'incoming post request'...
+
+
+
+
+(E o professor já explicará 'post' e 'get' melhor daqui a pouquinho...)....
+
+
+
+
+
+
+
+
+
+
+RESUMINDO:
+
+
+
+
+
+ESSE SERVIDOR REALMENTE NÃO QUER UM 'REQUEST DEFAULT' enviado pelo browser;
+
+O QUE ELE QUER É 
+
+___REQUESTS ESPECÍFICOS____ OBJETIVANDO ('targeting') ESSES 
+
+ENDPOINTS ____ESPECÍFICOS___. E É 
+
+EXATAMENTE ISSO QUE PODEMOS FAZER COM A AJUDA 
+
+
+DO JAVASCRIPT..., 
+
+
+
+COM A AJUDA DAQUILO QUE O PROFESSOR CHAMA DE 
+
+
+'Behind the Scenes Communication'.
+
+
+
+
+'BEHIND THE SCENES'---> Pq esse processo ocorre SEM A PÁGINA RECARREGAR, SEM A PÁGINA REFRESHAR.
+
+
+
+
+Comunicação -----> UTILIZAMOS JAVASCRIPT PARA ENVIAR REQUESTS QUE SÃO CONFIGURADOS __cORRETAMENTE____ E QUE SEGURAM 
+
+
+TODOS OS DADOS QUE O SERVIDOR QUER que sejam enviados a esses/seus ENDPOINTS...
+
+
+
+
+
+
+
+
+ver gráfico:
+
+
+
+2.1 behind-the-scenes-requests.pdf
+
+
+
+
+
+
+
+Important: For this module, you should have a basic understanding of how the web works.
+
+This article can be helpful to refresh your knowledge: https://academind.com/learn/web-dev/how-the-web-works/
+
+You should also have a basic understanding of how Http requests work (see link above), what Http methods (verbs) are and what a Http response typically includes (body, status code, headers).
+
+
+
+
+HTTP RESPONSE:
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages
+
+
+HTTP requests, and responses, share similar structure and are composed of:
+
+A start-line describing the requests to be implemented, or its status of whether successful or a failure. This start-line is always a single line.
+An optional set of HTTP headers specifying the request, or describing the body included in the message.
+A blank line indicating all meta-information for the request has been sent.
+An optional body containing data associated with the request (like content of an HTML form), or the document associated with a response. The presence of the body and its size is specified by the start-line and HTTP headers.
+The start-line and HTTP headers of the HTTP message are collectively known as the head of the requests, whereas its payload is known as the body.
+
+
+
+
+HTTP METHODS:
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+
+
+
+
+
+
+
+
+
+
+
+
+Step 1 - URL Gets Resolved
+The website code is obviously not stored on your machine and hence needs to be fetched from another computer where it is stored. This “other computer” is called a “server”. Because it serves some purpose, in our case, it serves the website.
+
+You enter “academind.com” (that is called “a domain”) but actually, the server which hosts the source code of a website, is identified via IP (= Internet Protocol) addresses. The browser sends a “request” (see step 2) to the server with the IP address you entered (indirectly - you of course entered “academind.com”).
+
+In reality, you also often enter "academind.com/learn" or anything like that. "academind.com" is the domain, "/learn" is the so-called path. Together, they make up the “URL” (“Uniform Resource Locator”).
+
+In addition, you can visit most websites via "www.academind.com" or just "academind.com". Technically, "www" is a subdomain but most websites simply redirect traffic to "www" to the main page.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+An IP address typically looks like this: 172.56.180.5 (though there also is a more “modern” form called IPv6 - but let’s ignore that for now). You can learn more about IP addresses on Wikipedia.
+
+How is the domain “academind.com” translated to its IP address?
+
+There’s a special type of server out there in the internet - not just one but many servers of that type. A so called “name server” or “DNS server” (where DNS = “Domain Name System”).
+
+The job of these DNS servers is to translate domains to IP addresses. You can imagine those servers as huge dictionaries that store translation tables: Domain => IP address.
+
+When you enter “academind.com”, the browser therefore first fetches the IP address from such a DNS server.
+
+
+
+
+In case you’re wondering: The browser knows the addresses of these domain servers by heart, they’re programmed into the browser so to say.
+
+
+
+
+
+13
+Root name server overview
+In total, there are 13 main DNS root servers, each of which is named with the letters 'A' to 'M'. They all have a IPv4 address and most have an IPv6 address. Managing the root server is ICANN's responsibility (Internet Corporation for Assigned Names and Numbers).Aug 5, 2019
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Step 2 - Request Is Sent
+With the IP address resolved, the browser goes ahead and makes a request to the server with that IP address.
+
+“A request” is not just a term. It really is a technical thing that happens behind the scenes.
+
+The browser bundles up a bunch of information (What’s the exact URL? Which kind of request should be made? Should metadata be attached) and sends that data package to the IP address.
+
+
+
+
+
+
+
+
+
+“HyperText Transfer Protocol” (known as “HTTP”)
+
+
+a standardized protocol which defines what a request (and response) has to look like, which data may be included (and in which form) and how the request will be submitted. You can learn more about HTTP here.
+
+
+
+
+
+
+
+Because HTTP is used, a full URL actually looks like this: http://academind.com. The browser auto-completes it for you.
+
+And there also is HTTPS - it’s like HTTP but encrypted. Most modern pages (including academind.com) use that instead of HTTP. A full URL then becomes: https://academind.com.
+
+Since the whole process and format is standardized, there is no guessing about how that request has to be read by the server.
+
+The server then handles the request appropriately and returns a so called “response”. Again, a “response” is a technical thing and kind of similar to a “request”. You could say it’s basically a “request” in the opposite direction.
+
+Like a request, a response can contain data, metadata etc. When requesting a page like academind.com, the response will contain the code that is required to render the page onto the screen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What happens on the server?
+
+That’s defined by web developers. In the end, a response has to be sent. That response doesn’t have to contain “a website”. It can contain any data - including files or images.
+
+Some servers are programmed to generate websites dynamically based on the request (e.g. a profile page that contains your personal data), other servers return pre-generated HTML pages (e.g. a news page). Or both is done - for different parts of a webpage. There also is a third alternative: Websites that are pre-generated but that change their appearance and data in the browser.
+
+
+
+
+https://academind.com/learn/web-dev/dynamic-vs-static-vs-spa/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The browser receives the response sent by the server. This alone, doesn’t display anything on the screen though.
+
+Instead, the next step is that the browser parses the response. Just as the server did it with the request. Again, the standardization enforced by HTTP helps of course.
+
+The browser checks the data and metadata that’s enclosed in the response. And based on that, it decides what to do.
+
+You might’ve had cases where a PDF opened in your browser. That happened because the response informed the browser that the data is not a website but a PDF document instead. And the browser tries to pick the best handling mechanism for any data type it detects.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You need server-side programming languages - i.e. languages that don’t work in the browser but that can run on a normal computer (a server is in the end just a normal computer).
+
+Examples would be:
+
+Node.js
+PHP
+Python
+
+
+
+
+
+
+
+
+Important: With the exception of PHP, you can also use these programming languages for other purposes than web development.
+
+Whilst Node.js is indeed primarily used for server-side programming (though it’s technically not limited to that), Python is also very popular for data science and machine learning.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thus far, we discussed websites. I.e. the case where you enter a URL (e.g. “academind.com/learn”) into the browser and you get a website in return.
+
+But the internet is more than that. Indeed, you use it for more than just that every day!
+
+The core idea of requests and responses is always the same. But not every response is necessarily a website. And not every request wants a website.
+
+The metadata which is attached to requests and responses controls which data is wanted and returned. Of course both parties that are involved (i.e. client and server) need to support the requestes and sent data.
+
+You can’t request a PDF from "academind.com" for example. You could send such a request but you wouldn’t get back a PDF - simply because we don’t support this kind of requested data for this specific URL.
+
+
+
+
+
+
+
+
+
+
+
+
+
+But there are many servers that specialize in providing URLs that return certain pieces of data. Such services are also referred to as “APIs” (“Application Programming Interface”).
+
+
+
+For example, mobile apps send “invisible” HTTP requests to such APIs (to specific URLs which are known to them) to get or store data. Twitter is fetching the tweet feed for example.
+
+
+
+
+
+
+
+
+
+
+
+
+And even on webpages, such “invisible” requests are sent. If you sign up for our newsletter (which you of course should!), no new page will be loaded. Because data is exchanged behind the scenes. Even though the client is the browser in this case, the request which is sent wants no website in return. And the server URL that receives it offers no website - instead, the server knows how to handle your email address.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HTTP defines a set of request methods to indicate the desired action to be performed for a given resource. Although they can also be nouns, these request methods are sometimes referred to as HTTP verbs. Each of them implements a different semantic, but some common features are shared by a group of them: e.g. a request method can be safe, idempotent, or cacheable.
+
+GET
+The GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
+
+
+
+
+HEAD
+The HEAD method asks for a response identical to that of a GET request, but without the response body.
+
+
+
+
+POST
+The POST method is used to submit an entity to the specified resource, often causing a change in state or side effects on the server.
+
+
+PUT
+The PUT method replaces all current representations of the target resource with the request payload.
+
+
+DELETE
+The DELETE method deletes the specified resource.
+
+
+CONNECT
+The CONNECT method establishes a tunnel to the server identified by the target resource.
+
+
+OPTIONS
+The OPTIONS method is used to describe the communication options for the target resource.
+
+
+TRACE
+The TRACE method performs a message loop-back test along the path to the target resource.
+
+
+
+PATCH
+The PATCH method is used to apply partial modifications to a resource.

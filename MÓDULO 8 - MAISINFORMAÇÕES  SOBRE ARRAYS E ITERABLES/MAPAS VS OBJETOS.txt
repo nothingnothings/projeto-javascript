@@ -1,0 +1,122 @@
+Ao estudar mapas, você deve ter percebido que eles são BEM PARECIDOS COM OBJETOS.
+
+
+
+
+Aí surge a pergunta: quando devemos usar um ou outro?
+
+
+
+
+Devemos compará-los:
+
+
+
+
+MAPS --> PODEM USAR QUALQUER VALOR (e tipo) como keys. VOCê PODE 
+TER UM OBJETO COMO KEY, UM NÚMERO... e no mesmo mapa você pode ter 
+keys de tipos variados...
+
+-----> SÃO MELHORES PARA GRANDE QUANTIDADES DE DADOS. "BETTER PERFORMANCE 
+FOR LARGE QUANTITIES OF DATA". 
+Por "grande quantidade de dados", o professor quer dizer ___MAIS DE 10 ENTRIES___.
+Com Quantidades realmente expansivas de dados, maps possuem melhor performance.
+Largas quantidades de dados "key-value" que vocÊ precisa em seu aplicativo.
+A maior parte dos aplicativos não usa tantos dados assim, mas se vocÊ usar, 
+é melhor usar maps.
+
+
+
+----> nos dão melhor performance quando adicionamos/removemos dados 
+frequentemente. ex: quando você tem uma operação que adiciona key-value pairs 
+e remove key-value pairs MÚLTIPLAS VEZES POR SEGUNDO... aí, nesse caso, é melhor 
+usar um MAP.
+
+
+
+--------------------------------------------
+
+
+
+OBJETOS ---> VOCÊ PODE TER "MIXED KEY TYPES" que nem os maps, 
+mas vocÊ está adstrito a usar APENAS STRINGS, NÚMEROS 
+E SÍMBOLOS COMO KEYS. Objetos ___não são permitidos_____.
+Você tem MENOS flexibilidade em objetos.
+VOCê NÃO PODE USAR BOOLEANS COMO KEY EM UM OBJETO, NÃO PODE USAR OUTRO OBJETO 
+OU UM ARRAY EM UM OBJETO.
+
+
+
+----> SÃO PERFEITOS PARA CONJUNTOS PEQUENOS/MÉDIOS DE DADOS, melhores 
+de gerenciar do que os MAPS.
+
+Por conjuntos "medium-sized" de dados, o professor não quer dizer 
+em questão de número de key-value pairs (ex: "5 key-value pairs"), 
+mas ainda bem grandes.... (30-40 key-value pairs, + ou -).
+
+
+
+--> OBJECTS, ALÉM DISSO, TÊM OUTRA VANTAGEM que veremos 
+assim que os estudarmos no módulo específico sobre objetos, 
+mas basicamente vocÊ pode TER MÉTODOS QUE INTERAGEM COM OS 
+DADOS ARMAZENADOS DENTRO DO OBJETO. Essa interação por meio de 
+métodos NÃO É POSSÍVEL, NO MESMO NÍVEL, EM/COM MAPS.
+
+Se você, então, precisar de métodos que tenham algo a ver com 
+os dados armazenados dentro de um objeto, 
+é melhor usar OBJECTS, e não MAPS.
+
+
+-------> OBJETOS SÃO MAIS FÁCEIS/RÁPIDOS DE SEREM CRIADOS
+                                    (TIPICAMENTE COM MELHOR PERFORMANCE, EXCETO NAQUELES CASOS EM QUE DADOS SÃO REMOVIDOS/ADICIONADOS FREQUENTEMENTE/RAPIDAMENTE, EM POUCOS SEGUNDOS).
+
+        São  mais fáceis/rápidos não só porque sua sintaxe é mais simples (sendo necessário apenas o {}), 
+        mas também quanto à performance, também.
+
+
+        "new Map()" demora um pouco mais para ser criado na engine javascript do que "{}" (um objeto).
+
+
+
+
+----> entretanto, como sempre, nessas coisas de performance sempre 
+devemos ter em mente que estamos falando de diferenças que não vamos 
+sentir na GRANDE MAIORIA dos aplicativos que construímos.
+
+
+
+
+---> RESUMO:
+
+
+NÃO SÓ MAPS VS OBJETOS, MAS TAMBÉM ARRAYS VS SETS VS MAPS, em geral:
+
+EM
+98% dos casos VOCÊ IRÁ TRABALHAR COM ARRAYS E OBJETOS... 
+
+SETS E MAPS TEM CASOS ___NICHO____ em que podem brilhar.
+
+
+
+
+sets ----> valores únicos (ids), que devem ser realmente únicos.
+
+
+1
+maps ---> largas quantidade de dados que mudam rapidamente, nessa hipótese maps são úteis.
+
+
+2
+maps ---> situação em que você quer adicionar informações a um objeto mas não quer "bloat" ele com código desnecessário ---> aí maps podem ser úteis. Vimos isso no exemplo do professor, nesse módulo. (usar um map para usar o objeto como key e então adicionar os dados extras como parte do mapa, parte do "value" do key-value pair do objeto, em vez de adicionar isso, "bloatar" isso dentro do objeto.)
+
+
+
+
+
+
+BEM.... QUASE ACABAMOS.
+
+
+
+TAMBÉM HÁ 2 VERSÕES ESPECÍFICAS DE SETS E MAPS QUE PODEM SER BEM INTERESSANTES....
+(ver próxima aula).

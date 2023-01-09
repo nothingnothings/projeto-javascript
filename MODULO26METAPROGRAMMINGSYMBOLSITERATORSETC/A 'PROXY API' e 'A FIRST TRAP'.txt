@@ -1,0 +1,1071 @@
+
+
+
+
+----> PROXY API...
+
+
+
+
+--> É UMA META FEATURE...
+
+
+
+
+
+---> NOS DEIXA __TWEAKAR__ os nossos objetos, ou adicionar ALGUMA FUNCIONALIDADE 
+
+EXTRA  AO NOSSO CÓDIGO QUE INICIA/É ATIVADA QUANDO ___OUTRAS PESSOAS____ TRABALHAM COM 
+NOSSO CÓDIGO... 
+
+
+(é por isso que a proxy api faz parte daquilo que chamamos de 'meta-programming'--> NÓS CONFIGURAMOS 
+O NOSSO CÓDIGO PARA SE COMPORTAR DE UMA CERTA MANEIRA QUANDO OUTRAS PESSOAS O UTILIZAM... ) ---->
+---> é 'AN EXTRA LEVEL OF THINKING'...
+
+
+
+
+------------------------------
+
+
+
+A PROXY API TRATA DA CRIAÇÃO daquilo que chamamos de 'TRAPS' PARA 
+
+____ CERTAS ____ OPERAÇÕES DE OBJETO ____ ('for certain object operations')...
+
+
+
+
+TRAP --> LITERALMENTE UMA TRAP...
+
+
+
+---> COM A PROXY API, você pode 'step-into' EM ALGUMAS OPERAÇÕES 
+
+E ENTÃO ___eXECUTAR __ SEU PRÓPRIO CÓDIGO ____...
+
+
+
+POR EXEMPLO, SE ALGUEM QUER FAZER ''RETRIEVE'' DE UMA PROPRIEDADE, 
+
+ou seja, uma propriedade DE UM OBJETO, COM A 'PROXY API' 
+
+você pode SETTAR ALGUMA LÓGICA que ___roda ___ naquele caso/operação
+ 
+ QUE TE PERMITE  ________mudar ______ AQUILO QUE É RETORNADO ou FAZER/REALIZAR
+
+ ALGUMA TAREFA ADICIONAL...
+
+
+(de novo: ISSO É USADO NESSE 'META-LEVEL', nesse nÍVEL META é onde você 
+pode/talvez vá querer TRACKAR O ACESSO A CERTAS PROPRIEDADES,  ou ASSEGURAR QUE 
+OS OBJETOS QUE SUA LIBRARY EXPÕE SÃO USADOS/VÃO SER USADOS CORRETAMENTE... )
+
+
+
+
+---> OU SEJA, É UMA API QUE, ASSIM COMO 'REFLECT API', TE PERMITE 
+
+____CONTROLAR _____ o 'code usage/impact'... (OU SEJA, A UTILIZAÇÃO DO SEU CÓDIGO 
+POR OUTROS DESENVOLVEDORES...)
+
+
+
+----------------------
+
+
+
+
+DEVEMOS OBSERVAR ESSA API EM AÇÃO...
+
+
+
+
+DEVEMOS COMENTAR PARA FORA DO CÓDIGO A 'REFLECT API'...
+
+
+
+--------------------------------------------
+
+
+
+
+
+VAMOS TRABALHAR NO OBJETO 'course' COM A PROXY API....
+
+
+
+
+
+----> PROXY API ---> EXISTE UM OBJETO ESPECIAL, 'Proxy()'.... VOCÊ PODE INSTANCIÁ-LO, DE FATO.
+
+
+
+ISSO CRIA UM NOVO OBJETO 'PROXY' (se você quiser chamá-lo disso)...
+
+
+---> o professor armazena esse objeto 'proxy' em uma constante de nome 'pCourse'...
+
+
+ex:
+
+
+
+
+const pCourse = new Proxy();
+
+
+
+
+----------------------------------
+
+
+
+ELE DÁ O NOME DE 'pCourse' pq é um PROXY que será usado NO/EM NOSSO OBJETO COURSE, ÀQUELE
+OBJETO que havíamos criado mais cedo...
+
+
+
+
+ex:
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const pCourse = new Proxy();
+
+
+
+-------------------------------------
+
+
+
+
+ESSE PROXY SERÁ APLICADO AO OBJETO 'course' para QUE TENHAMOS 
+
+ESSE OBJETO 'COURSE' ___''ESPECIAL'' depois...
+
+
+
+
+A PROXY 'CONSTRUCTOR FUNCTION' ___EXIGE COMO PARÂMETRO___  O 
+
+OBJETO EM QUE ESSE PROXY DEVERÁ SER APLICADO...
+
+É por isso que o professor passa o objeto 'course'...
+
+
+
+
+
+ex:
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const pCourse = new Proxy(course, );
+
+
+
+----------------------------
+
+
+
+
+ISSO VAI FAZER COM QUE ELE APONTE AO OBJETO 'course'....
+
+
+
+
+
+
+PROXY ----> vemos esse nome em NETWORKING ---> nós usamos um PROXY SERVER PARA __DISFARÇAR___ SEU ENDEREÇO IP...  --> para poder alcançar a web POR MEIO DO 'AFUNILAMENTO' (funneling) DO SEU 'TRÁFEGO' (traffic) POR DENTRO DE OUTRO SERVIDOR,   QUE ENTÃO SERÁ O SERVIDOR QUE SE COMUNICARÁ DE VERDADE COM OS SITES E ASSIM POR DIANTE.... 
+
+
+
+Aqui nós temos algo MUITO PARECIDO..... NÓS 'WRAPPAMOS' UM OBJETO EM VOLTA DE UM OBJETO JÁ EXISTENTE.....
+
+
+Isso significa que NÓS VAMOS WRAPPAR UM OBJETO EXTRA, o objeto 'pCourse', AO REDOR 
+DO OBJETO JÁ EXISTENTE de 'course'...
+
+
+
+
+
+Professor aponta QUE ISSO, POR SI SÓ, NÃO SERIA TÃO ÚTIL... EM VEZ DISSO, 
+em vez de fazer só isso, ESSE CONSTRUCTOR DE 
+PROXY (o slot de parâmetros) 
+
+ACEITA 2 PARÂMETROS/ARGUMENTOS...
+
+
+
+1o argumento --> o OBJETO QUE VOCÊ QUER 'PROXEAR', o objeto que você quer wrappar no seu proxy...
+
+
+
+2o argumento ----> É OUTRO OBJETO, UM OBJETO QUE DEFINE CERTOS __HANDLERS___  PARA O OBJETO QUE FOI WRAPPADO... 
+                ---> isso significa que ELE ESTABELECE CERTOS ___COMPORTAMENTOS___ PARA DETERMINADAS OPERAÇÕES que você talvez queira REALIZAR DENTRO DO OBJETO QUE FOI WRAPPADo...
+                ------> esses comportamentos são 'STEP-INS' dentro DO OBJETO QUE FOI WRAPPADO....
+
+
+
+----------------------------> PARA EXEMPLIFICAR 
+ESSE 2o parametro, 
+
+o professor cria uma outra const aqui, de nome 'courseHandler'...
+
+
+
+ele armazena um objeto ali...
+
+
+
+Dentro desse objeto, você tem certas 'HANDLER FUNCTIONALITIES'...
+
+
+essas 
+
+'HANDLER FUNCTIONALITIES' tem um nome mais comum: '''__TRAPS____'''....
+
+
+ex:
+
+
+
+const courseHandler = {};
+
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const pCourse = new Proxy(course);
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+ESSAS TRAPS PODEM SER DEFINIDAS POR VOCÊ...
+
+
+
+
+Por exemplo, uma trap de tipo 'GET'...............
+
+
+
+ex:
+
+
+
+
+const courseHandler = {
+    get
+};
+
+
+-----------------------------------------
+
+
+
+
+
+PROFESSOR EXPLICA QUE OS NOMES QUE VOCÊ PODE USAR 
+SÃO 'clearly defined'... (são pré-definidos)...
+
+
+
+APENSO A ESTA LIÇÃO VOCÊ ENCONTRA UM LINK AOS DOCS DO MDN 
+sobre a proxy api...
+
+Esses docs TE MOSTRAM TODAS AS TRAPS QUE VOCÊ PODE CRIAR.
+
+
+
+
+AQUI, COM 'GET', eu DEFINO UM ___HANDLER___, uma FUNÇÃO, NO FINAL DAS CONTAS, por meio 
+da SINTAXE DOS MÉTODOS... (method() {})....
+
+
+
+ESSE MÉTODO/FUNÇÃO É EXECUTADO SEMPRE ___QUE ALGUÉM ___ TENTAR ___ ___LER___ um valor 
+DAQUELE OBJETO QUE FOI 'WRAPPADO'.... --->
+
+--> RESUMINDO: SEMPRE QUE ALGUÉM TENTAR __aCESSAR____ UMA PROPRIEDADE, TENTAR PEGAR 
+UM VALOR DE UMA PROPRIEDADE desse OBJETO WRAPPADO, ESSE CÓDIGO DE 'get' SERÁ EXECUTADO...
+
+
+
+---------------------------------------------------
+
+
+
+
+O MÉTODO 'GET', PORTANTO, ACEITA/EXIGE 2 ARGUMENTOS...
+
+ESSES 2 ARGUMENTOS SÃO PASSADOS ___AUTOMATICAMENTE__ PELA 'PROXY API'...
+
+
+1o argumento --> O ____OBJETO____/referência ao objeto/const/let  EM QUE ESSA TRAP ACONTECE/ACONTECERÁ...
+
+
+2o argumento ---> O ___NOME DA PROPRIEDADE____ (propertyName) a qual ESSA TRAP ESTARÁ 'VINCULADA'...
+
+OBS: 'propertyName' ---> isso é um termo GERAL. O JAVASCRIPT ENTENDE QUE ISSO É ''''QUALQUER PROPRIEDADE DENTRO DO OBJETO QUE VOCÊ REFERENCIOU''''
+OBS: 'obj' ---> MESMA COISA. É um termo geral para '''OBJETO QUE VOCÊ COLOCOU NO 1o PARÂMETRO DA CONSTRUCTOR FUNCTION DE 'Proxy'... (ex: 'new Proxy(course, courseHandler);')
+
+
+ex:
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {...}
+}
+
+
+---------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE, POR ENQUANTO, ELE APENAS FARÁ UM CONSOLE.LOG de 'propertyName' POR MEIO DESSA TRAP....
+
+
+
+
+
+Depois disso, ele vai fazer um return de 'obj[propertyName]'....
+
+
+
+
+
+Representação do código inteiro:
+
+
+
+
+
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return obj[propertyName];
+    }
+}
+
+
+
+const pCourse = new Proxy(course, );
+
+
+
+--------------------------------------------------
+
+
+
+
+
+
+
+O QUE ISSO SIGNIFICA? O que 
+
+
+'
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return obj[propertyName];
+    }
+}
+
+
+'
+
+
+
+
+SIGNFICA?
+
+
+
+
+
+
+Significa que QUANDO O USUÁRIO TENTAR ACESSAR/PEGAR O VALOR DESSA PROPRIEDADE 
+
+'propertyName', esse meu HANDLER/PROXY EXECUTARÁ 
+
+AQUELA 
+
+__TRAP___ 
+
+de 'get'...
+
+
+Essa trap vai, então, CONSOLE.LOGGAR a PROPRIEDADE QUE O USUÁRIO TENTOU ACESSAR (console.log(propertyName))
+E ENTÃO 
+
+RETORNAR O VALOR DESSA PROPRIEDADE, por meio do código 'obj[propertyName]'...
+
+
+
+----> a keyword 'get' que acaba CRIANDO ESSE MÉTODO/FUNÇÃO ___''TRAP''___ é a parte mais 
+importante... 
+
+É ELA QUE DIZ QUE ESSE NEGÓCIO SERÁ EXECUTADO SEMPRE QUANDO HOUVER UM 'get'/tentativa de ACESSO dessa 
+propriedade/valor dessa propriedade por meio do usuário....
+
+
+
+
+--> BASICAMENTE, AQUI NOSSO CÓDIGO VAI ___RETORNAR ___ O VALOR QUE O USUÁRIO PEDIU e ao MESMO 
+TEMPO CONSOLE.LOGGAR o valor dessa propriedade NO CONSOLE DO USUÁRIO ('console.log(propertyName)')...
+
+
+
+
+
+
+---> CERTO, MAS NÃO ACABAMOS POR AQUI....
+
+Esse courseHandler tem que ser colocado em algum lugar; se não for, ele nunca será executado...
+
+
+
+
+BEM, O LOCAL EM QUE DEVEMOS COLOCÁ-LO É ÓBIVO, é NO SEGUNDO PARÂMETRO DE 'pCourse', 
+ou seja, 
+DE NOSSA 
+
+'PROXY API' mesmo.....
+
+
+
+ex:
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return obj[propertyName];
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler); /////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+----------------------------------------------------------------------
+
+
+
+
+COM ISSO, AGORA TEMOS O 'READILY CONFIGURED'  OBJETO PROXY....
+
+
+---> AGORA DEVEMOS VER O QUE 
+
+ACONTECE SE EU TENTAR ACESSAR A PROPRIEDADE 'title' (que é uma propriedade 
+de COURSE, na verdade) DENTRO 
+
+DE 'pCourse'....
+
+
+Fazemos isso por meio de um console.log()...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return obj[propertyName];
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+
+
+console.log(pCourse.title);
+
+
+
+
+---------------------------
+
+
+
+BEM, O OUTPUT NO NOSSO CONSOLE É:
+
+
+
+app.js:282 title
+app.js:293 Javascript - the complete guide
+
+
+---------------------------------------------------
+
+
+
+
+RECEBEMOS ESSE OUTPUT pq O OBJETO 'pCourse' REALMENTE 
+
+ACABA __WRAPPANDO__ o objeto 'course'... é por isso 
+
+que o console.log de 'pCourse.title'
+ 
+
+ FUNCIONA... (quando ele wrappa o objeto originário, 
+ o proxy acaba ASSUMINDO TODAS AS PROPRIEDADES E MÉTODOS 
+ DO OBJETO ORIGINAL...)
+
+
+
+ ---> ou seja, ele ESSENCIALMENTE VIRA O OBJETO ORIGINÁRIO, 
+ MAS AO MESMO TEMPO EM QUE ELE É __IGUAL__ AO OBJETO ORIGINAL QUE 
+ ELE WRAPPOU, ELE TEM ESSAS 'TRAPS', ESSES NEGÓCIOS QUE FAZEM 
+ 'FUNNELING' DO TRÁFEGO/TENTATIVAS DE ACESSO/TENTATIVAS DE USO 
+ E ENTÃO EXECUTA 
+ CÓDIGOS (As traps em si) A PARTIR DESSE 
+ FUNNELING....
+
+
+------------------------------------
+
+
+
+app.js:282 title -------------->  isso está vindo do MEU HANDLER, ESTÁ VINDO DA LINHA 'console.log(propertyName)' ---> ISSO NOS MOSTRA/DEMONSTRA QUE ___O CÓDIGO DENTRO DO HANDLER___ DE FATO ESTÁ SENDO EXECUTADO __.... NOSSA TRAP REALMENTE ESTÁ FUNCIONANDO, ESTÁ EXECUTANDO CÓDIGOS ESPECIAIS A PARTIR DAS TENTATIVAS DE ACESSO À PROPRIEDADE 'title'.... (ou qualquer outra propriedade, pois 'propertyName' engloba todas elas...) 
+app.js:293 Javascript - the complete guide -------> ISSO É O OUTPUT da propriedade 'course.title' PROPRIAMENTE DITA...
+
+
+
+
+-------------------------------------
+
+
+
+PROFESSOR EXPLICA QUE PODERÍAMOS FAZER SACANAGENS, RETORNAR COISAS DIFERENTES 
+PARA ESSA TENTATIVA DE 'get' DESSA PROPRIEDADE...
+
+
+
+tipo o RETURN DE UMA STRING, POR EXEMPLo... como 'something stinks'
+
+ex:
+
+
+
+
+
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return 'something stinks';
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+
+
+console.log(pCourse.title);
+
+
+
+-----------------------------------
+
+
+
+
+SE AGORA O USUÁRIO TENTAR CONSOLE.LOGGAR A PROPRIEDADE 'TITLE',
+ 
+ ele acabará vendo console.loggada 
+
+ a mensagem 
+
+
+'something stinks'... ----------> ISSO SIGNIFICA QUE EU FAÇO 'OVERWRITE' DA COISA QUE EU IA DAR 'FETCH', aqui, nesse objeto, POR MEIO DA __PROXY API___ e DAS SUAS TRAPS___...
+
+
+------------------------------------------
+
+
+
+
+Entretanto, você deve PERCEBER QUE 
+
+____NEM 'course', nem 'pCourse' SÃO ALTERADOS POR ESSE PROXY... (por esse return DIFERENCIADO)...
+
+
+Professor mostra isso por meio de um CONSOLE.LOG de 'course' e de 'pcourse'...
+
+
+
+
+const course = { 
+    title: 'Javascript - The Complete Guide'
+};
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return 'something stinks';
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+
+
+console.log(pCourse.title);
+
+
+console.log(course, pCourse);
+
+
+------------------------------------------------
+
+
+PROFESSOR SALVA E RECARREGA.
+
+
+
+O CONSOLE NOS RETORNA 
+
+
+'something stinks'
+
+
+e 
+
+
+{title: "Javascript - The Complete Guide"}
+Proxy {title: "Javascript - The Complete Guide"}
+
+
+
+--------------------------------------------
+
+
+
+OU SEJA, A PROPRIEDADE 'title' DE AMBOS OBJETOS 
+CONTINUA INAFETADA, CONTINUA SETTADA 
+COMO SENDO 'JAVASCRIPT - THe COMPLETE GUIDE'....
+
+
+
+(ou seja, tanto no objeto original COMO NO PROXY, no objeto QUE WRAPPA 
+ESSE OBJETO ORIGINÁRIO...)
+
+
+
+
+---> isso significa que O TITLE EM SI NÃO FOI ALTERADO, ELE CONTINUA IGUAL, 
+NÓS APENAS 
+
+TEMOS ESSA ___TRAP___ QUE É ATIVADA QUANDO O USER/DESENVOLVEDOR TENTA ACESSAR/interagir com 
+ESSA PROPRIEDADE DURANTE O RUNTIME DO JAVASCRIPT....
+(isso significa que estamos fazendo UM HARD OVERRIDE DAQUILO QUE 
+FAZEMOS RETURn... )
+
+
+
+
+Esse 'hard override' daquilo que retornamos por meio do get de uma propriedade é meio inútil...
+
+
+
+Uma coisa mais útil é COLOCAR FALLBACKS....
+
+
+
+ex:
+
+
+PODERÍAMOS COLOCAR 
+
+
+
+"return obj[propertyName] || 'NOT FOUND';  "
+
+
+
+
+isso vai ser um fallback/default value com fallback....
+
+PQ O JAVASCRIPT VAI CHECAR 
+
+'será que 'obj[propertyName]' EXISTE/ 'is a thing'? ' -----> SE SIM, O RUN DESSA FUNÇÃO/PROXY TERMINA AÍ, COM ESSE RETURN..
+
+---> SE 'obj[propertyName]' NÃO EXISTIR, NOSSO CÓDIGO EXECUTARÁ AQUELE FALLBACK de 'not found' 
+INTRODUZIDO COM 
+
+O OPERADOR '||' (OR.)
+
+
+
+
+------------>  QUal é a utilidade desse código logo acima?
+
+
+
+
+Bem, se nós/o desenvolvedor/o usuário tentarmos ACESSAR 
+
+UMA PROPRIEDADE 
+
+____QUE NÃO EXISTE ____ DENTRO DO objeto 'course', 
+
+O NOSSO CÓDIGO VAI NOS RETORNAR a string 'NOT FOUND'...
+
+
+
+
+
+Imagine, por exemplo, que tentemos acessar a propriedade 'title' dentro de 'pCourse'....
+
+
+tipo 
+
+
+'console.log(pCourse.length)' 
+
+
+
+ex:
+
+
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        return obj[propertyName] || 'NOT FOUND';////// EIS O CÓDIGO EM QUESTÃO.
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+
+
+console.log(pCourse.title);
+
+
+console.log(course, pCourse);
+
+
+console.log(pCourse.length); ///// ESSE AQUI TAMBÉM É O CÓDIGO EM QUESTÃO.
+
+
+---------------------------------------
+
+
+
+
+NO exemplo logo acima, O console.log de 'pCourse.length' VAI NOS RETORNAR 
+
+a string 
+
+'NOT FOUND', POIS ESSA PROPRIEDADE NÃO EXISTIRÁ NO INTERIOR DO OBJETO 'pCourse', o que 
+fará com que 
+
+O OPERADOR '||' FAÇA COM QUE A STRING 'NOT FOUND' seja ___SELECIONADA__.
+
+
+
+(ou seja, em vez de receber o valor default de 'UNDEFINED', AQUI EU RECEBEREI
+ O VALOR DE 'NOT FOUND'....)
+
+
+
+------------------------------------------------------------------
+
+
+
+
+----> esse pode ser uma situação/scenario em que a PROXY API PODE SER MAIS ÚTIL...
+
+--> agora, portanto, não estaríamos usando a proxy API para __BLOQUEAR O ACESSO__ do desenvolvedor, ou 
+para RETORNAR UM 'DUMMY VALUE', e SIM 
+
+ESTARÍAMOS A UTILIZANDO PARA ______MELHORAR____ A 'USAGE' ( o uso) DO NOSSO OBJETO...
+
+
+
+---> 'MELHORAR____ A 'USAGE' ( o uso) DO NOSSO OBJETO...' --------> TEMOS QUE PENSAR QUE AQUI 
+
+NÓS ESTAMOS PENSANDO EM UM CONTEXTO DE 'META-PROGRAMMING'...
+
+Estamos pensando no contexto DOS DESENVOLVEDORES DE THIRD PARTY LIBRARIES/PACKAGES
+ QUE SERÃO UTILIZADAS POR OUTROS DESENVOLVEDORES....
+
+Esses objetos expostos pelos desenvolvedores da TPL podem, ocasionalmente, ser usados 
+INCORRETAMENTE... ----> é por isso que ter esses fallbacks POR MEIO DE PROXIES É ALGO 
+BEM ÚTIL, POIS PREVINE QUE UM DESENVOLVEDOR QUALQUER ACESSE UMA PROPRIEDADE __QUE NÃO EXISTE ___ 
+DENTRO DO SEU OBJETO, o que causaria erros no projeto dele...
+
+
+(EX: o resultado dessa propriedade não existir dentro do objeto seria NORMALMENTE 'undefined',
+mas na sua third party library, talvez seja conveniente/melhor disponibilizar UMA INFORMAÇÃO 
+ADICIONAL AO USUÁRIO QUANDO ELE ACESSAR AQUELA COISA QUE ELE NÃO DEVE ACESSAR, tudo por meio 
+dos PROXIES e do '||'....  você também pode 
+
+'encaminhar' o usuário para a solução correta, retornar UM CÓDIGO A SER EXECUTADO QUE CONSERTA 
+O ERRO DO USUÁRIO EM ACESSAR AQUELA PROPRIEDADE INEXISTENTE..)
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+-----> É EVIDENTE/ÓBVIO QUE VOCÊ TAMBÉM PODERIA METER UNS IF CHECKS, 
+
+CHECAR ___QUAL PROPRIEDADE___ O USUÁRIO TENTOU ACESSAR...
+
+
+ex:
+
+
+'if (propertyName === 'length') {
+    return someFixOrInformation;
+}'
+
+
+---------------------------
+
+AQUI, NESSE ÚLTIMO EXEMPLO, COLOCAMOS UMA CONDIÇÃO OBJETIVA, um 
+
+caso específico de 'ERRO/ACESSO INDEVIDO' que leva À UMA EXECUÇAO DE ALGO DISTINTO, algo que 
+ajude/informe o desenvolvedor que acessou a propriedade de forma incorreta/propriedade que não existe....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const courseHandler = {
+    get(obj, propertyName) {
+        console.log(propertyName);
+        if (propertyName === 'length') { ////////////EIS O CÓDIGO EM QUESTÃO.
+            return: 0;
+        }
+        return obj[propertyName] || 'NOT FOUND';
+    }
+}
+
+
+
+const pCourse = new Proxy(course, courseHandler);
+
+
+
+console.log(pCourse.title);
+
+
+console.log(course, pCourse);
+
+
+console.log(pCourse.length); 
+
+
+
+
+--------------------------------------------------
+
+
+Ou seja, por meio desse código, 
+
+
+NÓS AGORA TEMOS 
+
+UMA EXECUÇÃO QUE VAI RETORNAR '0' se a propertyName que o usuário 
+TENTAR ACESSAR FOR 'length' (ex: console.log(course.length)), 
+
+
+E QUE VAI RETORNAR 'NOT FOUND' se O PROPERTYNAME NÃO EXISTIR E FOR DIFERENTE DE 
+'length'.... (como 'rating', por exemplo... 'console.log(course.rating)')
+
+
+----------------------------------------------
+
+
+Se o professor, por exemplo, console.loggar:
+
+
+
+'console.log(pCourse.title, pCourse.length, pCourse.rating);',
+
+
+
+
+ELE VAI RECEBER:
+
+
+
+'Javascript - The Complete Guide 0 NOT FOUND'...
+
+
+
+---------------------------------------------
+
+
+
+ENTRETANTO, NÓS NÃO TEMOS APENAS A TRAP DE 'get', TEMOS __OUTRAS TRAPS__ que podem ser usadas.
+
+
+
+VER DOCUMENTAÇÃO:
+
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#a_complete_traps_list_example
+
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+get 
+
+
+
+set 
+
+
+
+deleteProperty 
+
+
+
+
+enumerate 
+
+
+
+
+ownKeys 
+
+
+
+
+has 
+
+
+
+
+defineProperty 
+
+
+
+
+getOwnPropertyDescriptor
+
+
+
+-----------------------------------
+
+
+e algumas de cookies.

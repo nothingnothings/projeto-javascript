@@ -1,0 +1,1405 @@
+
+
+
+
+
+
+
+
+COMO APRENDEMOS, RECURSION PODE SALVAR UM BOCADO DE CÓDIGO...
+
+
+
+
+
+
+
+Além disso, esse recurso também pode nos ajudar a resolver problemas 
+
+os quais os for loops não conseguem resolver...
+
+
+
+
+PARA EXEMPLIFICAR ISSO, PROFESSOR CRIA UMA CONSTANTE 
+
+chamada de 'myself'...
+
+essa constante será um OBJETO com um name de 'Max'
+
+
+e um array de 'friends'.... (uma listas de amigo).
+
+
+
+
+CERTO.
+
+
+
+
+
+ex:
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: []
+}
+
+
+
+-------------------
+
+
+
+Cada 'friend' nesse array 'friends' É UM OBJETO, e cada objeto terá uma 
+
+propriedade 
+
+'name'...
+
+
+
+Uma delas terá um nome 'Manuel', outro 'Anna', etc etc.
+
+
+Essa aí também terá uma propriedade QUE SEGURARÁ 
+
+UM ARRAY DE FRIENDS TAMBÉM.... (ou seja, será um NESTED ARRAY...)
+
+
+
+
+DENTRO DESSE NESTED ARRAY DE 'FRIENDS', podemos ter outro amigo, digamos um 
+
+amigo chamado 'Chris' (ou seja, teremos de criar um outro objeto, dessa vez com uma propriedade 
+
+'name' de valor 'Chris'....)
+
+
+NESSE OBJETO/AMIGO 'CHRIS', nós não temos 'friends', pois Chris não tem amigos...
+
+
+
+
+
+ex:
+
+
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: [
+        {name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {name:},
+
+        {name:}
+    ]
+}
+
+---------------------------------------
+
+
+
+MAS EU TAMBÉM TENHO OUTRA AMIGA, outro objeto com uma propriedade 'name', que terá um valor de 'Julia'...
+
+
+
+
+ELA TAMBÉM NÃO TEM AMIGOS...
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: [
+        {name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {
+            name:'Julia'
+            },
+
+      
+    ]
+}
+
+
+
+--------------------------------------
+
+
+
+
+
+
+MAS O QUE NÓS SEMPRE TEMOS AQUI, AFINAL DE CONTAS, É UM MONTE DE OBJETOS QUE POSSUEM 
+
+A MESMA ESTRUTURA (um name e, potencialmente, alguns amigos...)...
+
+E ESSES AMIGOS PODEM ESTAR 'NESTEADOS' o quão longe você quiser;
+
+
+'CHRIS' poderia ter amigos, por exemplo;
+
+'Julia' poderia ter amigos, por exemplo;
+
+
+
+
+NÓS NÃO SABEMOS QUANTOS NÍVEIS DE 'NESTING' NÓS TEMOS/PODEMOS TER AQUI....
+
+
+E ESSE NÃO É UM PROBLEMA ESTRITAMENTE 'FICTÍCIO', já que você 
+
+pode encontrar esse problema EM MUITOS DOS APLICATIVOS QUE VOCÊ 
+
+ESCREVERÁ...
+
+
+
+
+DIGAMOS QUE VOCÊ ESTÁ CONSTRUINDO UM APLICATIVO QUE NEM 
+O 'dropbox', em que você está QUERENDO RENDERIZAR 
+
+UMA 'FOLDER STRUCTURE' (estrutura de pastas)....
+
+
+
+Bem, nesse caso, CADA FOLDER poderia/pode ter SUBFOLDERS...
+
+A data structure desse aplicativo SERIA EXATAMENTE ESSA QUE ESCREVEMOS AGORA, 
+
+TUDO ISSO ESCRITO __POR TRÁS DAS CENAS__.
+
+
+-----> VOCê NÃO SABE QUANTOS FOLDERS O USUÁRIO DE SEU APLICATIVO VAI CRIAR, 
+
+mas você SABE QUE VOCÊ SEMPRE TERÁ O MESMO ___TIPO DE OBJETO___, a única diferença 
+
+entre objetos sendo QUAL O NÍVEL EM QUE O USUÁRIO OS NESTEOU... (you will always have the same kind of object, just nested at different levels...).
+
+
+
+
+
+---> VOCÊ NÃO SABE O NÚMERO DE NÍVEIS DE NESTING QUE VOCê 
+VAI PRECISAR....
+
+
+
+---> portanto, poderíamos ter uma situação como essa escrita logo acima, 
+
+EM QUE NÓS SABEMOS QUE TEMOS/TEREMOS SEMPRE O __MESMO TIPO ___ DE OBJETOS 
+
+NESTEADOS UM DENTRO DO OUTRO, mas em que NÓS NÃO SABEMOS 
+
+___QUANTOS NÍVEIS SERÃO___.
+
+
+------------------------------------
+
+
+
+Bem, se nós quiséssemos uma função, digamos 
+
+uma função 
+
+'printFriendNames',
+
+
+
+NÓS NÃO PODERÍAMOS UTILIZAR UM FOR LOOP, POR EXEMPLO, para fazer um loop 
+
+por dentro de todos os friends/níveis (isso pq NÓS NÃO SABEMOS QUANTOS NÍVEIS/friends SERÃO UTILIZADOS PELO USUÁRIO...).
+
+
+
+
+
+O professor explica que, é claro, ele poderia colocar um parâmetro/uma expectativa de receber 
+
+o parâmetro 'person' COMO INPUT DESSA FUNÇÃO...
+
+Ele diz que ele poderia TENTAR IR POR DENTRO DE TODOS 
+
+'friends' de PERSON.FRIENDS...
+
+
+ex:
+
+
+
+
+function printFriendNames(person) {
+    for (const friends of person.friends)
+}
+
+
+-------------------------------------
+
+
+
+MAS SE ELE TENTASSE FAZER ISSO, COMO VOCÊ JÁ APRENDEU, não daria certo.
+
+
+
+Para 'Max' (o valor da propriedade 'name' dessa const 'myself'... ), 
+
+EU TAMBÉM TENHO 'Manuel', O QUAL TAMBÉM 
+TEM 
+
+AMIGOS....
+
+Isso faria com que precisássemos DE UM 'NESTED FOR OF LOOP' dentro 
+
+desse for loop....
+
+
+
+Isso ficaria uma bagunça:
+
+
+faríamos a constante 'friendsFriends' PASSAR POR DENTRO 
+
+
+DA PROPRIEDADE 'FRIENDS' DA PROPRIEDADE 'FRIENDS...'
+
+
+
+
+
+
+
+
+EX (esse código não está acabado): 
+
+
+
+
+
+function printFriendNames(person) {
+    for (const friends of person.friends) {
+        for (const friendsFriends of friends.friends) {
+
+        }
+    }
+}
+
+
+------------------------------------
+
+
+
+
+
+
+
+MAS ISSO TRARIA OUTROS PROBLEMAS NO NOSSO CÓDIGO:
+
+
+
+
+
+1o de tudo: NEM TODA 'PERSON' no nosso código (nem todo objeto) POSSUI a propriedade 'friends'...
+
+
+
+
+---> ISSO É UM GRANDE PROBLEMA, POIS O JAVASCRIPT TENTARÁ 'LOOPAR' POR DENTRO de 
+
+'friends' QUE NÃO ESTÃO NO NOSSO CÓDIGO...
+
+O EXEMPLO PERFEITO É 'Julia', que NÃO POSSUI UM ARRAY DE 'FRIENDS'... 
+
+
+
+
+
+
+
+
+---> POR OUTRO LADO, MESMO QUE UMA PESSOA TENHA AMIGOS, COMO O 
+
+'MANUEL' (o objeto manual) TEM, eu ainda NÃO SEI/NÃO SABEREI SE EU VOU PRECISAR DE __OUTRO__ LOOP NESTEADO.... (pq aqui, nos 'friends' de 'manuel', nesse caso o 'Chris', ESSE CHRIS TALVEZ TENHA 'FRIENDS' TAMBÉM...   )
+
+
+
+
+
+
+
+
+
+E MESMO SE EU SOUBESSE QUANTOS NÍVEIS DE NESTING EU TENHO/PRECISO ( o que eu não sei), 
+
+NÓS AINDA TERÍAMOS DE ESCREVER ___TONELADAS ____ DE 'NESTED FOR LOOPS', e 
+
+for loops, como todos sabem, SÃO UM TIPO DE DE CÓDIGO QUE É 
+
+BEM CHATO DE SE LER...
+--------------------------------------------
+
+
+
+BEST-CASE SCENARIO: SABEMOS QUANTOS LOOPS VAMOS PRECISAR; nesse caso, o código será difícil de ler, mas funcionará legal.
+
+
+
+
+
+WORST-CASE SCENARIO (bem mais frequente; frequentemente isso acontece):  NÃO SABEMOS 
+
+                                                                        QUANTOS NÍVEIS DE NESTING VAMOS PRECISAR NO CÓDIGO.... não sabemos pq 
+                                                                        ESSES DADOS PODEM N SER HARDCODEADOS por você; PODEM ESTAR SUJEITOS A UM DOWNLOAD 
+                                                                        DE UMA DATABASE, ou talvez ESSES DADOS SEJAM CRIADOS POR __USUÁRIOS__ DE SEUS APLICATIVOS 
+
+                                                                        EM CERTO MOMENTO.... 
+
+
+
+                                                                        Ou seja, no momento em que você ESCREVE/ESTÁ ESCREVENDO O SEU CÓDIGO, 
+
+                                                                        VOCÊ NÃO CONSEGUE SABER ___QUANTOS NÍVEIS___ de nesting você terá 
+                                                                        nesse aplicativo...
+
+
+                                                                        NESSES CASOS, O USO DE FOR LOOPS ___DEIXA DE SER UMA OPÇÃO VIÁVEL___.
+
+
+                                                            É NESSES MOMENTOS EM QUE O 'RECURSION' PODE REALMENTE BRILHAR....
+
+
+                                
+
+                                -------------------------------------------
+
+
+
+
+
+                                Aqui, por exemplo, PODERÍAMOS CRIAR UMA VARIÁVEL/CONSTANTE chamada 
+
+                                de 
+
+
+                                'collectedNames'
+
+
+
+                            
+
+
+            
+            ex:
+
+
+
+
+    function printFriendNames(person) {
+        const collectedNames = [];
+    }
+
+
+--------------------------------------------------
+
+
+
+
+ENTÃO, NÓS ADICIONAMOS UM FOR OF LOOP DENTRO DESSA FUNÇÃO... (nós precisamos dele).
+
+
+
+UM LOOP em que nós VAMOS POR DENTRO DE TODOS elementos/objetos 'amigo'(friends) de 
+
+'person.friends'....
+
+
+
+ex:
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+
+        for(const friend of person.friends) {
+
+        }
+    }
+
+
+---------------------------------
+
+
+
+ou seja, se executássemos/chamássemos essa função com a constante 'myself' passada como parâmetro, 
+
+ACESSARÍAMOS A PROPRIEDADE 'friends' no nível root....
+
+
+
+ex:
+
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+
+        for(const friend of person.friends) {
+
+        }
+    }
+
+
+
+
+
+printFriendNames(myself); ////CHAMADO DA FUNÇÃO, com 'myself' passado como parâmetro...
+
+
+
+
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: [
+        {name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {
+            name:'Julia'
+            },
+
+      
+    ]
+}
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+
+OU SEJA, EU ACESSARIA A PROPRIEDADE 
+
+'friends' de 'myself' e então 
+
+PASSARIA POR DENTRO DO 
+
+ARRAY da propriedade 
+
+'friends'...
+
+
+
+esse array é aquele array 
+
+
+
+'friends: [
+
+{name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {
+            name:'Julia'
+            },
+
+ 
+
+]
+
+ 
+
+
+------------------------------------------------------------
+
+
+
+FEITO ISSO, ESSA PASSAGEM POR DENTRO DOS ELEMENTOS 'friend' dentro do array 'friends', o professor 
+
+
+ESCREVE 
+
+'collectedNames.push(friend.name);' -------> ISSO FARÁ COM QUE OS VALORES 
+
+DAS PROPRIEDADES 
+
+'name' DOS objetos 'friend' SEJAM EMPURRADOS PARA DENTRO DO ARRAY 
+
+
+DA CONSTANTE 'collectedNames'...
+
+
+
+ex:
+
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+
+        for(const friend of person.friends) {
+                collectedNames.push(friend.name);}
+    }
+
+
+
+
+POR FIM, NO FINAL DESSA FUNÇÃO, O PROFESSOR FAZ O 'RETURN' DE 'collectedNames', desse array 
+
+dentro da função....
+
+
+
+ex:
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+
+        for(const friend of person.friends) {
+                collectedNames.push(friend.name);}
+
+
+                return collectedNames;
+    }
+
+
+
+
+
+
+
+
+
+------> PROFESSOR EXPLICA QUE AINDA NÃO UTILIZAMOS RECURSION NESSA FUNÇÃO...
+
+
+Ele faz um console.log de 
+
+printFriendNames(myself)   (printFriendNames com 'myself' passado como argumento 'person'...).
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: [
+        {name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {
+            name:'Julia'
+            },
+
+      
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+
+        for(const friend of person.friends) {
+                collectedNames.push(friend.name);}
+
+
+                return collectedNames;
+    }
+
+
+console.log(printFriendNames(myself));
+
+
+
+-------------------------------------------
+
+
+
+
+CERTO.
+
+
+
+FAZEMOS ISSO E RECEBEMOS O OUTPUT 
+
+
+de 
+
+'["Manuel", "Julia"] NO CONSOLE....
+
+
+
+EU RECEBO ESSE ARRAY PQ 
+
+___ESSES SÃO OS 'FRIENDS' DIRETOS DE 'MYSELF' (dessa constante...)....
+
+
+
+
+
+
+Ok, mas AGORA QUEREMOS USAR ___RECURSION____ PARA IR POR DENTRO 
+
+
+DE ____TODOS OS ____ AMIGOS ('friends') NESTEADOS DENTRO DE 'friends' TAMBÉM... (os friends do amigo 'Manuel', portanto...)
+
+
+
+
+
+PARA QUE CONSIGAMOS FAZER ISSO, dentro do for loop, em vez de apenas EMPURRARMOS OS 'names' dos 'friend' POR MEIO 
+
+DE 'push', nós podemos CHAMAR 
+
+
+'printFriendNames' DE NOVO....   Podemos chamar ele 
+
+DE NOVO e então passar 'friend' COMO PARÂMETRO ('friend' como parâmetro, em vez de 'myself'....)
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: [
+        {name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {
+            name:'Julia'
+            },
+
+      
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+
+        for(const friend of person.friends) {
+                printFriendNames(friend);
+
+
+                return collectedNames;
+        }
+
+    }
+
+
+console.log(printFriendNames(myself));
+
+
+
+
+-------------------------------------
+
+
+ISSO VAI FUNCIONAR, REALMENTE (na verdade, não; isso nos dará um erro por enquanto, o erro Uncaught TypeError: person.friends is not iterable
+    at printFriendNames (app.js:279)
+    at printFriendNames (app.js:280)
+    at printFriendNames (app.js:280)
+    at app.js:289)
+
+
+VAI FUNCIONAR PQ 
+
+a função 
+
+
+'printFriendNames' ESPERA SEMPRE UMA 'person'.... a person que usamos originariamente foi 
+
+'myself', MAS É ÓBVIO QUE PODEMOS UTILIZAR UM DOS OBJETOS 'friend' COMO PERSON, pois esses 
+
+objetos TAMBÉM TÊM UMA PROPRIEDADE 'friends' EM SEU INTERIOR, que pode ser passada por dentro 
+
+por meio daquele 'for (const friend of person.friends)'.....
+
+
+
+
+
+MAS EIS QUE SURGE AQUI UM PROBLEMA:
+
+
+
+NEM TODOS OS 'friend' possuem a propriedade 
+
+'friends'... 
+
+Essa key pode não existir para todo e qualquer objeto nesteado dentro de 
+
+'myself'... 
+
+
+
+É POR ISSO QUE DENTRO DE 
+
+
+'printFriendNames' DEVEMOS ADICIONAR UM IF CHECK...
+
+
+
+
+
+checaremos 
+
+
+'se person.friends NÃO existir (ou seja, professor adiciona um '!', um BANG, para 
+que esse código no if body seja executado SE ESSE STATEMENT RETORNAR FALSY, OU SEJA, 
+SE O PERSON.FRIENDS NÃO EXISTIR), vou querer executar esse código do for of loop... caso 
+
+contrário, retorne nada.'
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+    if(!person.friends) {
+               
+        }
+
+
+         for(const friend of person.friends) {
+                printFriendNames(friend);
+
+
+                return collectedNames;
+    
+    
+
+    }
+
+
+console.log(printFriendNames(myself));
+
+
+----------------------------------------------
+
+
+
+SE O 'PERSON.FRIENDS' FOR UNDEFINED, COMO É O CASO PARA OS objetos 'friend' 'JULIA' e 'CHRIS', 
+
+
+aí nós vamos APENAS QUERER
+ 
+ RETORNAR... ('return'). RETORNAR UM ARRAY VAZIO ([]), POIS ISSO ENTÃO SIGNIFICARÁ QUE A PESSOA SIMPLESMENTE NÃO POSSUI AMIGOS...
+
+
+
+
+
+ ex:
+
+
+
+
+  function printFriendNames(person) {
+        const collectedNames = [];
+
+    if(!person.friends) {
+               return [];
+        }
+
+
+         for(const friend of person.friends) {
+                printFriendNames(friend);
+
+
+                return collectedNames;
+    
+    
+
+    }
+
+
+console.log(printFriendNames(myself));
+
+
+
+
+--------------------------------------
+
+
+
+
+CASO CONTRÁRIO, CASO O CÓDIGO DO IF STATEMENT NAO SEJA EXECUTADO, NÓS 
+
+ENTÃO ENTRAMOS NO RESTANTE DO CÓDIGO....
+
+
+
+Professor, por alguma razão, troca o nome de 'printFriendNames' para 
+
+'getFriendNames'...
+
+
+
+PROFESSOR DIZ QUE AINDA DEVEMOS FAZER O PUSH DE TODO 
+
+'friend.name' dentro desse array de collectedNames, para que a função então funcione, cumpra seu propósito...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+ function printFriendNames(person) {
+        const collectedNames = [];
+
+    if(!person.friends) {
+               return [];
+        }
+
+
+         for(const friend of person.friends) {
+             collectedNames.push(friend.name); ////EIS AQUI O CÓDIGO EM QUESTÃO.
+                printFriendNames(friend);
+
+         }
+                return collectedNames;
+    
+    
+
+    }
+
+
+console.log(getFriendNames(myself));
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+ISSO, NO FINAL DAS CONTAS, IRÁ NOS RETORNAR 
+
+
+um array 
+
+
+
+'["Manuel", "Julia"]'...... MAS ISSO NÃO É O QUE QUEREMOS. Ainda não está perfeito.
+
+
+
+
+O que queremos aqui é QUE 'getFriendNames' SEMPRE 
+
+NOS RETORNE UM ARRAY, SEJA ELE UM ARRAY VAZIO (if statement cumprido) OU 
+
+UM ARRAY COM OS 'friend.name' de um determinado 'friend'....
+
+Para isso, nós devemos fazer o push de nossos 'friend.name' para dentro do array de 'collectedNames'...
+
+
+ex:
+
+
+collectedNames.push(friend.name);
+
+-------------------------------------
+
+
+
+No final das contas, esse 'getFriendNames' (FUNÇÃO externa) NOS RETORNA 
+
+OS collectedNames (return collectedNames;)...
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+MAS A QUESTÃO FINAL É:
+
+
+
+O que devemos fazer com aquele valor retornado por 'getFriendNames' DENTRO 
+
+DA FUNÇÃO 'getFriendNames'????? (isso que é o recursion, basicamente. ISSO É O RECURSIVE CALL).
+
+
+
+
+BEM, NO FINAL DAS CONTAS, esse valor retornado por essa função interna será o valor DE TODOS OS NOMES 
+
+DO 'friend' que olhamos (1 de cada vez) DENTRO 
+DESSE 
+
+'FOR OF LOOP'...
+
+
+E ___NÓS QUEREMOS___ ADICIONAR ESSES NOMES (push) ____ AO ARRAY 'collectedNames' QUE ESTAMOS 
+
+ADMINISTRANDO DENTRO DESSA FUNÇÃO....
+
+
+ 
+
+ PARA FAZER ISSO, DIZ O PROFESSOR, BASTA QUE ESCREVAMOS, dentro do for of loop, 
+
+
+
+ 'collectedNames.push(algumaCoisa)'....
+
+
+
+
+
+ ex:
+
+
+
+
+ 
+ function printFriendNames(person) {
+        const collectedNames = [];
+
+    if(!person.friends) {
+               return [];
+        }
+
+
+         for(const friend of person.friends) {
+             collectedNames.push(friend.name);
+                collectedNames.push(algumaCoisa);
+
+         }
+                return collectedNames;
+    
+    
+
+    }
+
+
+console.log(getFriendNames(myself));
+
+
+
+------------------------------------------------
+
+
+
+
+AQUI NÓS TEMOS DE TER MUITO CUIDADO:
+
+
+
+
+
+DEVEMOS TER CUIDADO PQ naquele slot em que colocamos 'algumaCoisa', ESSE 
+
+'algumaCoisa' DEVERÁ SER 
+
+
+'getFriendNames(friend)'.......
+
+
+
+ex:
+
+
+collectedNames.push(getFriendNames(friend));
+
+----------------------------------------------------
+
+
+
+NO ENTANTO, NÃO PODEMOS COLOCAR ESSE FUNCTION CALL SOLTO ALI DENTRO; NÃO PODEMOS 
+
+PQ DEVEMOS NOS LEMBRAR DE QUE A FUNÇÃO 'getFriendNames' SEMPRE NOS RETORNA UM ARRAY.........
+
+ELA SEMPRE NOS RETORNA UM ARRAY, E O PROFESSOR __NÃO QUER __ UM ARRAY NESTEADO DENTRO DE UM ARRAY 
+
+COMO VALOR RETORNADO PELA FUNÇÃO EXTERNA 'getFriendNames'...
+
+
+Para evitar isso, eu digo que devemos usar o spread operator (mas não tenho certeza...).
+
+
+
+
+
+DE FATO, O PROFESSOR USA O SPREAD OPERATOR PARA TIRAR OS ITEMS DE DENTRO DO ARRAY E ESPALHÁ-LOS como 
+
+múltiplas peças individuais dentro do array de 
+
+'collectedNames'...
+
+
+
+ex:
+
+
+
+
+ function printFriendNames(person) {
+        const collectedNames = [];
+
+    if(!person.friends) {
+               return [];
+        }
+
+
+         for(const friend of person.friends) {
+             collectedNames.push(friend.name);
+                collectedNames.push(...getFriendNames(friend));
+
+         }
+                return collectedNames;
+    
+    
+
+    }
+
+
+console.log(getFriendNames(myself));
+
+
+
+
+------------------------------------------
+
+
+
+
+CERTO, AGORA FINALMENTE CONSEGUIMOS O OUTPUT QUE DESEJÁVAMOS:
+
+
+o console nos outputta 
+
+
+
+um array de 
+
+
+'["Manuel", "Chris", "Julia"]..... 
+
+
+
+
+
+OU SEJA, TODOS OS 'FRIENDS' QUE ESTAVAM NESTEADOS DENTRO DA PROPRIEDADE 
+
+'FRIENDS' no OBJETO 'MYSELF'!!!!
+
+--------------------------------------
+
+
+Professor explica que, como 'push' ACEITA MÚLTIPLOS ARGUMENTOS, tantos quanto nós quisermos, OS NOMES 
+DOS AMIGOS VÃO ENTÃO SER ADICIONADOS, 1 de cada vez, a nosso array 
+
+'collectedNames'....
+
+
+
+E AÍ O CONSOLE.LOG FAZ OUTPUT dos 3 amigos que estavam nesteados....
+
+
+
+
+E SE CHRIS TAMBÉM TIVESSE ALGUNS AMIGOS, OUTROS AMIGOS, 
+
+ELES TAMBÉM SERIAM OUTPUTTADOS 
+
+POR MEIO DA RECURSION NESSA FUNÇÃO....
+
+
+A RECURSION VAI POR DENTRO DA NOSSA DATA STRUCTURE E FAZ TUDO PARA NÓS.
+
+
+AOGRA VOCÊ PODE VER O QUÃO FLEXÍVEL É ESSE APPROACH.
+
+
+PODEMOS ADICIONAR MAIS E MAIS AMIGOS, que o negócio ainda vai funcionar.
+
+É brilhante.
+
+
+O professor testa isso com mais 2 outros 'friend' dentro do array 'friends' de 
+
+CHRIS...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const myself = {
+
+    name: 'Max',
+
+    friends: [
+        {name: 'Manuel',
+        friends: [
+            {
+                name: 'Chris'},
+
+        ]},
+
+        {
+            name:'Julia'
+            },
+
+        {
+            name: 'Hari'
+        }, 
+
+        {
+            name: 'Amilia'
+            }
+      
+    ]
+}
+
+
+
+
+
+
+
+
+
+OUTPUT NO DEVCONSOLE:
+
+
+
+
+0: "Manuel"
+1: "Chris"
+2: "Julia"
+3: "Hari"
+4: "Amilia"
+length: 5
+
+
+
+
+--------------------------
+
+
+
+
+ISSO FUNCIONA PQ AGORA TEMOS 'RECURSION' PARA IR POR DENTRO 
+
+DESSA DATA STRUCTURE AQUI....
+
+
+
+DEVIDO à MANEIRA COMO ESTA FUNÇÃO ESTÁ ESTRUTURADA E DEVIDO À LÓGICA DELA, ela 
+
+irá por dentro DE SEJA QUAL FOR O NÚMERO DE LAYERS/NESTING PRECISARMOS....
+
+
+ELA REALMENTE NÃO SE IMPORTA; ESSA FUNÇÃO CHAMA A SI MESMO...,
+
+ela 'mergulha' em 'friends' ATÉ QUE NÃO EXISTAM MAIS FRIENDS DISPONÍVEIS PARA UMA DETERMINADA PESSOA...
+
+quando isso ocorre, ela retorna, retorna e retorna ATÉ 
+
+QUE ACABA COM A EXECUÇÃO DA 'OUTERMOST FUNCTION' (que é o 'getFriendNames' externo) E 
+
+ENTÃO RETORNA O VALOR 'OVERALL' de friends... (collectedNames).
+
+
+-----------------------------
+
+
+
+
+
+------> recursion PODE SER UM RECURSO MEIO DIFÍCIL DE ENTENDER, MAS OS DEVELOPER TOOLS 
+
+
+___PODEM __ NOS AJUDAR...
+
+
+
+Você deve adicionar alguns breakpoints e CUIDADOSAMENTE ir pulando por meio das execuções 
+
+para ter uma noção DE 'ONDE VOCÊ ESTÁ' e como todas as partes funcionam...
+
+
+
+
+NO FINAL DAS CONTAS, A IDEIA É QUE VOCÊ TENHA UMA FUNÇÃO QUE CHAME A SI MESMA e que então 
+
+
+USE O VALOR RETORNADO por aquele CHAMADO INTERNO DA FUNÇÃO ( da função que existe externamente...).
+
+
+
+
+O DETALHE IMPORTANTE É QUE VOCÊ ____SEMPRE DEVERÁ ____ TER UMA 'EXIT CONDITION', CASO CONTRÁRIO 
+
+VOCê TERÁ UM INFINITE STACK, o que levará ao CRASH do seu aplicativo e ao 'throw' de um erro 
+
+(vimos isso no devconsole.)
+
+
+
+
+MAS DESDE QUE VOCê TENHA ESSA EXIT CONDITION E O NEGÓCIO FUNCIONANDO DIREITO, 
+
+vocÊ tem nas maos 
+
+uma ferramenta PODEROSA que te salvará código 
+
+e que 
+
+PODE ENTRAR POR DENTRO DE DATA STRUCTUREs bizarras (como essa de 'friends', que vimos agora), algo que vocÊ 
+
+não poderia fazer normalmente...

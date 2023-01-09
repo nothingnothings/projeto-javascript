@@ -1,0 +1,1228 @@
+
+
+
+
+ANTES DE TERMINARMOS ESSE MÓDULO,
+
+
+
+devemos 
+
+
+falar um pouco mais sobre 
+
+SCOPE em relação aos módulos...
+
+
+
+
+---> VOCÊ APRENDEU QUE VOCÊ SOMENTE PODE USAR 
+
+EM OUTROS ARQUIVOS AS COISAS QUE VOCÊ EXPORTOU em algum arquivo... (o arquivo cujas features você quer utilizar)...
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE, POR EXEMPLO, SE VOCÊ QUISER 
+
+
+USAR AQUELA CLASSE 'TOOLTIP', 
+
+como nós estamos usando módulos agora, 
+
+NÓS APENAS PODEMOS UTILIZÁ-LA 
+
+
+EM ARQUIVOS QUE REALMENTE IMPORTEM 'tooltip'...
+
+
+
+
+
+
+É por isso que escrevemos 'export' na frente da classe 'Tooltip'....
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+O objeto 'global', do qual ABUSAMOS UM POUCO lá no início do curso,
+
+
+PORTANTO NÃO EXISTE MAIS ''NA SUA FORMA COMUM''... (doesnt exist anymore).
+
+
+
+
+
+SE NÓS DEFINIRMOS ALGO 'GLOBAL' EM APP.JS (que é O PRIMEIRO ARQUIVO a ser RODAdo
+NO NOSSO PROJETO...),
+
+
+
+como 
+
+
+
+'const DEFAULT_VALUE = 'MAX' ' 
+
+
+ou qualquer coisa do gênero, 
+
+
+
+
+
+
+SE NÓS QUISERMOS, ENTÃO, UTILIZAR ESSA CONSTANTE 'GLOBAL'
+
+
+EM ALGUM OUTRO ARQUIVO (como um módulo desse projeto, por exemplo), 
+
+
+
+NUNCA É TÃO FÁCIL ASSIM (nas palavras do professor).
+
+
+
+
+
+
+
+
+SE EU QUISER, POR EXEMPLO, OUTPUTTAR ESSA CONSTANTE de DEFAULT_VALUe 
+
+EM 'ProjectList.js',
+
+
+
+
+AS COISAS SE COMPLICAM...
+
+
+
+
+basta eu escrever um 'console.log(DEFAULT_VALUE)'
+
+
+em ProjectList....
+
+
+
+
+
+
+
+SE FIZERMOS ISSO E RECARREGARMOS A PÁGINA,
+
+
+RECEBEREMOS UM ERRO:
+
+
+
+
+
+'Uncaught ReferenceError: DEFAULT_VALUE is not defined 
+
+at ProjectList.js:6'
+
+
+
+-----------------------------------------
+
+
+
+
+
+ESSA CONSTANTE NÃO ESTARÁ DEFINIDA NESSE 'PROJECTLIST'...
+
+
+ISSO SIGNIFICA QUE ELA já NÃO ESTARÁ 
+
+'EXPOSED' NESSE OBJETO 'GLOBAL' (antigamente, quando não usávamos módulos, ela ficava exposta).
+
+
+
+
+
+ENTRETANTO, NÓS TEMOS, POR EXEMPLO, 
+
+
+ACESSO AO OBJETO 'window'...
+
+
+
+
+
+se o professor fizer 
+
+
+o console.log de 'window' em ProjectList,
+
+
+
+
+
+ELE DE FATO CONSEGUIRÁ O 
+
+OBJETO 'Window' sendo outputtado...
+
+
+
+
+
+
+
+
+
+---------> ISSO É BEM IMPORTANTE, PQ NÓS 
+
+VIMOS MAIS CEDO NO CURSO QUE O OBJETO 'WINDOW' É BASICAMENTE 
+
+
+UM ___OBJETO GLOBAL____ EM QUE ALGUMAS DE NOSSAS VARIÁVEIS 
+
+
+E CONSTANTES ACABAM CHEGANDO QUANDO NÓS AS DEFINIMOS GLOBALMENTE....
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+Professor nos relembra que, antigamente, podíamos também 
+
+
+acessar o objeto global 'window' SE ESCREVÊSSEMOS 'this' no contexto global... (fora de uma função).
+
+
+
+
+
+---> ENTRETANTO, QUANDO USAMOS MÓDULOS EM NOSSOS PROJETOS, 
+
+O USO DE 'THIS' NO CONTEXTO GLOBAL (fora de funções) NOS DÁ 'UNDEFINED'...
+
+
+podemos ver isso por meio de um console.log de 'this'....
+
+
+
+
+
+--------> ISSO SIGNIFICA QUE 
+
+
+'MODULES' RODAM EM 'STRICT MODE' 'direto da embalagem'... ---> pq?
+
+
+Pq NÓS APRENDEMOS QUE QUANDO USAMOS STRICT MODE, o 'this' no contexto global 
+
+
+vai sempre nos retornar 'UNDEFINED', e o mesmo se aplica aqui, com os módulos.
+
+
+
+
+
+
+---> É IMPORTANTE SABER TUDO ISSO.
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+NO PASSADO, QUANDO NÓS definíamos uma VARIÁVEL GLOBAL como 'DEFAULT_VALUE', 
+
+ela era ADICIONADA 
+
+DE MANEIRA INVISÍVEL E AUTOMÁTICA AO 
+
+OBJETO GLOBAL 'Window'....... esse objeto, por consequência, atuava como OBJETO GLOBAL 
+QUE ABRANGIA TODO O SEU CÓDIGO/aplicativo...
+
+
+
+ESSA ERA A MANEIRA QUE O JAVASCRIPT ENCONTRAVA DE 'COMPARTILHAR DADOS' AO LONGO 
+
+DE MÚLTIPLOS ARQUIVOS (e.g. por meio da existência desse objeto global 'window', o qual 
+TODO E QUALQUER ARQUIVO PODE/PODIA USAR AUTOMATICAMENTE).
+
+
+
+
+
+
+
+
+
+
+ESSE OBJETO 'WINDOW' é disponível, mesmo com o uso de módulos, se nós digitarmos 
+
+'window' (ex: 'console.log(window)' em ProjectList),
+
+
+
+MAS 
+
+
+NÃO SE DIGITARMOS 'this' no contexto global de algum módulo.... --------->
+
+----------->
+
+
+------------> ISSO SIGNIFICA QUE MÓDULOS POSSUEM SEU PRÓPRIO SCOPE, 
+
+E QUE ALGO QUE É DEFINIDO EM UM MÓDULO ___NÃO É ____ COMPARTILHADO COM OUTROS MÓDULOS, 
+
+A NÃO SER QUE VOCê O EXPORTE...
+
+
+E, ALÉM DISSO, 'this' NÃO APONTA AO OBJETO 'window'...
+
+
+---------------------------------------------------
+
+
+
+
+MAS O QUE VOCÊ PODE FAZER, PARA CONTORNAR ISSO, 
+
+É ___ADICIONAR ALGO___ AO __ OBJETO 'WINDOW'...
+
+
+ADICIONAR ALGO AO OBJETO WINDOW, ___COMO PROPRIEDADE____
+
+
+-------------------------------------
+
+ex:
+
+
+
+
+window.DEFAULT_VALUE = 'MAX'; ////exemplo de propriedade ADICIONADA DINAMICAMENTE ao objeto global 'Window'...
+
+---------------------------------
+
+
+
+
+
+
+
+Se adicionarmos essa coisa dinamicamente por meio da sintaxe de propriedades,
+ 
+ PODEMOS DEPOIS UTILIZÁ-LA nos módulos (teoricamente)...
+
+
+
+
+MAS SE AGORA TENTARMOS ACESSAR 
+
+'window.DEFAULT_VALUE', 
+
+como em 
+
+
+
+'console.log(window.DEFAULT_VALUE);'  na PROJECTLIST.js,
+
+
+
+
+
+ISSO NÃO FUNCIONARÁ;
+
+
+
+
+
+
+
+NÃO FUNCIONARÁ PQ ESSE CÓDIGO do console.log VAI SER, NA VERDADE, 
+
+
+EXECUTADO ____________ANTES ____________________ DO CÓDIGO 
+
+DE 
+
+'app.js' E ANTES DO CÓDIGO de 'window.DEFAULT_VALUE = 'MAX' 
+
+DEFINIDO NO INTERIOR DE app.js....
+
+
+(e, como você já estudou, não é possível FAZER O CONSOLE.LOG DE ALGO QUE 
+AINDA NÃO FOI CRIADO/DEFINIDO.)....
+
+
+
+Mas pq isso acontece?
+
+
+
+
+
+Bem, devemos analisar o código de 'app.js'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import {ProjectList} from '../App/ProjectList.js'; //////////EIS A PARTE IMPORTANTE
+
+
+window.DEFAULT_VALUE = 'MAX';
+
+
+
+
+class App {
+    static init() {
+         const activeProjectsList = new ProjectList('active');
+         const finishedProjectsList = new ProjectList('finished');
+         activeProjectsList.setSwitchHandlerFunction(
+             finishedProjectsList.addProject.bind(finishedProjectsList)
+         ); 
+         finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+             activeProjectsList)
+             ); 
+             /*const someScript = document.createElement('script');
+             someScript.textContent = 'alert("Hi there!")';
+             document.head.append(someScript);*/ //----> ISSO NOS MOSTRA COMO CRIAR/EXECUTAR OUTRO ARQUIVO DE JAVASCRIPT DE DENTRO DE UM ARQUIVO .JS ......
+ 
+             //this.startAnalytics();
+             //document.getElementById('start-analytics-btn').addEventListener('click', this.startAnalytics);  /////EXEMPLO DE CARREGAMENTO DINAMICO DE SCRIPTS (outros scripts, distinto do 'primário', como analytics...) POR MEIO DE CÓDIGO JAVASCRIPT....
+ 
+             //setTimeout(this.startAnalytics, 3000); /////FUNÇÃO QUE DEFINE UM TIMER. AQUI, É UM TIMER DE 3 SEGUNDOS, ASSIM QUE 3 SEGUNDOS TENHAM TRANSCORRIDO, A FUNÇÃO ELENCADA NO PRIMEIRO PARÂMETRO É EXECUTADA.
+                                                     //ex: setTimeout(this.startAnalytics, 3000, [arg1, arg2, arg3]);  //3º argumento, array de argumentos para a função do primeiro argumento, É OPCIONAL.
+ 
+                                                     
+             /*const timerId = setTimeout(this.startAnalytics, 3000); ///-----> ARMAZENAMOS O TIMER EM UM ID, AQUI, PARA QUE POSSA SER UTILIZADO NO BOTÃO QUE SERÁ DEFINIDO LOGO ABAIXO, BOTÃO QUE INTERROMPE O TIMER que adiciona o 'analytics.js' automaticamente ao nosso código....
+ 
+ 
+             document.getElementById('stop-analytics-btn').addEventListener('click', () => {
+                 clearTimeout(timerId); //////IMPORTANTE ====== SEGUNDO PARÂMETRO do eventListener REALMENTE DEVE SER UMA FUNÇÃO ANÔNIMA COM O código do método de parar o timer, se não o TIMER NEM MESMO FUNCIONA, quanto menos o botão de pará-lo....
+             });  */
+ 
+     }
+ 
+     /*static startAnalytics() { /////EXEMPLO DE COMO CRIAR E ADICIONAR/EXECUTAR OUTRO ARQUIVO JAVASCRIPT/SCRIPT DE DENTRO DE UM CÓDIGO JAVASCRIPT...
+ 
+ 
+         const analyticsScript = document.createElement('script'); 
+         analyticsScript.src = 'assets/scripts/analytics.js';
+         analyticsScript.defer = true;
+         document.head.append(analyticsScript);
+     }
+ 
+ */
+ 
+ 
+ }
+ 
+ 
+ 
+ 
+ App.init();
+ 
+ 
+ 
+ 
+
+
+----------------------------------------------
+
+
+
+
+
+Se analisarmos esse trecho de código, PERCEBEREMOS QUE 
+
+
+A PRIMEIRA COISA QUE É EXECUTADA/LIDA NELE 
+
+
+É O IMPORT de 'projectList'....
+
+
+
+
+OU SEJA, O PROJECTLIST (onde está o console.log de DEFAULT_VALUE) 
+
+
+ACABA SENDO EXECUTADO ANTES DE app.js, o que 
+
+leva ao erro 
+
+do console.log de DEFAULT_VALUE resultar em 'undefined'...
+
+
+PQ ISSO ACABA FAZENDO COM QUE O CONSOLE.LOG DE window.DEFAULT_VALUE 
+
+
+
+OCORRA ANTES DA DEFINIÇÃO DESSA MESMA PROPRIEDADE/constante no objeto global....
+
+
+--------------------------------------------------------
+
+
+
+
+
+Professor explica que MUDAR A ORDEM DAS COISAS NÃO É PERMITIDO, NÃO É POSSÍVEL 
+COM ESSAS SINTAXES...
+
+
+
+Se tentássemos colocar 'windo.DEFAULT_VALUE' 
+
+ANTES DE 
+
+
+
+'import' no app.js, o negócio ainda daria erro, POIS IMPORTS SÃO AUTOMATICAMENTE 
+
+MOVIDOS AO TOPO DOS ARQUIVOS .js pela engine javascript....
+
+
+ex:
+
+
+
+
+window.DEFAULT_VALUE = 'MAX';
+
+
+
+import {ProjectList} from '../App/ProjectList.js'; //////////EIS A PARTE IMPORTANTE
+
+
+class App {
+    static init() {
+         const activeProjectsList = new ProjectList('active');
+         const finishedProjectsList = new ProjectList('finished');
+         activeProjectsList.setSwitchHandlerFunction(
+             finishedProjectsList.addProject.bind(finishedProjectsList)
+         ); 
+         finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+             activeProjectsList)
+             ); 
+             /*const someScript = document.createElement('script');
+             someScript.textContent = 'alert("Hi there!")';
+             document.head.append(someScript);*/ //----> ISSO NOS MOSTRA COMO CRIAR/EXECUTAR OUTRO ARQUIVO DE JAVASCRIPT DE DENTRO DE UM ARQUIVO .JS ......
+ 
+             //this.startAnalytics();
+             //document.getElementById('start-analytics-btn').addEventListener('click', this.startAnalytics);  /////EXEMPLO DE CARREGAMENTO DINAMICO DE SCRIPTS (outros scripts, distinto do 'primário', como analytics...) POR MEIO DE CÓDIGO JAVASCRIPT....
+ 
+             //setTimeout(this.startAnalytics, 3000); /////FUNÇÃO QUE DEFINE UM TIMER. AQUI, É UM TIMER DE 3 SEGUNDOS, ASSIM QUE 3 SEGUNDOS TENHAM TRANSCORRIDO, A FUNÇÃO ELENCADA NO PRIMEIRO PARÂMETRO É EXECUTADA.
+                                                     //ex: setTimeout(this.startAnalytics, 3000, [arg1, arg2, arg3]);  //3º argumento, array de argumentos para a função do primeiro argumento, É OPCIONAL.
+ 
+                                                     
+             /*const timerId = setTimeout(this.startAnalytics, 3000); ///-----> ARMAZENAMOS O TIMER EM UM ID, AQUI, PARA QUE POSSA SER UTILIZADO NO BOTÃO QUE SERÁ DEFINIDO LOGO ABAIXO, BOTÃO QUE INTERROMPE O TIMER que adiciona o 'analytics.js' automaticamente ao nosso código....
+ 
+ 
+             document.getElementById('stop-analytics-btn').addEventListener('click', () => {
+                 clearTimeout(timerId); //////IMPORTANTE ====== SEGUNDO PARÂMETRO do eventListener REALMENTE DEVE SER UMA FUNÇÃO ANÔNIMA COM O código do método de parar o timer, se não o TIMER NEM MESMO FUNCIONA, quanto menos o botão de pará-lo....
+             });  */
+ 
+     }
+ 
+     /*static startAnalytics() { /////EXEMPLO DE COMO CRIAR E ADICIONAR/EXECUTAR OUTRO ARQUIVO JAVASCRIPT/SCRIPT DE DENTRO DE UM CÓDIGO JAVASCRIPT...
+ 
+ 
+         const analyticsScript = document.createElement('script'); 
+         analyticsScript.src = 'assets/scripts/analytics.js';
+         analyticsScript.defer = true;
+         document.head.append(analyticsScript);
+     }
+ 
+ */
+ 
+ 
+ }
+ 
+ 
+ 
+ 
+ App.init();
+
+
+
+
+
+ ------------------------------------------------------
+
+
+
+
+
+
+
+
+Isso não funcionará.
+
+
+
+ 
+
+
+ PARA AINDA 'SIMULAR' QUE O COMPARTILHAMENTO DE DADOS 
+
+ por meio de 'window' ainda funciona,
+
+
+ PODEMOS MOVER ESSE CONSOLE.LOG de 'window.DEFAULT_VALUE' 
+
+
+ PARA DENTRO de, por exemplo, 
+
+
+ 'connectDroppable', em ProjectList, 
+
+ o QUAL 
+
+
+ SERÁ CHAMADO EVENTUALMENTE, em um momento futuro na execução...
+
+
+ (o console.log disso acontecerá, nesse exemplo, pq esse código que está em projectList 
+ 
+ É EXECUTADO QUANDO o constructor de ProjectList é executado,
+ 
+  
+  o que somente acontece em um momento POSTERIOR na execução de 'app.js', bem naquela 
+  
+  hora em que as active/finished projectLists são criadas por meio 
+  
+  de 'new ProjectList()'...).
+
+
+
+
+
+
+
+
+  ex (parte do 'app.js'):
+
+
+
+  
+
+
+
+
+import {ProjectList} from '../App/ProjectList.js'; //////////EIS A PARTE IMPORTANTE
+
+
+
+
+window.DEFAULT_VALUE = 'MAX';
+
+
+
+
+class App {
+    static init() {
+         const activeProjectsList = new ProjectList('active');
+         const finishedProjectsList = new ProjectList('finished');
+         activeProjectsList.setSwitchHandlerFunction(
+             finishedProjectsList.addProject.bind(finishedProjectsList)
+         ); 
+         finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+             activeProjectsList)
+             ); 
+             /*const someScript = document.createElement('script');
+             someScript.textContent = 'alert("Hi there!")';
+             document.head.append(someScript);*/ 
+ 
+             //this.startAnalytics();
+             //document.getElementById('start-analytics-btn').addEventListener('click', this.startAnalytics);  
+ 
+             //setTimeout(this.startAnalytics, 3000); 
+                                                     
+ 
+                                                     
+             /*const timerId = setTimeout(this.startAnalytics, 3000); 
+ 
+ 
+             document.getElementById('stop-analytics-btn').addEventListener('click', () => {
+                 clearTimeout(timerId);
+             });  */
+ 
+     }
+ 
+     /*static startAnalytics() { 
+ 
+ 
+         const analyticsScript = document.createElement('script'); 
+         analyticsScript.src = 'assets/scripts/analytics.js';
+         analyticsScript.defer = true;
+         document.head.append(analyticsScript);
+     }
+ 
+ */
+ 
+ 
+ }
+
+-----------------------------------------------------------------------------------
+
+
+ ex(parte do ProjectList.js):
+
+
+
+
+
+
+ export class ProjectList {
+
+
+    projects = [];
+    
+    constructor(type) {
+
+
+
+
+        this.type = type;
+        const prjItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of prjItems) {
+            this.projects.push(new itemProjeto(prjItem.id, this.switchProject.bind(this), this.type)); 
+        }
+        //console.log(projectItems);
+        console.log(this.projects);
+        this.connectDroppable();
+    }
+
+
+
+    setSwitchHandlerFunction(switchHandlerFunction) {
+        this.switchHandler = switchHandlerFunction;
+    }
+
+    connectDroppable() {
+        console.log(window.DEFAULT_VALUE);///////////EIS O CÓDIGO EM QUESTÃO.
+        const list = document.querySelector(`#${this.type}-projects ul`);
+
+        list.addEventListener('dragenter', event => {  
+        if(event.dataTransfer.types[0] === 'text/plain') {
+            list.parentElement.classList.add('droppable');
+            event.preventDefault(); 
+        }
+        
+        });
+    
+
+
+
+
+
+
+        list.addEventListener('dragover', event => {     
+        if(event.dataTransfer.types[0] === 'text/plain') {
+        event.preventDefault();
+    }
+        });
+
+        list.addEventListener('dragleave', event => {
+            if (event.relatedTarget.closest(`#${this.type}-projects ul`) !== list) {
+            list.parentElement.classList.remove('droppable');
+            }}
+        );
+
+
+        list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); 
+            if(this.projects.find(p => p.id === prjId)) {
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+            document.getElementById(prjId)
+                .querySelector('button:last-of-type')
+                .click(); 
+            list.parentElement.classList.remove('droppable');
+            event.preventDefault(); //optional, not really required.
+        })
+        
+        }
+
+
+
+
+    addProject(project) {
+        //console.log(this);
+
+
+        this.projects.push(project); //////faz com que o projeto '''verdadeiro''', oculto e nos bastidores, seja adicionado à essa outra lista...
+        DOMHelper.moveElement(project.id, `#${this.type}-projects ul`); ////////faz com que o DOM NODE, o elemento '''aparente e falso'''', reflita as mudanças que ocorreram nos bastidores do javascript...
+        project.update(this.switchProject.bind(this), this.type); ///////FUNÇÃO ''IRMÃ'' DA VERSÃO VISTA NA PARTE QUE CRIA O PROJECTITEM, ou seja, naquele for of loop que contém o 'switchHandler' de 'this.switchProject.bind(this))'...
+    }           
+
+
+    switchProject(projectId) {
+    //const projectIndex = this.projects.findIndex(p => p.id === projectId);
+    this.switchHandler(this.projects.find(p => p.id === projectId));   ///EXEMPLO DE CALLBACK FUNCTION.
+    this.projects = this.projects.filter(p => p.id !== projectId);
+    //this.projects.splice(projectIndex, 1);
+    }
+
+}
+
+
+
+
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+Agora, quando recarregarmos, veremos que o console nos outputtará 
+
+
+'MAX', bem esse console.log que inserimos em 'connectDroppable', em ProjectList...
+
+
+------------------------------------------------------------
+
+
+
+
+ISSO SIGNIFICA QUE O OBJETO 'WINDOW' PODE AINDA SER UTILIZADO 
+
+PARA 
+
+
+______COMPARTILHAR__________   alguns dados GLOBALMENTE 
+
+
+no seu aplicativo.... (mesmo com módulos)....
+
+
+
+
+Para isso, você precisa EXPLICITAMENTE ADICIONAR ALGO AO OBJETO WINDOW (com 'window.xxxx = yyy'),
+
+
+
+
+MAS SE VOCÊ FIZER ISSO, é possível o compartilhamento de dados.
+
+
+
+
+
+
+É UM 'HACK', UM WORKAROUND que contorna a 'scoped data'....
+
+
+É UM HACK QUE SÓ DEVE SER UTILIZADO COMO ÚLTIMO RECURSO...., 
+
+
+
+
+apenas utilize-o se você realmente precisa COMPARTILHAR ALGUNS DADOS GLOBAIS
+
+e se, por alguma razão, EXPORT/IMPORT não for uma opção no caso concreto...
+
+
+
+----------------------------------------------------
+
+
+
+
+
+
+
+ALÉM DE 'window', entretanto, VOCÊ TAMBÉM TEM 
+
+
+__OUTRO 'IDENTIFIER'___, 
+
+
+
+QUE É CHAMADO DE 
+
+
+'globalThis'...
+
+
+
+
+NÓS NÃO VIMOS ISSO AINDA....
+
+
+
+
+COMO O NOME SUGERE, 
+
+ESSE 'globalThis' É BASICAMENTE 
+
+
+UMA ALTERNATIVA AO 
+
+
+'this'; uma alternativa ao 
+
+THIS que aponta 
+
+
+
+
+A UM 'OBJETO DISPONÍVEL GLOBALMENTE'...
+
+
+
+
+
+-----> a ideia é que ESSE OBJETO É DISPONÍVEL TANTO NO JAVASCRIPT 
+
+BROWSERSIDE, como no 'node.js' (serverside)....
+
+
+
+
+(OBS:::: O OBJETO 'WINDOW', POR EXEMPLO, NÃO É DISPONÍVEL EM AMBOS, COMO O 'GLOBALTHIS' O É...)
+
+
+
+---------------------------------------------------
+
+
+
+
+Certo.
+
+
+'globalThis' PODE SER UTILIZADO PARA 
+
+
+___________ARMAZENAR E LER DADOS....
+
+
+
+
+
+PARA DEMONSTRAR SEU USO, 
+
+
+PROFESSOR SUBSTITUI O objeto 'window' usado 
+
+
+
+em 
+
+
+'window.DEFAULT_VALUE = 'MAX';' 
+
+
+
+
+por globalThis...
+
+
+
+
+ELE também substitui o window por globalThis no console.log de 'connectDroppable'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+import {ProjectList} from '../App/ProjectList.js'; //////////EIS A PARTE IMPORTANTE
+
+
+
+
+globalThis.DEFAULT_VALUE = 'MAX';
+
+
+
+
+class App {
+    static init() {
+         const activeProjectsList = new ProjectList('active');
+         const finishedProjectsList = new ProjectList('finished');
+         activeProjectsList.setSwitchHandlerFunction(
+             finishedProjectsList.addProject.bind(finishedProjectsList)
+         ); 
+         finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+             activeProjectsList)
+             ); 
+             /*const someScript = document.createElement('script');
+             someScript.textContent = 'alert("Hi there!")';
+             document.head.append(someScript);*/ 
+ 
+             //this.startAnalytics();
+             //document.getElementById('start-analytics-btn').addEventListener('click', this.startAnalytics);  
+ 
+             //setTimeout(this.startAnalytics, 3000); 
+                                                     
+ 
+                                                     
+             /*const timerId = setTimeout(this.startAnalytics, 3000); 
+ 
+ 
+             document.getElementById('stop-analytics-btn').addEventListener('click', () => {
+                 clearTimeout(timerId);
+             });  */
+ 
+     }
+ 
+     /*static startAnalytics() { 
+ 
+ 
+         const analyticsScript = document.createElement('script'); 
+         analyticsScript.src = 'assets/scripts/analytics.js';
+         analyticsScript.defer = true;
+         document.head.append(analyticsScript);
+     }
+ 
+ */
+ 
+ 
+ }
+
+
+
+
+-------------------------------------------------
+
+
+
+
+Se salvarmos isso e recarregarmos a página, 
+
+
+RECEBEREMOS O MESMO OUTPUT DE ANTES...
+
+
+
+
+
+
+
+A PARTE MAIS INTERESSANTE AQUI, DIZ O PROFESSOR, É aquilo 
+
+
+que fica disponível/exposto DENTRO DESSE 'globalThis'....
+
+
+
+ficam disponíveis MAIS COISAS ALÉM DESSE NOSSO 'VALOR CUSTOM' que adicionamos como 'DEFAULT_VALUE'...
+
+
+
+
+
+
+
+Se o professor fizer o console.log de 'globalThis' em 'connectDroppable', 
+
+
+
+ele verá o seguinte output:
+
+
+
+
+
+
+
+Window {postMessage: f, blur: f, focus: f, close: f, parent: Window, ...} 
+
+
+
+
+
+
+
+
+OU SEJA, 
+
+
+
+ELE RECEBERÁ O OBJETO 'WINDOW' novamente...
+
+
+
+
+
+----------------------------------------------
+
+
+
+ISSO SIGNIFICA QUE 
+
+'globalThis'
+
+
+
+EM MÓDULOS ACABA 
+
+
+___SUBSTITUINDO____ 'this' (solto) COMO 
+
+
+SEU 'pointer' AO OBJETO 'WINDOW'......
+
+
+
+
+
+Porque 'this' dentro dos módulos acaba NÃO SENDO MAIS O SEU 'this' que aponta 
+
+ao objeto window global.... ele acaba sendo INÚTIL.
+
+
+
+É para isso que existe o 'globalThis', ele vai APONTAR AO SEU OBJETO WINDOW GLOBAL 
+do seu projeto, e substitui o 'this' em projetos com módulos...
+
+
+
+
+globalThis É A ALTERNATIVA AO THIS, em projetos com strict mode ligado (ou seja, em projetos com MÓDULOS).
+
+
+
+
+
+
+
+AINDA HÁ MAIS UM BENEFÍCIO COM O 'globalThis':
+
+
+
+
+ELE TAMBÉM FUNCIONA COM NODE.JS!!!
+
+
+
+
+ISSO QUER DIZER QUE VOCÊ PODE USAR 
+
+'globalThis' 
+
+
+EM QUALQUER LUGAR javascript E 
+
+
+VOCê NUNCA RECEBERÁ 
+
+'UNDEFINED' (o que não ocorre com this, o qual às vezes pode te deixar na mão...).
+
+
+
+
+
+
+
+O GLOBALTHIS vai sempre OU:
+
+
+
+
+1) apontar ao objeto 'WINDOW' no contexto do browser 
+
+
+
+2) APONTAR A OUTRO OBJETO GLOBAL CRIADO __PELO NODE.JS____ NO CONTEXTO ___ NODE.JS____. 
+
+
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+Essas foram algumas informações extras que raramente são úteis, mas que 
+
+são boas de se ter......
+
+
+Não são mt úteis pq você de fato 
+
+
+deve usar exports/imports para compartilhar dados, e não 
+
+esse método 'hacky' de definir coisas no OBJETO GLOBAL WINDOW...
+
+
+
+
+
+
+A MAIOR VANTAGEM EM USAR MÓDULOS É PRECISAMENTE QUE 
+
+OS DADOS QUE NÃO SÃO EXPORTADOS E NÃO SÃO COMPARTILHADOS 
+
+
+NÃO FICAM DISPONÍVEIS FORA DO ARQUIVO EM QUE VOCê FEZ O EXPORT/IMPORT...
+
+
+pq isso te dá um 'SPECIAL MODULE SCOPE', que garante que 
+
+TUDO QUE É DEFINIDO 
+
+NO NÍVEL MAIS SUPERIOR DE UM ARQUIVO (como 'import { ProjectList } from './App/ProjectList.js')
+
+FICA 
+
+DENTRO DESSE ARQUIVO, E NÃO FICA ''VIAJANDO POR AÍ''.

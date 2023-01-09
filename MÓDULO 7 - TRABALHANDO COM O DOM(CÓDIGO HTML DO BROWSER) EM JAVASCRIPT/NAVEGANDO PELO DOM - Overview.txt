@@ -1,0 +1,254 @@
+Vimos um pouco sobre como selecionar elementos no DOM por meio de 
+querySelector, getElementById e assim por diante.
+
+
+
+
+Também vimos como usar esses elementos para manipulá-los ou para ler dados 
+contidos neles. 
+
+
+
+
+MAS HÁ OUTRO CONCEITO CONECTADO A ESSE CONCEITO DE SELECIONAR ELEMENTOS, QUE 
+É TIPICAMENTE CONHECIDO COMO "Traversing the DOM" (navegando pelo DOM).
+
+
+
+O que isso significa?
+
+
+
+
+
+
+Significa que, uma vez que você selecionou um elemento/node, você talvez esteja 
+interessado em DIVAR (mergulhar) EM TODOS OS SEUS NODES FILHOS. Por exemplo,
+para EDITAR TODOS OS "list items" EM UMA LISTA, ou algo do gênero.
+
+
+Ou seja, em vez de manualmente selecionar todos os elementos com querySelector, você talvez prefira 
+utilizar um método mais simples e prático, como por exemplo PEGAR UM ELEMENTO QUE 
+VOCÊ JÁ SELECIONOU E ENTÃO "move to its children or its siblings", baseando-se naquele elemento.
+Isso é o que chamamos de "traversing the DOM".
+
+
+Para isso, o professor quer antes de mais nada esclarecer ALGUNS DOS TERMOS QUE 
+ELE VAI UTILIZAR.
+
+
+1) children 
+
+
+2) descendants 
+
+
+
+3) parents 
+
+
+
+4) ancestors
+
+
+
+É importante entender o que cada um deles significa.
+
+
+
+
+O que significa child/children?
+
+
+
+QUando falamos de child elements, queremos SEMPRE DIZER UM "nODE FILHO DIRETO" (Direct child node or element node).
+
+
+
+Por exemplo:
+
+
+
+<div>
+    <p>
+    A <em>test!</em>
+    </p>
+</div>
+
+
+
+AQUI, a tag "Paragraph" É UMA FILHA DA TAG <div>. É um direct child element. Está 
+diretamente abaixo da div, UM LAYER PARA BAIXO DELA. 
+
+Já a <em> tag, a tag de "emphasize",  no entanto, NÃO É UM DIRECT CHILD ELEMENT 
+DAQUELA TAG <DIV>. Isso é porque embora a tag <em> está NESTEADA dentro da div, 
+ela está nesteada DENTRO DO PARAGRAPH, e não solta dentro da div. Não é uma filha direta dela, como paragraph o é.
+A tag <em> não é um node/elemento filho de div, apenas <p> é. <em> é um node/elemento indireto.
+
+
+
+
+
+
+
+
+
+
+O QUE SIGNIFICA DESCENDANT?
+
+
+Descendant é um child node/element DIRETO OU ____INDIRETO._____ 
+Nesse caso do professor, <EM> É UM FILHO INDIRETO, OU SEJA, É UM 
+DESCENDANT DO ELEMENTO <div>.
+
+
+p = é um child e um descendant 
+
+
+em = é um descendant.
+
+
+
+
+
+O QUE SIGNIFICA PARENT?
+
+
+
+É  + ou - o OPOSTO DE descendant. Um node/elemento parente é o node/elemento PAI DIRETO 
+DE UM outro elemento.
+
+Nesse exemplo, div é pai de p, e p é pai de EM.
+
+
+
+
+
+
+
+
+O QUE SIGNIFICA ANCESTOR?
+
+
+É um NODE/ELEMENTO    PAI DIRETO/INDIRETO DE OUTRO elemento/node.
+
+
+Nesse caso do professor, div é ancestral de P    eeeee   de EM, também.
+
+
+
+div é ancestral de em, mas não é pai.
+
+div é ancestral e pai de p.
+
+
+
+
+
+
+Essa diferenciação é importante de se ter em mente quando falamos 
+de DOM traversal, e do que você pode fazer lá.
+
+
+
+
+Como o professor disse, DOM traversal significa que você TEM UM 
+ELEMENTO/NODE SELECIONADO, digamos esse "div element node".
+
+
+ex:
+
+
+<div>  -----> está selecionado por nós. (current Node).
+
+
+
+Agora, você quer DIVAR (dive into) dentro de alguns dos elementos/nodes AO SEU REDOR 
+E DENTRO DELE. 
+
+
+
+Aqui, há um punhado de direções que você pode tomar. Você sempre pode ir 
+PARA CIMA (up, encontrar um elemento/node PAI (parent), ) -->
+PARA ISSO, VOCÊ UTILIZA AS PROPRIEDADES
+
+"parentNode, parentElement, closest()" ---> essas propriedades específicas TODO 
+OBJETO DOM VAI TER. Todo objeto elemento que você pode selecionar, independentemente se 
+é uma div ou um parágrafo ou whatever, sempre terá essas propriedades parentNode e parentElement.
+A diferença entre elas é que parentNode SELECIONA QUALQUER PARENT NODE, ENQUANTO parent element seleciona 
+apenas UM PARENT NODE QUE TAMBÉM É UM ELEMENTO (portanto, apenas pais que são ELEMENTOS HTML).
+Também há o método "closest()", que você pode usar para não apenas pegar um PAI direto, 
+mas para pegar QUALQUER ANCESTRAL (ancestor) que CORRESPONDE À CERTA CSS QUERY. O professor 
+já vai nos mostrar como cada um deles funciona, em um instante.
+ 
+
+
+
+ex:
+
+div.parentNode...?
+
+
+
+
+--------------------------------
+
+
+VOCÊ TAMBÉM PODE IR PELO SENTIDO CONTRÁRIO; em vez de alcançar o pai ou ancestral daquele node, 
+você pode alcançar o elemento filho ou descendente do tal node. Aqui vocÊ tem 
+childNodes e "children". "ChildNodes" é utilizado para SELECIONAR ___TODOS____ OS CHILD NODES, inclusive 
+aqueles que são textNodes. Children, por sua vez, é utilizado para selecionar apenas CHILD 
+ELEMENT NODES, ou seja, APENAS HTML ELEMENT OBJECTS (sem textNodes).
+ 
+
+E é claro, como o professor nos mostrou anteriormente, você pode USAR QUERYSELECTOR, 
+"getElementByClassName" e assim por diante, EM QUAISQUER ELEMENT NODES SELECIONADOS, também. Esses são, portanto,
+ os métodos que estão sempre disponíveis em qualquer element object selecionado. Você sempre pode usar 
+esses comandos para mergulhar mais fundo em todos os descendants que vocÊ pode encontrar na parte que você quer 
+da DOM tree, tudo baseado naquele elemento que você selecionou primeiro.
+
+
+"ChildNodes, children, querySelector()," ...
+
+
+
+
+Também há PROPRIEDADES ESPECIAIS que você pode usar para pegar coisas específicas. EX: firstChild, 
+que seleciona o "primogênito". Os comandos são 
+"firstChild" e "firstElementChild" (esse ignora os text nodes, apenas seleciona os child element nodes de um 
+determinado elemento).
+
+
+Ex: "lastChild", "lastElementChild"
+
+
+
+
+
+É ASSIM QUE NAVEGAMOS PARA CIMA E PARA BAIXO NA DOM TREE, como acessar elementos nested e coisas acima 
+dos nossos elementos. 
+
+
+
+MASSSSS.... talvez você queira ficar no mesmo nivel, talvez queira selecionar elementos 
+parentes, primos, dos elementos.
+
+ex:
+
+item 1 
+item 2 
+item 3
+
+-----------------------> PARA FAZER ISSO, VOCÊ TEM os comandos "previousSibling" e "previousElementSibling".
+Te permitem pegar o sibling direto de un elemento, e é claro que isso funciona para os dois lados (elementos que vêm antes 
+ou depois do elemento de referência).
+
+
+
+ex da outra direção:
+
+
+"nextSibling" e "nextElementSibling".
+
+
+Essa é a teoria, agora devemos ver como colocar tudo isso em prática.

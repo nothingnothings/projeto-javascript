@@ -1,0 +1,1135 @@
+
+
+
+AGORA DEVEMOS nos ASSEGURAR que 
+
+
+
+TAMBÉM CONSIGAMOS ENVIAR UM 
+
+___POST____ REQUEST...
+
+
+
+
+POST REQUEST ----> um request que 
+ADICIONA DADOS NO SERVIDOR....
+
+
+
+
+
+
+PARA ISSO, O PROFESSOR VAI ADICIONAR UMA NOVA 
+
+
+FUNÇÃO, UMA ASYNC FUNCTION... 
+
+
+chamada de 
+
+
+
+'createPost()'...
+
+---------------------------------------
+
+
+
+
+dentro dessa função, o professor vai esperar/exigir receber um TITLE e o 
+
+content do post....
+
+
+------------------------------------------
+
+
+
+ex:
+
+
+
+
+async function createPost(title, content) {
+
+}
+
+
+
+---------------------------------------
+
+
+
+AÍ DENTRO DESSA FUNÇÃO O PROFESSOR VAI ter 
+
+
+uma constante chamada de 'postId'...
+
+
+
+esse postId o professor obterá por meio 
+
+de 'Math.random();'    ( ou seja, será simplesmente um número aleatório).
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function createPost(title, content) {
+    const postId = Math.random();
+}
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+
+AÍ, 'overall', ele terá o OBJETO 'post' aqui....
+
+
+
+nesse objeto teremos um 'title' de 'title'(daquele valor passado como parâmetro/argumento)....
+
+
+
+
+
+NESSE OBJETO TAMBÉM TEREMOS UM 'body' que terá um valor de 'content'...
+
+
+
+
+
+PROFESSOR DIZ QUE PRECISAMOS DE 'title' e 'body' PQ NOSSA 
+
+
+API (a api do site jsonplaceholder) EXIGE 
+
+
+
+ESSES FIELDS...
+
+
+
+Essa API também exige 
+
+um campo 'userId'...
+
+
+
+
+Professor diz que cometeu um erro: 
+
+a constante não deve se chamar 'postId', e sim 
+
+'userId'...
+
+
+
+O body deverá ser o CONTENT 'argument'...
+
+
+
+
+
+
+POR FIM, O userId deverá ser o 'userId' criado por meio do Math.random mais acima...
+
+
+
+
+Professor explica que esse userId (o valor/constante) poderia ser um valor hardcoded 
+
+OU UMA VARIÁVEL/CONST  (como a que temos aqui).
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE OBJETO 'post' poderá ser A 'POST DATA' que enviamos 
+
+para o servidor...
+
+
+
+
+A questão agora simplesmente é:
+
+
+
+COMO FAZEMOS PARA ENVIAR ISSO?
+
+
+
+
+Professor explica que podemos reutilizar nossa função 'sendHttpRequest'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send();
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+}
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+Simplesmente vamos lá e chamamos a função 'sendHttpRequest' dentro da nossa async Function de 'createPost'...
+
+
+
+
+
+
+
+ex:
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send();
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+    
+sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts');
+}
+
+
+
+
+----------------------------------------------------------------------
+
+
+
+
+
+
+
+AGORA, DIZ O PROFESSOR, PRECISAREMOS ___MELHORAR___ esse método 
+
+
+'sendHttpRequest'... PQ AGORA NÓS 
+
+TAMBÉM PRECISAMOS SER CAPAZES DE ADICIONAR UM __bODY___ 
+
+
+AO REQUEST.... (
+    PARA UM GET REQUEST, VOCÊ NÃO PRECISA DE UM 'BODY'; COM GET REQUESTS, VOCÊ SÓ QUER 
+
+    PEGAR/RECEBER DADOS, por isso você não PRECISA FAZER O APPEND DE NENHUM DADO EXTRA AO 
+
+    'outgoing request'....
+)
+
+pARA UM POST REQUEST, em que vocÊ quer CRIAR DADOS  (data ) NO SERVIDOR, VOCÊ 
+
+
+PRECISA __ADICIONAR OS DADOS___  QUE VOCÊ QUER CRIAR ___ao outgoing request____...
+
+
+
+E PARA FAZER ISSO, PRECISAMOS 'TWEAKAR' a nossa função 'sendHttpRequest'...
+
+
+
+
+
+PARA FAZER ISSO, PRECISAMOS TWEAKAR os parâmetros da função 
+
+'sendHttpRequest'...
+
+
+COLOCAMOS UM TERCEIRO ARGUMENTO NELA, 
+
+
+um argumento 
+
+'data'...
+
+
+
+isso fará com que a função suporte esse argumento...
+
+
+
+
+PROFESSOR, NO ENTANTO, DIZ QUE DEVEMOS USAR AQUELA FEATURE 
+
+de 
+
+'ARGUMENTOS DEFAULT'... (que é colocar '= null' em um argumento, para que 
+
+A FUNÇÃO NÃO SOLTE 'undefined' SE NÓS NÃO USARMOS ESSE PARÂMETRO EM ALGUM CHAMADO 
+QUE A ENVOLVA...)....
+
+
+
+ou seja, ele coloca o terceiro argumento como sendo 
+
+'data = null'.
+
+
+
+Professor diz que não faz diferença nesse nosso projeto esse '= null', mas ainda assim é bom de colocar.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url, data = null) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send();
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+    
+sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts');
+}
+
+
+
+-----------------------------------------------------
+
+
+
+AGORA, COM ESSA PASSAGEM DE ARGUMENTO à 'sendHttpRequest', PODEMOS 
+
+
+FAZER O APPEND DESSe 'DATA' ao outgoing request....
+
+
+
+
+PARA FAZER O APPEND DE DADOS A UM OUTGOING REQUEST, você 
+
+vai 
+
+
+
+ATÉ O MÉTODO 
+
+
+'send()'   (em 'xhr.send()') 
+
+E ENTÃO PASSA OS SEUS 
+
+
+DADOS QUE DEVERÃO SER 'appended'...
+
+
+
+
+Entretanto, você não pode simplesmente 
+
+colocar 
+
+os dados tipo assim:
+
+
+'xhr.send(data);'..., NÃO,
+ 
+
+OS DADOS TEM QUE ESTAR  COMO 
+
+
+
+'JSON DATA'...
+
+
+(eu proponho o uso de stringify, será que estou correto?)
+
+
+
+
+
+ex:
+
+
+
+xhr.send(JSON.stringify(data));
+
+
+
+
+-------------------------------------------
+
+
+
+
+SIM, ESTOU CORRETO.
+ 
+ Usamos 
+
+ 'JSON.stringify()' para converter o valor javascript em valor JSON...
+
+
+
+---------------------------------------------------------
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url, data = null) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send(JSON.stringify(data)); ///////EIS O CÓDIGO EM QUESTÃO.
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+    
+sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts');
+}
+
+
+
+---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+esse 'send' daquele stringify agora vai enviar os dados 
+
+extras...
+
+
+
+COM ISSO, AGORA PODEMOS 
+
+
+CHAMAR 'createPost()' lááá embaixo, logo abaixo de 'fetchPosts'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url, data = null) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send(JSON.stringify(data)); ///////EIS O CÓDIGO EM QUESTÃO.
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+    
+sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts');
+}
+
+
+
+
+fetchPosts();
+
+
+
+createPost();
+
+
+
+
+
+
+
+
+
+--------------------------------
+
+
+
+MAS ESSE 
+createPost(), esse chamado de createPost, 
+
+PRECISA DE PARÂMETROS.
+
+
+
+colocamos 
+
+
+'DUMMY', 'A dummy post!' 
+
+
+como parâmetros.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url, data = null) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send(JSON.stringify(data)); ///////EIS O CÓDIGO EM QUESTÃO.
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+    
+sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts');
+}
+
+
+
+
+fetchPosts();
+
+
+
+createPost('DUMMY', 'A dummy post!');
+
+
+
+
+--------------------------------------------
+
+
+
+
+POR FIM, AGORA APENAS PRECISAMOS NOS ASSEGURAR QUE EM 'createPost'
+
+
+NÓS REALMENTE USAMOS aquele objeto 
+
+'post' que recém criamos, que realmente consigamos 
+
+adicionar esse objeto 'post' 
+
+
+AO REQUEST QUE ESTAMOS 
+
+ENVIANDO POR MEIO 
+
+DE 
+
+
+'sendHttpRequest'...
+
+
+
+
+
+
+É POR ISSO QUE nós colocamos como terceiro 
+
+argumento DO CALL 
+
+de 'sendHttpRequest' a 
+
+
+constante 'post', PARA QUE ELA SEJA USADA E ENVIADA 
+
+de verdade com 
+
+'xhr.send(JSON.stringify(data))' e outros códigos...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+function sendHttpRequest(method, url, data = null) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+    }
+  xhr.send(JSON.stringify(data)); ///////EIS O CÓDIGO EM QUESTÃO.
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+async function createPost(title, content) {
+    const userId = Math.random();
+    const post = {
+        title: title,
+        body: content,
+        userId: userId
+    };
+    
+sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+}
+
+
+
+
+fetchPosts();
+
+
+
+createPost('DUMMY', 'A dummy post!');
+
+
+
+
+
+------------------------------------
+
+
+
+
+COM ISSO, OS DADOS JAVASCRIPT SERÃO CONVERTIDOS BEM 
+
+EM JSON DATA e attacheados ao 
+
+outgoing request, enviado por sendHttpRequest...
+
+
+
+
+---------------------------------
+
+
+
+COM ISSO, SE SALVARMOS E RECARREGARMOS A PÁGINA, VEREMOS QUE NÃO RECEBEMOS 
+
+UM ERRO...
+
+
+
+mas...
+
+
+
+
+bem, devemos checar a tab 'NETWORK'..
+
+
+na aba network 
+
+
+observamos 
+
+
+
+UM REQUEST EXTRA, logo abaixo 
+
+do penúltimo request de 'posts'...
+
+
+
+
+
+PROFESSOR EXPLICA QUE 
+
+OS CÓDIGOS 'status' NOS SINALIZAM SE NOSSO CÓDIGO FUNCIONOU OU NÃO...
+
+
+aqui observamos um 
+
+salto de 
+
+'200' 
+
+para 
+
+'201'...
+
+
+
+status de 
+200 --------> SIGNIFICA que o CÓDIGO FUNCIONOU.
+
+
+
+STATUS De
+201 --->  SIGNIFICA QUE O CÓDIGO FUNCIONOU ____ E QUE O 'RESOURCE' ____ FOI CRIADO COM SUCESSO NO SERVIDOR....
+
+
+
+
+-----------------------------------
+
+
+
+Ou seja, o negócio está funcionando...
+
+
+
+
+ENTRETANTO, TENHA EM MENTE QUE 
+
+
+____NENHUM RECURSO DE VERDADE___ ESTÁ SENDO 
+
+CRIADO DE VERDADE NESSA PÁGINA......
+
+
+
+MAS PQ?
+
+
+
+pq estamos FALANDO COM UMA 'DUMMY API', uma 
+
+API QUE APENAS 
+
+'fakes'/finge que FEZ ALGUMA COISA COM ESSAS ALTERAÇÕES/REQUESTS...
+
+
+
+
+
+AINDA ASSIM, SE NÓS INSPECIONARMOS 
+
+esse último elemento 'posts' na aba network, VEREMOS 
+
+
+
+___UMA RESPONSE___ 
+
+
+( é aquilo que vemos em 'preview', aquele 'id: 101') ----> esse ID é um id automaticamente gerado pelo servidor para os nossos dados que foram enviados.
+
+
+
+
+
+JÁ NA ABA 'headers' VEMOS A NOSSA URL,  o nosso 
+
+
+HTTP method, e, se FORMOS ATÉ O FINAL DESSA ABA, 
+
+VEREMOS O 
+
+
+'REQUEST PAYLOAD'...
+
+
+
+O 'REQUEST PAYLOAD' é 
+
+OS DADOS QUE FORAM 'APPENDED()', 
+
+
+os dados que FORAM CRIADOS/GERADOS POR NÓS.
+
+---------------------------------------------
+
+
+
+
+
+PORTANTO, É DESSA MANEIRA QUE PODEMOS ENVIAR REQUESTS COM 
+
+'JSON DATA' à uma API...
+
+
+
+É bem simples, é assim mesmo.
+
+
+
+DEVEMOS TWEAKAR O NOSSO PROJETO um pouco 
+
+e assegurar QUE CONSIGAMOS REALMENTE ENVIAR 
+
+OS DADOS QUE O USUÁRIO INPUTTOu, e que 
+
+consigamos ENVIAR ESSES DADOS SOMENTE QUANDO O USUÁRIO CLICA EM 'ADD'
+
+(e tbm que nós consigamos FAZER FETCH DESSE POST QUANDO CLICAMOS EM 'FETCH'..)

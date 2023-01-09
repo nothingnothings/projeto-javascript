@@ -1,0 +1,471 @@
+
+
+
+
+
+
+
+Devemos usar o clipboard API para isso...
+
+
+
+
+
+
+O professor já mencionou isso em módulos anteriores...
+
+
+
+
+
+MDN CLIPBOARD Api...
+
+
+
+
+
+nos mostra que o suporte é MIXED...
+
+
+
+
+
+Isso significa que NÓS DEVEMOS CHECAR SE ELE 
+
+
+É SUPORTADO PELOS NOSSOS BROWSERS ANTES DE EXECUTÁ-LO NO 
+
+NOSSO CÓDIGO...
+
+
+
+-----------------------------
+
+
+
+Primeiramente 
+
+
+o professor vincula um segundo parâmetro ao 
+
+addEventListener 
+
+
+de 'shareBtn'....
+
+
+
+
+Professor inventa um nome para esse parâmetro,
+
+o método 
+
+
+
+'sharePlaceHandler()'
+
+
+
+ex:
+
+
+
+
+this.shareBtn.addEventListener('click', this.sharePlaceHandler.bind(this));
+
+
+------------------------------------------------
+
+
+
+
+
+
+
+AGORA PRECISAMOS ADICIONAR/CRIAR UM MÉTODO DESSES DENTRO 
+
+da classe 'PlaceFinder'...
+
+
+
+
+Dentro desse método, a primeira coisa que 
+
+o professor tem que fazer é CHECAR 
+
+SE ESSE CLIPBOARD API existe no browser 
+
+de escolha...
+
+
+Ele faz isso 
+
+por meio 
+
+
+de um if check....
+
+
+
+if (!navigator.clipboard)
+
+
+
+
+ex:
+
+
+
+
+
+sharePlaceHandler() {
+
+
+    if(!navigator.clipboard) {
+
+    }
+}
+
+---------------------------------
+
+
+
+
+se o clipboard não existir,
+
+
+isso significa que o browser não suporta...
+
+
+
+
+SE ISSO ACONTECER, VOU QUERER QUE O CÓDIGO Dê 'RETURN', 
+
+
+MAS ANTES DISSO VOU QUERER QUE, COMO MEDIDA DE "FALLBACK",
+
+NOSSO APLICATIVO ___SELECIONE____ O TEXTO 
+
+DA URL que foi produzida (já que não podemos 
+
+colocar a url dentro da clipboard, vamos pelo menos 
+facilitar o processo de cópia por meio desse highlight...).
+
+
+
+
+Com isso, o usuário só tem que apertar Ctrl + c PARA 
+
+COPIAR O ENDEREÇO...
+
+para selecionar o negócio, a primeira coisa que vocÊ 
+
+precisa fazer É SELECIONAR O CAMPO "INPUt" 
+
+em que estará essa url...
+
+
+
+Para isso, basta que eu copie o 
+
+
+'sharedLinkInputElement' 
+
+e seu valor do document.getElementById('share-link');
+
+
+ex:
+
+
+
+
+
+sharePlaceHandler() {
+        const sharedLinkInputElement = document.getElementById('share-link');
+ if(!navigator.clipboard) {
+        
+        return;
+    }
+}
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+Dentro do if statement, o professor vai chamar 
+
+
+'sharedLinkInputElement'
+
+
+
+e depois 
+
+
+'.select()'.............
+
+
+
+
+
+ESSE EVENTO 'select()' FAZ COM QUE 
+
+TODO O CONTEÚDO (a url) DENTRO 
+
+DE 
+
+'sharedLinkInputElement' SEJA SELECIONADO E "MARKADO"....
+
+
+
+ex:
+
+
+
+
+
+sharePlaceHandler() {
+        const sharedLinkInputElement = document.getElementById('share-link');
+ if(!navigator.clipboard) {
+        sharedLinkInputElement.select();
+        return;
+    }
+}
+
+
+
+--------------------------------
+
+
+
+ISSO FARÁ COM QUE O NOSSO LINK SEJA "HIGHLIGHTEADO" quando o 
+
+botão 'SHARE PLACE' FOR CLICADO....
+
+
+
+Com isso, agora apenas precisamos apertar "CTRL + C" para copiar o negócio, pois 
+
+ele já estará selecionado... (isso é melhor do que nada...).
+
+
+
+
+
+OK, MAS E SE O BROWSER NÃO FOR UMA BOSTA, E SE ELE CONSEGUE SUPORTAR A CLIPBOARD API?
+
+
+
+Bem, aí nós vamos UM PASSO ALÉM 
+
+e COLOCAMOS O CÓDIGO DA CLIPBOARD API 
+
+
+na parte final do código....
+
+
+
+
+vamos querer usar 'navigator.clipboard'
+
+
+
+E ENTÃO CHAMAR 
+
+'.writeText()'
+
+NESSE 
+
+objeto 
+
+'navigator.clipboard'........
+
+
+ESSE 'writeText()' VAI 
+
+ESCREVER O PARÂMETRO QUE PASSAMOS A ELE (que será 'sharedLinkInputElement.value')...
+
+BEM NO INTERIOR DA "CLIPBOARD" DO USUÁRIO...
+
+
+ex:
+
+
+
+navigator.clipboard.writeText(sharedLinkInputElement);
+
+
+
+
+
+ex:
+
+
+
+
+
+
+sharePlaceHandler() {
+        const sharedLinkInputElement = document.getElementById('share-link');
+ if(!navigator.clipboard) {
+        sharedLinkInputElement.select();
+        return;
+    }
+    navigator.clipboard.writeText(sharedLinkInputElement.value);
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+AGORA ESSES DADOS (o 'sharedLinkInputElement.value') 
+
+
+ESTARÃO ARMAZENADOS NA CLIPBOARD DO USUÁRIO...
+
+
+Professor explica que ESSA 'CLIPBOARD API' NOS 
+
+RETORNA __UMA PROMISE___, por default....
+
+
+
+Ele então explica que PODERÍAMOS USAR ASYNC AWAIT para interagir com ela, 
+
+
+
+MAS QUE NÓS DEVEMOS, EM VEZ DISSO, USAR UNS '.then()' e '.catch()' blocks 
+
+PARA MISTURAR UM POUCO NOSSOS APRENDIZADOS.
+
+
+
+
+no '.then()' BLOCK, NÓS SABEMOS QUE 
+
+esse 'write' do negócio FUNCIONOU, então APENAS 
+
+JOGAREMOS (throw) UM ___ALERT___ dizendo ao usuário que 
+
+O ENDEREÇO FOI COPIADO PARA A CLIPBOARD quando ele apertou em 'share place'...
+
+
+
+
+Já no 'catch block' NÓS COLOCAMOS UM 'err',
+
+QUE LOGAREMOS NO CONSOLE, PARA CASOS EM QUE O NEGÓCIO DÁ ERRADO....
+
+
+
+
+O PROFESSOR TAMBÉM COPIA O 'sharedLinkInputElement.select()' 
+
+E COLA NESSE CATCH BLOCK, PORQUE ELE QUER QUE ___o FALLBACK (aquele 'select' da url) SEJA USADO___, 
+
+EM CASO DE ERRO...
+
+
+ex:
+
+
+
+
+sharePlaceHandler() {
+        const sharedLinkInputElement = document.getElementById('share-link');
+ if(!navigator.clipboard) {
+        sharedLinkInputElement.select();
+        return;
+    }
+    navigator.clipboard.writeText(sharedLinkInputElement.value).
+    then(() => {
+        alert('copied link into clipboard!');
+    })
+    .catch(
+        console.log(err);
+        sharedLinkInputElement.select();
+    );
+}
+
+
+
+------------------------------------------
+
+
+
+
+A ÚNICA COISA QUE ESTÁ FALTANDO, AGORA, 
+
+é que 
+
+QUANDO VISITAMOS 
+
+A PÁGINA 
+
+CRIADA POR AQUELE URL, 
+
+
+Nós acabamos criando uma PÁGINA (por causa daquele 
+outro 'index.html' no folder 'my-place'), SIM,
+
+MAS É UMA PÁGINA COM 
+
+
+O ESPAÇO 'MAP' EM BRANCO.......
+
+
+
+
+PROFESSOR DIZ QUE QUER 
+
+MOSTRAR 
+
+
+O 
+
+
+NOSSO ENDEREÇO NO HEADER DA PÁGINA E 
+
+
+RENDERIZAR UM MAPA 
+
+NO CENTRO DA PÁGINA...
+
+
+---------------------------
+
+
+
+Professor explica que
+
+o botão 'share a new place!' 
+
+
+FARÁ COM QUE O USUÁRIO VOLTE PARA A NOSSA 
+
+'HOME PAGE', em que ele poderá 
+
+
+usar as funcionalidades do nosso 
+
+aplicativo de novo...
+
+
+---------------------------
+
+
+
+
+SE CONSERTAMOS ESSES 3 PROBLEMAS, 
+
+
+NOSSO PEQUENO PROJETO ESTARÁ __PRONTO__.

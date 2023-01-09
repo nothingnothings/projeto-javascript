@@ -1,0 +1,524 @@
+
+
+
+
+
+DEVEMOS APRENDER MAIS SOBRE REGULAR EXPRESSIONS.
+
+
+
+
+Criamos uma nova regular expression e a armazenamos dentro de uma const 
+
+
+
+'regex'...
+
+
+
+
+
+DE NOVO, VOCÊ PODE USAR 
+
+TANTO A SINTAXE 
+
+
+
+'new RegExp(STRING QUE VOCÊ QUER QUE SEJA O PADRÃO)'
+
+
+OU
+
+
+
+/PadrãoQueVocêQuer,ComAquelaSintaxeBizarra/
+
+
+
+
+ex:
+
+
+
+
+
+const regex = /    /
+
+
+
+-----------------------------
+
+
+
+
+
+
+COMO VOCê APRENDEU ANTES, REGULAR EXPRESSIONS DESCREVEM PADRÕES OS QUAIS VOCê TENTA ENCONTRAR 
+
+EM ALGUM TEXTO EM UMA STRING...
+
+
+
+------------------------
+
+
+UM PADRÃO, POR EXEMPLO, PODERIA SER 'HELLO'.
+
+
+
+EX:
+
+
+
+const regex = /hello/;
+
+
+
+------------------
+
+
+
+SE TESTARMOS QUALQUER STRING QUE INCLUA HELLO, O MÉTODO 'TEST()' NOS RETORNA TRUE...
+
+
+ex:
+
+
+const regex = /hello/;
+
+regex.test('hello'); 
+
+----------> RETORNARÁ 'TRUE'.
+
+
+
+
+TAMBÉM RECEBEREMOS 'TRUE' se testarmos 'hi there, hello'...
+
+
+NÓS RECEBEREMOS 'TRUE' SE HELLO FOR PARTE DE QUALQUER LUGAR DENTRO DESSA STRING..
+
+ex:
+
+
+
+const regex = /hello/;
+
+
+regex.test('hi there, hello');
+
+
+
+--------------------------------------------------
+
+
+
+
+ESTAMOS APENAS CHECANDO SE A COMBINAÇÃO DE CARACTERES 'hello' FAZ PARTE DA STRING QUE ESTAMOS VALIDANDO...
+
+
+
+
+NÓS NÃO GANHAMOS 'TRUE' SE EU TESTAR 'Hello' em vez de 'hello' (ISSO OCORRE PQ REGULAR EXPRESSIONS ____SÃO CASE___ SENSITIVE____.)
+
+
+
+ex:
+
+
+
+
+
+
+const regex = /hello/;
+
+
+regex.test('hi there, Hello');
+
+
+
+----> RECEBEMOS 'false'.
+
+
+
+
+-----------------------------------
+
+
+
+
+MAS VOCÊ PODERIA FAZER ISSO, PODERIA FAZER UMA VERSÃO DA REGULAR EXPRESSION QUE NÃO É CASE-SENSITIVE... (não se importa com maiúsculas e minúsculas.)
+
+
+
+
+
+PARA FAZER ISSO, A SINTAXE É BEM ESQUISITA:
+
+
+devemos colocar (h|H) + resto da combinação de caracteres...
+
+
+
+(LEMBRE-SE, '|' significa 'OR'...)
+
+
+
+ex:
+
+
+
+const regex = /(h|H)ello/
+
+
+
+regex.test('hi there, Hello');
+
+
+
+----> RECEBEMOS 'TRUE', AGORA.
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+BTW, NÓS NÃO RECEBEMOS 'TRUE', NESSE CASO, SE APENAS TESTARMOS 
+
+'ello' (sem o H/h)...  (ou seja, o H é necessário, o código apenas não se importará, nesse exemplo, COM O SEU 'CASING', maiuscula ou minuscula)
+
+
+
+ex:
+
+
+
+
+
+const regex = /(h|H)ello/
+
+
+
+regex.test('hi there, ello');
+
+
+
+----> RECEBEMOS 'FALSe', AGORA.
+
+
+
+-----------------------------
+
+
+
+HÁ TAMBÉM OUTROS MODIFIERS....
+
+
+
+
+VOCê TAMBÉM PODE TRABALHAR COM 'wild cards'...
+
+
+
+PARA MOSTRAR ESSA FUNCIONALIDADE, O PROFESSOR CRIA UMA OUTRA REGULAR EXPRESSION E
+
+CHECA 
+
+POR 'ello', MAS ELE DIZ QUE NÃO SE IMPORTA 
+
+COM A PRIMEIRA LETRA DESSA COMBINAÇÃO DE CARACTERES...
+
+
+PARA ISSO, DIZ ELE, DEVEMOS SIMPLESMENTE USAR A MARCAÇÃO '.' (dot notation)...
+
+
+
+
+
+
+
+ex:
+
+
+
+const regex = /.ello/;
+
+
+------------> ISSO FARÁ COM QUE O NEGÓCIO NÃO SE IMPORTE COM A PRIMEIRA LETRA USADA NESSE PADRÃO... (CARACTER INICIAL NÃO INTERESSA, quando usamos '.')
+
+
+regex.test('jello');
+
+
+-------------> ESSE TESTE RETORNARÁ 'TRUE', pois 'j' se enquadra na condição de true. O NEGÓCIO APENAS SE IMPORTARÁ COM ___A PARTE FINAL___ DO PADRÃO... (nesse caso, com a combinação de letras 'ello'...).
+
+
+
+
+
+
+
+-------------------------------------------------
+
+
+
+
+TAMBÉM RECEBERIA 'TRUE' se colocássemos 
+
+
+'regex.test('          Jello')               (ou seja, com esse espação), 
+
+
+POIS O NEGÓCIO AINDA ESTÁ TERMINANDO EM 
+
+'ello'...
+
+
+-------------------------------------
+
+
+
+É por isso que o '.' é chamado de wild card, é o CORINGA.
+
+
+
+-----------------------------------------
+
+
+BTW, VOCê PODE TAMBÉM 
+
+___COLOCAR 'ESCAPES'___ EM REGULAR EXPRESSIONS....
+
+(o 'escape' é utilizado com '\', com backslashes.. DETALHE: o 'escape' É UTILIZADO PARA ___ESCAPAR_____ DO SIGNIFICADO PADRÃO DE UMA DETERMINADA EXPRESSÃO/NOTAÇÃO...')
+
+
+Devemos nos lembrar da nossa regular expression DE EMAIL que usamos como exemplo....
+
+
+
+ex:
+
+
+
+const emailRegex = /^\S+@\S+\./ 
+
+
+
+----------------------------------
+
+ALI, O PROFESSOR USOU TODOS AQUELES SÍMBOLOS MALUCOS E ENTÃO 
+
+
+\.   (backslash e ponto).
+
+
+
+\.  ------> SIGNIFICA QUE EU NÃO ESTOU PROCURANDO POR CARACTERES; ESTOU PROCURANDO, NA VERDADE, POR '.', pelo 
+                            CARACTER '.'..  
+                            
+
+--------> o professor usa '\' ANTES DO '.' PARA QUE O CÓDIGO ENTENDA QUE EU ESTOU QUERENDO ____ESCAPAR____ DO PRIMEIRO 
+                SIGNIFICADO DE '.' (que é justamente aquele 'wild card' que aprendemos mais acima, aquela 
+                notação que faz com que o padrão te permita inserir qualquer caracter/combinação de caracteres 
+                naquele slot onde está o '.'...)....
+
+                ESCRITO O '\', o código então entende que deve-se entender '.' COMO REALMENTE UM PONTO, um ponto 
+
+                no meio do padrão (como vemos frequentemente em emails, por exemplo;  ex: 'arthur.panazolo@acad.pucrs.br')
+
+
+
+----------------------------------------------
+
+
+
+ESSE COMPORTAMENTO DO 'ESCAPE' com backslashes FUNCIONA DE FORMA SIMILAR à FORMA PELA QUAL 
+
+VOCê PODE ESCAPAR DE ALGUNS CARACTERES em strings normais.... (como vimos com '\$', uma vez...).
+
+
+
+
+O EXEMPLO DO EMAIL QUE O PROFESSOR UTILIZOU TEM OUTRAS PARTES COM '\'...
+
+
+
+ex:
+
+
+
+\S ----> ISSO É FEITO PARA QUE O CÓDIGO ENTENDA QUE O PROFESSOR 
+NÃO QUER 
+
+DIZER 'a letra S uppercase normal', 
+
+E SIM 
+
+'QUALQUER PALAVRA PODE SER INSERIDA AQUI'....
+
+
+
+
+OU SEJA, OUTRA REGRA DAS REGULAR EXPRESSIONS:
+
+
+
+
+\S     ------------> 'QUALQUER PALAVRA PODE SER INSERIDA NESSE TRECHO'...
+
+
+
+---------------------------------
+
+
+MAS HÁ MAIS COISAS QUE PODEMOS FAZER COM AS REGULAR EXPRESSIONS.
+
+
+
+CONFORME MENCIONADO NA ÚLTIMA LIÇÃO, PODEMOS 
+
+UTILIZAR UNS LINKS DO PROFESSOR QUE NOS MOSTRAM MAIS SOBRE ISSO.
+
+
+
+
+
+
+PROFESSOR É SINCERO, AGORA:
+
+
+
+
+aprender regular expressions e ESCRITA DE EXPRESSÕES 
+
+MUITO COMPLEXAS por conta própria 
+
+TOMA MUITO TEMPo....
+
+
+E TALVEZ VOCÊ NEM PRECISE UTILIZÁ-LAS TANTO ASSIM.
+
+
+
+
+
+PROFESSOR DIZ QUE MUITAS PESSOAS APENAS PROCURAM OS CÓDIGOS NA INTERNET, ALGUNS CÓDIGOS ESPECÍFICOS,
+
+
+
+ESPECIALMENTE SE ELE NÃO SABE SE O PADRÃO QUE ELE UTILIZOU FOI O MELHOR...
+
+
+
+
+POR EXEMPLO, SE VOCÊ QUER VALIDAR ALGUM ENDEREÇO DE EMAIL EM JAVASCRIPT, VOCÊ 
+
+
+PODE COLOCAR NO GOOGLE
+
+
+
+'email js regex'....
+
+
+--> aí você verá padrões bem complexos que podem ser utilizados.
+
+
+
+
+----------------------------
+
+
+É EVIDENTE QUE ISSO NÃO SE APLICA SOMENTE A EMAILS;
+
+
+se vocÊ quer validar uma url, 
+
+
+
+
+VOCÊ PODE GOOGLAR 'url js regex'...
+
+
+-------------------------------
+
+
+
+
+TAMBÉM É IMPORTANTE RESSALTAR QUE VOCê NÃO TEM 
+
+APENAS 'test' como método dentro de uma regular expression;
+
+
+
+você também tem a expressão 'EXEC()'
+
+
+
+
+
+EX:
+
+
+
+
+
+const regex = /.ello/;
+
+
+regex.exec('jello');  ///você poderia passar outra string, uma string que não encaixasse.
+
+
+
+---------> ESSE 'EXEC' VAI NOS RETORNAR UMA ARRAY COM ALGUMAS INFORMAÇÕES SOBRE O 
+
+PADRÃO E EM QUE LUGAR ESSA STRING TESTADA ENCAIXOU NO PADRÃO...
+
+
+VOCÊ GANHA A STRING QUE DEU 'MATCH' de volta, mas vocÊ também 
+
+VÊ EM QUE LUGAR ESSE PADRÃO COMEÇA NA STRING...
+
+Como minha string toda se encaixou no padrão, 
+
+aqui 
+
+o 'index', a propriedade index retornada por 'exec()', 
+
+tem como valoR O NÚMERO 0... (origem).
+
+
+
+SE EU TENTASSE, POR EXEMPLO,
+
+
+'Hi! jello', eu ganharia 
+
+'index: 4', pois 
+
+
+O PADRÃO SÓ COMEÇARIA A SE ENCAIXAR NO ÍNDICE 4 DESSA STRING... (quinto caracter...).
+
+
+
+------------------------------------------------------
+
+
+
+
+VOCê TAMBÉM PODE RECEBER ESSAS INFORMAÇÕES POR MEIO DE UM MÉTODO 'AO CONTRÁRIO'....
+
+
+ex:
+
+
+'hi jello'.match(regex); ///VOCÊ PODE CHAMAR 'MATCH()' na string e então passar a regular expression como parâmetro; aí você receberá BASICAMENTE O MESMO OUTPUT de 'exec()', mas por meio da call em uma string em vez de chamar em uma regular expression......
+
+
+
+-----------------------------------------------

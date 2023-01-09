@@ -1,0 +1,866 @@
+Agora que sabemos sobre o HEAP/STACK, é hora de ver um conceito super importante.
+
+
+
+Ainda que o resto não seja super importante a você, você tem que aprender 
+isso aqui, especificamente, porque é SUPER IMPORTANTE PARA O JAVASCRIPT.
+ 
+
+Isso é por que pode ser bem confuso trabalhar com javascript sem conhecer esse conceito.
+
+
+
+É a questão 
+do
+
+
+PRIMITIVE VS REFERENCE values.
+
+
+Mas o que é isso?
+
+
+
+
+Em Javascript, temos 2 categorias de TIPOS/VALORES.
+
+
+
+
+
+2 CATEGORIAS. 
+
+
+
+
+Por essas 2 categorias, o professor não quer dizer "strings e numbers", porque 
+isso seria errado: há também booleans, objetos, arrays, null, undefined, etc.
+
+
+
+
+
+Mas o que ele quer dizer mesmo é OS DATA TYPES. Booleans, strings, numbers, objects, etc.
+
+
+Todos eles podem ser CATEGORIZADOS em 2 GRUPOS/CATEGORIAS.
+
+
+
+
+1)
+OS VALORES PRIMITIVOS
+
+
+
+
+
+
+
+
+
+
+2)OS VALORES REFERENCIAIS.
+
+
+
+
+
+
+é uma diferenciação importante que você precisa entender.
+
+
+
+
+
+
+
+VALORES PRIMITIVOS === 6 TIPOS. STRINGS, NUMBERS, BOOLEANS, NULL, 
+UNDEFINED E ____SYMBOL_____ (este ainda não aprendemos sobre. É bem avançado, e não importa agora).
+
+
+
+São valores primitivos.
+
+
+
+
+----> cada número que vocÊ cria e então vocÊ armazena em uma variável 
+ou que você usa em um cálculo É CRIADO PELO JAVASCRIPT (OU PELO BROWSER) por 
+detrás das cenas, como um valor primitivo.
+
+
+
+
+Até o presente momento, isso não importava a nós, e em muitos casos isso não 
+importará a você. Mas haverá uma IMPORTANTE DIFERENçA em relação aos valores 
+referenciais, que veremos a seguir.
+
+
+
+
+OK, CONTINUANDO:
+
+
+
+
+------> valores primitivos são armazenados na/em memória (NORMALMENTE NO STACK), 
+variáveis armazenam o valor em si. São guardados normalmente no stack porque 
+esses valores tem uma vida relativamente curta, VISTO QUE O JAVASCRIPT PODE 
+SE LIVRAR DELES RELATIVAMENTE FÁCIL (bem fácil se livrar). São 
+"baratos", não gastam muitos recursos para serem recriados, por isso 
+o JAVASCRIPT pode facilmente duplicá-los (isso não custa muito a ele,
+pouca memória é consumida por esses valores, no final das contas). 
+Por isso esses valores são tipicamente armazenados NA MEMÓRIA STACK.
+VocÊ deve ter aquela imagem em mente, a imagem do stack, das fnuction calls sendo empurradas uma por cima da outra, enquanto elas vão sendo eventualmente ejetadas.
+
+O conceito de STACK para administrar contextos de execução.
+
+
+Bem, você pode dizer que CADA FUNÇÃO TEM SEU CONTEXTO DE EXECUÇÃO 
+PRÓPRIO. 
+
+O "overall script" tem algumas variáveis globais, talvez, que são 
+parte daquele contexto de execução "anonymous"... outra função, que tem uma 
+variável interna tem SEU PRÓPRIO CONTEXTO DE EXECUÇÃO...
+
+
+script total ----> variáveis globais ---> fazem parte do contexto de execução de "anonymous", da "wrapping function."
+
+função X com variável interna Y ---> variáveis locais ----> variáveis locais fazem parte do contexto de execução da função X.
+
+
+
+Valores primitivos, portanto, são tipicamente armazenados NO STACK.
+
+
+O professor diz tipicamente porque ELES TAMBÉM PODEM SER ARMAZENADOS NO HEAP, EM CASOS 
+DE OPERAÇÕES LOOOONGAS. NO FINAL DAS CONTAS, É O BROWSER QUE DECIDE QUAL DESTINO DAR PARA 
+OS DADOS, ELE QUE DECIDE SE UM PEDAÇO DE DADOS VAI PARA O STACK, OU PARA O HEAP.
+
+Mas no final das contas, isso não importa para isso que o professor está tentando 
+explicar aqui.
+Ele apenas quer mencionar brevemente aqui que esses valores primitivos são GERALMENTE
+ADMINISTRADOS NO STACK. Mais importante para nós, e a DIFERENÇA PRINCIPAL ENTRE OS VALORES 
+PRIMITIVOS E OS REFERENCIAIS, É O FATO DE QUE QUANDO VOCÊ COPIA UMA VARIÁVEL, ou seja, quando você assigna 
+uma variável a uma nova e diferente variável, que também segura um valor primitivo, O VALOR DA PRIMEIRA TAMBÉM É 
+COPIADO.
+"WE TOOK THIS FOR GRANTED THUS FAR, BUT THE IMPLICATION IS QUITE IMPORTANT."
+
+
+Copying a variable (= assign to different variable) COPIES THE VALUE.
+
+
+
+
+EX PRÁTICO:
+
+
+Se você abrir seu dev tools do browser em qualquer webpage que você quiser e criar uma variável
+com "let", digamos a variável "name". E então armazenamos um valor de 'Max';
+Strings são valores primitivos, como aprendemos agora.
+
+Max agora está armazenado em name.
+
+se digitarmos name no console, receberemos 'Max'.
+
+SE AGORA VOCÊ CRIAR UMA NOVA VARIÁVEL, 'anotherUser', e então você assignar "name" COMO UM VALOR PARA AQUELA 
+VARIÁVEL, VOCê ESTÁ BASICAMENTE DIZENDO AO JAVSCRIPT "PEGUE OS VALORES ARMAZENADOS EM NAME E ARMAZENE-OS EM anotherUser.".
+Em consequência disso, se agora declararmos anotherUser no console, receberemos também o valor 'Max'.
+Essa é a característica dos VALORES PRIMITIVOS. Eles podem ser copiados facilmente.
+
+Mas não acaba por aí. O negócio fica mais interessante. O negócio fica interessante quando mudamos o valor de  "name" para, digamos, 
+'Manuel'. Ou seja, assignamos um novo valor a essa variável "name".
+
+
+Se nós agora declararmos "anotherUser", no entanto, veremos que O VALOR QUE ELE SEGURA AINDA É 'Max'...
+E isso é algo que já esperávamos, e algo que já usamos até agora no curso. Sempre que pegamos 
+algum valor em alguma variável ou talvez em algum parâmetro de uma função e guardamos isso em outra variável, 
+sempre ficou claro para nós que se mudássemos aquela variável original, a outra variável em que a armazenamos NÃO MUDARIA 
+JUNTO COM ELA. NÃO ACOMPANHARIA SUA MUDANÇA.
+
+Parte mais importante:
+-----------------------------------------------------------------------------
+E isso acontece porque VALORES PRIMITIVOS SÃO COPIADOS por valor. Isso significa que quando nós fazemos 
+esse assignment, essa definição de que "let anotherUser = name;",  estamos dizendo para o javascript e o browser 
+"Ei, pegue o valor que está armazenado em 'name' nessa variável (a variável anotherUser), crie uma cópia dele/desse valor (do valor de 'name') e armazene 
+essa cópia/substitua a variável name pelo valor dela (que é de 'Max') dentro da variável anotherUser.
+------------------------------------------------------------------------------------------------
+
+
+
+Não se esqueça que TODOS OS DADOS, inclusive números e strings, devem ser armazenados na memória, em algum lugar.
+Tipicamente o local escolhido é O STACK, e não precisamos nos preocupar muito sobre ONDE EXATAMENTE FICA ESSE LUGAR, 
+mas porque esses dados precisam ser armazenados em algum lugar, NÃO É OBVIO, muito menos ESPERADO que o javascript sempre cria 
+uma cópia do valor quando nós queremos armazená-lo em uma nova variável.
+
+Uma hipótese alternativa a essa é o javascript apenas dizer Às variáveis: "Bem, pegue esses exatos valores/valores idênticos armazenados na minha memória, naquele mesmo lugar e 
+armazene esse endereço daquele lugar na memória da variável, em vez do valor em si" (???? não entendi nada).
+
+Se esse fosse o caso, então mudar a "variável 1" seria algo que impactaria o valor armazenado na 
+"variável 2", porque elas estariam efetivamente apontando para o mesmo valor. MAS NÃO É ISSO QUE ACONTECE 
+COM VALORES PRIMITIVOS. EM VEZ DISSO ACONTECER, O QUE ACONTECE É QUE UMA CÓPIA VERDADEIRA DAQUELE 
+VALOR DA VARIÁVEL É CRIADA 
+
+Esse é o comportamento para valores primitivos.
+
+
+
+
+
+----------------------------
+
+
+
+VALORES REFERENCIAIS:
+
+
+
+você talvez já possa adivinhar qual será o comportamento para valores referenciais, mas aqui vamos explicar bem.
+
+
+
+
+Mas o que são valores referenciais?
+
+
+
+---> SÃO TODOS OS OUTROS OBJETOS, ou, no geral, TODOS OS OBJETOS EM JAVASCRIPT.
+
+
+
+Bem, tecnicamente, se você quer ser bem correto, strings, números e assim por diante NÃO SÃO 
+OBJETOS, mas são TRANSFORMADOS DINAMICAMENTE EM PSEUDO-OBJETOS, você poderia dizer, quando você 
+faz algo como "xxx.length".
+
+
+ex:
+
+
+"name.length"; -----> faz uma string (que é o que name segura) ser transformada em um PSEUDOOBJETO
+
+
+
+
+
+
+
+
+Nós já usamos isso antes no curso, mas isso te dá a extensão (length) do nome, e com a notação "dot" (.), 
+essa expressão deixa mais ou menos implícito que estamos acessando UMA PROPRIEDADE DE NAME, que por sua vez deixaria implícito que name 
+SERIA UM OBJETO... mas ele, a bem da verdade, não é. Isso é bem confuso, por isso veremos mais sobre o assunto no futuro.
+
+
+
+
+
+Mas basicamente o que acontece aqui é que o javascript transforma dinamicamente uma string ou número OU QUALQUER VALOR PRIMITIVO 
+em um objeto temporariamente (se vocÊ usar a dot notation (.) nesse número/string). Mas fora esse comportamento 
+excepcional, strings e números sempre se comportam como valores primitivos, guardados na memória, independentemente 
+se vocÊ as transformar temporariamente por meio de (.) ou não.
+
+
+
+
+
+***********POR OUTRO LADO, TODOS OS OBJETOS ____DE VERDADE____, OU SEJA, AQUELES OBJETOS PUROS, QUE SEMPRE SÃO OBJETOS, 
+SÃO TRATADOS DE FORMA DIFERENTE; NÃO RECEBEM TRATAMENTO IGUAL AO DOS VALORES PRIMITIVOS. COMO SÃO MAIS CAROS, 
+GASTAM MAIS MEMÓRIA PARA SEREM CRIADOS. UM OBJETO DE VERDADE, QUE VOCÊ CRIA POR SUA PRÓPRIA MÃO OU QUE 
+PODE ESTAR EMBUTIDO (built-in) NO BROWSER E QUE PODE ESTAR EXPOSTO A VOCÊ, COMO AQUELE OBJETO "MATH" EM QUE NÓS 
+CHMAMAMOS AQUELA FUNÇÃO "RANDOM" ("math.random"), LÁÁÁÁ NO INICIO DO CURSO... (sim, aquilo era um objeto).
+
+
+Bem, esses objetos, como você pode imaginar, seguram um pouco mais de dados do que um punhado de simples caracteres ou 
+um número sozinho. Eles são mais complexos para serem administrados, e por isso a criação deles toma mais tempo,
+ocupa mais memória e assim por diante.
+
+
+Por isso o browser tipicamente os armazena ___NO HEAP_____, mas a lógica exata da localização que o browser escolhe é UMA COISA 
+PELA QUAL O BROWSER É O RESPONSÁVEL, E NÃO VOCÊ ou o javascript. Mas é isso que o browser faz, basicamente.
+
+
+E, ALÉM DISSO, O BROWSER ARMAZENA UM "POINTER" (um endereço), POR MEIO DE UMA VARIÁVEL, QUE APONTA PARA A LOCALIZAÇÃO 
+DESSE OBJETO, PARA O ESPAÇO QUE ESSE OBJETO OCUPA NA MEMÓRIA. (tradução meio bosta, errônea).
+
+        original:
+
+
+
+Reference values --> "are stored in memory (HEAP), variable stores a pointer (address) to their/the object's location
+in the memory."
+
+
+O browser armazena o ENDEREÇO DAQUELE LUGAR NA MEMÓRIA, E NÃO O VALOR EM SI.
+
+
+
+
+-----------------------------------
+
+
+
+Para valores primitivos, uma variável REALMENTE ARMAZENA O VALOR EM SI DENTRO DELA (no stack).
+
+
+Para valores REFERENCIAIS, não é esse o caso. Em vez disso, o valor É ARMAZENADO EM ALGUM LUGAR 
+DA MEMÓRIA, ALGUM LUGAR NO HEAP, e a VARIÁVEL ARMAZENA O ENDEREÇO DAQUELE LUGAR NA TAL DA MEMÓRIA(o espaço que ele ocupa na memória).
+A variável, portanto, armazena um "POINTER", uma indicação de onde está aquele valor, qual lugar ele está ocupando, na memória.
+
+PORTANTO, SE VOCê COPIAR UMA VARIÁVEL QUE SEGURA UM "REFERENCE VALUE" (ou seja, se vocÊ assignar essa variável 
+a uma outra, nova variável, como fizemos com "otherUserName = name;"), VOCê COPIARÁ SOMENTE O POINTER, A REFERÊNCIA àQUELE LOCAL 
+ QUE O VALOR DE VERDADE OCUPA NA MEMÓRIA, E NÃO O VALOR EM SI.
+
+
+
+
+
+ Mas qual é a consequência/implicação disso?
+
+
+
+
+ -->para descobrirmos isso, voltamos ao browser e recarregamos a página.
+
+
+ Criamos um novo array, e arrays SÃO APENAS OBJETOS.
+
+Criamos uma nova variável que segura um array.
+
+
+
+ let hobbies = ['Sports'];
+
+
+
+ -----> por enquanto, a variável apenas segurará um array com o item "sports".
+
+
+
+
+
+
+
+
+
+ --->depois disso, criamos outra variável, "newHobbies".
+
+
+
+
+ ----> armazenamos a variável "hobbies" dentro da variável newHobbies.
+
+ex:
+
+
+ let newHobbies = hobbies;
+
+
+
+Agora, se outputtarmos hobbies no console, veremos que 
+ele responderá ["Sports"], o mesmo valor da variável hobbies original.
+
+
+Se agora declararmos 
+
+newHobbies, veremos que ele responderá ['Sports'] também.
+
+
+
+Até aqui, você PODERIA PENSAR QUE O VALOR FOI COPIADO. MAS ISSO ESTÁ ERRADO.
+
+
+Agora vamos até hobbies e FAZEMOS PUSH DE UM NOVO ELEMENTO PARA DENTRO DELE. Digamos que é o item "cooking".
+
+Se dermos enter, nós empurraremos esse item para dentro de hobbies.
+
+
+
+Agora, se declararmos "hobbies", o console retornará ['Sports' , Cooking'].
+
+
+MAS SE DECLARARMOS newHobbies, O CONSOLE TAMBÉM RETORNARÁ ['Sports', 'Cooking' ].
+
+
+
+
+OU SEJA, NEWHOBBIES AGORA TAMBÉM INCLUI COOKING, AINDA QUE NÓS NUNCA TENHAMOS TOCADO NA DEFINIÇÃO DA SEGUNDA VARIÁVEL, NA VARIÁVEL 
+"NEWHOBBIES". ISSO É PORQUE ESTAMOS NOS REFERINDO, COM ESSAS 2 VARIÁVEIS, AO MESMO TRECHO/LOCAL DA MEMÓRIA DO BROWSER. PORQUE QUANDO 
+NÓS COPIAMOS A VARIÁVEL HOBBIES, NÓS APENAS COPIAMOS O POINTER DAQUELE VALOR (o endereço daquele valor), ____E____NÃO_____O____VALOR____EM_____SI (como o browser/javascript faz com as variáveis).
+O valor em si, o array em si, nunca foi duplicado, apenas o pointer/endereço o foi.
+
+Isso significa que se nós mudarmos um array, NÓS AUTOMATICAMENTE MUDAREMOS O OUTRO ARRAY, PORQUE NÃO EXISTE ALGO COMO 
+"UM E OUTRO/SEGUNDO ARRAY", HÁ, NA VERDADE, APENAS UM ARRAY NA MEMÓRIA, QUE ESTÁ COM 2 VARIÁVEIS DIRECIONADAS A ELE, DIRECIONADAS AO MESMO LUGAR, 
+QUE É O LUGAR ONDE ['Sports', 'Cooking'] está localizado.
+
+
+
+
+OBJETOS COMUNS SE COMPORTAM EXATAMENTE DA MESMA FORMA QUE ESSES ARRAYS; SE VOCÊ MUDAR UM OBJETO, VOCÊ 
+MUDA TODOS OS QUE ESTÃO CONEXOS A ELE, PORQUE TODOS ELES TÊM VARIÁVEIS QUE APONTAM PARA UM CERTO LUGAR 
+NA MEMÓRIA (E QUE NÃO SEGURAM O VALOR DO ARRAY/OBJETO EM SI; APENAS SEGURAM O POINTER/ENDEREÇO DO NEGÓCIO).
+
+
+
+ex com objetos:
+
+
+
+No console, definimos a variável "person".
+
+
+
+let person = {
+    age: 30;
+}
+
+
+Então criamos uma variável para uma segunda pessoa, "anotherPerson". Definimos o valor de anotherPerson como sendo 
+a variável "person" ("copiamos a variável"(ou, nesse caso, o pointer))
+
+
+
+
+let anotherPerson = person;
+
+
+--------------------------------------------
+
+
+Se formos até another person e definirmos a idade (aquela propriedade/keyname) como 
+32...
+
+
+anotherPerson.age = 32;
+
+
+Se fizermos isso e apertarmos enter... quando 
+declararmos person no console, VEREMOS QUE A IDADE AGORA É 32. ("{age: 32}"), ou seja, também foi afetada 
+pela mudança da idade de anotherPerson, porque AS DUAS VARIÁVEIS FORAM CONECTADAS, CONECTADAS 
+PELA CÓPIA DO ADDRESS/POINTER que direciona para a mesma parte da memória de longo prazo.
+
+
+
+OU SEJA, AS MUDANÇAS NOS ARRAYS FUNCIONAM PARA AMBOS OS LADOS, PARA 
+A VARIÁVEL "ANTERIOR" E PARA A VARIÁVEL "POSTERIOR", A VARIÁVEL MAIS NOVA E A MAIS ANTIGA.
+
+
+
+Bem e o que podemos fazer quanto a isso? Isso é um problema?
+
+
+
+NÃO. ESSE É UM COMPORTAMENTO PROPOSITAL. ISSO EXISTE POR UMA RAZÃO, É O COMPORTAMENTO DEFAULT.
+ELE EXISTE PARA EVITAR A DUPLICAÇÃO DESNECESSÁRIA DE DADOS, PARA EVITAR CLUTTERING (atravancamento e desordem)
+DA MEMÓRIA E PARA SER MAIS EFICIENTE, POR MEIO DE UMA PERFORMANCE MELHOR.
+
+
+
+
+Mas é claro que às vezes você tem casos em que você PRECISA COPIAR DADOS, casos em que você precisa 
+armazenar esses dados em algum outro lugar, casos em que vocÊ quer ter certeza que se VOCê EDITAR A """CÓPIA""" (aspas, porque você 
+não está copiando ela de verdade), essa edição da cópia não irá afetar os dados originais (o valor inicial, original, que foi """copiado""").
+
+(Talvez o professor esteja falando de USAR OBJETOS/ARRAYS como variáveis? parte estranha da aula.)
+
+(Professor também menciona "soluções", respostas para esse problema.)
+
+
+
+
+
+Daremos uma olhada mais aprofundada nas soluções para isso nas seções específicas de arrays e objetos.
+
+
+
+(professor diz que irá nos mostrar essas soluções agora, mas que só veremos os detalhes específicos dessas soluções mais tarde.)
+
+
+
+
+Bem, como é essa solução?
+
+
+Bem, digamos que agora nós queremos criar uma CÓPIA DE VERDADE, em "yetAnotherPerson" (uma variável).
+
+Dentro de yetAnotherPerson, o professor vai querer COPIAR PERSON/O VALOR DE PERSON.
+
+
+ex:
+
+
+let yetAnotherPerson = person;
+
+
+
+
+--------------------------------------------
+
+Como nós aprendemos, essa maneira simples de escrever isso NÃO VAI FUNCIONAR. Nós simplesmente copiaríamos 
+O POINTER/ENDEREÇO que aponta para o local do objeto de person, e objeto em si que "person" segura. 
+
+
+
+MAS NÓS PODEMOS USAR UMA SINTAXE DIFERENTE, EM QUE VOCê CRIA UM NOVO OBJETO (COM o auxílio de CURLY BRACES, como aprendemos).
+
+
+
+
+
+let yetAnotherPerson = {};
+
+
+
+----> isso vai criar um objeto novinho em folha, e se você fizer isso, você pode adicionar um OPERADOR INÉDITO, que nunca 
+vimos antes, e que estudaremos mais tarde na seção dos objetos e arrays, o operador ... (THREE DOTS).
+
+
+o ... pode parecer meio estranho, MAS É UM OPERADOR INCORPORADO AO JAVASCRIPT (built-in). O nome do ... é SPREAD.
+
+É O "SPREAD OPERATOR". Colocamos o ... dentro dos curly braces, e então, depois dele colocamos "person".
+
+
+
+
+let yetAnotherPerson = {...person};
+
+
+
+
+O QUE O SPREAD OPERATOR FAZ É _____PUXAR PARA FORA_____ TODOS OS KEY-VALUE PAIRS EM PERSON, PARA ENTÃO ADICIONÁ-LOS 
+COMO NOVOS KEY-VALUE PAIRS NO NOVO OBJETO ({};), NO NOVO OBJETO QUE yetAnotherPerson SEGURA.
+E COMO ESSE É UM NOVO OBJETO, É UM NOVO OBJETO SEGURADO POR yetAnotherPerson, AQUI TRATA-SE DE UMA CÓPIA 
+____DE VERDADE____! OCUPA UM NOVO LUGAR NA MEMÓRIA, E TEM UM NOVO ENDEREÇO, DIFERENTE DO ENDEREÇO DO OBJETO 
+DE "PERSON". O "person" antigo ainda está lá, mas agora esse objeto (que foi derivado do primeiro objeto, de certa forma) É UM NOVO 
+OBJETO, INDEPENDENTE DO PRIMEIRO.
+
+
+Feita a gambiarra, se nós agora declararmos yetAnotherPerson no código, receberemos "{age: 32 };", exatamente 
+como recebemos age:32 quando declararmos person. Mas, agora, se alterarmos o valor de person, O VALOR 
+DE yetAnotherPerson NÃO SERÁ ALTERADO, O OBJETO DE yetAnotherPerson NÃO SERÁ ALTERADO PELA MUDANÇA DO OBJETO DE person. Agora, portanto, 
+o yetAnotherPerson segura uma VERDADEIRA CÓPIA DO OBJETO ANTIGO (ou o objeto atual, caso não alteremos 
+o valor do objeto de person) DE PERSON.
+
+
+
+
+
+
+PARA ARRAYS, UM APPROACH SEMELHANTE EXISTE:
+
+
+Se nós temos aqui aquela varíavel familiar, "hobbies", segurando um valor, um array de ['Sports'];
+
+
+
+let hobbies = ['Sports'];
+
+
+
+---------------------------------
+
+
+
+E se tivermos, então, uma outra variável, a variável "moreHobbies".
+
+
+
+
+
+let hobbies = ['Sports'];
+
+
+
+let moreHobbies = 
+
+
+----------------------------------
+
+
+Queremos criar uma cópia real do objeto de "hobbies". O que fazemos? Primeiro começamos pela criação de um array vazio.
+
+
+
+let hobbies = ['Sports'];
+
+
+
+let moreHobbies = []
+
+
+
+
+------------------------------------------------
+
+
+
+ENTÃO UTILIZAMOS AQUELE MESMO OPERADOR SPREAD (...). Depois dos 3 pontos, escreva o array já existente, o nome da variável que o segura.
+
+
+
+
+
+
+let hobbies = ['Sports'];
+
+
+
+let moreHobbies = [...hobbies];
+
+
+
+
+----------------------------------------------------
+
+
+DEU, RESOLVIDO. ASSIM COMO O SPREAD OPERATOR EXTRAIU OS KEY-DATA PAIRS DAQUELE OBJETO LÁ EM CIMA, 
+AQUI O SPREAD OPERATOR PUXA PARA FORA TODOS OS ELEMENTOS DO ARRAY E ENTÃO OS ADICIONA COMO 
+ELEMENTOS NO NOVO ARRAY DE moreHobbies.
+
+
+Agora, portanto, se o professor ir até hobbies e EMPURRAR 'Cooking' PARA DENTRO DO ARRAY ("hobbies.push('Cooking');"), 
+O ARRAY DE "moreHobbies" NÃO SERÁ AFETADO POR ISSO. moreHobbies ainda apenas terá ['Sports'].
+
+
+
+DE NOVO: ISSO É APENAS A RÁPIDA INTRODUÇÃO A ESSAS SOLUÇÕES.
+
+
+
+Um olhar mais aprofundado será concedido nos módulos dos arrays e objetos.
+
+
+
+
+AGORA QUE VIMOS PRIMITIVE E REFERENCE TYPES, PODEMOS VER ALGO QUE 
+O PROFESSOR JÁ NOS MOSTROU ANTES, MAS QUE NÃO HAVIA NOS EXPLICADO MUITO BEM. Não havia uma explicação boa 
+para aquilo que estava acontecendo.
+
+
+
+
+
+O professor está falando de um caso prático em que nós temos, por exemplo, uma constante "person1", que segura 
+um objeto de "age: 30;", e outra pessoa, a qual o professor declara uma constante de person2, que segura um outro objeto, novo em folha.
+Entretanto, o objeto da constante person2 É IGUAL AO OBJETO DA person1. É 30, TAMBÉM.
+
+
+
+
+
+
+const person1 = {age: 30};
+
+const person2 = {age: 30};
+
+
+
+PARA NÓS, HUMANOS, ESSES OBJETOS SÃO EXATAMENTE IGUAIS. E SE EU REALIZAR UMA COMPARAÇÃO BOOLEAN ENTRE 
+AS DUAS, TANTO COM == OU ===, VOCÊ VERÁ QUE O RESULTADO SERÁ SEMPRE FALSO.
+
+            == ----> valores iguais.
+           === ---> valores e tipos/data types iguais.
+
+
+
+ex:
+
+
+devtools do chrome. Console.
+
+
+
+        
+
+const person1 = {age: 30};
+
+const person2 = {age: 30};
+
+
+
+
+person1 == person2 
+
+console responde: fALSO.
+
+
+
+
+O RESULTADO É FALSO, OS 2 OBJETOS NÃO SÃO IGUAIS. PORQUE NÃO SÃO IGUAIS? AGORA JÁ SABEMOS A RAZÃO: 
+
+PORQUE OS OBJETOS ESTÃO LOCALIZADOS EM LUGARES DIVERSOS DO CÓDIGO, REALMENTE NÃO SÃO A MESMA COISA. E AS 
+COISAS QUE ARMAZENAMOS EM PERSON1 E PERSON2 NÃO SÃO OS VALORES/OBJETOS DE VERDADE, E SIM APENAS OS INDICADORES/
+POINTERS/ENDEREÇOS AOS LOCAIS DA MEMÓRIA EM QUE ESSES OBJETOS ESTÃO LOCALIZADOS.
+POR ISSO QUE FAZ MUITO SENTIDO DIZER QUE:
+
+person1 !== person2  ----------------------> o que efetivamente comparamos aqui é SE O ENDEREÇO DE PERSON1 É IGUAL AO ENDEREÇO DE PERSON2. POR ISSO QUE ESSE NEGÓCIO NOS RENDE FALSO, SEMPRE.
+
+
+PORQUE person1 e person2 seguram valores/pointers TOTALMENTE DIFERENTES. Podem segurar os mesmos dados, 
+mas são 2 objetos distintos, localizados em lugares diferentes da memória. 
+
+
+
+A MESMA COISA SE APLICA A ARRAYS.
+
+
+
+
+
+
+
+
+OUTRA IMPLICAÇÃO IMPORTANTE QUE PODE PARECER UM POUCO CONFUSA QUANDO VOCê ESTÁ TRABALHANDO COM REFERENCE TYPES É ESSA DAQUI:
+
+
+anteriormente, o professor criou hobbies com let, não é mesmo?
+
+
+
+
+Aqui temos algo que pode nos confundir:  Se o professor tivesse criado hobbies com CONST, e então ele tivesse colocado 
+que a constante hobbies segura um array com ['Sports'] e nada mais,
+
+ex:
+
+const hobbies = ['Sports'];
+
+hobbies.push('Cooking');
+
+
+
+
+
+ e então ele tentasse 
+EMPURRAR para dentro de hobbies um outro elemento, como 'Cooking'... VOCê ACHA QUE ISSO 
+DARIA CERTO? Tenha em mente que aqui estamos tratando de uma constante, e por ser uma constante nós NÃO PODEMOS 
+MUDAR O SEU VALOR APÓS ELA TER SIDO CRIADA. POR MAIS QUE VOCÊ ESPERE QUE UM ERRO OCORRA, NADA ACONTECE.
+ NÃO APARECEM ERROS. E, além disso, se dermos uma olhada em hobbies, o declararmos no console, veremos que 
+ "cooking" FOI ADICIONADO ao array.
+
+Mas como diabos isso funciona? Por que o negócio não nos deu um erro?
+
+
+
+
+Bem, de novo, tenha em mente que ESSE ARRAY É CRIADO (lá na primeira linha, em "const hobbies = ['Sports'];")
+É CRIADO EM ALGUM LUGAR DA MEMÓRIA, e QUE O QUE ESTÁ SENDO ARMAZENADO EM HOBBIES É O APONTADOR/POINTER/ENDEREÇO DESSE LUGAR 
+ONDE ESTÁ O OBJETO/ARRAY. É O ENDEREÇO QUE ESTÁ ARMAZENADO NESSA CONSTANTE. Quando nós chamamos a função push, nós certamente manipulamos os dados 
+e a memória, _____MAS O QUE, NA VERDADE, NÓS NÃO MANIPULAMOS? O ENDEREÇO. ELE AINDA É O MESMO ENDEREÇO, os dados e a memória
+MUDARAM, mas ELES AINDA ESTÃO NO MESMO LUGAR (por isso que não dá erro, o endereço continua constante, ainda está naquele mesmo lugar); talvez mais memória tenha sido alocada a ela, isso é algo que o browser faz, 
+mas NÓS NÃO NOS IMPORTAMOS, porque o ENDEREÇO CONTINUA ____O MESMO____. Por isso que a constante não bugou, 
+porque O ENDEREÇO CONTINUA O MESMO, só os DADOS POR TRÁS DO ENDEREÇO é QUE ACABARAM SENDO ALTERADOS. Mas os dados/valores por trás do endereço 
+não são o que está sendo armazenado em hobbies, é O PRÓPRIO ENDEREÇO QUE ESTÁ SENDO ARMAZENADO NESSA CONSTANTE.
+Por isso que podemos mudar, inserir um novo elemento dentro do array, sem receber um ERRO.
+
+
+A SITUAÇÃO É DIFERENTE SE NÓS TENTARMOS ADICIONAR UM NOVO ARRAY, COMO ESTE AQUI (sem usar o método 
+que o professor usou, de empurrar coisas para dentro com "xxx.push(xxx)"):
+
+"hobbies = ['Sports', 'Running'] .....
+
+
+Se eu tentar fazer isso, EU VOU RECEBER UM ERRO. Por que?
+
+
+PORQUE USAMOS O SINAL (=) AQUI. UTILIZAR O (=) SIGNIFICA QUE TENTAMOS ASSIGNAR UM NOVO ARRAY àQUELA CONSTANTE, E 
+ISSO NÃO É PERMITIDO... NA VERDADE, TENTAMOS ASSIGNAR UM ___NOVO ENDEREÇO____, E NÃO UM NOVO ARRAY EM SI MESMO, PORQUE 
+SEMPRE QUANDO COLOCAMOS UM ARRAY COMO VALOR DE UMA CONSTANTE/VARIÁVEL, ESTAMOS COLOCANDO, NA VERDADE, O ENDEREÇO DESSE VALOR (como aprendemos logo acima, sobre 
+os valores referenciais). Mas o que acontece, realmente, é que criamos um novo array novo em folha, e que tentamos 
+assignar O ENDEREÇO DESSE ARRAY A NOSSA CONSTANTE, e isso não é permitido, porque o valor do endereço 
+REALMENTE TENTARIA SER MUDADO POR MEIO DESSE COMANDO, E O JAVASCRIPT NÃO DEIXA ISSO ACONTECER, PORQUE 
+CONSTANTES DEVEM SER CONSTANTES, COMO DIZ O NOME.
+
+
+
+RESUMINDO: 
+
+
+
+mudar as constantes em si, mudar o valor dos POINTERS/endereços dos arrays (por meio do operador "=") === NÃO PERMITIDO
+
+
+
+MUDAR OS VALORES POR TRÁS DOS ENDEREÇOS DOS ARRAYS, OS VALORES POR SI MESMOS, QUE ESTÃO ARMAZENADOS NAS CONSTANTES === PERMITIDO.
+
+
+
+
+
+Continuando: 
+
+
+É claro que você não pode mudar VALORES PRIMITIVOS armazenados em constantes, mas 
+sempre é bom saber que VOCÊ PODE MUDAR VALORES REFERENCIAIS (objects e arrays) ARMAZENADOS EM CONSTANTES.
+
+
+
+
+O professor nos dá um exemplo dessa situação com objetos, também.
+
+
+
+
+ex:
+
+no console digitamos:
+
+
+
+
+
+const person = {
+    age:30
+};
+
+
+digitamos person e ele já nos responde ---> "{age: 30}"
+
+
+
+
+Depois disso, o professor acessa a keyname "age" e define seu valor como 32:
+
+
+
+
+person.age = 32;
+
+
+
+
+ELE EXPLICA: DE NOVO, ISSO É UMA APLICAÇÃO DAQUILO DAS ALTERAÇÕES NOS VALORES REFERENCIAIS; VOCê 
+ALTERA OS VALORES/DADOS QUE ESTÃO NAQUELA CONSTANTE, DESDE QUE NÃO ALTERE A LOCALIZAÇÃO DO NEGÓCIO, 
+OS APONTADORES DAQUELE VALOR. Aqui ele realmente redefiniu o valor da constante para 32.
+
+
+
+O professor disse que vocÊ poderia argumentar que ele usou "=", e que ele está se contradizendo 
+em relação ao exemplo anterior, mas ele explica que ELE ESTÁ O UTILIZANDO EM "AGE", E NÃO 
+EM "PERSON" EM SI. POR ISSO QUE O NEGÓCIO NÃO BUGA, NÃO DÁ ERRO; ELE ESTÁ ALTERANDO O VALOR 
+DO KEYNAME QUE ESTÁ DENTRO DO OBJETO, E NÃO O OBJETO EM SI. Por isso a constante não reage negativamente.
+
+
+
+ex:
+
+
+ele tenta digitar->
+
+
+person = {age: 33};
+
+
+O CONSOLE IMEDIATAMENTE RETORNA UM ERRO... isso não nos surpreende, afinal 
+ele tentou CRIAR UM OBJECT NOVO EM FOLHA PARA SER ASSIGNADO A PERSON, O QUE NÃO É PERMITIDO. APENAS 
+É PERMITIDO MUDAR OS KEYNAME-VALUE PAIRS dentro do objeto anterior, e não mudar o objeto de uma constante 
+POR SI SÓ.
+
+
+
+
+
+
+Essas coisas sobre arrays e objetos são uma fonte comum de confusão. Isso é pq o pessoal 
+não consegue se ligar que
+algumas coisas que vocÊ altera interferem/alteram outros lugares do código (referenciais), enquanto 
+que outros, não (primitivos).

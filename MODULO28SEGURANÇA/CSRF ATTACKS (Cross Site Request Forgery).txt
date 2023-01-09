@@ -1,0 +1,539 @@
+
+
+
+
+
+
+
+VIMOS O PADRÃO DE ATAQUES ___MAIS PERIGOSO__  em relação ao javascript.... 
+ELES APENAS AFETAM BROWSERSIDE JAVASCRIPT, mas como no browserside nós executamos muito 
+código javascript, devemos ter muito cuidado com isso...
+
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+DEVEMOS ESTUDAR, AGORA, O 
+
+
+'CSRF'... (Cross-Site request Forgery)....
+
+
+
+
+
+O QUE É ESSE TIPO DE ATAQUE?
+
+
+
+
+
+
+--> ELE ___PODE ___ estar relacionado COM 'CROSS SITE SCRIPTING ATTACKS' (XSS),
+
+MAS ELE NEM SEMPRE TEM RELAÇÃO COM ELES... (mas muitas vezes eles coexistem em um mesmo caso/ataque)....
+
+
+
+
+
+A IDEIA POR TRÁS DE 
+
+
+
+'CSRF'  É QUE ____PESSOAS ___ TE ENGANAM____.....
+
+
+
+Pessoas/o cara malicioso 
+
+TE ENGANA E FAZ VOCÊ CLICAR 
+
+
+EM UM LINK QUE LEVA A UMA PÁGINA PREPARADA ('prepared page').... Nessa 
+
+página preparada, ELES __aBUSAM__ (exploitam) OS COOKIES LOCAIS DO USUÁRIO...
+
+
+
+ELES EXPLOITAM ESSES COOKIES PARA ENTÃO ___ENVIAR___ UM REQUEST/O REQUEST 
+
+
+À PÁGINA COM A QUAL VOCÊ NORMALMENTE SE COMUNICARIA... (ex: O
+
+BACKEND DO ONLINE BANKING DO USUÁRIO...).......
+
+
+
+
+
+MAS COMO VOCÊ/O USUÁRIO ESTÁ VINDO DE UMA PÁGINA ___PREPARADA___, 
+
+Você ENTÃO FAZ ALGO AUTOMATICAMENTE LÁ NESSA PÁGINA PREPARADA, 
+
+
+ALGO QUE VOCÊ FAZ AUTOMATICAMENTE, SEM PENSAR, ALGO COMO 
+
+
+'ENVIAR DINHEIRO A UM ESTRANHO' (algo que você não quer fazer)....
+
+
+-----> Talvez isso aconteça POR TRÁS DAS CENAS, sem você 
+
+
+nem mesmo perceber... 
+
+
+
+
+
+
+---> ESSE ATTACK PATTERN ___TAMBÉM ___ DEPENDE ___ DO 
+
+
+______''''CONTEÚDO INJETADO'''''_______...
+
+
+
+Ou seja, 
+
+
+'INJECTED JAVASCRIPT CODE'... ------> 
+
+
+
+resumo:
+
+
+('ATTACK PATTERN THAT DEPENDS ON INJECTED CONTENT, like an image...')
+
+
+
+
+
+
+
+
+
+O conteúdo javascript injetado por meio da imagem não precisa 
+
+necessariamente ser injetado por uma imagem... PODE TAMBÉM 
+
+
+SER UM SIMPLES CONTEÚDO HTML.... pode ser uma 
+
+
+SIMPLES 'FORM' html QUE FAZ O 'SUBMIT' de uma 
+
+
+FORM ao 
+
+
+servidor confiável...
+
+
+
+
+O único problema é que essa form É/FARÁ PARTE 
+
+
+________DE UMA PÁGINA ___ INCONFIÁVEL ___ que vocÊ TALVEZ NÃO RECONHEÇA se a URL 
+
+
+parecer similar com a autêntica....  (eu já vi isso muitas vezes)....
+
+
+
+
+
+
+SE VOCê/o usuário COMETER ESSE ERRO, 
+
+
+
+
+'REQUESTS ON YOUR BEHALF', com os seus cookies, PODERÃO SER 
+
+_________FEITOS A UM 'TRUSTWORTHY SERVER'___....
+
+
+(Ok, mas então qual é o problema?)
+
+
+
+
+
+
+
+-----> O ÚNICO PERIGO (e problema) É QUE TUDO 
+
+ISSO, ESSE 'REQUEST ON YOUR BEHALF', feito a um TRUSTWORTHY server,
+
+
+
+ACONTECE ___dE UM SITE __ MALICIOSO....
+
+
+
+
+
+----> ISSO SIGNIFICA QUE __AÇÕES PODERÃO/SERÃO EXECUTADOS NAQUELA 
+
+
+'TRUSTWORTHY PAGE' (como um banco) COM __OS DADOS DO USUÁRIO/SEUS DADOS___ SEM 
+
+VOCÊ SABER QUE 
+
+ISSO ESTÁ ACONTECENDO/VAI ACONTECER... 
+
+
+
+
+
+--> E É POR ISSO QUE SEMPRE QUEREMOS PROTEGER NOSSOS USUÁRIOS DE ESSE TIPO DE ATAQUE....
+
+
+
+
+-----> ex: Url MALICIOSA em imagem, XSS...
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+DEVEMOS ESTUDAR ESSE TIPO DE ATAQUE....
+
+
+
+ENtretanto, esse tipo de ataque é coberto melhor pelo professor no 
+
+
+CURSO DE NODE.JS....
+
+
+
+isso pq esse tipo de ataque É 
+
+
+
+
+UM PROBLEMA 'SERVERSIDE' (its a serverside issue)...
+
+
+
+
+----> VOCÊ DEVE PROTEGER SEU SERVIDOR CONTRA CSRF attacks POR MEIO 
+
+
+DE UM MECANISMO chamado/que é o 
+
+
+'CSRF TOKEN'....
+
+
+
+
+
+
+
+CSRF ----> 'CROSS SITE REQUEST FORGERY'...
+
+
+
+
+-------------------------------------------------------
+
+
+
+
+A IDEIA É:
+
+
+
+ SE VOCÊ  É O USUÁRIO DE UM WEBAPP e você tem algum 
+
+ backend (COMO, POR EXEMPLO, O BACKEND DE UM SERVIÇO DE BANCO, 
+ SERVIÇO DE BANCO QUE USA 
+ 
+ 'NODE.JS' ... ou QUALQUER OUTRA LINGUAGEM DE PROGRAMAÇÃO; esse tipo 
+ de ataque, o ataque 'csrf', NÃO É EXCLUSIVO 
+ 
+ À JAVASCRIPT...
+ )...
+
+
+
+ Certo... esse server USA node.js/QUALQUER OUTRA LINGUAGEM...
+
+ esse servidor SE COMUNICA COM A DATABASE...
+
+
+
+
+
+
+ O usuário/você visita/visitará o FRONTEND 
+
+
+ dessa página do banco...
+
+
+
+É A 'UI' (user interface) do seu 
+
+ONLINE BANKING....
+
+
+
+
+
+Então o setup é assim:
+
+
+
+
+
+USER -> FRONTEND 
+
+
+
+SERVER -> DATABASE...
+
+
+
+-----------------------------------
+
+
+
+
+EM UM APLICATIVO/APLICAÇÃO DESSAS, TIPICAMENTE O SERVIDOR 
+
+IDENTIFICA UM 
+
+USUÁRIO POR MEIO DAQUILO QUE CHAMAMOS DE
+
+'Session'....
+
+
+é o 
+
+
+
+OBJETO 'Session'....
+
+
+
+'Session object'...
+
+
+
+
+-------------------------------------
+
+
+
+
+VOCÊ LOGGA, O SERVERSIDE gera esse objeto 'Session' (sessionObject)...
+
+
+
+O serverside então ARMAZENA 'Session Data' dentro desse objeto 'Session', 
+
+dentro do servidor....  
+
+
+por fim, ele RETORNA A VOCÊ UM 'session ID', o qual 
+
+É ARMAZENADO EM UM ____COOKIE___ NO SEU BROWSER....
+
+
+
+
+----> é assim o 'setup de autentificação' que vocÊ tem em uma webpage com servidor... (webpages em que o FRONTEND e o BACKEND trabalham juntos...)
+
+
+
+-------------------------------------------
+
+
+
+
+
+Aí, por meio do frontEnd, vocÊ 
+
+
+TALVEZ ESTEJA MANDANDO/TALVEZ MANDE  
+
+UM 
+
+request 
+
+
+em que, nos dados internos, 
+
+dirá 
+
+'Quero enviar Dinheiro ao B, meu amigo'...
+
+
+
+
+
+O SERVIDOR VAI RECEBER ESSE REQUEST E AGIR DE ACORDO...
+
+
+
+
+
+
+O problema acontece quando VOCê 
+
+
+
+VISITA UM SITE FALSO...
+
+
+Isso acontece pq, por exemplo, alguém  
+
+
+
+
+TE MANDA UM LINK FALSO....
+
+
+
+
+
+ESSE SITE __É IGUAL__ ao site verdadeiro em aparência e em funcionamento (quase igual)....
+
+
+
+MAS NÃO É O SITE DE VERDADE... 
+
+
+
+
+Dentro dessa página, AS PESSOAS ACABAM ENVIANDO 
+
+
+UM REQUEST AO 'trustworthy backend'....
+
+
+
+
+
+E esse request REALMENTE É TIDO COMO VÁLIDO 
+
+
+pelo 
+
+
+SERVIDOR 
+
+
+'trustworthy' (Que realmente é o servidor DE VERDADE)....
+
+
+
+Mas o problema é que 
+
+
+O REQUEST EM SI 
+
+acaba sendo 
+
+
+________MANIPULADO____ pelo site fake que o 
+
+usuário visitou....
+
+
+
+esse request pode acabar sendo manipulado de 
+
+modo que 
+
+o 'send de money' ao B pode acabar virando 
+
+o 'send de money' para ____c_____... 
+
+
+
+
+
+
+
+E ESSE REQUEST REALMENTE VAI FUNCIONAR, você vai se foder de verdade, 
+
+pois você estará 
+
+
+
+MANDANDO O __cOOKIE CORRETO,  A 'SESSIONID' (que fica dentro do cookie) correta, 
+
+TUDO ENVIADO AO BACKEND CORRETO.... 
+
+
+MAS O REQUEST EM SI ESTARÁ __MANIPULADO___...
+
+
+
+
+
+Mais detalhes sobre esse tipo de ataque podem 
+
+ser encontrados no curso de node.js...
+
+
+---------------------------------------
+
+
+
+---> TUDO ISSO É UM PADRÃO DE ATAQUE, mas não é um padrão de ataque relacionado 
+
+
+DIRETAMENTE COM O JAVASCRIPT.... ---> esse tipo de ataque PODE SER IMPLEMENTADO com a ajuda de
+'CROSS SITE SCRIPTING ATTACKS' (Que de fato usam javascript), 
+
+MAS ELE PODE SER IMPLEMENTADO POR MEIO 
+
+DE UM 'SITE FAKE', o que não precisa de 
+
+CROSS SITE SCRIPTING ATTACKS, E NEM DE JAVASCRIPT.... (no caso do site fake, a única coisa 
+necessária 
+é um 
+
+HTML IDÊNTICO AO ORIGINAL, e um funcionamento similar à página original)
+
+
+
+
+
+
+----> isso significa que esse tipo de ataque não é algo 
+
+relacionado À segurança do javascript, 
+
+é mais algo relacionado ao SERVERSIDE, ou à SEGURANÇA 
+
+GERAL DAS WEBAPPLICATIONS...
+
+
+
+
+
+---------> no curso de node.js nós escrevemos muito código serverside, e 
+
+analisamos esse tipo de ataque mais aprofundadamente.

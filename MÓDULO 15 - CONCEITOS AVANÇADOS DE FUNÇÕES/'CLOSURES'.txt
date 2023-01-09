@@ -1,0 +1,892 @@
+
+
+
+
+
+
+ESTUDAMOS 'FACTORY FUNCTIONS'....
+
+
+
+
+
+
+
+Algo intrinsecamente relacionado a factory functions é o tópico das 'CLOSURES'... 
+
+
+
+
+
+
+
+
+AQUI TEMOS UMA IMPORTANTE REGRA QUE DEVEMOS SEMPRE TER NO CORAÇÃO, para interviews de javascript:
+
+
+
+
+
+TODA FUNÇÃO EM JAVASCRIPT ____É UMA CLOSURE____.
+
+
+
+
+
+MAS O QUE DIABOS É UMA CLOSURE?????
+
+
+
+
+
+Bem, closures tem relação estrita com a ideia DE TER __SCOPES___ PARA AS NOSSAS VARIÁVEIS....
+
+
+
+
+
+COMO APRENDEMOS MUITAS AULAS ATRÁS, NÓS TEMOS 
+
+
+
+___________DIFERENTES SCOPES_______.
+
+
+Temos o 'block scope' --------------> EXISTE QUANDO ESTAMOS TRABALHANDO COM VARIÁVEIS QUE SÃO CRIADAS COM 'CONST/LET'....
+            -------------------------> O block scope SIMPLESMENTE SIGNIFICA QUE dentro dos CURLY BRACES DE UMA FUNÇÃO, 
+
+            ou seja, NA DEFINIÇÃO DE UMA FUNÇÃO, como 
+
+            'function calculateTax(amount) {
+                return amount * tax;        ----------------> DENTRO DA FUNÇÃO.
+            }
+
+AS VARIÁVEIS E FUNÇÕES QUE FOREM CRIADAS ALI; SÓ PODERÃO SER USADAS ___DENTRO DESSA FUNÇÃO___...
+
+
+
+--------------------------------------
+
+
+
+POR OUTRO LADO, VARIÁVEIS/CONST GLOBAIS SÃO CONSTANTES/VARIÁVEIS QUE 
+
+SÃO CRIADAS 
+
+
+___NO LADO DE FORA ____ DE FUNÇÕES, e que podem ser utilizadas __DENTRO DAS FUNÇÕES/ das outras funções...
+
+
+
+
+ISSO TUDO NÓS JÁ SABÍAMOS.
+
+
+
+--------------------------------
+
+
+
+
+AGORA, SE VOCÊ TIVER UMA FUNÇÃO DENTRO DE UMA FUNÇÃO (como, por exemplo, o que vemos com as FACTORY FUNCTIONS...), 
+
+
+AQUELA FUNÇÃO INTERNA PODERÁ/PODE USAR TODAS AS VARIÁVEIS/PARÂMETROS DA FUNÇÃO EXTERNA À ELA.... ALÉM DISSO, 
+
+PODE TAMBÉM USAR ____TODAS AS VARIÁVEIS E CONSTANTES GLOBAIS___ DO CÓDIGO....
+
+
+ex:
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { ----------------------> ESSA FUNÇÃO PODE USAR TODAS AS VARIÁVEIS/CONST GLOBAIS E AQUELAS QUE FORAM DEFINIDAS NA FUNÇÃO EXTERNA (nesse caso, 'createTaxCalculator'...).
+         return amount * tax;
+}
+return calculateTax;
+}
+
+
+---------------------------------------
+
+
+
+
+ENTRETANTO, A OUTER FUNCTION (função externa) É INCAPAZ DE ACESSAR AS CONSTANTES E VARIÁVEIS DA FUNÇÃO INTERNA À ELA...
+
+ 
+
+
+ Por exemplo, nesse 'createTaxCalculator', a função 'createTaxCalculator' NÃO PODERIA CITAR A VARIÁVEL 
+
+ 'amount' DEFINIDA DENTRO DA FUNÇÃO INTERNA 'calculateTax'...
+
+  
+
+--------------------------------
+
+
+
+MAS ISSO TUDO NÓS JÁ SABÍAMOS....
+
+
+O termo mais técnico para tudo isso é que NÓS  TEMOS 'DIFERENTES AMBIENTES LÉXICOS' (different lexical environments).
+
+
+
+
+CADA FUNÇÃO TEM SEU PRÓPRIO 'lexical environment'.... E TAMBÉM HÁ UM 'global lexical environment'...
+
+
+
+
+
+AS VARIÁVEIS E CONSTANTES SÃO SEMPRE REGISTRADAS NESSES DIFERENTES AMBIENTES, vocÊ poderia dizer.
+
+
+
+
+
+QUANDO UMA FUNÇÃO É CRIADA, COMO FAZEMOS AQUI, COM a keyword 'function' (é a function declaration), ESSA 
+
+FUNÇÃO SEMPRE CRIA UM 
+
+'LEXICAL ENVIRONMENT' E REGISTRA, DENTRO DESSE AMBIENTE, QUAISQUER FUNÇÕES àS QUAIS ELA TEM ACESSO....
+
+ 
+
+
+Nesse caso específico, para 'createTaxCalculator', O PARÂMETRO 'tax', por exemplo, SERIA UMA 
+
+VARIÁVEL DE SEU PRÓPRIO 'AMBIENTE LÉXICO'....
+
+
+
+
+
+O AMBIENTE LÉXICO 'GLOBAL' TERIA/TEM A CONSTANTE 'hobbies', por exemplo....
+
+
+
+
+
+
+A INNER FUNCTION 'calculateTax' TEM SEU PRÓPRIO AMBIENTE, com o parâmetro 'amount'....
+
+
+____MAS_____ ESSA FUNÇÃO TAMBÉM TEM ACESSO AO AMBIENTE LÉXICO DA __OUTER FUNCTION__ (ou seja, de 'createTaxCalculator')....
+
+
+ELA TAMBÉM TEM ACESSO AO AMBIENTE GLOBAL, mas isso nós já sabíamos.
+
+
+
+
+---> QUANDO CHAMAMOS 'createTaxCalculator'....
+
+
+
+ex:
+
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { 
+         return amount * tax;
+}
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); /////EXEMPLO DE CHAMADO DE 'createTaxCalculator'....
+
+
+
+
+
+---------------------------------------
+
+
+QUANDO CHAMAMOS 'createTaxCalculator', A FUNÇÃO INTERNA (a função 'calculateTax') É ENTÃO 
+
+CRIADA... 
+
+ELA NÃO É CRIADA ____ANTES____ DE CHAMARMOS ESSA FUNÇÃO INTERNA, pois essa função interna está 
+
+DENTRO daquela função externa 'createTaxCalculator'....
+
+
+-------> RESUMINDO... : A FUNÇÃO EXTERNA (todas elas, nesse caso, a 
+'createTaxCalculator') ___É CRIADA ____ QUANDO O ARQUIVO JAVASCRIPT/ A ENGINE JAVASCRIPT 
+FAZ O PARSING DE TODO O DOCUMENTO '.js'.... 
+
+
+JÁ A/AS FUNÇÃO/ÕES INTERNAS (como 'calculateTax') SOMENTE SÃO CRIADAS DEPOIS DE TERMOS CHAMADO A FUNÇÃO 
+EXTERNA, QUE NO CASO É 'createTaxCalculator'....
+
+
+
+----------------------------------------------------------------
+
+
+
+Quando essa função interna finalmente é criada (devido à execução da função externa), ALGO INTERESSANTE 
+
+ACONTECE: 
+
+
+
+Nesse caso específico, a função 'LOCKA' (Trava) o valor de 'tax' (o valor DO PARÂMETRO 'TAX', DO PARÂMETRO 
+DEFINIDO NA FUNÇÃO EXTERNA) QUANDO ESSA FUNÇÃO EXTERNA É EXECUTADA....
+
+
+
+
+Se vocÊ então chamar essa FUNÇÃO EXTERNA NOVAMENTE, dessa vez com um diferente valor, COMO 
+
+ESTAMOS EXECUTANDO UMA FUNÇÃO NOVINHA EM FOLHA (temos uma execução de função TOTALMENTE DIFERENTE), 
+A FUNÇÃO INTERNA ACABA RECEBENDO esse valor/parâmetro NOVINHO EM FOLHA de 'tax'.......
+
+E ESSA NOVA EXECUÇÃO DE FUNÇÃO SERÁ TOTALMENTE DESVINCULADA DAQUELA OUTRA EXECUÇÃO DE FUNÇÃO, DA PRIMEIRA....
+
+
+
+
+EX:
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { 
+         return amount * tax;
+}
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); 
+const calculateIncomeTaxAmount = createTaxCalculator(0.25); /////////EXECUÇÃO TOTALMENTE DESVINCULADA DA PRIMEIRA.
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+Agora, por outro lado, se nós TIVERMOS OUTRA VARIÁVEL, digamos um MULTIPLICADOR, chamado 'multiplier',
+
+
+
+ex:
+
+
+
+
+
+
+let multiplier = 1.1;
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { 
+         return amount * tax;
+}
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); 
+const calculateIncomeTaxAmount = createTaxCalculator(0.25); 
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+SE NÓS TIVERMOS UMA VARIÁVEL GLOBAL DESSAS, E ENTÃO NOS REFERIRMOS À ESSA VARIÁVEL NAS NOSSAS FUNÇÕES (não interessa 
+
+se a referência foi feita na função interna ou na externa...)....   AÍ ESSA VARIÁVEL SERÁ 
+
+ATUALIZADA/UPDATED    QUANDO ELA MUDAR NO LADO DE FORA DESSA FUNÇÃO...
+
+
+O professor nos mostra um exemplo, o mesmo exemplo de antes mas com o 'multiplier' inserido dentro da fórmula de calculateTax....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+let multiplier = 1.1;
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { 
+         return amount * tax * multiplier;
+}
+
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); 
+const calculateIncomeTaxAmount = createTaxCalculator(0.25); 
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+AGORA, O PROFESSOR NOS MOSTRA O EXEMPLO: 
+
+ele coloca uma re-definição do valor de 'multiplier' (variável global) mais abaixo, logo depois 
+
+DAS 2 EXECUÇÕES DAS FUNÇÕES...
+
+
+
+
+ex:
+
+
+
+
+
+let multiplier = 1.1;
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { 
+         return amount * tax * multiplier;
+}
+
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); 
+const calculateIncomeTaxAmount = createTaxCalculator(0.25); 
+
+
+
+multiplier = 1.2;  /////////////MUDANÇA DO VALOR DO MULTIPLIER.
+
+
+
+console.log(calculateVatAmount(100)); /////// é aqui, nessa linha de código, em que a função interna é efetivamente criada/chamada....
+console.log(calculateIncomeTaxAmount(200)); ////// mesma coisa aqui...
+
+------------------------------------------------------------------
+
+
+
+
+COM ISSO, COM ESSA MUDANÇA, fazemos com que o VALOR DE MULTIPLIER seja mudado 
+
+____APÓS____ a criação das funções (que são criadas JÁ NO MOMENTO EM QUE A ENGINE LÊ/PARSA O CÓDIGO PELA PRIMEIRA VEZ), 
+
+MAS ____ANTES _____ DA CRIAÇÃO/CHAMADO DAS INNERFUNCTIONS (que são apenas criadas/chamadas QUANDO O CÓDIGO DE 
+
+'console.log(calculateVatAmount(100));' e o outro console.log SÃO EXECUTADOS... PQ APENAS AQUI SÃO 
+
+REALMENTE CHAMADAS/EXECUTADAS AS FUNÇÕES...)....
+
+
+
+
+PARA FACILITAR NOSSA VISUALIZAÇÃO DOS EFEITOS DA ALTERAÇÃO DA VARIÁVEL NESSA FUNÇÃO EXTERNA/INTERNA, o professor 
+
+faz 
+
+um console.log de 'multiplier' dentro da função interna...
+
+
+
+
+
+
+ex:
+
+
+
+
+let multiplier = 1.1;
+
+
+
+function createTaxCalculator(tax) {
+    function calculateTax(amount) { 
+        console.log(multiplier); ///EIS AQUI O CONSOLE.LOG
+         return amount * tax * multiplier;
+}
+
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); 
+const calculateIncomeTaxAmount = createTaxCalculator(0.25); 
+
+
+
+multiplier = 1.2;  
+
+
+
+console.log(calculateVatAmount(100)); 
+console.log(calculateIncomeTaxAmount(200)); 
+
+
+
+-----------------------------------------------
+
+
+
+CERTO, VIMOS AGORA OS EFEITOS. 
+
+
+O CONSOLE NOS OUTPUTTA:
+
+1.2 (linha 51)
+22.8 (linha 67)
+1.2 (linha 51) (é a segunda execução, isso faz sentido).
+60 (linha 68)
+
+
+
+OU SEJA, 
+
+O multiplier é ALTERADO ____ANTES_____ DA EXECUÇÃO DA FUNÇÃO INTERNA...
+
+
+
+
+COMPLEMENTAMOS AINDA MAIS O EXEMPLO, COLOCANDO UM CONSOLE.LOG de 'multiplier' NA OUTER FUNCTION, na função externa, 
+em 'createTaxCalculator'...
+
+
+ex:
+
+
+
+
+
+
+let multiplier = 1.1;
+
+
+
+function createTaxCalculator(tax) {
+    console.log(multiplier); /////////EIS AQUI O CONSOLE.LOG IMPORTANTE PARA A EXPLICAÇÃO.
+    function calculateTax(amount) { 
+        console.log(multiplier);
+         return amount * tax * multiplier;
+}
+
+return calculateTax;
+}
+
+
+const calculateVatAmount = createTaxCalculator(0.19); 
+const calculateIncomeTaxAmount = createTaxCalculator(0.25); 
+
+
+
+multiplier = 1.2;  
+
+
+
+console.log(calculateVatAmount(100)); 
+console.log(calculateIncomeTaxAmount(200)); 
+
+
+
+-------------------------------------
+
+
+
+
+
+DESSA VEZ, O CONSOLE NOS OUTPUTTARÁ:
+
+
+
+
+'1.1 linha 50 (multiplier ainda não modificado, aqui vemos como ELE FICA NA FUNÇÃO EXTERNA, ao ser parseado pela engine no início do runtime).
+
+
+1.1 linha 50 (mesma coisa, mas essa é a 2a execução da função externa createTaxCalculator...)
+
+1.2 linha 52 (alteração do valor de multiplier. Aqui vemos como o multiplier fica dentro da inner function, fica com o valor  de 1.2, que é o valor alterado pela definição de multiplier logo acima de sua execução pelo chamado no 'console.log'....  )
+
+22.8
+
+1.2 linha 52 
+
+60' 
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+O '1.2' retornado para o console.log do multiplier no ambiente de 'calculateTax' (função interna) NOS DIZ 
+
+ALGUMAS COISAS:
+
+
+1) Aqui o valor normal de 'tax' É 'lockado' dentro da inner function, pq 
+
+ESSE VALOR/PARÂMETRO É PARTE DO ENVIRONMENT ESPECÍFICO da outer function....
+
+
+
+2) entretanto, NÓS NÃO 'lockamos'/ fazemos 'log in' O VALOR CONCRETO 
+
+
+DE 'MULTIPLIER' (que é 1.1), PQ MULTIPLIER FAZ PARTE do 'AMBIENTE GLOBAL'...
+
+
+
+
+
+
+O que acontece, no final das contas, É QUE ___CADA FUNÇÃO ___ REGISTRA 
+
+OS AMBIENTES QUE A ENVOLVEME AS VARIÁVEIS/CONSTANTES QUE ESTÃO DEFINIDAS 
+
+NESSES AMBIENTES...
+
+
+E SE ESSAS VARIÁVEIS/CONSTANTES ___MUDAREM___ (e essa função 'calculateTax' USA UMA DESSAS VARIÁVEIS... uma variável que foi mudada), 
+
+A FUNÇÃO INTERNA PEGARÁ SEMPRE O ÚLTIMO VALOR (the latest value) QUE FOI DEFINIDO.
+
+
+
+
+Para 'tax', nesse exemplo aqui, isso também se aplica, mas quando 
+
+
+
+ESSA INNER FUNCTION É CRIADA, ela dá uma olhada no ambiente que a envolve, que é ESSA FUNÇÃO EXTERNA 'createTaxCalculator'....
+
+
+E como essa createTaxCalculator POSSUI UMA VARIÁVEL 'tax', a função interna a utiliza....
+
+
+
+SE ESSA VARIÁVEL TAX fosse mudada POR UMA OUTRA FUNÇÃO (imagine uma função dentro de uma função dentro de uma função), 
+
+A INNER FUNCTION SEMPRE PEGARIA/ASSUMIRIA/USARIA O ___ÚLTIMO VALOR___ QUE FOI DEFINIDO...
+
+
+
+Mas como o parâmetro/variável 'tax' nunca mudou, nesse exemplo (apenas MUDOU LÁÁÁÁ NO RUNTIME INICIAL, QUANDO PASSAMOS 'const calculateVatAmount = createTaxCalculator(0.19)'. 
+                                                                    Quando é executada a segunda 'vez' desse código, com o 'calculateIncomeTaxAmount', ESSA MUDANÇA NÃO ALTERARÁ A FUNÇÃO INTERNA QUE FOI CRIADA NA PRIMEIRA EXECUÇÃO DE FUNÇÃO...,
+                                                                    É por isso que dizemos que AQUELA PRIMEIRA EXECUÇÃO DESSA FUNÇÃO AINDA TEM SEU VELHO 'AMBIENTE', o velho ambiente com a tax que você define como argumento no final da linha de código de 'const calculateVatAmount'... 
+                                                                                            )  
+
+
+
+---------------------------
+
+
+
+MAS PQ DIABOS ISSO SE CHAMA 'CLOSURE'?
+
+
+
+
+
+Recebe esse nome pq TODA FUNÇÃO 'CLOSES OVER THE SURROUNDING ENVIRONMENT'  (fecha por cima o ambiente que as envolve).
+
+
+
+ISSO SIGNIFICA QUE CADA FUNÇÃO 'registra O SURROUNDING ENVIRONMENT e as variáveis registradas lá'...;
+
+cada função MEMORIZA OS VALORES DESSAS VARIÁVEIS....
+
+
+SE VOCÊ ENTÃO MUDAR UMA VARIÁVEL externa (ex: 'multiplier') QUE ESTÁ referenciada DENTRO DE UMA FUNÇÃO interna, ESSA MUDANÇA 
+
+SERÁ ECOADA NA REFERÊNCIA DA FUNÇÃO INTERNA....
+
+
+
+Mas se você NÃO ALTERAR NADA POR MEIO DE UMA CONSTANTE/VARIÁVEL GLOBAL, como temos com 'tax' nesse nosso exemplo (não é alterado por uma variável/const de fora), 
+
+NOSSA FUNÇÃO INTERNA AINDA SERÁ CAPAZ DE UTILIZAR O VALOR DE 'TAX' definido pela função 'createTaxCalculator' (FUNÇÃO externa).
+
+
+
+-----------------------
+
+
+OK, certo, entendemos....
+
+
+MAS E SE, POR EXEMPLO, TIVERMOS UM 'CONFLITO' ENTRE A VARIÁVEL/CONSTANTE GLOBAL E UM PARÂMETRO/VARIÁVEL/CONSTANTE 
+
+DE MESMO NOME PASSADO POR UMA OUTER FUNCTION?
+
+
+
+ex:
+
+
+
+
+
+
+let multiplier = 1.1;
+
+
+
+function createTaxCalculator(tax, multiplier) { /////////2o parâmetro É UTILIZADO PARA SUBSTITUIR O VALOR DE 'MULTIPLIER' global...
+    console.log(multiplier);
+    function calculateTax(amount) {
+        console.log(multiplier);
+         return amount * tax * multiplier;
+}
+return calculateTax;
+}
+
+
+
+
+
+
+const calculateVatAmount = createTaxCalculator(0.19, 2);  ////////////////////////MUDAMOS ALGO AQUI. AGORA HÁ 2 PARÂMETROS, 1 PARA 'TAX' E OUTRO PARA 'MULTIPLIER', QUE VAI __SUBSTITUIR__ O VALOR DE 'multiplier' QUANDO FOR PASSADO COMO ARGUMENTO 'multiplier' NA NOSSA FUNÇÃO EXTERNA de 'createTaxCalculator'....
+const CalculateIncomeTaxAmount = createTaxCalculator(0.25); 
+
+multiplier = 1.2;  
+
+console.log(calculateVatAmount(100));
+console.log(CalculateIncomeTaxAmount(200));
+
+
+
+
+-----------------------------------------
+
+
+
+SE SALVARMOS E RECARREGARMOS A PÁGINA, O CONSOLE NOS OUTPUTTARÁ:
+
+
+
+
+'2   ----> (É O CONSOLE.LOG de 'multiplier' DENTRO DA OUTER FUNCTION... nos retorna '2' pq esse valor de 2 ACABOU SUBSTITUINDO O VALOR GLOBAL '1.1' DO MULTIPLIER...)
+
+undefined -----> (é o console.log de 'multiplier' DA SEGUNDA EXECUÇÃO DA FUNÇÃO, que retornará 'undefined' PQ N DEFINIMOS UM SEGUNDO ARGUMENTO EM 'const calculateVatAmount = createTaxCalculator'...  )
+
+
+2 ----> (É O CONSOLE.LOG DE MULTIPLIER DENTRO DA INNER FUNCTION.... nos retorna 2 PQ O VALOR DO MULTIPLIER PASSADO COMO PARÂMETRO DA FUNÇÃO 'createTaxCalculator' ACABA SENDO REPASSADO À ESSA FUNÇÃO INTERNA;  valor de 'multiplier' local/da função externa  ACABA SUBSTITUINDO O VALOR DA VARIÁVEL GLOBAL de 'multiplier'...)
+
+
+
+----------------------------------------
+
+
+
+
+
+
+Mas se você NÃO ALTERAR NADA POR MEIO DE UMA CONSTANTE/VARIÁVEL GLOBAL, como temos com 'tax' nesse nosso exemplo (não é alterado por uma variável/const de fora), 
+
+NOSSA FUNÇÃO INTERNA AINDA SERÁ CAPAZ DE UTILIZAR O VALOR DE 'TAX' definido pela função 'createTaxCalculator' (FUNÇÃO externa).
+
+
+
+
+-----> MAS ISSO AINDA NÃO É ALGO QUE VOCÊ DEVE TOMAR POR VERDADE ABSOLUTA...
+
+
+
+Pq vocÊ também poderia ler o código 
+
+
+'function createTaxCalculator(tax) {
+    function calculateTax(amount) {
+        console.log(multiplier);
+        return amount * tax * multiplier;
+    }
+    return calculateTax;
+}' 
+
+
+
+DE UMA MANEIRA DIFERENTE....
+
+
+----------------------
+
+
+
+
+Você poderia dizer que QUANDO A FUNÇÃO EXTERNA, quando 'createTaxCalculator' é chamado com um 
+
+valor de '0.19' (ex: 'const calculateVatAmount = createTaxCalculator(0.19);'), O QUE ENTÃO ACONTECE 
+
+É QUE ESSA FUNÇÃO 'createTaxCalculator' É EXECUTADA... 
+
+QUANDO ESSA FUNÇÃO 'createTaxCalculator' É EXECUTADA, UMA NOVA FUNÇÃO 'calculateTax' É CRIADA, uma função a qual, 
+por enquanto, É SIMPLESMENTE UMA TAREFA QUE É FEITA COM EXTREMA RAPIDEZ.... criada essa função, o código termina 
+
+RETORNANDO 'calculateTax', TERMINA COM O RETORNO DESSA FUNÇÃO recém criada...
+
+
+É por isso que, TEORICAMENTE, VOCÊ PODERIA DIZER QUE 'tax' (definida na outer function) NÃO É MAIS UTILIZADA No nosso código...
+
+
+
+...claro, É OBVIO que A FUNÇÃO INTERNA AINDA A UTILIZA (return amount * tax * multiplier ).... MAS O JAVASCRIPT PODERIA/PODE SIMPLESMENTE IGNORAR 
+ESSE FATO...   Pode ignorar pq 
+
+A FUNÇÃO EXTERNA SIMPLESMENTE ACABOU O SEU PROCEDIMENTo, E ERA ESSA FUNÇÃO EXTERNA QUE TINHA O DEVER DE RECEBER O PARÂMETRO 'tax'....
+
+
+Poderíamos pensar, portanto, que o javascript simplesmente se LIVRA do valor 'tax' E ENTÃO O IGNORA... (justamente por essa 'falta de utilidade' de tax depois da criação/execução da inner function...).....
+
+
+E, então, se nós eventualmente chamássemos a inner function, A VARIÁVEL 'TAX' PODERIA ESTAR FALTANDO...
+
+
+
+
+ENTRETANTO, EM ___JAVASCRIPT____, VOCÊ PODE TER POR VERDADE ABSOLUTA QUE ESSA _______vARIÁVEL___ NÃO___ ESTARÁ ____
+FALTANDO/SUMIDA_____.
+
+
+
+
+Porém, o professor quer enfatizar QUE ISSO ___NÃO____ É ALGO QUE VOCÊ DEVE TOMAR POR ABSOLUTO EM ___TODAS AS LINGUAGENS DE PROGRAMAÇÃO___ .... 
+
+
+
+
+
+
+
+
+Esse fenômeno do closure ocorre assim em javascript, MAS NÃO É NECESSARIAMENTE ASSIM QUE ISSO OCORRE EM TODAS AS OUTRAS LINGUAGENS...
+
+
+
+----------------------------------------------
+
+
+
+
+
+
+RESUMINDO...: 
+
+
+
+
+UMa função, TODAS AS FUNÇÕES, em javascript, SÃO __cLOSURES___. SÃO CLOSURES PQ SEMPRE 
+
+'CLOSES OVER' AS VARIÁVEIS DEFINIDAS NO SEU AMBIENTE (naquilo que as cerca: outras funções, contexto global, etc)....
+
+
+SÃO CLOSURES TBM PQ ESSAS FUNÇÕES INTERNAS E 'DENTRO DAS OUTRAS' ESSENCIALMENTE ___MEMORIZAM___ ESSAS VARIÁVEIS;
+
+MEMORIZAM-NAS PARA QUE ELAS NÃO SEJAM 'JOGADAS FORA' QUANDO VOCÊ NÃO PRECISAR MAIS DELAS NOS AMBIENTES EXTERNOS (nas funções externas, contexto externo,  contexto global, etc etc.).
+
+
+
+-----------------------------------------------
+
+
+Exemplo com 'multiplier'...
+
+
+
+EX:
+
+
+
+let multiplier = 1.1;
+
+
+
+
+
+function createTaxCalculator(tax, multiplier) {
+    console.log(multiplier);
+    function calculateTax(amount) {
+        console.log(multiplier);
+         return amount * tax * multiplier;
+}
+return calculateTax;
+}
+
+
+
+
+
+
+const calculateVatAmount = createTaxCalculator(0.19, 2); 
+const CalculateIncomeTaxAmount = createTaxCalculator(0.25); 
+ 
+/////multiplier = 1.2; //////////REDEFINIÇÃO DE 'MULTIPLIER' QUE É RETIRADA DO CÓDIGO por nós...
+
+console.log(calculateVatAmount(100));
+console.log(CalculateIncomeTaxAmount(200));
+
+
+
+-------------------------------------------------
+
+
+
+
+OU SEJA, AINDA QUE 'MULTIPLIER' NÃO FOSSE UTILIZADO LÁÁÁÁ EMBAIXO (estamos falando aqui daquela redefinição/definição de 'multiplier' como 
+                                                                    sendo 1.2, lá embaixo...); AINDA QUE 
+
+                                                                    'MULTIPLIER' NÃO FOSSE MAIS UTILIZADO NO CONTEXTO GLOBAL/CONTEXTO EXTERNO, sua 
+                                                                    VARIÁVEL/CONST AINDA PERMANECE NO CÓDIGO.... o javascript não 
+
+                                                                    VAI JOGAR FORA OS VALORES ARMAZENADOS NA DEFINIÇÃO ORIGINAL DESSA VARIÁVEL GLOBAL ('let multiplier = 1.1;'), 
+
+                                                                    POIS DENTRO DAQUELA INNERFUNCTION 'calculateTax()' NÓS AINDA TALVEZ A UTILIZEMOS....
+
+
+                                                                    É por isso que podemos dizer que ESSA 'INNER FUNCTION' 'CLOSED OVER' the variáveis/constantes QUE 
+
+                                                                    A CERCAVAM e que ARMAZENOU SEUS VALORES...
+
+
+
+                                                                    ISSO EXISTE/FUNCIONA ASSIM PARA QUE, AINDA QUE VOCÊ NÃO UTILIZE ESSAS VARIÁVEIS/CONSTANTES GLOBAIS EM MAIS LUGAR ALGUM DE SEU CÓDIGO, 
+                                                                    VOCÊ AINDA POSSA UTILIZAR ESSAS VARIÁVEIS DENTRO DE SUAS FUNÇÕES INTERNAS....
+
+
+                                                                    É POR ISSO QUE dizemos que TODAS AS FUNÇÕES EM JAVASCRIPT SÃO CLOSURES... todas funções em javascripts sao closures PQ TODAS SE COMPORTAM DESSA FORMA...

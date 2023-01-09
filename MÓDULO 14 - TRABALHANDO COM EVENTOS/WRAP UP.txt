@@ -1,0 +1,66 @@
+
+
+
+
+IMPLEMENTAMOS, PORTANTO, o drag and drop no nosso projeto.
+
+
+
+
+
+
+EM GERAL, APRENDEMOS MUITO SOBRE EVENTOS, EVENTLISTENERS, COMO ADICIONAR E REMOVER EVENTLISTENERS;
+
+
+
+
+SOBRE O OBJETO 'EVENT', como settar e PEGAR DADOS para fora desse objeto.
+
+
+
+
+
+APRENDEMOS QUE OS DADOS QUE ___PODEMOS ____ EXTRAIR/PEGAR DOS EVENTS DEPENDE DO 
+
+_______TIPO DE EVENTO____ O QUAL ESTAMOS FAZENDO 'LISTEN TO'...
+
+
+
+
+APRENDEMOS SOBRE 'preventDefault();', que pode ser SUPER IMPORTANTE.
+
+
+
+Aprendemos sobre a CAPTURING E BUBBLING PHASES, que podemos controlar por meio de 
+
+
+'STOPPROPAGATION();'
+
+
+
+
+
+
+APRENDEMOS SOBRE UM MONTE DE PADRÕES, como 'EVENT DELEGATION', que pode ser super útil....
+
+
+
+EM GERAL, VOCÊ AGORA PROVAVELMENTE entende um pouco sobre eventos, como funcionam e o que podemos fazer coisas com eles.
+
+
+
+
+É CLARO QUE TODOS ESSES EXEMPLOS POSSUEM RELAÇÃO COM O BROWSER; ENTRETANTO, A IDEIA DE FAZER 'LISTEN TO' a eventos, ainda que a sintaxe seja um pouco diferente, 
+
+É A MESMA EM UM MONTE DE LINGUAGENS DE PROGRAMAÇÃO.
+
+
+
+
+O PROFESSOR DISSE ISSO ANTES, E AGORA REPETIRÁ:
+
+
+você deve depois checar O MÓDULO 'NODE.JS' para ter uma ideia de como tudo isso funciona.....
+
+
+Lá, nós veremos como FAZER LISTEN TO A UM EVENTO em node.js, e como isso tudo funciona em UM EXEMPLO DE 'NODE.JS'...

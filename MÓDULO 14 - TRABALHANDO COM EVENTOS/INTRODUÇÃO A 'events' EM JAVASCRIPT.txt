@@ -1,0 +1,514 @@
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS EXPLORAR OS EVENTOS....
+
+
+
+
+Já trabalhamos com events, com o evento 'click'.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A IDEIA ESSENCIAL POR TRÁS DE 'events' NÃO EXISTE SOMENTE NO JAVASCRIPT, 
+
+
+MAS EM TODAS AS LINGUAGENS DE PROGRAMAÇÃO EXISTENTES.
+
+
+
+-------------
+
+
+
+GRANDE PARTE DAS LINGUAGENS DE PROGRAMAÇÃO 
+
+
+POSSUEM ALGUM TIPO DE ARQUITETURA DE EVENTOS ("events architecture") 
+
+'BUILT-IN', porque 
+
+a noção aqui é 
+
+que VOCÊ PODE ___RODAR CÓDIGO___ A PARTIR DE CERTOS EVENTOS/OCORRÊNCIAS, 
+
+
+e esses eventos podem 
+
+
+ser o usuário clicando em um botão, um arquivo terminar de ser uploadado, etc etc.
+
+
+ Outros ex:
+
+
+ --> um videoplayback começando ou acabando, ou sendo executado...
+
+
+
+ HÁ MUITOS EVENTOS MSM.
+
+
+ Todos eles ativam algum código, ou DESATIVAM algum código.
+
+
+
+
+ Também poderíamos pensar em eventos mais abstratos QUE PODERIAM 
+
+
+ ACONTECER EM UM SERVIDOR, como 
+
+ 'incoming requests' ou 
+
+ ALGUMA TAREFA AGENDADA ('some scheduled task') QUE 
+
+ DEVE SER EXECUTADA A CADA X HORAS (nesse caso, o código da tarefa 
+ 
+ estaria submetido A UM TIMER/interval).
+
+
+
+
+
+
+ PORTANTO, AS EXATAS IMPLEMENTAÇÕES de eventos ('exact implementation differs') 
+
+ DIFEREM DE UMA LINGUAGEM DE PROGRAMAÇÃO PARA OUTRA...
+
+
+
+
+ MAS TAMBÉM HÁ DIFERENCIAÇÕES DENTRO DO PRÓPRIO JAVASCRIPT:
+
+
+
+ por exemplo, há O BROWSERSIDE (user-side) E O SERVERSIDE (com o 'node.js').
+
+
+ HÁ DIFERENÇAS ENTRE OS EVENTOS DESSES 2 TIPOS.
+
+
+
+
+ Nós vimos que podemos utilizar addEventListeners PARA ADICIONAR 
+
+ UM EVENTLISTENER a um dom NODE....
+
+
+
+ JÁ EM 
+
+
+ 'NODE.JS', por outro lado, você muitas vezes 
+
+    (event.on()  ou 'event.once()')
+ tem  'ON' ou 'ONCE' COMO MÉTODOS EM QUE VOCÊ ___COMBA__ (chain ) EM ALGUM 
+
+ OBJETO, o que então PERMITE A VOCÊ 'listen to' (escutar a) CERTOS EVENTOS.
+
+
+
+
+
+
+ ---------------------------------
+
+
+
+ AINDA QUE EXISTAM ESSAS DIFERENÇAS, ESSA DIFERENÇA DE SINTAXE, a ideia principal 
+
+ É SEMPRE A MESMA, e a ideia principal também é 
+
+ que ESSES EVENTOS MUITAS VEZES (ou tipicamente) TRANSPORTAM 
+
+ DADOS ('they transport data'...)
+
+
+
+
+AINDA NÃO UTIIZAMOS MUITO ESSA CARACTERÍSTICA NO NOSSO CURSO, ESSA CAPACIDADE 
+
+
+DE TRANSFERIR DADOS, MAS ELA EXISTE...
+
+
+
+
+('Events typically transport DATA').
+
+
+
+SEMPRE TRABALHAMOS, ATÉ AGORA, SEM UTILIZAR ESSA CAPACIDADE.
+
+
+--------------------------------------------
+
+
+Já neste módulo DAREMOS UMA OLHADA em QUAIS DADOS ESTÃO SENDO TRANSPORTADOS 
+
+PELOS EVENTOS, e você PEGARÁ ESSES DADOS E OBJETO que são 
+
+criados PARA CADA EVENTO ___AUTOMATICAMENTE_____ como um argumento....
+
+
+um argumento passado na FUNÇÃO QUE VOCê REGISTRA COMO UM EVENTLISTENER...
+
+
+
+
+
+
+
+
+Já neste módulo DAREMOS UMA OLHADA em QUAIS DADOS ESTÃO SENDO TRANSPORTADOS 
+
+PELOS EVENTOS, e você PEGARÁ ESSES DADOS E OBJETO que são 
+
+criados PARA CADA EVENTO ___AUTOMATICAMENTE_____ como um argumento....
+
+
+um argumento passado na FUNÇÃO QUE VOCê REGISTRA COMO UM EVENTLISTENER... ------------->
+
+
+
+
+-------------> 'addEventListener ('...', event => ...)'
+
+
+
+-------------------------------------------------------
+
+
+
+ATÉ AGORA NÓS SEMPRE IGNORAMOS ESSE OBJETO, ESSE ARGUMENTO, mas o fato 
+é que 
+
+NÓS SEMPRE, NA VERDADE, O CONSEGUIMOS ___AUTOMATICAMENTE____....
+
+
+--------------------------------------
+
+
+
+NESSE MÓDULO APRENDEREMOS COMO UTILIZAR ESSES DADOS...
+
+
+
+Aprenderemos SOBRE AS COISAS QUE EXISTEM DENTRO DESSE OBJETO....
+
+
+e isso se aplica, BTW, não apenas para o JAVASCRIPT BROWSER-SIDE, 
+
+mas TAMBÉM PARA NODE.JS e QUALQUER LINGUAGEM DE PROGRAMAÇÃO....
+
+
+
+oU SEJA, um evento TIPICAMENTE VEM COM ALGUNS DADOS QUE DESCREVEM O EVENTO,
+
+
+DADOS QUE TALVEZ SEGUREM ALGUNS METADADOS ('metadata') que BASICAMENTE 
+
+TE AJUDAM A INTERAGIR COM AQUELE EVENTO E RODAR ALGUNS CÓDIGOS
+ 
+ COM BASE NELE...
+
+
+--------------------------------
+
+
+
+
+
+Como professor mencionou nesse módulo, O professor focará 
+
+NO BROWSER-SIDE SIMPLESMENTE PORQUE ISSO É O MAIS FÁCIL PARA NÓS.
+
+Podemos imediatamente ver alguma coisa, entender as coisas por causa disso...
+
+
+MAS A IDEIA PRINCIPAL É SEMPRE A MESMA.
+
+
+
+
+NO MÓDULO 'node.js' VEREMOS COMO TRABALHARÍAMOS COM EVENTOS LÁ..
+
+
+
+------------------------- 
+
+
+
+
+NO CONTEXTO DO BROWSER, É IMPORTANTE ENTENDER QUE NÓS TEMOS 
+
+
+_____DIFERENTES____ TIPOS DE  EVENTOS______ AOS QUAIS PODEMOS ESCUTAR...
+
+
+
+
+ex: um clique em um botão, ou qualquer outra coisa.
+
+
+EX: CLIQUES DUPLOS, ou um 'right click'...
+
+
+EX: 'hover' em cima de algum elemento. 
+
+
+
+ex: MOVER O MOUSE PARA LONGE DE ALGUM ELEMENTO...
+
+
+
+
+
+ESSES SÃO TODOS DIFERENTES TIPOS DE EVENTOS...
+
+
+
+
+e, de fato, em javascript, para o browser (exposed by the browser NO CÓDIGO 
+
+JAVASCRIPT EM QUE RODAMOS NELE...), TEMOS UMA 
+
+
+CONSTRUCTOR FUNCTION 'Event'... ('event constructor function').
+
+
+É UM OBJETO CORE 'event' ("CORE EVENT OBJECT"...)
+
+COM ALGUMAS FUNCIONALIDADES 'CORE' QUE TODOS EVENTOS COMPARTILHAm...
+
+
+
+
+
+Aí temos ALGUMAS EVENT CONSTRUCTOR FUNCTIONS __ESPECIALIZADAS___, 
+
+
+que são baseadas na constructor function 'CORE' DE EVENT...
+
+
+
+ex:
+
+
+
+               EVENT 
+                  |
+                  |
+ -----------------|----------
+ |                |         |
+MouseEvent    DragEvent    ....
+
+
+
+-----------------------------------
+
+
+
+Essas constructor functions especializadas, baseadas em event, são VÁRIAS.
+
+
+Algumas delas 
+
+são 
+
+
+'mouseEvent' e 'dragEvent'...
+
+
+ELAS FUNCIONAM COM A AJUDA DE PROTOTYPES... (ou seja, 'event' é um PROTOTYPE de mouseEvent, está dentro dele e contém propriedades que são passadas/legadas a ele.)
+
+
+
+ESSES PROTOTYPES SEGURAM INFORMAÇÕES ADICIONAIS QUE SÓ FAZEM SENTIDO 
+
+PARA CERTOS EVENTOS...
+
+
+
+ex: temos um 'mouseEvent', esse mouseEvent também PODE NOS RENDER 
+
+AS COORDENADAS DO 'Event', ou seja, AS COORDENADAS DO MOUSE BUTTON QUANDO 
+
+O EVENTO OCORREU...  além disso, esse mouseEvent também 
+
+PODE SEGURAR UM 
+
+'event Target', um event target QUE DESCREVE O ELEMENTO NO DOM EM QUE 
+
+ESSE EVENTO FOI ATIVADO/TRIGGADO/responsável por esse evento...
+
+
+
+
+----> EVENT TARGET, O PROFESSOR EXPLICA, NA VERDADE É EXPOSTO 
+
+POR AQUELE OBJETO CORE 'Event', e É COMPARTILHADO POR __tODOS OS EVENTOS___ (que são DADOS A NÓS PELO BROWSER...)
+
+
+----------------------------
+
+
+
+Representação :
+
+
+
+
+MouseEvent 
+
+   |
+
+Coordinates --> 'COORDINATES', por sua vez, É ALGO ESPECÍFICO A 'mouseEvent'.
+
+   |
+
+EventTarget ---> é o Browser que nos dá o 'eventTarget', todos events o possuem.
+
+
+
+
+------------------------------------
+
+
+
+
+Já 'DragEvent', por sua vez, pode segurar 
+
+uma 'Extra Data', uma EXTRA DATA QUE PODEMOS ANEXAR (attach) À 
+
+UMA INTERAÇÃO DRAG AND DROP..... (pq interações como a 'drag and drop' são UM POUCO MAIS COMPLEXAS DEVIDO AO FATO DE SEREM COMPOSTAS POR MÚLTIPLOS EVENTOS... eventos que + ou - PRECISAM TROCAR INFORMAÇÕES ENTRE ELES... e isso pode ser feito com a ajuda dessa extra data que pode ser anexada Às interações drag and drop).
+
+
+
+MAS 'dragEvent' TAMBÉM TEM um 'event target'.... E é óbvio que em 'dragEvent' você tem 
+
+MUITO MAIS EVENTOS, COM MUITO MAIS DADOS, mas ainda assim você terá coisas em comum em events distintos, 
+como esse Event Target e outras propriedades/métodos.
+
+
+
+
+Representação de DragEvent: 
+
+
+DragEvent 
+
+Extra Data 
+
+Event Target 
+
+
+--------------------------------------
+
+
+
+Mas as constructor functions de eventos especializados ainda assim POSSUEM 
+
+SEUS DADOS ESPECIAIS, SUAS PROPRIEDADES E MÉTODOS ESPECIAIS EXCLUSIVOS, que 
+
+somente fazem sentido no contexto DAQUELE EVENTO ESPECÍFICO...
+
+---------------------------------------
+
+
+
+devemos estudar ALGUNS DOS EVENTOS COM OS QUAIS PODEMOS TRABALHAR...
+
+
+TAmbém devemos estudar OS DADOS QUE ESSES EVENTOS NOS PROVIDENCIAM...
+
+
+
+--------------------------------------
+
+
+
+
+O MDN tem um excelente artigo sobre EVENTOS... 
+
+
+'Event - Web APIs | MDN'
+
+
+
+Você pode ler sobre os diferentes tipos de evento;
+
+
+também há uma 
+
+REFERêNCIA DETALHADA DO 
+
+OBJETO 'event' e de suas propriedades/métodos.
+
+-------------------------------
+
+
+
+
+SE VOCê SCROLLAR MAIS PARA BAIXO, NO TRECHO EM QUE 
+
+HÁ 
+
+'Interfaces based on Event', VOCÊ PODERÁ 
+
+
+ENCONTRAR OS EVENTS MAIS ESPECIALIZADOS, COMO 
+
+O MOUSEEVENT e o DRAGEVENT...  
+
+
+
+
+Vários deles vocÊ nunca utilizará, mas alguns você utilizará frequentemente.
+
+
+
+-------------------------
+
+HÁ MAIS UMA CONSTRUCTOR FUNCTION ENTRE 'mouseEvent' E 'eVENT'... (a constructor function 'UIEvent'...)
+
+
+
+---------------------------------------
+
+
+
+
+MouseEvent tem muitas propriedades específicas a ele...
+
+
+o MDN nos mostra diferentes eventos que triggam o 'mouseEvent', como 
+
+'dbclick', 'mouseup', 'mousedown'....
+
+
+
+
+TAMBÉM PODEMOS VER MAIS SOBRE AS PROPRIEDADES QUE EXISTEM DENTRO DE 'MOUSEEVENT', se são 
+
+'read-only', etc etc.

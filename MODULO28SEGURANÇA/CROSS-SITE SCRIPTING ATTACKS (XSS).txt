@@ -1,0 +1,1648 @@
+
+
+RESUMINDO: NÃO COLOQUE 'SECURITY-RELEVANT DETAILS' no seu clientside javascript.....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------> PRÓXIMO TIPO DE ATAQUE:
+
+
+
+
+
+
+É O TIPO MAIS PERIGOSO DE ATTACK PATTERN A QUE VOCÊ PODE EXPOR O SEU CÓDIGO....
+
+
+
+É o 
+
+
+
+
+tipo de 
+
+
+ataque 
+
+
+
+da modalidade 
+
+
+
+
+'CROSS-SITE SCRIPTING'...
+
+
+
+-----------------------
+
+
+
+
+ESSES EXPLOITS OCORREM __NO CLIENTSIDE JAVASCRIPT____....
+
+
+
+
+
+----> O PROFESSOR FALA AQUI ESPECIFICAMENTE DO 'CLIENTSIDE'... ---> o lado que RODA NO BROWSER.....
+
+
+
+
+
+
+----> professor explica que O CÓDIGO JAVASCRIPT QUE RODA NO SERVERSIDE ___É MUITO MAIS SEGURO ___ DO QUE O CÓDIGO JAVASCRIPT 
+QUE RODA NO BROWSER....
+
+
+
+
+--> ele também explica que QUANDO NÓS FALAMOS DE 'SERVERSIDE ATTACK PATTERNS', ESSES ATAQUES 
+
+GERALMENTE NÃO TEM RELAÇÃO ESPECÍFICA COM O JAVASCRIPT, Não são específicos ao javascript....
+
+
+
+
+JÁ O 
+
+
+'CROSS-SITE SCRIPTing' E O 'expose' DE DETALHES DE SEGURANÇA NO CÓDIGO .JS CLIENTSIDE é.... é específico ao javascript...
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+--> OU SEJA: para o 'serverside', há UMA DIFERENTE __'RANGE'____ de ataques em potencial...
+
+
+
+
+
+
+---> professor menciona o 'cross-site request forgery' (CRSF)... (é um ataque de tipo SERVERSIDE)
+
+
+
+--> também menciona o método de 'sequel injection'... ---> é importante você PROTEGER contra esse tipo de ataque SE VOCÊ USA UMA 'SQL DATABASE'... (é serverside também)
+
+
+--> o professor não falará sobre eles aqui pq ELES NÃO SÃO ESTRITAMENTE RELACIONADOS COM O JAVASCRIPT...
+
+
+
+
+---> no curso de node.js o professor fala mais sobre security holes que você pode acabar expondo em servidores....
+
+
+
+--------------------------------------
+
+
+
+OK, MAS O QUE SÃO ATAQUES 
+
+'XSS'?
+
+
+
+
+
+--> É UM PADRÃO DE ATAQUE (attack pattern) EM QUE CÓDIGO JAVASCRIPT MALICIOSO 
+
+
+
+É INJETADO NO SEU APLICATIVO... ele é então executado dentro do seu aplicativo...
+
+
+
+
+
+-----> O PROFESSOR VAI NOS MOSTRAR UM EXEMPLO...
+
+
+
+ELe quer nos mostrar um exemplo pq ISSO PODE SOAR BEM ABSTRATO em um primeiro momento, 
+
+MAS É UM TIPO 
+
+DE ATAQUE BEM PERIGOSO...
+
+
+
+
+
+
+---> VOCÊ TEM QUE IMAGINAR: se pessoas são capazes de adicionar CÓDIGO NO SEU APLICATIVO... isso pode 
+constituir UM PROBLEMA DE SEGURANÇA... problema de segurança PQ SE ELES SÃO CAPAZES DE ADICIONAR __CÓDIGO EXTRA NO SEU APLICATIVO__, 
+
+ESSES CÓDIGOS EXTRAS SERÃO EXECUTADOS, NO FUTURO, POR TODOS USUÁRIOS QUE FOREM VISITANDO SUA PÁGINA... 
+
+
+
+E O CÓDIGO INJETADO/QUE ELES INJETAM PODE FAZER ___TUDO O QUE SEU CÓDIGO __ PODE FAZER, também....
+
+
+
+IMAGINE O DESASTRE: digamos que seu código é capaz de enviar requests a certos domínios... certos domínios cujo 
+acesso é concedido POR MEIO DO SEU APLICATIVO (domínios que 
+apenas permitem o acesso a eles por meio DO SEU IP/DOMÍNIO + O MÉTODO CORRETO + 
+OS HEADERS ADEQUADOS/right 'course headers'...)... ---> se o cara consegue realizar um ataque XSSS, ele pode alterar 
+
+TODO O CÓDIGO DE DENTRO DO SEU APLICATIVO.....
+
+
+O código que o cara escrever também PODE FAZER COISAS COMO ___LER O 'LOCAL BROWSER STORAGE' do usuário 
+
+E ENTÃO ENVIAR ESSA DATA A ALGUM SERVIDOR SETTADO PELO USUÁRIO MALICIOSO que injetou o código.... 
+
+e muito, muito mais...
+
+
+
+
+
+---> SE VOCÊ É CAPAZ DE INJETAR CÓDIGO JAVASCRIPT EM OUTRA PÁGINA, código que então é executado 
+
+PARA CADA VISITANTE QUE acessar aquele site, VOCê É CAPAZ, CONSEQUENTEMENTE, DE ARMAZENAR ____ UM MONTE DE DADOS ___ 
+SOBRE ESSES VISITANTES/USUÁRIOS... --------> por um 'monte de dados', TAMBÉM 
+QUEREMOS 
+DIZER 
+
+'security-relevant data'... ---> dados de segurança como usuários, senhas , etc etc.
+
+
+PARA FINALIZAR O DESASTRE,
+
+
+VOCÊ TAMBÉM É/SERÁ CAPAZ DE FALSIFICAR UM MONTE DE COISAS ('fake a lot of things') E ENVIAR, no/por meio do  código javascript 
+
+que você hackeou, UM MONTE DE REQUESTS, provavelmente Às suas PRÓPRIAS PÁGINAS MALICIOSAS, TUDO 'on behalf of the application' que 
+
+o desenvolvedor criou... tudo 'on behalf of the users visiting that application'... todos os usuários visitando 
+
+esse aplicativo EM QUE VOCê INJETOU O SEU CÓDIGO...
+
+
+
+
+
+
+----> ISSO TUDO É MUITO PERIGOSO: Você acaba conseguindo 
+
+
+'FULL BEHIND THE SCENES CONTROL'... ---> se você conseguir injetar código em outra página, vocÊ ganha exatamente isso.
+
+
+
+
+
+
+
+UM EXEMPLO PARA ISSO, PARA ESSE TIPO DE FALHA DE SEGURANÇA, SERIA 
+
+
+___'UNCHECKED USER GENERATED CONTENT'___, conteúdos gerados por usuários QUE NÃO SÃO CHECADOS 
+
+ADEQUADAMENTE PELO NOSSO 'JAVASCRIPT CLIENTSIDE CODE'...
+
+
+
+-------------------------------------------
+
+
+
+E o professor quer NOS MOSTRAR UM EXEMPLO DISSO, para que nós CONSIGAMOS ENTENDER ____QUAL É O PROBLEMA__ quando 
+
+nós falamos de 'cross site scripting attacks'...
+
+
+
+--------------------------------------
+
+
+
+PARA mostrar um desses tipos de ataques, devemos 
+
+
+voltar À nossa application dos mapas.
+
+
+LÁ DEVEMOS 
+
+
+GERAR UM 'address' por meio do input field....
+
+
+
+
+Professor inputta 
+
+
+
+'6th Avenue'...
+
+
+
+
+--------------> CERTO. 
+
+
+
+----> o professor está usando aquele EXEMPLO da criação de URL 
+
+QUE ___NÃO USA___ O NOSSO BACKEND SERVER e o database (conectado ao servidor backend ) PARA DAR RETRIEVE NOS 'ids'.......
+
+
+
+----> isso quer dizer QUE A LOCALIZAÇÃO DO USUÁRIO, NESSE NOSSO EXEMPLO, ESTÁ INSERIDA DENTRO DA URL 
+
+GERADA PELO USUÁRIO, ainda...
+
+
+
+
+---> mas professor explica que ESSE EXEMPLO AINDA FUNCIONARIA COM UM 'BACKEND SERVER', no entanto. ---> ele logo nos mostrará como.
+
+
+
+
+-----> AQUI TEMOS O NOSSO LINk...
+
+
+
+Podemos visitar esse link e abrir a página 
+
+
+'My-place'.... certo... isso não é mt fancy....
+
+
+
+
+COMO DIABOS ISSO PODERIA SER 'insecure'???? 
+
+
+
+
+BEM, NÓS TEMOS O NOSSO CÓDIGO....
+
+
+
+
+
+O código de 'MyPlace.js'...
+
+
+
+
+
+ESSA PÁGINA .Js é responsável PELO DISPLAY DA PÁGINA 'myPlace'... 
+
+
+ 
+É ELA QUE FAZ A RENDERIZAÇÃO DESSES ELEMENTOS TODOS QUANDO A URL do 'myPlace' é visitada... a URL COM A 'ENCODED INFORMATION'...
+
+
+
+
+
+
+código de 'MyPlace.js':
+
+
+
+
+
+import { Map } from './UI/Map';
+
+
+
+
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        new Map(coordinates);
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.textContent = address;
+    }
+}
+
+
+
+
+const url = new URL(location.href);
+const queryParams = url.searchParams;
+const coords = {
+    lat: parseFloat(queryParams.get('lat')),
+    lng: +queryParams.get('lng')
+};
+const address = queryParams.get('address');
+new LoadedPlace(coords, address);
+
+
+....
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+ESPECIFICAMENTE NESSE CÓDIGO, NÓS DEFINIMOS/ACABAMOS DEFININDO 
+
+
+'headerTitleEl.textContent' COMO SENDO aquele 'address'....
+
+
+
+Certo... mas e se nós NÃO DEFINÍSSEMOS o '.textContent' aqui (que é uma 
+propriedade QUE APENAS DEFINE O 'TEXT NODE' desse elemento),  E SIM 
+
+O 'innerHTML' desse elemento...?
+
+
+
+
+ex:
+
+
+
+TROCAMOS ISSO:
+
+
+'                                   '
+headerTitleEl.textContent = address;
+
+
+por 
+
+
+ISSO:
+
+
+'                               '
+headerTitleEl.innerHTML = address;
+
+-----------------------------------------------------------
+
+
+
+
+NÓS FARÍAMOS ISSO TANTO POR:
+
+
+
+
+1) UM __ERRO__. Um erro de programação. Isso acontece
+
+
+
+2) PQ NÓS ESPERAMOS QUE 'address' SEJA MAIS DO QUE UMA 'plain string' que o usuário inputtará.... (pq alguns aplicativos não vão pedir sempre strings/números.... podem pedir algo diferente.)
+
+
+
+
+
+
+
+Certo... então agora o 
+
+
+nosso código POSSIBILITA DEFINIR O 'innerHTML' dentro DE HEADERTITLEEL 
+
+
+COMO O ADDRESS PASSADO PELO USUÁRIO...
+
+
+
+
+Se o professor salvar isso e recarregar a página, ele vai obter o mesmo resultado visual de antes...
+
+
+
+
+
+
+
+ENTRETANTO, SE NÓS USARMOS AS DEVELOPER TOOLS E __iNSPECIONARMOS___ ESSE 
+
+ELEMENTO DO HEADER...
+
+
+
+
+Ele explica/aponta que A COISA  QUE NÓS ESTAMOS INSERINDO/MUDANDO AQUI É O 'INNERHTML CODE' da 
+
+
+
+TAG 'h1' DE NOSSA PÁGINA, NO HEADER...
+
+
+
+E o que nós settamos NESSA TAG 'H1' NESSE HEADER É, ESSENCIALMENTE, O QUE 
+
+NÓS ACABAMOS INSERINDO NA URL.... (pq nosso 'address' É O __INPUT___ DO USUÁRIO, INPUT QUE É INSERIDO NA URL...)  ---------->
+-----------> E AÍ RESIDE O PROBLEMA: o usuário pode ENFIAR DADOS/CÓDIGO HTML  NA URL....
+ESSES DADOS SERÃO LIDOS PELA NOSSA JAVASCRIPT ENGINE  E RENDERIZARÃO O CÓDIGO HTML INSERIDO PELO USUÁRIO 
+NA NOSSA URL...
+
+
+
+ex(de URL maliciosa):
+
+
+
+
+'localhost:8080/my-place/?address=<script></script>&lat=40.74290&lng=-73.9927977999999'
+
+
+
+
+
+
+
+
+NESSE EXEMPLO, O PROFESSOR/USUÁRIO MALICIOSO PREPARA UMA URL QUE ELE QUER 
+
+FAZER 'SHARE' COM OUTROS USUÁRIOS...
+
+
+Essa url CONTÉM UM SCRIPT MALICIOSO.... esse script malicioso ESTÁ 
+
+INSERIDO COMO O CAMPO 'address' DA URL.... -------> e nem todo usuário 
+
+
+
+olha a URL/presta atenção em uma coisa dessas.... ----> isso significa que 
+
+esse detalhe NÃO SERÁ VISTO POR TODOS OS USUÁRIOS QUE VISITAM A NOSSA PÁGINA... (as pessoas 
+com as quais eu compartilho esse link.... )
+
+
+
+
+
+--->
+
+
+Podemos, por exemplo, 
+
+
+
+escrever/colocar 
+
+o script 
+
+
+'alert('Hi there');' 
+
+
+
+
+DENTRO DESSA URL...
+
+
+
+ex:
+
+'localhost:8080/my-place/?address=<script>alert('Hi there!');</script>&lat=40.74290&lng=-73.9927977999999'
+
+
+------------------------------------
+
+
+
+
+
+DIGITAMOS ISSO E APERTAMOS 'ENTER'...
+
+
+
+
+
+Agora veremos que DENTRO DO 
+
+'h1' VAMOS TER 
+
+
+O 
+
+
+NOSSO SCRIPT DE 'alert'... 
+
+
+
+Ele estará _____INJETADO DENTRO DO NOSSO SCRIPT____ .... UM SCRIPT ESTARÁ 
+
+INJETADO DENTRO DO NOSSO SCRIPT, BASICAMENTE (dentro do 'h1 tag')...
+
+
+
+
+COMO RESULTADO DISSO, O HEADER DA PÁGINA NÃO MOSTRARÁ COISA ALGUMA (ficará vazio)....
+
+
+
+
+O header da página fica vazio POR CAUSA DESSE 'hi alert'....
+
+
+
+
+
+Certo.... mas esse código malicioso NÃO ESTÁ SENDO EXECUTADO...
+
+
+
+PQ ele não foi executado?
+
+
+
+
+
+Pq, explica o professor, BROWSERS MODERNOS POSSUEM UM 
+
+_________MECANISMO DE SEGURANÇA____.... ESSE MECANISMO DE SEGURANÇA 
+
+
+
+EVITA QUE ATAQUES DE SCRIPT  ENVOLVENDO O OUTPUT DE 'INNERHTML' SEJAM  EXECUTADOS.....
+
+
+
+
+
+Esse mecanismo existe JUSTAMENTE PARA EVITAR CENÁRIOS/SITUAÇÕES COMO ESSA; situações em que 
+
+
+ALGUÉM/OU VOCÊ TENTA ABUSAR UM FURO DE SEGURANÇA NO SEU APLICATIVO... situações em que ALGUÉM
+
+INJETA CÓDIGO JAVASCRIPT NO SEU APLICATIVO, CÓDIGO QUE ENTÃO É EXECUTADO 'ON YOUR BEHALF'...
+----------------------------------------------------------
+
+
+
+
+
+
+
+
+TENHA EM MENTE:
+
+
+
+usuários comuns da página não perceberiam esse furo de segurança.... ELES 
+
+PROVAVELMENTE SE PERGUNTARIAM 'ué, pq não há nada aqui em cima, nenhum title ou coisa do gênero..?'
+
+
+MAS ELES TIPICAMENTE NÃO CHECAM OS DEVELOPER TOOLS PARA VERIFICAR O QUE HÁ ALI DENTRO DAQUELE ELEMENTO.
+
+
+
+
+
+
+
+--------------------------------------------
+
+
+
+OK, MAS ESSA SITUAÇÃO/SCENARIO NÃO NOS prejudicará, certo....?
+
+
+É inesperado, mas como o browser NÃO EXECUTA O SCRIPT, NÃO HÁ PROBLEMA, NÉ?
+
+
+
+
+
+BEM, NA VERDADE, NÃO.
+
+
+
+
+
+É ruim pq HÁ MAIS DE 1 ÚNICA MANEIRA DE EXECUTAR CÓDIGO DE SCRIPT.... 
+
+
+
+
+
+
+ALÉM DESSAS 'SCRIPT TAGS', que DE FATO __SÃO IMPEDIDAS __ pelo BROWSER__ de serem executadas, 
+
+E SE NÓS 
+
+ADICIONÁSSEMOS UMA __iMAGEM AQUI____... e se adicionássemos UMA ___iMAGEM___ com um source que 
+
+
+NÃO EXISTE (sempre funciona assim).... E ENTÃO COLOCÁSSEMOS UM handler de 'onerror' QUE 
+
+EXECUTA UM CÓDIGO JAVASCRIPT (um 'alert', nesse exemplo) CASO AQUELA IMAGEM 
+
+NÃO SEJA ENCONTRADA/NÃO EXISTA...
+
+
+
+
+ou seja,
+
+
+
+esse código aqui:
+
+
+<img src='#' onerror=alert('Hi there');
+
+
+
+
+É INSERIDO DENTRO DA URL....
+
+
+
+<img src='#' onerror=alert(1) />
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+ex:
+
+
+'localhost:8080/my-place/?address=<img src="" onerror="alert('Hi there')";&lat=40.74290&lng=-73.9927977999999'
+
+
+
+--------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE CÓDIGO __vAI FUNCIONAR__... ---> vai funcionar 
+
+
+
+
+PORQUE ESSA ''''IMAGEM''''' É CONSIDERADA COMO UM ELEMENTO HTML VÁLIDO...
+
+
+
+como o '''source''''' (source='') NÃO É ENCONTRADO, 
+
+
+aquele handler de 'onerror' VAI TRIGGAR 100% das vezes.......
+
+
+
+
+
+
+'onerror' ----> esse handler PODE SER ADICIONADO AOS NOSSOS ELEMENTOS HTML.... ----> ele não é muito bom PARA ESCREVER CÓDIGO, pensando como desenvolvedor, MAS É ___ÓTIMO___ PARA EXPLOITAR furos de segurança...
+
+
+
+
+
+
+
+------> 'onerror' ---> EXCELENTE PARA ATAQUES... ----> PODEMOS ADICIONAR CÓDIGO JAVASCRIPT QUE EXECUTA 
+DIRETAMENTE EM UM ELEMENTO HTML... (por meio desse exploitzinho)...
+
+
+
+
+SE AGORA EU APERTAR 'enter' na minha página,
+
+
+VOU RECEBER AQUELE 
+
+
+
+'ALERT' de 'Hi there', sem PROBLEMA ALGUM....
+
+
+
+
+
+
+
+
+OU SEJA, ENCONTRAMOS UMA FALHA DE SEGURANÇA 
+
+
+__GRITANTE____ na nossa página....
+
+
+
+
+
+NÓS ACABAMOS VENDO 
+
+
+
+ESSE alerta de erro 
+
+
+PQ O CÓDIGO HTML (aquela imagem BUGADA/inexistente, com o handler de 'onerror' ) QUE INSERIMOS NA URL 
+
+
+_________ACABOU SENDO INSERIDO NA NOSSA PÁGINA_____ (eis o furo de segurança)....
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE 'alert()', por si só, É SÓ 
+
+CHATO, mas tenha 
+
+em ente 
+
+
+QUE EU PODEREI 
+
+
+________COMPARTILHAR ESSE LINK COM QUALQUER PESSOA...___ PODEREI 
+
+COMPARTILHAR ESSE LINK EM UM GRUPO 
+
+
+
+DE FACEBOOK, etc etc.....
+
+
+
+
+
+----> um alerta é inofensivo.... MAS AQUI PODERÍAMOS FAZER QUALQUER COISA, nesse ELEMENTO da página...
+
+
+
+PODERÍAMOS FAZER COISAS QUE NÃO SÃO INOFENSIVAS, COISAS QUE PODEM MEXER COM 'SECURITY-RELEVANT DETAILS'...
+
+
+-----------------------------
+
+
+
+
+
+Eu poderia, por exemplo, ESCREVER UM SCRIPT MAIS LONGO DENTRO DESSA URL... (e sim, nós podemos 
+escrever scripts mais longos dentro dessa url, basta SEPARARMOS NOSSO CÓDIGO POR MEIO DE ';'....).....
+
+
+
+
+Nesse script, posso fazer coisas como ACESSAR A 'LOCALSTORAGE' do browser, 
+
+
+LER DADOS DA LOCALSTORAGE, ou ler dados dos COOKIES do usuário...
+
+
+
+
+
+POR fim, posso embalar todos esses dados e enviá-los A MEU SERVIDOR MALICIOSO, por exemplo...
+
+
+
+
+USUÁRIOS DA PÁGINA NÃO PERCEBEM NADA:
+
+
+Eles não vão ganhar um alerta, não vão ganhar um erro...
+
+
+
+
+
+
+SE O CARA FOR ___rEALMENTE MALVADO___ ELE pode fazer com que A PÁGINA CONTINUE FUNCIONANDO CORRETAMENTE,
+
+MAS com essa execução de script malicioso ainda rolando.....
+
+
+
+No exemplo do professor de agora, ele FAZ COM QUE O ENDEREÇO DE '6th Avenue' (o endereço dele) AINDA 
+
+SEJA MOSTRADO NA H2 TAG da página, 
+
+MAS NO FUNDO O SCRIPT MALICIOSO DE 'alert()' (ou qualquer outro script, de fato) 
+
+
+ESTARÁ RODANDO.....
+
+
+
+
+ex:
+
+
+
+'localhost:8080/my-place/?address=<img src="" onerror="alert('Hi there');"<h2>6th Avenue</h2>&lat=40.74290&lng=-73.9927977999999'
+
+
+
+-----------------------------------
+
+
+
+
+
+OU SEJA: aqui as pessoas NÃO VÃO ENXERGAR NADA DE ERRADO (se o hack for feito adequadamente),
+
+MAS 
+
+O SCRIPT MALICIOSO AINDA ESTARÁ RODANDO NO BACKGROUND DA PÁGINA...
+
+
+
+
+
+-------------------------------------
+
+
+
+E AQUI, NO HANDLER DE 'onerror', NESSE SCRIPT, nós podemos 
+
+
+FAZER __qUALQUER COISA __ que desejarmos, nessa parte do script...
+
+
+
+PODEMOS 
+
+
+1)  ROUBAR DADOS CONFIDENCIAIS da 'browser storage' DOS USUÁRIOS 
+
+
+
+
+2) ENVIAR REQUESTS  'ON BEHALF OF THE USER' que está visitando essa página... que está visitando essa página com esse link que mandamos.... podemos enviar requests A QUALQUER BACKEND por meio desse 'hijacking' dos usuários que visitam a página com esse link...
+(E É AÍ QUE RESIDE O PERIGO):  ----> é perigoso pq se o cara que visitou a página é um FIGURÃO, podemos roubar os dados credenciais deles de dentro do BROWSER STORAGE e então ENVIÁ-LOS a UM BACKEND que só aceita os dados do cara, com o ip do cara...
+
+
+
+
+
+
+
+ 
+
+ ---> PORTANTO, esse é um ___FURO DE SEGURANÇA__ que temos no 
+ nosso aplicativo, no presente...
+
+
+
+
+
+ NÓS TEMOS ESSE FURO PQ 
+
+
+
+ ali naquele 
+
+ trecho 
+
+
+ 'headerTitleEl.innerHTML = address;' 
+
+
+
+ ESTAMOS __OUTPUTTANDO__ 
+
+
+ 'innerHTML' 
+
+
+ em vez de TEXTO naquele node....
+  
+
+
+
+  ---------------------------------------
+
+
+
+
+  CERTO, MAS COMO PODEMOS CONSERTAR ESSE PROBLEMA? COMO CONSERTAR ESSE FURO DE SEGURANÇA?
+
+
+
+
+
+  Afinal, queremos que o usuário REALMENTE SEJA CAPAZ DE INPUTTAR coisas no nosso aplicativo...
+
+
+
+
+Imagine que você quer DEIXAR QUE O USUÁRIO CONSIGA INJETAR SEU 'USER GENERATED CONTENT' na página 
+
+E QUE O JAVASCRIPT POSSA EXECUTAR ESSES conteúdo/código...
+
+
+
+Nessa hipótese, o 'textContent' não serviria de nada... Pq ele não deixaria o javascript 
+executar coisas em cima daquilo que o usuário criou/gerou/inputtou...
+
+
+
+E ao mesmo tempo, você não QUER DEIXAR O USUÁRIO INJETAR SCRIPTS MALICIOSOS, que seriam executados no background...
+
+
+
+
+VOCê QUER QUE O INPUT DO USUÁRIO SEJA 'SECURE', que não contenha nenhum script que possa ser executado 
+
+'on your behalf'...
+
+
+-----------------------------------------------
+
+
+
+PARA ISSO, EXPLICA O PROFESSOR, VOCÊ PODE USAR 
+
+PACKAGES 
+
+
+
+Como 
+
+
+
+'sanitize-html'.... ---> essa é uma package que 
+
+
+BASICAMENTE TE AJUDA A 
+
+____SANITIZAR ___  _TEXTO__ e remover 
+
+
+QUALQUER 'TAGS INDESEJADAS' dentro desse texto... a package faz com que CÓDIGOS INVÁLIDOS/MALICIOSOS
+ deixem de ser executados...
+
+
+
+
+
+ Uma importante nota sobre essa package já aparece na PÁGINA DO NEGÓCIO:
+
+
+
+Browser:
+
+ 'Think first: WHY do you want to use it in the browser? Remember, ___servers___ must never trust browsers. You 
+ can't sanitize HTML for saving on the server anywhere else but on the server'...
+
+
+
+
+
+ O que essa mensagem significa?
+
+
+
+
+ SIGNIFICA QUE A 'SANITIZATION' (a higienização) DEVE 
+
+ ___ACONTECER NO SERVIDOR MESMO__, SE POSSÍVEL (a sanitization no browser não é tão boa....)...
+
+
+
+
+ --------------------------------
+
+
+ Isso quer dizer que SE NÓS ESTIVÉSSEMOS NO NOSSO APLICATIVO 'node.js', nós talvez, no futuro, 
+
+ gostaríamos 
+
+
+ DE ARMAZENAR QUALQUER 'user input' QUE RECEBESSEMOS (no nosso caso, os 'address'/'coordinates') NO 
+
+
+ NOSSO ___SERVIDOR___    ___ ANTES ____ DE ARMAZENAR __ ESSAS PORCARIAS(que podem, sim, ser maliciosas... paranóia 
+ sempre é boa) NO NOSSO ____'DATABASE'___ (que é o que realmente importa)....
+
+
+
+ Mas pq armazenaríamos esses user inputs no nosso servidor?
+
+
+
+ PORQUE É ALI QUE PODEMOS EFETIVAMENTE 'SANITIZAR '(sanitize) OS 
+
+ USER INPUTS... 
+
+
+ NÓS FAZEMOS ESSE 'SANATIZE' JUSTAMENTE por meio dessa package, 
+
+ por meio 
+
+
+ desse 
+
+
+ 'sanitize-html'...
+
+
+
+
+
+ ou seja:
+
+
+
+ 1) usuário envia o código/user input...
+
+
+
+ 2) armazenamos isso no servidor (node.js, storage temporário...)
+
+
+
+ 3) servidor SANITIZA ISSO, por meio da package de 'sanitize-html'...
+
+
+ 4) O SERVIDOR ENVIA ESSE USER INPUT SANITIZADO à DATABASE, onde esse negócio será armazenado.
+
+
+
+ ---------------------------------
+
+
+
+ Mas pq fazer esse negócio dessa forma?
+
+
+
+
+
+ Bem simples, é algo que o professor já mencionou:
+
+
+
+
+ ESSE MÉTODO DE ATAQUE DE 
+
+ 'injetar um script dentro de um elemento HTML da página' (XSS ATTACKS) NÃO 
+
+
+ EXISTE APENAS NOS CASOS EM QUE VOCê PODE INJETAR COISAS NA URL... ELE TAMBÉM 
+
+
+ EXISTE SE VOCÊ, É CLARO, ARMAZENAR ALGUMA COISA (como um user input com script) NA DATABASE....
+
+
+
+
+
+ PQ O PROFESSOR, POR EXEMPLO, PODERIA AVACALHAR NOSSO CÓDIGO DOS 
+
+
+ MAPAS 
+
+
+ se ele escrevesse 
+
+ algo como 
+
+
+
+ '<img src="" onerror=<script></script>'  ---------> CÓDIGO MALICIOSO.......
+
+
+
+
+
+
+ Se ele escrevesse algo ali no input field e então clicasse em 'FIND PLACE', 
+
+ 
+
+ ESSE CÓDIGO SERIA EFETIVAMENTE __ARMAZENADO ___ NA DATABASE... --------> SE/QUANDO ISSO 
+
+ ACONTECE,
+  
+
+TEMOS UM PROBLEMA.../UM NOVO PROBLEMA É CRIADO....
+
+
+
+
+
+É CRIADO UM PROBLEMA PQ ESSE CÓDIGO MALICIOSO É ENTÃO ARMAZENADO e será possivelmente 
+
+EXECUTADO NA DATABASE....
+
+
+
+
+É por isso que o que o professor (e nós também queremos) quer fazer É ENVIAR 
+
+
+ESSE 'USER INPUT' A UM SERVIDOR (que sanitizará esse user input) ANTES DE ARMAZENÁ-LO 
+
+
+
+EM UMA DATABASE...
+
+
+
+
+
+----> E VOCÊ PODE FAZER ESSE PROCESSO DE SANITIZAÇÃO no browser também....
+
+MAS ISSO é um pouco 
+
+'ATRASADO'...... ----> não é 'a bit too late' se observarmos isso de uma perspectiva de SEGURANÇA, 
+
+MAS VOCê AINDA PODE/PODERIA TER 
+
+CÓDIGO 
+
+HACKEADO/AJUSTADO EM SUA DATABASE, o que você NUNCA VAI QUERER...
+
+
+
+
+
+
+
+O 'SANITIZE' feito no BROWSERSIDE não ATRAPALHA EM NADA ('doesn't do any harm') ,
+
+
+MAS 
+
+NÃO É O IDEAL....
+
+
+
+-----------------------------------------------------
+
+
+
+
+SE VOCÊ SE ESQUECER DE SANITIZAR O BROWSER alguma vez no seu código, você 
+
+TERÁ UM 
+
+GRANDE PROBLEMA...
+
+
+É POR ISSO QUE VOCê DEVE SEMPRE TENTAR SANITIZAR O USER INPUT ___NO SEU SERVIDOR___, e NÃO NO BROWSER....
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+CERTO... CONTINUANDO....
+
+
+
+Se vocÊ quer SANITIZAR NO SEU BROWSER, O QUE VOCÊ 
+
+
+terá de fazer é ASSEGURAR QUE 
+
+
+vocÊ tem a package 
+
+
+
+de sanitize-html INSTALADA....
+
+
+
+
+(com 'npm install sanitize-html'...)
+
+
+
+
+
+Depois de instalado esse 'sanitize-html', 
+
+
+você tem que 
+
+
+COLOCAR 
+
+
+O CÓDIGO DO PACKAGE NA SUA PÁGINA HTML...
+
+
+ex:
+
+
+
+<html>
+    <body>
+        <script type="text/javascript" src="dist/sanitize-html.js"></script>
+        <script type="text/javascript" src="demo.js"></script>
+    <body>
+</html>
+
+
+
+----------------------------------------------------------
+
+
+
+
+Depois de inseridas essas tags 'script' no body do seu arquivo, você ainda terá 
+
+de criar um 
+
+
+ARQUIVO 
+
+
+chamado 
+
+
+'sanitize-html.js'...
+
+
+
+
+Dentro desse arquivo, você obrigatoriamente deverá ter o seguinte código:
+
+
+
+var html = "<strong>hello world</strong>"; ///////aqui você deve inserir a variável que segurará  o 'user generated content/input'..
+console.log(sanitizeHtml(html));
+console.log(sanitizeHtml("<img src=x onerror=alert('img') />"));
+console.log(sanitizeHtml("console.log('hello world')"));
+console.log(sanitizeHtml("<script>alert('hello world')</script>"));
+
+
+
+
+(OBS: DENTRO DAQUELA VARIÁVEL 'html' você DEVERÁ INSERIR ___A VARIÁVEL___ QUE SEGURARÁ 
+O USER INPUT QUE VOCÊ VAI QUERER SANITIZAR.....)
+---------------------------------------------------------------------------
+
+
+
+ex (exemplo dos maps):
+
+
+
+
+
+var html = address; /////////É A VARIÁVEL 'address', inputtada pelo usuário..
+console.log(sanitizeHtml(html));
+console.log(sanitizeHtml("<img src=x onerror=alert('img') />"));
+console.log(sanitizeHtml("console.log('hello world')"));
+console.log(sanitizeHtml("<script>alert('hello world')</script>"));
+
+
+
+
+-------------------------------------------------------------
+
+
+
+SE você quer ver como isso é aplicado na prática, no html,  cheque também o 'index.html' da página 'sharePlace' desse 
+
+nosso projeto dos mapas, naquela pasta mesmo...
+
+
+
+ex:
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>My Place</title>
+    <link rel="stylesheet" href="../assets/styles/app.css" />
+    <link rel="stylesheet" href="../assets/styles/my-place.css" />
+    <script src="../assets/scripts/MyPlace.js" defer></script>
+        <script type="text/javascript" src="dist/sanitize-html.js"></script> <!-- script do sanitize-html - exemplo -->
+    <script type="text/javascript" src="demo.js"></script><!-- outro script do sanitize-html - exemplo -->
+  </head>
+  <body>
+    <header>
+      <h1></h1>
+    </header>
+
+    <section id="selected-place">
+      <div id="map"></div>
+    </section>
+
+    <section id="share-controls">
+      <a href="/">Share a New Place!</a>
+    </section>
+  </body>
+</html>
+
+
+
+
+------------------------------------------
+
+
+
+
+
+
+Certo....
+
+
+E VOCê TAMBÉM PRECISA DA PACKAGE 'sanitize-html' DO NPM, TAMBÉM... (não se esqueça...)....
+
+
+
+
+
+O 'sanitize-html' VAI TIRAR COISAS BUGADAS/MALICIOSAS DOS INPUTS DESSE USUÁRIO...
+
+
+Ele vai assegurar 
+
+
+que esses scripts maliciosos não serão parte do input....
+
+
+
+
+Isso fará com que APENAS HTML 'secure' SEJA RENDERIZADO..... isso 
+
+faz com que 
+
+
+o usuário APENAS CONSIGA RENDERIZAR HTML 'secure' na sua página, no pior dos casos....
+
+
+
+
+
+
+Ok, mas como usar essa package (no browserside)?
+
+
+
+Devemos usar a recomendação do node,
+
+
+instalar por meio de 
+
+
+
+'npm install sanitize-html'...
+
+
+
+
+ISSO VAI ACABAR INSTALANDO O 'sanitize-html' COMO UMA DEPENDENCY em 
+
+'package.json'...
+
+
+
+-------------------------------------
+
+
+
+CERTO....
+
+
+POR FIM, PARA QUE O 'sanitizeHtml' (deve ser importado com esse nome 
+na sua constante) seja INSTALADO/usado NO BROWSERSIDE DO NOSSO PROJETO,
+
+
+
+DEVEMOS 
+
+
+
+fazer um IMPORT CLÁSSICO...
+
+
+
+
+
+UM IMPORT CLÁSSICO 
+
+
+EM 
+
+'MyPlace.js'.... (que é onde O 'address', aquele lugar do INPUT DO USUÁRIo, existe...)
+
+
+
+
+ex:
+
+
+
+import { Map } from './UI/Map';
+import sanitizeHtml from 'sanitize-html';
+
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        New Map(coordinates);
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.innerHTML = address;
+    }
+}
+
+
+
+const url = .......
+
+
+
+------------------------------------------
+
+
+
+
+
+
+CERTO... 
+
+
+Ali, naquele 
+
+
+trecho em que 
+
+
+vamos querer que O USUÁRIO INJETE ALGUMA COISA, algum 'user input', 
+
+
+vamos querer sempre 
+
+
+
+EXECUTAR 
+
+
+
+
+'sanitizeHtml(variávelQueVocêQuerQueSejaUmUserInput)'....
+
+
+
+
+ex:
+
+
+
+
+
+
+import { Map } from './UI/Map';
+import sanitizeHtml from 'sanitize-html';
+
+
+
+class LoadedPlace {
+    constructor(coordinates, address) {
+        New Map(coordinates);
+        const headerTitleEl = document.querySelector('header h1');
+        headerTitleEl.innerHTML = sanitizeHtml(address); /////////////////////EIS AQUI O CÓDIGO QUE O PROFESSOR MENCIONOU, APLICADO NO USERINPUT DESSA PÁGINA...
+    }
+}
+
+
+
+const url = .......
+
+
+
+---------------------------------------
+
+
+
+
+SE O PROFESSOR FIZER ISSO E ENTÃO REINICIAR O DEV-SERVER COM 
+
+
+ESSE NEGÓCIO no nosso código, com esse 'sanitize', 
+
+
+
+
+
+E SE ELE RECARREGAR A PÁGINA COM AQUELA 'URL MALICIOSA', com o alert na url, 
+
+O 
+
+___ALERT___ NÃO SERÁ EXIBIDO__..... (O script malicioso não será executado, essencialmente)...
+
+
+
+
+O único código que será lido e executado pelo javascript, graças ao 'sanitize-html', nesse exemplo,
+
+
+será aquele 
+
+header 
+
+
+
+de '<h1>' que o espertinho havia adicionado.... já o 'alert('Hi there!')' NÃO SERÁ EXECUTADO... (  the malicious code was STRIPPED AWAY from the user input)....
+
+
+
+
+
+É ASSIM QUE NOS PROTEGEMOS CONTRA 
+
+
+
+'CROSS SITE SCRIPTING ATTACKS'...
+
+
+
+
+
+
+
+-------------------------------------------------------
+
+
+
+
+DE NOVO, ESSE NÃO É O MÉTODO IDEAL... PARA TER UMA PROTEÇÃO MELHOR, DEVEMOS EXECUTAR ISSO, ESSA SANITIZAÇÃO 
+
+NO NOSSO SERVIDOR, logo antes do  user input ser armazenado na database...
+
+
+
+MAS NESSE EXEMPLO DOS 'maps', em que eu NÃO TENHO UM SERVERSIDE, em que 
+
+___TODO O CÓDIGO QUE EU TENHO É 'CLIENTSIDE', 
+
+
+TUDO DATA QUE FAZ PARTE DA URL, NOSSA 
+
+
+única escolha acaba sendo fazer a sanitização LÁ NO BROWSER.... 
+
+nessas hipóteses, podemos fazer a higienização dessa forma que o professor nos mostrou....
+
+
+
+ESSE HOLE ESPECÍFICO DE 'xsss' É CONSERTADO POR MEIO DESSA SOLUÇÃO...

@@ -1,0 +1,134 @@
+Agora que demos uma olhada simples nos mais importantes e básicos tipos de dados (DATATYPES) que temos em Javascript, o professor vai te mostrar
+
+uma KEYWORD importante, que você pode usar no seu código. é a keyword
+
+"typeof".
+
+
+typeof
+
+
+a typeof keyword te possibilita AVALIAR o TIPO de uma variável durante a execução/runtime.
+
+
+poderíamos testá-la dentro da função multiply, mas para ver o resultado mais rapidamente, podemos apenas digitá-la no console do developer tools.
+
+
+Você a utiliza por meio da keyword typeof e então o nome da variável que você quer avaliar. Você também pode avaliar valores que foram hardcoded no seu código, como strings (ex: a string "ADD".)
+
+se você executa no console, você verá que você recebe de volta uma string que detalha o nome do tipo de dado que eu usei.
+
+
+ex: typeof 'Max'
+
+resposta: "string"
+
+
+é claro que podemos testar também com números.
+
+ex:
+
+typeof 1
+
+retorno: "number"
+
+
+typeof 1.1
+
+retorno: "number"
+
+
+
+PODEMOS TESTAR, TAMBÉM, COM TRUE E FALSE.
+
+ex:
+
+typeof true 
+
+
+resposta: "boolean"   (haha, clássico.)
+
+
+Não trabalhamos com booleans ainda, mas ele realmente printa boolean ali, porque true é um boolean.
+
+
+podemos checar, também, o tipo de um array.
+
+
+ex:
+
+typeof [1, 2, 3, 4]
+
+
+resposta: "object".
+
+
+
+Bem, aqui nós realmente recebemos OBJETO.
+
+Isso é interessante, porque um array é uma feature muito importante... MUITO TECNICAMENTE, CONTUDO, É DO TIPO OBJETO. Portanto, não existe um tipo especial de array, eles todos são objetos.
+São um tipo especial de objeto, se podemos aceitar isso. É um tipo especial de objeto, mas o tipo "EM GERAL" (OVERALL) é objeto, mesmo.
+
+
+
+Sem me surpreender, se eu colocar o typeof de um objeto que eu definir no console aqui, ele vai me retornar object como string.
+
+typeof {name: 'Max', age: 30}
+
+
+
+resposta: "object"
+
+
+Portanto, os dois (objects e arrays) são do mesmo tipo, apesar de arrays ser um tipo especial de object.
+
+
+
+
+Agora, se checarmos UNDEFINED, veremos que ele retornará o tipo UNDEFINED. O tipo de undefined é undefined, mesmo.
+
+
+
+
+typeof undefined 
+
+
+
+
+retorno:
+"undefined"
+
+
+Porém, se testarmos o null, veremos que o tipo dele é OBJETO.
+
+
+typeof null
+
+
+
+retorno:
+
+"object".
+
+
+Portanto, ele também É UM TIPO ESPECIAL DE DATA, MAS NÃO É "TIPO ESPECIAL NULL", E SIM UM "TIPO ESPECIAL DE OBJETO". É diferente de undefined, nesse aspecto.
+
+
+
+
+
+
+Por fim, se você checar NaN com o typeof, você verá que o tipo dele é "number", porque ele pode ser usado em cálculos.
+
+
+
+typeof NaN
+
+
+retorno:
+
+"number"
+
+
+
+Não é um objeto, não é undefined, não é um tipo especial de object, não é um array, não é um tipo específico "Nan", não é boolean, não é nada, é apenas um número.

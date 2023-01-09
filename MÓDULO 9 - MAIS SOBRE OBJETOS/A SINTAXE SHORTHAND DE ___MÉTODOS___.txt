@@ -1,0 +1,123 @@
+    ANTES DE OLHARMOS OS PROBLEMAS QUE O USO DE 'THIS' PODE TRAZER,
+
+
+    DEVEMOS PRIMEIRAMENTE OLHAR UMA SINTAXE ALTERNATIVA 
+    DE ___MÉTODOS___ QUE TAMBÉM PODEMOS UTILIZAR.
+
+
+
+
+
+
+    MÉTODO TRADICIONAL DE DEFINIR UM MÉTODO:
+
+
+
+
+    ex:
+
+
+
+
+
+
+const newMovie = {
+
+
+    getFormattedTitle: function() {
+        return this.info.title.toUpperCase();
+    }
+    }
+}
+
+
+---------------------------------------------
+
+
+
+
+
+UMA VERSÃO MAIS CURTA É AQUELA QUE SIMPLESMENTE REMOVE A KEYWORD "FUNCTION", 
+REMOVE O ':'  E COLOCA OS PARÊNTESES LOGO DEPOIS DO NOME DA PROPRIEDADE....
+
+
+
+ex:
+
+
+
+
+
+const newMovie = {
+
+
+    getFormattedTitle() {
+        return this.info.title.toUpperCase();
+    }
+    }
+}
+
+
+
+
+--------------------------------------------------
+
+
+
+
+Por meio dessa sintaxe, você deixa de ter o key-value pair tradicional de sempre (o key-value pair com ':'),
+E SIM ESSA SINTAXE ____ÚNICA____ (monoelemento).
+
+
+
+SIDENOTE -----> SE você utilizasse uma arrow function aqui, vocÊ teria 
+de removê-la também.     
+
+
+ou seja, "getFormattedTitle() => {
+    ...
+}" NÃO FUNCIONA.
+
+-------------------------------------------------
+
+
+
+
+const newMovie = {
+
+
+    getFormattedTitle() {
+        return this.info.title.toUpperCase();
+    }
+    }
+}
+
+
+É APENAS UM SHORTHAND ____DIFERENTE____ PARA ADICIONAR UM MÉTODO 
+A UM OBJETO.
+
+Por trás das cenas, não é EXATAMENTE A MESMA COISA QUE 
+"getFormattedTitle: function() {
+    ...
+}" ,
+
+MAS POR ENQUANTO PODEMOS IGNORAR ESSE FATO; mais tarde 
+veremos  sobre isso, é algo mais avançado.
+
+
+
+
+
+
+OK, 
+
+
+"getFormattedTitle() {
+    return this.info.title.toUpperCase();
+}" 
+
+AINDA É UM MÉTODO DE 'newMovie', e ainda se comporta exatamente como antes.
+
+
+
+Esse é uma sintaxe de método mais curta que agora o professor passará a usar.

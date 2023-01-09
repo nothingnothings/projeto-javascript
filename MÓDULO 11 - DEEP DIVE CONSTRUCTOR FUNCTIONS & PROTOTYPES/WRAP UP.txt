@@ -1,0 +1,230 @@
+
+
+
+Acabamos com as constructor functions e os prototypes...
+
+
+
+
+
+
+E um conceito core...
+
+
+
+
+mas voce provavelmente nao tera que digitar um codigo como 
+
+
+
+'function Person() {
+    this.age = 30;
+}
+
+
+Person.prototype.greet = function() {
+    this.name + this.age
+}
+
+
+' 
+
+
+MUITO....
+
+
+
+Mas o professor diz que e claro que isso depende 
+
+do projeto no qual voce esta trabalhando, no seu trabalho, etc...
+
+
+Voce pode acabar em trabalhos em que voce devera utilizar esses codigos velhoes, 
+
+
+mas TIPICAMENTE EM JAVASCRIPT NOS TRABALHAMOS COM CLASSES, extensao de classes (extends)...
+
+
+
+
+Apesar disso, esses conceitos 'under the hood' sao VITAIS PARA ENTENDER COMO O JAVASCRIPT FUNCIONA.
+
+
+
+As classes ENGLOBAM o conceito de prototypes, e nos tinhamos que 
+saber sobre os prototypes.
+
+
+
+
+
+
+VOCE TEM QUE SABER TUDO ISSO PQ ESSES CONHECIMENTOS TE AJUDAM 
+
+A IMPLEMENTAR OPTIMIZACOES DE PERFORMANCE,
+
+como AQUELA QUE VIMOS ,
+
+
+DA UTILIZACAO DA SHORTHAND DE METODOS PARA REDUZIR 
+O CONSUMO DE MEMORIA NO CODIGO...  (para evitar que um mesmo metodo seja recriado um monte de vezes em diferentes objetos, que ele seja compartilhado, e nao RECRIADO.)
+
+
+
+
+
+Esses conceitos core tambem nos AJUDAM A MANDAR BEM EM INTERVIEWS 
+e no geral...
+
+
+
+Nos ajudam a 'get a feeling' com a linguagem que estamos trabalhando,
+
+
+
+
+voce nunca quer simplesmente copiar e colar snippets, VOCE 
+
+QUER SABER/ENTENDER O QUE ESTA ACONTECENDO POR TRAS 
+DAS CENAS...
+
+
+
+
+nesse modulo, nos aprendemos que classes sao, no final das contas, ACUCAR 
+SINTATICO PARA PROTOTYPES E CONSTRUCTOR FUNCTIONS...
+
+
+
+
+Embora isso seja muito importante, o professor diz que deve voltar 
+
+para o slide que nos mostrou mais cedo...
+
+
+E aquele slide de 
+
+
+'constructor functions vs classes'
+
+
+
+
+OS DOIS NAO SAO IGUAIS.
+
+
+
+TAMBEM HA DIFERENCAS ENTRE OS 2.
+
+
+
+
+
+Constructor functions ----------> SAO FUNCOES QUE VOCE __PODE__ CHAMAR COM 'new' PARA QUE ELAS NAO SE COMPORTEM COMO FUNCOES NORMAIS...
+
+
+
+CLASSES ----> DEVEM SEMPRE SER UTILIZADAS COM 'new'. NAO FUNCIONAM SEM 'new'... sem 'new', elas simplesmente FALHAM.
+
+
+
+
+
+
+
+
+
+OUTRA DIFERENCA E QUE  QUANDO VOCE CRIA UM OBJETO COM A AJUDA 
+
+DE UMA CONSTRUCTOR FUNCTION, TODAS AS PROPRIEDADES E METODOS 
+
+DENTRO DESSE OBJETO SERÃO 
+
+
+_____ENUMERAVEIS___ (esse sera o seu comportamento padrao, SERAO __ENUMERABLE__.) -------> 
+
+
+
+----------> Para entendermos isso, basta lembrarmos do FINAL DO ULTIMO MODO, em que 
+
+o professor nos mostrou um pouco sobre 'object descriptors', e sobre como 
+
+OBJETOS COMEÇAM COM A PROPRIEDADE "enumerable" como TRUE.    enumerable/not enumerable ---> AFETAM AS PROPRIEDADES QUE SÃO OUTPUTTADAS/UTILIZADAS (ou nao) EM UM FOR IN LOOP...
+
+
+
+
+
+PARA OBJETOS CONSTRUIDOS A PARTIR DESSAS CONSTRUCTOR FUNCTIONS 'OLDSCHOOL', CADA METODO É TRATADO COMO 
+
+UMA ___PROPRIEDADE ENUMERAVEL____ (enumerable: true).
+
+
+
+
+
+
+-------------------------------
+
+
+
+PARA CLASSES, ISSO NAO SE APLICA. OBJETOS CRIADOS A PARTIR DE CLASSES TEM OS
+
+ 'enumerable' DE SEUS METODOS MARCADOS COMO 'FALSE'.  Metodos em classes sao NON-ENUMERABLE por default....
+
+ ----------------------------------------------
+
+
+
+
+ Outra diferenca que o professor quer destacar é que AS CONSTRUCTOR FUNCTIONS 
+
+NAO USAM STRICT MODE POR DEFAULT (o comportamento default das constructor functions é o de NAO USAR O STRICT MODE)....
+
+Isso significa que se voce quer utilizar constructor functions E O STRICT MODE, voce terá DE ATIVÁ-LO 
+MANUALMENTE....
+
+
+
+
+JÁ AS CLASSES, POR OUTRO LADO, UTILIZAM O 'STRICT MODE' como default....
+
+
+
+Ou seja, TODOS OS COMPORTAMENTOS QUE VOCE TEM NO 'STRICT MODE' JA FICAM LIGADOS 
+
+NAS CLASSES 'DIRETO DA CAIXA'.
+
+
+
+
+
+
+Professor ressalta que essas nao sao TODAS AS COISAS IMPORTANTES A SEREM LEMBRADAS.....
+
+
+
+o fato de metodos NAO SEREM ENUMERABLE por default em constructor functions é a informação mais importante 
+aqui, mas o resto das informacoes nao é tao importante.
+
+
+
+
+Acabamos este módulo.
+
+
+
+
+
+
+
+
+
+
+
+
+The following resources may be helpful.
+
+Constructor Functions (MDN): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects#Using_a_constructor_function
+
+Prototypes (MDN): https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes

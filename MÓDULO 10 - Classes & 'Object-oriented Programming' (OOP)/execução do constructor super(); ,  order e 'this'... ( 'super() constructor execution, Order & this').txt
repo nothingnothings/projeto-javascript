@@ -1,0 +1,1339 @@
+
+
+
+
+
+Aquele erro de 'this.products is not iterable' que vimos na última aula está relacionado
+COM UMA PEQUENA PECULIARIDADE/ESPECIALIDADE RELATIVA a   FIELDS...
+
+
+
+
+
+
+
+
+
+No final das contas, esse erro ocorre devido ao fato de que ESSES FIELDS 
+SÃO CRIADOS COMO PROPRIEDADES AUTOMATICAMENTE QUANDO O CONSTRUCTOR É CHAMADO...
+PORÉM, OS TAIS FIELDS SÃO CRIADOS DESSA FORMA _____SOMENTE____ DEPOIS DO CHAMADO 
+DA CLASSE 'BASE' POR MEIO DE 'SUPER()' SER EXECUTADO...
+
+
+
+
+E, a propósito, vocÊ também NÃO É CAPAZ DE CRIAR SUAS PRÓPRIAS PROPRIEDADES
+dentro do constructor com 'this.something = something' ANTES DE SUPER SER EXECUTADO...
+
+
+
+
+
+ex:
+
+
+
+
+constructor(exemplo) {         ////////////////////ISSO NÃO FUNCIONARÁ.
+    this.something = something;
+    super();
+}
+
+
+
+
+
+constructor(exemplo) { //////////////ISSO FUNCIONARÁ, VOCÊ CONSEGUIRÁ DEFINIR AS PROPRIEDADES.
+    super();
+    this.something = something;
+}
+
+
+
+--------------------------------------
+
+
+
+
+Resumindo....
+
+
+essencialmente, todos os seus fields são BASICAMENTE traduzidos para 
+essa sintaxe 
+
+'this.fieldName = value'  DENTRO DO CONSTRUCTOR...
+
+MAS ELES APENAS SÃO ADICIONADOS MAGICAMENTE NO SEU CÓDIGO, COMO PROPRIEDADES, APÓS 
+O CHAMADO DE SUPER....
+
+
+
+
+
+E é por isso que dentro do constructor 'base', ou dentro DOS MÉTODOS ACIONADOS 
+PELO CONSTRUCTOR 'base', VOCÊ NÃO PODE ACESSAR QUALQUER UM DESSES FIELDS...
+
+
+
+Mas, como o professor nos explicou, você também não poderia acessar QUALQUER UMA 
+DAS OUTRAS PROPRIEDADES DESSA SUBCLASSE..., porque você só pode adicionar 
+propriedades/utilizar a keyword 'this' no seu constructor da subclasse 
+APÓS O PARENT CLASS CONSTRUCTOR terminar de ser executado (super();)...
+e isso inclui todos os métodos que tenham sido invocados/chamados pelo constructor 
+da classe base... (como 'render();')  
+
+
+E ESSE É O PROBLEMA QUE ESTAMOS ENCARANDO AQUI:
+
+
+
+O método 'render()' está sendo chamado pelo CONSTRUCTOR DA CLASSE 'base'...
+
+
+
+Dentro do constructor de 'ProductList', nós (no presente) já vamos em frente 
+E EXECUTAMOS 'render();', E DEPENDEMOS DE DADOS QUE NEM FORAM CRIADOS AINDA...
+(como 'this.products', em 'for(const prod of this.products)') --->
+
+
+-------> Isso é algo que temos que ter em mente... não há nada de totalmente 
+errado aqui, só é algo que devemos consertar...
+
+
+
+
+Podemos consertar esse problema por meio de algumas simples etapas.
+
+
+Devemos pegar o array de produtos 
+
+
+
+ex:
+
+
+
+
+[new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+-------------------------------
+
+
+
+Pegamos eles e tiramos dali; fazemos com que 'products' seja um array vazio, sem esses valores/objetos.
+
+Professor diz que poderíamos removê-los tbm, mas não faz isso.
+
+
+
+ex:
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+}
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+}
+
+---------------------------------
+
+
+
+Depois disso, o professor vai até o constructor desse ProductList e adiciona 
+
+'this.products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )]'   
+
+AO SEU BODY....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+}
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+    this.products = [
+        
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )]
+}
+
+
+--------------------------------------------------
+
+
+
+Essa mudança significará, essencialmente, que agora 
+
+CRIAMOS ESSA PROPRIEDADE INSTANCIADA ('products') DURANTE 
+A EXECUÇÃO DO CONSTRUCTOR...
+
+
+
+Se salvarmos esse código e recarregarmos a página, AINDA RECEBEREMOS UM ERRO.
+O MESMO ERRO DE ANTES...
+
+
+Receberemos um erro PORQUE A ORDEM AINDA ESTÁ ___ERRADA___.
+
+
+Está errada PQ EU ESTOU CHAMANDO 'SUPER' ___ANTES__ de definir a propriedade instanciada...
+
+
+OU seja, aqui há UM CASO EM QUE DEVEMOS MOVER SUPER() PARA 
+
+___DEPOIS____ DA INICIALIZAÇÃO DOS NOSSOS DADOS LOCAIS... (propriedades)...
+
+
+precisamos fazer dessa forma porque A CLASSE BASE VAI, NO FINAL DAS CONTAS, DEPENDER 
+DESSAS PROPRIEDADES/DADOS PARA CHAMAR RENDER() para nós (e render() precisa desses dados...).
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+}
+
+
+constructor(renderHookId) {
+  
+    this.products = [
+        
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )];
+     super(renderHookId);
+}
+
+
+
+------------------------------------
+
+
+
+
+
+
+Salvamos e recarregamos o código. Receberemos UM NOVO ERRO.
+
+
+O problema agora é que NÃO NOS É PERMITIDO CHAMAR 'super()' DEPOIS DAS PROPRIEDADES/DADOS LOCAIS DEFINIDOS NO CONSTRUCTOR (por meio de 'this'.)...
+
+
+
+
+Então o código:
+
+
+
+
+constructor(renderHookId) {
+  
+    this.products = [
+        
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )];
+     super(renderHookId);////////////////////////////
+}
+
+
+------------------------------------
+
+
+NAO É PERMITIDO.
+
+
+
+
+
+
+Mas como podemos resolver esse problema, então?
+
+
+
+
+Bem, diz o professor, esse é um use-case BEM COMUM.
+
+
+É um use-case que envolve uma situação em que você QUER FAZER ALGO COM UNS CERTOS 
+DADOS QUE TALVEZ NÃO ESTEJAM NO SEU CÓDIGO QUANDO VOCê COMEÇA...
+
+(you might wanna do something with some data which might just not be there yet when you get started...)...
+
+
+
+
+E de fato, os dados de 'products' provavelmente não estariam HARDCODEADOS no nosso código 
+aqui em 'this.products'; ex: PODERÍAMOS ESTAR RECOLHENDO ESSES DADOS DE UMA DATABASE, E NÃO 
+DE UM HARDCODE COMO ESSE...  (outro use-case parecido/que usa o mesmo princípio do nosso problema).
+
+
+
+
+Então, de fato, os dados podem realmente não estarem carregados/loaded quando tentamos 
+fazer o render de todos eles...
+
+
+
+
+Para simular a tal situação, O PROFESSOR VAI CORTAR TODO O CÓDIGO Da propriedade 
+dos produtos do constructor....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+constructor(renderHookId) {
+  
+
+     super(renderHookId);
+}
+
+
+
+---------------------------------
+
+
+
+
+
+
+ELE VAI CORTAR TODO ESSE CÓDIGO E ENTÃO ADICIONAR UM NOVO MÉTODO na classe ProductList, 
+chamado de 
+
+'fetchProducts()'.
+
+
+
+
+ex:
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+
+
+
+constructor(renderHookId) {
+  
+   
+     super(renderHookId);
+}
+
+
+
+
+fetchProducts() {
+
+}
+
+
+
+
+
+
+}
+
+
+-----------------------------------
+
+
+
+Professor explica que aqui, nesse caso, poderíamos estar fazendo esse fetch de UM SERVIDOR (aprenderemos como isso funciona em um módulo separado, quando entendermos HTTP requests...), 
+que os princípios seriam semelhantes.  
+
+
+O professor vai lá e define o código da propriedade 'this.products' DENTRO DESSE MÉTODO... 
+
+
+
+Ou seja, ele SIMULA que nesse método ele então recebe acesso a esses produtos (antes ele não tinha...).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+
+
+
+constructor(renderHookId) {
+  
+   
+     super(renderHookId);
+}
+
+
+
+
+fetchProducts() {
+    this.products = [
+
+
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )
+};
+
+
+
+
+
+
+}
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+Feito isso, o professor diz que ele vai querer 
+
+chamar 
+
+'this.fetchProducts()' DENTRO DO CONSTRUCTOR Da classe ProductList....
+
+É CLARO QUE ELE FAZ ESSE CHAMADO ___DEPOIS___ DO CHAMADO DO SUPER... (como é a regra padrão, afinal).
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+
+
+
+constructor(renderHookId) { 
+    
+    super(renderHookId);
+    this.fetchProducts();
+
+
+
+
+
+}
+
+
+
+
+fetchProducts() {
+    this.products = [
+
+
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )
+};
+
+
+
+
+
+
+}
+
+
+
+--------------------------------------
+
+
+
+
+É claro que em 'ProductList', render() TAMBÉM SERÁ CHAMADO quando a instanciarmos (quando instanciarmos ProductList), 
+mas nós SABEMOS QUE O MÉTODO 
+RENDER DEPENDE DE ALGO (depende do 'for const prod of this.products', que por sua vez 
+existe em decorrência da propriedade 'products' de ProductList...), 
+
+
+DEPENDE DE ALGO QUE AINDA NÃO SABEMOS SE EXISTE NO PRESENTE (depends on something that we dont know if it is there...)
+
+
+
+ Para resolver isso, podemos adicionar outro método aqui, 'renderProducts()', 
+
+ e então MOVER TODO AQUELE CÓDIGO DO FOR OF LOOP (que vai por dentro de todos os produtos) 
+
+ PARA DENTRO desse novo método...
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+ 
+
+class ProductList extends Component {
+
+    products = [];
+
+
+
+constructor(renderHookId) { 
+    
+    super(renderHookId);
+    this.fetchProducts();
+
+
+
+
+
+}
+
+
+
+
+
+render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')
+    ]);
+}
+
+
+renderProducts() {
+    for (const prod of this.products) {
+        new ProductItem(prod, 'prod-list');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+fetchProducts() {
+    this.products = [
+
+
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )]
+};
+
+
+
+
+
+
+}
+
+
+
+--------------------------------
+
+
+
+
+
+Feito isso, podemos no 'render()' normal FAZER UM IF CHECK 
+
+E CHECAR 'se this.products' (ou seja, se this.products está DEFINIDO) &&
+
+'se this.products.length > 0' (ou seja, se nós realmente tivermos algo para renderizar), 
+
+
+'DEVEREMOS ENTÃO CHAMAR 'this.renderProducts();'
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+
+
+
+constructor(renderHookId) { 
+    
+    super(renderHookId);
+    this.fetchProducts();
+
+
+
+
+
+}
+
+
+
+
+
+render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')
+    ]);
+    if (this.products && this.products.length > 0) {
+        this.renderProducts();
+    }
+}
+
+
+renderProducts() {
+    for (const prod of this.products) {
+        new ProductItem(prod, 'prod-list');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+fetchProducts() {
+    this.products = [
+
+
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )]
+};
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+-----------------------------------
+
+
+
+
+Nesse nosso exemplo, aqui, ESSE IF CHECK RETORNARÁ FALSY/FALSE 
+quando RENDER() É CHAMADO PELA PRIMEIRA VEZ, e isso é normal/aceitável, 
+pois essa situação apenas resultará na criação do rootElement ('createRootElement') 
+e mais nada (estaremos acabados).
+
+
+ex:
+
+
+
+
+render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')  ///////SEMPRE SERÁ EXECUTADo
+    ]);
+    if (this.products && this.products.length > 0) {
+        this.renderProducts();   ////////SÓ SERÁ EXECUTADA SE PREENCHIDAS AS HIPÓTESES DO IF CHECK.
+    }
+}
+
+
+
+
+-------------------
+
+
+
+
+Mas eu também quero chamar 'renderProducts()' EM 
+
+
+'fetchProducts()'....   ou seja, esse método também deverá 
+ser rodado UMA VEZ QUE EU RECEBA/GANHE MEUS PRODUTOS...
+
+
+
+
+ex:
+
+
+
+
+
+class ProductList extends Component {
+
+    products = [];
+
+
+
+constructor(renderHookId) { 
+    
+    super(renderHookId);
+    this.fetchProducts();
+
+
+
+
+
+}
+
+
+
+
+
+render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')
+    ]);
+    if (this.products && this.products.length > 0) {
+        this.renderProducts();
+    }
+}
+
+
+renderProducts() {
+    for (const prod of this.products) {
+        new ProductItem(prod, 'prod-list');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+fetchProducts() {
+    this.products = [
+
+
+    new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+    'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+    'A small carpet',
+    89.99           
+      )];
+      this.renderProducts(); /////EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+--------------------------------
+
+
+
+
+
+E, COM ISSO, TEMOS AGORA UM SETUP QUE CRIA UMA SOLUÇÃO PARA UM PROBLEMA 
+QUE VOCê ENCONTRA BEM FREQUENTEMENTE....
+
+
+
+É o problema que surge quando vocÊ tem dados que chegam
+
+DEPOIS do momento em que você quer renderizar alguns dados iniciais/conteúdo inicial...
+
+
+E AQUI, POR MEIO DESSE CÓDIGO ALTERADO/SOLUÇÃO, NÓS REALMENTE FAZEMOS 
+O RENDER DESSE CONTEÚDO INICIAL 
+
+
+(por meio do método 'renderProducts()', que possui o conteúdo inicial 
+daquele for of loop definido no seu body...)
+
+
+NÓS REALMENTE FAZEMOS O RENDER DO CONTEÚDO INICIAL E NÓS REALMENTE FAZEMOS 
+O RENDER DAQUELA LIST (por meio do método render(), que 
+possui em seu body o código 'this.createRootElement('ul', 'productList',), ....')
+
+
+O único detalhe é que ESSA É UMA LISTA VAZIA INICIALMENTE, mas que então 
+
+recebe os produtos NO PRIMEIRO MOMENTO EM QUE OS MESMOS SÃO RENDERIZADOS/temos eles (por meio 
+do código 'if (this.products && this.products.length > 0) {
+    this.renderProducts();'
+})
+
+
+
+
+
+
+Se agora salvarmos tudo isso e recarregarmos...
+
+
+
+
+
+RECEBEREMOS OUTRO ERRO:
+
+
+
+
+
+app.js:120 Uncaught TypeError: Cannot read property 'imageUrl' of undefined
+    at ProductItem.render (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:120:34)
+    at new Component (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:55:14)
+    at new ProductItem (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:101:9)
+    at ProductList.renderProducts (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:372:9)
+    at ProductList.fetchProducts (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:366:12)
+    at new ProductList (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:349:10)
+    at Shop.render (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:263:9)
+    at new Component (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:55:14)
+    at new Shop (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:249:9)
+    at Function.init (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:287:22)
+
+
+
+-----------------------------------------------
+
+
+
+
+
+É um erro originado DE DENTRO DO PRODUCTITEM....
+
+
+Lá em productItem, nós TAMBÉM CHAMAMOS 
+
+
+'RENDER()'  (como parte do constructor, por meio de 'this.render()' do component...)...
+
+
+E NÓS APENAS ARMAZENAMOS NOSSO PRODUTO  (por meio de 'this.product = product') 
+
+
+_____DEPOIS____ DESSE CALL DE RENDER() (o que gera uma incompatibilidade).
+
+
+
+E PRECISAMOS QUE ESSE MÉTODO RENDERIZE O OBJETO ANTES DE TENTARMOS ARMAZENAR 
+COISAS NELE...
+
+
+
+
+
+
+
+Podemos utilizar uma solução SIMILAR ÀQUELA DO PRODUCTITEM, aqui...
+
+
+
+
+
+
+
+Entretanto, o professor decide nos mostrar uma maneira alternativa de 
+solucionar isso.
+
+
+
+
+Ele diz que vocÊ deve ir até a classe base...
+
+
+
+
+
+Como nós TEMOS PROBLEMAS COM A CLASSE BASE RENDERIZANDO O CONTEÚDO CEDO 
+DEMAIS, professor diz que TALVEZ O CONSTRUCTOR DESSA CLASSE 
+
+DEVERIA ACEITAR UM SEGUNDO ARGUMENTO, chamado de 'shouldRender'...
+
+Esse segundo argumento deverá estar definido como 'true'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId, shouldRender = true) {
+        this.hookId = renderHookId;
+        console.log('Called');
+        this.render();
+    }
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+Feito isso, o professor diz que devemos ainda editar outro trecho 
+do constructor de 'Component', editar o seu body....
+
+
+Devemos colocar um if check no seu body, que fará o check de 
+
+
+'se shouldRender = true' (if shouldRender), 'QUERO QUE VOCÊ 
+CHAME 
+O RENDER DE COMPONENT... (que é o render da subclasse que estamos objetivando/que chamou o render.))'
+
+
+Isso faz com que solucionemos esse problema 
+da BASE CLASS SER RENDERIZADA MUITO CEDO (é uma das possíveis soluções).
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId, shouldRender = true) {
+        this.hookId = renderHookId;
+        if (shouldRender) {
+
+             this.render();
+        }
+       
+    }
+
+
+
+----------------------------------------------
+
+
+
+
+Ou seja, 
+
+se 'shouldRender for true' (e sempre será...), nós 
+
+chamaremos RENDER.... mas agora, com esse formato do código, 
+PODEMOS FAZER OVERWRITE DO RENDER ___QUANDO NÓS 
+CHAMAMOS ___ O PARENT CLASS CONSTRUCTOR....
+
+
+e essa é a estratégia alternativa de que o professor estava falando...
+
+
+
+------------------------------
+
+
+Continuando.... :
+
+
+então em lugares do código EM QUE EU SEI QUE QUERO CHAMAR 
+
+RENDER POR MINHAS PRÓPRIAS MÃOS, como na 
+
+classe 'ProductItem', nós podemos passar 
+UM ARGUMENTO DE 'FALSE' ao seu SUPER CONSTRUCTOR....
+
+
+Isso fará com que 'shouldRender' FIQUE COM UM VALOR DE FALSE. Isso fará 
+com que o código do IF CHECK NÃO SEJA EXECUTADO... (o que evitará o nosso erro de 
+tentar armazenar COISAS QUE AINDA NÃO FORAM RENDERIZADAS.)
+
+
+ex:
+
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product, renderHookId) {
+        super(renderHookId, false);
+        this.product = product;
+    }
+
+
+-----------------------------
+
+
+
+
+
+
+Isso fará com que 'shouldRender' FIQUE COM UM VALOR DE FALSE. Isso fará 
+com que o código do IF CHECK NÃO SEJA EXECUTADO... (o que evitará o nosso erro de 
+tentar armazenar COISAS QUE AINDA NÃO FORAM RENDERIZADAS.)
+
+
+
+--------------------> ISSO FARÁ COM QUE 
+O COMPONENT 'parent' NÃO SEJA RENDERIZADO... e isso 
+nos permite fazer o render() MANUALMENTE NESSA CLASSE 'productItem', 
+LOGO DEPOIS DO CÓDIGO QUE DEFINE A PROPRIEDADE 'this.product' (e isso evita aquele erro que tínhamos antes...).
+
+
+
+
+ex:
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product, renderHookId) {
+        super(renderHookId, false);
+        this.product = product;
+        this.render();  ////// CHAMADO MANUAL DE RENDER, QUE PODE SER UTILIZADO AGORA QUE CONSERTAMOS AQUELE ERRO DO 'vocÊ não pode armazenar coisas em propriedades que não foram definidas'.
+    }
+
+
+
+----------------------------------
+
+
+
+
+
+
+RESUMO DESSE FIX QUE O PROFESSOR NOS MOSTROU:
+
+
+
+
+1) adicionar SEGUNDO ARGUMENTO NO CONSTRUCTOR da classe base... 
+        Segundo argumento deve ter um nome inteligente. ex: 'shouldRender'. Deve ter o nome do argumento e '= true'.   ex: 'shouldRender = true';
+
+
+
+
+
+
+
+2) ADICIONAR IF CHECK no constructor da classe base...
+        Esse if check deverá checar pelo truthy do segundo argumento... 
+        Caso seja true, esse constructor DEVERÁ EXECUTAR O MÉTODO DEFINIDO 
+        NA CLASSE BASE (ou aceitar o overwrite das classes inferiores nos métodos 
+        vazios da classe base, como fizemos nesse exemplo).
+        
+        ex:
+
+
+            if (shouldRender) {
+
+             this.render();
+        }
+
+
+
+3) ADICIONAR SEGUNDO ARGUMENTO AO SUPER() DENTRO DO CONSTRUCTOR DA SUBCLASSE 
+EM QUE VOCê QUER CHAMAR MANUALMENTE UM MÉTODO... ESSE ARGUMENTO DEVERÁ 
+SER 'false', para que ele ocupe o espaço do parâmetro 'shouldRender' (ou seja lá oq você colocou de nome para esse slot do parâmetro).
+
+
+ex:
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product, renderHookId) {
+        super(renderHookId, false);
+ 
+    }
+
+
+
+
+4) ADICIONAR A/AS DEFINIÇÃO(ÕES) DE PROPRIEDADE QUE VOCÊ QUER, E LOGO DEPOIS 
+OS CHAMADOS DE MÉTODOS (FEITOS MANUALMENTE) QUE VOCê TAMBÉM QUER (e que envolverão 
+essas propriedades...)
+
+ex:
+
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product, renderHookId) {
+        super(renderHookId, false);
+        this.product = product; /////DEFINIÇÃO DE PROPRIEDADE 
+        this.render(); ////CHAMADO MANUAL DE MÉTODO que envolve propriedade.
+    }
+
+
+---------------------------------------
+
+
+
+
+
+Professor diz que esse é um approach QUE PODERÍAMOS TER UTILIZADO TAMBÉM 
+EM 'ProductList' (lugar onde utilizamos a outra maneira de consertar esse problema, 
+a maneira que emprega métodos especiais para solucionar isso, como 'fetchProducts' e 
+'renderProducts'; é a maneira que divide o código para que ele funcione adequadamente)
+
+--------------> Mas nesse lugar, em 'ProductList', o professor QUERIA 
+NOS MOSTRAR COMO 
+VOCê PODE LIDAR COM DADOS QUE SÃO CARREGADOS EM UM MOMENTO POSTERIOR NO TEMPO...
+
+
+(how you can actually deal with data that is loaded at a LATER POINT in time...) ---->
+---> isso/essa solução é PARA CASOS EM QUE NÓS NÃO SOMENTE FALAMOS SOBRE DIFERENTES 
+SEQUÊNCIAS/ETAPAS, mas em casos em que nós TENHAMOS UM DELAY MAIOR 
+
+CASO NÓS REALMENTE TENHAMOS QUE ALCANÇAR UM SERVIDOR DE VERDADE...
+
+
+
+Aqui, nesse nosso caso concreto, era apenas aquela sequência 
+
+'this.product = product;'
+'this.render();' 
+
+
+Que estava equivocada no código, e por isso aquele método do 
+'shouldRender' é bom... é bom para solucionar casos mais simples desse problema, 
+que não envolvam um servidor...
+
+
+Se salvarmos e recarregarmos a página,
+
+VEREMOS QUE TUDO FUNCIONARÁ NORMALMENTE.
+
+
+
+
+
+
+
+Trabalhamos muito, portanto, com as classes 'base' e as subclasses, e vimos 
+
+alguns dos DIFERENTES USE-CASES que você pode encontrar e como vocÊ pode 
+solucionar problemas advindos do uso dessas classes.
+
+
+
+O professor diz que tudo isso vem com experiência e prática...
+
+vocÊ deve ter as duas para saber como splittar bem o seu código...
+
+para saber como splittar e saber QUANDO USAR CADA UM DOS APPROACHES.
+
+
+
+
+
+O legal da programação é que você pode ser flexível, e que há múltiplas soluções para um mesmo 
+problema.

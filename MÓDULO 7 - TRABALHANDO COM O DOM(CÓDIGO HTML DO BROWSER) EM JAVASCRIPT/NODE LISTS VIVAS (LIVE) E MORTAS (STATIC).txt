@@ -1,0 +1,195 @@
+Agora que temos um pouco de conhecimento sobre como inserir elementos e conteúdo no DOM,
+
+
+devemos retornar àquele conceito de "live node list" vs "non live node list".
+
+
+
+
+digamos que aqui temos aquela lista:
+
+
+
+<ul></ul>
+
+------------------------------
+
+
+
+const list = document.querySelector('ul'); //--> aqui, o professor usou querySelector. Isso dá acesso À <ul> a ele. 
+
+
+
+const listItems = document.querySelectorAll('li'); //---> aqui, o professor queria pegar acesso a TODOS OS ELEMENTOS 'LI' (não só dentro da lista <ul>, mas da PÁGINA INTEIRA). Ele consegue esse acesso por meio do seletor "querySelectorAll()". Ele também poderia ter utilizado "document.getElementsByTagName('li')" aqui.
+                                                          CASO O PROFESSOR QUISESSE RESTRINGIR ESSA SELEÇÃO A APENAS AQUELA LISTA <UL>, ele teria que rodar isso na lista em vez de a página inteira (ex: "const listItems = list.querySelectorAll('li');" --> isso rodaria o seletor apenas dentro dessa const "list", que representa a unorderedlist (<ul>).) 
+
+
+
+-----------------------------------------------------------
+
+
+Enfim, agora o professor possui todos os items <li> selecionados e armazenados na const "listItems".
+
+
+
+
+Agora, se ele fizer o output disso no console, vocÊ verá que é apenas uma 
+NODELIST com um punhado de "list-item" objects lá dentro. ([li.list-item, li.list-item, li.list-item])
+
+
+----------------------------------------------------------------
+
+
+O professor também vai querer pegar os listItems de outra maneira, 
+e armazená-los dentro da constante "listItems2". Ele faz isso por meio 
+da utilização da "list". Dentro de "list", ele utiliza o comando 
+"list.getElementsByTagName('li');", para selecionar os elementos 'li' dentro da <ul>.
+
+
+
+
+
+ex:
+
+
+const list = document.querySelector('ul'); 
+
+
+
+const listItems = document.querySelectorAll('li');
+
+
+const listItems2 = list.getElementsByTagName('li'); //Eis aqui o código.
+
+
+
+--------------------------------------------------------------------------
+
+"getElementsByTagName" É UM DOS MÉTODOS DE QUERY BUILT-IN MAIS ANTIGOS DO JAVASCRIPT.
+
+--------------------------------------------------------------------------
+
+
+
+
+Se agora o professor digitar 
+
+"list.Items" no console, ele outputtará aquela 
+UMA HTMLCOLLECTION (não é a mesma coisa que o nodeList obtido 
+por meio de querySelectors. ), com os mesmos 
+list items do "querySelectorAll".
+
+
+
+Ambos nodeLists e HTMLCollections  são objetos "array-like", e suportam um punhado de 
+métodos de array importantes... mas nem tudo que vocÊ pode fazer com arrays pode ser feito com eles.
+Mas a maior parte pode ser feita, sim.
+
+
+------------------------------------------------------------------------------------------
+                                            (getXbyY)     (querySelectorAll)
+Entretanto, agora, para demonstrar aquilo das live vs dead lists, devemos adicionar um novo elemento.
+
+
+
+O professor adiciona um novo elemento com a propriedade createElement e com o método appendChild.
+
+
+
+
+
+ex:
+
+
+
+
+const list = document.querySelector('ul'); 
+
+
+
+const listItems = document.querySelectorAll('li');
+
+
+const listItems2 = list.getElementsByTagName('li'); 
+
+
+const newLi = document.createElement('li');
+
+
+newLi.textContent = 'Item 5';
+
+
+list.appendChild(newLi);  //---> aqui utilizamos appendChild, mas também seria possível 
+                                        utilizar "append", "prepend", "before", "after", etc etc.
+
+
+---------------------------------------------------------------------------------------
+
+
+
+Uma vez que foi adicionado esse list item naquela ul, podemos checar o resultado 
+nas nossas nodeList e HTMLCollection.
+
+
+ex:
+
+
+listItems ----> o nodeList vai nos mostrar A LISTA ANTIGA (com 3 elementos 'li', apenas), e NÃO MOSTRARÁ O ELEMENTO "item 5". É A DEAD/STATIC LIST. Essa propriedade tira uma FOTO do DOM e daquilo que selecionamos ____QUANDO_____ RODAMOS A SUA RESPECTIVA QUERY (ou seja, o que 
+determina se uma seleção vai render uma lista VIVA ou MORTA é o tipo de seletor que você usa; como usamos um querySelectorAll aqui, ele nos renderá uma lista VELHA/morta. Se houvéssemos 
+utilizado o seletor "getElementsByTagName", receberíamos uma lista VIVA dos elementos que foram selecionados. ) 
+
+
+listItems2 ----> a HTMLCollection vai nos mostrar A LISTA ATUAL (com 4 elementos 'li'), ou seja, mostrará o elemento "item 5" adicionado. É A LIVE LIST.
+
+
+
+
+
+Ou seja, quando mudarmos/removermos/adicionarmos elementos a essa <ul> que foi selecionada 
+pelas 2 constantes de formas diferentes, a lista arraylike de "nodeList" NÃO VAI SER UPDATADA,
+enquanto que a lista de "HTMLCOLLECTION", vai.
+
+Isso não é necessariamente uma desvantagem (não é uma desvantagem se olharmos por uma ótica 
+de performance/consumo de memória... nesse quesito, a lista morta é até mesmo melhor do que 
+a LIVE).
+
+O professor também ressalta que OS OBJETOS INDIVIDUAIS que estão dentro da nodeList AINDA SÃO 
+REFERENCE VALUES (valores referenciais), ou seja, um objeto que está ali dentro ainda é, é claro,
+ uma REFERÊNCIA VIVA AO OBJETO DOM QUE É RESPONSÁVEL POR AQUILO QUE VEMOS NA NOSSA PÁGINA.
+
+
+ Portanto, se eu digitar:
+
+
+
+ listItems[0].textContent = 'Novo Texto'; // ---------->   SE EU DIGITAR ESSA MUDANÇA, 
+ ELA AINDA SERÁ REFLETIDA NO OBJETO DOM DA PÁGINA ATUAL; OU SEJA, APESAR DE SER UMA "FOTO" DA 
+ LISTA NO PASSADO, SEUS VALORES REFERENCIAIS ANTIGOS (pointers) AINDA PODEM SER CHAMADOS NO PRESENTE.
+ Só o array em geral é uma foto dos list items quando foi rodado o 
+ querySelectorAll, os list items em si ainda são valores referenciais 
+ que podem ser chamados normalmente.
+
+
+
+
+ AGORA, ENTRETANTO, SE DERMOS UMA OLHADA EM "listItems2", veremos que a 
+ HTMLCollection reflete a mudança da adição do list item, Item 5. É uma live list.
+Todos "getXbyY" (com exceção de "getElementById", pois essa propriedade pega apenas 
+1 único elemento, aí essa propriedade das listas, de viva ou morta, não interessa) -------->
+TODOS GETXBYY te dão array-like objects com LIVE LISTS, que mudam quando os items que você 
+deu query no passado mudarem. Essencialmente, os números indexadores dos list items 
+que você adicionou no PASSADO ____MUDAM____ conforme você vai adicionando elementos.
+
+
+Isso pode/não pode ser uma vantagem. Na maior parte dos casos isso não vai importar,
+mas pode ser importante usar dead lists em casos em que você está gastando muita memória 
+com HTMLCollections (live lists), porque as live lists mudam toda hora, e isso pode 
+gastar bastante a memória do browser. Isso às vezes pode importar, em casos nicho.
+
+
+Apesar disso, querySelectorAll deve ser utilizado, geralmente, porque é mais flexível 
+e suporta queries mais ricas, portanto é mais comum em códigos que você vê por aí, em casos 
+em que você quer selecionar múltiplos items.
+
+O professor queria nos mostrar essa diferença peculiar, que às vezes pode ser uma vantagem, 
+e em outras pode ser uma desvantagem.

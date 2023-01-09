@@ -1,0 +1,1021 @@
+
+
+
+
+
+
+
+
+
+PARA EXEMPLIFICAR AS THIRD PARTY LIBRARIES, 
+
+
+O PROFESSOR USARÁ UM PROJETO VAZIO.
+
+
+INDEX.HTML E APP.JS VAZIOS.
+
+
+
+
+
+
+
+
+
+------> PROFESSOR QUER COMEÇAR NÃO COM UMA THIRD PARTY LIBRARY, E SIM COM 
+
+UMA FUNCIONALIDADE QUE NA VERDADE JÁ É BUILTIN NO JAVASCRIPT...
+
+
+pq a ideia das duas coisas (da adição de third party libraries e dessa funcionalidade) É A MESMA ....
+
+
+
+
+
+
+O PROFESSOR 
+
+
+QUER COMEÇAR COM 
+
+
+
+'Math.random()'
+
+
+
+
+Já aprendemos sobre isso.
+
+
+
+
+É um mÉTODO NO OBJETO 'Math' QUE 
+
+GERA UM NÚMERO ALEATÓRIO ENTRE 0 e 1...
+
+
+
+
+
+Professor explica que nÓS PODERÍAMOS ESCREVER NOSSA PRÓPRIA FUNÇÃO 
+
+GERADORA DE NÚMEROS ALEATÓRIOS...
+
+
+uma função que 
+
+pegaria 
+
+
+O DIA de hoje e mais alguns dados PARA GERAR UM NÚMERO PSEUDO ALEATÓRIO...
+
+
+
+
+
+
+
+É EVIDENTE QUE Math.random É UM POUCO MAIS ELABORADO DO QUE ESSE NOSSO SUPOSTO CÓDIGO, 
+
+mas a ideia ainda É A MESMA...
+
+
+
+
+ex:
+
+
+
+
+
+function random() {
+
+}
+
+
+
+Math.random()
+
+
+
+
+----------------------------------
+
+
+
+o '.random()' é um método QUE VOCÊ PODERIA ESCREVER POR CONTA PRÓPRIA...
+
+
+
+Mas ele existe JUSTAMENTE PARA QUE VOCÊ NÃO TENHA QUE ESCREVÊ-LO POR CONTA PRÓPRIA, 
+
+pois 
+
+essa necessidade de obter um número aleatório 
+
+É ALGO QUE VOCê QUER FAZER FREQUENTEMENTE EM PROGRAMAÇÃO...
+
+
+
+
+Você faz frequentemente, MAS VOCÊ GERALMENTE NÃO QUER TER QUE ESCREVER TODA 
+A LÓGICA DESSA RANDOMIZAÇÃO PARA OBTER ESSE NÚMERO...
+
+
+
+
+
+
+VOCÊ QUER ESCREVER UM CÓDIGO QUE ___UTILIZE____ O NÚMERO ALEATÓRIO, 
+
+E NÃO QUE ___GERE___ o número aleatório.
+
+
+
+
+
+REGRA-GERAL DE PROGRAMAÇÃO:
+
+
+
+QUEREMOS SEMPRE ESCREVER SOMENTE O CÓDIGO QUE É __eXCLUSIVO___ AO NOSSO PROJETO, 
+
+e não tentar reinventar a roda para coisas banais, coisas que já existem.
+
+
+
+
+
+Math.random é builtin no browser e EXPOSED PELO JAVASCRIPT.
+
+
+
+
+
+MAS NEM TODAS AS FEATURES SÃO BUILTIN NO BROWSER E EXPOSTAS ASSIM...
+
+
+
+
+
+
+
+Professor cria uma lista de 'customers',
+
+
+com Max, Manuel e Anna...
+
+
+
+
+
+E outra lista, com 'activeCustomers'...
+
+
+
+e essa lista só terá max e manuel..
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const customers = ['Max', 'Manuel', 'Anna'];
+
+
+
+const activeCustomers = ['Max', 'Manuel'];
+
+
+
+--------------------------------------------------
+
+
+
+
+PARA NOSSO APLICATIVO, QUEREMOS DESCOBRIR A DIFERENÇA; 
+
+QUEREMOS DESCOBRIR QUAIS 
+
+
+CUSTOMERS ESTÃO NA NOSSA DATABASE (aquele array 'customers' PODE TER SIDO EXTRAÍDO DA DATABASE, POR EXEMPLO),
+
+
+
+E QUAIS CUSTOMERS ESTÃO ATIVOS.... (pq vamos fazer retrieve DESSES CUSTOMERS ATIVOS DE ___OUTRA DATABASe___ , 
+
+UMA OUTRA DATABASE QUE NOS DIRIA/DEIXARIA DAR UMA OLHADA NOS CUSTOMERS QUE FIZERAM PEDIDOS NO ÚLTIMO ANO, 
+
+OS ACTIVECUSTOMERS...)...
+
+
+
+
+
+Temos 2 arrays aqui, então.
+
+
+
+
+Esses arrays PODERIAM SER MAIORES, MAS O PROFESSOR ESTÁ USANDO ARRAYS PEQUENOS PARA NOS 
+
+MOSTRAR A DIFERENÇA....
+
+
+
+
+Como esses arrays são pequenos, para nós, humanos, é fácil ver 
+
+a diferença entre eles (a 'Anna')...
+
+
+
+ENTRETANTO, COM ARRAYS GIGANTES, FICA BEM MAIS DIFÍCIL DE ENUMERAR AS DIFERENÇAS.
+
+
+
+
+
+
+Complementando:
+
+
+tipicamente esses nomes colocados nos arrays NÃO SERIAM HARDCODED, 
+
+seriam geralmente VALORES REFERENCIAIS, obtidos de ALGUMA DATABASE...
+
+
+-----------------------------------------------
+
+
+
+
+
+
+Certo.
+
+
+Agora queremos obter os 
+
+
+'INACTIVE CUSTOMERS'...
+
+
+'const inactiveCustomers'....
+
+
+
+-------------------------------------------
+
+
+
+
+E ESSES INACTIVECUSTOMERS são 
+
+basicamente A DIFERENÇA ENTRE O ARRAY DE 'CUSTOMERS' E O ARRAY DE 'ACTIVECUSTOMERS'...
+
+
+
+
+
+
+
+Entretanto, simplesmente escrever 
+
+
+
+'const inactiveCustomers = customers - activeCustomers'  
+
+
+NÃO É 
+
+ALGO QUE FUNCIONA EM JAVASCRIPT....
+
+
+
+
+SE TENTARMOS CONSOLE.LOGGAR esse código, veremos que ele retornará  'NaN' (not a number).
+
+
+
+
+
+ex:
+
+
+
+const customers = ['Max', 'Manuel', 'Anna'];
+
+
+
+const activeCustomers = ['Max', 'Manuel'];
+
+
+
+
+const inactiveCustomers = customers - activeCustomers;
+
+
+
+
+console.log(inactiveCustomers); /////---------> RETORNARÁ 'NaN'...
+
+
+
+--------------------------------------------------
+
+
+
+
+
+
+
+
+
+ganharemos 'not a number' PQ ESTAMOS TENTANDO FAZER UMA SUBTRAÇÃO COM 
+
+2 VALORES QUE NÃO SÃO NÚMEROS...
+
+
+
+
+
+
+
+
+
+OBTER A DIFERENÇA ENTRE 2 ARRAYS 
+
+
+É MAIS COMPLICADO DO QUE ESSA SIMPLES SUBTRAÇÃO, 
+
+VOCê PRECISA 
+
+
+DE UMA FUNÇÃO 
+
+
+
+QUE BASICAMENTE IRIA POR DENTRO DO ARRAY 'customers' (for of loop) 
+
+E ENTÃO TERIA 
+
+DE CHECAR SE 
+
+
+CADA ITEM NESSE ARRAY 'CUSTOMERS' 
+
+
+ESTÁ PRESENTE NO OUTRO ARRAY ('activeCustomers')....
+
+
+
+
+
+
+
+
+
+
+
+É EVIDENTE QUE __PODEMOS ESCREVER___ ESSA FUNÇÃO COM NOSSAS PRÓPRIAS MÃOS, 
+
+
+mas esse é um use-case em que nós NÃO PRECISAMOS FAZER ISSO, 
+
+
+POIS HÁ UMA THIRD PARTY LIBRARY QUE EXECUTA ESSA LÓGICA PARA NÓS...
+
+
+
+
+
+
+
+PARA ISSO, PODEMOS USAR UMA 
+
+THIRD PARTY LIBRARY 
+
+CHAMADA 
+DE 
+
+
+'Lodash'...
+
+
+
+
+
+
+É UMA PACKAGE JAVASCRIPT BEM 
+
+FAMOSA....
+
+
+
+
+
+
+É O EXEMPLO MAIS TÍPICO DE JAVASCRIPT LIBRARY.
+
+
+ELE TE DÁ MUITAS FUNÇÕES PARA 
+
+
+
+
+MELHORAR O SEU CÓDIGO/PARA CONSEGUIR CERTAS FUNCIONALIDADES...
+
+
+
+
+Uma das funcionalidades é 
+
+'difference'...
+
+
+
+
+ESSA FUNCIONALIDADE PEGA 2 ARRAYS E COMPARA OS 2, DELINEANDO OS DIFERENTES ELEMENTOS ENTRE ELE
+
+
+
+
+o código de difference é 
+
+
+_.difference([2, 1], [2, 3]); /////EXEMPLO.   1o parametro = 1o array. 2o parametro = 2o array.
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+PARA QUE POSSAMOS UTILIZAR O 'LODASH', 
+
+precisamos ADICIONÁ-LO AO NOSSO PROJETO...
+
+
+
+NÓS NÃO PODEMOS SIMPLESMENTE CHAMAR ESSE CÓDIGO
+
+
+_.difference(customers, activeCustomers);
+
+
+
+
+e esperar que ele funcione.
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+Professor explica que 
+
+
+esse código tem o caracter 
+
+
+'_'    
+
+
+
+esse caracter, explica o professor, é APENAS UMA VARIÁVEL....
+
+(NÓS APRENDEMOS QUE VARIÁVEIS PODEM 
+___COMEÇAR COM___ '_'.  E é exatamente o que ocorre aqui...).....
+
+
+
+
+ESSE NEGÓCIO É 
+
+UMA VARIÁVEL 
+
+
+QUE CONSISTE EM NADA MAIS 
+
+
+DO QUE APENAS UM 
+
+'_'  (um underscore).
+
+
+
+
+
+ENTRETANTO, ESSE NEGÓCIO AINDA É UMA VARIÁVEL COMUM.....
+
+
+
+
+
+Mas ela é uma variável QUE O NOSSO PROJETO __NÃO CONHECE__...
+
+
+NÃO CONHECE PQ NÓS NUNCA A DEFINIMOS ANTES.......
+
+
+tbm pq ELA NÃO É UMA VARIÁVEL JAVASCRIPT 'STANDARD'...
+
+
+
+se eu tentar executar esse código, 
+
+
+o devtools console vai me outputtar 
+
+
+
+'_ is not defined at app.js:5'
+
+
+
+
+EXATAMENTE POR CAUSA DISSO, PORQUE NÃO É UMA VARIÁVEL 'DEFAULT'...
+
+
+
+
+
+
+O console nos diz que ela não está 'defined' pq É O LODASH 
+
+
+que A DEFINE.... 
+
+
+
+
+
+DEVEMOS ADICIONAR LODASH AO NOSSO PROJETO...
+
+
+
+
+
+
+
+PARA INCLUIR UMA LIBRARY, 
+
+NÓS TIPICAMENTE ENCONTRAMOS PASSOS DE INSTALAÇÃO, descrições, 
+
+
+NA PÁGINA DA LIBRARY...
+
+
+no 
+
+
+
+LODASH encontramos várias opções de instalação....
+
+
+
+É claro que a instalação depende de COMO O SEU PROJETO ESTÁ SETTADO... (is setup).
+
+
+
+
+
+
+
+
+
+
+VEREMOS COMO SETTAR/setup PROJETOS 
+
+
+JAVASCRIPT MAIS COMPLEXOS MAIS TARDE, 
+
+
+no módulo 
+
+'tooling'...
+
+
+
+
+
+
+
+MAS É CLARO QUE VOCÊ SEMPRE PODE __bAIXAR___ O SCRIPT, 
+
+ou então usar um 
+
+CDN (e o professor depois nos explicará o que é isso).
+
+
+
+
+
+
+AQUI, NO NOSSO PROJETO, DIZ O PROFESSOR, NÓS PRECISAMOS 
+
+
+DA 'FULL BUILD', E POR ISSO NÓS 
+
+
+CLICAMOS EM 'full build' no site...
+
+
+
+Isso vai abrir um arquivo javascript...
+
+
+
+Você pode simplesmente baixar esse arquivo 
+
+OU COPIAR TODO O CONTEÚDO QUE ESTÁ NESSA PÁGINA...
+
+
+
+
+
+
+
+
+
+https://lodash.com/
+
+
+
+
+
+lodash.js
+
+
+
+
+Armazenamos 'lodash.js' no 
+
+
+folder de nosso projeto...
+
+
+ 
+
+ Com isso, agora temos TODAS AS FEATURES que 
+
+ a library 'lodash' 
+
+ nos providencia...
+
+
+
+ AGORA PODEMOS SIMPLESMENTE USAR ESSAS 
+
+
+ FEATURES NO NOSSO CÓDIGO, BASTA QUE IMPORTEMOS ESSE SCRIPT..
+
+
+
+
+
+
+
+
+
+
+ OBS::::: VOCÊ DEVE USAR A VERSÃO OPTIMIZADA 
+
+
+
+ DO LODASH,
+
+ que é aquela que diz 
+
+
+ '~24kB gzipped' ----> ESSA É A VERSÃO 
+
+
+ QUE NÃO CONTÉM OS FUNCTION NAMES, E POR ISSO É MAIS RÁPIDA, é carregada 
+ mais rápido
+
+ PELO BROWSER (por ser menor).
+
+
+
+
+ seu nome é 
+
+ lodash.min.js .
+
+
+
+ex de código optimizado:
+
+
+/**
+ * @license
+ * Lodash lodash.com/license | Underscore.js 1.8.3 underscorejs.org/LICENSE
+ */
+;(function(){function n(n,t,r){switch(r.length){case 0:return n.call(t);case 1:return n.call(t,r[0]);case 2:return n.call(t,r[0],r[1]);case 3:return n.call(t,r[0],r[1],r[2])}return n.apply(t,r)}function t(n,t,r,e){for(var u=-1,i=null==n?0:n.length;++u<i;){var o=n[u];t(e,o,r(o),n)}return e}function r(n,t){for(var r=-1,e=null==n?0:n.length;++r<e&&false!==t(n[r],r,n););return n}function e(n,t){for(var r=null==n?0:n.length;r--&&false!==t(n[r],r,n););return n}function u(n,t){for(var r=-1,e=null==n?0:n.length;++r<e;)if(!t(n[r],r,n))return false;
+return true}function i(n,t){for(var r=-1,e=null==n?0:n.length,u=0,i=[];++r<e;){var o=n[r];t(o,r,n)&&(i[u++]=o)}return i}function o(n,t){return!(null==n||!n.length)&&-1<v(n,t,0)}function f(n,t,r){for(var e=-1,u=null==n?0:n.length;++e<u;)if(r(t,n[e]))return true;return false}function c(n,t){for(var r=-1,e=null==n?0:n.length,u=Array(e);++r<e;)u[r]=t(n[r],r,n);return u}function a(n,t){for(var r=-1,e=t.length,u=n.length;++r<e;)n[u+r]=t[r];return n}function l(n,t,r,e){var u=-1,i=null==n?0:n.length;for(e&&i&&(r=n[++u]);++u<i;)r=t(r,n[u],u,n);
+return r}function s(n,t,r,e){var u=null==n?0:n.length;for(e&&u&&(r=n[--u]);u--;)r=t(r,n[u],u,n);return r}function h(n,t){for(var r=-1,e=null==n?0:n.length;++r<e;)if(t(n[r],r,n))return true;return false}function p(n,t,r){var e;return r(n,function(n,r,u){if(t(n,r,u))return e=r,false}),e}function _(n,t,r,e){var u=n.length;for(r+=e?1:-1;e?r--:++r<u;)if(t(n[r],r,n))return r;return-1}function v(n,t,r){if(t===t)n:{--r;for(var e=n.length;++r<e;)if(n[r]===t){n=r;break n}n=-1}else n=_(n,d,r);return n}function g(n,t,r,e){
+--r;for(var u=n.length;++r<u;)if(e(n[r],t))return r;return-1}function d(n){return n!==n}function y(n,t){var r=null==n?0:n.length;return r?m(n,t)/r:F}function b(n){return function(t){return null==t?T:t[n]}}function x(n){return function(t){return null==n?T:n[t]}}function j(n,t,r,e,u){return u(n,function(n,u,i){r=e?(e=false,n):t(r,n,u,i)}),r}function w(n,t){var r=n.length;for(n.sort(t);r--;)n[r]=n[r].c;return n}function m(n,t){for(var r,e=-1,u=n.length;++e<u;){var i=t(n[e]);i!==T&&(r=r===T?i:r+i)}return r;
+}function A(n,t){for(var r=-1,e=Array(n);++r<n;)e[r]=t(r);return e}function E(n,t){return c(t,function(t){return[t,n[t]]})}function k(n){return function(t){return n(t)}}function S(n,t){return c(t,function(t){return n[t]})}function O(n,t){return n.has(t)}function I(n,t){for(var r=-1,e=n.length;++r<e&&-1<v(t,n[r],0););return r}function R(n,t){for(var r=n.length;r--&&-1<v(t,n[r],0););return r}function z(n){return"\\"+Un[n]}function W(n){var t=-1,r=Array(n.size);return n.forEach(function(n,e){r[++t]=[e,n];
+}),r}function B(n,t){return function(r){return n(t(r))}}function L(n,t){for(var r=-1,e=n.length,u=0,i=[];++r<e;){var o=n[r];o!==t&&"__lodash_placeholder__"!==o||(n[r]="__lodash_placeholder__",i[u++]=r)}return i}function U(n){var t=-1,r=Array(n.size);return n.forEach(function(n){r[++t]=n}),r}function C(n){var t=-1,r=Array(n.size);return n.forEach(function(n){r[++t]=[n,n]}),r}function D(n){if(Rn.test(n)){for(var t=On.lastIndex=0;On.test(n);)++t;n=t}else n=Qn(n);return n}function M(n){return Rn.test(n)?n.match(On)||[]:n.split("");
+}var T,$=1/0,F=NaN,N=[["ary",128],["bind",1],["bindKey",2],["curry",8],["curryRight",16],["flip",512],["partial",32],["partialRight",64],["rearg",256]],P=/\b__p\+='';/g,Z=/\b(__p\+=)''\+/g,q=/(__e\(.*?\)|\b__t\))\+'';/g,V=/&(?:amp|lt|gt|quot|#39);/g,K=/[&<>"']/g,G=RegExp(V.source),H=RegExp(K.source),J=/<%-([\s\S]+?)%>/g,Y=/<%([\s\S]+?)%>/g,Q=/<%=([\s\S]+?)%>/g,X=/\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,nn=/^\w*$/,tn=/[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,rn=/[\\^$.*+?()[\]{}|]/g,en=RegExp(rn.source),un=/^\s+|\s+$/g,on=/^\s+/,fn=/\s+$/,cn=/\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/,an=/\{\n\/\* \[wrapped with (.+)\] \*/,ln=/,? & /,sn=/[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g,hn=/\\(\\)?/g,pn=/\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g,_n=/\w*$/,vn=/^[-+]0x[0-9a-f]+$/i,gn=/^0b[01]+$/i,dn=/^\[object .+?Constructor\]$/,yn=/^0o[0-7]+$/i,bn=/^(?:0|[1-9]\d*)$/,xn=/[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g,jn=/($^)/,wn=/['\n\r\u2028\u2029\\]/g,mn="[\\ufe0e\\ufe0f]?(?:[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]|\\ud83c[\\udffb-\\udfff])?(?:\\u200d(?:[^\\ud800-\\udfff]|(?:\\ud83c[\\udde6-\\uddff]){2}|[\\ud800-\\udbff][\\udc00-\\udfff])[\\ufe0e\\ufe0f]?(?:[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]|\\ud83c[\\udffb-\\udfff])?)*",An="(?:[\\u2700-\\u27bf]|(?:\\ud83c[\\udde6-\\uddff]){2}|[\\ud800-\\udbff][\\udc00-\\udfff])"+mn,En="(?:[^\\ud800-\\udfff][\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]?|[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]|(?:\\ud83c[\\udde6-\\uddff]){2}|[\\ud800-\\udbff][\\udc00-\\udfff]|[\\ud800-\\udfff])",kn=RegExp("['\u2019]","g"),Sn=RegExp("[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]","g"),On=RegExp("\\ud83c[\\udffb-\\udfff](?=\\ud83c[\\udffb-\\udfff])|"+En+mn,"g"),In=RegExp(["[A-Z\\xc0-\\xd6\\xd8-\\xde]?[a-z\\xdf-\\xf6\\xf8-\\xff]+(?:['\u2019](?:d|ll|m|re|s|t|ve))?(?=[\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000]|[A-Z\\xc0-\\xd6\\xd8-\\xde]|$)|(?:[A-Z\\xc0-\\xd6\\xd8-\\xde]|[^\\ud800-\\udfff\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000\\d+\\u2700-\\u27bfa-z\\xdf-\\xf6\\xf8-\\xffA-Z\\xc0-\\xd6\\xd8-\\xde])+(?:['\u2019](?:D|LL|M|RE|S|T|VE))?(?=[\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000]|[A-Z\\xc0-\\xd6\\xd8-\\xde](?:[a-z\\xdf-\\xf6\\xf8-\\xff]|[^\\ud800-\\udfff\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000\\d+\\u2700-\\u27bfa-z\\xdf-\\xf6\\xf8-\\xffA-Z\\xc0-\\xd6\\xd8-\\xde])|$)|[A-Z\\xc0-\\xd6\\xd8-\\xde]?(?:[a-z\\xdf-\\xf6\\xf8-\\xff]|[^\\ud800-\\udfff\\xac\\xb1\\xd7\\xf7\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf\\u2000-\\u206f \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000\\d+\\u2700-\\u27bfa-z\\xdf-\\xf6\\xf8-\\xffA-Z\\xc0-\\xd6\\xd8-\\xde])+(?:['\u2019](?:d|ll|m|re|s|t|ve))?|[A-Z\\xc0-\\xd6\\xd8-\\xde]+(?:['\u2019](?:D|LL|M|RE|S|T|VE))?|\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])|\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])|\\d+",An].join("|"),"g"),Rn=RegExp("[\\u200d\\ud800-\\udfff\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff\\ufe0e\\ufe0f]"),zn=/[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/,Wn="Array Buffer DataView Date Error Float32Array Float64Array Function Int8Array Int16Array Int32Array Map Math Object Promise RegExp Set String Symbol TypeError Uint8Array Uint8ClampedArray Uint16Array Uint32Array WeakMap _ clearTimeout isFinite parseInt setTimeout".split(" "),Bn={};
+Bn["[object Float32Array]"]=Bn["[object Float64Array]"]=Bn["[object Int8Array]"]=Bn["[object Int16Array]"]=Bn["[object Int32Array]"]=Bn["[object Uint8Array]"]=Bn["[object Uint8ClampedArray]"]=Bn["[object Uint16Array]"]=Bn["[object Uint32Array]"]=true,Bn["[object Arguments]"]=Bn["[object Array]"]=Bn["[object ArrayBuffer]"]=Bn["[object Boolean]"]=Bn["[object DataView]"]=Bn["[object Date]"]=Bn["[object Error]"]=Bn["[object Function]"]=Bn["[object Map]"]=Bn["[object Number]"]=Bn["[object Object]"]=Bn["[object RegExp]"]=Bn["[object Set]"]=Bn["[object String]"]=Bn["[object WeakMap]"]=false;
+var Ln={};Ln["[object Arguments]"]=Ln["[object Array]"]=Ln["[object ArrayBuffer]"]=Ln["[object DataView]"]=Ln["[object Boolean]"]=Ln["[object Date]"]=Ln["[object Float32Array]"]=Ln["[object Float64Array]"]=Ln["[object Int8Array]"]=Ln["[object Int16Array]"]=Ln["[object Int32Array]"]=Ln["[object Map]"]=Ln["[object Number]"]=Ln["[object Object]"]=Ln["[object RegExp]"]=Ln["[object Set]"]=Ln["[object String]"]=Ln["[object Symbol]"]=Ln["[object Uint8Array]"]=Ln["[object Uint8ClampedArray]"]=Ln["[object Uint16Array]"]=Ln["[object Uint32Array]"]=true,
+Ln["[object Error]"]=Ln["[object Function]"]=Ln["[object WeakMap]"]=false;var Un={"\\":"\\","'":"'","\n":"n","\r":"r","\u2028":"u2028","\u2029":"u2029"},Cn=parseFloat,Dn=parseInt,Mn=typeof global=="object"&&global&&global.Object===Object&&global,Tn=typeof self=="object"&&self&&self.Object===Object&&self,$n=Mn||Tn||Function("return this")(),Fn=typeof exports=="object"&&exports&&!exports.nodeType&&exports,Nn=Fn&&typeof module=="object"&&module&&!module.nodeType&&module,Pn=Nn&&Nn.exports===Fn,Zn=Pn&&Mn.process,qn=function(){
+try{var n=Nn&&Nn.f&&Nn.f("util").types;return n?n:Zn&&Zn.binding&&Zn.binding("util")}catch(n){}}(),Vn=qn&&qn.isArrayBuffer,Kn=qn&&qn.isDate,Gn=qn&&qn.isMap,Hn=qn&&qn.isRegExp,Jn=qn&&qn.isSet,Yn=qn&&qn.isTypedArray,Qn=b("length"),Xn=x({"\xc0":"A","\xc1":"A","\xc2":"A","\xc3":"A","\xc4":"A","\xc5":"A","\xe0":"a","\xe1":"a","\xe2":"a","\xe3":"a","\xe4":"a","\xe5":"a","\xc7":"C","\xe7":"c","\xd0":"D","\xf0":"d","\xc8":"E","\xc9":"E","\xca":"E","\xcb":"E","\xe8":"e","\xe9":"e","\xea":"e","\xeb":"e","\xcc":"I",
+"\xcd":"I","\xce":"I","\xcf":"I","\xec":"i","\xed":"i","\xee":"i","\xef":"i","\xd1":"N","\xf1":"n","\xd2":"O","\xd3":"O","\xd4":"O","\xd5":"O","\xd6":"O","\xd8":"O","\xf2":"o","\xf3":"o","\xf4":"o","\xf5":"o","\xf6":"o","\xf8":"o","\xd9":"U","\xda":"U","\xdb":"U","\xdc":"U","\xf9":"u","\xfa":"u","\xfb":"u","\xfc":"u","\xdd":"Y","\xfd":"y","\xff":"y","\xc6":"Ae","\xe6":"ae","\xde":"Th","\xfe":"th","\xdf":"ss","\u0100":"A","\u0102":"A","\u0104":"A","\u0101":"a","\u0103":"a","\u0105":"a","\u0106":"C",
+"\u0108":"C","\u010a":"C","\u010c":"C","\u0107":"c","\u0109":"c","\u010b":"c","\u010d":"c","\u010e":"D","\u0110":"D","\u010f":"d","\u0111":"d","\u0112":"E","\u0114":"E","\u0116":"E","\u0118":"E","\u011a":"E","\u0113":"e","\u0115":"e","\u0117":"e","\u0119":"e","\u011b":"e","\u011c":"G","\u011e":"G","\u0120":"G","\u0122":"G","\u011d":"g","\u011f":"g","\u0121":"g","\u0123":"g","\u0124":"H","\u0126":"H","\u0125":"h","\u0127":"h","\u0128":"I","\u012a":"I","\u012c":"I","\u012e":"I","\u0130":"I","\u0129":"i",
+"\u012b":"i","\u012d":"i","\u012f":"i","\u0131":"i","\u0134":"J","\u0135":"j","\u0136":"K","\u0137":"k","\u0138":"k","\u0139":"L","\u013b":"L","\u013d":"L","\u013f":"L","\u0141":"L","\u013a":"l","\u013c":"l","\u013e":"l","\u0140":"l","\u0142":"l","\u0143":"N","\u0145":"N","\u0147":"N","\u014a":"N","\u0144":"n","\u0146":"n","\u0148":"n","\u014b":"n","\u014c":"O","\u014e":"O","\u0150":"O","\u014d":"o","\u014f":"o","\u0151":"o","\u0154":"R","\u0156":"R","\u0158":"R","\u0155":"r","\u0157":"r","\u0159":"r",
+"\u015a":"S","\u015c":"S","\u015e":"S","\u0160":"S","\u015b":"s","\u015d":"s","\u015f":"s","\u0161":"s","\u0162":"T","\u0164":"T","\u0166":"T","\u0163":"t","\u0165":"t","\u0167":"t","\u0168":"U","\u016a":"U","\u016c":"U","\u016e":"U","\u0170":"U","\u0172":"U","\u0169":"u","\u016b":"u","\u016d":"u","\u016f":"u","\u0171":"u","\u0173":"u","\u0174":"W","\u0175":"w","\u0176":"Y","\u0177":"y","\u0178":"Y","\u0179":"Z","\u017b":"Z","\u017d":"Z","\u017a":"z","\u017c":"z","\u017e":"z","\u0132":"IJ","\u0133":"ij",
+"\u0152":"Oe","\u0153":"oe","\u0149":"'n","\u017f":"s"}),nt=x({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}),tt=x({"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'"}),rt=function x(mn){function An(n){if(yu(n)&&!ff(n)&&!(n instanceof Un)){if(n instanceof On)return n;if(oi.call(n,"__wrapped__"))return Fe(n)}return new On(n)}function En(){}function On(n,t){this.__wrapped__=n,this.__actions__=[],this.__chain__=!!t,this.__index__=0,this.__values__=T}function Un(n){this.__wrapped__=n,
+this.__actions__=[],this.__dir__=1,this.__filtered__=false,this.__iteratees__=[],this.__takeCount__=4294967295,this.__views__=[]}function Mn(n){var t=-1,r=null==n?0:n.length;for(this.clear();++t<r;){var e=n[t];this.set(e[0],e[1])}}function Tn(n){var t=-1,r=null==n?0:n.length;for(this.clear();++t<r;){var e=n[t];this.set(e[0],e[1])}}function Fn(n){var t=-1,r=null==n?0:n.length;for(this.clear();++t<r;){var e=n[t];this.set(e[0],e[1])}}function Nn(n){var t=-1,r=null==n?0:n.length;for(this.__data__=new Fn;++t<r;)this.add(n[t]);
+}function Zn(n){this.size=(this.__data__=new Tn(n)).size}function qn(n,t){var r,e=ff(n),u=!e&&of(n),i=!e&&!u&&af(n),o=!e&&!u&&!i&&_f(n),u=(e=e||u||i||o)?A(n.length,ni):[],f=u.length;for(r in n)!t&&!oi.call(n,r)||e&&("length"==r||i&&("offset"==r||"parent"==r)||o&&("buffer"==r||"byteLength"==r||"byteOffset"==r)||Se(r,f))||u.push(r);return u}function Qn(n){var t=n.length;return t?n[ir(0,t-1)]:T}function et(n,t){return De(Ur(n),pt(t,0,n.length))}function ut(n){return De(Ur(n))}function it(n,t,r){(r===T||lu(n[t],r))&&(r!==T||t in n)||st(n,t,r);
+}function ot(n,t,r){var e=n[t];oi.call(n,t)&&lu(e,r)&&(r!==T||t in n)||st(n,t,r)}function ft(n,t){for(var r=n.length;r--;)if(lu(n[r][0],t))return r;return-1}function ct(n,t,r,e){return uo(n,function(n,u,i){t(e,n,r(n),i)}),e}function at(n,t){return n&&Cr(t,Wu(t),n)}function lt(n,t){return n&&Cr(t,Bu(t),n)}function st(n,t,r){"__proto__"==t&&Ai?Ai(n,t,{configurable:true,enumerable:true,value:r,writable:true}):n[t]=r}function ht(n,t){for(var r=-1,e=t.length,u=Ku(e),i=null==n;++r<e;)u[r]=i?T:Ru(n,t[r]);return u;
+}function pt(n,t,r){return n===n&&(r!==T&&(n=n<=r?n:r),t!==T&&(n=n>=t?n:t)),n}function _t(n,t,e,u,i,o){var f,c=1&t,a=2&t,l=4&t;if(e&&(f=i?e(n,u,i,o):e(n)),f!==T)return f;if(!du(n))return n;if(u=ff(n)){if(f=me(n),!c)return Ur(n,f)}else{var s=vo(n),h="[object Function]"==s||"[object GeneratorFunction]"==s;if(af(n))return Ir(n,c);if("[object Object]"==s||"[object Arguments]"==s||h&&!i){if(f=a||h?{}:Ae(n),!c)return a?Mr(n,lt(f,n)):Dr(n,at(f,n))}else{if(!Ln[s])return i?n:{};f=Ee(n,s,c)}}if(o||(o=new Zn),
+i=o.get(n))return i;o.set(n,f),pf(n)?n.forEach(function(r){f.add(_t(r,t,e,r,n,o))}):sf(n)&&n.forEach(function(r,u){f.set(u,_t(r,t,e,u,n,o))});var a=l?a?ve:_e:a?Bu:Wu,p=u?T:a(n);return r(p||n,function(r,u){p&&(u=r,r=n[u]),ot(f,u,_t(r,t,e,u,n,o))}),f}function vt(n){var t=Wu(n);return function(r){return gt(r,n,t)}}function gt(n,t,r){var e=r.length;if(null==n)return!e;for(n=Qu(n);e--;){var u=r[e],i=t[u],o=n[u];if(o===T&&!(u in n)||!i(o))return false}return true}function dt(n,t,r){if(typeof n!="function")throw new ti("Expected a function");
+return bo(function(){n.apply(T,r)},t)}function yt(n,t,r,e){var u=-1,i=o,a=true,l=n.length,s=[],h=t.length;if(!l)return s;r&&(t=c(t,k(r))),e?(i=f,a=false):200<=t.length&&(i=O,a=false,t=new Nn(t));n:for(;++u<l;){var p=n[u],_=null==r?p:r(p),p=e||0!==p?p:0;if(a&&_===_){for(var v=h;v--;)if(t[v]===_)continue n;s.push(p)}else i(t,_,e)||s.push(p)}return s}function bt(n,t){var r=true;return uo(n,function(n,e,u){return r=!!t(n,e,u)}),r}function xt(n,t,r){for(var e=-1,u=n.length;++e<u;){var i=n[e],o=t(i);if(null!=o&&(f===T?o===o&&!wu(o):r(o,f)))var f=o,c=i;
+}return c}function jt(n,t){var r=[];return uo(n,function(n,e,u){t(n,e,u)&&r.push(n)}),r}function wt(n,t,r,e,u){var i=-1,o=n.length;for(r||(r=ke),u||(u=[]);++i<o;){var f=n[i];0<t&&r(f)?1<t?wt(f,t-1,r,e,u):a(u,f):e||(u[u.length]=f)}return u}function mt(n,t){return n&&oo(n,t,Wu)}function At(n,t){return n&&fo(n,t,Wu)}function Et(n,t){return i(t,function(t){return _u(n[t])})}function kt(n,t){t=Sr(t,n);for(var r=0,e=t.length;null!=n&&r<e;)n=n[Me(t[r++])];return r&&r==e?n:T}function St(n,t,r){return t=t(n),
+ff(n)?t:a(t,r(n))}function Ot(n){if(null==n)n=n===T?"[object Undefined]":"[object Null]";else if(mi&&mi in Qu(n)){var t=oi.call(n,mi),r=n[mi];try{n[mi]=T;var e=true}catch(n){}var u=ai.call(n);e&&(t?n[mi]=r:delete n[mi]),n=u}else n=ai.call(n);return n}function It(n,t){return n>t}function Rt(n,t){return null!=n&&oi.call(n,t)}function zt(n,t){return null!=n&&t in Qu(n)}function Wt(n,t,r){for(var e=r?f:o,u=n[0].length,i=n.length,a=i,l=Ku(i),s=1/0,h=[];a--;){var p=n[a];a&&t&&(p=c(p,k(t))),s=Ci(p.length,s),
+l[a]=!r&&(t||120<=u&&120<=p.length)?new Nn(a&&p):T}var p=n[0],_=-1,v=l[0];n:for(;++_<u&&h.length<s;){var g=p[_],d=t?t(g):g,g=r||0!==g?g:0;if(v?!O(v,d):!e(h,d,r)){for(a=i;--a;){var y=l[a];if(y?!O(y,d):!e(n[a],d,r))continue n}v&&v.push(d),h.push(g)}}return h}function Bt(n,t,r){var e={};return mt(n,function(n,u,i){t(e,r(n),u,i)}),e}function Lt(t,r,e){return r=Sr(r,t),t=2>r.length?t:kt(t,hr(r,0,-1)),r=null==t?t:t[Me(Ve(r))],null==r?T:n(r,t,e)}function Ut(n){return yu(n)&&"[object Arguments]"==Ot(n)}function Ct(n){
+return yu(n)&&"[object ArrayBuffer]"==Ot(n)}function Dt(n){return yu(n)&&"[object Date]"==Ot(n)}function Mt(n,t,r,e,u){if(n===t)t=true;else if(null==n||null==t||!yu(n)&&!yu(t))t=n!==n&&t!==t;else n:{var i=ff(n),o=ff(t),f=i?"[object Array]":vo(n),c=o?"[object Array]":vo(t),f="[object Arguments]"==f?"[object Object]":f,c="[object Arguments]"==c?"[object Object]":c,a="[object Object]"==f,o="[object Object]"==c;if((c=f==c)&&af(n)){if(!af(t)){t=false;break n}i=true,a=false}if(c&&!a)u||(u=new Zn),t=i||_f(n)?se(n,t,r,e,Mt,u):he(n,t,f,r,e,Mt,u);else{
+if(!(1&r)&&(i=a&&oi.call(n,"__wrapped__"),f=o&&oi.call(t,"__wrapped__"),i||f)){n=i?n.value():n,t=f?t.value():t,u||(u=new Zn),t=Mt(n,t,r,e,u);break n}if(c)t:if(u||(u=new Zn),i=1&r,f=_e(n),o=f.length,c=_e(t).length,o==c||i){for(a=o;a--;){var l=f[a];if(!(i?l in t:oi.call(t,l))){t=false;break t}}if((c=u.get(n))&&u.get(t))t=c==t;else{c=true,u.set(n,t),u.set(t,n);for(var s=i;++a<o;){var l=f[a],h=n[l],p=t[l];if(e)var _=i?e(p,h,l,t,n,u):e(h,p,l,n,t,u);if(_===T?h!==p&&!Mt(h,p,r,e,u):!_){c=false;break}s||(s="constructor"==l);
+}c&&!s&&(r=n.constructor,e=t.co
+
+
+
+
+
+
+E POR AÍ VAI....
+
+
+ESSE SCRIPT É MENOR DO QUE A VERSÃO 
+
+'NORMAL', e por isso é carregada mais rapidamente.
+
+
+
+
+
+VOCÊ SEMPRE DEVE IMPORTAR A LIBRARY ___ANTES___ 
+
+
+DO SEU SCRIPT NO INDEX.HTML....
+
+
+
+Se você não fizer isso, seu script acaba rodando 
+
+cedo demais e fodendo tudo,
+
+
+porque ele vai procurar por coisas que ainda não estarão definidas 
+
+globalmente no seu projeto...
+
+
+
+
+
+---------------------------------------
+
+
+
+
+OBS2::: EM UM MÓDULO POSTERIOR, VEREMOS 
+
+
+COMO OPTIMIZAR NOSSOS CÓDIGOS EXATAMENTE DESSA MANEIRA.
+
+
+
+
+----------------------------------------
+
+
+
+SALVAMOS E RECARREGAMOS, 
+
+
+VEMOS O RESULTADO DO 
+
+
+'difference' 
+
+NO NOSSO CONSOLE..
+
+
+
+
+Veremos
+
+
+
+
+'0:
+
+Anna', 
+
+
+
+
+QUE É EXATAMENTE A DIFERENÇA ENTRE OS 2 ARRAYS...
+
+
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS ADICIONAR E UTILIZAR UMA THIRD PARTY LIBRARY....
+
+
+
+---------------------------------------
+
+
+
+
+
+
+PROFESSOR APONTA, ADEMAIS,
+
+
+QUE A MAIOR PARTE DAS LIBRARIES
+
+
+TAMBÉM 
+
+SUPORTA 
+
+
+'CDNs'...
+
+
+
+
+(ex: 'CDN copies')...
+
+
+
+
+
+ISSO, NO FINAL DAS CONTAS, TE DÁ UM LINK QUE VOCÊ  
+PODE INCLUIR NO SEU PROJETO....
+
+
+VOCê FAZ ISSO PARA QUE VOCê NÃO TENHA QUE BAIXAR E 
+
+
+ADICIONAR O ARQUIVO MANUALMENTE...
+
+
+
+
+Com os 'CDN', VOCÊ TEm um arquivo 
+
+
+HOSTEADO EXTERNAMENTE, em que 
+
+vocÊ apenas 
+
+importa o LINK EXTERNO no seu código...
+
+(isso pode dar problemas se o servidor/host externo for DERRUBADO).
+
+
+
+
+No caso de loadash,
+
+
+isso significa que 
+
+nós podemos 
+
+
+simplesmente 
+
+pegar 
+
+
+
+
+o link 
+
+
+https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js
+
+
+
+
+e enfiar 
+
+
+NO INDEX.HTML....
+
+
+
+
+
+ex:
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <title>Third-Party Libraries</title>
+   <!--     <script src="lodash.js" defer></script> -->
+
+
+     <!--   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script> -->  <!--VERSÃO 'EXTERNAL HOST', hosteada por um site, desse arquivo, que é importada por meio desse código aí...-->
+        <script src="lodash.min.js" defer></script>  <!-- versão optimizada do código default de 'lodash.js'. Devemos sempre utilizar o código optimizado, pois ele é carregado mais rapidamente pelo browser. -->
+        <script src="app.js" defer></script>
+        
+    </head>
+    <body>
+
+
+
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+ISSO FARÁ COM QUE ESSE SCRIPT/LIBRARY SEJA 
+
+
+CARREGADA 
+
+
+DE UM OUTRO SERVIDOR, ADICIONAL E FORA DO SEU CONTROLE...
+
+
+
+A vantagem é que ESSE LOAD DE UM LINK EXTERNO 
+
+PODE SER AINDA MAIS RÁPIDO DO QUE CARREGAR 
+
+
+ESSE SCRIPT DE UM ARQUIVO NO SEU SERVIDOR/PC...
+
+
+
+
+CDN SERVERS SÃO BEM RÁPIDOS... e eles te deixam não se importar com a administração dos arquivos .js das libraries...
+
+
+
+
+
+NÃO INTERESSA O APPROACH QUE VOCÊ PREFERIR, 
+
+
+O QUE IMPORTA É QUE VOCÊ ADICIONE O SCRIPT DE FORMA 
+
+CORRETA E 
+
+QUE SEU SCRIPT SEJA EXECUTADO 
+
+
+______dEPOIS___ DO IMPORT DA LIBRARY... 

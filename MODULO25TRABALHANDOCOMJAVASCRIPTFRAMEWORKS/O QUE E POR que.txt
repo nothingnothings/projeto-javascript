@@ -1,0 +1,446 @@
+
+
+
+
+
+
+
+
+
+----> O que é UM FRAMEWORK???
+
+
+
+
+
+---> HÁ MUITA DISCUSSÃO SOBRE O ASSUNTO...
+
+
+ALGUMAS PESSOAS ACHAM MUITO IMPORTANTE DIFERENCIAR UMA __LIBRARY__ de uma __FRAMEWORK__.
+
+
+
+
+O professor não é uma dessas pessoas...
+
+
+
+
+
+
+Ele vai nos dar a diferenciação comum entre as duas...
+
+
+
+
+Também vai nos explicar PORQUE NÓS DIFERENCIAMOS OS 2... e pq isso 
+é tao importante para algumas pessoas....
+
+
+
+-------------------------------------
+
+
+
+
+JAVASCRIPT LIBRARY/LIBRARIES ----> é, no final das contas, UMA THIRD PARTY PACKAGE (ou 'first-party', se for escrita por suas próprias mãos) QUE ADICIONA FUNCIONALIDADES AO SEU CÓDIGO...
+                                    (Third-Party packages that add funcionalities).
+
+                                
+                        ---> exemplo de library é O JQUERY, que nos ajuda a FAZER 'QUERY' DO DOM...
+                        ---> outro exemplo é LODASH, que tem algumas utility functions...
+                        ---> outro exemplo é axios, que nos ajuda a enviar http requests...
+
+
+
+-----> JAVASCRIPT LIBRARIES SÃO ___TIPICAMENTE___ FOCADAS EM 1 OU POUCAS 'CORE TASKS'....
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+FRAMEWORKS ---> TAMBÉM SÃO THIRD PARTY PACKAGES QUE ADICIONAM FUNCIONALIDADES... MAS TIPICAMENTE ADICIONAM ___MAIS___ FUNCIONALIDADES, também tipicamente FUNCIONALIDADES DE DIFERENTES "ÁREAS"...
+            ----> ENTRETANTO, OS JAVASCRIPT FRAMEWORKS TAMBÉM TE DÃO ___CERTAS ___ REGRAS___, CERTA ESTRUTURA QUE VOCê DEVE SEGUIR PARA CONSTRUIR O SEU PROJETO JAVASCRIPT...
+            ----> isso significa que os frameworks TE FORÇAM 
+            A CUMPRIR CERTO 'RULE SET'...
+            ---> MAS AO MESMO TEMPO EM QUE TE FORÇAM A SEGUIR ESSE CONJUNTO DE REGRAS, 
+            OS FRAMEWORKS DEIXAM A CONSTRUÇÃO DO SEU APLICATIVO MAIS ___FÁCIL__. Deixam 
+            você focar EM COISAS MAIS IMPORTANTES DO SEU CÓDIGO, COMO A 'CORE BUSINESS LOGIC'
+            DO SEU CÓDIGO, e isso faz com que vocÊ perca menos tempo nos 'nitty gritty details'....
+
+
+        ----> ISSO QUER DIZER QUE ELES TIPICAMENTE TE PROVIDENCIAM UMA ___ESTRUTURA__ COMPLETA__ 
+        PARA CONSTRUIR APLICATIVOS JAVASCRIPT...
+
+
+        ---> OS GRANDES EXEMPLOS DE JAVASCRIPT FRAMEWORKS SÃO:
+
+        -REACT --------> é um 'etch case', PORQUE É, NA VERDADE, UMA TP LIBRARY E NÃO UMA FRAMEWORK... (mas é uma TP library BEM GRANDE). ---> é uma framework, basicamente.
+        -VUE.js
+        -ANGULAR
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+ANGULAR, 
+
+
+
+
+
+REACT 
+
+
+
+
+E 
+
+
+
+VUE.js
+
+
+--------------------------------
+
+
+
+ESSAS 3 LIBRARIES/FRAMEWORKS 
+
+
+
+-----> são coisas QUE NOS AJUDAM A ESCREVER PROJETOS JAVASCRIPT...
+
+
+
+
+
+---> é importante explicar que NÓS AINDA USAMOS AS COISAS QUE APRENDEMOS AO LONGO 
+DESTE CURSO COM ESSAS LIBRARIES, mas elas introduzem NOVOS CONJUNTOS DE REGRAS...
+
+
+
+
+
+-----> esses frameworks nos DEIXAM FAZER AS COISAS "BÁSICAS" do javascript, 
+
+mas também 
+
+NOS PERMITEM __FOCAR___ na 'business logic' DO CÓDIGO... (perdemos menos tempo nos DETALHES).
+
+
+
+
+
+
+------> EX: quando vocÊ pensa em BOTÕES, naquela coisa de adicionar EVENTLISTENERS a BOTÕES, 
+
+ESSES FRAMEWORKS TIRAM ESSE TRABALHO DAS SUAS MÃOS... 
+
+fazem isso por meio de maneiras COMPLETAMENTE DIFERENTES DE PENSAR/OBSERVAR O SEU CÓDIGO...
+
+
+
+
+
+Esses não são os únicos frameworks que existem, 
+
+pois nós temos outros 
+
+
+que nos AJUDAM A CONSTRUIR LOJAS ONLINE e assim por diante (online shops)...
+
+
+
+
+------------------------------------------
+
+
+
+
+
+
+E NÓS NÃO TEMOS APENAS FRAMEWORKS QUE FUNCIONAM NOS BROWSERS (browserside), 
+
+
+MAS TAMBÉM 
+
+
+FRAMEWORKS QUE SÃO USADOS __SERVERSIDE__ (se nós realmente estivermos usando javascript no server).
+
+
+
+
+UM EXEMPLO: PARA NODE.JS, TEMOS UM FRAMEWORK chamado de 'express.js'....
+
+
+---------------------------------------------------
+
+
+
+POR AGORA, DEIXAREMOS ISSO DE LADO, VEREMOS ESSA FRAMEWORK QUANDO FALARMOS SOBRE NODE.JS.
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+Devemos ver esses BROWSERSIDE FRAMEWORKS...
+
+
+
+
+
+--> ANGULAR ----> INTRODUZ UMA ____NOVA LINGUAGEM___.
+USA UMA NOVA LINGUAGEM, CHAMADA DE ___TYPESCRIPT____. 
+
+É uma linguagem CONSTRUÍDA A PARTIR DO JAVASCRIPT ('builds upon javascript')....
+E, COMO PARTE DO PROCESSO DA DEVELOPMENT BUILD ('development build process'), 
+É COMPILADA EM JAVASCRIPT COMUM....
+
+--> É QUE NEM USAR JAVASCRIPT NEXT-GEN com o BABEL, mas COM AINDA MAIS FEATURES, FEATURES 
+__QUE AINDA NEM EXISTEM ___ NESSA PRÓXIMA GERAÇÃO DE JAVASCRIPT... (ou seja, é como se vocÊ tivesse O CÓDIGO MODERNO DO MODERNO, o mais moderno possível, que então é compilado em código 'comum' por meio do procedimento de PRODUCTIOn do webpack, etc.)
+
+
+
+--> TYPESCRIPT, NA VERDADE, É UM """standalone project""", detached (DESLIGADO) DE 'angular', MAS 
+O ANGULAR USA ELE PRA CARALHO, então ELE FAZ PARTE DO ANGULAR, BASICAMENTE.
+
+
+---> SE VOCÊ QUER SABER MAIS SOBRE 'ANGULAR' E 'TYPESCRIPT', O PROFESSOR TEM CURSOS INTEIROS 
+DEDICADOS A ISSO...
+
+
+
+-------> ANGULAR É ____EXTREMAMENTE POPULAR___. É UM FRAMEWORK GIGANTE, tem muitas features.
+
+TEM FEATURES PARA RENDERIZAR USER INTERFACES INCRÍVEIS, PARA ANIMAR COISAS, PARA VALIDAR 
+USER INPUT, muitas e muitas coisas.
+
+
+Também para ENVIAR HTTP REQUESTS (afasta a necessidade de usar AXIOS)
+
+
+
+----> tem ainda mais coisas.
+
+
+
+
+----------------------------------------------------------
+
+
+
+REACT ---> TAMBÉM É UMA FRAMEWORK.
+
+
+É UMA LIBRARY BEM RICA, NA VERDADE.
+
+
+
+
+--> O REACT USA a sintaxe 'ENHANCED JAVASCRIPT SYNTAX'....
+                                    (JSX)  (.jsx)...
+
+
+
+---> ELE USA UMA FEATURE CHAMADA DE 'jsx'...
+---> te permite usar essa sintaxe aí NOS SEUS ARQUIVOS JAVASCRIPT...
+
+---> essa sintaxe NÃO É PERMITIDA NO JAVASCRIPT VANILLA (esse código não é rodado 
+assim, dessa forma, no browser),
+MAS, DA MESMA MANEIRA QUE 'TYPESCRIPT', ESSE TIPO DE SITNAXE É COMPILADO 
+
+EM ___'REGRAS NORMAIS DE JAVASCRIPT'_____ (normal javascript instructions) 
+
+COMO PARTE DO SEU PROCESSO DE 'DEVELOPMENT' ('as part of your development process') ---> webpack.
+
+
+
+----------------------------------------------------
+
+
+
+
+
+NÓS VEREMOS ESSA COISA 'jsx' EM AÇÃO MAIS TARDE, NA SAMPLE de 'react' que o professor nos mostrará.
+
+
+
+O react nos ajuda, no final das contas, a construir USER INTERFACES ___RICAS__. 
+
+Nos ajuda a construir user interfaces RICAS sem TER QUE ESCREVER 
+AS INSTRUÇÕES DE 
+
+'createElement()', 'append()', 'remove()' e afins por conta própria...
+
+
+
+E ESSA, BTW, É A IDEIA GERAL POR TRÁS DE TODOS ESSES FRAMEWORKS: eles afastam 
+a necessidade de nós MANUALMENTE ADICIONAR/REMOVER ELEMENTOS AO DOM...
+Todos esses frameworks NOS DÃO UMA 
+MANEIRA DE __DEFINIR__ O RESULTADO QUE QUEREMOS TER...
+
+
+Nos deixam:
+
+
+1) definir o resultado que queremos ter 
+
+
+2) Definir as CONDIÇÕES em que esse RESULTADO DEVERÁ MUDAR 
+
+
+----------------------------------------------
+
+
+
+Os frameworks garantem, então, que AS MUDANÇAS SEJAM APLICADAS no resultado,
+
+NA PÁGINA QUE O USUÁRIO ACESSA, __QUANDO ESSAS___ CONDIÇÕES SÃO PREENCHIDAS...
+
+
+
+VEREMOS ISSO EM PRÁTICA MAIS TARDE NESSE MÓDULO...
+
+
+
+
+REACT ---> é uma library-framework....
+
+
+REACT É BEM MENOR DO QUE 'ANGULAR', não tem validação 'builtin', 
+
+não tem 'http request', MAS TEM OUTRAS PACKAGES QUE 
+
+NÓS ___TIPICAMENTE___ ___COMBINAMOS__ COM REACT para que seja 
+
+POSSÍVEL ADICIONAR ESSAS FUNCIONALIDADES AO NOSSO CÓDIGO....
+
+
+
+
+ASSIM COMO 'angular', o 'react' é EXTREMAMENTE POPULAR.
+
+
+
+-----------------------------------------
+
+
+
+O TERCEIRO GRANDE FRAMEWORK EM JAVASCRIPT É O 
+
+
+
+_____VUE.js______.
+
+
+
+--------> VUE.JS usa ____JAVASCRIPT COMUM____.
+
+
+
+----> você pode, no entanto, usar TYPESCRIPT com 'vue.js', 
+
+MAS VOCÊ TIPICAMENTE NÃO É OBRIGADO A FAZÊ-LO.
+
+
+---> A boa coisa sobre 'vue.js' É 
+
+QUE É O FRAMEWORK ____MAIS FÁCIL DE ENTENDER E APRENDER SOBRE___.
+
+
+
+
+TAMBÉM É __POPULAR__, não é tão popular quanto os outros 2, mas ainda é 
+
+MUITO POPULAR...
+
+
+ASSIM como 'angular', ELE CONTÉM TODAS AS FEATURES IMPORTANTES (mas angular tem MAIS FEATURES DO QUE O VUE.js)...
+
+
+
+MAS VUE.JS ____TEM MAIS FEATURES ____ DO QUE 'react'...
+
+
+
+--------> A diferença de 'vue.js' para 'react' é que,
+
+VOCÊ NÃO PRECISA COMBINAR 
+
+'VUE.JS' COM OUTRAS LIBRARIES PARA CONSEGUIR TUDO AQUILO QUE VOCÊ PRECISA, 
+
+
+Já o 'react' precisa ser misturado COM OUTRAS LIBRARIES PARA CONSTRUIR 
+
+APLICATIVOS PODEROSOS.
+
+
+----------------------------------------------------------------------------
+
+
+OS 3 SÃO BONS, O PROFESSOR  
+
+TEM CURSOS SOBRE OS 3.
+
+
+
+
+
+ALÉM DISSO, O PROFESSOR COLOCA UM LINK COM UMA COMPARAÇÃO MAIS DETALHADA ENTRE OS 3.
+
+
+
+
+https://academind.com/tutorials/angular-vs-react-vs-vue-my-thoughts/
+
+
+
+
+There are some features like ___state management___ and
+ ___routing__ which you’ll need in almost every project you’ll be working on
+ - no matter how big or small that project is.
+
+
+
+
+ Angular and Vue have full built-in support to make that easier for you. React only has some state management support built-in (not ideal for high-frequency changes) and has no built-in routing support.
+
+So why wouldn’t Angular (or Vue) be better than React?
+
+Because you could also argue that the simplicity of React and its strong focus on components and UI rendering is a big strength. Where Angular needs to connect a lot of things and ensure that they work together smoothly, React doesn’t need to do that.
+
+React does one thing and it does that thing really, really well!
+
+For the other “tools”, which you’ll eventually also need, you got the very active React community. This community developed solutions (i.e. extra packages you can add to your project) like the React router, Redux or Formik.
+
+
+
+
+Maybe you also thought that it might a problem that Angular and Vue have more built-in features
+ if you don’t need a specific feature in a project. 
+You could think that your final app then includes extra code which is never getting used.
+
+
+
+
+This won’t be a problem though.
+ Both Vue and Angular strip out the parts which your project does not need. 
+ So if you have an Angular project without any forms, you’ll not be shipping the form validation part of Angular
+  in your final, optimized code.

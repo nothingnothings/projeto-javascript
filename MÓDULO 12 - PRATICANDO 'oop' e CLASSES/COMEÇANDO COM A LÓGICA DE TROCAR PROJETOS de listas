@@ -1,0 +1,1962 @@
+
+
+
+
+
+
+
+
+Agora devemos utilizar 
+
+
+
+
+
+ESSES QUERYSelectors que utilizamos para 
+
+pegar PROJECTITEMS do DOM  para 
+
+
+
+PEGAR ALGUMAS INFORMAÇÕES DELES....
+
+
+
+Para isso, podemos utilizar um 
+
+
+FOR LOOP, UM FOR OF LOOP. 
+
+
+(For of loop PARA IR POR DENTRO DE TODOS OS PROJECT ITEMS 
+de 'projectItems'. )...
+
+Colocamos esse for of loop depois do querySelectorAll anterior...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+
+        }
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+---------------------------
+
+
+
+Professor explica que 
+
+
+'projectItems', esse objeto em que entraremos por dentro com 
+o for of loop,  REPRESENTA NOSSOS DOM NODES...
+
+
+
+
+Entretanto, o professor não está interessado NOS NODES INTEIROS, 
+
+mas sim  NO ___ID____ DELES.
+
+
+
+
+Mas pq?
+
+
+
+
+Bem, é possível imaginar que 
+
+
+uma 
+
+
+projectList TAMBÉM TEM um FIELD 
+
+chamado de 
+
+'projects', com valor de [] (array vazio; inicialmente, esse array será vazio.).
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+
+        }
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+
+-------------------------------
+
+
+
+
+LEMBRANDO:
+
+
+
+FIELDS SÃO SEMPRE TRADUZIDOS PARA PROPRIEDADES....
+
+
+Não há nenhuma diferença em especificar um field FORA/DENTRO DE UM 
+
+CONSTRUCTOR, o resultado é sempre o mesmo, e eles sempre serão 
+
+traduzidos para propriedades.
+
+
+
+
+
+POR CONVENIENCIA, OS FIELDS SAO CONVERTIDOS EM PROPRIEDADES 
+
+___ANTES___ DO RESTO DA SUA LÓGICA 
+
+DO CONSTRUCTOR SER EXECUTADA.... (e depois dA EXECUÇÃO DO SUPER CONSTRUCTOR DA CLASSE, SE VOCE TINHA/TEM ALGUM, É CLARO.).
+
+
+
+Ordem de execução, portanto:
+
+
+
+
+
+1) super();
+
+
+
+2) fields/tradução dos fields e subsequente conversao em propriedades 
+
+
+
+3) EXECUÇÃO DO RESTANTE DA LÓGICA DA CLASSE...
+
+
+------------------------------------------
+
+
+
+
+Portanto DENTRO DO FOR OF LOOP nós podemos CONVENIENTEMENTE alcançar 
+
+
+'this.projects' E FAZER O PUSH DE PROJECT ITEMS PARA DENTRO 
+
+DO ARRAY DE 'projects'.... (pois o array de projects é criado/executado antes da execução desse método push, é um field convertido em propriedade... )..
+
+
+Aqui, portanto, vou querer EMPURRAR
+Os 'projectItem' PARA DENTRO DO ARRAY 'projects'....
+
+
+
+Ou seja, nao vou querer empurrar os IDS dos projectItems, e sim, na verdade, 
+
+INSTÂNCIAS DA CLASSE 'projectItem' (que no momento, é claro, 
+não faz muita coisa....)
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push();
+        }
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+OK, MAS COMO IREMOS FAZER UMA REFERENCIA A ESSE 'projectItem'/s para 
+
+que CONSIGAMOS EMPURRAR ESSE projectItem para dentro do array de 'projects'...?
+
+
+
+
+
+BEM, o professor diz que devemos começar pela INSTANCIAÇÃO 
+
+de 'ProjectItem' dentro do parâmetro de 'push'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem());          //////EIS AQUI O CÓDIGO.
+        }
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+
+---------------------------
+
+
+
+Ou seja, AINDA QUE A CLASSE 'projectItem' esteja VAZIA, ainda 
+
+podemos instanciá-la com 'new ProjectItem()'...
+
+
+
+
+Embora nós ainda não tenhamos algum 
+
+constructor dentro de 'ProjectItem', o professor 
+
+mesmo assim vai querer PASSAR O  ID DOS PROJECT ITEMS COMO PARÂMETRO DE 'new ProjectItem', como parâmetro do constructor dessa classe..., 
+
+que é obtido 
+
+por meio do acesso à propriedade 'id' dos projectItems....
+
+
+Como o professor faz isso? Bem, já vimos ele fazendo algo parecido muitas aulas atrás:
+
+
+
+
+'ProjectItem.id'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+
+-------------------------
+
+
+
+
+com 
+
+
+'prjItem.id', NÓS ACESSAMOS A 
+
+
+PROPRIEDADE 'id' DO DOM NODE (que efetivamente SEGURA O MESMO VALOR DO 
+                                ID DEFINIDO NO HTML, ou seja: 'p1', 'p2', 'p3', etc etc... VER DOCUMENTO HTML para entender o que estou falando... ver os 'li'.)....
+
+
+
+
+
+OU SEJA, NÓS ESTAMOS FAZENDO O 
+
+FORWARD desse id (p1, p2, p3, etc) PARA 
+
+O CONSTRUCTOR DA CLASSE 
+
+'ProjectItem'...  (e depois esse projectItem afetado por esse id como parâmetro É EMPURRADO PARA DENTRO DO ARRAY DE PRODUCTS...)
+
+
+-----------------------------
+
+Representação:
+
+
+
+this.projects.push(new ProjectItem(prjItem.id));
+
+
+
+
+--------------------------------------
+
+
+
+
+
+Em 'projectItem', apesar de nós não termos porra nenhum aqui,
+
+podemos adicionar 
+
+
+um CONSTRUCTOR e fazer com que ele ESPERE UM ID...
+
+
+e talvez definir, no seu corpo, 
+
+
+'this.id = id;' (isso fará com que A PROPRIEDADE 'id' do objeto instanciado  
+                    a partir da classe 'ProjectItem' TENHA O MESMO VALOR DESSE ID que foi passado a esse slot do parâmetro do constructor por meio de 'new ProjectItem(xxxx)'...)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+----------------------
+
+
+
+
+
+De volta à projectList, 
+
+nós FOMOS POR DENTRO DE TODOS OS PROJECT ITEMS (for of loop) E criamos 
+
+
+
+OBJETOS 'projectItem' BASEADOS NELES....
+
+
+
+Fizemos tudo isso para que nós conseguíssemos 
+
+
+UMA REPRESENTAÇÃO JAVASCRIPT dos DOM NODES....
+
+
+UMA REPRESENTAÇÃO JAVASCRIPT DOS DOM NODES ___SEM ___ O RESTANTE 
+
+DO CÓDIGO DA PÁGINA, SEM O ___FILLER DESNECESSÁRIO___ do 
+restante da página... (sem o 'title', sem o 'header', sem nada irrelevante), 
+
+para que pudéssemos nos concentrar 
+SOMENTE NO ID....
+
+
+
+
+------------------------
+
+
+
+Agora, com esses códigos, nós temos uma PROJECTLIST 
+
+que pelo menos gerencia ALGUNS PARCOS 
+
+DADOS acerca dos DOM nodes aos quais está conectada...
+
+
+
+
+NÓS AO MENOS CONSEGUIMOS ADMINISTRAR OS IDS, AGORA...
+
+
+----------------------------------
+
+
+
+Salvamos tudo isso e fazemos o console.log de 'this.projects' (para darmos uma olhada nesse array)
+
+
+ao final do constructor body de ProjectList...
+
+
+----------------------------------
+
+
+
+ex:
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);////eis o console.log
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+-------------------------
+
+
+
+
+Recarregada a página, observamos 
+
+
+no console 
+
+o output 
+
+
+
+de 
+
+
+um array 
+
+
+de 
+
+
+'(2) [ProjectItem, ProjectItem]'
+
+'[ProjectItem]'
+
+
+
+ OU SEJA, uns array de OBJETOS.... (não são dom node OBJECTS, e sim OBJETOS... são objetos MAIS SIMPLES DO QUE DOM NODES, 
+ 
+ mas que possuem A PROPRIEDADE 'id' no seu interior... e é isso que importa a nós, agora. )
+
+
+
+
+
+ E ESSE É UM BOM COMEÇO, é algo que podemos utilizar para ir em frente...
+
+
+
+MAS O QUE PODEMOS FAZER AGORA, agora que 
+
+temos esses 'project items' simples criados?
+
+
+
+
+
+BEM, FARIA SENTIDO ADICIONAR UM ADDEVENTLISTENER aos 
+
+botões de 'finish' e 'activate'..., para que 
+
+possamos começar a adicionar lógica a eles...
+
+
+
+
+MAS EM QUE LUGAR O ADDEVENTLISTENER DEVERIA SER ADICIONADO?
+
+
+
+--> eu chuto 'projectItem'...
+
+
+
+
+----> CORRETO.
+
+
+
+--> correto pq no final das contas nós temos o projectItem 
+
+para GERENCIAR __UM ÚNICO ITEM___.
+
+
+
+
+É por isso que queremos que esse project Item singular 
+
+GERENCIE O DOM NODE CONECTADO A ELE....
+
+
+É por isso que 
+
+em ProjectItem eu vou lá 
+
+e adiciono UMA NOVA FUNÇÃO...
+
+
+
+e o professor só diz que ele adicionará uma nova função PARA QUE 
+
+OS CONSTRUCTORS FIQUEM lisinhos e pequenos, fáceis de ler...
+
+
+
+Ele chama a função/método de 
+
+
+'connectSwitchButton' (pq o botão está ali para, no final das contas, alternar entre 'active' e 'finished', entre esses 2 estados...).
+
+
+
+Para essa criação, ele UTILIZA O METHOD SHORTHAND...
+
+
+
+
+Esse método connectSwitchButton será CHAMADO DE DENTRO DO CONSTRUCTOR; PROFESSOR 
+
+APENAS FAZ ISSO PARA, DE NOVO, DEIXAR O CONSTRUCTOR MAIS CURTINHO E FINO, mais fácil de ler.
+
+
+
+
+------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+        this.connectSwitchButton();
+    }
+    connectSwitchButton() {
+
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);////eis o console.log
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+
+O professor também decide adicionar outro método aqui, um método 
+
+chamado 
+
+'connectMoreInfoButton', que será utilizado para a lógica do botão de 'more Info'.
+
+
+
+
+
+---------------------------
+
+
+
+
+ex:
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton();
+    }
+
+
+
+
+    connectSwitchButton() {
+
+    }
+    connectMoreInfoButton() {
+
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);////eis o console.log
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+---------------------------
+
+
+
+
+ENTRETANTO, PROFESSOR QUER COMEÇAR A ESCREVER A LÓGICA DO SWITCH BUTTON PRIMEIRO...
+
+
+
+--------------------
+
+
+
+Dentro do método, o professor quer receber acesso ao botão de 'switch' 
+
+
+por meio de um addEventListener.
+
+
+
+
+
+
+
+MAS ANTES DISSO, ELE DEVE ganhar acesso AO DOM NODE, ao elemento 'project Item'...
+
+
+para isso ele cria uma constante chamada de 
+
+'projectItemElement'...
+
+
+Ele define o valor dessa constante como 
+
+sendo 
+
+'document.getElementById(this.id);' , PARA QUE O ID ARMAZENADO NA PROPRIEDADE 
+
+'id' desse objeto/classe 'ProjectItem' seja utilizado/referenciado aqui também....
+
+
+
+
+
+
+------
+
+
+
+ex:
+
+
+
+
+
+ex:
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton();
+    }
+
+
+
+
+    connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id); //////EIS AQUI O CÓDIGO EM QUESTÃO.
+    }
+    connectMoreInfoButton() {
+
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);////eis o console.log
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+---------------------------------
+
+
+
+
+'this.id', portanto é o valor que queremos selecionar com esse getElementById...
+
+
+
+Como estamos utilizando a propriedade 'id' definida em ProjectItem, DEVEMOS 
+
+
+TER CERTEZA DE QUE NÓS ESTAMOS CHAMANDO 'this.connectMoreInfoButton' e 'this.connectSwitchButton' APÓS 
+
+A DEFINIÇÃO DA PROPRIEDADE 'id' (pq se a propriedade 'id' não existir, e não tiver um valor dentro dela, OS MÉTODOS 
+                                NUNCA FUNCIONARÃO, POIS NÃO EXISTIRÁ UM ID PARA ser replicado com 'this.id'
+                                ) ------> 
+
+                                É POR ISSO QUE A ORDEM 
+
+                                DENTRO DO CONSTRUCTOR está 
+
+                                como:
+
+                                1) this.id 
+                                2) this.connectMoreInfoButton
+                                3) this.connectSwitchButton
+
+    
+
+    -----------------------------------------
+
+
+
+
+Com essas linhas de código, ganhamos acesso ao 'underlying DOM node object'...
+
+
+
+
+OK....
+
+
+AGORA SÓ TEMOS QUE GANHAR ACESSO AO BOTÃO QUE ESTÁ DENTRO DESSE ELEMENTO...
+
+
+
+
+por isso o professor escreve 
+
+
+'const switchBtn = ...' 
+
+
+
+AÍ ELE ALCANÇA  o 'projectItemElement' PARA ENTÃO ESCOLHER O ELEMENTO 'button' dentro dele...
+
+
+
+ex:
+
+
+
+ 
+const switchBtn = projectItemElement.querySelector('button:last-of-type');  /////  ---------> 'BUTTON:LAST-OF-TYPE' é uma pseudoclasse e UM SELETOR VÁLIDO. Ele vai selecionar o SEGUNDO BOTÃO nessa parte do código de 'projectItemElement', pois o segundo botão (o switch button) É O ÚLTIMO. 
+
+
+Representação do HTML:
+
+
+'<button class="alt">More Info</button>
+<button>Finish</button>' ////-------> BOTÃO QUE SERÁ SELECIONADO.
+
+
+
+
+
+
+--------------------
+
+
+
+ex:
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton();
+    }
+
+
+
+
+    connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id); 
+        const switchBtn = projectItemElement.querySelector('button:last-of-type');
+    }
+    connectMoreInfoButton() {
+
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);////eis o console.log
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+---------------------------------------------
+
+
+
+
+
+Selecionado esse switchBtn, nós então colocamos um addEventListener nele...
+
+
+
+
+
+ex:
+
+
+
+'switchBtn.addEventListener('click', );'
+
+
+
+
+----------------------
+
+
+
+MAS ENTÃO, O QUE DEVERÁ SER EXECUTADO...?
+
+
+
+
+
+
+Professor explica que, no final das contas, ele vai querer 
+
+que aqui seja executado um método QUE SERÁ PARTE DA PROJECTLIST (e não do projectItem, que é onde esse addEventListener está posicionado...).
+
+
+
+
+
+Para ser mais preciso, diz ele, quero ACIONAR __MÚLTIPLOS MÉTODOS__ por meio desse 
+
+addEventListener...
+
+
+
+
+ESSE BOTÃO VAI TER DE ___REMOVER____ o projectItem da ProjectList EM SI, da projectList na qual ele está inserido,
+
+
+E ENTÃO INSERÍ-LO NA ___OUTRA PROJECTLIST___, na outra instância 'projectList'...
+
+
+
+-------------------------------
+
+
+Professor diz que há várias maneiras de alcançar esse objetivo....
+
+
+
+Poderíamos trabalhar com UMA CLASSE ESTÁTICA de novo, com uma classe que, no final das contas, poderá 
+
+ser CHAMADA DE DENTRO DO PROJECTITEM ou de dentro de qualquer instancia de projectList.... (se optarmos por esse caminho, deixaríamos a classe ESTÁTICA administrar essa remoção/transferência do projectItem de uma lista para outra... )
+
+
+
+
+-------------------------
+
+
+
+
+
+MAS AQUI O PROFESSOR VAI NOS MOSTRAR UMA APPROACH QUE AINDA NÃO UTILIZAMOS, mas CUJOS 
+
+
+CORE COMPONENTS já estudamos...
+
+
+
+
+
+TEREMOS DE USAR UMA 'CALLBACK FUNCTION'.... (por causa do método 'findIndex'...)
+
+
+
+
+EX DE CALLBACK FUNCTION:
+
+
+
+
+'function functionOne(x) { return x; };
+
+
+function functionTwo(var1) {
+    //some code
+}
+
+function Two(functionOne);
+
+
+
+-------------------------
+
+
+
+
+
+
+
+Começamos com 'projectList'...
+
+
+
+dentro dela, PRECISAMOS DE 2 MÉTODOS....
+
+
+
+O PRIMEIRO DELES DESEMPENHA A TAREFA DE ____TROCAR___ OS ELEMENTOS Project ('switch the project away')....
+
+
+
+O professor diz que vamos chamar esse método de 
+
+
+'switchProject'.......
+
+
+
+
+O objetivo desse método é REMOVER O PROJETO DO ARRAY DE 'projects', pois ele será MOVIDO PARA A OUTRA LISTA...
+
+
+
+
+O SEGUNDO MÉTODO FARÁ COM QUE ESSE PROJECT removido do array de 'products' DA PRIMEIRA PROJECTLIST SEJA 
+
+ADICIONADO na outra projectList...
+
+
+
+
+
+Certo.
+
+
+
+
+COMO A CLASSE 'PROJECTLIST' É UTILIZADA PARA ___INSTANCIAR___ AS DIFERENTES INSTÂNCIAS 
+
+Das listas, NÓS TEREMOS DE ADICIONAR ESSE SEGUNDO MÉTODO, ESSE MÉTODO DE ___ADICIONAR___ O PROJETO 
+
+À SEGUNDA LISTA, de 'addProject'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton();
+    }
+
+
+
+
+    connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id); 
+        const switchBtn = projectItemElement.querySelector('button:last-of-type');
+    }
+    connectMoreInfoButton() {
+
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);
+    }
+
+
+
+    addProject() {
+
+    }           ////////EIS AQUI OS CÓDIGOS.
+
+
+    switchProject() {
+
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+Relembrando: 
+
+
+'ProjectList' é UMA BLUEPRINT PARA NOSSAS INSTÂNCIAS DE 'projectList'...
+
+
+
+
+
+
+criamos 2 instâncias.
+
+
+
+QUANDO MOVEMOS UM PROJETO DA INSTÂNCIA A (active projects) PARA A INSTÂNCIA B (finished projects),
+
+
+NÓS TEMOS DE ATIVAR/TRIGGAR UM MÉTODO NA INSTÂNCIA A.... um método 
+
+QUE FARÁ COM QUE O projectItem inserido na INSTÂNCIA A seja REMOVIDO....
+
+
+TAMBÉM TEMOS DE ATIVAR UM Método (AO MESMO TEMPO) na instância B, um método 
+
+QUE FARÁ COM QUE O projectItem removido SEJA ADICIONADO NO array de 'projects' da OUTRA PROJECTLIST... (finished)
+
+
+
+-------------------------------------------
+
+
+Em 'switchProject', REMOVER O PROJECTITEM Não é tão difícil...
+
+
+
+podemos alcançar o array 
+
+de projects 
+
+por meio de 
+
+
+'this.projects...' e então REMOVER O PROJECTITEM com 
+
+'splice();' -----------> splice(indice do item, numero de items a serem removidos.)
+
+
+
+PARA USAR SPLICE, PRECISAMOS DO INDEXADOR DO PROJECTITEM naquele array....
+
+
+
+
+
+NÓS __NÃO PODEMOS UTILIZAR__ INDEXOF____ pq um 'project' É UM OBJETO, e INDEXOF NÃO FUNCIONA 
+
+COM OBJETOS.... (só funciona com strings/numeros.)....
+
+
+
+
+MAS PODEMOS ENCONTRAR O INDEX DE UM PROJECTITEM por meio 
+
+do código 
+
+
+'const projectIndex = this.projects.findIndex();'.....
+
+
+
+Porém, esse método 'findIndex' não é tão simples... é um 
+
+daqueles MÉTODOS QUE EXIGE UMA FUNÇÃO AUXILIAR....
+
+
+você deve PASSAR UMA FUNÇÃO ANÔNIMA (uma anônima, de preferencia) que EXECUTA O SEU FUNCTION BODY 
+
+PARA CADA ELEMENTO QUE ESTÁ NAQUELE ARRAY (colocaremos 'p' aqui, 'p' será os conjunto de items do 
+
+array....)
+
+
+Dentro dessa arrow function, você vai querer RETORNAR 'true' SE O PROJECTITEM é o item que 
+
+voce está procurando....
+
+
+A condição para retornar 'true' estabelecida pelo professor é a de que 'p.id === projectId'....
+
+
+
+O professor passa esse 'projectId' como PARÂMETRO DE 'switchProject', ou seja, SWITCHPROJECT VAI 
+
+AGUARDAR 'projectId' como parâmetro...
+
+
+
+
+
+ex:
+
+
+
+
+addProject() {
+
+}
+
+
+switchProject(projectId) {
+    const projectIndex = this.projects.findIndex(p => p.id === projectId);
+    this.projects.splice(projectIndex, 1);
+}
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+O professor estabeleceu a condição de 
+
+'p.id === projectId' para que o CÓDIGO SE LIGUE (retorne true e execute 'findIndex') 
+
+E ATIVE A FUNÇÃO em 'this.projects'
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class Tooltip {
+
+}
+
+
+
+
+
+class ProjectItem {
+
+    constructor(id) {
+        this.id = id;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton();
+    }
+
+
+
+
+    connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id); 
+        const switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn.addEventListener('click', )
+    }
+    connectMoreInfoButton() {
+
+    }
+}
+
+
+
+
+
+class ProjectList {
+    projects = [];
+
+
+
+
+    constructor(type) {
+        const projectItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of projectItems) {
+            this.projects.push(new ProjectItem(prjItem.id));  
+        }
+        console.log(this.projects);
+    }
+
+
+
+    addProject() {
+
+    }           
+
+
+    switchProject(projectId) {
+    const projectIndex = this.projects.findIndex(p => p.id === projectId);
+    this.projects.splice(projectIndex, 1);
+    }
+}
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+    }
+}
+
+
+
+
+App.init();
+
+
+
+----------------------------------
+
+
+
+'p' ---> refere-se ao elemento 'projectList' no array de 'projects'....
+
+
+
+...ou seja, 
+
+'findIndex' SOMENTE IRÁ NOS RETORNAR O ELEMENTO 
+
+'PROJECTITEM' cujo ID seja equivalente ao passado como 'projectId' (que é o parâmetro do método switchProject...)
+
+
+
+
+
+
+
+
+
+arr.findIndex(callback[, thisArg])
+
+
+
+callback
+Função para executar em cada valor no array, tomando três argumentos:
+
+
+---------------------------------------
+element
+O elemento atual sendo processado no array. ('p').
+
+
+index
+O índice do elemento atual sendo processado no array.
+
+
+array
+O array sobre o qual findIndex foi chamado.
+-------------------------
+
+thisArg
+Opcional. Objeto para usar como this na execução do callback.
+Descrição
+
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+'projectIndex' vai ter o valor do index do 'projectItem'....
+
+
+aí simplesmente colocamos 
+
+
+
+'this.projects.splice(projectIndex, 1);' 
+
+
+
+
+
+-------------
+
+
+ESSA É UMA DAS OPÇÕES.
+
+
+
+UMA ALTERNATIVA a esse código seria, na opiniao do professor, 
+
+
+definir 
+
+
+
+em switchProject:
+
+
+(usar o MÉTODO FILTER com quase 
+
+a mesma lógica do findIndex, mas COM UM CHECK 
+
+JUSTAMENTE AO CONTRÁRIO daquele que estavamos fazendo com o 'findIndex'... )   (ou seja, '!==' em vez de '===')
+
+
+
+COLOCAMOS ESSE CHECK AO CONTRÁRIO pq 
+
+
+O que filter faz é 
+
+
+executar a função 
+
+'p => p.id !== projectId' EM TODOS OS ELEMENTOS 
+
+
+DE 'projects'... E ENTÃO MANTÉM TODOS OS ELEMENTOS 
+
+QUE RETORNAM 'TRUE' para essa função aí... (e descarta todos que retornarem false, ou seja, que tiverem 'p.id === projectId'.)
+
+
+Ou seja, queremos que todos os elementos retornem 'true' (serão mantidos), COM A EXCEÇÃO 
+
+DO ELEMENTO QUE QUEREMOS DE FATO REMOVER, com a exceção do projectItem cujo ID É IGUAL 
+
+AO ID DO PROJETO QUE QUEREMOS REMOVER com a função 'switchProject' (que tem o parâmetro de 'projectId', referenciado aqui.)...
+
+
+Queremos que esse ProjectItem específico retorne 'false' PARA QUE __FILTER___ o remova 
+desse array novo q será criado.... (que será criado apenas com os elementos que retornaram 'true' para aquele '!=='.)
+
+
+
+
+Esse array novo, recem criado, é então armazenado EM 'projects' por meio do código 'this.projects === xxx'...
+
+
+ex:
+
+
+
+switchProject(projectId) {
+
+
+
+
+    'this.projects = this.projects.filter(p => p.id !== projectId);'
+}
+
+
+ 
+
+ ---------------------------------
+
+
+
+
+ PORTANTO, AQUI VIMOS COMO É FEITA A 
+
+
+ ___REMOÇÃO_____ desse elemento 'projectItem' do array de projects...
+
+
+
+ AGORA TEMOS QUE VER COMO É FEITA A
+
+
+ ___ADIÇÃO DESSE PROJECTITEM  NO OUTRO ARRAY_____...
+
+
+ Essa parte é mais COMPLICADA.
+
+
+
+
+
+Vamos ter que criar alguma lógica para que 
+
+
+'addProject() {}' POSSA SER CHAMADO 
+
+
+EM OUTRA INSTÂNCIA DE 
+
+
+'projectList'...
+
+
+
+Professor explica que escrever 
+
+
+
+'this.addProject();' DENTRO DO CÓDIGO DE 'SWITCHPROJECT' NÃO IRÁ 
+
+FUNCIONAR,  POIS AÍ NÓS ESTARÍAMOS CHAMANDO 
+
+
+O 'addProject' NA MESMA INSTÂNCIA EM QUE REMOVEMOS O PROJECTITEM por meio de 'switchProject'...
+
+
+Isso é algo que teremos de consertar.

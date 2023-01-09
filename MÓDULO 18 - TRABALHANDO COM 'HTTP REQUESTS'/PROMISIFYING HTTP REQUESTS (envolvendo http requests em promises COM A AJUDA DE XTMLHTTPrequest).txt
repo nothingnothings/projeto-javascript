@@ -1,0 +1,1577 @@
+É claro que é algo bom saber 
+
+
+
+COMO RECEBER/ FAZER O 'GET' DE dados de um servidor...
+
+
+
+
+
+
+
+É bom saber que somos capazes de fazer isso.
+
+
+
+
+
+
+
+Entretanto, frequentemente também queremos 
+
+
+ser capazes de ENVIAR DADOS...
+
+
+
+
+
+
+
+
+
+
+Como exemplo disso, temos nosso 'form' na nossa página...
+
+
+
+
+
+QUANDO O PROFESSOR APERTA EM 
+
+'ADD' nessa página, 
+
+
+a página inteira RECARREGA (esse é o comportamento 
+
+default do javascript, está lembrado? BROWSER 
+
+ENVIA UM REQUEST AO SERVIDOR E ENTÃO RECARREGA A PÁGINA....
+
+
+OBS: esse servidor É O MESMO SERVIDOR EM QUE 
+A PÁGINA HTML ESTÁ SENDO HOSTEADA....)
+
+
+
+
+E ESSE NÃO É O BEHAVIOR QUE EU QUERO.
+
+
+
+
+
+
+
+
+
+EU QUERO ENVIAR UM REQUEST A ESSA 
+
+PÁGINA 
+
+'jsonplaceholder'...
+
+
+
+quero enviar um request a ela pq ESSA PÁGINA NÃO SUPORTA 
+
+APENAS o 'get' de resources/listing de resources (fetch),
+
+MAS TAMBÉM 
+
+SUPORTA A __CRIAÇÃO___ de resources POR MEIO 
+
+DE UM 'POST REQUEST'....
+
+
+
+Request de tipo 'POST'...
+
+
+
+-------------------------------
+
+
+
+Portanto, é exatamente isso que o professor quer fazer Aqui:
+
+
+enviar um post request.
+
+
+
+----------------------------
+
+
+
+
+PARA ISSO, DIZ O PROFESSOR, DEVEMOS REESTRUTURAR NOSSO CÓDIGO UM POUCO.
+
+
+
+
+Nós poderíamos, é claro, MELHORAR MUITO O NOSSO CÓDIGO SE TENTÁSSEMOS 
+
+ESTRUTURÁ-LO USANDO 
+
+'OOP' (object oriented code), 
+
+
+MAS AQUI O PROFESSOR SÓ FARÁ UNS BREVES TWEAKS;
+
+
+ele apenas 'WRAPPARÁ' essA LÓGICA DE ENVIAR/CRIAR http request (
+    
+
+
+    ou seja, 
+
+    as linhas 
+
+
+'
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = function() {
+
+  const listOfPosts = JSON.parse(xhr.response);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+  console.log(listOfPosts); 
+
+}
+'
+
+)
+
+
+
+
+
+EM UMA FUNÇÃO SEPARADA E REUTILIZÁVEL ('a separate and reusable function').....
+
+
+
+
+
+
+PARA ISSO, PROFESSOR CRIARÁ UMA FUNÇÃO 
+chamada 
+
+de 
+
+
+'sendHttpRequest'.
+
+
+Essa função exigirá como parâmetro um 
+
+'method' e uma 'url'...
+
+
+-------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+}
+
+
+
+
+------------------------------------------
+
+
+
+
+DENTRO DESSA FUNÇÃO, DE SEU BODY, TEREMOS TODO AQUELE CÓDIGO DE ENVIAR HTTPREQUESTS....
+
+
+
+
+ex:
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+
+
+
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = function() {
+
+  const listOfPosts = JSON.parse(xhr.response);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+
+Certo.
+
+
+Agora temos essa função reutilizável.
+
+
+
+Mas não acabamos por aqui:
+
+
+
+devemos trocar 'GET' em 
+
+'xhr.open()' 
+
+
+por 
+
+'method' 
+
+
+(QUE SERÁ JUSTAMENTE O PARÂMETRO QUE temos em sendHttpRequest()... )
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+
+
+
+
+
+
+xhr.open(method, 'https://jsonplaceholder.typicode.com/posts'); ////////trocamos 'GET' por method, para que possamos tornar esse pedaço do código reutilizável.
+
+
+
+xhr.onload = function() {
+
+  const listOfPosts = JSON.parse(xhr.response);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+
+
+
+
+
+
+}
+
+
+
+xhr.send();
+
+
+}
+
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+
+
+
+
+também trocamos 
+
+
+
+'jsonplaceholder.typicode.com/posts' por 'url', 
+
+
+para que possamos usar o parâmetro de mesmo nome definido na função externa 'sendHttpRequest'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+
+
+
+
+
+
+xhr.open(method, url); //TROCAMOS o endereço por 'url'.
+
+
+
+xhr.onload = function() {
+
+  const listOfPosts = JSON.parse(xhr.response);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+
+
+
+
+
+
+}
+
+
+xhr.send(); 
+
+}
+
+
+
+
+
+-----------------------------------
+
+
+
+
+ISSO DEIXARÁ O CÓDIGO FLEXÍVEL....
+
+
+
+
+'responseType' SEMPRE SERÁ 'json', por isso 
+
+o professor não 
+
+
+tweakará 
+essa linha de código/não a deixará flexível.
+
+
+
+
+
+
+
+AGORA EM '.onload', o professor não quer 
+
+ter toda a lógica do que ele faz com a 'response'
+
+ HARDCODEADA dentro da função anônima...
+
+
+ em vez disso, sugere ele, que tal PROMISIFICAR 
+
+ TODO ESSE CÓDIGO?
+
+
+
+ Diz ele que isso seria fácil:
+
+
+
+ basta que começemos pela criação de uma promise 
+
+
+ com 
+
+ 'const promise = new Promise();'
+
+
+ dentro da função 
+
+ 'sendHttpRequest'....
+
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+
+ ex:
+
+
+
+
+
+ 
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise();
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+
+
+
+
+
+
+xhr.open(method, url); //TROCAMOS o endereço por 'url'.
+
+
+
+xhr.onload = function() {
+
+  const listOfPosts = JSON.parse(xhr.response);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+
+
+
+
+
+
+}
+
+xhr.send();
+
+
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+DEPOIS DISSO, PASSAMOS PARA DENTRO DA PROMISE 
+
+uma função anônima, como sempre....
+
+
+também colocamoscomo parâmetros 
+
+dessa promise os clássicos 
+
+
+'resolve' e 'reject'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+ 
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+  }
+);
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+
+
+
+
+
+
+xhr.open(method, url); 
+
+
+
+xhr.onload = function() {
+
+  const listOfPosts = JSON.parse(xhr.response);
+  for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+
+
+
+
+
+
+};
+
+
+xhr.send();
+
+
+
+
+}
+
+
+
+-------------------------------------------
+
+
+
+FEITO ISSO, INSERIMOS TODOOOOO AQUELE CÓDIGO que envia 
+
+HTTPREQUESTS (o código que vai desde 'const xhr = new XMLHttpRequest' até 'xhr.send();' para 
+
+
+DENTRO 
+
+dessa nova 'promise'....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+}
+
+
+
+
+-----------------------------
+
+
+
+
+AGORA, PORTANTO, ESTÁ TUDO INSERIDO DENTRO 
+
+DESSA FUNÇÃO QUE PASSAMOS AO CONSTRUCTOR da 'promise'... (dentro da função anônima que é o constructor...).
+
+
+
+
+Certo.
+
+
+Agora, quando estivermos ACABADOS com essa transferência, o professor 
+
+vai querer chamar 'resolve()' 
+
+DENTRO DA FUNÇÃO ANÔNIMA de 
+
+'onload'... (ele fará isso para que QUANDO A LISTA TERMINAR DE SER CARREGADA, 
+            A PROMESSA SEJA 'RESOLVED'...).....
+
+
+
+
+E QUANDO ESSA PROMISE FOR 'RESOLVED', o professor vai querer 
+
+que seja forwardeado o valor 'xhr.response'.... por isso 
+
+ele vai colocar 'xhr.response' dentro DO PARÂMETRO de 'resolve()'....
+
+
+ELE FAZ ISSO PQ 'xhr.response' é, na verdade, nosso 'response data'.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); ///////EIS AQUI O CÓDIGO EM QUESTÃO.
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+}
+
+
+
+----------------------------------
+
+
+
+PARA TERMINAR A 'PROMISIFYING' dessa função, o professor 
+
+RETORNA 'PROMISE' no final dela...
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; //////EIS AQUI O CÓDIGO EM QUESTÃO.
+}
+
+
+---------------------------------------
+
+
+
+
+
+
+
+
+
+TERMINADO ISSO,
+
+
+
+AGORA podemos chamar 
+
+
+'sendHttpRequest' E ENTÃO PASSAR 2 PARÂMETROS A ELE,
+
+o método (get ou post) E 
+
+
+a URL....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; //////EIS AQUI O CÓDIGO EM QUESTÃO.
+}
+
+
+
+
+
+
+sendHttpRequest('POST', xxxx );////EIS AQUI O CÓDIGO EM QUESTÃO, O CÓDIGO QUE FARÁ FUNCIONAR NOSSO CÓDIGO REUTILIZÁVEL.
+
+
+
+
+
+
+OBS: TEREMOS DE REMOVER AS LINHAS DE CÓDIGO  DE DENTRO DE '.onload',
+as linhas
+
+'const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }' 
+
+  ,
+
+
+
+  TRANSPLANTÁ-LAS PARA OUTRO LUGAR, 
+
+
+  mas nós já veremos isso em 1 segundo.
+
+
+
+  --------------------------------------------
+
+
+
+  PRIMEIRAMENTE DEVEMOS COMEÇAR PELA ADIÇÃO DE UMA NOVA FUNÇÃO....
+
+
+  'fetchPosts'...
+
+
+
+
+
+  dentro dessa função, eu vou enviar meu HTTPREQUEST.... (por meio da função sendHttpRequest)....
+
+
+
+
+  Será um request do tipo 'GET' para a url do jsonplaceholder....
+
+
+
+
+
+  ex:
+
+
+
+
+  
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; 
+}
+
+
+
+
+
+
+function fetchPosts() {
+  sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts');
+}
+
+
+
+-----------------------------------------
+
+
+
+
+
+Certo.
+
+Ele vai começar, então, passando esses parâmetros em 
+
+
+'fetchPosts'...
+
+
+mas o professor, é claro, não acaba por aí:
+
+
+ele coloca um 
+
+
+'.then()' block depois 
+
+do call dessa promise-function de 'sendHttpRequest'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+  
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; 
+}
+
+
+
+
+
+
+function fetchPosts() {
+  sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts').then();
+}
+
+
+----------------------------------------------------
+
+
+
+
+
+Certo.
+
+
+Esse '.then()' block será EXECUTADO QUANDO 
+
+
+A FUNÇÃO-promise 'sendHttpRequest' for resolved....
+
+
+
+QUANDO QUE ISSO ACONTECE? quando o código de '.onload' é executado; ou seja, 
+
+quando os dados JSON são 'successful' em seu carregamento.......
+
+
+--------------------------------------------------
+
+
+Mas qual será o código desse 'then block'? 
+
+
+
+
+O professor coloca uma função anônima que 
+
+RECEBE/EXIGE como parâmetro a 
+
+
+'responseData'....
+
+
+
+
+ex:
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+    const listOfPosts = JSON.parse(xhr.response);
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; 
+}
+
+
+
+
+
+
+function fetchPosts() {
+  sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts').then(responseData => {
+
+  });
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+
+
+Professor diz que poderíamos ter utilizado async/await, é claro, 
+mas o que interessa é que 
+
+agora ele 
+
+usará 
+
+
+as linhas de código em 
+
+
+'onload' 
+
+
+(aquelas linhas 
+
+
+
+'const listOfPosts = xhr.response;
+for (const post of listOfPosts) {
+  const postEl = document.importNode(postTemplate.content, true);
+  postEl.querySelector('h2').textContent = post.title.toUpperCase();
+  postEl.querySelector('p').textContent = post.body;
+  listElement.append(postEl);
+
+} ')
+
+
+
+
+E ENFIAR TODAS ELAS DENTRO DA FUNÇÃO ANÔNIMA/FUNÇÃO INTERNA 
+
+DO 'THEN BLOCK()'...
+
+
+
+
+EX:
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+/////////O CÓDIGO AQUI FICA BEM MAIS LIMPO, ''LEAN''
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; 
+}
+
+
+
+
+
+
+function fetchPosts() {
+  sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts').then(
+    
+    responseData => {
+const listOfPosts = xhr.response; ////////////EIS O CÓDIGO EM QUESTÃO.
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  });
+}
+
+
+
+----------------------------------------------
+
+
+quando a promise de 'sendHttpRequest' é concluída, ela tem como valor 
+
+o 'responseData', os dados que serão então repassados no 'then block()'...
+
+
+dentro da função interna do then block, devemos trocar 'const listOfPosts = xhr.response' 
+
+POR 
+
+'listOfPosts = responseData;', POIS O PARÂMETRO/VALOR QUE RECEBEMOS NO PARÂMETRO 
+
+DO THEN por meio da execução da promise 'sendHttpRequest' é exatamente a 'lista de posts' da qual 
+precisamos.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url) {
+
+
+const promise = new Promise(
+  (resolve, reject) => {
+
+
+
+      const xhr = new XMLHttpRequest();
+
+  xhr.open(method, url); 
+
+  xhr.responseType = 'json';
+
+
+xhr.onload = function() {
+    resolve(xhr.response); 
+/////////O CÓDIGO AQUI FICA BEM MAIS LIMPO, ''LEAN''
+  }
+};
+
+
+xhr.send();
+  });
+
+
+
+return promise; 
+}
+
+
+
+
+
+
+function fetchPosts() {
+  sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts').then(
+    
+    responseData => {
+const listOfPosts = responseData; ////////////EIS O CÓDIGO EM QUESTÃO.
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A alternativa, diz o professor, seria usar 'async/await'...
+
+
+
+adicionar async na frente da function keyword....
+
+
+
+aí nós pegaríamos a nossa responseData 
+na primeira linha, por meio do 'await'  da RESPONSE 
+
+de 'sendHttpRequest'....
+
+
+TERÍAMOS ENTÃO DE REMOVER O 'THEN BLOCK' e colocar ';' no seu lugar...
+
+
+
+TAMBÉM TERÍAMOS DE REMOVER O PARÂMETRO EXTRA 'responseData => {...}' 
+
+
+
+
+ex:
+
+
+
+
+
+async function fetchPosts() {
+  const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts'); //////EIS O CÓDIGO EM QUESTÃO.
+const listOfPosts = JSON.parse(xhr.response);  
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  });
+}
+
+---------------------------------------------------
+
+
+
+
+TERÍAMOS ESSE CÓDIGO, BASICAMENTE, com async await...
+
+
+
+Outra alteração que o professor faria é trocar 
+
+
+'xhr.response' em 'listOfPosts' por responseData... (constante criada nessa mesma função...)
+
+
+
+ex:
+
+
+
+
+
+async function fetchPosts() {
+  const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts'); //////EIS O CÓDIGO EM QUESTÃO.
+const listOfPosts = responseData;  
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    listElement.append(postEl);
+  });
+}
+
+
+---------------------------------------------
+
+
+
+CERTO.
+
+E é assim que podemos escrever nosso código com 'async/await'...
+
+
+
+Nós esperamos 
+
+
+'sendHttpRequest' TERMINAr por causa de 'await', esperamos o GET de dados JSON 
+convertidos de 'sendHttpRequest'.... assim que termina esse await, nosso código 
+
+segue sendo executado normal... eventualmente o valor de 'responseData' é armazenado nessa 
+
+constante 'listOfPosts', que então é perfurada pelo for of loop dos elementos post escritos mais abaixo...
+
+
+------------------------------------------------------------------
+
+
+
+
+
+POR FIM, APENAS PRECISAMOS ESCREVER 
+
+
+'fetchPosts()' no contexto global para executar a cadeia 
+de funções (uma função que tem um call de outra função-promise em seu interior, essa é 'fetchPosts()'... ).
+
+
+
+
+
+Certo, o código funcionou...
+
+
+(ok, mas e quanto ao __bOTÃO___ 'fetch posts', não devíamos fazer com que ele funcionasse? devemos ver isso depois).

@@ -1,0 +1,771 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Com isso, devemos voltar ao nosso app e trabalhar COM O BOTÃO 
+
+DE 'ORDER NOW'...
+
+
+
+
+
+O professor quer que façamos esse botão funcionar porque ele poderá então nos mostrar 
+
+OUTRA FEATURE/APPROACH que nós devemos conhecer acerca de CLASSES. É uma feature legal 
+
+de classes.
+
+
+
+
+ 
+
+
+
+Dentro de 'ShoppingCart', nós temos um botão, certo?
+
+
+
+temos um botão que renderizamos em 
+
+
+'cartEl.innerHTML = 
+`
+.....
+<button>Order Now!</button>
+`
+'
+
+------------------------------
+
+
+
+
+É CLARO QUE O PROFESSOR QUER FAZER COM QUE ESSE BOTÃO SEJA CLICÁVEL...
+
+
+Mas ele diz que esse botão não fará muito, aqui...
+
+
+Para fazer ele ser clicável, tudo que ele precisa fazer é GANHAR 
+ACESSO A ESSE BOTÃO ALI...
+
+
+ex:
+
+
+
+'const orderButton = cartEl.querySelector('button');' /////// ISSO FAZ COM QUE O JAVASCRIPT SELECIONE O PRIMEIRO (e único) BOTÃO NAQUELE CÓDIGO HTML...
+
+
+
+-------------------------
+
+
+Após isso, ele adiciona o clássico addEventListener em cima desse 'orderButton'.
+
+
+
+ex:
+
+
+
+
+
+render() {
+        
+        const cartEl = this.createRootElement('section', 'cart');
+  
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+
+      
+
+        const orderButton = cartEl.querySelector('button');
+        orderButton.addEventListener('click', );
+
+        this.totalOutput = cartEl.querySelector('h2');
+        
+    }
+
+}
+
+
+
+-----------------------------
+
+
+
+
+
+Esse button deverá EXECUTAR UM MÉTODO QUANDO CLICADO...
+
+
+
+esse método será adicionado dentro DA CLASSE SHOPPINGCART...
+
+
+
+é o método 
+
+
+'orderProducts(){}'.
+
+
+
+
+Professor diz que não adicionará muita lógica a esse método, 
+
+somente um 
+
+'console.log('Ordering..');' 
+'console.log(this.items);'////////// isso será os nomes dos objetos contidos no array DA PROPRIEDADE 'items' de ShoppingCart...
+
+
+
+------------------------------
+
+
+
+ex:
+
+
+
+
+
+orderProducts() {
+    console.log('Ordering..');
+    console.log(this.items);
+}
+
+
+
+
+
+render(){
+
+  const orderButton = cartEl.querySelector('button');
+        orderButton.addEventListener('click', this.orderProducts );  /////O 'this' aqui é necessário...
+
+        this.totalOutput = cartEl.querySelector('h2');
+
+
+}
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+Até aí tudo bem....
+
+
+
+MAS, HÁ UM PROBLEMA:::::
+
+
+o 'this' em  'console.log(this.items);'    NOS RETORNARÁ 
+
+'UNDEFINED'...   (ou seja, ele não nos retornará o nosso objeto...)
+
+
+
+
+O professor explica que 
+
+
+esse 'undefined' ocorreu devido a 'items', pois 
+
+'items' NÃO É UMA PROPRIEDADE QUE EXISTE NO 'this' 
+que escrevemos nesse console.log...
+
+
+
+Mas pq?
+
+
+
+PQ, como vimos anteriormente, em lições passadas, o 'THIS' linkado 
+a addEventListeners VAI SEMPRE SE REFERIR AO BOTÃO, e não ao OBJETO 
+EM QUE OS MÉTODOS/BOTÕES ESTÃO INSERIDOS.
+
+
+Lembre-se: 
+
+
+
+O professor nos mostrou uma solução, É CLARO.
+
+ERA AQUELA SOLUÇÃO BUGADA DO '.bind()'...
+
+usar bind em 'orderProducts'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+orderProducts() {
+    console.log('Ordering..');
+    console.log(this.items);
+}
+
+
+
+
+
+render(){
+
+  const orderButton = cartEl.querySelector('button');
+        orderButton.addEventListener('click', this.orderProducts.bind() ); /////USAR BIND AQUI.
+
+        this.totalOutput = cartEl.querySelector('h2');
+
+
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+
+PORÉM, você não pode simplesmente passar 'bind()' sozinho, sem valor algum.
+Isso não vai funcionar. VocÊ precisa passar o valor 'this' como parâmetro, para que ele se 
+refira ao objeto/classe 'ShoppingCart' corretamente....
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+orderProducts() {
+    console.log('Ordering..');
+    console.log(this.items);
+}
+
+
+
+
+
+render(){
+
+  const orderButton = cartEl.querySelector('button');
+        orderButton.addEventListener('click', this.orderProducts.bind(this) ); /////USAR BIND AQUI.
+
+        this.totalOutput = cartEl.querySelector('h2');
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------
+
+
+
+Outra solução, diz o professor, seria
+
+USAR UMA ARROW FUNCTION ANÔNIMA NO LUGAR DESSE 
+
+'this.orderProducts'...
+
+
+Seria uma simples alteração...
+
+
+
+
+
+
+ex:
+
+
+ISSO:
+
+
+orderButton.addEventListener('click', this.orderProducts);
+
+
+
+
+
+VIRARIA ISSO:
+
+
+
+orderButton.addEventListener('click', () => this.orderProducts);
+
+
+
+
+
+
+-----------------------
+
+
+
+
+Análise dessa última linha de código:
+
+
+
+
+
+'this.orderProducts', do lado daquele '() =>' VIRA 
+O FUNCTION BODY....
+
+
+
+
+Como estamos falando de UMA ARROW FUNCTION nesse lugar,
+
+devemos nos lembrar daquela característica natural das arrow 
+functions, que é a de que AS ARROW FUNCTIONS NÃO DEFINEM 
+'THIS', NÃO CONHECEM 'this', e por isso não definem valor natural 
+algum a ele...
+
+
+É por isso que, com arrowfunctions nesse caso, o 'this' NÃO 
+SERÁ BINDEADO ÀQUILO QUE O EVENTLISTENER quer (que é o botão), 
+E SIM AO OBJETO EM QUE ESSA FUNÇÃO ESTÁ RESIDINDO (que é a classe ShoppingCart/objeto ShoppingCart...)
+
+
+
+
+
+O que a arrow function faz É A MANUTENÇÃO DO 'contexto geral' de aplicação do 'this'; ou seja, ele vai 
+olhar o comportamento de 'this' nas propriedades/métodos restantes do método 'render()' e então imitar 
+esse comportamento.
+
+
+
+
+
+Mas isso não basta. DEVEMOS EXECUTAR ESSE MÉTODO 'orderProducts', ou seja, COLOCAR () no lado de sua escrita...
+
+
+Devemos adicionar '()' porque ESSA PARTE à DIREITA Do '() =>' É AGORA O NOSSO FUNCTION BODY....
+E NO FUNCTION BODY, SÃO EXECUTADAS FUNÇÕES. Essa é a razão.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+orderProducts() {
+    console.log('Ordering..');
+    console.log(this.items);
+}
+
+
+
+
+
+render(){
+
+  const orderButton = cartEl.querySelector('button');
+        orderButton.addEventListener('click', () => this.orderProducts() ); /////USAR BIND AQUI.
+
+        this.totalOutput = cartEl.querySelector('h2');
+
+
+}
+
+
+
+
+
+
+--------------------------
+
+
+
+
+SE SALVARMOS E RECARREGARMOS O CÓDIGO, VEREMOS QUE AGORA A FUNÇÃO 'order Item' FUNCIONA.
+
+
+
+
+
+--------------------------------
+
+
+
+Esse é um dos approaches possíveis.
+
+
+
+
+Uma alternativa a isso É NÃO USAR A 'WRAPPING ARROW FUNCTION' (e também não usar o bind)...
+
+
+
+Essa alternativa ENVOLVE DEFINIR/setup o 'orderProducts' DE MANEIRA DIFERENTE...
+
+
+ 
+
+
+ ex:
+
+
+
+
+ orderProducts() {
+     console.log('Ordering...');
+     console.log(this.items);
+ }
+
+
+ --------------------------------
+
+
+
+
+
+ Professor aponta que nós podemos ADICIONAR o _orderProducts__ POR MEIO 
+ DA SINTAXE 
+
+
+ DE 'FIELDS' das classes...
+
+
+
+
+ Ele diz que você poderia adicionar um field chamado de
+ 
+ 'orderProducts'....   ( e remover esse método atual do 'orderProducts')...
+
+
+
+ ex:
+
+
+
+
+
+
+ class ShoppingCart extends Component {
+
+
+     orderProducts
+
+
+ }
+
+
+
+
+
+ ----------------------------
+
+
+
+
+ CERTO, ADICIONAR UM FIELD COM 'orderProducts'... MAS NÃO SÓ ISSO, 
+
+ TAMBÉM TEMOS DE UTILIZAR O MESMO CÓDIGO DO MÉTODO 'orderProducts' que 
+ removemos....
+
+ ENTRETANTO, DEVEMOS COLOCAR TODO ESSE CÓDIGO EM UM FORMATO DE ARROW FUNCTION....
+
+
+ ex:
+
+
+
+
+ 
+
+
+
+ class ShoppingCart extends Component {
+
+
+     orderProducts = () => {
+
+            console.log('Ordering...');
+            console.log(this.items);
+
+
+     }
+
+
+ }
+
+
+ ----------------------------
+
+
+
+ Ou seja, deixaríamos de utilziar o shorthand de métodos, 
+ nesse exemplo, para usar a sintaxe de arrow functions...
+
+
+ MAS PQ ISSO?
+
+
+ Pq arrow functions NÃO SE IMPORTAM COM 'this'. Não conhecem 'this'.
+Isso fará com que o 'this' em 'orderProducts' COPIE O COMPORTAMENTO 
+DE 'this' do restante do código (é como se 'this' fosse colocado 'SOLTO' dentro 
+da nossa classe... e 'this's soltos sempre se referem ao objeto que os segura.).
+
+
+Em consequência disso, poderíamos simplesmente chamar esse método normalmente no 
+nosso addEventListener, sem adicionar mais nada de detalhes Àquela linha de código:
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+ class ShoppingCart extends Component {
+
+
+     orderProducts = () => {
+
+            console.log('Ordering...');
+            console.log(this.items);
+
+
+     }
+
+
+
+    render() {
+                ...
+
+            
+            orderButton.addEventListener('click', this.orderProducts);
+
+
+
+                ...
+    }
+
+
+
+
+ }
+
+
+
+---------------------------------------------
+
+
+
+
+
+A única coisa que devemos ter em mente, acerca dessa última alternativa 
+de 'fix' do 'this', É QUE 
+
+___NORMALMENTE____ essa definição de 'field' por meio de arrow functions 
+
+FUNCIONA, MAS COMO RENDER ACABA SENDO CHAMADO EM UM CONSTRUCTOR....
+
+
+ex:
+
+
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+}
+
+
+
+-------------------------------------
+
+
+
+Como render acaba sendo CHAMADO NO CONSTRUCTOR (quando nós chamamos 'super(renderHookId)'), 
+
+ELE ACABARÁ SENDO CHAMADO, na verdade, ANTES DE UMA PROPRIEDADE SER CRIADA no objeto COM BASE 
+NAQUELE FIELD...
+
+
+
+É isso que o professor nos explicou mais cedo:
+
+os fields SÃO TRADUZIDOS EM PROPRIEDADES __depois___ DO CONSTRUTOR 
+SER EXECUTADO... (Keep in mind: AFTER THE PARENT (base class) CONSTRUCTOR, CALLED VIA super(), ran...')
+
+
+
+
+
+Portanto, para utilizar esse último workaround nesse NOSSO CASO 
+CONCRETO ( e a razão dessa coisa que professor nos mostrará agora 
+é simplesmente em razão da maneira como o 'super()' funciona, e 
+da forma que ele chama 'render()'.), 
+
+NÓS TERÍAMOS DE PASSAr 'false' em 'super()' como
+ SEGUNDO ARGUMENTO (FARÍAMOS ISSO PARA QUE 'super()' 
+NÃO CHAMASSE A FUNÇÃO 'render()'.), E ENTÃO 
+
+
+definir o orderProducts NÃO COMO UM FIELD (uma arrowFunction em um field),
+
+
+MAS SIM COMO UMA ___PROPRIEDADE___ dentro do constructor, 
+
+com o seguinte código:
+
+
+
+ex:
+
+
+
+
+constructor(renderHookId) {
+    super(renderHookId, false) {
+        this.orderProducts = () => {
+            console.log('Ordering...');
+            console.log(this.items);
+        }
+    }
+}
+
+
+------------------------------
+
+
+
+
+Esse código faz com que o FIELD de 'orderProducts' SEJA SUBSTITUÍDO; ele faz isso 
+para que NOS DEIXE DEPOIS CHAMAR 'render()' MANUALMENTE...  ('this.render()')
+
+ex:
+
+
+
+
+
+
+constructor(renderHookId) {
+    super(renderHookId, false) {
+        this.orderProducts = () => {
+            console.log('Ordering...');
+            console.log(this.items);
+        }
+        this.render();
+    }
+}
+
+
+
+----------------------------------
+
+
+
+
+Professor ressalta que essa última etapa é APENAS UM WORKAROUND NECESSÁRIO 
+PARA ESSE USE-CASE ESPECÍFICO...
+
+
+
+Essa ideia de ARMAZENAR UMA ARROW FUNCTION em uma propriedade (ou em um field, normalmente em diferentes circunstancias ) 
+
+SEMPRE FUNCIONA, SÓ NÃO FUNCIONA NESSE CASO ESPECÍFICO.
+
+
+------------------------------
+
+
+
+
+Agora, então, o professor recarrega a página e vê que tudo está funcionando.
+
+
+
+
+
+Professor diz que, tecnicamente, há uma diferença ENTRE ARMAZENAR UMA FUNÇÃO 
+
+
+EM UMA PROPRIEDADE (como 'orderProducts', versão arrow function) e adicionar um método como 'addProduct() {}', 
+
+MAS ISSO É ALGO UM POUCO MAIS AVANÇADO. É algo que veremos mais tarde, no próximo módulo.
+
+
+O próximo módulo nos mostrará os bastidores de tudo isso.

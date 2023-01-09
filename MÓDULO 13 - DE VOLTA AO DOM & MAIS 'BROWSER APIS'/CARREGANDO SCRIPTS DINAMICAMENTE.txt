@@ -1,0 +1,1096 @@
+COM ISSO TUDO, O PROJETO ESTÁ PRATICAMENTE ACABADO.
+
+
+
+
+
+
+
+Mas há outra coisa muito legal que você pode fazer em JAVASCRIPT que MUITAS PESSOAS 
+
+NÃO ESPERAM/esperariam...
+
+
+
+
+É algo que pode parecer estranho quando você ouve falar pela primeira vez...
+
+
+
+
+
+---> VOCÊ TAMBÉM PODE CRIAR E EXECUTAR UM SCRIPT ___POR MEIO DE JAVASCRIPT____. 
+
+
+
+------------------------------------------
+
+
+
+
+
+O professor quer nos mostrar como isso funciona.
+
+
+
+
+Em 'app.js', devemos ir até o 
+
+
+'init()' (O MÉTODO ESTÁTICO 'init', que fica dentro da classe 'app'.)
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+
+DENTRO DE INIT, PODEMOS CRIAR UM SCRIPT ____DINAMICAMENTE____ no javascript...
+
+
+
+
+
+Mas qual é a aparência disso?
+
+
+
+
+Bem, devemos criar uma nova constante, chamada de 
+
+
+'someScript'....
+
+
+
+
+---------------------------------------
+
+
+
+Definimos seu valor como sendo 
+
+
+'document.createElement()'.... ENTRETANTO, AGORA NÃO FAREMOS UM ELEMENTO COMUM, COMO SEMPRE FIZEMOS (ex: 'div', 'section', 'header', etc etc.), 
+
+
+E SIM 
+
+
+UM ___sCRIPT_____.
+
+
+
+
+ex:
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+    }
+
+
+
+}
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+MAS PQ ESSE CÓDIGO, especificamente?
+
+
+
+Ora, pq, lembre-se, HÁ TAGS 'script' EM CÓDIGOS HTML.... ('<script></script>')....
+
+
+
+E, PORTANTO, VOCÊ CERTAMENTE PODE CRIAR TAGS DE SCRIPT COMO ESSAS, dentro do javascript..., por meio de createElement.
+
+
+
+
+
+
+
+OU SEJA, AGORA 'someScript' é uma SCRIPT TAG QUE NÓS ACABAMOS DE CRIAR...
+
+
+
+
+
+Agora nós podemos INSERIR ALGUM TEXTO DENTRO DESSE 'SOMESCRIPT'.... (por meio de '.textContent')
+
+
+
+
+
+Por exemplo, podemos adicionar 
+
+
+
+'alert("Hi there")' -------------> ISSO VAI JOGAR UM ALERTA AO USUÁRIO de dentro desse arquivo script que acabamos de criar de dentro de outro script de javascript....
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+    }
+
+
+
+}
+
+
+
+-----------------------------------------
+
+
+
+
+ESSE ALERTA CERTAMENTE É CÓDIGO JAVASCRIPT VÁLIDO...
+
+
+
+
+
+
+Agora nós só temos que adicioná-lo ao nosso documento, e podemos fazer isso 
+
+
+se formos até 'document' e então, TALVEZ NA '<HEAD>', fizermos append() desse 
+
+SCRIPT QUE ESTÁ CONTIDO EM 'someScript'....
+
+
+
+
+ex:
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+        document.head.append(someScript);
+    }
+
+
+
+}
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+O RESULTADO DISSO É QUE QUANDO 'init()' for executado PELO JAVASCRIPT (e ele o será, certamente), NOSSO 
+
+
+SCRIPT CRIADO AQUI DEVERÁ SER ADICIONADO E EXECUTADO... 
+
+
+
+Por isso salvamos o código e recarregamos.
+
+
+
+
+
+---------------------------------------
+
+
+
+
+E, de fato, o alerta aparece quando nós abrirmos a página...
+
+
+
+-------------------------------------
+
+
+
+SE AGORA NÓS INSPECIONARMOS O DOM QUE FOI RENDERIZADO A PARTIR DA PÁGINA WEB, VEREMOS QUE 
+
+DE FATO, NÓS TEMOS 
+
+
+AQUELE SCRIPT ADICIONADO POR MEIO DE OUTRO SCRIPT, TEMOS
+
+
+
+'<script>alert("Hi there");</script:>' DEFINIDO DENTRO DO CÓDIGO HTML DA PÁGINA...
+
+
+-------------------------------------------------
+
+
+
+
+
+
+PORTANTO, VOCÊ PODE CRIAR E ADICIONAR SCRIPTS DINAMICAMENTE....
+
+
+
+
+bem, para scripts como esse, simples, ISSO PODE SER LEGAL.... 
+
+
+
+MAS O PROFESSOR NÃO CONSEGUE DIZER COM CERTEZA SE VOCÊ REALMENTE PRECISA DESSA FEATURE....
+
+
+pq se você quer executar algum código em um script, você pode simplesmente escrever o tal código 
+DIRETAMENTE NO ARQUIVO 'padrão' de .js da página.... É meio redundante/idiota pensar em CRIAR UM 'SCRIPT' ADICIONAL 
+
+de dentro de outro script para então executar linhas de código...
+
+
+
+
+ESSA FEATURE É MUITO MAIS INTERESSANTE NAS HIPÓTESES EM QUE VOCÊ TEM ____OUTRO ARQUIVO SCRIPT___ QUE VOCÊ ____ APENAS ____ QUER 
+
+BAIXAR ___ EM DETERMINADO ___ PONTO NO TEMPO.... (até esse momento, não teríamos essa 'parte' da página...).
+
+
+
+
+Ou seja, em uma situação em que É VOCÊ QUE VAI QUERER CONTROLAR O MOMENTO EM QUE O BROWSER CARREGARÁ ESSE SCRIPT, e você 
+
+faria isso DE DENTRO DO SEU CÓDIGO JAVASCRIPT....
+
+
+
+
+------------------------------------------
+
+
+
+Certo. Então suponha-se que nós TEMOS OUTRO ARQUIVO JAVASCRIPT NO NOSSO PROJETO...
+
+
+Como 
+
+'analytics.js'...
+
+
+
+Dentro desse 'analytics.js', nós supostamente enviaríamos alguns dados ANALÍTICOS...
+
+
+
+
+
+
+Por enquanto, o professor apenas digitará um simples 
+
+
+'console.log('Sending analytics...')' DENTRO DESSE ARQUIVO.... (para efeitos de teste).
+
+
+
+---------------------------------------------------
+
+
+
+
+SE FORMOS ATÉ O NOSSO ARQUIVO HTML E IMPORTARMOS ESSE SCRIPT
+
+
+em 'head' por meio de uma tag de script e 'script src', É EVIDENTE 
+
+
+QUE ESSE CÓDIGO SERIA EXECUTADO PELO JAVASCRIPT DE PRONTO, IMEDIATAMENTE....
+
+
+
+
+ex:
+
+
+
+....
+
+
+<script src="assets/scripts/app.js" defer></script>
+
+<script src="assets/scripts/anayltics.js"></script>
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+É claro, diz o professor, que eu poderia colocar 'defer' dentro dessa script tag, para que o script apenas 
+
+
+fosse executado UMA VEZ QUE TODA A PÁGINA HOUVESSE SIDO RENDERIZADA.
+
+
+
+
+________MAS DIGAMOS QUE VOCÊ TEM ALGUM APLICATIVO QUE VOCÊ SÓ QUER QUE SEJA RODADO UM determinado SCRIPT __DEPOIS____
+            DE ALGO TER ACONTECIDO NA PÁGINA.... (ex: depois de o usuário ter clicado em um botão, ou algo do gênero).
+
+        PARA ISSO, O USO DE 'defer' seria imprestável, inadequado (pois o script seria carregado 'IMEDIATAMENTE'; imediatamente após o código html e css ter sido inicializado e carregado.)
+
+
+
+
+PARA ISSO, vou adicionar um novo MÉTODO ESTÁTICO NA CLASSE 'App', um método 
+
+
+
+chamado de 
+
+
+'startAnalytics'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+        document.head.append(someScript);
+    }
+
+
+
+    static startAnalytics() {
+
+    }
+
+
+}
+
+
+
+-------------------------------------------
+
+
+
+
+
+DENTRO DESSE MÉTODO, O PROFESSOR VAI QUERER CARREGAR DINAMICAMENTE O SCRIPT DE 
+
+'analytics.js'...
+
+
+
+Para isso, de novo, o professor vai começar pela ADIÇÃO DE UM NOVO ELEMENTO 'script', 
+
+por meio de 'document.createElement('script');'
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+        document.head.append(someScript);
+    }
+
+
+
+    static startAnalytics() {
+
+
+        const analyticsScript = document.createElement('script');
+
+    }
+
+
+}
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+CERTO. Mas agora, ao contrário daquilo que ele fez mais cedo, com a criação e execução daquele script inédito de dentro de outro script, o PROFESSOR 
+
+AQUI NÃO VAI EDITAR/ADICIONAR 'textContent' NESSE ELEMENTO 'script'...
+
+
+
+Em vez disso, diz ele, você pode definir 
+
+
+'analyticsScript.src = ...; ',   OU SEJA 
+
+
+
+-------------------> VOCÊ PODE DEFINIR A PROPRIEDADE 'SOURCE' DAQUELE ELEMENTO SCRIPT, VOCÊ PODE DEFINIR 
+                        O ATTRIBUTO (attribute) 'SOURCE' BEM AQUI....
+
+
+ex:
+
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+        document.head.append(someScript);
+    }
+
+
+
+    static startAnalytics() {
+
+
+        const analyticsScript = document.createElement('script');
+        analyticsScript.src = 'assets/scripts/analytics.js';
+    }
+
+
+}
+
+
+
+-----------------------------------------
+
+
+ESSE COMANDO VAI ESSENCIALMENTE DIZER AO BROWSER EM QUE LUGAR ELE PODERÁ ENCONTRAR AQUELE SCRIPT...
+
+
+
+VOCÊ DEFINE UM CAMINHO IGUALZINHO COMO FAZEMOS NO HTML...
+
+
+
+-----------------------------------------
+
+
+Além disso, você PODE AQUI TAMBÉM DEFINIR O ATRIBUTO 'defer' AO ELEMENTO SCRIPT QUE SERÁ CRIADO E INICIALIZADO DENTRO 
+
+DESSE ARQUIVO .JS ('app.js').
+
+
+
+
+Para fazê-lo, devemos escrever 
+
+
+'nomeDoScriptCriadoDentroDoCódigoJavascript.defer = true;' (padrão é 'false'.)
+
+
+ex:
+
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+        document.head.append(someScript);
+    }
+
+
+
+    static startAnalytics() {
+
+
+        const analyticsScript = document.createElement('script');
+        analyticsScript.src = 'assets/scripts/analytics.js';
+        analyticsScript.defer = true;
+    }
+
+
+}
+
+-------------------------------------------------
+
+
+
+
+Com esse 'defer = true' aqui, esse arquivo javascript APENAS SERÁ CARREGADO APÓS TODO PARSING 
+
+DE CÓDIGO HTML TER ACABADO.
+
+
+
+---------------------------------------------
+
+
+
+AGORA SÓ ME RESTA ADICIONAR ESSE NOVO SCRIPT AO MEU 'HEAD' DO HTML POR MEIO DE 'document.head.append(analyticsScript).
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+class App {
+
+    static init() {
+
+                ...
+
+
+        const someScript = document.createElement('script');
+
+        someScript.textContent = 'alert("Hi there")';
+        document.head.append(someScript);
+    }
+
+
+
+    static startAnalytics() {
+
+
+        const analyticsScript = document.createElement('script');
+        analyticsScript.src = 'assets/scripts/analytics.js';
+        analyticsScript.defer = true;
+        document.head.append(analyticsScript);
+    }
+
+
+}
+
+
+
+
+--------------------------------------------------
+
+
+
+
+AGORA, SEMPRE QUE CHAMARMOS 
+
+
+
+O MÉTODO 
+
+'startAnalytics()', definido DENTRO DA CLASSE 'app', 
+
+
+ESSE SCRIPT de 'analyticsScript' DEVERÁ SER CARREGADO E EXECUTADO...
+
+
+----------------------------------------------
+
+
+
+PROFESSOR DIZ QUE É CLARO QUE NÓS PODERÍAMOS FAZER ISSO (executar 'startAnalytics') NO NOSSO MÉTODO 
+
+
+'INIT()', mas NÓS TAMBÉM 
+
+PODERÍAMOS dizer ao javascript que 
+
+
+QUEREMOS EXECUTAR ESSE MÉTODO 
+
+
+____SEMPRE QUE UM DE NOSSOS BOTÕES NO CÓDIGO É CLICADO...._____
+
+
+
+Caso optemos por isso, pela opção de fazer o startAnalytics começar sempre 
+
+que um de nossos botões seja apertado, devemos assegurar 
+
+QUE ESSE 'startAnalytics', ESSE SCRIPT NOVO, NÃO POSSA SER 
+
+ADICIONADO NO NOSSO PROJETO (na head do projeto) MÚLTIPLAS VEZES...
+
+
+--------------------------------------------
+
+
+
+Agora, por enquanto, o professor vai manter as coisas simples:
+
+
+vai fazer com que esse método seja executado APENAS QUANDO 
+
+
+'INIT()' É EXECUTADO....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+        activeProjectsList.setSwitchHandlerFunction(
+            finishedProjectsList.addProject.bind(finishedProjectsList)
+        ); 
+        finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+            activeProjectsList)
+            ); 
+            /*const someScript = document.createElement('script');
+            someScript.textContent = 'alert("Hi there!")';
+            document.head.append(someScript);*/
+
+
+
+        this.startAnalytics(); ///EIS O CÓDIGO EM QUESTÃO.
+    }
+
+
+
+---------------------------------------------
+
+
+
+
+O PROFESSOR SALVA O CÓDIGO E RECARREGA A PÁGINA.
+
+
+
+Nós então observamos 
+
+
+'Sending analytics' sendo mostrado no devconsole....
+
+
+
+É CLARO QUE ESSE SCRIPT NOVO É EXECUTADO IMEDIATAMENTE QUANDO 
+
+O APLICATIVO É INICIALIZADO, POIS O PROFESSOR 
+
+CHAMOU 'startAnalytics' de dentro do método 'init()', que inicializa tudo...
+
+
+
+
+AINDA ASSIM, ESSE SCRIPT FOI ADICIONADO, SIM, DINAMICAMENTE PELO JAVASCRIPT....
+
+---> ou seja, você PODERIA TER O ADICIONADO EM ____QUALQUER MOMENTO____ QUE VOCÊ QUISESSE, EM QUALQUER PARTE DO CÓDIGO, 
+
+ATRIBUÍDO ELE A QUALQUER EVENTO, pois essa adição de que falamos aqui é A ADIÇÃO/EXECUÇÃO DINÂMICA DE UM SCRIPT, 
+
+ela não é limitada como a adição 'simples' por meio do header, com os defers e outras paradinhas...
+
+
+
+Não, aqui estamos falando de um MÉTODO QUE CRIA E EXECUTA UM SCRIPT, um método que pode ser 
+
+colocado em qualquer lugar do código, que pode ser 
+executado em qualquer ponto no tempo, e que pode ser muito, muito útil.
+
+
+
+---------------------------------------------
+
+
+
+Por exemplo, você pode ir até o arquivo index.html e lá no final da página VOCÊ 
+
+
+PODERIA ADICIONAR UM 
+
+FOOTER.... ('<footer></footer>').
+
+
+
+Nesse footer poderíamos ADICIONAR UM BOTÃO que diz 'startAnalytics'...
+
+
+
+
+
+ex:
+
+
+
+
+<footer>
+<button>Start Analytics</button>
+</footer>
+
+
+
+---------------------------------------------
+
+
+
+É CLARO QUE VOCÊ GERALMENTE NÃO ADICIONARIA UM BOTÃO DESSES A SEU APLICATIVO, POIS 
+
+A GRANDE MAIORIA DOS USUÁRIOS NÃO IRÁ 'INICIAR ANALYTICS' 
+
+por conta própria, mas esse botão ainda pode ser útil a nós aqui para provar 
+
+
+
+que esse script REALMENTE SOMENTE É ADICIONADO E EXECUTADO QUANDO 
+
+O SEU/NOSSO CÓDIGO JAVASCRIPT (o documento originário) É EXECUTADO....
+
+
+
+
+ex:
+
+
+
+<footer>
+<button id="start-analytics-btn">Start Analytics</button>
+</footer>
+
+
+-------------------------------------
+
+
+
+Munidos do id desse button, voltamos ao app.js e então, DENTRO DE 'INIT()', 
+
+
+nós deletamos 
+
+
+'this.startAnalytics()', PQ O PROFESSOR DIZ QUE NÓS NÃO DEVEMOS INICIALIZAR A FUNÇÃO 
+
+
+DESSA FORMA, e sim que 
+
+deveríamos 
+
+
+
+ALCANÇAR O ELEMENTO button por meio do código getXbyY....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+        activeProjectsList.setSwitchHandlerFunction(
+            finishedProjectsList.addProject.bind(finishedProjectsList)
+        ); 
+        finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+            activeProjectsList)
+            ); 
+            /*const someScript = document.createElement('script');
+            someScript.textContent = 'alert("Hi there!")';
+            document.head.append(someScript);*/
+
+            document.getElementById('start-analytics-btn');
+    }
+
+-----------------------------------------------
+
+
+
+
+
+FEITO ESSE ALCANCE, ADICIONARÍAMOS UM EVENTLISTENER A ESSE BOTÃO....
+
+
+um eventListener que fizesse com que, ao ser clicado, esse botão executasse a função 
+
+
+'this.startAnalytics'...
+
+ex:
+
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+        activeProjectsList.setSwitchHandlerFunction(
+            finishedProjectsList.addProject.bind(finishedProjectsList)
+        ); 
+        finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+            activeProjectsList)
+            ); 
+            /*const someScript = document.createElement('script');
+            someScript.textContent = 'alert("Hi there!")';
+            document.head.append(someScript);*/
+
+            document.getElementById('start-analytics-btn').addEventListener('click', this.startAnalytics);
+    }
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+SE SALVARMOS TODO O CÓDIGO E RECARREGARMOS A PÁGINA, veremos que um botão 'start anayltics' TERÁ SURGIDO NA MESMA... Se clicarmos nesse botão o script será carregado dinamicamente por meio do nosso código javascript em 'app.js'... (e isso rodará o comando de 'console.log' inserido no 'analytics.js'...s)
+
+
+
+
+
+
+O botão está posicionado em um lugar ruim, pois o professor não lhe deu uma 'position: absolute'...
+
+
+
+MAS O COMPORTAMENTO É A PARTE REALMENTE IMPORTANTE, AQUI.
+
+
+
+
+
+SE FORMOS ATÉ A ABA 'NETWORK' DO DEVTOOLS e conferirmos os detalhes, 
+
+
+veremos que lá dentro PODEMOS 
+
+
+VER TODOS
+
+
+
+OS ARQUIVOS QUE FORAM CARREGADOS:
+
+
+
+No início, ao recarregar a página, vemos apenas 3 
+
+
+arquivos:
+
+
+1) index.html 
+
+2) app.css 
+
+
+3) app.js
+
+
+
+--------------------------------
+
+
+
+AO CLICARMOS NO BOTÃO 'start analytics', FICAMOS COM 4 ARQUIVOS:
+
+
+
+1) index.html 
+
+2) app.css 
+
+
+3) app.js
+
+
+4) analytics.js
+
+
+
+--------------------------------
+
+
+Ou seja, se eu clicar no tal botão, 'analytics.js' BAIXARÁ O ARQUIVO (super rápido, pois é um arquivo pequeno).
+
+
+
+
+MAS ELE SÓ BAIXARÁ ESSE ARQUIVO NO MOMENTO EM QUE EU APERTAR NO BOTÃO...
+------------------------------------
+
+
+
+
+Isso tudo é bem legal, é uma forma de adicionar e executar SCRIPTS 
+
+
+
+DINAMICAMENTE DE DENTRO DO JAVASCRIPT....
+
+
+
+------------------------------
+
+
+
+UM IMPORTANTE DETALHE ACERCA DE ADICIONAR SCRIPTS DINAMICAMENTE por meio 
+
+desses passos:
+
+
+É UMA FEATURE PODEROSA, MAS É EVIDENTE QUE VOCÊ DEVE UTILIZÁ-LA COM CUIDADO...
+
+
+
+VOcê deve ter cuidado especial com casos em que vocÊ tem que 
+
+
+RENDERIZAR DINAMICAMENTE SCRIPTS CRIADOS PELOS USUÁRIOS ('dynamically rendering user created scripts'), 
+
+
+
+PORQUE ISSO TE DEIXA ABERTO A ALGUNS ATAQUES; É ALGO QUE VEREMOS MELHOR QUANDO ESTUDARMOS 
+
+A SEGURANÇA DO JAVASCRIPT...
+
+
+
+
+Veremos mais sobre isso quando estudarmos ATAQUES A SITES, como 
+
+
+'cross site scripting attacks', que são ataques que TENTAM INJETAR 
+
+CÓDIGO MALICIOSO DENTRO DO SEU CÓDIGO...
+
+
+
+---------------------------------
+
+Ou seja, se vocÊ ADICIONAR DINAMICAMENTE UM SCRIPT AO SEU CÓDIGO, ASSEGURE-SE DE QUE 
+
+VOCÊ NÃO O FAÇA COM BASE EM ALGUM CONTEÚDO INPUTTADO PELO USUÁRio (deixar essa brecha no seu site pode ser fatal);
+
+
+caso vocÊ o faça com base em algum conteúdo inputtado pelos usuários, você deve, NO MÍNIMO, VALIDAR 
+
+E SANITIZAR ESSE CONTEÚDO antes de permitir sua execução no ambiente do runtime do seu código.

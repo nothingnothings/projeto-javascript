@@ -1,0 +1,453 @@
+O professor comenta para fora
+
+
+
+
+os dois EVENTLISTENERS 
+
+
+
+de 
+
+
+
+'buttons.forEach(btn => {
+    btn.addEventListener('mouseenter', buttonClickHandler);
+});
+
+
+window.addEventListener('scroll', event => {
+    console.log(event);
+})
+
+
+-------------------------------------------
+
+
+
+ELE FAZ ISSO PARA QUE POSSAMOS ESTUDAR OUTRO TIPO DE EVENTO QUE PODEMOS FAZER 'listen to'...
+
+
+
+
+Para isso, o professor adiciona um ELEMENTO HTML de 
+
+'form' (formulário) logo ABAIXO DA DIV DOS BOTÕES....
+
+
+ex:
+
+
+
+<form action="">
+<label for="title">Title</label>
+<input type="text" id="title>
+</form>
+
+-----------------------
+
+
+Professor diz que 'action' pode SER DEIXADA VAZIA....
+
+
+
+Com isso, tudo que precisamos adicionar PARA COMPLETAR ESSE 'form' é um BOTÃo...
+
+
+Botão de tipo 'submit'...
+
+
+
+
+
+<form action="">
+<label for="title">Title</label>
+<input type="text" id="title>
+<button type="submit">Submit</button>
+</form>
+
+
+--------------------------
+
+
+
+Professor diz que é IMPORTANTE QUE VOCê DEFINA ESSA BUTTON TYPE COMO 'submit'...
+
+
+
+Se agora salvarmos e recarregarmos essa página, veremos 
+
+que haverá 
+
+um CAMPO/form 'title' e um botão 'submit' ao seu lado...
+
+
+
+O professor explica que o botão ESTÁ UM POUCO GRANDE pq ele está recebendo 
+
+o mesmo styling dos botões logo acima (colocamos um style selector de 'button'...)
+
+
+
+
+Temos um form em que podemos digitar coisas e apertar SUBMIT...
+
+
+
+--------------------------------
+
+
+
+MAS OBSERVE COM ATENÇÃO O QUE ACONTECE QUANDO O PROFESSOR PRESSIONA o botão 'submit', aqui:
+
+
+
+TODA A PÁGINA toma um 'zoom out'....
+
+
+
+Na verdade, A PÁGINA RECARREGOU, O QUE FEZ COM QUE O ZOOM DO BROWSER DO PROFESSOR 
+
+FOSSE RESETTADO...
+
+
+
+
+--------> A PÁGINA RECARREGOU PORQUE ___o COMPORTAMENTO DEFAULT____ DO ELEMENTO 'FORM' EM HTML COMBINADO 
+
+COM UM BOTÃO DE TIPO 'SUBMIT' É EXATAMENTE ESSE QUE ESTAMOS VENDO:
+
+
+
+ele ENVIA  ESSA 'FORM DATA' AO NOSSO SERVIDOR (que 'serve' a nossa página...)....
+
+
+Como nós NÃO TEMOS UM WEBSERVER, nós acabamos FAZENDO 'SERVE' por meio do 'file protocol'....
+
+
+mas ainda assim, o que interessa aqui é QUE O FORM TENTA ENVIAR ISSO/ESSES DADOS AO SOURCE/ORIGEM 
+
+QUE SERVIU ESSE ARQUIVO HTML....
+
+
+
+
+
+E esse comportamento pode ser desejável/fazer sentido DEPENDENDO DO APLICATIVO QUE VOCÊ ESTÁ CONSTRUINDO...
+
+Porque eventualmente você vai querer CONSEGUIR ENVIAR UNS USER INPUTS AO SEU SERVIDOR...
+
+VocÊ vai querer isso PARA QUE VOCÊ POSSA TRABALHAR COM ESSES DADOS DO USUÁRIO, ARMAZENÁ-LOS EM UMA 
+
+DATABASE, TALVEZ...
+
+
+
+Frequentemente, porém, quando usamos HTML, nós também queremos PREVENIR QUE ISSO ACONTEÇA...
+
+Muitas vezes ____NÃO QUEREMOS____ ENVIAR ESSES USERINPUTS/DADOS AO SERVIDOR SEMPRE QUE O BOTÃO 
+
+'submit' É APERTADO...
+
+
+Em vez disso, você geralmente VAI QUERER 'STEP IN' COM O JAVASCRIPT E TALVEZ 
+
+___VALIDAR___ O USERINPUT antes de realizar o processo de seu envio à uma database.... (com a ajuda do javascript)....
+
+
+
+
+ISSO É ALGO QUE TAMBÉM VEREMOS EM UM OUTRO MÓDULO, COMO MANDAR DADOS A DATABASES POR MEIO DO JAVASCRIPT...
+
+É o módulo que nos ensina A ENVIAR 'HTTP REQUESTS' de dentro do javascript...
+
+
+
+
+Portanto, você talvez QUEIRA PREVENIR O COMPORTAMENTO DEFAULT DA INTERAÇÃO BOTÃO DE SUBMIT-elemento 'form'... 
+
+TALVEZ VOCê QUEIRA PREVENIR O COMPORTAMENTO DEFAULT DO BROWSER, QUE PARA UM SUBMIT BUTTON INSERIDO EM UMA FORM, É de fazer submit dos dados/envio dos dados/SUBMIT da form E RECARREGAR A PÁGINA....
+
+
+
+
+
+
+
+E, aqui, de novo, o javascript e o browser têm tudo aquilo que precisamos....
+
+
+
+
+
+DIGAMOS QUE QUEREMOS 'listen to' ao 'submit' DAQUELA 'form'... (form submission)....
+
+
+
+
+Para isso, em events.js, podemos SELECIONAR NOSSA FORM POR MEIO DE UM QUERYSELECTOR...
+
+
+
+ENTÃO ADICIONAMOS UM EVENTLISTENER na 'form' (e não no botão, btw)....
+
+
+
+DENTRO DO EVENTLISTENER, INSERIMOS UM TIPO ESPECIAL DE EVENTO, QUE É 
+
+'submit'...
+
+
+
+
+Esse evento especial É EXPOSTO PELO BROWSER em elementos 'form'...
+
+
+
+
+
+_____________E SUBMIT É UM DOS RAROS EVENTOS_____ QUE NÃO_____ EXISTE_____ EM TODOS____ ELEMENTOS DOM______ (não existem em todos os elementos dom PQ ___APENAS___ ELEMENTOS 'FORM' PODEM SOFRER 'SUBMIT', APENAS ELEMENTOS 'FORM' PODEM SER 'SUBMITTADOS'... é por isso que APENAS elementos 'form' tem esse evento 'submit'...)
+
+
+O MDN NOS DIZ ISSO, TAMBÉM.
+
+
+
+
+
+ex:
+
+
+
+const form = document.querySelector('form');
+
+
+
+
+form.addEventlistener('submit', ...);
+
+
+
+----------------------------------------------------
+
+
+
+
+A partir daquele evento 'submit' que estamos fazendo 'listen to', podemos EXECUTAR UMA FUNÇÃO 
+
+PARA QUANDO ELE OCORRER...
+
+
+
+Nessa função, de novo, nós recebemos como parâmetro um objeto EVENT, o qual vamos querer 
+
+console.loggar por meio de 'console.log(event);'
+
+
+ex:
+
+
+
+
+const form = document.querySelector('form');
+
+
+
+
+form.addEventlistener('submit', () => {
+ 
+});
+
+
+
+-----------------------------------------------------
+
+
+
+ex:
+
+
+
+
+const form = document.querySelector('form');
+
+
+
+
+form.addEventlistener('submit', event => {
+    console.log(event);
+});
+
+
+
+----------------------------------------------------
+
+
+
+
+
+Depois disso, salvamos e recarregamos a página.
+
+
+O resultado é bizarro:
+
+
+
+quando apertamos no botão 'submit', o event é console.loggado POR UMA FRAÇÃO DE SEGUNDO NO DEVTOOLS CONSOLE, mas logo desaparece.
+
+
+Isso acontece, explica o professor, por causa DO COMPORTAMENTO DEFAULT DO BROWSER, QUE É DE ENVIAR AUTOMATICAMENTE 
+OS DADOS ENFIADOS NA FORM PARA O SERVIDOR/DATABASE (que nesse caso, não temos, é o 'file protocol'....).....
+
+Como ele 'enviou esses dados' (tecnicamente, não enviou, kkkk.), ELE LOGO RECARREGA A PÁGINA DIRETO, o que faz com que 
+
+o output do evento no devtools console SUMA...
+
+
+
+---------------------------------
+
+
+
+
+
+AGORA, PORTANTO, PARA ACABAR COM ESSE COMPORTAMENTO E ESSE 'SUMIÇO' DO CONSOLE.LOG, podemos fazer 
+
+ALGO QUE NÃO FIZEMOS ATÉ AGORA....
+
+
+Esse objeto 'event' que está como parâmetro do addEventListener NÃO NOS DÁ 
+
+SOMENTE ALGUMAS PROPRIEDADES MIXADAS, ELE TAMBÉM NOS DÁ ALGUNS MÉTODOS 
+
+
+____PARA CONTROLAR_____ ESSE EVENTO 'submit'....   e dentro de 'event' (esse objeto) NÓS 
+
+TEMOS UM MÉTODO O QUAL VOCÊ PODE CHAMAR diretamente (antes do console.log, para que consigamos ler o output do console.log), que é 
+'preventDefault()'.....
+
+
+
+
+
+ex:
+
+
+
+const form = document.querySelector('form');
+
+
+
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(event);
+})
+
+
+-----------------------------------
+
+
+
+
+O 'preventDefault' EXISTE EM QUALQUER OBJETO 'EVENT' EM JAVASCRIPT, 
+
+OU SEJA, NÃO É EXCLUSIVO AO EVENTO 'submit'...
+
+
+
+E esse método faz O QUE O SEU NOME SUGERE: ele impede/previne o comportamento DEFAULT QUE O BROWSER 
+
+APLICARIA A ESSE EVENTO 'submit'...
+
+
+
+
+É EVIDENTE QUE O COMPORTAMENTO DEFAULT DE UM ELEMENTO DEPENDE DO TIPO DE EVENTO, DO EVENTO EM SI...
+
+
+
+Para o evento 'submit' em UMA <FORM>, o comportamento DEFAULT É DE ENVIAR ESSA FORM 
+
+A UM SERVIDOR....
+
+
+PARA UM ____LINK____ (?????), POR EXEMPLO, o comportamento default desse evento 'link' SERIA DE 
+
+
+IR ATÉ ESSE LINK... e você SEMPRE PODE BLOQUEAR O BROWSER DE FAZER ESSAS COISAS, de seguir esses comportamentos PADRÃO.
+
+
+
+VocÊ pode parar esses comportamentos padrão E IMPLEMENTAR SUA PRÓPRIA LÓGICA EM SEU LUGAR...
+
+
+
+agora, com esse 'preventDefault()' adicionado ao nosso código, veremos que AGORA O OUTPUT 
+
+DO EVENTO 'submit' APARECE NO DEVTOOLS CONSOLE... ou seja, o comportamento 
+
+DE ENVIAR OS DADOS, O USERINPUT, A UMA DATABASE/SERVIDOR FOI ABORTADO... (junto com o subsequente recarregamento da página... )
+
+
+
+ex:
+
+
+
+
+
+SubmitEvent {isTrusted: true, submitter: button, type: "submit", target: form, currentTarget: form, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+podemos observar o 
+
+
+'target' desse 'SubmitEvent', , que é FORM....
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+É EVIDENTE QUE, COMO O COMPORTAMENTO DE 'ENVIAR FORMS' FOI CANCELADO POR MEIO DO 'preventDefault', AGORA PRECISAMOS 
+
+ADICIONAR A LÓGICA NECESSÁRIA (que substituirá a padrão) COM NOSSAS PRÓPRIAS MÃOS...
+
+
+
+
+------> E, como o professor mencionou, ele nos dará um MÓDULO INTEIRO SOBRE 
+
+COMO MANDAR HTTP REQUESTS POR CONTA PRÓPRIA, por meio do javascript, sem a ajuda do comportamento default das forms...
+
+
+
+
+
+MAS ESSE 'preventDefault' É UMA FEATURE MUITO PODEROSA, E BOA DE SE TER EM MÃOS, pois 
+
+frequentemente vocÊ precisará dela para construir A EXATA USER EXPERIENCE QUE VOCÊ QUER....
+
+e aí você geralmente vai querer EVITAR ESSE COMPORTAMENTO DEFAULT das form-submitbuttons, vai querer fazer overwrite nele...
+
+
+
+
+-------------------------------------------------------------

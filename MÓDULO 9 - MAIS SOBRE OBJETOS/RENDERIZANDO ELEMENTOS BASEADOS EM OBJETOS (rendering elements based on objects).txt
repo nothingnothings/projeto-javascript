@@ -1,0 +1,339 @@
+Os filmes que temos no nosso array DEVEM SER OUTPUTTADOS NA NOSSA PÁGINA.
+
+
+
+
+
+Para isso, o professor adicionará uma função nova em folha....
+
+
+O nome dela será 
+
+
+
+"renderMovies"
+
+
+
+------------------------
+
+
+
+
+ex:
+
+
+
+
+const renderMovies = () => {
+
+}
+
+
+
+--------------------
+ 
+
+
+ EM renderMovies, o professor vai fazer algo que não é a maneira mais ideal de fazer 
+ essa coisa, mas que é boa o suficiente para essa demonstração/esse pequeno projeto.
+
+
+
+
+
+O professor vai lá e pega/alcança a movie-list do DOM, por meio de uma nova constante,
+
+"const movieList".
+
+
+
+ex:
+
+
+
+
+
+const renderMovies = () => {
+
+
+
+    const movieList = document.getElementById('movie-list');
+
+
+
+
+
+}
+
+
+-----------------------------
+
+
+
+DEPOIS DISSO, O PROFESSOR, DENTRO DE RENDERMOVIES, ele vai querer RENDERIZAR TODOS OS SEUS 
+FILMES NO INTERIOR DESSA MOVIELIST....
+
+Ele diz que o approach IDEAL seria o approach de fazer "append" de um item À lista já existente 
+para CADA MOVIE NOVO QUE VOCÊ ADICIONASSE...
+
+Isso é o exato mesmo approach que utilizamos mais cedo, em outro módulo...
+
+
+
+AQUI, PARA SALVAR UM POUCO DE TEMPO E PARA FOCAR MAIS NA FIGURA DOS OBJETOS, QUE SÃO O "oBJETO" DESSE MÓDULO (ha), 
+o professor vai FAZER ISSO DE MODO DIFERENTE...
+
+ele vai alcançar a movieList e definir o "innerHTML" como UMA EMPTY STRING ('').
+
+
+ex:
+
+
+
+
+
+
+const renderMovies = () => {
+
+
+
+    const movieList = document.getElementById('movie-list');
+    movieList.innerHTML = '';
+
+
+
+
+};
+
+
+
+
+
+--------------------------------
+
+
+
+Essa definição da movieList como uma empty string vai LIMPÁ-LA (vai dar clear). Isso vai fazer com 
+que tudo que estava ali antes seja deletado (Até mesmo elementos que estavam renderizados anteriormente).
+
+
+-------> ISSO NÃO É IDEAL PORQUE ISSO SIGNIFICA QUE, AGORA, SEMPRE QUE NÓS ADICIONARMOS UM 
+FILME NOVO, A LISTA INTEIRA SERÁ DELETADA... a lista inteira será deletada e recriada DO ZERO. Isso 
+é péssimo em termos de performance, é desnecessariamente pesado. 
+
+------> Entretanto, o professor só está usando esse método aqui porque ele quer economizar tempo. Se 
+ele quisesse ser ortodoxo, utilizaria o método do ".append()".
+
+
+
+-------------------
+
+
+
+Depois de adicionar esse trecho que limpará a lista, o professor também quer se assegurar 
+de que nós CONSIGAMOS VER A MOVIELIST PARA INÍCIO DE CONVERSA...
+
+Por que isso? Porque se nós dermos uma breve olhada em nossos estilos, veremos 
+que a movie-list está com um estilo CSS padrão de "display: none".
+Ela tem um display de NONE e SOMENTE RECEBE UM ESTILO DE DISPLAY DE "BLOCK" SE NÓS 
+ADICIONARMOS AQUELA CLASSE ".visible" À ELA. DEVEMOS ADICIONAR A CLASSE ".VISIBLE" À ESSA LISTA.
+
+PARA ISSO, DEVEMOS CRIAR UM IF CHECK.... Se o movies.length for 0 (não tivermos nenhum item no array), 
+deverá ser removida a classe ".visible" aplicada À lista; ELSE (no caso de haver items), DEVERÁ SER ADICIONADA 
+ESSA CLASSE.
+
+
+O clear do innerHTML pode acontecer ao final, depois daquele if check.
+
+ 
+
+ (btw, estou achando esse código da alteração da classe meio bizarro... afinal, não é 
+ o ID que está com essas paradas de visible/invisible? A classe é apenas .card... bizarro.)
+
+ex:
+
+
+
+
+
+const renderMovies = () => {
+
+
+
+    const movieList = document.getElementById('movie-list');
+   
+    if (movies.length === 0) {
+        movieList.remove('visible');
+        return;
+    } else {
+    movieList.classList.add('visible');
+    }
+     movieList.innerHTML = '';
+};
+
+
+
+
+
+----------------------------
+
+
+AGORA DEVEMOS ASSEGURAR TAMBÉM QUE NÓS CONSIGAMOS FAZER O OUTPUT DOS FILMES AQUI SEMPRE QUE
+CHAMAMOS "renderMovies"..... ou seja, fazer com que não só seja dado toggle na visibilidade 
+da lista, mas também que sejam adicionados objetos filmes ao display.
+
+
+
+Limpado o content do innerHTML por meio da empty string, agora o professor quer ir POR DENTRO 
+DE TODOS OS FILMES DELE E OUTPUTTÁ-LOS na página web.
+
+
+Para isso, podemos utilizar um for of loop... OU, É CLARO, um  "forEach" (pois estamos trabalhando 
+com arrays, e esse método é adequado para o trabalho com eles).
+
+Como você aprendeu, VOCÊ DEVE PASSAR UMA FUNÇÃO INTERNA COMO PARÂMETRO DE "FOREACH", que 
+será então executada para cada elemento dentro daquele array onde executou-se esse método.
+
+
+
+Essa função interna vai RECEBER O ELEMENTO (cada um dos elementos de dentro do array) COMO UM 
+INPUT/PARÂMETRO. O professor nomeia esse elemento como "movie". Professor 
+diz que não se importa com os outros parâmetros que ele poderia passar aqui (o segundo e terceiro parâmetros), 
+pois não precisa deles.
+
+
+Com nós indo por dentro de todos os elementos, o professor quer criar NOVOS ELEMENTOS, NOVOS 
+DOM NODES para cada filme.
+
+Para isso, aqui dentro da função interna do método 'forEach' podemos criar uma constante 
+chamada "movieElement". Essa constante terá como valor um "createElement", que 
+criará UM ELEMENTO <LI> PARA NÓS (terá a html tag de 'li'). Depois disso, o professor 
+vai querer definir o text content desse novo elemento como
+
+"movie.info.title;"  ---> (porque isso é uma referência ao key/valor da key que está dentro do objeto info, que está dentro do objeto movie...)
+
+
+
+
+
+ex (ex do fragmento de código....):
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.create('li');
+    movieEl.textContent = movie.info.title;
+};);
+
+
+
+-------------------------------
+
+
+
+ex do código completo:
+
+
+
+const addMovieHandler = () => {
+    //const userInput = document.querySelector('user-input');   -----> código errado, mas BOA TENTATIVA.
+
+    //const title = document.getElementById('title'); //---> isso nos DARÁ O FULL DOM NODE, MAS O PROFESSOR NÃO ESTÁ INTERESSADO NO DOM NODE INTEIRO... Ele está interessado apenas no VALOR abrigado nesse dom node, por isso ele usa a propriedade ".value".
+    const title = document.getElementById('title').value;
+    const extraInfo = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+    if (title.trim() === '' || extraInfo.trim() === '' || extraValue.trim() === '') {
+        alert('Please input movie into input fields');
+        return;
+    }
+
+    const newMovie = {
+        info: {
+            title, 
+            [extraInfo]: extraValue,
+        },
+
+        id: Math.random()
+    };
+
+    movies.push(newMovie);
+    console.log(newMovie);
+
+};
+
+
+
+const renderMovies = () => {
+    const movieList = document.getElementById('movie-list');
+
+    if (movies.length === 0) {
+        movieList.classList.remove('visible');
+        return;
+    } else {
+        movieList.classList.add('visible');
+    }
+    movieList.innerHTML = '';
+
+
+    movies.forEach((movie) => {
+        const movieEl = document.createElement('li');
+        movieEl.textContent = movie.info.title;
+        movieList.append(movieEl);
+    });
+};
+
+
+
+
+
+
+---------------------------------------
+
+
+Ele define o textContent como "movie.info.title" para que esse elemento visual 
+do movie REFLITA O TEXTO ESTÁ ESCRITO/registrado no elemento original de "movie".
+
+Isso é uma "CHAIN" DE MÚLTIPLOS 'PROPERTY REQUESTS'. 
+
+
+Além disso tudo aí, o professor vai querer, é claro, fazer o append desse "movieEl" À LISTA 
+DE FILMES JÁ EXISTENTE.
+
+Professor diz que ainda precisamos do loop introduzido com "forEach", POIS 
+ESSE PROCESSO DE "APPEND" DEVERÁ SER FEITO PARA CADA UM DOS FILMES QUE É ADICIONADO.
+Essa é a utilidade desse loop (forEach) aqui.
+
+
+Por fim, agora apenas precisamos nos assegurar de que chamamos o "renderMovies" sempre 
+que nós adicionamos um novo filme. Por isso adicionamos seu chamado ao addMovieHandler.
+Colocamos esse chamado bem no final...
+
+
+Com isso, sempre que nós adicionarmos um NOVO FILME, ele deverá ser renderizado...
+
+
+
+Se recarregarmos a página, digitarmos os negócios e clicarmos em "add Movie", veremos que a função 
+básica do site está funcionando:
+
+conseguimos adicionar filmes Àquela lista mais de baixo.
+
+
+
+O professor relembra aquilo que nós já sabemos:
+
+tecnicamente, quando nós adicionamos um novo filme, UMA NOVA LISTA É SEMPRE RENDERIZADA E A ANTERIOR, 
+DESCARTADA. Tudo é re-renderizado do 0. Isso é péssimo para performance.
+
+
+Para essa demonstração pequena, é OK. Porém, não é ideal.
+
+
+Usamos algumas features legais de objetos, aqui.
+
+
+MAS O QUE NÃO ESTAMOS FAZENDO AINDA É O OUTPUT DO CHOSENKEYVALUE dinâmico inputtado pelo usuário...
+O professor vai nos mostrar como fazer isso.

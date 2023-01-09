@@ -1,0 +1,67 @@
+
+
+PWAs progressive web apps --> aplicativos que funcionam SEM INTERNET
+
+
+
+
+
+'ON THE EDGE APIs' ---> APIs que só funcionam em 1 único browser --> mas que podem funcionar em todos, no futuro. 
+
+
+
+
+SPAs ---> SINGLE PAGE APPLICATIONS --> construir aplicativos regidos totalmente pelo javascript....
+
+
+
+
+
+MDN --> DOCUMENTAÇÃO GIGANTE SOBRE BROWSERS E JAVASCRIPT...
+
+
+
+STACKOVERFLOW ---> board de discussão.
+
+
+
+GOOGLE DEV DOCUMENTATION.
+
+
+
+CURSOS --> ANGULAR, REACT, VUE.JS, SPAs, etc etc....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+There's a lot you can do with the JavaScript knowledge you gained in this course - here's a written overview of some of the most interesting and important topics you can dive into.
+
+Explore major JavaScript Frameworks & Libraries to build exciting JavaScript-powered client-side (browser) web applications
+
+Angular (e.g. with my "Angular - The Complete Guide" Course => https://acad.link/angular-course)
+
+React.js (e.g. with my "React.js - The Complete Guide" Course => https://acad.link/reactjs-course)
+
+Vue.js (e.g. with my "Vue.js - The Complete Guide" Course => https://acad.link/vuejs-course)
+
+Dive deeper into Node.js to build server-side applications powered by JavaScript (e.g. with my "Node.js & Express - The Complete Guide" course => https://acad.link/nodejs-course)
+
+Explore Progressive Web Apps (PWAs) & Service Works to build offline-ready, fast client-side (browser) web applications - works with ANY of the above frameworks (e.g. with my "PWA - The Practical Guide" course => https://acad.link/pwa-course)
+
+Explore Web Workers to offload performance-intensive calculations: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
+
+Explore Web Components - i.e. learn how to build your own HTML Elements (e.g. with my "Web Components" course => https://acad.link/cmp-stencil-course)
+
+Explore TypeScript - a superset ("enhancement") of JavaScript (e.g. with my "Understanding TypeScript" course => https://acad.link/typescript-course)
+
+Of course also have a look at all my other courses and get yourself some nice discounts if you enjoyed this one: https://academind.com/learn/our-courses/

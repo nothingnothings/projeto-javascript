@@ -1,0 +1,398 @@
+
+
+
+Antes de estudarmos strings, devemos estudar uma pequena demonstração do objeto 'Math'...
+
+
+
+
+
+
+
+PROFESSOR NOS MOSTRA UMA FUNÇÃO CONVENIENTE, UMA QUE PODE SE MOSTRAR 
+
+
+
+ÚTIL EM PROJETOS FUTUROS...
+ 
+
+
+
+
+ nós temos 'Math.random()' para nos dar um número aleatório, certo?
+
+
+
+
+
+ MAS OQ DIABOS 'Math.random()' produz?
+
+
+
+
+
+ Bem, ele produz um número aleatório entre 0 e 1...
+
+
+
+ isso é legal, mas às vezes vocÊ poderá precisar de um NÚMERO ALEATÓRIO 
+
+
+
+ ENTRE 10 E 20...., por exemplo...
+
+
+
+ --------------------
+
+
+ O QUE FAZER EM UM CENÁRIO COMO ESSE?
+
+
+
+
+
+
+ Bem, podemos escrever NOSSA PRÓPRIA FUNÇÃO QUE 'builds up' sobre o 'Math.random()' e 
+
+ que nos permite PROVIDENCIAR UM
+
+
+ 'VALOR MÁXIMO E UM VALOR MÍNIMO' como limites...
+
+
+
+
+ ------------------------
+
+
+
+ PARA ISSO, O PROFESSOR CRIA UMA NOVA FUNÇÃO.
+
+
+
+ Ele usa a function declaration expression:
+
+
+
+
+ ex:
+
+
+
+
+ function randomIntBetween () {
+
+ }
+
+
+ -------------------------
+
+
+
+
+
+
+ ESSA FUNÇÃO ESPERARÁ 2 PARÂMETROS, UM PARÂMETRO MÍNIMO E UM PARÂMETRO MÁXIMO.
+
+
+Vamos querer RETORNAR UM NÚMERO, DENTRO DESSA FUNÇÃO..
+
+
+
+
+
+
+
+É evidente que tudo começará com 'Math.random()', mas é claro 
+
+que essa função só funciona com um número de 0 a 1....
+
+
+
+
+ ex:
+
+
+
+
+  function randomIntBetween (min, max) {
+      return Math.random();
+ }
+
+
+ --------------------------------------
+
+
+
+
+
+ CERTO.
+
+ PARA respeitar nosso 'minimum boundary' (O LIMITE DO VALOR MÍNIMO),
+
+
+ podemos adicionar o 'VALOR MÍNIMO' (de nome 'min') A ESSE RETURN...
+
+
+
+ (isso é lógico, pois o valor mínimo sempre existirá, ainda que o 'Math.random()' retorne 
+ 0/restante desse comando retorne 0. O valor mínimo é constante aqui, basicamente.)
+
+
+Agora, se chamarmos essa função com um valor mínimo de '5' para 'min', ESSA FUNÇÃO VAI NOS 
+
+RETORNAR UM VALOR ALEATÓRIO ENTRE 0 e 1 + 5.... (ou seja, não conseguimos receber um 
+valor menor do que 5, do que o min, por meio de essa função.)
+
+
+
+
+ ex:
+
+
+
+
+
+   function randomIntBetween (min, max) {
+      return Math.random() + min;
+ }
+
+
+
+--------------------------------------------------
+
+
+
+
+
+MAS É CLARO QUE NÓS QUEREMOS TAMBÉM RESPEITAR O NOSSO VALOR MÁXIMO, O VALOR DE 'MAX'...
+
+
+Para respeitar esse máximo, o professor diz que devemos multiplicar o valor de 'Math.random()' PELO 
+
+VALOR MÁXIMO (por 'max', basicamente)....
+
+
+
+
+O QUE ACONTECE QUANDO MULTIPLICAMOS ESSES 2 VALORES?
+
+
+
+vamos ganhar um NÚMERO QUE É ____NO MÁXIMO ___ 10.... (pq a função 'Math.random()' não é capaz de nos dar um número que exceda '1', e 10 x 1 = 10...).
+
+
+
+   function randomIntBetween (min, max) {
+      return Math.random() * max + min;
+ }
+
+
+
+
+
+
+10 + 5 = 15...  (OK, A FUNÇÃO AINDA NÃO ESTÁ FUNCIONANDO DIREITO, o resultado ainda passa por cima do limite de 10, MAS ESSE É UM BOM COMEÇO).
+
+
+
+
+
+
+PARA RESOLVER ISSO, DIZ O PROFESSOR, DEVEMOS, ANTES 
+
+DE MULTIPLICAR 'Math.random()' por 'max', 
+
+DEVEMOS 
+
+SUBTRAIR 'min' do valor de max.... (isso significa que o 'Math.random()' SERÁ MULTIPLICADO PELO 'ALCANCE'(range) ENTRE OS VALORES MÁXIMO E MÍNIMO...)
+
+
+
+
+
+ex:
+
+
+
+
+
+   function randomIntBetween (min, max) {
+      return Math.random() * (max - min) + min;
+ }
+
+
+
+-------------------------------
+
+
+AGORA, SE MAX FOR '10' e MIN FOR '5', RECEBEREI __NO MÁXIMO__ UM VALOR DE 
+
+10, caso o 'Math.random()' retorne '1' (o valor máximo que é capaz de produzir... só que não. VER EXPLICAÇÃO MAIS ABAIXO.).
+
+
+
+-----------------------------
+
+
+1 * 5 + 5 = 10, o nosso máximo. Certo. Tudo bem.
+
+
+
+-----------------------------
+
+
+
+
+APARENTEMENTE, TUDO ESTARIA CERTO.
+
+
+
+No entanto, se você procurar no MDN, você verá que É IMPORTANTE 
+
+PARA O MÉTODO '.random' AQUI UTILIZADO  SER ESCLARECIDO O DETALHE:
+
+
+
+
+
+o valor '1' NÃO É INCLUÍDO NOS VALORES CAPAZES DE SEREM PRODUZIDOS POR 'Math.random()'...
+
+
+
+('RETURNS A PSEUDORANDOM NUMBER ____BETWEEN___ 0 and 1')
+
+
+-----------------------------------
+
+
+
+O número até poderá ser  '0.99999999999999999', mas nós nunca receberemos '1' inteirão.
+
+
+
+
+
+ISSO SIGNIFICA QUE O VALOR MÁXIMO QUE CONSEGUIMOS OBTER AQUI SEMPRE SERÁ 
+
+9.999999999999999999999999999999999999, e nunca 
+
+
+10. É QUASE 10, mas não é.
+
+
+
+
+
+
+CASO QUEIRAMOS FAZER COM QUE TANTO O VALOR MÍNIMO QUANTO O MÁXIMO ocorram nesse seu código, 
+
+
+DEVEMOS fazer mais algumas coisas...
+
+
+
+
+
+PARA CONSEGUIRMOS O MÁXIMO, podemos adicionar  '1' AO NOSSO CÁLCULO DE '(max - min)' ---->
+
+
+
+ex:
+
+
+
+'(max - min + 1)'
+
+
+
+
+ex:
+
+
+
+
+
+   function randomIntBetween (min, max) {
+      return Math.random() * (max - min + 1) + min;
+ }
+
+
+
+--------------------------------------------
+
+
+
+FARÍAMOS ESSA ADIÇÃO PARA QUE O VALOR MÍNIMO FOSSE na verdade 
+
+6 PARA OS VALORES QUE ESTAMOS PROVIDENCIANDO À ESSA FUNÇÃO.......
+
+
+
+
+EM CONSEQUÊNCIA DISSO, O NÚMERO MAIS ALTO O QUAL PODERÍAMOS ALCANÇAR 
+
+AGORA SERIA '10.999999999999999999999', e não '10.0' (integral)....
+
+temos quase 11, basicamente, como valor máximo.
+
+
+CERTO, E COMO CONSERTAMOS ISSO? Simples, com alguma função que 
+
+ARREDONDE ESSE RESULTADO...
+
+
+
+
+
+
+QUEREMOS PARAR EM '10', no entanto.
+
+
+
+
+
+
+PARA ISSO UTILIZAMOS OUTRA FUNÇÃO EXISTENTE NO OBJETO 'Math', a função/método 
+
+
+'FLOOR'... 
+
+
+
+'FLOOR' SEMPRE ARREDONDA O NÚMERO PARA BAIXO, PARA A INTEGRAL __INFERIOR___ MAIS PRÓXIMA...
+
+
+(é o contrário de '.toFixed', basicamente, pq toFixed ARREDONDA SEMPRE PARA CIMA...)
+
+
+
+'.floor' VAI ESSENCIALMENTE __cORTAR__ AS CASAS DECIMAIS...
+
+
+vai transformar '10.9999999999' em '10'.
+
+---------------------------------
+
+
+
+
+ex:
+
+
+
+
+function randomIntBetween(min, max) {
+return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
+
+---------------------------------------
+
+
+
+
+
+ESSE É UM CENÁRIO/SITUAÇÃO BEM COMUM, essa função é bem usada.

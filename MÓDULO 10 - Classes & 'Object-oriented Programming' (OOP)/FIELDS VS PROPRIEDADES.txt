@@ -1,0 +1,228 @@
+Aprendemos o básico sobre classes.
+
+
+
+
+
+
+
+Agora veremos a diferença 
+entre 
+
+
+class fields e propriedades.
+
+
+
+
+
+
+
+É IMPORTANTE ENTENDER ISSO.
+
+
+
+
+
+Imagine que você tem uma classe que se pareça com 
+isso:
+
+
+
+
+class Product {
+    category = 'DEFAULT';
+    constructor(title) {
+        this.title = title;
+    }
+
+    printInfo() {
+    console.log(this.title, this.category);
+    
+}
+
+}
+
+
+
+
+
+
+ESSE TRECHO 'category = "DEFAULT" '  É CHAMADO 
+PELOS DESENVOLVEDORES 
+
+DE 'class field'. (um public class field, para ser mais exato).
+
+
+
+
+
+JÁ 'this.title = title;', usado em um constructor, SERIA CONSIDERADO UMA ___CLASS PROPERTY___.
+
+
+
+nesse exemplo, title é UMA CLASS PROPERTY, 
+
+
+
+e CATEGORY é UM CLASS FIELD.  
+
+
+
+Mas é importante saber que ISSO, NO FINAL DAS CONTAS, É APENAS 
+UMA SEPARAÇÃO TEÓRICA...
+
+
+
+
+Um field sempre se torna UMA PROPRIEDADE QUANDO NÓS CRIAMOS 
+UM OBJETO BASEADO NA CLASSE... nós simplesmente chamamos 
+'propriedade' quando o field está dentro da constructor function PORQUE 
+O CONSTRUCTOR SEMPRE É CHAMADO DURANTE AQUELE PROCESSO DE CRIAÇÃO 
+DO OBJETO... (ele é a 'ponte' entre a classe e o objeto, por isso que 
+chamamos o seu 'field' de 'propriedade'... é porque o field está 'quase lá', quase já é uma propriedade dentro do novo objeto)
+
+
+
+
+
+
+VOcê não precisa decorar essa diferença, apesar de tudo.
+
+
+
+
+Fields são como propriedades.
+
+
+Nós os definimos em uma classe para qeu nós tenhamos uma propriedade igual 
+a eles quando criarmos um objeto com base naquela classe.
+
+---------------------------------------
+
+
+O código ao final desse exemplo, 'prinInfo() {
+    console.log(this.title, this.category)
+}', 
+
+BTW, ainda seria chamado de 
+'CLASS METHOD' (é um método de uma classe, um método público de uma classe). (também poderia ser chamado de MÉTODO de um objeto)
+
+
+
+
+
+
+NO nosso código do projeto da loja virtual, a implicação de toda 
+essa teoria 
+é que 
+
+NA NOSSA CONSTRUCTOR FUNCTION, todo aquele 
+código 
+
+
+de 
+
+
+'this.title = title;
+this.imageUrl = image;
+this.description = desc;
+this.price = price;', 
+
+
+TODOS ELES SERIAM PROPRIEDADES...
+
+
+
+É claro que eu tenho FIELDS de mesmo nome que essas propriedades (os fields dentro da classe, como 'title = 'DEFAULT' ', imageUrl; description;, price;), 
+o que não é um problema, porque esses fields seriam/serão criados como PROPRIEDADES 
+quando nós INSTANCIARMOS (instantiate) O PRODUTO... (product).
+
+
+Nós basicamente FAZEMOS O OVERWRITE DE TUDO AQUILO QUE FOI DEFINIDO NO INÍCIO 
+DA CLASSE (as propriedades vazias, definidas como 'undefined') COM O CÓDIGO/PROPRIEDADES 
+QUE INSERIMOS NO 
+
+CONSTRUCTOR (nos parâmetros e no method/function body do constructor...).
+
+
+
+E, POR ISSO, VOCÊ PODE, NA VERDADE, REMOVER O CÓDIGO desses fields iniciais:
+
+
+
+ex:
+
+
+
+
+
+class Product  {
+    //title = 'DEFAULT';
+    //imageUrl;
+    //description;
+    //price;
+
+
+
+
+
+
+    constructor(title, image, desc, price) {  /////como usar constructor functions junto de classes.
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+
+
+}
+}
+
+
+
+
+-------------------------------
+
+
+OU SEJA, ESSA DEFINIÇÃO INICIAL 
+
+___NÃO É NECESSÁRIA___. APENAS PRECISAMOS 
+DA CONSTRUCTOR FUNCTION dentro de nossas classes.
+
+A definição inicial DOS FIELDS não é necessária 
+para que seja possível 
+assignar valores por meio da constructor function....
+
+
+
+
+
+DENTRO DO CONSTRUCTOR, VOCÊ PODE ADICIONAR 
+PROPRIEDADES PELA PRIMEIRA VEZ (ou seja, 
+sem  ter definido fields para cada um dos 'slots'/propriedades 
+que você vai querer no objeto), 
+desde que você utilize a keyword 'this' e então 
+o nome da propriedade que você deseja criar 
+dentro dos futuros objetos criados a partir dessa classe.
+
+
+
+
+E, DE FATO, DIZ O PROFESSOR, NÃO HÁ SENTIDO EM DEFINIR 
+__fIELDS__ AO INÍCIO DE UMA CLASSE (muito raramente há sentido, mas é nicho demais).
+
+
+Não há sentido em definir fields no início SE VOCÊ JÁ VAI UTILIZAR UMA 
+CONSTRUCTOR FUNCTION de cara...
+
+Não há sentido porque você essencialmente fará OVERWRITE desses 
+fields pelo assignment de um valor àquelas propriedades 
+por meio do CONSTRUCTOR....
+
+
+
+
+Podemos comentar os fields iniciais para fora do código, mas devemos mantê-los 
+ali, pois eles se tornarão importantes mais tarde, mais uma vez, quando nós 
+trabalharmos com fields que nós 
+ainda não inicializamos no constructor...

@@ -1,0 +1,830 @@
+
+
+
+
+
+
+
+
+Com isso, devemos concluir este módulo 
+
+
+
+COM ALGO QUE NÃO TEM RELAÇÃO DIRETA COM CLASSES, 
+
+mas sim com OBJETOS e PROPRIEDADES DE OBJETOS...
+
+
+
+
+
+
+Para isso, precisamos de um conhecimento um pouco mais aprofundado 
+
+sobre objetos (que já temos)...
+
+
+
+
+
+O NOME DESSE NEGÓCIO É 
+
+
+'object descriptors'...
+
+
+
+-----------------------
+
+
+
+O professor vai no console e cria UM NOVO OBJETO, um objeto NORMAL.
+
+
+
+Um objeto criado com a object literal notation.
+
+
+
+
+ex: 
+
+
+
+
+const person = {
+
+    name: 'Max'
+};
+
+
+---------------------------
+
+
+
+
+O PROFESSOR TAMBÉM ADICIONA UM MÉTODO DENTRO DESSE OBJETO (ele o adiciona por meio da shorthand de métodos)
+
+
+ex:
+
+
+
+const person = {name: 'Max', 
+
+greet() {
+    console.log(this.name)
+}
+
+
+}
+
+
+
+-----------------------------------
+
+
+
+
+ESSE MÉTODO FAZ O CONSOLE.LOG de 'Max', valor armazenado dentro da propriedade 'name' do objeto 
+'person'...
+
+
+--------------------------------
+
+
+
+
+Então, o professor vai em frente e chama 
+
+
+'person.greet();'
+
+
+---> o console nos retorna 'Max'.
+
+
+
+-----------------------------
+
+
+
+
+PROFESSOR NOS EXPLICA QUE TODA PROPRIEDADE E MÉTODO QUE NÓS 
+
+ADICIONAMOS dentro de um objeto SÃO 
+
+
+ESSENCIALMENTE ______PROPRIEDADES____ QUE SEGURAM ____ 
+
+FUNÇÕES/UMA FUNÇÃO, uma função chamada de 'descriptor'...
+
+
+
+-----------------------------
+
+
+
+
+
+PODEMOS DAR UMA OLHADA NO DESCRIPTOR DA KEY 'name' de 'person'
+
+
+
+por meio do código 
+
+
+'Object.getOwnPropertyDescriptor()'
+
+
+
+---------------------------------
+
+
+
+ENTRETANTO, NÃO BASTA SÓ DIGITAR ESSA LINHA DE CÓDIGO, DEVEMOS 
+
+PASSAR TAMBÉM UM ARGUMENTO/PARÂMETRO aos parênteses, 
+
+QUE NESSE CASO SERá 'person'.
+
+
+
+
+ex:
+
+
+
+
+
+Object.getOwnPropertyDescriptor(person)
+
+
+
+
+---------------------------------
+
+
+
+Além disso, DEVEMOS TAMBÉM PASSAR O NOME DA ___KEY___ cujo 
+Property Descriptor QUEREMOS ANALISAR... Nesse caso, a key é 'name'.
+
+
+
+ex:
+
+
+
+
+Object.getOwnPropertyDescriptor(person, 'name');
+
+
+
+---------------------------------
+
+
+
+
+ALTERNATIVAMENTE, PODEMOS UTILIZAR A VERSÃO 'plural' desse comando, 
+
+que nos mostra TODOS OS Property Descriptors DE DENTRO DE UM OBJETO...
+
+
+
+O código para tal é 'getOwnPropertyDescriptors' (com 's' no final). 
+
+
+ESSA VERSÃO DESSE COMANDO __NÃO__ NECESSITA DE UM SEGUNDO PARÂMETRO (não necessita, por exemplo, de 'name', da key de um determinado objeto...)
+
+
+
+
+
+
+ex:
+
+
+
+
+Object.getOwnPropertyDescriptors(person);
+
+
+
+
+
+--------------------------------
+
+
+
+
+o que VOCê GANHA DE VOLTA, NO CONSOLE DO DEVTOOLS, É AQUILO 
+QUE 
+
+CHAMAMOS DE 'PROPERTY DESCRIPTORS'...
+
+o que
+VocÊ ganha de volta 
+é um OBJETO com aquilo que chamamos de Property Descriptors.
+
+
+ex:
+
+
+
+
+
+
+
+greet: {writable: true, enumerable: true, configurable: true, value: ƒ}
+name: {value: "Max", writable: true, enumerable: true, configurable: true}
+__proto__: Object
+
+
+
+--------------------------------
+
+
+
+Esses descriptors SÃO UMA 'METADATA' (metadados) ARMAZENADOS 
+
+POR TRÁS DAS CENAS pelo javascript...
+
+
+ESSA METADATA influencia a maneira COMO AS PROPRIEDADES DE UM 
+CERTO OBJETO PODEM 
+
+
+SER USADAS...
+
+
+
+
+Ou seja, esse objeto bizarro de metadata É UMA CONFIGURAÇÃO QUE 
+O JAVASCRIPT DEFINE E ARMAZENA PARA NÓS.... uma configuração 
+
+QUE PODE SER ALTERADA POR NOSSAS MÃOS...
+
+
+---------------------------------
+
+
+
+Primeiramente, devemos dar uma olhada na propriedade 
+
+'name'...
+
+
+
+ex:
+
+
+
+
+name:
+
+
+    configurable: true
+    enumerable: true
+    value: "Max"
+    writable: true 
+
+
+---------------------
+
+
+
+Ela tem um valor de 'Max', que realmente é aquilo que configuramos.
+
+
+
+
+
+Mas também vemos outros 3 ITEMS DE CONFIGURAÇÃO...
+
+
+
+
+1) configurable: true --> SIGNIFICA QUE, 
+POR EXEMPLO, PODEMOS 
+
+___DELETAR___ ESSA PROPRIEDADE.
+
+
+
+
+
+
+
+2) enumerable: true ---> SIGNIFICA QUE ESSA PROPRIEDADE 
+
+APARECE EM UM __FOR IN LOOP___.
+
+
+
+
+
+
+
+3) writable: true ---> significa que podemos 
+
+ASSIGNAR UM NOVO VALOR à essa propriedade/key-value pair.
+
+
+
+-------------------------
+
+
+
+Isso tudo apenas significa que ESSA PROPRIEDADE, essa 
+
+'name property' que está dentro do objeto 'person', SEGURA 
+
+um valor de 'Max'.
+
+
+
+
+--------------------------------
+
+
+
+
+Para 'greet();', temos A MESMA CONFIGURAÇÃO,
+
+
+sendo a única diferença a presença de 
+
+_____UMA FUNÇÃO___ COMO___ VALOR____ SEGURADO 
+
+POR ESSE MÉTODO/propriedade___.
+
+
+
+
+
+
+------------------------------------
+
+
+
+Ok, tudo certo...
+
+
+
+
+MAS AGORA, O PROFESSOR TEM ALGO PARA FALAR...
+
+
+
+Até agora, ele não mencionou nada sobre isso, porque muitas vezes 
+
+ESSES DEFAULTS do javascript SÃO OK, são aquilo que desejamos.
+
+
+Entretanto, ALGUMAS VEZES, em programas AVANÇADOS, você talvez QUEIRA 
+
+FAZER 'LOCKDOWN' em uma propriedade (travá-la), SITUAÇÕES EM QUE 
+
+VOCÊ QUER TER 100% DE CERTEZA QUE AQUELA PROPRIEDADE NÃO 
+POSSA SER 'written' (não possa ter seu valor alterado), 
+
+por exemplo...
+
+
+
+
+
+Bem, para fazer isso, vocÊ pode usar 
+
+
+o comando 
+
+
+
+'Object.defineProperty();'
+
+
+
+------------------------
+
+
+
+
+
+VOCÊ DEVE digitar 
+
+
+
+'Object.defineProperty()' 
+
+
+
+
+E ENTÃO PASSAR COMO PARÂMETRO/ARGUMENTO o objeto em que 
+
+
+a propriedade cujas características que você quer editar está 
+inserida...
+
+
+
+DEPOIS DISSO, VOCÊ DEVE PASSAR O NOME DA PROPRIEDADE... (o nome da propriedade QUE VOCÊ QUER MUDAR/ADICIONAR (porque você pode, SIM, ADICIONAR UMA NOVA PROPRIEDADE POR MEIO DESSA SINTAXE))
+
+
+
+
+
+
+OBS::::: você deve passar o nome da propriedade NO FORMATO 
+
+DE STRING... (ex: 'name'). SE VOCÊ PASSAR solto, sem quotes, 
+
+O JAVASCRIPT IRÁ PROCURAR POR UMA __VARIÁVEL__ com aquele nome, 
+e não uma propriedade (ex: Object.defineProperty(person, name);) ----------------> Se você fizer isso, o javascript VAI PROCURAR POR UMA VARIÁVEL com esse nome, para então UTILIZAR O VALOR SEGURADO POR ESSA VARIÁVEL/CONST COMO ____NOME___ DA CHAVE__ pela qual está procurando (já vimos isso antes é um comportamento bizarro; você já sofreu muito por causa disso).  ------------> LEMBRE-SE DO CONTEÚDO DAS 'propriedades dinâmicas de objetos'.
+
+
+
+ex:
+
+
+
+
+
+Object.defineProperty(person, 'name'); 
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+ENTRETANTO, AINDA RESTA UM PARÂMETRO PARA QUE ESSE COMANDO FUNCIONE.
+
+
+
+
+
+O TERCEIRO ARGUMENTO QUE VOCÊ DEVE PASSAR É UM ___OBJETO___ QUE 
+
+DESCREVE OS DESCRIPTORS...
+
+
+
+ex:
+
+
+
+
+
+
+Object.defineProperty(person, 'name', {bla: true,
+                                        tra: true, 
+                                        cu: false}); 
+
+
+
+
+
+---------------------------------------
+
+
+
+
+ESSE TERCEIRO ARGUMENTO DESCREVE OS DESCRIPTORS, 
+
+
+OU SEJA, É ELE QUE DEFINE A CONFIGURAÇÃO DO SEU OBJETO/propriedade/propriedades do seu objeto...
+
+
+
+
+------------------------------------
+
+
+
+Essencialmente, SERÁ UM OBJETO QUE TERÁ ESSES 4 VALORES....
+
+
+
+{
+'configurable: true, 
+
+enumerable: true, 
+
+value: "Max",
+
+writable: true'
+}
+
+
+
+
+ex:
+
+
+
+
+
+
+Object.defineProperty(person, 'name', {configurable: true, 
+                                       enumerable: true, 
+                                       value: "John", 
+                                       writable: false}
+
+
+-------> ISSO VAI DEFNIR O VALOR 
+
+COMO SENDO 'John' E DEIXAR ESSA PROPRIEDADE IMPOSSÍVEL DE SER ESCRITA por fora...
+
+
+
+Se agora tentarmos definir 
+
+
+'person.name = "Chris" '    , 
+
+
+NADA ACONTECERÁ, pois eu defini o 'writable' de 'name' COMO 
+
+
+SENDO FALSE...
+
+
+
+O devtools (e o javascript em si) NÃO 
+
+
+NOS RETORNARÃO/jogarão um erro, 
+
+MAS ELES NÃO ACEITARÃO ESSA MUDANÇA...
+
+
+
+
+
+
+Essa, portanto, É UMA MANEIRA DE FAZER 'LOCKDOWN' em uma 
+
+
+propriedade, DE TRAVÁ-LA frente ao usuário, que não poderá 
+alterá-la.
+
+
+
+
+
+-----------------------------
+
+
+
+ENTRETANTO, essa propriedade ____AINDA PODE SER DELETADA___.
+
+
+Podemos deletá-la 
+
+POR MEIO DE 
+
+
+'delete person.name'.
+
+
+
+
+
+Caso façamos isso, person NÃO TERÁ MAIS um 
+
+'name'.
+
+
+-----------------------------------
+
+
+
+PODEMOS PREVENIR ESSA DELEÇÃO por meio 
+
+da definição de 'configurable' COMO SENDO FALSE...
+
+
+
+IMPORTANTE!!!! ---> caso eu defina 'configurable' como sendo 'false', NEM MESMO O JAVASCRIPT/EU CONSEGUIREI MUDAR ESSE OBJETO, NO FUTURO... (isso 'quebra' a propriedade/método)
+
+
+
+ex:
+
+
+
+
+Object.defineProperty(person, 'name', {configurable: false, 
+                                       enumerable: true, 
+                                       value: "John", 
+                                       writable: false}
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+Se agora eu tentar DELETAR o 'name' de person 
+
+
+por meio de 
+
+
+
+'person.delete,' VEREI QUE 
+
+O DEVTOOLS 
+me retornará 'false' (ou seja, essa PROPRIEDADE NÃO 
+VAI SER DELETADA....)
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+
+'enumerable' TAMBÉM PODE SER ÚTIL.
+
+
+
+
+Por exemplo, se agora definirmos um 
+
+
+FOR IN LOOP   e  formos por dentro de TODAS AS KEYS 
+
+em 'person'...   e então fizermos o OUTPUT de cada uma das keys desse person....
+
+
+
+ex:
+
+
+
+
+
+for (const key in person) {
+
+    console.log(key);
+}
+
+
+-------------------
+
+
+ISSO NOS RETORNARÁ, no devtools console:
+
+
+'greet'
+'name'.
+
+
+
+
+
+Ele me outputtará essas 2 propriedades pois SÃO ELAS 
+QUE EU TENHO, NO FINAL DAS CONTAS...
+
+
+
+greet(); é um método, como o professor disse, MAS 
+
+NA VERDADE MÉTODOS SÃO APENAS PROPRIEDADES QUE SEGURAM uma função 
+
+COMO VALOR....
+
+
+--------------------------
+
+
+
+
+Frequentemente quando você usa 'for in' loops, VOCê 
+
+GERALMENTE QUER ASSEGURAR QUE AS FUNÇÕES/MÉTODOS NÃO SEJAM 
+
+INCLUSOS neles...
+
+(nessas situações, você apenas quer passar por dentro das propriedades 
+
+que seguram valores QUE NÃO SEJAM FUNÇÕES)
+
+
+Para isso, você tem que alterar o 'enumerable' de SEUS 
+
+OBJECT DESCRIPTORS...
+
+
+
+-------------------
+
+
+
+Aqui, por exemplo, por meio do uso de 
+
+
+'Object.defineProperty()',
+
+
+
+POSSO MUDAR O enumerablE DE UMA DETERMINADA PROPRIEDADE/MÉTODO...
+
+
+
+
+
+ex:
+
+
+
+
+Object.defineProperty(person, 'greet', {configurable: false, 
+                                       enumerable: true, 
+                                       value: person.greet,  /////ISSO FAZ COM QUE O VALOR DE 'greet()' original seja mantido, faz com que ainda seja aquela função lá de console.log
+                                       writable: false}
+
+
+----------------------------------------------------
+
+
+
+ISSO REALMENTE FUNCIONARÁ; fará com que 'greet' SEJA EXCLUÍDO 
+
+DO FOR IN LOOP...
+
+
+
+----------------------
+
+
+Essa função de excluir propriedades/métodos de for in loops
+
+
+PODE SER MUITO ÚTIL....
+
+
+
+ex:  você pode se lembrar naquele caso que tivemos no módulo de 
+
+OBJETOS (no projeto do 'Movie'...) em que nós ÍAMOS por dentro de todas as chaves 
+
+dentro
+
+da propriedade 'info'.... aí o professor checava 'se key não é title ou _title', {...}.
+
+(BTW, diz o professor, 'eu usei _title naquele momento PORQUE NÓS AINDA NÃO HAVÍAMOS APRENDIDO 
+SOBRE PRIVATE CLASSES. É UMA PSEUDO-PRIVATE CLASS.)
+
+
+
+
+'(if key !== 'title' && key !== '_title') {
+    ... código...
+}
+
+
+
+
+------------------------------
+
+
+OU SEJA, o professor, naquela ocasião, utilizou esses if checks cagados 
+
+para ASSEGURAR QUE ESSAS PROPRIEDADES NÃO FOSSEM OUTPUTTADAS no nosso código..., 
+para que não fossem outputtadas essas informações extras....
+
+----------------------------------
+
+
+
+BEM, AGORA, COM OS NOSSOS NOVOS CONHECIMENTOS, poderíamos simplesmente definir 
+
+OS OBJECTDESCRIPTORS de 'title' e '_title' COMO SENDO 'enumerable: false'....
+
+
+
+(OU SEJA, ESSA TÉCNICA É MUITO MAIS EFETIVA DO QUE AQUELE CÓDIGO QUE UTILIZAMOS 
+ANTERIORMENTE...)
+
+
+
+
+
+
+OBS:::: EXCLUIR ELEMENTOS/PROPRIEDADES/MÉTODOS DE FOR IN LOOPS é avançado e raramente 
+necessário, mas é bom saber como fazer.

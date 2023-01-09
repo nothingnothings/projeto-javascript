@@ -1,0 +1,63 @@
+Nesse módulo, demos uma olhada boa nas versões diferentes do javascript, as antigas e novas. 
+
+
+
+Examinamos var vs let e const, block scope contra function e global scope, e as implicações dessa diferença...
+
+
+
+
+
+
+
+
+Comportamento estranhos que você pode experienciar com var também foram exibidos; 
+
+
+
+o strict mode, para evitar esses comportamentos indesejados... apesar de que 
+let e const já inibem muitos desses comportamentos por sua mera existência.
+
+
+Em geral, a sintaxe e os padrões que o professor nos mostrou no curso não vão usar 
+esses padrões e comportamentos estranhos, que devem ser evitados.
+
+
+
+
+
+Além dessas coisas específicas da linguagem, nós aprendemos também sobre 
+COMO O BROWSER lida com o nosso código, como ele interpreta e compila nosso código.
+Aprendemos a maneira como o código é executado por meio do stack e heap da engine do javascript,
+ e oq ela faz com essas coisas...
+
+ Aprendemos também sobre valores primitivos e valores referenciais, conceitos importantes 
+ que podem levar À muita confusão se você não os entender.
+
+
+ Terminamos com uma olhada na matéria do garbage collector.
+
+
+
+ Demos uma boa vasculhada nos bastidores do javascript.
+
+
+ Agora voltaremos ao lado da teoria, com mais códigos e mais features da linguagem
+que poderemos utilizar nos nossos scripts.
+
+
+
+
+
+
+
+
+ The following resources may be helpful - please be aware that some of them are also very advanced.
+
+More on JavaScript Memory Management (Garbage Collection): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management
+
+V8's Garbage Collection Logic: https://v8.dev/blog/free-garbage-collection
+
+V8's JavaScript Engine in Great Detail: https://hackernoon.com/javascript-v8-engine-explained-3f940148d4ef
+
+More on Primitive vs Reference Values: https://academind.com/learn/javascript/reference-vs-primitive-values/

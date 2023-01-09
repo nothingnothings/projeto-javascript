@@ -1,0 +1,432 @@
+
+
+
+
+
+Acabamos com esse módulo, mas agora 
+
+
+
+o professor nos mostra um pequeno bonus....
+
+
+
+
+
+
+COM NOSSO SETUP enhanced de projetos, 
+
+
+EM QUE USAMOs 
+
+
+'npm' para 
+
+
+gerenciar nossas 
+
+
+dependências de desenvolvimento e webpack para bundlar nosso código, junto do webpack dev server,
+
+
+
+
+
+agora também temos UMA NOVA MANEIRA DE ADICIONAR THIRD PARTY PACKAGES...
+
+
+
+
+
+Usaremos 'lodash' de novo, como exemplo.
+
+
+
+------------------------------
+
+
+
+VIMOS ISSO NO MÓDULO DE 'LIBRARIES'...
+
+
+
+
+
+O professor nos mostrou que podemos BAIXAR O SCRIPT ou importar os negócios de links do CDN... (e então colocá-los nos nossos arquivos 'index.html'...)
+
+
+
+
+
+
+
+
+AGORA QUE CONSEGUIMOS USAR NPM E BUNDLING, 
+
+
+
+TEMOS UMA terceira mANEIRA DE USAR LODASH e third party libraries...
+
+
+
+
+
+
+
+
+Basta que acessemos alguma dessas third party libraries e 
+descemos 
+
+até os passos de instalação...
+
+
+
+
+lá, podemos observar coisas como 
+
+
+
+
+
+'npm i --save lodash' ---------> PODEMOS INSTALAR LODASH NO NOSSO PROJETO POR MEIO DESSE COMANDO.
+
+
+
+
+
+npm i <package> : install local package.
+npm i -g <package> : install global package.
+npm un <package> : uninstall local package.
+npm up : npm update packages.
+npm t : run tests.
+npm ls : list installed modules.
+
+----------------------------------------------
+
+
+
+
+Professor explica que não usamos 
+
+
+'--dev' PORQUE ESSE NEGÓCIO NÃO É UMA ___DEVELOPMENT DEPENDENCY___, e sim 
+
+uma DEPENDENCY QUE PRECISAMOS COMO PARTE DE NOSSO ___CÓDIGO FINAL_____ (e não de development). 
+
+É parte do CÓDIGO FINAL, do código que fazemos SHIP.
+
+
+
+
+Quando a instalação termina, o lodash é instalado com sucesso no folder 'node_modules',
+
+
+
+E AGORA VEREMOS UMA NOVA ENTRY de 
+
+
+'dependencies', com 'lodash',  no nosso 'package.json'......
+
+
+
+
+
+
+
+
+ENTRETANTO, EXPLICA O PROFESSOR, ESSA INSTALAÇÃO, POR SI SÓ, 
+
+NÃO FAZ COM QUE ESSA THIRD PARTY LIBRARY SEJA ADICIONADA AO NOSSO PROJETO...
+
+
+
+Isso apenas faz com que essa third party library seja adicionada ao nosso folder,
+
+E NÃO AO NOSSO APLICATIVO/SCRIPT.
+
+
+--------------------------
+
+
+
+
+Se você quiser usar lodash/qualquer outra third party library,
+
+
+por exemplo em app.js, você teria que...
+
+
+
+IMPORTÁ-LA.
+
+
+
+
+
+A convenção no JS é sempre IMPORTAR AS THIRD PARTY PACKAGES ANTES DE TODOS OS OUTROS CÓDIGOS.
+
+
+
+
+
+
+você vai lá 
+
+
+
+
+e digita a sintaxe que já vimos, a sintaxe de 'require()'.........
+
+
+
+
+
+
+
+OU, E PROFESSOR QUER NOS MOSTRAR ESSA ALTERNATIVA, UMA ALTERNATIVA ÚTIL, 
+
+
+você pode digitar 
+
+
+
+
+'import *' ...
+
+
+
+
+(IMPORTAR 'TUDO')....
+
+
+
+
+
+
+import * as _  (UNDERSCORE) ---------> você 
+
+
+faz isso para que SEJA POSSÍVEL MANTER A SINTAXE QUE O 'LODASH' USA, 
+
+AQUELA COISA DE COLOCAR 
+
+'_' ANTES DOS NOMES DAS VARIÁVEIS.
+
+
+
+
+
+----> fica, por fim, 
+
+
+"                           "
+
+
+import * as _ from 'lodash'    
+
+
+
+
+VOCÊ DEVE COLOCAR ISSO EM APP.JS.
+
+
+No app.js de nosso SOURCE CODE, em 'src'.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import * as _ from 'lodash';
+import { ProjectList } from './App/ProjectList';
+
+
+// eslint-disable-next-line no-undef
+globalThis.DEFAULT_VALUE = 'MAX';
+
+class App {
+  static init() {
+    const activeProjectsList = new ProjectList('active');
+    const finishedProjectsList = new ProjectList('finished');
+
+    activeProjectsList.setSwitchHandlerFunction(
+      finishedProjectsList.addProject.bind(finishedProjectsList)
+    );
+    finishedProjectsList.setSwitchHandlerFunction(
+      activeProjectsList.addProject.bind(activeProjectsList)
+    );
+
+    // const timerId = setTimeout(this.startAnalytics, 3000);
+
+    // document.getElementById('stop-analytics-btn').addEventListener('click', () => {
+    //   clearTimeout(timerId);
+    // });
+  }
+
+  static startAnalytics() {
+    const analyticsScript = document.createElement('script');
+
+    analyticsScript.src = 'assets/scripts/Utility/Analytics.js';
+    analyticsScript.defer = true;
+    document.head.append(analyticsScript);
+  }
+}
+
+App.init();
+
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE, NO SLOT FINAL, naquele slot em que inserimos 'lodash', 
+
+NÓS NÃO TEMOS QUE COLOCAR UM RELATIVE PATH comum... (como visto em 'import { ProjectList } from './App/ProjectList';' )....
+
+
+EM VEZ DISSO, esse 'lodash' É SIMPLESMENTE UMA ____INSTRUÇÃO___ que o __WEBPACK___ 
+
+COMPREENDERÁ... 
+
+
+
+O webpack entenderá essa instrução/string quando ele estiver lendo/analisando os nossos imports......
+
+
+
+
+
+Isso acontece pq 
+
+
+O WEBPACK SEMPRE VAI PROCURAR POR COISAS SEM A SINTAXE DE 'path' (ou seja, sem algo como './lodash')
+
+ELE SEMPRE VAI PROCURAR ISSO 
+
+
+DENTRO DO __NODE_MODULES__, dentro da pasta NODE_MODULES, ONDE, NESSE CASO, 
+
+ESTARÁ O LODASH/FOLDER DO LODASH (e é exatamente por isso que a mera referência 'lodash' no import em nosso app.js JÁ BASTA.)
+
+
+
+
+
+---> ok, ele importa essa package do 'node_modules' folder...
+
+
+
+
+---> aqui, explica o professor, estou guardando TUDO (*) de lodash, desse import, NO 
+
+SÍMBOLO '_'.
+
+
+
+
+--> depois disso, professor faz uma shenanigan:
+
+
+
+ele faz o console.log 
+
+ 
+de '_.difference([0, 1], [1, 2]); '. ------------------->
+
+
+
+OU SEJA, O CONSOLE.LOG 
+
+de uma das features/funções/métodos do 
+
+LODASH.
+
+
+
+
+
+Certo.
+
+
+O console nos retornou '0'. O console.log foi bem sucedido.
+
+
+
+
+
+
+CERTO, DE FATO, O NEGÓCIO FUNCIONOU.
+
+
+
+
+
+Professor explica que algumas libraries, lodash não é a única, 
+
+
+
+TAMBÉM OFERECEM ALGUNS IMPORTS MELHORADOS, IMPORTS QUE 
+
+NÃO IMPORTAM TUDO (pois você não pode precisar de toda as features de alguma 
+third party library) ----> se você ESTIVER 
+
+APENAS INTERESSADO EM ALGUMAS DAS FUNCIONALIDADES DE LODASH ,
+
+
+você pode 
+
+
+
+importar 
+
+
+'lodash/array', por EXEMPLO,
+
+PARA APENAS IMPORTAR FUNCIONALIDADES DE ARRAY DO LODASH...
+
+
+
+
+ex:
+
+
+
+
+import * as _ from 'lodash/array';
+
+
+
+
+--------------------------------------------------
+
+
+
+CERTO.
+
+
+ACABAMOS COM O MÓDULO.
+
+
+BEM DIFÍCIL.
+
+
+
+
+
+Cada library tem sua sintaxe própria de como importar coisas, 
+
+como importar PEDAÇOS da library, etc etc.

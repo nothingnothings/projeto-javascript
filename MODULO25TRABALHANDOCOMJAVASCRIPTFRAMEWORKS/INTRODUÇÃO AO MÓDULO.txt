@@ -1,0 +1,66 @@
+
+
+
+
+MAIS CEDO NO CURSO, DEMOS UMA OLHADA EM 'JAVASCRIPT LIBRARIES'... 
+
+
+
+
+VIMOS 'axios', 'LODASH', JQUERY e alguns outros exemplos...
+
+
+
+
+
+
+-----> AGORA, NESSE MÓDULO, VEREMOS __JAVASCRIPT FRAMEWORKS__.
+
+
+
+
+
+
+JAVASCRIPT FRAMEWORKS são basicamente "bigger libraries", mas 
+
+nós vamos olhar EXATAMENTE O QUE É 
+
+UM "JAVASCRIPT FRAMEWORK"...
+
+
+
+
+---> veremos como um javascript FRAMEWORK TE AJUDA A FOCAR NO QUE 
+
+___iMPORTA___ NO SEU PROJETO, COMO ELE TE AJUDA E SIMPLIFICA 
+
+A CONSTRUÇÃO DE UM PROJETO/APLICATIVO... 
+
+
+--------------------------------------------
+
+
+
+TAMBÉM VEREMOS UM __EXEMPLO__.
+
+
+
+
+
+
+1) O QUE É UM FRAMEWORK? --> qual é a diferença de um 'framework' para uma 'library'?
+
+
+
+
+
+
+2) VEREMOS ___REACT.JS_____. Ironicamente, 'react.js' É UMA LIBRARY, 
+MAS É UMA LIBRARY ____BEM IMPORTANTE___ E GIGANTE...
+ E se nós adicionarmos MAIS ALGUMAS COISAS DO "REACT ECOSYSTEM",
+  ela fica mais 'frameworkish'... ---> veremos mais sobre 'react' 
+  E PORQUE ELE __iMPORTA___. Também veremos ALGUMAS ALTERNATIVAS AO REACT,
+   E COMO ESSAS ALTERNATIVAS (E o react) PODEM AJUDAR COM NOSSOS PROJETOS. 
+
+
+

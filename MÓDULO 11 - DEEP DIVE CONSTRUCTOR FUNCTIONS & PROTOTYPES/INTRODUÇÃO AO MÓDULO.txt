@@ -1,0 +1,99 @@
+INTRODUÇÃO AO MÓDULO.
+
+
+
+
+
+
+NESSE MÓDULO, VEREMOS O 'por trás das cenas' das classes, 
+
+
+
+PORQUE 'classes' são bem novas em javascript...
+
+
+
+
+
+
+
+
+PORÉM, A IDEIA DE CRIAR "BLUEPRINTS" de objetos 
+
+NÃO É NOVA.
+
+
+
+
+
+NEM A IDEIA DE CRIAR 'dependências' entre classes 
+por meio de inheritance...
+
+
+
+
+
+
+
+Agora, devemos dar uma olhada em COMO O PESSOAL CRIAVA 
+
+
+BLUEPRINTS NO PASSADO, para que possamos entender melhor o presente 
+
+
+E ALGUNS DOS PITFALLS de usar classes...
+
+
+
+
+
+
+
+
+VEREMOS:
+
+
+
+
+1) What happens behind the scenes of classes and objects?
+
+
+
+
+
+2) Constructor functions (without classes)  --------> CONSTRUCTOR FUNCTIONS SÃO UMA MANEIRA DE CONSTRUIR OBJETOS COM BASE EM BLUEPRINTS (e sem classes)... ---------------> NA VERDADE, CONSTRUCTORS SÃO ___AQUILO QUE ____ AS CLASSES___ FAZEM____ (they are actually what classes do behind the scenes), NOS BASTIDORES...
+
+
+
+
+3) Prototypes & Prototypical Inheritance ------>   Prototypical Inheritance É O QUE 'extends' FAZ COM SUAS CLASSES, POR TRÁS DAS CENAS, basicamente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É MUITO IMPORTANTE ENTENDER OS CONCEITOS ENSINADOS NESSE MÓDULO PORQUE 
+
+ELES SÃO UM 'CORE' DO JAVASCRIPT.
+
+
+
+
+Esses conceitos são abordados em muitos interviews de javascript, 
+
+e TODO DESENVOLVEDOR JAVASCRIPT DEVE ENTENDER ESSES CONCEITOS, 
+
+VISTO QUE SÃO PARTE INTEGRAL DA LINGUAGEM...
+
+
+São parte integral dos bastidores do javascript.

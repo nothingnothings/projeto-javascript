@@ -1,0 +1,149 @@
+O que vocÊ já viu no exemplo que o professor mostrou da última vez é que os if e elses nos permitem utilizar
+códigos mais reutilizáveis. Agora calculateResult é uma função que funciona tanto com adição quanto subtração. Mas você também
+deve ter percebido que dois casos apenas NÃO É O BASTANTE AQUI. PRECISO TAMBÉM DE MULTIPLICAÇÕES E DIVISÕES, NESSE CASO CONCRETO. 
+
+
+Por isso que, além de if e else, existe também a figura do ELSE IF. Com a ajuda do else if, você pode 
+definir outras condições que você quer que sejam checadas. E você pode ter mais de um else if statement. 
+
+modelo :
+
+
+
+
+if() {} else {} else if {}
+
+
+
+Uma outra alternativa seria um NESTED if statement DENTRO DE UM ELSE STATEMENT. O que ele quis dizer é:
+
+(esse é o caso do nested if statement dentro de um else statement.)
+
+
+if(condição 1) {operação 1;
+} else {
+    if(condição 2) {operação 2
+    } else {
+    operação 3;}
+}
+
+e assim por diante... Mas isso é ruim, porque você pode acabar com uma montanha de if e else statements, 
+e essa porcaria fica difícil de ler, por consequência.
+
+
+Resumo da ópera: se a condição 1 não for satisfeita, não roda-se a operação 1... parte-se direto para 
+a opção 2, que é o else... no if dentro do else, se a condição 2 é satisfeita, roda-se a operação 2... 
+Se a condição 2 não for satisfeita, resolve-se rodar a operação 3, definida pelo else.
+
+
+Essa versão do nested if statements não é tao utilizada quando o else if. 
+
+
+Em vez de fazer isso, você tipicamente usaria o else if aqui para checar por uma outra condição. Aqui utilizamos com o subtract=
+
+
+
+
+modelo:
+
+function calculateResult(calculationType)  {const enteredNumber = getUserNumberInput(); 
+                                            const initialResult = currentResult;
+                                            let mathOperator;
+                                            if (calculationType === "ADD") {
+                                                currentResult += enteredNumber;       
+                                                mathOperator = '+'
+                                            } else if(calculationType === 'SUBTRACT') {
+                                                currentResult -= enteredNumber;
+                                                  mathOperator = '-';     
+                                                  } else if(calculationType === 'MULTIPLY') {
+                                                      currentResult *= enteredNumber;
+                                                      mathOperator = 'X';
+                                                  } else if(calculationType === 'DIVIDE'){
+                                                      currentResult -= enteredNumber;
+                                                      mathOperator = '-';
+                                                  }
+  } 
+
+                                            createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+                                            writeToLog(calculationType, initialResult, enteredNumber, currentResult); }
+
+
+
+
+
+(como pode ver, trocamos o ELSE por ELSE IF.)
+
+
+Com esse código, se o calculationType é add, rodamos o código de adicionar, e se o calculationType é subtract, por meio de 
+else if, rodamos o código de SUBTRACT. Com essas 2 funções settadas, o código fica assim: se apertamos add, está tudo ok, rodamos a primeira condição.
+Se apertamos subtract, também está tudo ok, selecionamos a opção 2. AGORA, SE FOSSE APERTADO QUALQUER OUTRO VALOR, como por exemplo,
+"PIZZA", estaria tudo ok, mas nada seria executado, nada daquele código, e isso bugaria tudo, bugaria o createAndWriteOutput e o writeToLog, e por consequência, a função calculateResult inteira deixaria de funcionar,  e aí teríamos um problemão.
+É claro que existem IF statements que lidam com nada ser inputtado (sem condições), mas o professor afirma que isso será visto mais a frente nas aulas,
+quando virmos casos mais complexos.
+
+
+PORÉM, AQUI HÁ UMA DISTINÇÃO:
+
+
+se eu colocar else no final do código e especificar uma função a ser rodada, ela SEMPRE SERÁ RODADA 
+CASO NÃO SEJA INPUTTADO NADA/CASO NENHUMA CONDIÇÃO SEJA ATENDIDA. O else é um fallback para quando tudo deu errado, etc etc. Não é como 
+o else if, que é uma condição extra/opção extra que quando não tem sua condição executada, não executa nada.
+
+
+ex
+
+----------
+IF
+
+else if
+
+else if
+--------
+
+se nenhuma das condições for satisfeita, roda-se porra nenhuma (pode ser um problema).
+
+
+-----------
+if
+
+else if
+
+else
+
+
+-----------
+
+Nesse caso, roda-se a função especificada em ELSE no caso de nenhuma das condições de if e else if serem atendidas.
+Else, portanto, é um fallback, de certa forma. 
+
+Colocamos o else no final, na divisão, porque é o último caso, nosso "fallback teórico". Poderíamos ter colocado 
+"else if" aqui, no lugar de "else", mas isso é totalmente opcional. O comportamento de else é simplesmente 
+de que ele sempre vai rodar esse código de divisão caso outro valor/nenhum valor seja inputtado (ex: se inputtassemos a condição 
+'Hi I'm Max!', ele rodaria a divisão. Claro que isso nunca acontecerá, pois os botões não fazem forward desse valor.)
+
+
+(entretanto, quando tentamos deixar else por último, a função bugou de uma maneira absurda, então resolvemos deixar como else if o final.)
+
+
+
+Bem, agora temos código bem mais enxuto com a reutilização de código, e toda a lógica em apenas uma função, única.
+Código bem estreito e bem feito.
+
+
+(e o else funciona como normal, btw... não, na verdade, ainda buga tudo.)
+
+
+(descobri o erro: no caso de você usar else ali, você não poderá colocar uma condição para ele, senão a função bugará
+e os cálculos sempre envolverão divisão no final.)
+
+------------>   ex: 
+
+não use       -----------> else (calculationType) {currentResult /= enteredNumber
+                                                        mathOperator = '/'
+                                                        }
+
+
+
+use ------->     else {currentResult /= enteredNumber
+                            mathOperator = '/'          -----------> versão sem condicional no else.
+                                        }

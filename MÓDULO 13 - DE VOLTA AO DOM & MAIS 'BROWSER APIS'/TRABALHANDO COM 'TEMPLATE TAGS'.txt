@@ -1,0 +1,728 @@
+
+
+
+
+chega de posicionamento, sizing e scrolling...
+
+
+
+
+
+
+
+DEVEMOS VOLTAR A TRABALHAR COM CONTEÚDO...
+
+
+
+
+
+
+
+Uma coisa que fizemos já algumas vezes ao longo do curso, porque 
+
+não tinhamos um jeito melhor de fazê-lo, é 
+
+
+aquelas situações 
+
+
+
+
+EM QUE NÓS QUERÍAMOS 
+
+
+DEFINIR ('set up') UNS CERTOS CÓDIGOS 
+
+
+HTML que deveriam ser renderizados na página/algum conteúdo, 
+
+
+NÓS SEMPRE 
+
+
+FAZÍAMOS  isso 
+
+
+DENTRO DOS NOSSOS SCRIPTS... (de fato, fazíamos isso por meio de '.innerHTML', e outras propriedades....).
+
+
+
+
+
+
+Certo, mas nesse exemplo dos active e finishedprojects, 
+
+O professor NÃO TEM NENHUM CÓDIGO HTML INSERIDO POR MEIO DO JAVASCRIPT...
+
+
+
+MAS, DIZ ELE, SERIA MUITO FÁCIL ADICIONAR UM POUCO DE CÓDIGO JAVASCRIPT AO 
+
+
+TOOLTIP, por exemplo....
+
+
+VOcê poderia dizer ao javascript, naquela parte em que criamos o tooltip, QUE 
+
+
+
+QUEREMOS SETTAR NÃO SÓ UM POUCO DE 'textContent' ('tooltipElement.textContent = this.text'), 
+
+MAS TAMBÉM 
+
+
+ALGUM INNERHTML.., um 
+
+innerHTML que inclui uma tag <h2> que diz 'More Info', e então 
+
+um '<p>' em que INPUTARÍAMOS O NOSSO TEXTO DE VERDADE ('our actual text'...)...., 
+
+por meio de string interpolation (algo como '${this.text}')
+
+
+
+
+
+ex:
+
+
+
+
+
+ create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.innerHTML =  ` //////////EIS O CÓDIGO EM QUESTÃO.
+        <h2>More Info</h2>
+        <p>${this.text}</p>
+        `;          
+        
+        tooltipElement.textContent = this.text;
+        console.log(this.hostElement.getBoundingClientRect());
+
+
+        const hostElPosLeft = this.hostElement.offsetLeft;
+        const hostElPosTop = this.hostElement.offsetTop;
+        const hostElHeight = this.hostElement.clientHeight; 
+        const parentElementScrolling = this.hostElement.parentElement.scrollTop;
+
+
+        const x = hostElPosLeft + 20;
+
+        const y = hostElPosTop + hostElHeight - parentElementScrolling - 10; 
+
+        tooltipElement.style.position = 'absolute';
+        tooltipElement.style.left = x + 'px';
+        tooltipElement.style.top = y +'px';
+        
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;  
+
+
+}
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+SE FIZERMOS ISSO E ENTÃO RECARREGARMOS A PÁGINA, clicando em more info 
+
+
+VAMOS GANHAR UM TOOLTIP meio estranho, mais gordo e maior...
+
+
+
+PROFESSOR DIZ QUE É CLARO QUE VOCÊ PODERIA AJUSTAR O STYLING, mas 
+
+a ideia 'core' aqui é que agora eu tenho ESSE CÓDIGO 
+
+
+HTML ('<h2>....</h2><p>....</p>') DENTRO DO SCRIPT.....
+
+
+EU TENHO ESSE CÓDIGO HTML AGORA INSERIDO DENTRO DO SCRIPT, E ISSO 
+
+______NUNCA É IDEAL____. Nunca é ideal pq você PODE ESTAR TRABALHANDO EM UMA EQUIPE, 
+
+
+UMA EQUIPE EM QUE OUTRAS PESSOAS SÃO RESPONSÁVEIS PELO 'MARKUP' e assim por diante....
+
+
+
+OU.... VOCÊ PODE ATÉ MESMO NÃO ESTAR TRABALHANDO EM UMA EQUIPE, mas ainda assim VOCê 
+
+NÃO VAI QUERER TODO ESSE CÓDIGO HTML DENTRO DO SEU CÓDIGO JAVASCRIPT...
+
+
+
+
+
+Mas o professor releva: 
+
+
+'é claro que esse código HTML, esse 'innerHTML' bem pequeno, de apenas 2 linhas, que vemos em 
+nosso exemplo, É MUITO SIMPLES E NÃO CRIARIA PROBLEMAS...'.
+
+
+
+MAS SE VOCÊ TIVESSE HTML CODES MAIS LONGOS (muito conteúdo HTML), as coisas poderiam ficar cada vez mais e mais 
+
+
+complicadas, incômodas...
+
+
+
+GRAÇAS A DEUS, A INTERNET TEM UMA SOLUÇÃO PARA ISSO...
+
+
+
+
+Podemos utilizar UMA TAG HTML ESPECIAL EM NOSSO CÓDIGO HTML, UMA TAG que fará 
+
+essencialmente (+ ou - isso) O SETUP DE UM CÓDIGO HTML "A SER UTILIZADO" ('a tag that setups TO-BE-USED HTML CODE...')...
+
+setta códigos HTML que serão utilizados MAS QUE NÓS NÃO QUEREMOS QUE SEJAM RENDERIZADOS INICIALMENTE...
+
+(apenas queremos que eventualmente sejam utilizados DE DENTRO DO NOSSO CÓDIGO JAVASCRIPT...).
+
+
+
+
+Para isso, utilizamos a tag especial 'template'....
+
+
+
+
+
+ex:
+
+
+<body>
+        <template>
+
+        </template>
+<header id="main-header">
+        <h1>Project Planner</h1>
+</header>
+
+
+
+
+--------------------------------
+
+
+
+
+A TAG 'TEMPLATE'.....
+
+
+
+
+
+Basta que adicionemos essa tag no nosso BODY do CÓDIGO HTML...
+
+
+
+A característica especial da tag 'TEMPLATE' é que O SEU CONTEÚDO, por default, NÃO É 
+
+RENDERIZADO DE INÍCIO.... NÃO É RENDERIZADO NO COMEÇO, MAS AINDA ___fAZ PARTE DO DOM____.
+
+
+
+
+
+
+Por ser parte do DOM (ainda que não seja renderizada inicialmente), ELA PODE SOFRER 
+
+'query' (podemos utilizar 'queries' variados para selecioná-la...), pode ser 'queriada' 
+
+E USADA NO CÓDIGO JAVASCRIPT..... (ou seja, mesmo comportamento de um elemento HTML comum, a princípio...), 
+
+
+SENDO A ÚNICA DISTINÇÃO EM RELAÇÃO A ITEMS/ELEMENTOS COMUNS NO JAVASCRIPT O FATO DE ELA 
+
+NÃO SER RENDERIZADA INICIALMENTE...
+
+
+
+
+
+Podemos adicionar um 'id' a template tags...
+
+
+ex:
+
+
+<body>
+<template id="tooltip">
+
+</template>
+
+
+------------------------------------------
+
+
+
+O QUE O PROFESSOR FAZ, ENTÃO, É MOVER O CÓDIGO HTML DE 'tooltipElement.innerHTML', no javascript (ou seja, o '`<h2>More Info</h2><p>...</p>'),
+
+PARA DENTRO DESSE TEMPLATE...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+<body>
+
+<template id="tooltip">
+
+        <h2>More Info</h2>
+        <p></p>
+
+</template>
+
+
+--------------------------------------------------
+
+
+
+
+OBS:::: STRING INTERPOLATION ('${}') NÃO FUNCIONARÁ DENTRO DE UM DOCUMENTO HTML, POR ISSO 
+
+
+O PROFESSOR VAI DEIXAR A PARAGRAPH TAG VAZIA POR ENQUANTO....
+
+
+
+Ele DIZ QUE teremos de INSERIR CONTEÚDO DENTRO DESSE <p> POR MEIO DE JAVASCRIPT, mais tarde...
+
+
+
+
+--------------------------------------------------------
+
+
+Agora, portanto, temos CÓDIGO HTML DENTRO DE UM DOCUMENTO HTML, o que faz muito mais sentido 
+
+do que ter código HTML DENTRO DE UM DOCUMENTO JAVASCRIPT...
+
+
+
+------------------------------------------------
+
+
+
+----> ALÉM DISSO, PROFESSOR APONTA, PODEMOS UTILIZAR ESSE 'TEMPLATE', PRÓPRIO DO HTML, ______NO JAVASCRIPT______.
+
+
+
+
+Para fazer isso, nós devemos GANHAR ACESSO AO NOSSO 
+
+
+'tooltipTemplate' (nome da constante a ser criada  em 'create()') POR MEIO 
+
+
+DE UMA 'const'....
+
+
+
+ex:
+
+
+
+create() {
+
+
+        const tooltipTemplate = ...;
+}
+
+
+------------------------------
+
+
+
+
+NÓS ENTÃO SELECIONAMOS O TEMPLATE POR MEIO DE UM GETXBYY...
+(e o id 'tooltip'.)
+
+
+ex:
+
+
+'document.getElementById('tooltip');'
+
+
+
+
+ex:
+
+
+
+
+
+create() {
+
+
+        const tooltipTemplate = document.getElementById('tooltip');
+
+
+
+}
+
+
+
+---------------------------------
+
+
+
+ISSO FEITO, AGORA GANHAMOS ACESSO AO elemento 'template'....
+
+
+----------------------------------
+
+
+
+
+
+
+PARA UTILIZAR ESSE TEMPLATE, 
+
+podemos CRIAR UMA NOVA CONSTANTE AQUI, 
+
+
+'tooltipBody', cujo valor definiremos 
+
+como sendo 
+
+
+'document.importNode'....
+
+
+
+(OBS: NOVO MÉTODO, 'importNode'... )
+
+
+------------------------------------
+
+
+
+
+ex:
+
+
+
+const tooltipTemplate = document.getElementById('tooltip');
+const tooltipBody = document.importNode();
+
+
+
+--------------------------------------
+
+
+
+NÓS ENTÃO PASSAMOS 'tooltipTemplate' COMO 
+
+__PARÂMETRO___ de 'importNode()'...
+
+
+
+
+
+ex:
+
+
+
+
+const tooltipTemplate = document.getElementById('tooltip');
+
+
+const tooltipBody = document.importNode(tooltipTemplate);
+
+
+
+--------------------------------------------
+
+
+
+MAS NÃO SÓ ISSO, PASSAMOS 
+
+
+
+'tooltipTemplate.content' (ou seja, a propriedade 'content' DE DENTRO DESSE ELEMENTO/TAG TEMPLATE...)
+
+a esse método....
+
+
+
+-------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const tooltipTemplate = document.getElementById('tooltip');
+
+
+const tooltipBody = document.importNode(tooltipTemplate.content);
+
+
+
+
+--------------------------------------
+
+
+
+
+ISSO, NO FINAL DAS CONTAS, NOS DARÁ O __CONTEÚDO___ DE NOSSA 
+
+TAG 'TEMPLATE'...
+
+
+
+NESSE CASO, O CONTEÚDO SERÁ 
+
+
+A TAG <H2></H2>
+
+
+E O <P></P>...
+
+
+
+
+
+
+O 'importNode' VAI ESSENCIALMENTE CRIAR UM NOVO NODE BASEADO 
+
+NESSE NODE ANTIGO que foi passado...
+
+É isso que ele faz 
+
+
+--------------------------------------
+
+
+
+DEVEMOS, ENTÃO, DEFINIR 
+
+'true' COMO SEGUNDO PARÂMETRO DE 
+'importNode'...
+
+
+ISSO FARÁ COM QUE O IMPORT SEJA UM 'DEEP IMPORT'...
+
+
+DEEP IMPORT ----> Significa que NÓS REALMENTE 
+                 IMPORTAMOS TUDO AQUILO QUE ESTAVA NO CONTENT DO TEMPLATE....
+                  (o que é EXATAMENTE AQUILO QUE QUEREMOS, AQUI.)
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const tooltipTemplate = document.getElementById('tooltip');
+
+
+const tooltipBody = document.importNode(tooltipTemplate.content, true);
+
+
+
+
+-------------------------------------------
+
+
+
+
+Agora temos 'tooltipBody' DISPONÍVEL, E como ele está disponível (e é esse código html 'copiado'), 
+
+
+
+PODEMOS FAZER seu 'append()' em direção ao 'TOOLTIPELEMENT'....
+
+
+
+
+
+
+EX:
+
+
+
+const tooltipElement = document.createElement('div');
+tooltipElement.className = 'card';
+const tooltipTemplate = document.getElementById('tooltip');
+const tooltipBody = document.importNode(tooltipTemplate.content, true);
+tooltipElement.append(tooltipBody);
+
+
+
+---------------------------------------------------
+
+
+
+
+CERTO, AQUI FIZEMOS O APPEND() de 'tooltipBody' em 'tooltipElement'...
+
+
+A ÚNICA COISA QUE DEVEMOS FAZER ANTES DISSO, NO ENTANTO, É claro, 
+
+
+É ____AJUSTAR____ A TAG '<P></P>' de dentro do 'tooltipBody'... E FAZER A INSERÇÃO 
+
+DE NOSSO TEXTO NESSE '<p></p>'.
+
+
+
+
+E PODEMOS FAZER ISSO COM A AJUDA Da linha de código 
+
+
+
+'tooltipBody.querySelector('p').textContent = this.text;'
+
+
+
+----------------------------------------------
+
+
+
+
+ISSO VAI FAZER COM QUE O PARÁGRAFO Do código html representado por 
+
+'tooltipBody' TENHA O TEXTO da propriedade 'text' da classe TOOLTIP adicionado 
+
+ao seu interior...
+
+
+
+
+ex:
+
+
+
+
+create() {
+
+const tooltipElement = document.createElement('div');
+tooltipElement.className = 'card';
+const tooltipTemplate = document.getElementById('tooltip');
+const tooltipBody = document.importNode(tooltipTemplate.content, true);
+tooltipBody.querySelector('p').textContent = this.text;
+tooltipElement.append(tooltipBody);
+
+
+}
+
+
+
+
+---------------------------------------
+
+
+
+É ÓBVIO, DIZ O PROFESSOR, QUE ESSE APPROACH QUE ELE NOS MOSTROU ___OCUPA___ MAIS 
+
+LINHAS DO QUE O APPROACH DE ANTES.... (que utilizava 'innerHTML'...).
+
+
+
+
+
+MAS ESSE APPROACH SIMPLESMENTE MOVEU O HTML CODE ___PARA FORA___ DO SCRIPT____, 
+
+o que é algo ESPECIALMENTE ÚTIL PARA SNIPPETS MAIS 
+
+_______LONGOS____ DE CÓDIGO HTML_______>
+
+
+É útil pq agora VOCê PODE GERENCIAR TODO O SEU CÓDIGO HTML DE DENTRO DO ARQUIVO HTML, 
+
+
+e todo código javascript DE DENTRO DO DOCUMENTO JAVASCRIPT.
+
+
+
+---------------------------------------------------------
+
+
+
+VOCÊ PODE AGORA GERENCIAR TODO O SEU CÓDIGO HTML DE DENTRO DO ARQUIVO HTML, 
+
+
+importar esses códigos PARA DENTRO DO JAVASCRIPT, QUE OS AJUSTA/TWEAKA/CONFIGURA (talvez ele insira alguns 
+
+dados dinâmicos, caso seja necessário (ex: 'tooltipBody.querySelector('p').textContent = this.text') E ENTÃO OS UTILIZA/REENVIA NA DIREÇÃO DO ARQUIVO 
+
+
+HTML.... e é EXATAMENTE ESSA A VANTAGEM DO APPROACH 'mais longo': a facilidade advinda da divisão entre CÓDIGOS HTML E CÓDIGOS JAVASCRIPT... 
+
+
+---------------------------------------------
+
+
+
+SE SALVARMOS E RECARREGARMOS A PÁGINA, VEREMOS QUE NADA TERÁ MUDADO VISUALMENTE: 
+
+
+
+O TOOLTIP AINDA APARECERÁ DA MESMA MANEIRA QUE ANTES....
+
+
+
+
+mas não podemos negar o fato DE QUE AGORA O TOOLTIP APARECE DE FORMA MAIS ___ELEGANTE____,  o que 
+
+é muito melhor, e é a maneira pela qual sempre devemos fazer esse processo, 
+
+
+porque isso nos ajuda muito A SEPARAR NOSSA  LÓGICA 
+
+
+HTML, nosso código HTML, da lógica/código javascript...
+
+E ISSO NOS AJUDA A TRABALHAR EM EQUIPES E A DEIXAR NOSSO CÓDIGO JAVASCRIPT 
+
+MAIS FÁCIL DE SER ADMINISTRADO.
+
+
+
+------------------------------------------------------
+
+
+
+OBS::: É MAIS CONVENIENTE ESCREVER CÓDIGO HTML EM UM DOCUMENTO HTML EM UM EDITOR 
+
+COMO o 'ide', POIS NÓS RECEBEMOS MELHORES 'AUTO-CORRECTS' DE CÓDIGOS HTML QUANDO ESTAMOS 
+
+EDITANDO UM ARQUIVO QUE REALMENTE SEJA HTML, e não quando o fazemos em um arquivo javsacript, editando CÓDIGOS HTMLS por 
+
+meio do trabalho coms strings....

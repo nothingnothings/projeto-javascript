@@ -1,0 +1,471 @@
+E QUANTO AO WHILE LOOP?
+
+
+O professor diz que não há um lugar legal para colocá-lo no código do monsterkiller, 
+MAS ELE DIZ QUE É POSSÍVEL VOCÊ USAR UM WHILE LOOP 
+PARA SUBSTITUIR UM FOR LOOP NORMAL.
+
+
+
+ex:
+
+
+substituir 
+
+
+
+for(let i = 0; i < 3; i++) {
+    console.log('---------');
+}
+
+
+
+
+Como?
+
+
+
+
+Para fazermos a mesma coisa com um while loop, precisaríamos ADMINISTRAR 
+A VARIÁVEL ____MANUALMENTE_____. Como já utilizamos a variável i para o nosso 
+for of loop mais abaixo, não podemos utilizar i de novo (porque estamos no nível 
+base/root da função, não podemos definir o mesmo nome de variável 2x).
+
+
+Por isso, o professor utiliza-se do nome "j", inicializa uma variável com o nome j.
+Ele também define o valor do negócio como 0.
+
+
+
+
+
+function print LogHandler() {
+let j = 0;
+
+
+
+
+
+
+}
+
+
+
+DEPOIS DISSO, O PROFESSOR INSERE A KEYWORD DO WHILE LOOP, "while".
+
+
+
+function print LogHandler() {
+let j = 0;
+
+while
+
+
+
+
+}
+
+
+
+depois da keyword, deve ser inserida uma condição entre os parênteses. 
+
+
+while(...)
+
+
+Depois da condição, é inserido o loop body.
+
+
+while (...) {
+
+};
+
+
+
+AGORA, SE VOCÊ COLOCAR alguma coisa COISA COMO "true" dentro da condição, esse valor 
+true será SEMPRE TRUE, E ISSO PORTANTO TE DARIA UM LOOP TOTALMENTE INFINITO. Você 
+quer evitar esses loops infinitos, porque isso vai crashar sua aplicação por falta de 
+memória.
+
+Em vez disso, poderíamos checar "se j é menor que 3, queremos console.loggar '-------' "
+
+--------->RESULTADO, modelo da função:
+
+
+while (j < 3) {
+    console.log('--------');
+
+}
+
+
+
+
+
+ENTRETANTO, ISSO NÃO É O SUFICIENTE, DEVEMOS COLOCAR UM COMANDO PARA A LOOP BODY INCREMENTAR A VARIÁVEL 
+DE J, PARA QUE O LOOP EVENTUALMENTE CESSE (LOOP CESSARÁ QUANDO CHEGAR A 3, 3A ITERAÇÃO --> 0, 1, 2.)
+
+
+
+FICARIA ASSIM:
+
+
+
+
+while (j < 3) {
+    console.log('---------');
+    j++;
+}
+
+
+
+ESSE É UM EXEMPLO DE REPLICAÇÃO MANUAL DO CÓDIGO DE UM FOR LOOP; É A MESMA COISA QUE AQUELE FOR LOOP ANTERIOR, 
+MAS COM O USO DE UM WHILE LOOP. Porém, o professor diz que, se você quisesse aquele comportamento anterior, vocÊ ainda 
+usaria o for loop, e não o while loop. Fizemos esse exemplo de replicação apenas para dar uma primeira olhada em 
+como o while loop funciona.
+
+
+Se adicionarmos isso no código do nosso projeto e recarregarmos, veremos que os ----- são console logados 3x, 
+
+
+
+UM USO MAIS REALÍSTICO DE UM WHILE LOOP SERIA 
+A HIPÓTESE DE VOCê CRIAR ALGUM VALOR DINÂMICO
+DENTRO DE printLogHandler e então, em algum momento, você quer PARAR.
+Digamos que vocÊ está gerando números aleatórios...
+
+
+ex: 
+
+
+let randomNumbers = [];
+
+
+
+E aí você tem outra variável, "finished", que inicialmente segura o valor de 
+FALSO (FALSE).
+
+ex:
+
+let finished = false;
+
+
+
+------------------------------------------
+Aí você escreve o seu while loop, que checará por "not finished"(com o uso do operador "!") e então executará o loop 
+body nesse caso, no caso do parâmetro que o chamou não ser a variável "finished"
+
+
+ex:
+
+
+while (!finished) {
+
+}
+
+
+
+----> se a condição/parâmetro que o chamou NÃO FOR a variável "FINISHED" (se isso acontecer,
+a condição definida para o while loop será retornada como true, e isso fará o loop body ser rodado), será rodado o loop body.
+
+while(!finished){
+    
+}
+
+---> não execute esse negócio ainda, senão você terá um while loop infinito e terá que fechar o browser.
+
+
+
+
+Dentro do while loop, o professor coloca no loop body 
+um comando para GERAR UM NÚMERO ALEATÓRIO, POR MEIO DE "Math.random();"
+Math random é uma função que te dá um número aleatório entre 0 e 1.
+
+
+
+
+while(!finished){
+    const rndNumber = Math.random();
+}
+
+
+Mas não é só isso que fazemos... queremos adicionar esse número aleatório à variável 
+randomNumbers, que criamos globalmente no console. Para isso, utiizamos a função 
+já conhecida ".push(xxx)". 
+
+
+ex da fórmula:
+
+while(!finished){
+    const rndNumber = Math.random();
+    randomNumbers.push(rndNumber);
+}
+
+
+Isso fará a constante rndNumber ser empurrada para dentro do array da variável global
+randomNumber.
+
+
+O que queremos é: "SE RANDOM NUMBER É MAIOR QUE 0.5 (O QUE LEVARÁ 
+TALVEZ 1, OU ATÉ 10 TENTATIVAS, É ALEATÓRIO MSM), AÍ VOU QUERER
+DEFINIR a variável "finished" COMO TRUE", o que fará com que 
+a CONDIÇÃO DEFINIDA NO WHILE LOOP NÃO SEJA MAIS VERDADEIRA (inverter-se-ão os valores, o valor 
+false da variável finished agora torna-se verdadeiro, para depois se tornar falso e cessar a função.), O QUE 
+FARÁ COM QUE O WHILE LOOP CESSE.
+
+fórmula ilustrada:
+
+
+
+while(!finished) {
+    const rndNumber = Math.random();
+    randomNumbers.push(rndNumber);
+    if (rndNumber > 0.5) {
+        finished = true;
+    }
+}
+
+
+
+
+
+
+
+
+OU SEJA: 
+
+finished começa segurando um valor de falso, 
+aí com !finished, o valor segurado por finished vira TRUE.
+Mas pela definição do código com o if statement, a variável finished 
+passa a ser true, o que faria com que ela se tornasse false com o ! e então 
+o valor "FALSE" segurado por ela invalidaria a condição configurada no while loop (a condição renderia falso, ela mesma).
+
+
+
+
+1a hipótese:
+
+finished 
+
+false ---> ! ----> true ---> while loop continua rodando.
+
+
+
+false -> "finished = true" --> ! -----> true vira false. ----> while loop para de rodar, porque a condição do while loop retornou 
+como falsa.
+
+
+
+
+
+MAS AINDA NÃO ACABAMOS; O PROFESSOR TAMBÉM VAI QUERER CONSOLE.LOGGAR ESSES NÚMEROS ALEATÓRIOS Da constante 
+RANDOMNUMBERS, PARA VÊ-LOS NO CONSOLE. a função console.log vai logar __TODOS____ os valores 
+de randomNumbers assim que a condição "rndNumber > 0.5" for satisfeita. Assim q ela for satisfeita, o console logga 
+todos aqueles resultados e aí o while loop cessa de funcionar.
+
+
+fórmula:
+
+
+
+while(!finished) {
+    const rndNumber = Math.random();
+    randomNumbers.push(rndNumber);
+    if (rndNumber > 0.5) {
+        finished = true;
+        console.log(randomNumbers);
+    }
+    
+}
+
+
+
+No dev tools do chrome, se vocÊ aperta a up arrow do teclado e aperta enter, o chrome recria o código que nós digitamos.
+No caso, 
+
+
+Porém, o professor faz isso e nada acontece...
+
+/*Professor diz que agora o while loop nem mesmo executa; é aí que ele percebe que 
+a variável finished não foi redefinda como false após ter sido rodada a função console.log e a definição 
+de finished como true, ensejados pela hipótese do rndNumber ser maior do que 0 (era a condição).
+
+
+Em decorrência disso, o professor redefine finished como false, para que o while loop funcione como estava funcionado
+anteriormente. */
+
+
+
+
+ESSE É UM CASO EM QUE WHILE LOOP É ÚTIL, PORQUE VOCÊ NÃO SABE PREVIAMENTE QUANDO O "JOGO" VAI ACABAR, 
+VOCÊ NÃO SABE QUANTAS VEZES O LOOP TERÁ DE RODAR, PORQUE A EXIT CONDITION É DEFINIDA DENTRO DO LOOP CODE.
+
+
+
+
+
+
+AGORA, TAMBÉM CABE RESSALTAR QUE HÁ MAIS UMA MODALIDADE DE WHILE LOOP, QUE É CHAMADA DE 
+
+
+"DO WHILE LOOP".
+
+
+
+PARA MOSTRAR O FUNCIONAMENTO DO WHILE LOOP, O PROFESSOR RETORNA AO CÓDIGO DO "printLogHandler" e 
+COLOCA O WHILE LOOP DE VOLTA EM SEU LUGAR, COM A  AJUDA DE j
+(J aqui serve como indexador do número da iteração, semelhante À função da variável i no for loop comum.):
+
+ex da fórmula:
+
+
+function printLogHandler() {
+for(let i = 0; i < 3 ; i++) {
+    console.log('-------'); 
+}
+let j = 0;
+while (j < 3) {
+console.log(j);
+}}
+
+
+
+
+MAS DIGAMOS QUE VOCê QUER SEMPRE EXECUTAR SEU LOOP BODY ANTES 
+DA CONDIÇÃO DO WHILE LOOP SER CHECADA... COMO Q VOCÊ ESTRUTURARÁ 
+O SEU CÓDIGO (porque, no momento, a condição é checada ANTES DO 
+LOOP BODY SER EXECUTADO)?
+
+
+
+Bem, se você quiser fazer isso, você pode usar um "DO WHILE LOOP". Para 
+fazer isso, primeiro vocÊ deve CORTAR O LOOP BODY.
+
+
+
+
+ex:
+
+function printLogHandler() {
+for(let i = 0; i < 3 ; i++) {
+    console.log('-------'); 
+}
+let j = 0;
+while (j < 3) {
+console.log(j);
+}}
+
+
+---> vira isso aqui:
+
+
+
+
+function printLogHandler() {
+for(let i = 0; i < 3 ; i++) {
+    console.log('-------'); 
+}
+let j = 0;
+while (j < 3)  //----------> COMO PODE VER, AQUI NÓS APAGAMOS O LOOP BODY({console.log(j); j++;}) DESSE WHILE LOOP.
+}
+
+
+
+
+
+
+while loop sem o loop body = 
+
+
+while(j < 3) ...
+
+
+
+BEM, para usarmos aquela modalidade especial de while loop, basta 
+adicionarmos a keyword "DO", seguida do LOOP BODY, seguida do while.
+Invertemos, portanto, a ordem comum da fórmula. 
+
+
+
+ex de while loop comum:
+
+
+while(j < 3) {
+    console.log(j);
+    j++;
+}
+
+
+
+
+EX DE DO WHILE LOOP:
+
+
+
+do {
+    console.log(j);
+    j++;
+} while (j < 3);
+
+
+
+
+---------------------------
+
+O QUE ESSA FÓRMULA FAZ É EXECUTAR O LOOP BODY PRIMEIRO (DO!) E SÓ 
+ENTÃO ELE CHECA A CONDIÇÃO, NESSE CASO CONCRETO ELE IRIA 
+CHECAR SE J REALMENTE É MENOR QUE 3.
+
+Inicialmente você verá que printamos a mesma coisa de antes, 
+porque nós ainda "EXITAMOS" QUANDO J é igual a 3, 
+MAS VOCê PERCEBERÁ A DIFERENÇA SE VOCê , POR EXEMPLO, 
+DEFINIR J COMO 3 INICIALMENTE.
+
+pense assim: 
+
+
+se j é 3 inicialmente, ele é j = 3; então não se encaixaria 
+na hipótese de j < 3. Isso resultaria em uma condição FALSA, E 
+O LOOP BODY NÃO RODARIA... ISSO SE FOSSE UM WHILE LOOP COMUM. COMO 
+ESTAMOS FALANDO AQUI DE UM "DO WHILE LOOP", O LOOP BODY 
+É EXECUTADO ______ANTES_______ DA CHECAGEM DA CONDIÇÃO.
+
+
+...ou seja, o loop body ---> {console.log(j);
+                                    j++;}
+É EXECUTADO AINDA QUE J NÃO SEJA MENOR QUE 3 INICIALMENTE.
+O resultado final ficaria que console.log iria logar o valor de 
+j (3) e então o aumentaria em 1 (j++) E DEPOIS PARARIA. O LOOP TAMBÉM
+CESSARIA, PORQUE A CONDIÇÃO SERIA CHECADA LOGO DEPOIS. O JAVASCRIPT PERCEBERIA ENTÃO QUE A 
+CONDIÇÃO É FALSA (FALSE) E ENTÃO PROCEDERIA A CESSAR O FUNCIONAMENTO DESSE "DO WHILE LOOP."
+
+
+
+lembre-se da fórmula:
+
+
+do 
+{loop body} while (condition).
+
+
+Se escrevessemos j = 3 e usássemos um while loop com condição 
+(j < 3), nada seria printado, porque a condição seria checada ANTES de ser 
+executado o loop body e então o while loop cessaria imediatamente.
+
+
+
+WHILE LOOP ---> geralmente adicionamos ; depois do while.
+
+
+
+FOR LOOP ---> geralmente NÃO ADICIONAMOS ; depois de seu código.
+
+
+WHILE LOOPS SÃO UM NICHO, mas há alguns casos de uso.
+
+
+
+FOR LOOPS são o caso mais utilizado. For of e for in também são utilizados
+
+
+WHILE LOOPS SÃO PRINCIPALMENTE USADOS COM CONDIÇÕES QUE MUDAM  DENTRO DOS LOOPS 
+E EM SITUAÇÕES EM QUE VOCÊ NÃO SABE QUANTAS VEZES VOCÊ QUER EXECUTAR O TAL LOOP.

@@ -1,0 +1,118 @@
+Nosso jogo está ficando bom, mas a função de log está faltando.
+
+
+Antes de fazermos isso, o professor vai nos mostrar um padrão que você Às vezes vÊ em código, e que talvez 
+você queira usar.
+
+
+
+
+SE VOCÊ TEM ALGUMA IF CONDITION EM QUE VOCÊ USA ALGUM TIPO DE IDENTIFICADOR, como ele fez com "mode" em 
+function attackMonster, em que ele tem 'ATTACK' e 'STRONG_ATTACK' como valores que são checados em (mode === 'ATTACK'/'STRONG_ATTACK').
+
+
+Isso significa que, nesse caso, já que recebemos os valores ali em "(mode)", no parâmetro de attackMonster, nós precisamos nos assegurar de que 
+sempre quando nós chamamos essa função somos capazes de passar os valores 'ATTACK' e 'STRONG_ATTACK'.
+
+
+
+O que o professor quer nos informar é que UM SIMPLES ERRO DE DIGITAÇÃO, como por ex:
+
+
+
+function attackHandler() {
+    attackMonster('ATTCK');
+}
+
+
+poderia quebrar nossa função inteira. É claro que sempre podemos encontrar tais erros e consertá-los,
+mas você talvez queira evitar códigos em que você use STRING IDENTIFIERS como esses 'ATTACK' e 'STRONG_ATTACK', que você pode fazer 
+mistype e cagar tudo.
+
+ex do modelo sem as constantes globais aplicadas:
+
+
+function attackMonster(mode) {
+    let maxDamage;
+    if (mode === 'ATTACK') {          ---------------> DIFERENÇA
+        maxDamage = ATTACK_VALUE;
+    } else if (mode === 'STRONG_ATTACK'){
+        maxDamage = STRONG_ATTACK_VALUE;      --------------> DIFERENÇA
+    }
+    const damage = dealMonsterDamage(maxDamage);
+    currentMonsterHealth -= damage;
+    endRound();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+Isso não quer dizer que você deve evitar string identifiers por inteiro, e sim somente que você pode utilizar uma maneira 
+mais elegante de administrá-los, e é isso que o professor quer nos mostrar.
+
+para isso, ele cria umas variáveis globais no topo do documento.
+
+
+Ter essas constantes globais no topo facilita para os outros desenvolvedores entenderem quais 
+constantes esse arquivo usa.
+
+
+ex:
+
+
+
+const MODE_ATTACK = 'ATTACK';
+
+const MODE_STRONG_ATTACK = 'STRONG_ATTACK';
+
+alternativamente, você poderia assignar um NÚMERO para o negócio, caso você esteja trabalhando com números em vez de strings:
+
+
+
+
+ex: 
+
+const MODE_ATTACK = 0;
+
+const MODE_STRONG_ATTACK = 1;
+
+
+
+qual é a ideia por trás dessas constantes aqui? A ideia é que você pode usar elas nas if conditions e nas horas em que você quer chamar uma função.
+
+
+Agora, em vez de chamar uma condição por meio de uma STRING HARDCODED, nós chamamos por meio dessas constantes globais, úteis também por poderem ser 
+reutilizadas.
+
+
+function attackMonster(mode) {
+    let maxDamage;
+    if (mode === MODE_ATTACK) {          ---------------> DIFERENÇA
+        maxDamage = ATTACK_VALUE;
+    } else if (mode === MODE_STRONG_ATTACK){
+        maxDamage = STRONG_ATTACK_VALUE;      --------------> DIFERENÇA
+    }
+    const damage = dealMonsterDamage(maxDamage);
+    currentMonsterHealth -= damage;
+    endRound();
+    }
+
+
+A vantagem aqui é que apenas escrevemos a string UMA ÚNICA VEZ, lá em cima, 
+e aí todas as outras vezes somente reutilizamos aquela const. Aí fica muito mais fácil 
+de evitar erros de digitação, pq o IDE nos sugere sempre aquela constante conveniente.
+
+
+Isso economiza minutos e horas do nosso tempo.
+
+
+

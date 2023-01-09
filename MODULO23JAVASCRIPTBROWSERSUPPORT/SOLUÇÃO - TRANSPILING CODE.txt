@@ -1,0 +1,1266 @@
+
+
+
+
+
+
+PARA ALGUMAS FEATURES, VOCê___ NÃO CONSEGUE/NÃO PODE_____ usar 'feature detection', fallback codes OU POLYFILLS...
+
+
+
+
+
+ E essas features, geralmente você não pode as ignorar....
+
+
+
+
+
+
+ TIPICAMENTE, esse é o caso PARA FEATURES 'CORE' DE SINTAXE DO JAVASCRIPT....
+
+
+
+
+Core features como O ASYNC/AWAIT  
+
+
+e as ARROW FUNCTIONS...
+
+
+
+
+também como O 'LET/CONST'...
+
+
+
+-----------------------------------
+
+
+
+
+Todas essas são features que vocÊ, como desenvolvedor, provavelmente vai querer usar...
+
+
+
+Vai querer usar porque elas te permitem escrever CÓDIGO MAIS LIMPO e 
+
+fazer 'workarounds' de certos problemas que você encontra na sintaxe/código 
+
+javascript mais antigo....
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+OU SEJA, VOCÊ VAI QUERER USAR ESSE CÓDIGO MODERNO....
+
+
+
+
+
+Mas você também precisa suportar browsers que talvez não entendam essas features mais novas....
+
+
+
+
+
+
+
+CONST ----> tem bom suporte.... MAS VERSÕES MAIS VELHAS DO INTERNET EXPLORER NÃO O SUPORTAM....
+
+
+
+
+
+Arrow functions ----> INTERNET EXPLORER NÃO SUPORTA NADA, NEM NA VERSÃO 11.....
+
+
+
+---------------------------------------
+
+
+
+Ok, digamos que queremos escrever código moderno, com const e arrow functions, que seja 
+
+suportado por versões mais velhas do 
+
+internet explorer e do firefox....
+
+
+
+
+
+---> o que fazemos?
+
+
+
+
+---> não podemos usar polyfill PORQUE ESSAS SÃO 'CORE LANGUAGE FEATURES'........ --->
+---> se a keyword 'let' NÃO É RECONHECIA, NÃO HÁ MANEIRA ALGUMA DE FAZÊ-LA funcionar, é um caso 
+
+diferente do caso das promises e 'fetch()'... é diferente pq LET/CONST e arrow functions NÃO SÃO 
+
+FUNÇÕES QUE VOCÊ PODE CHAMAR NO SEU CÓDIGO, como 'promises' e 'fetch'.....
+
+
+
+
+
+
+----> const é, NA VERDADE, APENAS UMA KEYWORD QUE DIZ à ENGINE O QUE O CÓDIGO QUE VEM NA SUA FRENTE 
+
+É 'all about'..., que ele criará uma VARIÁVEL QUE NÃO MUDA (const).... ---> essa é uma funcionalidade QUE NÃO PODE SER RECONSTRUÍDA COM OUTRAS FERRAMENTAS.... (é uma core feature)....
+
+
+
+
+--> simplesmente a keyword 'const' FICA FALTANDO NOS BROWSERS MAIS ANTIGOS; A CONST KEYWORD NÃO É RECONHECIDA 
+
+E BROWSERS NÃO ENTENDEM/NÃO RECONHECEM sua existência... eles vão simplesmente CRASHAR quando parsearem essa keyword...
+
+
+
+-------------------------------------------------------
+
+
+
+ 
+
+
+ PARA FAZER O CÓDIGO QUE ENVOLVE 'CONST' AINDA FUNCIONAR, ou seja, para ainda assim conseguir 
+
+ FAZER SHIP DO CÓDIGO, dar deploy NO CÓDIGO E ELE AINDA FUNCIONAR, 
+
+ VOCÊ PODE USAR ___________TRANSPILATION____________....
+
+
+
+
+
+
+ A ideia por trás 
+
+
+ da 'transpilation' é que 
+
+
+ VOCê 'TRANSPILA' (transforma) CÓDIGO MODERNO EM CÓDIGO ANTIGO............
+
+
+
+
+
+ PROFESSOR EXPLICA QUE É EVIDENTE QUE ISSO __NÃO É FEITO___ MANUALMENTE, porque se fosse feito manualmente, você 
+ poderia simplesmente escrever o código mais antigo desde o início....
+
+
+
+
+ EM VEZ DISSO, VOCê TEM TOOLS QUE CUMPREM ESSA FUNÇÃO: 
+
+
+ A MAIS POPULAR DE TODAS É 'BABEL', que é um negócio que faz essa transpilação AUTOMATICAMENTE PARA VOCÊ....
+
+
+
+
+-----> Babel...
+
+
+
+
+
+
+
+---> O BABEL ATÉ PODE SER INTEGRADO NO WORKFLOW DO SEU WEBPACK, e isso é muito conveniente, porque 
+
+aí TODO O PROCESSO DE ADAPTAÇÃO PARA BROWSERS ANTIGOS 
+
+OCORRE EM UMA ÚNICA ETAPA, dentro do webpack...
+
+
+
+
+-----> ISSO TE PERMITE ESCREVER CÓDIGO MODERNO USANDO 'CUTTING EDGE' JAVASCRIPT language features 
+
+E AINDA ASSIM FAZER 'SHIP'/DEPLOY DESSE SEU CÓDIGO, DESSE SEU CÓDIGO QUE 
+
+AGORA SERÁ UM CÓDIGO 'CROSS BROWSER'....
+
+
+
+
+-------> esse seu código 'cross browser', por exemplo, usará 'var' EM VEZ DE 'let/const', justamente 
+
+PARA QUE ELE FUNCIONE EM BROWSERS MAIS ANTIGOS... usará NORMAL FUNCTIONS em vez de arrow functions...
+
+
+---------------------------------------------------
+
+
+ 
+
+
+ OK, MAS COMO ISSO SERÁ USADO NO NOSSO PROJETO?
+
+
+
+
+
+
+ Bem, diz o professor, devemos PARAR O NOSSO DEV SERVER E INSTALAR ESSE 'transpiler', instalar o BABEL.
+
+
+
+---------------------------------------------------
+
+
+
+
+
+Para isso, vocÊ deve escrever no terminal o seguinte código:
+
+
+
+
+'npm install --save-dev xxx'
+
+
+
+
+---------------------------
+
+
+
+
+Professor diz que devemos usar BABEL....
+
+
+
+
+
+Mas professor diz que devemos usar O BABEL __ LOADER____...
+
+
+
+Ele diz que essa É A INTEGRAÇÃO WEBPACK DE 'babel'... (já havíamos visto isso no nosso código antes, mas tínhamos bloqueado porque achávamos que era porcaria).
+
+
+
+
+
+
+
+
+VAMOS ATÉ A PÁGINA 'GITHUB' de babel loader....
+
+
+
+
+
+
+
+Em 'babel loader', você aprende sobre COMO VOCê PODE INSTALÁ-LO...
+
+
+
+
+
+
+
+
+
+a instalação nos mostra que 
+
+
+para fazer o babel funcionar com o webpack, 
+
+
+
+precisamos 
+
+
+de 3 pacotes (além de webpack):
+
+
+
+
+'babel-loader' 
+
+
+
+'@babel/core'
+
+
+
+
+E 
+
+
+'@babel/preset-env'
+
+
+
+---------------------------------
+
+
+
+
+
+então escrevemos no terminal:
+
+
+
+
+
+'npm install --save-dev babel-loader @babel/core @babel/preset-env'
+
+
+
+
+
+
+----------------------------------------------------
+
+
+
+
+Certo... instalamos esse negócio...
+
+
+
+
+
+
+
+
+
+ISSO FEITO, DEVEMOS/PODEMOS EDITAR O 'webpack.config.js' PARA 
+
+UTILIZAR 
+
+ESSE 'babel'...
+
+
+
+
+
+BABEL-LOADER ----> É A INTEGRAÇÃO DO WEBPACK-BABEL, é aquilo que 
+
+faz a CONEXÃO ENTRE OS DOIS....
+
+
+
+
+
+BABEL-CORE ---> É LITERALMENTE A FERRAMENTA 'BABEL'...
+É a ferramenta que sabe como TRADUZIR CÓDIGO MODERNO EM CÓDIGO ANTIGO...
+
+
+
+
+BABEL-PRESET-ENV ----> É um PRESET que CONTROLA QUAIS FEATURES SÃO COMPILADAS DE TAIS 
+                E TAIS MANEIRAS... ----> na verdade, ESSA É A PACKAGE COM 
+                AS REGRAS CONCRETAS DE TRADUÇÃO/TRANSLATION...
+
+
+
+
+
+------------------------------------------------------
+
+
+
+Certo, temos essas 3 packages...
+
+
+
+
+
+MAS COMO AS UTILIZAMOS?
+
+
+
+
+
+
+
+Devemos seguir as regras de instalação no github....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+webpack documentation: Loaders
+
+Within your webpack configuration object, you'll need to add the babel-loader to the list of modules, like so:
+
+module: {
+  rules: [
+    {
+      test: /\.m?js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', { targets: "defaults" }]
+          ]
+        }
+      }
+    }
+  ]
+}
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+OU SEJA, VOCê DEVE INSERIR ESSE OBJETO 'MÓDULO' DENTRO DO SEU WEBPACK.CONFIG.JS 
+
+
+'config object'... 
+
+
+(pode ser em qualquer lugar, a posição não importa, vocÊ apenas tem que colocar vírgulas...).
+
+
+
+ex:
+
+
+
+
+const path = require('path');
+
+
+
+
+
+
+
+
+
+
+
+module.exports = {
+  mode: 'development',
+
+  entry: './src/app.js',  ////CORRIGI
+  output: {
+    filename: 'app.js',
+    path: path.resolve(__dirname, 'assets', 'scripts'),
+    publicPath: '/assets/scripts' ////CORRIGI. O PROBLEMA ERA O '/'.
+    
+  },
+  module: { /////////CÓDIGO QUE IMPLEMENTA/CONFIGURA O 'BABEL-LOADER'..
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: "defaults" }]
+            ]
+          }
+        }
+      }
+    ]
+  },
+  
+
+  devtool: 'eval-cheap-module-source-map',
+  //  devServer: {
+  //    contentBase: './'   ////////Eu tirei isso e o plugin de 'clean-webpack-plugin' para fazer tudo funcionar...
+  //  },
+
+
+  plugins: [
+    //new CleanPlugin.CleanWebpackPlugin()
+  ]
+};
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+Isso basicamente adiciona uma entry de 'module', O QUAL BASICAMENTE 
+
+
+DÁ INSTRUÇÕES AO WEBPACK SOBRE ____COMO ___ TRANSFORMAR SEUS DIFERENTES 
+
+MÓDULOS JAVASCRIPT (seus diferentes arquivos script)............
+
+
+
+
+UM 'MÓDULO', no "mundo webpack", É APENAS UM SIMPLES ARQUIVO....
+
+
+
+
+
+
+
+é por isso que 'module:' inserido no objeto config do 'webpack.config.js' ESSENCIALMENTE 
+
+DIZ AO 'WEBPACK' o que fazer com nossos diversos módulos, com os módulos que ele está gerenciando...
+
+
+
+
+
+
+
+
+
+A entry 'rules', no interior de 'module', dispõe VÁRIAS REGRAS....
+
+
+
+
+essas regras existem pq há situações em que você VAI QUERER CONTROLAR DIFERENTES 
+
+TIPOS DE ARQUIVOS.... VAI QUERER CONTROLAR DIFERENTES TIPOS DE ARQUIVOS COM __DIFERENTES___ 
+
+TIPOS ___ DE 'loaders'...
+
+
+
+------------------------------------
+
+
+
+
+uma 
+
+'rule' (rules) É UM 
+
+OBJETO JAVASCRIPT EM QUE VOCÊ TEM UMA 
+
+
+PROPRIEDADE 'test'....
+
+
+
+Na propriedade 'test', você DEFINE COMO O ARQUIVO QUE VOCÊ QUER 
+
+TRADUZIR/TRANSPILAR ____DEVERÁ ___ SER IDENTIFICADO...
+
+
+
+
+
+
+o que temos ali é 
+
+
+
+'test: /\.m?js$/'
+
+
+
+
+
+
+
+
+
+/\.m?js$/ -------------------------> ISSO É UMA ___rEGULAR EXPRESSION____.
+
+
+
+
+APRENDEMOS SOBRE ELAS BREVEMENTE NO MÓDULO DE 'STRINGS E NÚMEROS'.....
+
+
+
+
+
+
+/\.m?js$/ --------> estamos basicamente dizendo:
+
+
+
+'QUALQUER ARQUIVO ACABANDO/QUE ACABE COM '.js' ou '.mjs' DEVE 
+
+SER TRATADO/HANDLADO por ESSA REGRA, ESSE OBJETO 'RULE'.... '  -----> 'outros arquivos, com diferentes extensões no seu final, SERÃO IGNORADOS'....
+
+
+(OU SEJA, A PROPRIEDADE TEST É UM 'delimitador'...).
+
+
+
+
+----------------------------------------------------
+
+
+
+outro delimitador é 
+
+
+'exclude', que aqui está como '/(node_modules|bower_components)/'.........
+
+
+
+
+
+
+'EXCLUDE' AFASTA DA INCIDÊNCIA DO BABEL TODOS OS ARQUIVOS QUE ESTÃO EM 'node_modules', ou em 
+
+
+'bower_components'...  (BOWER É OUTRO PACKAGE MANAGER...).
+
+
+
+
+
+TODOS ESSES NEGÓCIOS SERÃO IGNORADOS... ----> isso é feito PARA QUE 
+
+O CÓDIGO NÃO SEJA IDIOTA E TENTE TRANSPILAR CÓDIGO/CÓDIGOS QUE 
+
+___FAZEM PARTE DE THIRD PARTY PACKAGES____....
+
+
+
+
+(É por isso que esses negócios sempre vêm configurados assim DIREITO DA CAIXA.).....
+
+
+
+
+
+
+
+DEPOIS DISSO, TEMOS A 'AÇÃO CONCRETA' que deverá ser empregada...
+
+
+é o 
+
+
+
+'use: {}'....
+
+
+
+
+'use' É UM OBJETO EM QUE CONFIGURAMOS O LOADER QUE DEVERÁ SER APLICADO 
+
+
+AO NOSSO PROJETO...  
+
+
+
+
+AQUI, colocamos use: {
+    loader: 'babel-loader'
+},
+
+
+
+POIS É O ____BABEL___ QUE DEVERÁ SER USADO PARA GERENCIAR AQUELES ARQUIVOS 
+
+.js e .mjs...
+
+
+
+
+por fim, há a propriedade 'presets', QUE USA AQUELE RULESET DE 
+
+
+'@babel/preset-env'...
+
+
+
+-------------------------------------
+
+
+
+
+FEITA ESSA EXPLICAÇÃO, O PROFESSOR COPIA TODO ESSE CÓDIGO DE configuração do BABEL-LOADER 
+
+
+
+no 'webpack.config.prod.js'...
+
+
+
+
+
+
+
+
+PROFESSOR DIZ QUE, NA VERDADE, LÁ NO webpack.config.prod.js É 
+
+AINDA MAIS IMPORTANTE QUE TENHAMOS O 
+
+
+'BABEL CONFIGURADO', pois O CÓDIGO DE 
+
+PRODUÇÃO É O CÓDIGO QUE QUEREMOS, NO FINAL DAS CONTAS, DAR DEPLOY/SHIP OUT aos nossos 
+
+usuários...
+
+
+
+
+------> DEBAIXO DE 'TEST', nós ainda vamos provavelmente testar 
+
+esse código do babel em browsers modernos, mas nós devemos 
+
+compilá-lo também, devemos compilá-lo para que 
+
+
+tenhamos A MESMA EXPERIÊNCIA DOS USUÁRIOS QUE USARÃO SEU CÓDIGO DE VERDADE,
+
+O CÓDIGO que foi 'shipped out'... (código de produção).
+
+
+
+
+
+
+MAS SÃO OS USUÁRIOS QUE RECEBEM SEU 'PRODUCTION READY CODE' que 
+
+realmente precisam desse código que funciona em browsers antigos, por isso que 
+
+é importante que você tenha esse módulo do 'babel' funcionando no 'webpack.config.prod.js'...
+
+
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+ESSE FOI O PRIMEIRO PASSO.
+
+
+NÃO ACABAMOS POR AQUI, NO ENTANTO.
+
+
+
+
+Ainda precisamos configurar QUAIS BROWSERS VAMOS QUERER SUPPORTAR....
+
+
+
+PQ ESSA É A COISA LEGAL DO 'BABEL', mais precisamente 
+
+
+do 
+
+
+'@babel/preset-env':
+
+
+
+
+
+O PROFESSOR DISSE QUE ISSO É UM PRESET DE REGRAS/RULES QUE CONTROLA 
+
+QUAIS FEATURES SÃO TRADUZIDAS PARA 'TAL E TAL CÓDIGO ANTIGO'... ('which features are translated to which older code'... ---> ou seja, VOCÊ É QUE DEVE SELECIONAR O BROWSER-ALVO ANTIGO que você vai querer)...
+
+
+
+
+
+Exemplo clássico é o do LET e CONST...
+
+
+
+Ambos são traduzidos para VAR.
+
+
+
+É evidente que a exata tradução que você vai querer DEPENDERÁ DOS BROWSERS QUE VOCê 
+
+ESTIVER OBJETIVANDO...
+
+
+
+É aí que aquele tópico do 'escolha de mercado' pega forte:
+
+NÓS DEVEMOS EXAMINAR O PÚBLICO-ALVO DO NOSSO SITE, PERCEBER 
+
+SE ELES SÃO 'VELHINHOS'/pessoas que não entendem de informática 
+
+
+OU 'TECH-SAVVY' users...
+
+
+
+
+
+SE VOCÊ DER MAIS UMA OLHADA NAQUELA 'COMPAT TABLE' do kangax, 
+
+
+VOCê VERÁ 
+
+QUE 
+
+
+AS DIFERENTES FEATURES OFERECIDAS PELOS BROWSERS MODERNOS 
+
+POSSUEM DIFERENTES SUPORTES EM BROWSERS...
+
+
+Por exemplo, const e let têm BOM SUPORTE, em geral...
+
+
+
+
+Em razão desse bom suporte, NÓS TALVEZ NEM PRECISEMOS 
+
+COMPILAR/TRANSPILAR ESSAS FEATURES.... ------> se só QUEREMOS 
+
+OBJETIVAR 'INTERNET EXPLORER 11', que é um dos únicos browsers que não suporta const/let,
+
+e as features parciais faltando NÃO CONSTITUI UM PROBLEMA PARA NÓS, podemos deixar 
+
+de transpilar/compilar essas features....
+
+
+
+
+
+
+
+POR OUTRO LADO, SE TIVERMOS UMAS FEATURES QUE SÃO IMPORTANTES PARA NÓS 
+E QUE NÃO SÃO SUPORTADAS NO BROWSER QUE QUEREMOS OPTIVAR, VAMOS TER  
+
+DE 'COMPILÁ-LAS/TRANSPILÁ-LAS'...
+
+
+
+
+
+CERTO.
+
+
+QUEREMOS DIZER AO 'BABEL' E ÀQUELE '@label/preset-env' PACKAGE
+
+PARA QUAL BROWSER A COMPILAÇÃO DEVERÁ SER 'FINE TUNED' (qual é o destino/browser de nossa 
+
+escolha para esse código transpilado? ---> isso muda tudo, os códigos vão variar em razão 
+de nossos intuitos ) ----------> GRAÇAS A DEUS, BABEL 
+                                FUNCIONA EXATAMENTE ASSIM:
+
+                                O babel te dá CÓDIGO QUE É '__FINE TUNED___' 
+                                AOS BROWSERS QUE VOCÊ DESEJA QUE SUPORTEM O SEU CÓDIGO...
+
+
+
+  
+
+
+
+
+  CERTO, MAS COMO DIABOS PASSAMOS ESSAS INFORMAÇÕES AO 'BABEL'?
+
+
+
+
+
+  PROFESSOR EXPLICA QUE PODEMOS FAZER ISSO POR MEIO DO 
+
+
+  'PACKAGE.JSOn'..
+
+
+
+
+
+
+  DENTRO DE PACKAGE.JSON, DEVEMOS ADICIONAR UMA NOVA ENTRADA 'solta'...
+
+
+
+  ESSA ENTRY DEVERÁ SER CHAMADA DE 'browsersList'...
+
+
+
+
+  EX:
+
+
+
+
+
+
+
+  {
+  "name": "my-webpack-project",
+  "version": "1.0.0",
+  "description": "My webpack project",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dev": "webpack",
+    "build:devServer": "webpack serve",
+    "build:prod": "webpack --config webpack.config.prod.js",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "browserslist": ""
+  "devDependencies": {
+    "@babel/core": "^7.13.1",
+    "@babel/preset-env": "^7.13.5",
+    "@webpack-cli/init": "^1.1.3",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^7.20.0",
+    "lodash": "^4.17.21",
+    "webpack": "^5.24.1",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
+
+
+
+
+
+OBS: O KEYNAME E VALOR DESSA PROPRIEDADE DEVE SER ESPECIFICADO COMO STRINGS.... ("").
+------------------------
+
+
+
+
+
+DENTRO DO VALOR DE 'browserslist', vocÊ pode ESPECIFICAR UMA "browser list configuration string"...
+
+
+
+'BROWSERLIST', AFINAL DE CONTAS, é uma PACKAGE SEPARADA QUE É UTILIZADA 
+
+POR "__@BABEL/preset-env___" POR TRÁS DAS CENAS........
+
+
+
+O professor nos dá um anexo de QUAIS OPÇÕES PODEMOS SETTAR 
+
+
+EM 'browserslist'......
+
+
+
+
+você pode fazer coisas como 
+
+definir 
+
+
+'> 2%'  (MAIS DO QUE 2 POR CENTO)... -------> 
+
+
+
+ISSO VAI DIZER AO CÓDIGO QUE QUEREMOS SHIPPAR CÓDIGO QUE TENHA 'MARKET SHARE' DE 
+
+MAIS DO QUE 2%.... AÍ, cada vez que você constrói o código, essa porcentagem É 
+CHECADA PELO 'BABEL'... -----> ESSE 'UNDER THE HOOD' BROWSERSLIST faz 'tap into a source' (o qual é 
+SEMPRE MANTIDO ATUALIZADo) PARA QUE VOCê 
+
+CONSIGA CONSTRUIR CÓDIGO QUE FUNCIONE EM BROWSERS COM __MAIS DO QUE 2%___ DE 'market share'... (nesse exemplo)...
+
+
+
+
+
+
+COM ISSO, PODEMOS RODAR 'NPM RUN build' PARA PEGAR O RESULTADO 
+
+"NÃO OPTIMIZADO" do nosso código...
+
+
+
+
+-------------------------------------------------------------
+
+FEITO ISSO, AGORA EM 'assets/scripts' veremos UM ARQUIVO 'app.js' COM 
+
+
+NOSSO CÓDIGO...
+
+
+
+
+A parte interessante é que ESSE CÓDIGO DE app.js FAZ PARTE DO 'WEBPACK WORLD', por isso é evidente 
+
+QUE ELE TEM CÓDIGO DO WEBPACK, código extra do webpack...
+
+
+MAS SE SCROLLARMOS PARA BAIXO UM POUCO, veremos 
+
+
+
+'eval("const button = document.querySelector(...)")', e outras linhas....
+
+
+
+ISSO É O NOSSO CÓDIGO ORIGINÁRIO, e O WEBPACK FAZ ALGUMAS COISAS COM ELE...
+
+
+
+
+
+ex:
+
+
+eval("var button = document.querySelector('button');\nvar textParagraph = document.querySelector('p');\n/*\nbutton.addEventListener('click', () => {\nconst text = textParagraph.textContent;\nnavigator.clipboard.\nwriteText(text).\nthen(result => {\n    console.log(result);\n})\n.catch(error => {\n    console.log(error);\n});\n});\n*/\n\nbutton.addEventListener('click', function () {\n  var text = textParagraph.textContent;\n\n  if (navigator.clipboard) {\n    ///esse código desse if block só será executado SE ESSA FEATURE FOR SUPORTADA NESSE  determinado BROWSER...\n    navigator.clipboard.writeText(text).then(function (result) {\n      console.log(result);\n    }).catch(function (error) {\n      console.log(error);\n    });\n  } else {\n    alert('Your browser is shit and does not support this feature'); ///Isso é usado para BROWSERS QUE NÃO FUNCIONAM, ESSE ELSE BLOCK. ISSO FAZ COM QUE NOSSO CÓDIGO NÃO __QUEBRE___/CRASHE. É o código de fallback.\n  }\n});\nconsole.log('It works'); //////O IF CHECK NOS MOSTRA COMO FAZER FEATURE DETECTION NO NOSSO CÓDIGO, E COMO EXECUTAR VERSÕES DE NOSSO CÓDIGO DE ACORDO COM A PRESENÇA/AUSÊNCIA DE FEATURES NOS BROWSERS.//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9teS13ZWJwYWNrLXByb2plY3QvLi9zcmMvYXBwLmpzPzExMTIiXSwibmFtZXMiOlsiYnV0dG9uIiwiZG9jdW1lbnQiLCJxdWVyeVNlbGVjdG9yIiwidGV4dFBhcmFncmFwaCIsImFkZEV2ZW50TGlzdGVuZXIiLCJ0ZXh0IiwidGV4dENvbnRlbnQiLCJuYXZpZ2F0b3IiLCJjbGlwYm9hcmQiLCJ3cml0ZVRleHQiLCJ0aGVuIiwicmVzdWx0IiwiY29uc29sZSIsImxvZyIsImNhdGNoIiwiZXJyb3IiLCJhbGVydCJdLCJtYXBwaW5ncyI6IkFBQUEsSUFBTUEsTUFBTSxHQUFHQyxRQUFRLENBQUNDLGFBQVQsQ0FBdUIsUUFBdkIsQ0FBZjtBQUdBLElBQU1DLGFBQWEsR0FBR0YsUUFBUSxDQUFDQyxhQUFULENBQXVCLEdBQXZCLENBQXRCO0FBS0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBUUFGLE1BQU0sQ0FBQ0ksZ0JBQVAsQ0FBd0IsT0FBeEIsRUFBaUMsWUFBTTtBQUNuQyxNQUFNQyxJQUFJLEdBQUdGLGFBQWEsQ0FBQ0csV0FBM0I7O0FBQ0EsTUFBSUMsU0FBUyxDQUFDQyxTQUFkLEVBQXlCO0FBQUc7QUFDeEJELElBQUFBLFNBQVMsQ0FBQ0MsU0FBVixDQUNBQyxTQURBLENBQ1VKLElBRFYsRUFFQUssSUFGQSxDQUVLLFVBQUFDLE1BQU0sRUFBSTtBQUNYQyxNQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUYsTUFBWjtBQUNILEtBSkQsRUFJR0csS0FKSCxDQUlTLFVBQUFDLEtBQUssRUFBSTtBQUNkSCxNQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUUsS0FBWjtBQUNILEtBTkQ7QUFPSCxHQVJELE1BUU87QUFDSEMsSUFBQUEsS0FBSyxDQUFDLHdEQUFELENBQUwsQ0FERyxDQUM4RDtBQUNwRTtBQUVBLENBZEw7QUFtQkFKLE9BQU8sQ0FBQ0MsR0FBUixDQUFZLFVBQVosRSxDQVFBIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgYnV0dG9uID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignYnV0dG9uJyk7XG5cblxuY29uc3QgdGV4dFBhcmFncmFwaCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJ3AnKTtcblxuXG5cblxuLypcbmJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHtcbmNvbnN0IHRleHQgPSB0ZXh0UGFyYWdyYXBoLnRleHRDb250ZW50O1xubmF2aWdhdG9yLmNsaXBib2FyZC5cbndyaXRlVGV4dCh0ZXh0KS5cbnRoZW4ocmVzdWx0ID0+IHtcbiAgICBjb25zb2xlLmxvZyhyZXN1bHQpO1xufSlcbi5jYXRjaChlcnJvciA9PiB7XG4gICAgY29uc29sZS5sb2coZXJyb3IpO1xufSk7XG59KTtcbiovXG5cblxuXG5cblxuXG5cbmJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHtcbiAgICBjb25zdCB0ZXh0ID0gdGV4dFBhcmFncmFwaC50ZXh0Q29udGVudDtcbiAgICBpZiAobmF2aWdhdG9yLmNsaXBib2FyZCkgeyAgLy8vZXNzZSBjw7NkaWdvIGRlc3NlIGlmIGJsb2NrIHPDsyBzZXLDoSBleGVjdXRhZG8gU0UgRVNTQSBGRUFUVVJFIEZPUiBTVVBPUlRBREEgTkVTU0UgIGRldGVybWluYWRvIEJST1dTRVIuLi5cbiAgICAgICAgbmF2aWdhdG9yLmNsaXBib2FyZC5cbiAgICAgICAgd3JpdGVUZXh0KHRleHQpLlxuICAgICAgICB0aGVuKHJlc3VsdCA9PiB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhyZXN1bHQpO1xuICAgICAgICB9KS5jYXRjaChlcnJvciA9PiB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhlcnJvcik7XG4gICAgICAgIH0pXG4gICAgfSBlbHNlIHtcbiAgICAgICAgYWxlcnQoJ1lvdXIgYnJvd3NlciBpcyBzaGl0IGFuZCBkb2VzIG5vdCBzdXBwb3J0IHRoaXMgZmVhdHVyZScpOyAvLy9Jc3NvIMOpIHVzYWRvIHBhcmEgQlJPV1NFUlMgUVVFIE7Dg08gRlVOQ0lPTkFNLCBFU1NFIEVMU0UgQkxPQ0suIElTU08gRkFaIENPTSBRVUUgTk9TU08gQ8OTRElHTyBOw4NPIF9fUVVFQlJFX19fL0NSQVNIRS4gw4kgbyBjw7NkaWdvIGRlIGZhbGxiYWNrLlxuICAgIH1cbiAgICBcbiAgICB9KTtcblxuXG5cblxuY29uc29sZS5sb2coJ0l0IHdvcmtzJyk7XG5cblxuXG5cblxuXG5cbi8vLy8vL08gSUYgQ0hFQ0sgTk9TIE1PU1RSQSBDT01PIEZBWkVSIEZFQVRVUkUgREVURUNUSU9OIE5PIE5PU1NPIEPDk0RJR08sIEUgQ09NTyBFWEVDVVRBUiBWRVJTw5VFUyBERSBOT1NTTyBDw5NESUdPIERFIEFDT1JETyBDT00gQSBQUkVTRU7Dh0EvQVVTw4pOQ0lBIERFIEZFQVRVUkVTIE5PUyBCUk9XU0VSUy4iXSwiZmlsZSI6Ii4vc3JjL2FwcC5qcy5qcyIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/app.js\n");
+
+
+
+
+
+----------------------------------------
+
+
+
+MAS, AINDA ASSIM, ESSE É O NOSSO CÓDIGO...
+
+
+e vocÊ verá, por exemplo, QUE 
+
+'CONST'  FOI MANTIDA AQUI NESSE TRECHO....
+
+
+
+
+Se eu for até o 'browserslist'
+
+
+
+E MUDAR AQUELE NEGÓCIO, MUDAR PARA BROWSERS COM MARKET SHARE  ____SUPERIOR___ A 0.2% (O QUE 
+
+INCLUI BROWSERS BEM MAIS PEQUENOS E VELHOS, pois 0.2% de market share é BEM POUCO), VEREMOS MUDANÇAS NO NOSSO CÓDIGO....
+
+
+
+
+(OBS:
+
+
+0.2%: All browsers that have AT LEAST 0,2% of global market share
+
+
+not dead: Exclude browsers without official support in the last 24 months
+
+
+not ie <= 11: Exclude IE 11 and older versions
+
+
+not op_mini all: Exclude Opera Mini
+
+
+)
+
+
+
+------------------------------------------------------
+
+
+
+
+
+SE AGORA CHECARMOS AQUELA MESMA LINHA NO 'APP.JS', VEREMOS QUE O CÓDIGO FOI TRANSFORMADO 
+
+PARA SUPORTAR BROWSERS BOSTA/MENORES/ANTIGOS....
+
+
+ex:
+
+
+eval("var button = document.querySelector('button');\nvar textParagraph = document.querySelector('p');\n/*\nbutton.addEventListener('click', () => {\nconst text = textParagraph.textContent;\nnavigator.clipboard.\nwriteText(text).\nthen(result => {\n    console.log(result);\n})\n.catch(error => {\n    console.log(error);\n});\n});\n*/\n\nbutton.addEventListener('click', function () {\n  var text = textParagraph.textContent;\n\n  if (navigator.clipboard) {\n    ///esse código desse if block só será executado SE ESSA FEATURE FOR SUPORTADA NESSE  determinado BROWSER...\n    navigator.clipboard.writeText(text).then(function (result) {\n      console.log(result);\n    }).catch(function (error) {\n      console.log(error);\n    });\n  } else {\n    alert('Your browser is shit and does not support this feature'); ///Isso é usado para BROWSERS QUE NÃO FUNCIONAM, ESSE ELSE BLOCK. ISSO FAZ COM QUE NOSSO CÓDIGO NÃO __QUEBRE___/CRASHE. É o código de fallback.\n  }\n});\nconsole.log('It works'); //////O IF CHECK NOS MOSTRA COMO FAZER FEATURE DETECTION NO NOSSO CÓDIGO, E COMO EXECUTAR VERSÕES DE NOSSO CÓDIGO DE ACORDO COM A PRESENÇA/AUSÊNCIA DE FEATURES NOS BROWSERS.//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9teS13ZWJwYWNrLXByb2plY3QvLi9zcmMvYXBwLmpzPzExMTIiXSwibmFtZXMiOlsiYnV0dG9uIiwiZG9jdW1lbnQiLCJxdWVyeVNlbGVjdG9yIiwidGV4dFBhcmFncmFwaCIsImFkZEV2ZW50TGlzdGVuZXIiLCJ0ZXh0IiwidGV4dENvbnRlbnQiLCJuYXZpZ2F0b3IiLCJjbGlwYm9hcmQiLCJ3cml0ZVRleHQiLCJ0aGVuIiwicmVzdWx0IiwiY29uc29sZSIsImxvZyIsImNhdGNoIiwiZXJyb3IiLCJhbGVydCJdLCJtYXBwaW5ncyI6IkFBQUEsSUFBTUEsTUFBTSxHQUFHQyxRQUFRLENBQUNDLGFBQVQsQ0FBdUIsUUFBdkIsQ0FBZjtBQUdBLElBQU1DLGFBQWEsR0FBR0YsUUFBUSxDQUFDQyxhQUFULENBQXVCLEdBQXZCLENBQXRCO0FBS0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBUUFGLE1BQU0sQ0FBQ0ksZ0JBQVAsQ0FBd0IsT0FBeEIsRUFBaUMsWUFBTTtBQUNuQyxNQUFNQyxJQUFJLEdBQUdGLGFBQWEsQ0FBQ0csV0FBM0I7O0FBQ0EsTUFBSUMsU0FBUyxDQUFDQyxTQUFkLEVBQXlCO0FBQUc7QUFDeEJELElBQUFBLFNBQVMsQ0FBQ0MsU0FBVixDQUNBQyxTQURBLENBQ1VKLElBRFYsRUFFQUssSUFGQSxDQUVLLFVBQUFDLE1BQU0sRUFBSTtBQUNYQyxNQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUYsTUFBWjtBQUNILEtBSkQsRUFJR0csS0FKSCxDQUlTLFVBQUFDLEtBQUssRUFBSTtBQUNkSCxNQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUUsS0FBWjtBQUNILEtBTkQ7QUFPSCxHQVJELE1BUU87QUFDSEMsSUFBQUEsS0FBSyxDQUFDLHdEQUFELENBQUwsQ0FERyxDQUM4RDtBQUNwRTtBQUVBLENBZEw7QUFtQkFKLE9BQU8sQ0FBQ0MsR0FBUixDQUFZLFVBQVosRSxDQVFBIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgYnV0dG9uID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignYnV0dG9uJyk7XG5cblxuY29uc3QgdGV4dFBhcmFncmFwaCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJ3AnKTtcblxuXG5cblxuLypcbmJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHtcbmNvbnN0IHRleHQgPSB0ZXh0UGFyYWdyYXBoLnRleHRDb250ZW50O1xubmF2aWdhdG9yLmNsaXBib2FyZC5cbndyaXRlVGV4dCh0ZXh0KS5cbnRoZW4ocmVzdWx0ID0+IHtcbiAgICBjb25zb2xlLmxvZyhyZXN1bHQpO1xufSlcbi5jYXRjaChlcnJvciA9PiB7XG4gICAgY29uc29sZS5sb2coZXJyb3IpO1xufSk7XG59KTtcbiovXG5cblxuXG5cblxuXG5cbmJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHtcbiAgICBjb25zdCB0ZXh0ID0gdGV4dFBhcmFncmFwaC50ZXh0Q29udGVudDtcbiAgICBpZiAobmF2aWdhdG9yLmNsaXBib2FyZCkgeyAgLy8vZXNzZSBjw7NkaWdvIGRlc3NlIGlmIGJsb2NrIHPDsyBzZXLDoSBleGVjdXRhZG8gU0UgRVNTQSBGRUFUVVJFIEZPUiBTVVBPUlRBREEgTkVTU0UgIGRldGVybWluYWRvIEJST1dTRVIuLi5cbiAgICAgICAgbmF2aWdhdG9yLmNsaXBib2FyZC5cbiAgICAgICAgd3JpdGVUZXh0KHRleHQpLlxuICAgICAgICB0aGVuKHJlc3VsdCA9PiB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhyZXN1bHQpO1xuICAgICAgICB9KS5jYXRjaChlcnJvciA9PiB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhlcnJvcik7XG4gICAgICAgIH0pXG4gICAgfSBlbHNlIHtcbiAgICAgICAgYWxlcnQoJ1lvdXIgYnJvd3NlciBpcyBzaGl0IGFuZCBkb2VzIG5vdCBzdXBwb3J0IHRoaXMgZmVhdHVyZScpOyAvLy9Jc3NvIMOpIHVzYWRvIHBhcmEgQlJPV1NFUlMgUVVFIE7Dg08gRlVOQ0lPTkFNLCBFU1NFIEVMU0UgQkxPQ0suIElTU08gRkFaIENPTSBRVUUgTk9TU08gQ8OTRElHTyBOw4NPIF9fUVVFQlJFX19fL0NSQVNIRS4gw4kgbyBjw7NkaWdvIGRlIGZhbGxiYWNrLlxuICAgIH1cbiAgICBcbiAgICB9KTtcblxuXG5cblxuY29uc29sZS5sb2coJ0l0IHdvcmtzJyk7XG5cblxuXG5cblxuXG5cbi8vLy8vL08gSUYgQ0hFQ0sgTk9TIE1PU1RSQSBDT01PIEZBWkVSIEZFQVRVUkUgREVURUNUSU9OIE5PIE5PU1NPIEPDk0RJR08sIEUgQ09NTyBFWEVDVVRBUiBWRVJTw5VFUyBERSBOT1NTTyBDw5NESUdPIERFIEFDT1JETyBDT00gQSBQUkVTRU7Dh0EvQVVTw4pOQ0lBIERFIEZFQVRVUkVTIE5PUyBCUk9XU0VSUy4iXSwiZmlsZSI6Ii4vc3JjL2FwcC5qcy5qcyIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/app.js\n");
+
+
+OU SEJA, O 'const' SUMIU!!!!!
+
+
+
+
+SUMIU PORQUE OS BROWSERS BOSTA NÃO O SUPORTAM... foi substituído POR 'VAR', a forma mais 
+antiga de definir variáveis...
+
+
+
+
+E TUDO ISSO OCORRE """"___MAGICAMENTE____"""" COM A AJUDA 
+
+DE 'webpack', 'babel-loader' e 'BROWSERSLIST'...
+
+
+
+
+DE NOVO, EM ANEXO VOCÊ ENCONTRA UM LINK QUE TE MOSTRA AS OPÇÕES QUE VOCÊ 
+
+PODE COLOCAR PARA CONFIGURAR O BABEL e o 'browserslist'...
+
+
+(PQ VOCÊ NÃO É OBRIGADO A APENAS ESPECIFICAR MARKET SHARES; NÃO, VOCÊ PODE 
+ESPECIFICAR, TAMBÉM, DIFERENTES BROWSER VERSIONS e modelos de browsers...
+é possível fazer isso, sim. )
+
+
+
+
+(VOCÊ TAMBÉM PODE COMBINAR MÚLTIPLAS QUERIES/múltiplas instruções....
+
+POR EXEMPLO, VOCÊ PODERIA ADICIONAR 
+
+'not dead' )
+
+
+
+
+exemplo de not dead:
+
+
+
+
+"browserslist": "> 0.2%, not dead", 
+
+
+
+
+
+
+----------------------------
+
+
+
+
+NOT DEAD ----> 'NOT DEAD' SIGNIFICA ___APENAS BROWSERS___ QUE AINDA TEM SUPORTE OFICIAL, BROWSERS QUE FORAM UPDATADOS NOS ÚLTIMOS 2 ANOS....
+
+
+Por exemplo, INTERNET EXPLORER 10 É CONSIDERADO ___MORTO___, pois não é atualizado há mais de 2 anos. Não recebe suporte oficial há mtos anos.
+
+
+JÁ O INTERNET EXPLORER 11 AINDA RECEBE ALGUM SUPORTE... por isso não é "DEAD". 
+
+
+--------------------------
+
+
+
+
+PORTANTO, SÃO ESSAS AS COISAS QUE PODEM INFLUENCIAR O TRANSPILING DO SEU CÓDIGO, A TRADUÇÃO 
+
+DO SEU CÓDIGO MODERNO EM CÓDIGO VELHO/PARA BROWSERS MENOS SOFISTICADOS.
+
+
+
+
+
+(let e const são traduzidos para VAR; error functions são TRADUZIDAS PARA FUNÇÕES NORMAIS...)
+
+
+
+
+
+
+--------------------------------------------------------
+
+
+
+UM PROBLEMA QUE AINDA ENCARAMOS NESSE NOSSO EXEMPLO É QUE NOSSO CÓDIGO NÃO PAROU DE USAR '.then()'...
+
+
+
+Basta que leiamos a nossa fita de código:
+
+
+
+eval("var button = document.querySelector('button');\nvar textParagraph = document.querySelector('p');\n/*\nbutton.addEventListener('click', () => {\nconst text = textParagraph.textContent;\nnavigator.clipboard.\nwriteText(text).\nthen(result => {\n    console.log(result);\n})\n.catch(error => {\n    console.log(error);\n});\n});\n*/\n\nbutton.addEventListener('click', function () {\n  var text = textParagraph.textContent;\n\n  if (navigator.clipboard) {\n    ///esse código desse if block só será executado SE ESSA FEATURE FOR SUPORTADA NESSE  determinado BROWSER...\n    navigator.clipboard.writeText(text).then(function (result) {\n      console.log(result);\n    }).catch(function (error) {\n      console.log(error);\n    });\n  } else {\n    alert('Your browser is shit and does not support this feature'); ///Isso é usado para BROWSERS QUE NÃO FUNCIONAM, ESSE ELSE BLOCK. ISSO FAZ COM QUE NOSSO CÓDIGO NÃO __QUEBRE___/CRASHE. É o código de fallback.\n  }\n});\nconsole.log('It works'); //////O IF CHECK NOS MOSTRA COMO FAZER FEATURE DETECTION NO NOSSO CÓDIGO, E COMO EXECUTAR VERSÕES DE NOSSO CÓDIGO DE ACORDO COM A PRESENÇA/AUSÊNCIA DE FEATURES NOS BROWSERS.//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9teS13ZWJwYWNrLXByb2plY3QvLi9zcmMvYXBwLmpzPzExMTIiXSwibmFtZXMiOlsiYnV0dG9uIiwiZG9jdW1lbnQiLCJxdWVyeVNlbGVjdG9yIiwidGV4dFBhcmFncmFwaCIsImFkZEV2ZW50TGlzdGVuZXIiLCJ0ZXh0IiwidGV4dENvbnRlbnQiLCJuYXZpZ2F0b3IiLCJjbGlwYm9hcmQiLCJ3cml0ZVRleHQiLCJ0aGVuIiwicmVzdWx0IiwiY29uc29sZSIsImxvZyIsImNhdGNoIiwiZXJyb3IiLCJhbGVydCJdLCJtYXBwaW5ncyI6IkFBQUEsSUFBTUEsTUFBTSxHQUFHQyxRQUFRLENBQUNDLGFBQVQsQ0FBdUIsUUFBdkIsQ0FBZjtBQUdBLElBQU1DLGFBQWEsR0FBR0YsUUFBUSxDQUFDQyxhQUFULENBQXVCLEdBQXZCLENBQXRCO0FBS0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBUUFGLE1BQU0sQ0FBQ0ksZ0JBQVAsQ0FBd0IsT0FBeEIsRUFBaUMsWUFBTTtBQUNuQyxNQUFNQyxJQUFJLEdBQUdGLGFBQWEsQ0FBQ0csV0FBM0I7O0FBQ0EsTUFBSUMsU0FBUyxDQUFDQyxTQUFkLEVBQXlCO0FBQUc7QUFDeEJELElBQUFBLFNBQVMsQ0FBQ0MsU0FBVixDQUNBQyxTQURBLENBQ1VKLElBRFYsRUFFQUssSUFGQSxDQUVLLFVBQUFDLE1BQU0sRUFBSTtBQUNYQyxNQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUYsTUFBWjtBQUNILEtBSkQsRUFJR0csS0FKSCxDQUlTLFVBQUFDLEtBQUssRUFBSTtBQUNkSCxNQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUUsS0FBWjtBQUNILEtBTkQ7QUFPSCxHQVJELE1BUU87QUFDSEMsSUFBQUEsS0FBSyxDQUFDLHdEQUFELENBQUwsQ0FERyxDQUM4RDtBQUNwRTtBQUVBLENBZEw7QUFtQkFKLE9BQU8sQ0FBQ0MsR0FBUixDQUFZLFVBQVosRSxDQVFBIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgYnV0dG9uID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcignYnV0dG9uJyk7XG5cblxuY29uc3QgdGV4dFBhcmFncmFwaCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoJ3AnKTtcblxuXG5cblxuLypcbmJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHtcbmNvbnN0IHRleHQgPSB0ZXh0UGFyYWdyYXBoLnRleHRDb250ZW50O1xubmF2aWdhdG9yLmNsaXBib2FyZC5cbndyaXRlVGV4dCh0ZXh0KS5cbnRoZW4ocmVzdWx0ID0+IHtcbiAgICBjb25zb2xlLmxvZyhyZXN1bHQpO1xufSlcbi5jYXRjaChlcnJvciA9PiB7XG4gICAgY29uc29sZS5sb2coZXJyb3IpO1xufSk7XG59KTtcbiovXG5cblxuXG5cblxuXG5cbmJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHtcbiAgICBjb25zdCB0ZXh0ID0gdGV4dFBhcmFncmFwaC50ZXh0Q29udGVudDtcbiAgICBpZiAobmF2aWdhdG9yLmNsaXBib2FyZCkgeyAgLy8vZXNzZSBjw7NkaWdvIGRlc3NlIGlmIGJsb2NrIHPDsyBzZXLDoSBleGVjdXRhZG8gU0UgRVNTQSBGRUFUVVJFIEZPUiBTVVBPUlRBREEgTkVTU0UgIGRldGVybWluYWRvIEJST1dTRVIuLi5cbiAgICAgICAgbmF2aWdhdG9yLmNsaXBib2FyZC5cbiAgICAgICAgd3JpdGVUZXh0KHRleHQpLlxuICAgICAgICB0aGVuKHJlc3VsdCA9PiB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhyZXN1bHQpO1xuICAgICAgICB9KS5jYXRjaChlcnJvciA9PiB7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyhlcnJvcik7XG4gICAgICAgIH0pXG4gICAgfSBlbHNlIHtcbiAgICAgICAgYWxlcnQoJ1lvdXIgYnJvd3NlciBpcyBzaGl0IGFuZCBkb2VzIG5vdCBzdXBwb3J0IHRoaXMgZmVhdHVyZScpOyAvLy9Jc3NvIMOpIHVzYWRvIHBhcmEgQlJPV1NFUlMgUVVFIE7Dg08gRlVOQ0lPTkFNLCBFU1NFIEVMU0UgQkxPQ0suIElTU08gRkFaIENPTSBRVUUgTk9TU08gQ8OTRElHTyBOw4NPIF9fUVVFQlJFX19fL0NSQVNIRS4gw4kgbyBjw7NkaWdvIGRlIGZhbGxiYWNrLlxuICAgIH1cbiAgICBcbiAgICB9KTtcblxuXG5cblxuY29uc29sZS5sb2coJ0l0IHdvcmtzJyk7XG5cblxuXG5cblxuXG5cbi8vLy8vL08gSUYgQ0hFQ0sgTk9TIE1PU1RSQSBDT01PIEZBWkVSIEZFQVRVUkUgREVURUNUSU9OIE5PIE5PU1NPIEPDk0RJR08sIEUgQ09NTyBFWEVDVVRBUiBWRVJTw5VFUyBERSBOT1NTTyBDw5NESUdPIERFIEFDT1JETyBDT00gQSBQUkVTRU7Dh0EvQVVTw4pOQ0lBIERFIEZFQVRVUkVTIE5PUyBCUk9XU0VSUy4iXSwiZmlsZSI6Ii4vc3JjL2FwcC5qcy5qcyIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/app.js\n");
+
+
+
+----------------------------
+
+
+OU SEJA, ELE AINDA ESTÁ USANDO PROMISES... ----> OU SEJA, AGORA TEMOS 
+
+CÓDIGO QUE ___FUNCIONA___ EM BROWSERS ANTIGOS, DE UMA PERSPECTIVA DE __SINTAXE JAVASCRIPT___, mas 
+AINDA ASSIM HÁ UM PROBLEMÃO, POIS EMBORA TENHAMOS TRANSPILADO 'CORE FEATURES' COMO 
+LET E CONST, OUTRAS FEATURES COMO __PROMISES___ podem ainda NÃO ESTAR FUNCIONANDO/NÃO FUNCIONAR 
+NESSES BROWSERS MAIS ANTIGOS... ----------------->
+
+---------------> QUANDO ISSO OCORRE, NÓS GERALMENTE SEMPRE VAMOS QUERER ___COMBINAR ____ ESSE APPROACH 
+COM UM ____POLYFILL____ (o que é bem simples, na verdade).
+
+
+AQUI, VAMOS PRECISAR DO POLYFILL DE PROMISES...
+
+
+Veremos como fazer isso na próxima lição.
+
+
+
+--------------------------
+
+
+
+
+ou can specify the browser and Node.js versions by queries (case insensitive):
+
+defaults: Browserslist’s default browsers (> 0.5%, last 2 versions, Firefox ESR, not dead).
+> 5%: browsers versions selected by global usage statistics. >=, < and <= work too.
+> 5% in US: uses USA usage statistics. It accepts two-letter country code.
+> 5% in alt-AS: uses Asia region usage statistics. List of all region codes can be found at caniuse-lite/data/regions.
+> 5% in my stats: uses custom usage data.
+> 5% in browserslist-config-mycompany stats: uses custom usage data from browserslist-config-mycompany/browserslist-stats.json.
+cover 99.5%: most popular browsers that provide coverage.
+cover 99.5% in US: same as above, with two-letter country code.
+cover 99.5% in my stats: uses custom usage data.
+dead: browsers without official support or updates for 24 months. Right now it is IE 10, IE_Mob 11, BlackBerry 10, BlackBerry 7, Samsung 4 and OperaMobile 12.1.
+last 2 versions: the last 2 versions for each browser.
+last 2 Chrome versions: the last 2 versions of Chrome browser.
+last 2 major versions or last 2 iOS major versions: all minor/patch releases of last 2 major versions.
+node 10 and node 10.4: selects latest Node.js 10.x.x or 10.4.x release.
+current node: Node.js version used by Browserslist right now.
+maintained node versions: all Node.js versions, which are still maintained by Node.js Foundation.
+iOS 7: the iOS browser version 7 directly.
+Firefox > 20: versions of Firefox newer than 20. >=, < and <= work too. It also works with Node.js.
+ie 6-8: selects an inclusive range of versions.
+Firefox ESR: the latest Firefox Extended Support Release.
+PhantomJS 2.1 and PhantomJS 1.9: selects Safari versions similar to PhantomJS runtime.
+extends browserslist-config-mycompany: take queries from browserslist-config-mycompany npm package.
+supports es6-module: browsers with support for specific features. es6-module here is the feat parameter at the URL of the Can I Use page. A list of all available features can be found at caniuse-lite/data/features.
+browserslist config: the browsers defined in Browserslist config. Useful in Differential Serving to modify user’s config like browserslist config and supports es6-module.
+since 2015 or last 2 years: all versions released since year 2015 (also since 2015-03 and since 2015-03-10).
+unreleased versions or unreleased Chrome versions: alpha and beta versions.
+not ie <= 8: exclude IE 8 and lower from previous queries.
+You can add not to any query.

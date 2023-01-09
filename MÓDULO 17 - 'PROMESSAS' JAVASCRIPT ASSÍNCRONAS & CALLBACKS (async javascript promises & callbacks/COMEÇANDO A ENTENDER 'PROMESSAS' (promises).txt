@@ -1,0 +1,1911 @@
+Aprendemos muito sobre código ASYNC...
+
+
+
+
+E ISSO É CONHECIMENTO CRUCIAL QUE VOCê PRECISA 
+
+PARA TRABALHAR COMO WEB DEVELOPER....
+
+
+Você precisa entender isso.
+
+
+Com isso fora do caminho, devemos dar uma olhada na 
+
+LEGIBILIDADE:
+
+
+
+
+eis nosso código:
+
+
+
+
+const button = document.querySelector('button');
+
+const output = document.querySelector('p');
+
+
+
+
+
+function trackUserHandler() {
+
+    navigator.geolocation.getCurrentPosition(
+    posData => {
+        setTimeout(() => {
+            console.log(posData);
+        }, 2000);
+    }, 
+    error => {
+        console.log(error);
+    }
+    );
+
+    setTimeout(() => {
+        console.log('Timer done!');
+
+    }, 0);
+    console.log('Getting position');
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+---------------------------------------------
+
+
+
+o código de 
+
+'trackUserHandler' PODE SER 
+
+
+_____BEM CHATO____ DE LER.....
+
+
+------------------------------------
+
+
+Se nós temos código como esse, em que temos 
+
+callbacks nesteados UM DENTRO DO OUTRO, como 
+
+por exemplo em:
+
+
+
+
+getCurrentPosition(() => {
+    setTimeout(() => {
+        doMoreAsyncStuff(() => {
+            ...
+        });
+    }, 1000);
+}, ...);
+
+
+
+
+-------------------------------------
+
+
+AQUI EU TENHO UM CALLBACK COM UM 'setTimeout' COM OUTRO 
+CALLBACK de novo...
+
+
+e esse callback pode chamar uma função QUE PODE USAR AINDA OUTRO 
+
+CALLBACK, etc etc...
+
+
+
+QUANDO FAZEMOS/ESCREVEMOS ALGO ASSIM, 
+
+ENTRAMOS ALGO CHAMADO DE 
+
+
+''CALLBACK HELL''...
+
+
+
+hell pq é difícil de ler e fazer manutenção...
+
+
+É o inferno pq é difícil de entender/acompanhar 
+
+o que está nesteado em qual lugar, quais variáveis são disponíveis 
+
+em um determinado lugar, etc etc.
+
+
+
+NÃO É UM CÓDIGO LEGAL DE SE EXAMINAR...
+
+
+
+
+------------------------------
+
+
+Felizmente, javascript tem uma SOLUÇÃO PARA ESSE PROBLEMA:
+
+
+
+Essa solução é o conceito de 
+
+
+
+PROMESSAS (promises).
+
+
+
+
+Promessas nos deixam escrever CÓDIGO MAIS LIMPO....
+
+
+
+
+mais limpo pq elas se parecem com isso:
+
+
+
+
+
+someAsyncTask()
+.then(() => {
+    return anotherTask();
+})
+.then(() => {
+    return yetAnotherTask();
+})
+.then(...);
+
+
+------------------------------------
+
+
+
+ELAS SE PARECEM ASSIM....
+
+
+
+NÓS TEMOS PRIMEIRAMENTE UMA 'TASK' , aí depois 
+
+nós usamos a keyword especial 'then'...
+
+
+
+Depois do 'then' NÓS PASSAMOS UMA CALLBACK A 'then'...
+
+
+Mas aí se NÓS TIVERMOS OUTRA TASK (como a função anônima do exemplo que retorna 'yetAnotherTask'...) 
+QUE DEPENDE
+ DA PRIMEIRA (que depende de 'someAsyncTask', por exemplo),
+
+ NÓS SIMPLESMENTE ADICIONAMOS OUTRO 'then block' (outro bloco 'then') EM 
+
+ VEZ DE FAZER AQUELE NESTING FEIO E ABSURDO QUE VEMOS NORMALMENTE, aquele nesting de callback functions dentro de callback functions...
+
+
+-------------------------------
+
+
+
+
+
+COM ISSO, TEREMOS APENAS 1 ÚNICO NÍVEL DE 'NESTING' AQUI, EM VEZ DE 1 BILHÃO DE NESTS de callback functions....
+
+
+
+
+
+Isso torna nosso código bem mais legível.
+
+
+
+
+Devemos dar uma olhada nisso em prática...
+
+
+-----------------------------
+
+
+
+INFELIZMENTE, 
+
+'setTimeout' e 'getCurrentPosition' NÃO 
+
+POSSUEM 
+
+
+NENHUMA VERSÃO 
+
+'PROMISE', não têm nenhuma sintaxe alternativa para sua escrita....
+
+Por isso, não podemos adicionar '.then' depois de seu código para 
+
+tentar evitar o nesting...
+
+
+------------------------------------
+
+
+
+ENTRETANTO, APIs mais modernas dos browsers TIPICAMENTE ABRAÇAM O CONCEITO DE PROMISES 
+
+
+e geralmente suportam sua sintaxe...
+
+
+Mas essas funcionalidades mais velhas, como 
+
+'setTimeout()', que têm estado por aí desde SEMPRE, basicamente;
+
+
+essas funcionalidades AINDA USAM CALLBACKS...
+
+
+
+
+
+
+
+PORÉM, NÓS ____PODEMOS____ ENVOLVÊ-LAS EM CÓDIGOS/FUNÇÕES QUE SUPORTAM 
+
+'PROMISES', e é exatamente isso que faremos aqui...
+
+
+
+Faremos isso também para entender COMO UMA PROMISE FUNCIONA INTERNAMENTE....
+
+
+
+Mais tarde no curso também veremos FUNCIONALIDADES 'BUILTIN' no browser, funcionalidades que 
+
+TAMBÉM SUPPORTAM PROMISES NATIVAMENTE....
+
+
+
+---------------------------
+
+
+
+Devemos começar com 
+
+
+a adição de uma nova constante ao código.
+
+
+O professor chama essa constante de 
+
+
+'setTimer' PARA NÃO CONFLITAR COM 
+
+'setTimeout()'....
+
+
+
+
+ELE cria-a com a sintaxe de arrow functions...
+
+
+
+------------------------------------
+
+
+
+ex:
+
+
+
+
+
+const setTimer = () => {
+
+};
+
+
+
+------------------------------
+
+
+
+
+Em setTimer, o professor coloca como parâmetro 
+
+a DURATION, pq ele vai precisar dessa variável/constante.
+
+
+
+Aí, dentro de 'setTimer', o professor vai definir 
+
+
+setTimeout e passar como parâmetro 
+
+UMA FUNÇÃO A SER EXECUTADA E O TEMPO DO TIMER (como sempre)...
+
+
+o tempo do timer será a variável 'duration'...
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    setTimeout( , duration);
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+-------------------------
+
+
+
+
+MAS A VERDADEIRA PERGUNTA É:
+
+
+
+
+O que diabos faremos com o primeiro argumento de 'setTimeout' dentro de setTimer?
+
+
+O que colocamos ali?
+
+
+
+
+Professor explica que devemos, realmente, colocar uma função ali,
+
+
+NÃO HÁ COMO EVITAR ISSO...
+
+
+MAS AGORA O PROFESSOR TEM A CALLBACK FUNCTION, o 'setTimeout' (que é a callback function),
+
+DENTRO DESSA FUNÇÃO 'SEPARADA' (a função separada seria 'setTimer'...)...
+
+
+
+
+PROFESSOR EXPLICA QUE MAIS TARDE ELE PODERÁ 
+
+
+____REUTILIZAR____ A FUNÇÃO 'setTimer' NOS LUGARES MAIS ABAIXO,
+
+nas outras partes do código, para que seja 
+
+mais fácil o trabalho com o código...
+
+
+
+
+--------------------------------------
+
+
+Certo, mas o importante é que agora temos 
+
+
+
+'setTimeout' DENTRO DESSA FUNÇÃO.
+
+
+
+Agora, o que podemos fazer ali é 
+
+CONSTRUIR UMA 
+
+NOVA 
+
+
+'PROMISE'...
+
+--------------------------
+
+
+UMA PROMISE É, NO FINAL DAS CONTAS, 
+
+UM OBJETO COM A FUNCIONALIDADE/IDEIA DE 
+
+TER UM MÉTODO 'THEN' O QUAL VOCÊ PODE ENTÃO CHAMAR DENTRO DELA...
+
+
+--------------------------
+
+
+
+
+Você, portanto, pode criar uma promise ali, 
+
+dentro 
+
+
+de 
+
+'setTimer',
+
+
+e então armazená-la em uma CONSTANTE de qualquer nome...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = ... //////EIS O CÓDIGO EM QUESTÃO.
+    setTimeout( , duration);
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+----------------------------------------
+
+
+
+VOCê PODE CRIAR 
+
+
+ESSA NOVA PROMISE POR MEIO DO CÓDIGO/KEYWORD 
+
+
+'new Promise();'
+
+
+------------------------
+
+
+
+'Promise' ---> É A CONSTRUCTOR FUNCTION/OBJETO GLOBAL 
+
+que cria/formata promises...
+
+É UMA CLASSE BUILTIN no javascript....
+
+
+O código fica assim:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise(); //////EIS O CÓDIGO EM QUESTÃO.
+    setTimeout( , duration);
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+
+------------------------------
+
+
+
+A promise em SI 
+
+ACEITA 
+
+
+
+UMA FUNÇÃO COMO ARGUMENTO....
+
+
+
+O CONSTRUCTOR EXIGE UMA FUNÇÃO, PORTANTO.
+
+
+
+
+Essa função geralmente SERÁ UMA ARROW FUNCTION...
+
+
+
+
+E essa função, diz o professor, é uma FUNÇÃO QUE 
+
+O 'PROMISE API' EXECUTARÁ ___IMEDIATAMENTE ____ QUANDO 
+
+A PROMISE for construída...
+
+
+
+
+
+OU SEJA, quando nós construímos a promessa por meio desse código, 
+
+A FUNÇÃO QUE NÓS PASSAMOS AO CONSTRUCTOR de 'promise' É 
+
+EXECUTADA DE CARA...
+
+
+Essa função interna é chamada do interior do constructor...
+
+
+ 
+
+ E ESSA É UMA MANEIRA DE CONFIGURAR O QUE ESSA 'PROMISE' 
+
+ DEVE REALMENTE FAZER; QUAL COISA ELA DEVE 'ENVOLVER' ('what it should wrap around')...
+
+
+
+
+
+
+ESSA FUNÇÃO INTERNA ACEITA ____2 ARGUMENTOS___.
+
+
+
+
+CADA ARGUMENTO EM SI É, NA VERDADE, UMA FUNÇÃO...
+
+
+
+
+
+OS PARÂMETROS/ARGUMENTOS SÃO 
+
+
+
+1) FUNÇÃO DE 'RESOLVE'...
+
+
+
+
+2) FUNÇÃO DE 'REJECT'...
+
+
+
+
+----------------
+
+
+
+as 2 funções geralmente recebem esses nomes mesmo, 'resolve' e 'reject'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise(
+        (resolve, reject) => {} ///////EIS O CÓDIGO EM QUESTÃO.
+    ); 
+    setTimeout( , duration);
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+----------------------------
+
+
+
+
+
+
+CERTO.
+
+
+
+
+DENTRO DO FUNCTION BODY DESSA FUNÇÃO INTERNA (lembre-se que as promises/o código das promises sempre são executadas IMEDIATAMENTE quando seu constructor é chamado)...
+
+
+QUANDO A PROMISE É CRIADA, O SEU CÓDIGO INTERNO E FUNÇÕES 
+
+SÃO EXECUTADOS IMEDIATAMENTE.
+
+
+No function 
+
+
+body da função 
+
+
+
+interna 
+
+
+VOCÊ PODE DEFINIR AQUILO QUE IRÁ/DEVE ACONTECER QUANDO ESSA PROMISE FOR CRIADA...
+
+
+
+Aqui, professor explica, eu quero na verdade 
+
+DEFINIR O/UM TIMER, portanto ele vai lá 
+
+E 
+
+RECORTA E COLA O CÓDIGO 
+
+
+
+'setTimeout(() => {
+
+}, duration); '
+
+
+PARA DENTRO DESSA FUNÇÃO 
+
+INTERNA DE 'promise'...
+
+
+
+ELE EXPLICA QUE ELE PODE ACESSAR A VARIÁVEL 'duration' dentro 
+
+de setTimeout DEVIDO AO CLOSURE/SCOPE, que estudamos mais cedo,
+
+é aquela coisa de ambientes lexicais.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  ////////EIS O CÓDIGO EM QUESTÃO.
+
+        }, duration);
+    });
+    
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+FEITO ISSO, AGORA O CÓDIGO ESTÁ DEFINIDO.
+
+O TIMER AGORA É DEFINIDO QUANDO A PROMESSA É CRIADA...
+
+
+DENTRO DE 'setTimer' TEMOS O 
+
+
+NOSSO ASYNC CODE, aquele código que ainda não escrevemos 
+
+(o primeiro parÂmetro do 'setTimeout', aquela função a ser executada 
+
+quando o tmepo acabar) QUE SERÁ EXECUTADO SOMENTE QUANDO 
+
+O TIMER ACABAR/O TEMPO ACABAR.
+
+
+--------------------------------
+
+
+
+E, DEPOIS DE CRIAR ESSA PROMESSA, OU SEJA, 
+
+NÃO DEPOIS DO TIMER TER ACABADO, E SIM ___DEPOIS DE ___ TER SIDO __
+CRIADA A PROMESSA, a promessa que acaba 
+
+'engatilhado' o timer, 
+
+
+O PROFESSOR FARÁ O __RETURN___ DA PROMISE, NO final do 
+código de 'setTimer'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+
+        }, duration);
+    });
+    return promise;  //EIS AQUI O CÓDIGO.
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+AGORA, SEMPRE QUE EU CHAMAR 'setTimer' EM MEU CÓDIGO, A CONSTANTE 
+
+
+'PROMISE' (que segura aquela função com os 2 parâmetros, resolve  e reject, e aquele timer com o segundo parâmetro de 'duration')
+
+SERÁ 
+
+RETORNADA COMO VALOR DESSA FUNÇÃO 'setTimer'...
+
+
+
+
+Certo.
+
+Agora ali, dentro daquele slot/parâmetro que ainda não foi escrito,
+
+o professor vai chamar 'resolve' (ou seja, professor vai usar o primeiro parâmetro da função interna de 'promise'...)...
+
+
+LEMBRE-SE: 'resolve' SERÁ UMA ____FUNÇÃO___, uma função será usada como 
+
+esse parâmetro, disse a nós o professor.
+
+
+
+
+VOU CHAMAR RESOLVE POR MEIO DO CÓDIGO 'resolve()' (vou simplesmente executá-lo, em outras palavras).
+
+
+
+
+---------------------------------------------
+
+
+EX:
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve();  ////EIS AQUI O CÓDIGO.
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+-----------------------------------
+
+
+
+
+
+Certo.
+
+
+
+Mas nós  NÃO VAMOS PASSAR UMA FUNÇÃO 'RESOLVE' para dentro dessa 
+
+
+'promise'...; NÃO, O BROWSER JÁ FAZ ISSO PARA NÓS, 
+
+O BROWSER EXECUTA ESSA FUNÇÃO INTERNA PARA NÓS QUANDO ELE CRIA UMA PROMESSA,
+ 
+e ele ____PASSA AS __ FUNÇÕES ___ 'RESOLVE' E 'REJECT' PARA 
+
+DENTRO DA FUNÇÃO INTERNA DE 'new Promise' __PARA NÓS__..., automaticamente....
+
+
+
+
+
+
+
+OU SEJA, A FUNÇÃO 'resolve' ESTÁ VINDO DO BROWSER, da engine javascript em si, para ser mais preciso.
+
+É ELA QUE ESTÁ PASSANDO A FUNÇÃO 'resolve' para dentro dessa 'promise'...
+
+
+
+
+
+E 'RESOLVE' É UMA FUNÇÃO QUE INTERNAMENTE VAI MARCAR esse objeto 'promise', que é criado aqui, no final das contas, COMO 
+
+
+'RESOLVED' (ou seja, como "DONE", como "terminada", essa promise será marcada como "TERMINADA".).
+
+
+
+
+
+
+
+
+E O PROFESSOR CHAMA 'resolve' ENTÃO, DENTRO DE 'setTimeout'; ou seja,
+
+DEPOIS DO TIMER DE 'duration' definido em 'setTimeout' TER ACABADO,
+
+A FUNÇÃO 'resolve' SERÁ CHAMADA (called).
+
+
+
+
+VOCÊ TAMBÉM PODE PASSAR UM 
+
+
+___VALOR____ COMO PARÂMETRO DE 'RESOLVE()'...
+
+
+
+
+Esse valor poderia ser uma string, um texto, por exemplo:
+
+
+
+
+'resolve('Done!');'
+
+
+
+
+PODE SER UM OBJETO, UM ARRAY, UM NÚMERO, ETC ETC.....
+
+
+
+----------------------------------
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!');  ///EIS AQUI O CÓDIGO.
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+POR enquanto, btw, o professor ignorará 
+
+a função/parâmetro 'reject'....
+
+
+
+------------------------------
+
+
+
+
+AGORA NÓS TEMOS 'setTimer()'....
+
+
+
+-------------------------
+
+
+
+
+AGORA LÁ NO código da callback function 'trackUserHandler,
+
+
+
+PODEMOS ___UTILIZAR____ o 'setTimer'...   NO LUGAR 
+
+
+
+DO setTimeout DA FUNÇÃO INTERNA DE 'getCurrentPosition'...
+
+
+
+
+
+
+
+
+ex (ex DO CÓDIGO ANTIGO):
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!');  ///EIS AQUI O CÓDIGO.
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+
+     setTimeout(() => {
+     console.log(posData);}
+     , 2000);
+
+ }, 
+ 
+ error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+---------------------------------------------
+
+
+
+
+
+ex(DO CÓDIGO NOVO, COM 'setTimer'):
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!'); 
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+
+     setTimer(); ///////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+ }, 
+ 
+ error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+Professor chama o 'setTimer()', essa função CRIADA POR NÓS, 
+
+dentro da primeira 'hipótese' do 
+
+
+método/função 
+
+
+'getCurrentPosition();'
+
+
+
+.....
+
+
+
+E AGORA, NÓS NÃO PASSAMOS 
+
+UMA FUNÇÃO A 'setTimer'.........
+
+
+NÃO PASSAMOS UMA FUNÇÃO A 
+
+'setTimer' PQ SETTIMER NÃO 
+
+QUER UMA FUNÇÃO COMO PARÂMETRO (ela já tem uma função como parâmetro, 2 NA VERDADE, 2 funçÕES que SÃO PASSADAS PELA JAVASCRIPT ENGINE EM SI..., a 'resolve' e a 'reject').
+
+
+
+
+SETTIMER NÃO QUER UMA 
+
+FUNÇÃO, 
+
+
+ELA QUER UMA 
+
+
+___DURAÇÃO___ (duration)...
+
+
+
+
+(lembre-se do código de setTimer --->    'const setTimer = (duration) => {...}').
+
+
+
+
+
+
+Como ela só quer uma duração, 
+
+
+PODEMOS SIMPLESMENTE PASSAR 2000 aqui como parâmetro (2 segundos), 
+
+
+
+que eles serão adicionados 
+
+
+AO 'setTimeout' QUE ESTÁ WRAPPED DENTRO DA NOSSA PROMISE QUE 
+
+ESTÁ DENTRO de 'setTimer'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!'); 
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+
+     setTimer(2000);
+
+ }, 
+ 
+ error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+COM ISSO, AGORA 'setTimer' 
+
+DE FATO 
+
+
+RETORNA UMA 
+
+'promise', no final das contas....
+
+
+
+(OBS:::
+
+
+O TOOLTIP DO PROFESSOR TAMBÉM 
+
+MOSTRA QUE ESSE 'SETTIMER' NOS RETORNA UMA FUNÇÃO:
+
+
+'const setTimer: (duration: any) => Promise<any>').....
+
+
+
+
+O 'setTimer()' RETORNA UMA PROMISE POIS É EXATAMENTE 
+
+
+ISSO QUE ESTÁ DEFINIDO DENTRO DE SEU BODY ('return promise;', ela cria uma promesa e a retorna).
+
+
+
+
+
+
+BEM, NESSE OBJETO 'promise' (ou seja, DO LADO DE SUA ESCRITA) 
+
+VOCÊ PODE 
+
+
+CHAMAR 
+
+
+
+
+O MÉTODO 'then()'
+
+
+
+
+
+ex:
+
+
+
+'setTimer(2000).then();'
+
+
+
+--------------------------------------------------
+
+
+
+
+'then()' VISTO NO NOSSO CÓDIGO:
+
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!'); 
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+
+     setTimer(2000).then();  /////EIS O CÓDIGO EM QUESTÃO.
+
+ }, 
+ 
+ error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+--------------------------------------
+
+
+
+
+O ''MÉTODO'''   'then()' SERÁ 
+
+EXECUTADO SEMPRE NOS MOMENTOS EM QUE 
+
+ESSA PROMISE FOR 'resolvida' (whenever this promise 'RESOLVES')....
+
+
+
+
+
+CERTO.
+
+
+
+BTW, UMA PROMESSA/PROMISE PODE SER 'RESOLIVDA' MAIS DE 1 ÚNICA VEZ...
+
+veremos mais sobre isso em breve.
+
+
+
+
+Por enquanto, apenas temos que saber que 
+
+a promessa é 'RESOLVIDA' sempre que 
+
+
+'resolve('Done!');' 
+
+É CHAMADO
+DENTRO 
+
+DO 'setTimeout' DENTRO DE NOSSA PROMISE dentro de nosso 'setTimer'...
+
+
+E ISSO ACONTECE SEMPRE QUE O TIMER DE 'setTimeout' ACABA/TERMINA... (nesse caso específico, pois essa é a lógica QUE ESCREVEMOS DENTRO DESSA 'PROMISE', dentro dessa 'promise configuring function' composta pelos parâmetros resolve e reject, e o timer de setTimeout. eSSA 
+
+É A LÓGICA QUE ESCREVEMOS NESSA 'PROMISE CONFIGURING FUNCTION', a qual passamos AO 
+
+CONSTRUCTOR De 'promise', que foi criado com 'new Promise()'... )....
+
+
+
+
+
+
+
+
+
+Certo.
+
+
+
+
+
+Lá no setTimer chamado no trackUserHandler, 
+
+nós também podemos pegar QUAISQUER DADOS (data) QUE 
+
+TENHAM SIDO 'RESOLVED'...
+
+
+FAREI ISSO POR MEIO DO CÓDIGO:
+
+
+
+'setTimer(2000).then(data => {
+    console.log(data)
+})'
+
+
+
+Professor diz que também podemos conseguir a 'posData' 
+
+dentro desse console.log, por isso ele o coloca também como parâmetro.
+
+
+
+------------------------------------
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!'); 
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+
+     setTimer(2000).then(data => {
+         console.log(data, posData);
+     });  /////EIS O CÓDIGO EM QUESTÃO.
+
+ }, 
+ 
+ error => {console.log(error)}
+
+ );
+
+ setTimeout(() => {
+    console.log('Timer done!');
+
+}, 0);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+---------------------------------------
+
+
+
+O QUE VEREMOS É QUE, SE SALVARMOS E RECARREGARMOS,
+
+
+
+ VEREMOS O OUTPUT NO CONSOLE DE 
+
+
+
+ 'Getting Position...'
+
+ Timer done!
+
+Done!
+> Position {coords: Coordinates, timestamp: xxxxxxxxxxx}'
+
+
+
+
+-----------------------------------------
+
+
+TEREMOS DE ESPERAR UM POUCO, MAS EVENTUALMENTE VEREMOS NOSSA LOCALIZAÇÃO 
+
+com o output de 'Position', junto de um 'DONE'.
+
+
+
+
+PROFESSOR EXPLICA QUE É EVIDENTE QUE 'Done!' É UM TEXTO QUE ESTÁ 
+
+VINDO DE DENTRO DA 'promise' que nós definimos,
+ 
+
+
+ do 'resolve()' DEFINIDO DENTRO DE PROMISE....
+
+
+
+ O QUE NÓS FIZEMOS AQUI É ALGO QUE 
+
+
+ MUITAS VEZES É CHAMADO DE 
+
+
+ 'promisifying uma BUILTIN API'...
+
+
+
+
+
+ Ou seja, o professor está 'WRAPPING' o API de 
+
+ 'setTimeout' COM A LÓGICA DE 'promise' PARA 
+
+ QUE EU, SIM, TENHA UM POUCO MAIS DE ESFORÇO LÁ 
+
+ EM CIMA (na definição da promise e definição do resolve/reject), 
+
+ MAS QUE EU SEMPRE POSSA USAR O TIMER 
+
+
+ NO LUGAR DE 'setTimeout' NOS LUGARES DE MEU CÓDIGO...
+
+ ISSO FAZ COM QUE EU EVITE USAR AQUELA MANEIRA 'CALLBACK' TOSCA E 
+
+ COMPLICADA QUE LEVA AO 'callback hell'...
+
+
+
+
+
+ AGORA O PROFESSOR SEMPRE PODE CHAMAR O SEU 
+
+
+ 'setTimer' em lugares do código, aliado a '.then()' (e à função interna que devemos colocar em 'then', como 'console.log('Timer done!')', no nosso exemplo), para 
+ 
+
+
+ então TER UMA CALLBACK FUNCTION REGISTRADA EM LUGARES DO CÓDIGO 
+
+ SEM RECORRER À SINTAXE DE CALLBACKS CLÁSSICA, cheia de nesting....
+
+
+Professor decide colocar outro timer aliado a um console.log no nosso código,
+dessa vez pouco antes de 
+
+'Getting position'...
+
+
+ELe faz um nesting de callback function com essa sintaxe,
+
+um exemplo que utiliza um console.log de 'Timer done!');
+
+
+
+ ex:
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+const setTimer = (duration) => {
+    const promise = new Promise((resolve, reject) => {
+        setTimeout(() => {  
+            resolve('Done!'); 
+        }, duration);
+    });
+    return promise;
+};
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(posData => {
+
+     setTimer(2000).then(data => {
+         console.log(data, posData);
+     });  /////EIS O CÓDIGO EM QUESTÃO.
+
+ }, 
+ 
+ error => {console.log(error)}
+
+ );
+
+setTimer(1000).then(
+    () => {
+        console.log('Timer done!');
+    }
+);
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+-----------------------------------------
+
+
+
+
+O BENEFÍCIO PODE NÃO PARECER TÃO GRANDE COM ESSE CÓDIGO DO TIMER, 
+
+MAS IMAGINE QUE NÓS TENHAMOS ALGO 
+
+SIMILAR A 'getCurrentPosition', mas 
+
+
+com uso de UM MONTE DE 'then calls' COMBADOS 1 ATRÁS DO OUTRA.
+
+
+
+
+É EXATAMENTE ISSO QUE VEREMOS NA PRÓXIMA AULA...

@@ -1,0 +1,575 @@
+É SUPER IMPORTANTE.
+
+
+
+
+Por que isso?
+
+
+
+Porque há certos, na verdade muitos, casos os quais você não pode resolver/é muito difícil de resolver sem a ajuda da execução condicional de código.
+sem a ajuda de features que te ajudam a rodar códigos segundo certas condições.
+
+
+
+A calculadora que criamos até agora PODERIA ser criada sem CÓDIGO CONDICIONAL, mas isso não é verdade para todos aplicativos.
+
+
+E, mesmo que você consiga construir um aplicativo sem código condicional, como nossa calculadora básica, você na maior parte das vezes pode escrever 
+código mais limpo e mais curto se vocÊ consegue rodar algumas partes do seu código de forma condicional.
+
+
+
+
+Mas o que "Conditional Code Execution" significa?
+
+
+
+
+**imagine que vocÊ tem uma função (porém, execução condicional de código não é reservada apenas ao interior de funções, ela pode ser 
+usada fora das mesmas.) E, lá dentro, você tem 2 code snippets que você poderia/quer executar.
+
+
+            function doSomething()
+
+
+Option A                            Option B
+
+
+e.g. add two numbers                     e.g. subtract two numbers
+
+
+
+
+
+VocÊ faz isso na mesma função, e é claro que você poderia escrever duas funções separadas, mas mesmo assim você talvez
+queira CHAMAR apenas UMA das duas funções, segundo alguma condição. E é exatamente isso que conditional code execution trata sobre. Você pode ter 
+um certo programa no qual você quer OU rodar a opção A, OU rodar a opção B. Você tem alguma 
+
+                                    CONDIÇÃO que deve ser atendida----> if(someCondition)
+
+                                    e para isso, vocÊ usa o assim chamado "IF STATEMENT".
+
+
+If statements são um core construct não só no javascript, mas em todas as linguagens de programação.
+
+
+
+If statements requerem CONDIÇÕES. Você especifica uma condição que deve ser atendida, e essa condição, no final das contas,
+É UM VALOR BOOLEAN.
+
+
+
+lembre-se do datatype boolean:
+
+booleans --> true/false ---> importante para códigos condicionais e situações em que você apenas 
+tem 2 opções.
+
+
+
+Esse valor true/false pode parecer inútil, mas é exatamente aquilo de que você precisa em uma condição, porque 
+tal condição executa código A, se ela mesma for verdadeira, ou a condição B, caso ela seja falsa.
+
+
+Agora, como condições em If statements querem, no final, apenas TRUE ou FALSE, você
+pode sempre passar uma variável que segura verdadeiro ou falso dentro da parte daquela condição.
+Você pode sempre colocar "if" e então checar aquela variável e o valor dentro dali.
+
+
+ex:   if currentResult = 0...  run getUserInputNumber().
+
+
+
+Isso É POSSÍVEL, mas você NEM SEMPRE TERÁ UMA VARIÁVEL que segurará verdadeiro ou falso. Você 
+precisará criá-la, e na maior parte das vezes, vocÊ trabalhará com diferentes tipos de dados (data types),
+digamos que você tem um userInput que é uma string, ou você está trabalhando com alguns números, o resultado
+de um cálculo, tudo junto...  Os tipos se misturam,
+e muitas vezes não são exatamente compatíveis;
+
+Essas são as vezes que você precisa derivar dinamicamente um valor boolean e você
+pode fazer isso, felizmente, graças aos BOOLEAN operators. 
+
+
+
+BOOLEAN OPERATORS são também chamados de COMPARISON OPERATORS. São chamados assim porque são operators incorporados
+ao javascript que NÃO TE DÃO UM NOVO NÚMERO OU STRING COMO RESULTADO, MAS SIM RETORNAM BOOLEANS, RETORNAM "TRUE" OU "FALSE".
+
+por isso são importante para a execução condicional de código: porque retornam verdadeiro ou falso.
+
+
+Como exemplo desses boolean operators, temos o == (Equality operator). É diferente do =, que assigna um valor à uma variável ou constante.
+
+Esse operator é usado para COMPARAR dois valores e então retornar verdadeiro ou falso. Você usa ele para checar por/procurar por VALUE EQUALITY 
+                                                                                                        (equalidade de valores).
+
+
+EX:  comparação de A e B.          e.g. ---> a == b  ------> Você compara as variáveis A e B, e, se elas tiverem o mesmo valor, essa expressão retornará TRUE.
+                                                            Você então poderia usar essa comparação NA CONDIÇÃO, OU COMO UMA CONDIÇÃO em um if statement.
+                                                           
+
+
+
+
+----------------------------------------------------
+
+
+
+É claro, você pode checar também por valores/para os valores NÃO SEREM IGUAIS.
+
+
+
+O operator que usamos é !=     .
+
+
+
+Esse operator checa a VALUE INEQUALITY/INEQUALIDADE DE VALORES entre os valores dos elementos.
+ 
+
+                e.g   a != b           ------>você investigaria a possibilidade/fato de A e B NÃO SEREM IGUAIS, e então a máquina executaria um código se esse fosse o caso.
+
+
+
+
+
+
+
+
+Além disso, há uma FORMA ESPECIAL desses dois operadores:
+
+
+
+É O/OS QUALITY OPERATOR/OPERATORS!!!
+
+
+
+Esse operador é composto por 3 sinais de =, ou dois sinais de = e um de !.
+
+
+
+            modelo:    ===
+
+
+                       !==
+
+
+
+
+Mas qual é a diferença desse operator para os dois primeiros que nos mostraram?
+
+
+
+Bem, o === checa por equalidade de valor (como o ==)  E TIPO!!!(!!!!).
+
+
+O !==, analogamente, checa por INEQUALIDADE de VALOR e TIPO.
+
+
+
+                e.g.  a === b 
+
+                e.g.  a !== b
+
+
+
+
+                Agora, abrimos o devtools do chrome e brincamos com o console.
+
+
+
+                2 == 2 
+
+                console nos dá true. valores sao iguais. (mas isso é só um exemplo, num co´digo de vdd voce nunca usara numeros, pois isso é redundante. você usará variáveis e constantes.)
+
+
+            
+            Depois, colocamos 
+
+            2 == "2" (uma string/texto de 2).
+
+
+            DE NOVO, ELE NOS RETORNARÁ "true" ---> isso é porque == não considera TIPOS DE dados, E SIM APENAS VALORES.
+        
+
+
+                AGORA, SE USARMOS 
+
+
+                2 === 2 -----> nos dará true.
+
+
+
+                2 === "2" ----> nos dará FALSE. ISSO É PORQUE O OPERADOR === CONSIDERA TIPOS DE DADOS (ALÉM DOS VALORES), AO CONTRÁRIO DE ==, QUE SÓ CONSIDERA OS VALORES.
+
+
+
+
+
+                IMPORTANTE!  ---->
+
+
+
+                TIPICAMENTE, EM JAVASCRIPT, VOCÊ GERALMENTE VAI PREFERIR O USO DE === E !==, E NÃO == E !==. 
+                Isso é porque simplesmente ele te força a escrever códigos melhores. VOCÊ DEVE SE IMPORTAR COM OS DATA TYPES COM OS QUAIS
+                VOCÊ ESTÁ TRABALHANDO. Por exemplo, se vocÊ está checando um userInput e você está comparando se ele é igual a um número, bem, você 
+                você deveria antes CONVERTER O USERINPUT EM um número para que você possa usar o === operator. 
+                Isso deixa suas intenções mais claras para o código e também evita casos onde o usuário possa talvez não digite um número at all. Seria melhor
+                , nesse caso, seria melhor então lidar com esses casos  ANTES de você usar um número, em vez 
+                de só pegar um resultado "false" em uma condition.
+
+                Te força a escrever código mais explícito e claro.
+
+
+
+
+                É evidente que você pode fazer mais do que checar strings/variáveis/números/constantes por equalidade, 
+                você pode também comparar números em relação À quantidade: se são maiores ou menores.
+
+
+
+            MAIOR E MENOR
+
+
+                > E <         ----------> checam por valores serem maiores ou menores ---->
+
+
+                a > b 
+
+
+                a < b
+
+
+                Obviamente, você pode usar === para checar se STRINGS são iguais, mas você pode usar 
+                o > com 2 strings para checar se uma string é maior que outra string, em uma lexical-graphical way, o que significa
+                C > A. Letras mais abaixo são "maiores".
+
+
+
+                Além de > e < , vocÊ também tem  >= e <=, que significam igual ou maior que.
+
+
+
+                >= e <= ----> checar por valores serem iguais ou maiores/iguais ou menores ------------>
+
+
+                a >= b 
+
+                a <= b
+
+
+                Sua utilidade é evidente, porque há sempre casos em que você quer incluir o valor na comparação, e não só
+                apenas checar se o outro valor é maior ou menor.
+
+                Então, esses são os core boolean operators que vocÊ tem.
+
+
+
+
+                HÁ TAMBÉM O ! operator. É usado em uma variável que você JÁ SABE QUE SEGURA UM BOOLEAN.
+
+                Ela checa por um boolean para NEGÁ-LO. (check if it is  not true.)
+
+                                                                (check if NOT true).
+
+
+                Isso pode parecer estranho agora, porque você tipicamente cria booleans com outros operadores, e se você quisesse negá-los, você poderia 
+                simplesmente usar o  unequal operator, mas vocÊ irá encontrar  casos nos seus códigos onde vocÊ terá um valor que você irá 
+                derivar como um boolean em alguma parte do seu código e então em outra parte vocÊ precisará desse valor de novo, esse valor que já é um 
+                boolean, e você simplesmente vai querer rodar a opção A, se true e a opção B, se false.
+
+                Nesse caso específico, você poderá utilizar o ! operator para fazer isso.
+
+
+                Veremos agora alguns exemplos concretos disso tudo.
+
+
+
+                O professor utilizará o código da calculadora para nos mostrar as maneiras pelas quais os booleans 
+                podem nos ajudar a escrever códigos mais limpos e efetivos. Otimização de código.
+
+
+
+                Nossa calculadora funciona sem IF statement algum, mas você pode já ter percebido que em 
+                ADD, subtract, multiply e divide nós temos UM MONTE de repetição de código/duplicação de código.
+
+
+
+                ex: função add --->
+
+
+
+                const enteredNumber = getUserNumberInput();
+                const initialResult = currentResult;
+                ------x---------x-----------x-------------
+                createAndWriteOutput('+', initialResult, enteredNumber);
+                writeToLog('ADD', initialResult,enteredNumber, currentResult);
+
+
+                todas essas 4 linhas são PRATICAMENTE IGUAIS entre os diferentes botões, 
+                o que muda são coisas pequenas, como a descrição do operador (add) e o operador em si ('+')
+
+
+Então temos, de fato,  um monte de reutilização de código, mas na nossa situação anterior,
+sem if statements, não havia nenhum caminho alternativo para reduzir essa duplicação.
+
+
+Agora, isso muda.
+
+
+
+
+
+Podemos adicionar uma nova função em app.js, chamada calculateResult().
+O professor então traz para dentro dela o código que ele tem na função ADD, mas aqui, dentro de calculateResult, ele quer escrever o código
+de uma maneira mais flexível. Dentro dos parênteses, o professor pode agora "esperar" (expect) um parâmetro,
+digamos que seja "calculationType". O professor espera que esse calculationType seja sempre uma string que sempre descreverá o 
+TIPO de cálculo que nós queremos realizar. Agora, podemos adicionar um IF statement dentro dos curly braces por meio da escrita da 
+expressão if (if é uma keyword entendida pelo javascript), então parênteses, onde será inserida nossa condição, e, por fim, muito importante, os 
+curly braces. Os parênteses aqui do lado do if receberão nossa condição. Os parênteses aqui vão, no final, pegar nosso body, o nosso código que deverá ser executado
+caso a condição for satisfeita. Depois dos curly braces do if, você nunca deve colocar ; (semicolon), porque isso quebrará o código.
+Isso é algo que vimos antes, é a mesma coisa com funções, nunca devemos colocar ; depois delas.
+
+
+Agora precisamos inserir uma condição dentro dos parênteses. A condição poderia ser que    (tipo do cálculo/calculationtype é igual ao tipo 'add', essa seria a condição)
+calculationType === (equal value and type) 'add'.   calculationType === add. Se esse for o caso, vou querer
+definir currentResult como currentResult + enteredNumber (currentResult += enteredNumber). Se esse não for o caso, se a condição(calculationType = 'add') não for satisfeita, 
+vou querer rodar outro código. Faço isso por meio da expressão ELSE. Nos dá uma alternativa à execução do primeiro código. O else é sempre adicionado
+logo depois dos curly braces do IF (function body da condição.). Logo depois do ELSE, devemos colocar outro par de curly braces, que serão os comandos a 
+serem executados caso o else seja aceito, na hipótese do caso concreto de IF não acontecer e o código optar por else.
+Se a condição de if é atendida, roda-se o IF. Se a condição de ELSE é atendida, roda-se ELSE e ignora-se o if.
+O professor quer usar a função else para SUBTRAIR.
+
+ex: if(calculation type === 'add') {
+    currentResult += enteredNumber;
+                                } else {currentResult -= EnteredNumber;
+                                }
+
+
+IF e ELSE compõem a base do conditional code execution.
+
+
+Depois o professor lidará com os outros botões, mas por enquanto ele vai apenas colocar a fórmula da 
+subtração dentro do function body de ELSE.
+
+
+OBS: você pode mover else para uma nova linha, o código não irá quebrar. É opcional, mas geralmente as pessoas usam o estilo
+de colocar o else logo depois do closing curly braces da função IF.
+
+
+
+
+
+
+
+
+
+
+function calculateResult(calculationType) {const enteredNumber = getUserNumberInput(); 
+                                            const initialResult = currentResult;
+                                            if (calculationType === "add") {currentResult += enteredNumber;
+                                            } 
+                                            createAndWriteOutput('+', initialResult, enteredNumber);
+                                            writeToLog('ADD', initialResult, enteredNumber, currentResult); }
+
+
+
+                                            ------>
+
+
+
+function calculateResult(calculationType)  {const enteredNumber = getUserNumberInput(); 
+                                            const initialResult = currentResult;
+                                            if (calculationType === "ADD") {
+                                                currentResult += enteredNumber;                //Essa é a forma mais legível de escrever essas linhas de código.
+                                            } else {
+                                                currentResult -= enteredNumber;
+                                                        }
+
+                                            createAndWriteOutput('+', initialResult, enteredNumber);
+                                            writeToLog(calculationType, initialResult, enteredNumber, currentResult); }
+
+
+
+
+
+Certo, então agora estamos realizando diferentes cálculos segundo o calculationType que estamos recebendo.
+
+Agora eu também quero escrever meu output (createAndWriteOutput) aqui baseado nisso também. Para isso, o professor troca a condição
+de calculationType, o 
+'add', para "ADD", tudo para que calculationType seja capaz de ser referenciado em um dos parâmetros de writeToLog.
+
+
+
+
+---->fórmula de writeToLog ----> writeToLog('ADD', initialResult, enteredNumber, currentResult); ----------> vira writeToLog(calculationType, initialResult, enteredNumber, currentResult);
+
+
+----> em decorrência dessa mudança, o código agora é bem mais DINÂMICO, e não tem nenhum valor HARDCODED dentro dos parâmetros de writeToLog. Em vez disso,
+agora o código é totalmente reusável, porque todos esses valores são dinâmicos, portanto nós conseguimos resultados diferentes pela simples 
+mexida nesses valores.
+
+
+Para o operador '+', que reside dentro dos parâmetros de createAndWriteOutput, nós apenas precisamos introduzir uma nova variável dentro dessa
+função calculateResult. O professor cria uma variável chamada mathOperator, a qual ele não assigna valor algum.
+ 
+
+
+
+                                    function calculateResult(calculationType)  {const enteredNumber = getUserNumberInput(); 
+                                            const initialResult = currentResult;
+                                            let mathOperator;
+                                            if (calculationType === "ADD") {
+                                                currentResult += enteredNumber;                //Essa é a forma mais legível de escrever essas linhas de código.
+                                                    
+                                            } else {
+                                                currentResult -= enteredNumber;
+                                                        }
+
+                                            createAndWriteOutput('+', initialResult, enteredNumber);
+                                            writeToLog(calculationType, initialResult, enteredNumber, currentResult); }
+
+
+
+
+
+
+
+            Entretanto, ele inicializa essa variável mathOperator dentro da condição IF (mathOperator = '+'). O que ele quer dizer com esse código é que, QUANDO FOR O CASO DE UMA ADIÇÃO, O 
+            MATH OPERATOR DEVERÁ APARECER COMO '+'. (if calculation type === "ADD", then currentResult += enteredNumber  E  mathOperator = '+".) 
+            O professor aqui usa apenas um =, ele não usa 2 porque ele não está checando/comparando um valor, ele está assignando um valor.
+            Já no caso da subtração, o professor designa mathOperator = '-'. Os dois são strings, é claro,
+            e o professor está usando/fazendo essa configuração agora PARA PODER USAR MATHOPERATOR LÁ EMBAIXO, NOS PARÂMETROS 
+            DE CREATEANDWRITEOUTPUT. Ele também substitui + por mathOperator.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         function calculateResult(calculationType)  {const enteredNumber = getUserNumberInput(); 
+                                            const initialResult = currentResult;
+                                            let mathOperator;
+                                            if (calculationType === "ADD") {
+                                                currentResult += enteredNumber;                //Essa é a forma mais legível de escrever essas linhas de código.
+                                                mathOperator = '+'
+                                            } else {
+                                                currentResult -= enteredNumber;
+                                                        }
+
+                                            createAndWriteOutput('+', initialResult, enteredNumber);
+                                            writeToLog(calculationType, initialResult, enteredNumber, currentResult); }
+
+
+
+
+
+                                           
+                                           ------------>
+
+
+
+
+
+
+
+
+
+                                      function calculateResult(calculationType)  {const enteredNumber = getUserNumberInput(); 
+                                            const initialResult = currentResult;
+                                            let mathOperator;
+                                            if (calculationType === "ADD") {
+                                                currentResult += enteredNumber;                //Essa é a forma mais legível de escrever essas linhas de código.
+                                                mathOperator = '+'
+                                            } else {
+                                                currentResult -= enteredNumber;
+                                                  mathOperator = '-'      
+                                                  }
+                                            createAndWriteOutput(mathOperator, initialResult, enteredNumber);
+                                            writeToLog(calculationType, initialResult, enteredNumber, currentResult); }
+
+
+                        Agora, feitas todas essas mudanças, o código está realmente BEM DINÂMICO. Agora as duas últimas linhas, 
+                        createAndWriteOutput e writeToLog, estão totalmente reutilizáveis. Podem ser usadas tanto pela hipótese A, 
+                        em que o tipo de cálculo é add, a fórmula usada é currentResult += enteredNumber e o mathOperator é '+', como pela hipótese 
+                        B, em que o currentResult é -= enteredNumber e o mathOperator é '-'.
+
+                        As duas linhas agora não tem nenhum valor hardcoded, e por isso funcionam com qualquer cálculo
+                        que queiramos fazer. Nós apenas temos de ter certeza de que configuramos esses valores (mathOperator e calculationType)
+                        corretamente.
+
+
+                        Bem, calculationType deve ser recebido POR FORA, e portanto o que podemos agora fazer é ir até a função add e REMOVER todo aquele código antigo 
+                        e em vez disso calculateResult(), que utilizará 'ADD' como parâmetro, como O CALCULATIONTYPE.
+
+
+
+
+        modelo velho:
+
+
+
+
+
+        function add() {const enteredNumber = getUserNumberInput(); 
+    console.log('Input', enteredNumber, currentResult);
+    const initialResult = currentResult;  
+    currentResult += enteredNumber;           
+    createAndWriteOutput('+', initialResult, enteredNumber); 
+    writeToLog('ADD', initialResult, enteredNumber, currentResult);        
+ 
+}      
+
+
+    apagamos o function body: 
+
+
+
+    function add() {}      
+
+
+-----------------------------------------------------------------------
+        e inserimos o chamado da função calculateResult dentro da função add.
+
+
+
+
+        function add() {calculateResult(); }
+
+
+
+        Colocamos como parâmetro de calculateResult a expressão 'ADD', que será usada para dar forward no resto 
+        das funções. Colocamos o parâmetro ADD ali dentro porque ele será o calculationType dentro dessa função calculateResult. VocÊ se lembra, não?
+        que quando calculationType === 'ADD', nós rodamos aquela função toda lá, dentro de calculateResult? IF calculationType === 'ADD', {currentResult += enteredNumber
+                                                                                                                                            mathOperator = '+'
+                                                                                                                                            }.
+
+                
+
+                function add() {calculateResult('ADD');}
+
+
+
+
+
+JÁ NA FUNÇÃO SUBTRACT (function subtract ()),
+dentro do parâmetro de calculateResult podemos colocar 
+'SUBTRACT' OU QUALQUER OUTRO NOME, porque não importa, afinal
+qualquer outro valor/string que não seja 'ADD' irá engatilhar a função
+definida em ELSE, que é uma função de subtração junta de uma string do operador
+'-'.
+
+LEMBRE-SE:
+
+if (calculationType === 'ADD') {xxxx} else {currentResult -= enteredNumber
+                                                mathOperator = '-'}
+

@@ -1,0 +1,1758 @@
+
+
+
+
+----> COMO PODEMOS MOSTRAR UM 'FEEDBACK' aos nossos usuários??
+
+
+
+
+
+Bem, se formos até o 'root html', veremos 
+
+
+algumas coisas....
+
+
+
+
+VEREMOS DOIS ___TEMPLATES___.
+
+
+
+
+Um deles é PARA O 'MODAL EM GERAL', que possui um BACKDROP:
+
+
+
+
+
+    <template id="modal-template">
+      <div class="backdrop"></div>
+      <div class="modal"></div>
+    </template>
+
+
+
+E outro PARA O _____'CONTEÚDO'_____ desse modal, modal que 
+
+PODEMOS FAZER 'DISPLAY':
+
+
+    <template id="loading-modal-template">
+      <div class="modal__content centered">
+        <div class="lds-dual-ring"></div>
+      </div>
+    </template>
+
+
+-------------------------------------------
+
+
+
+
+O PROFESSOR ESTÁ SPLITTANDO ESSE MODAL EM DOIS PARA QUE NÓS POSSAMOS, TEORICAMENTE, MOSTRAR/FAZER DISPLAY 
+DE UM 
+
+__MODAL GERAL__, UM MODAL COM __QUALQUER CONTEÚDO__ (tipo um container para qualquer conteúdo, mas que é um modal),
+
+UM MODAL GERAL QUE SERÁ 
+
+
+___SEPARADO__/DISTINTO DO MODAL DE 'loading', que será INSERIDO EM CIMA DELE/em complemento a ele....
+
+
+
+
+Esse modal do 'loading-modal-content' será exatamente isso, um 'pedaço de conteúdo' QUE SERÁ 
+INSERIDO POR CIMA DO OUTRO MODAL... (é um MODAL SOBRE UM MODAL)
+
+
+Esse modal sobre o modal SERÁ UMA 'LOADING SCREEN', um spinner de carregamento.
+
+
+
+'lds' ---> LOADING SPINNER...
+
+
+
+'div class='lds-dual-ring'.
+
+
+-----------------------------------------
+
+
+
+
+
+Ok, quero fazer o display desse tal de overlay...
+
+
+
+EU VOU FAZER ESSE DISPLAY FOR MEIO DE UMA ____NOVA CLASSE___.
+
+
+
+
+Professor explica QUE ELE ATÉ MESMO FARÁ ISSO EM __UM OUTRO ARQUIVO___, 
+
+
+EM UM OUTRO SUBFOLDER DENTRO DE NOSSA PASTA 'src'...
+
+
+ESSE FOLDER SERÁ CHAMADO DE 'UI'... (user interface).
+
+
+Dentro desse UI, em que eu coloco os elementos da interface do usuário, VOU QUERER 
+COLOCAR 
+
+
+UM ARQUIVO 'Modal.js'... vou criar esse arquivo.
+
+
+
+
+
+
+
+
+Modal.js
+
+
+ESSE SERÁ UM ARQUIVO JAVASCRIPT RESPONSÁVEL POR FAZER DISPLAY DE UM MODAL E 
+RENDERIZAR CONTEÚDO EM SEU INTERIOR....
+
+
+
+
+
+O professor vai criar uma classe nesse arquivo, a classe 'Modal'...
+
+
+
+
+
+
+Dentro de 'modal', o professor terá um PUNHADO DE MÉTODOS QUE NOS AJUDARÃO A 
+
+__CONTROLAR___ ESSE 'modal'...
+
+
+
+
+Para ser mais preciso, deverão existir DOIS MÉTODOS:
+
+
+
+um método 
+
+
+'show()' 
+
+
+
+e um 
+
+método 
+
+
+'hide()'...
+
+
+
+--------------------------
+
+
+
+MODAL ----> É UM SIMPLES OVERLAY NA TELA...
+
+
+
+
+com 'show()', vou querer MOSTRAR ESSE OVERLAY.
+
+
+
+com 'hide()', VOU QUERER ___OCULTAR____ ESSE OVERLAY.
+
+
+
+
+Antes de mais nada,  VOU PRECISA DE UM CONSTRUCTOR....
+
+
+ex:
+
+
+
+class Modal {
+    constructor() {
+    
+    }
+    
+    show() {
+    
+    }
+
+    hide() {
+
+    }
+}
+
+
+-------------------------------------------
+
+
+DENTRO DO 'CONSTRUCTOR', VOU QUERER SER CAPAZ DE ___CONSEGUIR A INFORMAÇÃO____ DE QUAL 
+
+CONTEÚDO DEVERÁ SER mostrado/ocultado. 
+
+É claro que DEVEMOS USAR SELETORES PARA PEGAR O modal....
+
+
+
+
+Por meio desse constructor especial/customizado, podemos/poderemos CRIAR DIFERENTES 
+
+
+INSTÂNCIAS DESSA classe 'modal', DIFERENTES INSTÂNCIAS COM DIFERENTE CONTEÚDO EM SEU INTERIOR.
+Isso fará com que SMEPRE USEMOS O MESMO 'FRAME', O mesmo BACKDROP (
+
+    frame e backdrop são aquele trecho do html, aquele trecho de 
+
+
+    "
+    <template id="modal-template">
+      <div class="backdrop"></div>
+      <div class="modal"></div>
+    </template>"
+)
+
+
+
+--------------------------------------------------------------
+
+
+
+
+
+Teremos sempre o mesmo frame, por meio desse código, MAS PODEMOS VARIAR O CONTEÚDO QUE SERÁ 
+INSERIDO NESSE FRAME, a partir de cada diferente chamado/instanciamento de 'Modal'...
+
+
+
+
+
+
+No constructor de 'Modal', podemos/devemos esperar um parâmetro de 
+
+'contentId' --------------> contentId será o ID DO TEMPLATE/HTML TAG QUE 
+
+ESTÁ/ESTARÁ SEGURANDO O NOSSO CONTEÚDO...
+
+
+
+ex:
+
+
+
+class Modal {
+    constructor(contentId) {
+
+    }
+
+
+
+
+
+    show() {
+    
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+
+-------------------------------------------------
+
+
+DENTRO DESSE CONSTRUCTOR, VOU QUERER UMA PROPRIEDADE 
+
+CHAMADA DE 
+
+'contentTemplateElement' ----> isso será uma propriedade pq a definimos por meio da keyword 'this'....
+
+
+
+O valor dessa propriedade
+
+será equivalente 
+
+à 
+
+
+'document.getElementById('contentId');
+
+
+(mas por que?)
+
+
+ex:
+
+
+
+class Modal {
+    constructor(contentId) {
+        this.contentTemplate = document.getElementById(contentId);
+    }
+
+
+
+
+
+    show() {
+    
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+-------------------------------
+
+
+
+
+
+Certo....
+
+acho que entendi...
+
+
+entendi como 
+
+
+'this.contentTemplateEl = document.getElementById(contentId);'
+
+
+FUNCIONA...
+
+
+
+
+Digamos que você está querendo FAZER APARECER um MODAL NO SEU CÓDIGo...
+
+
+
+Pense assim:
+
+
+
+você vai instanciar os modais no seu código por meio dessas calls:
+
+
+
+ex:
+
+
+'new Modal(lds-dual-ring);' ----> esse 'lds-dual ring' vai SER PASSADO COMO PARÂMETRO 'contentId' PARA 
+
+O CONSTRUCTOR Da classe 'Modal'... ---> POR SUA VEZ, ESSE parâmetro/variável/const 'contentId' SERÁ USADO 
+NO 'getElementById', ONDE SERÁ FORWARDADO... 
+
+(E ISSO FARÁ COM QUE O NOSSO ELEMENTO MODAL DESEJADO SEJA SELECIONADO... o código 
+
+'this.contentTemplateEl = document.getElementById(contentId)' E O CONSTRUCTOR fazem todo o jogo sujo, aqui...).
+
+
+
+-----------------------------------------------
+
+
+
+outro ex:
+
+
+'new Modal(loading-modal-content);'....
+
+
+
+
+OK, MAS EM 
+
+'Modal' TAMBÉM PRECISAMOS DO 
+
+_____MODAL EM SI____, OU SEJA, DO BACKDROP E DO CONTAINER...
+
+
+Para isso, o professor vai escrever o 'this.modalTemplateEl' (modal template element), essa 
+
+propriedade....
+
+essa propriedade terá um valor de 
+
+
+'document.getElement('modal-template')' -------> SERÁ HARDCODEADO AQUI, PORTANTO, O MODAL TEMPLATE (modal template element, o BACKDROP E ''MODAL'' que sempre ficará ao fundo e segurará o conteúdo que desejaremos em cada caso... nesse caso, o conteúdo será aquele SPINNER de carregando, que é outro modal, aparentemente.)
+
+
+
+
+ex:
+
+
+
+
+
+class Modal {
+    constructor(contentId) {
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                    //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+    
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+--------------------------------------
+
+
+
+RESUMINDO:
+
+
+
+'this.contentTemplateEl' ---> É DINÂMICO, DINÂMICO EM RAZÃO DO 'contentId', que É VARIÁVEL, depende do conteudo que você vai querer no interior do modal.
+'this.modalTemplateEl' -----> É ESTÁTICO, hardcodado. 'modal-template' ---> É A "FRAME" DO MODAL, a frame e o backdrop,  o negócio que vai segurar o conteúdo do modal que passará por cima dele... (que é 'contentTemplateEl').
+
+
+
+
+
+
+
+CERTO, AGORA TEMOS OS ELEMENTOS NECESSÁRIOS PARA ____RENDERIZAR____ O MODAL...
+
+
+
+
+
+Agora devemos mexer em 'show(){}'
+
+
+
+QUANDO 'show' FOR CHAMADO, 
+
+
+VOU QUERER USAR ESSES ELEMENTOS RENDERIZADORES PARA MOSTRAR O MODAL NA TELA...
+
+
+
+
+Para fazer isso, devemos usar nossa 'TEMPLATE TAG' em show....
+
+
+
+
+Mas antes de fazer isso, devemos procurar por 
+
+
+'mdn template'... ---> ver o artigo MDN sobre 'template'....
+
+
+
+
+
+----> VEMOS A COMPATIBILIDADE DA TAG 'template'...
+
+
+
+É suportado em tudo que existe, MENOS INTERNET EXPLORER.
+
+
+---> NO IE, ISSO NÃO VAI FUNCIONAR.
+
+
+
+
+---> Por causa desse problema de compatibilidade com o internet explorer, 
+
+VOU QUERER TER UM CÓDIGO DE 'FALLBACK' em show, OU PELO MENOS ALGO NA TELA 
+
+QUE INFORME O USUÁRIO QUE INTERNET EXPLORER É UM LIXO E QUE ESSA FEATURE NÃO FUNCIONA LÁ...
+
+
+
+
+
+
+"O  elemento HTML <template> é um mecanismo para 
+encapsular um conteúdo do lado do cliente que não
+ é renderizado quando a página é carregada, mas que pode ser
+  instanciado posteriormente em tempo de execução usando JavaScript."
+
+
+
+
+  ----------------------------------------
+
+
+
+  ----> professor aponta que você pode tentar fazer um WORKAROUND MAIOR para evitar 
+  esse problema, mas que por enquanto ele vai fazer assim:
+
+
+
+
+
+'show() {
+    if () {} else {}
+
+}'
+
+
+
+------------------------------
+
+
+
+DEVEMOS FAZER O CHECK se a feature 'template' está disponível naquele browser...
+
+
+
+podemos fazer isso por meio do if check da PROPRIEDADE 'content'...
+
+
+
+essa propriedade RESIDE DENTRO DO MÉTODO 'createElement('template')', em 'document'...
+
+
+
+ex
+
+
+
+show() {
+    if ('content' in document.createElement('template')) {
+
+    } else {
+
+    }
+
+
+}
+
+
+-----------------------------------------------
+
+
+
+PROFESSOR ADMITE QUE ESSA É UMA SINTAXE ESQUISITA...
+
+
+
+O que diabos ele está fazendo aqui?
+
+
+
+'document.createElement()' CRIA UM NOVO ELEMENTO 'DOM'...
+
+e ele cria UM ELEMENTO 'TEMPLATE'...
+
+
+Certo... no internet explorer, essa tentativa de criação 
+desse elemento 'template' FALHARÁ, POIS ISSO NÃO EXISTE LÁ, IE NÃO 
+CONHECE ISSO....
+
+isso quer dizer que 'document.createElement('template') É BASICAMENTE LIDO 
+
+PELO INTERNET EXPLORER COMO 'undefined.'......
+
+
+
+CERTO. E com a keyword 'in' (keyword especial) PODEMOS 
+CHECAR SE O OBJETO NA DIREITA (esse objeto 'document.createElement('template') ', à direita do '=')...
+
+checar se o objeto na direita, e, como vocÊ aprendeu, TODO 'ELEMENTO DOM' É, NO FINAL DAS CONTAS, UM 
+OBJETO, CHECAR SE ESSE OBJETO NA DIREITA TEM A PROPRIEDADE 
+'content'...  ------------------------> E SE ESSA PROPRIEDADE ESTIVER 
+'UNDEFINED', COMO NO internet explorer velho, ESSA PROPRIEDADE 'content' OBVIAMENTE 
+NÃO EXISTIRÁ COMO PROPRIEDADE, o que fará com que o argumento '('content' in document.xxxx) FALHE (falsy),
+
+O QUE FARÁ COM QUE O CÓDIGO EM 'ELSE' seja executado...
+
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+RESUMINDO:
+
+
+ISSO QUE O PROFESSOR NOS MOSTROU É UM __PEQUENO TRUQUE__ (a trick) PARA 
+BROWSERS QUE NÃO SUPORTAM A 'TEMPLATE TAG'... esse truque checa se a template tag 
+É SUPORTADA OU NÃO....
+
+
+Se ela não é suportada por aquele determinado browser, acabamos entrando no 'else block'.
+
+
+
+
+
+
+NO 'else', DEVEMOS TER ALGUM CÓDIGO DE FALLBACK PARA ___FAZER ALGO DIFERENTE__, EXECUTAR 
+ALGO DIFERENTE DO NOSSO MODAL PADRÃO... ----> nós não mostraremos 
+
+esse overlay do modal, não; aqui, em vez disso, podemos, por exemplo, mostrar UM ALERT.......
+
+
+
+
+
+ex:
+
+
+
+
+
+class Modal {
+    constructor(contentId) {
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                    //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+
+        } else {
+            //fallback code 
+            alert(); ////////////EIS O NOSSO ALERTA...
+        }
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+--------------------------------------------------------
+
+
+
+
+
+Certo. Esse 'alert' no caso de AUSÊNCIA DE SUPORTE À 'template tag' 
+
+PODE FAZER OUTPUT DE UM TEXTO QUE É DEFINIDO NESSA CLASSE 'MODAL'...
+
+Para isso, simplesmente podemos adicionar um PARÂMETRO 
+
+de 'fallbackText' no CONSTRUCTOR DESSA classe 'modal'...
+
+
+
+Feita a passagem desse parâmetro, criaríamos/críamos uma propriedade 
+
+de mesmo nome por meio de 
+
+'this.fallbackText = fallbackText';  (no constructor).
+
+
+
+
+ex:
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                       //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+
+        } else {
+            //fallback code 
+            alert(); ////////////EIS O NOSSO ALERTA...
+        }
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+FEITO ISSO, PODEMOS SIMPLESMENTE FAZER FORWARD DO VALOR DESSA PROPRIEDADE 'this.fallbackText' 
+
+em 
+
+'ALERT()'....
+
+
+
+
+ex:
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                       //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+
+        } else {
+            //fallback code 
+            alert(this.fallbackText); ////////////EIS O NOSSO ALERTA...
+        }
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+-------------------------------------------------
+
+
+
+
+
+Esse é/seria UM WORKAROUND MUITO BÁSICO, MAS AINDA É UM WORKAROUND, UM WORKAROUND EM QUE 
+NÓS PELO MENOS MOSTRAMOS ALGO AO USUÁRIO quando o seu browser não suporta o template tag...
+
+
+
+
+
+
+------> BEM, DEPENDENDO DO TIPO DE APLICATIVO QUE VOCÊ ESTÁ CONSTRUINDO E SEUS PLANOS/ATIVIDADES 
+DESIGNADAS NAQUELE MODAL, vocÊ pode precisar de um workaround MELHOR DO QUE ESSE....
+
+
+---> Se o seu modal cumprir uma TAREFA MAIS IMPORTANTE DO QUE UM 'LOADING SPINNER', por exemplo,
+GERALMENTE É RECOMENDADO TER UM CÓDIGO DE FALLBACK MELHOR DO QUE UM SIMPLES 'ALERT()'.
+---> vocÊ terá de ser MAIS FLEXÍVEL, TERÁ DE ESCREVER TODO O SEU APLICATIVO DE UMA FORMA 
+COMPLETAMENTE DIFERENTE.
+
+
+---------------------------------------------------------------
+
+
+
+--> aqui, entretanto, esse 'fallbackText' já basta. O approach do alert é o que o professor 
+escolheu aqui, um alerta que será mostrado quando a template tag não for suportada por algum 
+browser.
+
+
+
+
+------> SE ENTRAMOS NO IF BLOCK, SABEMOS que a 'template tag' ESTÁ DISPONÍVEL...
+
+
+
+
+---> se ela está disponível, PODEMOS SELECIONAR ESSA TEMPLATE TAG POR MEIO DO JAVASCRIPT, E 
+
+PODEMOS USAR ESSA TEMPLATE TAG PARA RENDERIZAR nosso modal/overlay na tela....
+
+
+
+
+PARA ISSO, o professor primeiramente precisa pegar o seu 'conteúdo do modal'...
+
+
+Ele vai colocar esse negócio em uma constante chamada de 'modalContent'...
+
+
+
+
+
+-----> ELE VAI USAR ESSA TEMPLATE DO OVERLAY (
+
+
+
+        <template id="modal-template">
+      <div class="backdrop"></div>
+      <div class="modal"></div>
+    </template>
+)
+
+
+POR MEIO DO CÓDIGO 'document.importNode()' ---->  É ASSIM QUE 
+
+VOCÊ USA O __CONTEÚDO___ DE UM TEMPLATE, É ASSIM QUE VOCÊ USA O SEU CONTEÚDO 
+E ENTÃO CRIA UM NODE COM BASE NELE...
+
+
+O professor, aqui, vai apontar para o 'this.modalTemplateEl' (modal template element).
+
+
+
+ex:
+
+
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                       //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalContent = document.importNode(this.modalTemplateEl);
+
+
+
+
+        } else {
+            //fallback code 
+            alert(this.fallbackText); ////////////EIS O NOSSO ALERTA...
+        }
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+
+Esse código 'document.importNode(this.modalTemplateEl)' VAI SELECIONAR 
+
+O MODAL E BACKDROP, ambos (
+        <template id="modal-template">
+      <div class="backdrop"></div>
+      <div class="modal"></div>
+    </template>
+).
+
+
+
+Certo, mas o professor não para por aí....
+
+
+Ele acessa a propriedade  'content' DESSE TEMPLATE...
+
+ex:
+
+
+'document.importNode('this.modalTemplateEl.content')
+
+
+
+-----------------------------------------------
+
+
+
+
+Depois disso, ele passa 'true' como segundo argumento desse 'importNode()';
+
+ele faz isso para que SEJA CRIADO UM ___DEEP CLONE____ de 'modalTemplateEl.content'...
+
+
+
+
+ex:
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                       //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalContent = document.importNode(this.modalTemplateEl.content, true);
+
+
+
+
+        } else {
+            //fallback code 
+            alert(this.fallbackText); ////////////EIS O NOSSO ALERTA...
+        }
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+O QUE ESSE CÓDIGO TODO VAI FAZER É NOS DAR ACESSO 
+
+
+
+a
+
+
+'<div class="backdrop"></div>'
+
+
+E
+
+
+<div class="modal"> </div>
+
+
+
+
+
+
+ESSAS DUAS DIVS ESTARÃO __armazenadas__ no nosso 'modalContent', agora.
+
+
+Mas o nome 'modalContent' é meio enganoso, POIS ISSO AQUI É APENAS O 'frame'/a moldura para colocar 
+os nossos elementos modal (o conteúdo propriamente dito).
+
+Por isso o professor troca o nome dessa const 
+
+para 'modalElements'...
+
+
+ex:
+
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplate = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');  ///////ISSO VAI SELECIONAR o elemento do html, o elemento '<template id="modal-template">
+                                                                                                       //                               <div class="backdrop"></div>
+                                                                                                     //                              <div class="modal"></div>
+                                                                                                       //                            </template>'
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalElements = document.importNode(this.modalTemplateEl.content, true);
+
+
+
+
+        } else {
+            //fallback code 
+            alert(this.fallbackText); ////////////EIS O NOSSO ALERTA...
+        }
+    }
+
+
+    hide() {
+
+    }
+}
+
+
+
+
+
+
+------------------------------------
+
+
+
+'modalElements' É UM OBJETO QUE, NO FINAL DAS CONTAS, NOS DÁ ACESSO À BACKDROP DIV E AO MODAL DIV.
+
+
+
+
+
+Porém, agora eu preciso de acesso ESPECIFICAMENTE à 'backdrop div' ('<div class="backdrop"></div>') e ao 'modal div' ( <div class="modal"> </div> )
+
+
+
+Esse acesso será armazenado na constante de nome 'modalElement'.
+
+
+
+
+Para isso, devemos usar o recurso dos 'child' COM O 'modalElements'...
+
+
+
+
+
+OOOU, ALTERNATIVAMENTE, PROFESSOR NOS MOSTRA QUE PODEMOS USAR 'querySelector('.modal')' PARA GANHAR 
+ACESSO AO NEGÓCIO DE CLASSE 'modal' DENTRO DESSE TEMPLATE....
+
+
+
+
+
+ex:
+
+
+
+
+
+const modalElements = document.importNode(this.modalTemplateEl.content, true);
+const modalElement = modalElements.querySelector('.modal'); /////////eis o código em questão.
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplateEl = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalElements = document.importNode(this.modalTemplateEl.content, true);
+            const modalElement = modalElements.querySelector('.modal');
+        } else {
+            alert(this.fallbackText);
+        }
+    }
+
+    hide() {
+
+    }
+
+}
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+PROFESSOR EXPLICA QUE PODEMOS FAZER __a MESMA COISA___ com o backdrop, por meio do uso da 
+
+classe 'BACKDROp'....
+
+
+
+
+ex:
+
+
+
+
+const backdropElement = modalElements.querySelector('.backdrop');
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplateEl = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalElements = document.importNode(this.modalTemplateEl.content, true);
+            const modalElement = modalElements.querySelector('.modal');
+            const backdropElement = modalElements.querySelector('.backdrop');
+            
+        } else {
+            alert(this.fallbackText);
+        }
+    }
+
+    hide() {
+
+    }
+
+}
+
+
+
+--------------------------------------------------------
+
+
+
+
+CERTO, AGORA TEMOS ACESSO AOS DOIS ELEMENTOS QUE UTILIZAREMOS COMO 
+
+______FRAME_____ E COMO BACKDROP_________ DE NOSSO 'MODAL OVERLAY'...
+
+
+
+-----------------------------------------------
+
+
+
+
+AGORA APENAS DEVEMOS CONSEGUIR ACESSO ____AO CONTEÚDO QUE QUEREMOS___ FAZER DISPLAY DENTRO DESSE FRAME...
+
+
+
+
+Ou seja, repetiremos esse processo de seleção, mas com 'this.contentTemplateEl'....
+
+
+
+
+
+
+
+Criaremos uma constante de nome 
+
+
+'contentElement', 
+
+
+
+que segurará um valor de 
+
+
+
+'document.importNode(this.contentTemplateEl.content, true);'.....
+
+
+
+
+
+ISSO NOS DARÁ ACESSO AO CONTEÚDO DE VERDADE QUE QUEREMOS FAZER DISPLAY, O CONTEÚDO 
+
+BASEADO NO 
+
+
+'contentId' PASSADO COMO PARÂMETRO AO CONSTRUCTOR DA CLASSE 'Modal'...
+
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplateEl = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalElements = document.importNode(this.modalTemplateEl.content, true);
+            const modalElement = modalElements.querySelector('.modal');
+            const backdropElement = modalElements.querySelector('.backdrop');
+            const contentElement = document.importNode(this.contentTemplateEl.content, true);
+        } else {
+            alert(this.fallbackText);
+        }
+    }
+
+    hide() {
+
+    }
+
+}
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+AGORA, PORTANTO, TEMOS TODAS AS PEÇAS DO QUEBRA-CABEÇA unidas....
+
+APENAS PRECISAMOS FAZER DISPLAY DESSE NEGÓCIO NA PÁGINA...
+
+
+
+
+
+
+Antes de mais nada, o professor FARÁ APPEND de alguma coisa no 'modalElement' em si....
+
+
+
+(ou seja, ele ANEXARÁ ALGUMA COISA A ELE...)...
+
+
+
+
+
+
+MAS ELE NÃO USARÁ 'append()', POIS O SUPORTE DE 'append()' NÃO É TÃO BOM....
+
+
+
+Não, ele em vez disso usará 'appendChild()'...., pois ele tem o melhor 
+cross browser support. 
+
+
+
+
+ELE ANEXARÁ AO 'modalElement'  o 'contentElement' (que é aquele 'importNode' do CONTEÚDO DO 'contentTemplateEl'..)
+
+
+
+
+
+ex:
+
+
+
+modalElement.appendChild(contentElement);
+
+
+------------------------------------------------
+
+
+
+
+
+Certo. Mas não acabamos por aí:
+
+precisamos ADICIONAR ESSE ELEMENTO 'modalElement' (Que agora terá um conteúdo em seu interior) E 
+
+O BACKDROP EM SI 
+
+AO NOSSO DOM...........
+
+
+
+
+PARA ISSO, DEVEMOS USAR O MÉTODO 
+
+
+'.insertAdjacentElement'  (document.insertAdjacentElement() )
+
+
+PARA INSERIR ESSES NEGÓCIOS....
+
+
+
+
+O método 'insertAdjacentElement' ACEITA UM PARÂMETRO QUE DIZ EM QUE LUGAR
+ AQUELE ELEMENTO DEVERÁ SER INSERIDO. 
+
+ alguns valores são:
+
+
+ 'afterbegin'
+
+
+ 'afterend'
+
+
+
+ 'beforebegin'
+
+
+ 'beforeend'...
+
+
+
+
+
+
+ O PROFESSOR ESCOLHE 'afterbegin' --------> ISSO FAZ COM QUE ESSE MODAL SEJA INSERIDO ___DENTRO DO BODY____, 
+ MAS BEM NO INÍCIO DO BODY....
+
+
+
+Como segundo argumento, ele coloca a coisa que ele vai querer inserir, que nesse caso é o modalElement 
+
+e o backdropElement.....
+
+
+
+
+ex:
+
+
+
+
+document.insertAdjacentElement('afterbegin', modalElement);
+document.insertAdjacentElement('afterbegin', backdropElement);
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+REPRESENTAÇÃO COMPLETA:
+
+
+
+
+
+
+class Modal {
+    constructor(contentId, fallbackText) {
+        this.fallbackText = fallbackText;
+        this.contentTemplateEl = document.getElementById(contentId);
+        this.modalTemplateEl = document.getElementById('modal-template');
+    }
+
+
+
+
+
+    show() {
+        if ('content' in document.createElement('template')) {
+            const modalElements = document.importNode(this.modalTemplateEl.content, true);
+            const modalElement = modalElements.querySelector('.modal');
+            const backdropElement = modalElements.querySelector('.backdrop');
+            const contentElement = document.importNode(this.contentTemplateEl.content, true);
+
+            modalElement.appendChild(contentElement);
+
+
+            document.body.insertAdjacentElement('afterbegin', modalElement);
+            document.insertAdjacentElement('afterbegin', backdropElement);
+
+        } else {
+            alert(this.fallbackText);
+        }
+    }
+
+    hide() {
+
+    }
+
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+AGORA, QUANDO 'SHOW' FOR CHAMADO, esses elementos serão renderizados com sucesso na nossa página...
+
+
+Para testar isso, devemos voltar ao nosso 'sharePlace.js' 
+
+
+E ENTÃO COLOCAR UM ACESSO AO 'Modal', à CLASSE 'modal' QUE CRÍAMOS 
+
+EM 'Modal.js'...
+
+
+
+
+PARA TER ESSE ACESSO, PROFESSOR EXPLICA QUE DEVEMOS ___EXPORTAR___ ESSA CLASSE modal, por meio do uso 
+
+
+da keyword 'export'...
+
+
+
+ex:
+
+
+export class Modal {}
+
+
+---------------------
+
+
+
+Feito isso, devemos importar essa classe lá no nosso 'SharePlace.js'...
+
+
+
+
+
+Lá precisamos de ACESSO AO MODAL QUE CRÍAMOS NA CLASSE 'modal'...
+
+
+
+fazemos o import 
+
+com a sintaxe 
+
+
+            'classe'
+'import { Modal } from './UI/Modal' ----------> ou seja, não precisamos colocar './UI/Modal.js', POIS O WEBPACK JÁ ADICIONA '.js' AUTOMATICAMENTE PARA NÓS....
+
+
+
+
+
+
+
+como estamos importando a classE { MODAL }, estamos fazendo um NAMED 
+
+IMPORT...
+
+
+--------------------------------------
+
+
+
+
+
+
+Feito esse import no 'SHAREPLACE.JS', 
+
+
+podemos 
+
+usar 
+
+
+essa classe 
+
+'modal' Lá...
+
+
+
+
+
+Lá embaixo de 'locateUserHandler()', 
+
+
+no ELSE, eu vou querer criar 
+
+
+___UM MODAL___, e eu vou querer ME LIVRAR 
+
+DESSE MODAL TANTO QUANDO 
+
+FORMOS ___BEM SUCEDIDOS __ ('successResult') 
+
+COMO QUANDO ACABARMOS EM ERRO ('errorResult')..
+
+
+
+
+
+Queremos isso pq O SUMIÇO DO MODAL SIGNIFICA 
+
+
+QUE PARAMOS DE TENTAR FAZER 'GET' DA USERLOCATIOn...
+
+
+
+para isso, o professor escreve 
+
+
+'const modal = new Modal()' PARA CRIAR 
+
+
+UM NOVO MODAL E ARMAZENÁ-LO NESSA CLASSE...
+
+
+
+
+CERTO, MAS NESSE 'modal' PRECISAMOS PASSAR 2 
+
+ARGUMENTOS...
+
+
+
+
+
+O primeiro argumento é O ___ ID DO NOSSO CONTEÚDO___....
+
+
+Esse id é 
+
+'loading-modal-content'...
+
+
+
+
+
+ex:
+
+
+
+const modal = new Modal('loading-modal-content');
+
+
+
+
+-------------------------------------
+
+
+
+
+JÁ O SEGUNDO ARGUMENTO É O 'FALLBACK TEXT', o 
+
+TEXTO DE FALLBACK -------> ESSE TEXTO 
+
+SERÁ MOSTRADO NO 'ALERT()' PARA 
+
+INDICAR QUE A 'TEMPLATE TAG' não é suportada naquele browser,
+
+e que mesmo assim o código está tentando 
+
+conseguir a localização do usuário...
+
+o 
+
+
+fallback text será 
+
+
+'Loading location - please wait';
+
+
+
+-------------------------------
+
+
+
+ex:
+
+
+
+const modal = new Modal('loading-modal-content', 'Loading location - please wait');
+
+
+
+---------------------------------
+
+
+
+
+
+FEITO ESSA CRIAÇÃO DO MODAL, PODEMOS USAR/chamar 
+
+
+'Modal.show()' --->  (SHOW É O MÉTODO QUE FOI CRIADO DENTRO DA CLASSE 'modal'...)..
+
+
+isso ficará assim:
+
+
+
+
+const modal = new Modal('loading-modal-content', 'Loading location - please wait');
+modal.show();
+
+
+--------------------------------
+
+
+
+
+MAS NÃO ACABAMOS POR AQUI:
+
+
+
+
+
+em 'successResult', vou querer chamar 
+
+
+'modal.hide()' para ESCONDER O MODAL...
+
+
+
+MESMA COISA EM 'errorResult'....
+
+
+
+-----------------------------------
+
+
+Também tenho que tirar o 'else' do if check...
+
+
+
+
+
+Tirei, mas o código ainda não funciona...
+
+
+
+
+Código de erro:
+
+
+
+Uncaught TypeError: Cannot read property 'content' of null
+    at Modal.show (Modal.js?2702:16)
+    at HTMLButtonElement.locateUserHandler (SharePlace.js?d5a7:24)
+show @ Modal.js?2702:16
+locateUserHandler @ SharePlace.js?d5a7:24
+
+
+
+--------------------------------------------
+
+
+Tentar mexer no 'browserslist'...
+
+
+
+Não, não era isso...
+
+
+
+
+Consertei o problema, era um erro de digitação no html...

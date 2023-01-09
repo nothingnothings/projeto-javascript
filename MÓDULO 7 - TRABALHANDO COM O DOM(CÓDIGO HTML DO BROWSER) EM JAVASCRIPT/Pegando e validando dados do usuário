@@ -1,0 +1,215 @@
+A primeira etapa é 
+CONSEGUIR ACESSO AO 
+"ADD BUTTON" daquele modal.
+
+Para isso, devemos empregar seletores.
+
+Usamos o método do "nextElementSibling" para selecionar o botão de add.
+
+
+
+ex:
+
+
+
+const addMovieButtonModal = cancelBtn.nextElementSibling; // Isso faz a seleção do botão "add".
+
+
+
+
+-----------------------
+
+Depois disso, adicionamos um eventListener a esse botão 
+láááá embaixo.
+
+
+
+
+ex:
+
+
+addMovieButtonModal.addEventListener('click', )
+
+
+------------------------
+
+
+O professor quer assignar um eventListener a esse 
+botão que faça o trigger de uma função que então 
+coleta todos os inputs e então faz 
+alguma coisa com eles (faz display dos filmes na 
+página html).
+
+
+Para tal, o professor cria uma nova arrow function no código.
+O professor diz que 
+GOSTA de colocar "handler" no final de funções que são 
+triggered/ativadas por meio de um eventListener. Em decorrência 
+disso, ele decide mudar o nome de "cancelAddMovie" para 
+"cancelAddMovieHandler".
+
+Agora, o objetivo do professor é selecionar 
+TODOS OS VALORES QUE FORAM ADICIONADOS PELO USUÁRIO 
+POR MEIO DOS INPUT FIELDS. Para tal, ele deve selecionar 
+cada um deles por meio de seletores.
+
+
+
+
+
+ex:
+
+
+
+const addMovieHandler = () => {
+
+};
+
+-----------------------------------------
+
+
+
+ex:
+
+
+const modalContent = modal.children[0];
+
+const movieTitleInput = modalContent.children[1];
+const imageUrlInput = modalContent.children[3];
+const userRatingInput = modalContent.children[5];
+
+
+------------------------------------------------
+
+
+Isso vai selecionar os 3 elementos. Também 
+devemos adicionar uma validação bem básica a esses elementos: 
+checar se input fields não estão vazios e se o userRatingInput não 
+é um valor que não seja entre 1 ou 5. Depois 
+disso, o código deverá armazenar um "movie object" dentro 
+de um array que devemos adicionar no nosso script.
+
+.....PROBLEMA: PROFESSOR USOU UM MÉTODO 
+TOTALMENTE DISTINTO PARA SELECIONAR OS 3 ELEMENTOS.
+ELE USOU "querySelectorAll" para selecionar TODOS 
+ELEMENTOS COM A TAG <input>. Isso acaba selecionando os 3 
+elementos input fields e COLOCA ELES DENTRO DE UM ARRAY-like 
+object, uma NODELIST.
+
+
+
+
+ex:
+
+
+
+const userInputs = addMovieModal.querySelectorAll('input');
+
+
+
+
+
+---------------------------------
+
+
+DEPOIS DISSO, podemos usar esse arraylike object dentro 
+do addMovieHandler, referenciá-lo lá dentro.
+
+
+ex:
+
+
+
+
+const addMovieHandler = () => {
+
+};
+
+
+
+------------------------------------
+
+
+Dentro de addMovieHandler, o professor quer, digamos, pegar o 
+"titleValue", que é conseguido por meio de "userInputs[0]". 
+Isso é porque o professor quer pegar o PRIMEIRO VALOR DAQUELA LISTA LÁ.
+Ele seleciona o primeiro elemento e então adiciona 
+um ".value", porque esse será um ELEMENTO INPUT, e por isso 
+terá essa propriedade "value". 
+
+Ele também duplica esse código e cria uma versão dele 
+para os outros 2 tipos de input.
+
+
+ex:
+
+
+
+const addMovieHandler = () => {
+    const titleValue = userInputs[0].value;
+    const imageUrlValue = userInputs[1].value;
+    const ratingValue = userInputs[2].value;
+};
+
+
+
+-------------------------------------------------
+
+Depois disso, o professor quer adicionar um if check 
+rápido para checar "se "titleValue" (e professor 
+usa um método/propriedade especial aqui, a propriedade 
+".trim()". Essa propriedade REMOVE O ESPAÇO EM BRANCO EXTRA NO INÍCIO 
+E NO FIM DO INPUT, para que quando você escreve algo 
+com espaços em branco, eles sejam ignorados. Trim remove 
+o espaço em branco que não fique entre 2 palavras.) FOR UMA 
+EMPTY STRING (totalmente em branco), OU (||) se imageUrlIValue FOR UMA 
+EMPTY STRING, OU (||) se  ratingValue FOR uma empty String, 
+OU SE ratingValue for menor do que 1 (<1. O professor 
+diz que podemos colocar um parseInt aqui para converter a string 
+colocada pelo usuário em um número, mas ele decide 
+apenas checar por números superiores a 5 ou inferiores a 1. ), SE ALGUMA 
+DESSAS HIPÓTESES FOR SATISFEITA, VOU QUERER JOGAR (THROW) UM ALERTA 
+E  ENTÃO DIZER "por favor, insira números válidos entre 1 e 5. "
+O professor aponta que você poderia criar seu próprio modal para 
+isso, mas que ele prefere usar esse alert builtin. Depois desse 
+alerta, ele codifica um "return", para que naquele ponto ali nós 
+paremos a execução da função.
+
+                        (+rating value --->  (sobre o operador '+' na frente de uma variável, que é equivalente ao parseInt, basicamente, porque converte a variável, que pode ser uma string, em um número a ser usado em cálculos.) As explained in other answers it converts the variable to a number. Specially useful when d can be either a number or a string that evaluates to a number.)
+
+
+
+ex:
+
+const userInputs = addMovieModal.querySelectorAll('input');
+
+
+
+
+const addMovieHandler = () => {
+    const titleValue = userInputs[0].value;
+    const imageUrlValue = userInputs[1].value;
+    const ratingValue = userInputs[2].value;
+
+    if(titleValue.trim() === '' ||
+        imageUrlIValue.trim() === '' ||
+        ratingValue.trim() === '' ||
+        +ratingValue < 1 ||
+        +ratingValue > 5
+    ) {
+        alert('Please enter valid values (rating between 1 and 5).');
+        return;
+    }
+};
+
+-----------------------------------------------------
+
+
+Agora o código funciona, em parte: quando 
+clicamos em add sem ter digitado nada nos input fields, o javascript 
+nos mostra aquele alerta de erro.
+
+O professor também aponta que poderíamos fazer um check para checar se aquela 
+url realmente é uma url válida, mas ele diz que isso não é algo que devemos ver agora,
+que isso não é o nosso foco.
+

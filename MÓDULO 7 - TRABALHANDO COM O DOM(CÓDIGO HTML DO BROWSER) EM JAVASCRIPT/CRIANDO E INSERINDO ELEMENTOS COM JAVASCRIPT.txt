@@ -1,0 +1,107 @@
+Agora temos um entendimento sobre como selecionar elementos por meio de maneiras diferentes, 
+sendo as maneiras mais importantes "querySelector" e "getXbyY" (getElementById).
+
+
+
+
+
+
+Agora também temos uma ideia de como "traverse the DOM" baseando-nos em um 
+elemento que selecionamos a priori (com a ajuda de parentNode, childElementNode, etc etc).
+
+
+
+
+Sabemos também como LER valores de um elemento DOM, e como podemos 
+manipular DOM NOdes/Dom elements.
+
+
+
+
+
+
+AGORA DEVEMOS DAR UMA OLHADA EM COMO ____CRIAR_____ E INSERIR 
+ELEMENTOS NOVINHOS EM FOLHA, porque isso é algo que nós não vimos até agora.
+
+
+
+Para tal, temos 2 MANEIRAS DIFERENTES DE CRIAR/ADICIONAR ELEMENTOS.
+
+
+
+Podemos, e isso pode soar como uma surpresa, mas nós PODEMOS ESCREVER 
+CÓDIGO HTML EM JAVASCRIPT; podemos escrever código HTML em javascript 
+e dizer ao javascript/browser que ele deve pegar e parsear esse código HTML
+e, no final das contas, renderizá-lo em um algum lugar da nossa document tree.
+
+OUUU usamos o método "createElement()" no objeto do documento ("object.createElement()")
+PARA CRIAR UM NODE NOVINHO EM FOLHA (brand new node) e inserí-lo, manualmente, em algum lugar 
+do nosso documento.
+
+
+UMA HTML STRING PODE SER ADICIONADA, POR SUA VEZ, COM A PROPRIEDADE "innerHTML", que 
+é encontrada SEMPRE EM ELEMENT NODES... innerHTML de fato adiciona e renderiza uma 
+HTML string (um código HTML, essencialmente) NAQUELE LUGAR EM QUE VOCÊ A ADICIONOU.
+
+
+
+temos innerHTMl e "insertAdjacentHTML()"...
+
+Esse último é um método que é utilizado se você quer adicionar um código 
+HTML renderizado logo ao lado de UM CONTEÚDO QUE JÁ EXISTE, e não substituí-lo.
+
+
+ou seja:
+
+
+InnerHTML ---> add(render) HTML string 
+
+insertAdjacentHTML ---> Add (render) HTML 
+                        string in specific position, next to an already existing element (isso não substitui um elemento que existe anteriormente, e sim renderiza/cria uma string html ao lado de um conteúdo que já existe)
+
+
+createElement() ---> usado para criar ELEMENTOS/NODES DOM SINGULARES (1 só), em vez de um monte de HTML de uma vez só (como esses outros comandos, innerHtml e insertAdjacentHTML).
+
+
+
+                        append = acrescentar.
+
+OS ELEMENTOS/NODES DOM criados com "createElement"  podem ser ADICIONADOS com a ajuda de "appendChild()" e "append()", dependendo do 
+caso em questão (o professor nos mostrará a diferença nas próximas aulas).
+
+
+
+Esses comandos (append e appendChild) adicionam um novo dom elemento/node DENTRO DE OUTRO NODE/ELEMENTO (de um novo 
+elemento/node pai)....
+
+
+VOCê TAMBÉM TEM "prepend()", "before()", "after()" e "insertBefore()". ----------> Esses são 
+utilizados quando você quer ser mais específico sobre o lugar em que você quer adicionar o novo elemento/node. Quando você 
+não quer ser tão específico, você geralmente adiciona o elemento AO FINAL DA 
+LISTA JÁ EXISTENTE DE CHILD NODES... ("Instead of adding it at the end of the 
+existing childNode list..."). -----> mas se você quer adicionar em outro lugar, terá 
+que usar esses prepend, before, after, etc.
+
+
+
+
+"prepend()", "before()", "after()" e "insertBefore()".   ---> "makes you insert new DOM element/node in specific position".
+
+
+
+POR FIM, TEMOS AS PROPRIEDADES "replaceChild()" e "replaceWith()". -----> substituem o node já existente com o node/elemento  (replace existing DOM element/node with new one)
+escrito dentro do parâmetro. O elemento antigo é removido e substituído por um elemento novo criado com "createElement".
+
+
+
+
+
+
+Essas são as novas diferentes maneiras de manipular o documento.
+
+
+
+
+
+Agora devemos ver como cada uma delas funciona e entender suas diferenças, entender quando devemos usar 
+cada uma delas.

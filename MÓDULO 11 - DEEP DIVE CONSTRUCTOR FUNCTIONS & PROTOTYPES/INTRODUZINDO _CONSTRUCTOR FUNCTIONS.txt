@@ -1,0 +1,461 @@
+
+
+
+
+
+
+
+Comecemos com CONSTRUCTOR FUNCTIONS:
+
+
+
+
+
+
+
+Devemos criar um index.html do projeto desse módulo...
+
+
+
+
+
+
+
+Nesse módulo, não construíremos um 'fancy app'...
+
+
+
+
+
+Em vez disso, trabalharemos com AS COISAS QUE TRABALHAM NOS 
+
+BASTIDORES DAS CLASSES....
+
+
+
+
+
+Já vimos como usar CLASSES EM SI, agora devemos ver o que 
+
+impulsiona essas classes.
+
+
+
+
+
+
+Podemos criar uma classe  'Person'.
+
+
+
+
+Dentro de 'Person' você pode criar um FIELD, um field 
+
+de 'name', por exemplo.
+
+
+
+ex:
+
+
+
+
+
+class Person {
+    name = 'Max';
+}
+
+
+
+-----------------------------
+
+
+
+
+ESSE 'field,' POR EXEMPLO, SERÁ TRADUZIDO EM UMA PROPRIEDADE quando 
+você criar um objeto baseado naquela classe.
+
+
+----------------------------------
+
+
+
+Você pode, ademais, ter um CONSTRUCTOR dentro dessa classe...
+
+
+nesse constructor você pode, por exemplo, adicionar uma 
+
+PROPRIEDADE como 'age', e também ter um método greet em que 
+
+você faz 'console.log('Hi, I am ' + this.name + ' and I am ' + this.age + 'years old.')          (PODERÍAMOS TER UTILIZADO STRING INTERPOLATION AQUI, É CLARO).
+
+
+
+
+-------------------------------------
+
+
+
+ex:
+
+
+
+
+
+class Person {
+    name = 'Max';
+}
+
+
+constructor() {
+    this.age = 30;
+}
+
+
+greet() {
+    console.log(
+        'Hi, I am' + this.name + ' and I am ' + this.age + ' years old.');
+
+}
+
+--------------------------------
+
+
+
+ISSO É ALGO BEM BÁSICO, QUE JÁ HAVÍAMOS FEITO ANTES...
+
+
+
+
+
+e aí podemos, é claro, INSTANCIAR ESSa classe 'Person' com:
+
+(podemos fazer essas instanciações quantas 
+vezes desejarmos.)
+
+
+ex:
+
+
+
+
+
+
+class Person {
+    name = 'Max';
+}
+
+
+constructor() {
+    this.age = 30;
+}
+
+
+greet() {
+    console.log(
+        'Hi, I am' + this.name + ' and I am ' + this.age + ' years old.');
+
+}
+
+
+
+
+
+
+const person = new Person();  /////INSTANCIAÇÃO.
+
+
+
+
+
+----------------------------------
+
+
+
+
+Professor diz que você também poderia, por exemplo, ACEITAR 
+UM ARGUMENTo no constructor e usar esse parâmetro 
+
+dentro do constructor body....
+
+
+
+Aqui, no entanto, o professor está trabalhando somente com VALORES 
+
+HARDCODEADOS....
+
+
+Professor chama 'person.greet();' ...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class Person {
+    name = 'Max';
+
+
+
+constructor() {
+    this.age = 30;
+}
+
+
+greet() {
+    console.log(
+        'Hi, I am' + this.name + ' and I am ' + this.age + ' years old.');
+
+}
+
+}
+
+
+
+
+const person = new Person(); 
+
+
+person.greet();
+
+
+
+
+------------------------------------
+
+
+
+CONSOLE VAI NOS MOSTRAR 
+
+
+'Hi, I am Max and I am 30 years old'.
+
+
+
+
+---------------------------------------
+
+
+
+ISSO NÃO É NADA DE NOVO. Vimos tudo isso no último módulo.
+
+
+
+---------------------------------------
+
+
+
+Por trás das cenas, CLASSES UTILIZAM UM CONCEITO 
+
+
+QUE ESTEVE INCORPORADO NO JAVASCRIPT DESDE SEMPRE....
+
+
+
+É O CONCEITO DE 'constructor functions'.
+
+
+
+
+É óbvio, diz o professor, que TEMOS UMA CONSTRUCTOR FUNCTION/CONSTRUCTOR 
+METHOD DENTRO DE CADA CLASSE...
+
+
+
+
+Como você logo verá, esse constructor de dentro das classes tem 
+relação com o conceito de CONSTRUCTOR FUNCTIONS...
+
+
+
+
+
+
+Antigamente no javascript, E ATÉ MESMO HOJE em muitos SCRIPTS (muitas vezes em scripts QUE PRECISAM SER RODADOS POR MEIO DESSE FORMATO ANTIGÃO PARA QUE SEJAM ACEITOS EM BROWSERS MAIS ANTIGOS, BROWSERS QUE NÃO SUPORTAM CLASSES...)
+
+
+
+
+NESSES CASOS, VOCê VERÁ 'constructor functions' SENDO UTILIZADAS 
+NO LUGAR DE CLASSES....
+
+
+
+
+
+
+
+Constructor functions ----> SÃO TIPOS ESPECIAIS DE FUNÇÕES, que atuam COMO BLUEPRINTS PARA OBJETOS...
+                                                                        (mesma atribuição das classes, portanto. 
+                                                                        
+                                                                        )
+
+
+-------> PODEM SEGURAR E DEFINIR PROPRIEDADES E MÉTODOS (mesma coisa que 
+classes, portanto)
+
+
+
+------> constructor functions, para que objetos sejam criados 
+a partir delas, PRECISAM QUE VOCÊ 
+ESCREVA 
+
+A KEYWORD 'new' (mesma coisa que classes. )
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+Em browsers modernos, scripts modernos, nós tipicamente 
+trabalhamos com uma 
+CLASSE.
+
+
+
+
+Mas por trás das cenas, essa classe 'Person' É ESCRITA 
+ESSENCIALMENTE COMO 
+
+UMA FUNÇÃO....
+
+
+
+
+
+É escrita essencialmente como uma função com a function keyword + nome de sua escolha...
+
+
+
+
+
+ex:
+
+
+
+
+
+function Person {}  //////////SIM, por trás das cenas o javascript escreve, sim, com inicial maiúscula essas classes. Afinal, essa inicial maiúscula é colocada por nós para DIFERENCIAR  ESSA Constructor function DE FUNÇÕES QUE SERIAM CHAMADAS NORMALMENTE... (sem o 'new')...
+                    //porque, de fato, javascript vai chamar essa função DE FORMA DIFERENTE se você usar 'new' na frente do seu nome.
+
+
+
+Fora essas particularidades, essa  constructor function 
+
+AINDA É ESCRITA NORMALMENTE, COMO UMA FUNÇÃO COMUM.
+
+-------------------------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() { 
+        
+        console.log('Hi, I am' + this.name + ' and I am ' + this.age + ' years old.');
+
+    }
+}
+
+
+--------------------------------------
+
+
+
+
+BTW, SE VOCÊ É UM POUCO MAIS EXPERIENTE NO JAVASCRIPT, você 
+
+vai saber que esse código 
+
+
+' 
+
+this.name = 'Max';
+    this.greet = function() { 
+        
+        console.log('Hi, I am' + this.name + ' and I am ' + this.age + ' years old.');
+
+    } '
+
+
+
+ESSA DEFINIÇÃO DE 'name' e 'greet' NÃO É 
+
+____EXATAMENTE EQUIVALENTE____ à definição 
+
+feita dentro da CLASSE 'Person'...
+
+
+Mas, por enquanto, essa é a única maneira pela qual 
+
+
+podemos os definir, e essa maneira terá o mesmo efeito 
+
+da definição dessas propriedades dentro daquela classe.
+
+
+-------------------------------------------
+
+
+
+O PROFESSOR NOS MOSTRARÁ A DIFERENÇA ENTRE A DEFINIÇÃO 
+
+DEssas propriedades/métodos DENTRO DE CLASSES E DENTRO DE 
+
+CONSTRUCTOR FUNCTIONS mais tarde nesse módulo...
+
+
+
+
+
+
+
+
+
+
+Por enquanto, essa escrita 'function Person() {...}' NOS 
+
+
+DARIA UMA CONSTRUCTOR FUNCTION de person, a qual podemos 
+
+EXECUTAR PARA CONSTRUIR UM TAL OBJETO 'person'.
+
+
+
+-----------------------------------
+
+
+Professor diz que o código no final, 
+
+
+aquele 
+
+'const person = new Person();
+person.greet();'
+
+
+PODE FICAR COMO ESTÁ....
+
+
+Se agora salvarmos e recarregarmos a página, teremos o exato mesmo resultado de antes, mas 
+agora com uso de uma CONSTRUCTOR FUNCTION.

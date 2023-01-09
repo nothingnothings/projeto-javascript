@@ -1,0 +1,633 @@
+Vimos um pouco sobre sets.
+
+
+
+
+
+
+
+
+Agora devemos estudar ___MAPS____.
+
+
+
+Digamos que temos uma constante aqui, chamada de person1. ESSAS CONSTANTES NÃO SEGURAM MAPS, E SIM 
+___OBJETOS___.
+
+
+
+
+
+
+ex:
+
+
+
+
+const person1 = {
+    name: 'Max'
+};
+
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+------------------------------------
+
+
+Um exemplo de use-case de maps é a possibilidade de ANEXAR ALGUMA INFORMAÇÃO A CADA UM DESSES OBJETOS...mas informações 
+anexadas SEM QUE A INFORMAÇÃO FIQUE INSERIDA DENTRO DE UM DESSES OBJETOS (pq isso? pq você vai copiar 
+esse objeto em múltiplos lugares de seu código... e se você inserisse mais informação dentro dele, você 
+o deixaria "bloated" com informação/código desnecessário. Você quer que esse objeto fique "Fininho" e que funcione 
+em outras partes do código, sem muitas propriedades; quanto menos propriedades, melhor, pois você não precisará 
+ficar adivinhando qual a propriedade certa para cada situação do seu código.) Por isso que usar esses maps é 
+algo útil: você pode anexar informações sem que essas informações "bloatem" o conteúdo do objeto.
+
+Mas como usar isso?
+
+Bem, devemos criar uma constante "personData", na qual inseriremos um novo MAPA. O código de maps é igual ao de sets ("new Set()" ---> "new Map()")
+
+
+
+ex:
+
+
+
+
+ex:
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map( );
+
+
+
+
+
+-----------------------------
+
+
+o "MAP CONSTRUCTOR" pode ser inicializado COM UM ARRAY... um ARRAY DE ARRAYS, MAIS PRECISAMENTE:
+
+
+
+ex:
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map(  [[]] );
+
+
+
+
+
+------> é um "array de arrays" porque CADA ARRAY NAQUELE ARRAY É UM KEY-VALUE PAIR.  Representação:   (keyname)   (value)
+                                                                                                          [] :    []
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map(  [['key', 'some value']] );
+
+
+
+                                A "KEY" PODE SER DE QUALQUER TIPO, NÃO PRECISA SER UMA STRING, PODE SER UM 
+                                NÚMERO, UM OUTRO OBJETO....
+
+                                "some value" TAMBÉM PODEM SER DE QUAISQUER TIPOS que você quiser.
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map(  [['key', 'some value']] );
+
+
+
+(esse não será o código que utilizaremos mais abaixo, BTW; é apenas o modelo que utilizamos para todos os mapas que criamos.)
+
+----------------------------
+
+
+
+
+Aqui, nesse exemplo, poderíamos inicializar esse mapa com APENAS UMA ÚNICA ENTRADA (apenas 1 nested array dentro do map).
+Nesse map, definimos que a "key" será person1 (o OBJETO EM SI de person1 "{name: 'Max'}" SERÁ A KEY/KEYNAME).
+O valor, por sua vez, será a INFORMAÇÃO ADICIONAL QUE VOCÊ NÃO QUER QUE SEJA INSERIDA DENTRO DO OBJETO DE PERSON1 (que é "{name: 'Max'}").
+QUe informação adicional será essa? 
+
+O professor quer adicionar como exemplo um array que contém informações sobre as compras que essa pessoa fez.
+Professor decide adicionar um array de objetos; um array em que você tem uma data, preço, etc.
+Professor comenta a quantidade considerável de nesting que há aqui:
+
+
+
+
+ex:
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);   //nesting absurdo aqui. O que importa é que __O PRIMEIRO "pARÂMETRO" DE MAP É RELATIVO àS KEYS/KEYNAMES (person1, nesse caso). Já o segundo parâmetro (aquele array com o objeto que segura os key-value pairs "date: yesterday" e "price: 10".)
+
+
+
+
+OBS::::: O VALOR ('SOME VALUE', segundo parâmetro do map) NÃO PRECISA OBRIGATORIAMENTE SER UM ARRAY... PODE 
+SER QUALQUER COISA, UM OBJETO, UMA STRING, UM NÚMERO, QUALQUER COISA MESMO.
+
+
+
+O professor vai em frente e console.logga essa const de personData.
+
+
+
+
+ex:
+
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+
+
+console.log(personData);
+
+
+-----------------------------
+
+
+Console.log nos dará um amálgama de informações.
+
+
+
+"0: {Object => Array(1)}"
+
+Sendo que Object é "name: 'max' " 
+
+e Array é aquele conjunto de key/keyname-value pairs dentro do objeto do array no segundo parâmetro.
+
+
+O map pode parecer um pouco estranho, mas se nós cavarmos um pouco 
+nas especificações, veremos que 
+
+
+temos "OBJECT" COMO UMA KEY, E O "ARRAY" como um valor. Tudo dentro dos conformes.
+
+
+
+
+
+A ideia aqui é, reiterando, que VOCÊ PODE TER QUALQUER KEY NESSE PRIMEIRO PARÂMETRO... OU SEJA, 
+VOCÊ PODE USAR UM ___OBJETO____ COMO KEY___ E ENTÃO ADICIONAR INFORMAÇÕES EXTRAS A ELE POR MEIO 
+DO SEGUNDO PARÂMETRO, O PARÂMETRO DOS "VALUES" (representado, nesse caso, pelo array com o objeto que segura "date" e "price").
+
+Essa informação EXTRA NÃO É FUNDIDA NO OBJETO OU QUALQUER COISA DO GÊNERO; EM VEZ DISSO, ESSA INFORMAÇÃO É 
+ARMAZENADA ___NO MAPA____. Podemos, então, utilizar esse MAP na PARTE DA APLICAÇÃO EM QUE PRECISAMOS 
+DESSA INFORMAÇÃO EXTRA. Deixamos, portanto, o objeto no primeiro parâmetro CONECTADO À essa informação extra, 
+mas ao mesmo tempo livre da mesma, se assim o desejarmos.
+
+
+
+ALÉM DISSO, PODEMOS UTILIZAR ESSE OBJETO QUE ESTÁ CONECTADO AO MAP: PODEMOS UTILIZÁ-LO PARA 
+RETORNAR O SEU VALOR POR MEIO DO MÉTODO "get()".
+
+
+MÉTODO:  "get();".
+
+
+
+
+ex:
+
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+
+
+console.log(personData);
+
+
+console.log(personData.get(person1)); ///////-----> ESSA É UMA MANEIRA PRÁTICA EXTRAIR DADOS QUE FORAM ARMAZENADOS DENTRO DE UM MAP. Basta que você chame o nome do mapa (personData, nesse caso) e então chame "get()" para pegar aquele valor por meio de uma chave específica... Depois disso, é só você inserir como parâmetro o nome do objeto que está figurando como primeiro parâmetro do mapa (nesse caso, person1) PARA ENTÃO PEGAR AS INFORMAÇÕES QUE ESTÃO LIGADAS A ELE POR MEIO DO MAP() (informações que estão armazenadas no map, claro, mas que estão ligadas a esse objeto que figura como key). 
+                                                    //se inspecionarmos o console, veremos que esse método nos retornará um array com o objeto que foi assignado por meio do map:
+                                                                                                                                                                    // "0: {date: "yesterday", price: 10}".
+                                                    //esse parâmetro de get();, a passagem do parÂmetro de "person1", que segura aquele objeto que é a key do map FUNCIONA PORQUE ESSE OBJETO É SEMPRE O MESMO, SUA REFERÊNCIA É SEMPRE AO MESMO OBJETO/LUGAR DO CÓDIGO.
+
+
+-----------------------------------------------> Esse último exemplo de código pode TE SALVAR TEMPO. VOCê NÃO PRECISA, POR EXEMPLO, ADICIONAR UM ID A CADA OBJETO, VOCÊ PODE SIMPLESMENTE
+
+
+
+
+
+Com um map, o objeto em si pode ser a chave... e portanto, você não precisa adicionar um ID ou extrair isso, ou criar keys de strings (string keys) arbitrárias.
+Em vez disso, é muito mais simples apenas utilizar o objeto como uma key e então retornar valores simplesmente 
+pelo uso desse objeto como key (aqui, nesse caso, você retorna os valores adicionais armazenados (o objeto que segura date e price) dentro do map, armazenados dentro do campo "value" do map)
+
+
+
+
+
+É ASSIM QUE VOCÊ CONSEGUE RETORNAR DADOS DE UM MAP.
+
+-------------------------------------------------------------
+
+
+É EVIDENTE QUE VOCê TAMBÉM PODE ADICIONAR DADOS A UM MAPA DEPOIS DE ELE SER CRIADO...
+
+
+VOCÊ PODE FAZER ISSO COM O MÉTODO 
+
+
+"set()";
+
+
+
+
+Com o método "set()", você define um KEY-VALUE PAIR. O primeiro argumento tem que ser uma key... 
+PODE SER UMA KEY DE QUALQUER VALOR QUE VOCê QUISER. 
+
+
+VOcê também pode ter MIXED KEY TYPES no mesmo map.
+
+Uma key pode ser um objeto, enquanto outra pode ser uma string.
+
+
+ex:
+
+
+
+
+
+
+const person1 = {name: 'Max'};
+
+
+const person2 = {name: 'Manuel'};
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+
+
+
+personData.set(person2, [{date: 'two weeks ago', price: 100}])
+
+console.log(personData);
+
+
+console.log(personData.get(person1));
+
+
+-----------------------------------------
+
+
+
+AGORA, POR MEIO DESSE CÓDIGO, TAMBÉM TEMOS AQUELA OUTRA PESSOA ('Manuel') ARMAZENADA 
+DENTRO DESSE MAP.
+
+
+Se recarregarmos a página, veremos que agora temos 2 entries dentro desse map, 
+com nossos 2 objetos diferentes como keys... ALÉM DISSO, OS VALORES ASSIGNADOS 
+A ESSAS ENTRIES/KEYNAMES SÃO DISTINTOS:
+
+
+person1 ---> {name: 'Max'} ---> {date: 'yesterday', price: 10}
+
+
+person2 ---> {name: 'Manuel'} ---> {date: 'two weeks ago', price: 100}
+
+
+-----------------------------------------------
+
+
+
+UM MAP, PORTANTO, É MUITO VERSÁTIL QUANTO AO QUESITO KEYS, E PODE SER MUITO BOM EM 
+CASOS COMO ESSE.
+
+
+
+
+
+----------------------------------------
+
+
+Além disso, você pode fazer o output de TODA A INFORMAÇÃO EM UM MAP() POR MEIO DE 
+3 DIFERENTES MANEIRAS:
+
+
+OBS::: AS 3 MANEIRAS, APESAR DE SEREM DISTINTAS, SEMPRE USAM UM FOR OF LOOP.
+
+
+
+
+1a maneira) ---->
+
+
+
+Podemos fazer o loop por dentro de todas as entries de um mapa por meio de 
+
+
+ex:
+
+
+
+for(const entry of personData) ----> MAS SÓ ISSO NÃO BASTA. DEVEMOS UTILIZAR O MÉTODO ".ENTRIES();".
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+personData.set(person2, [{date: 'two weeks ago', price: 100}]);
+
+
+for (const entry of personData.entries()) {                       //".ENTRIES()", se pudermos lembrar, é UM MÉTODO QUE APRENDEMOS QUANDO ESTUDAMOS SETS... Lá nos também tinhamos esse método "entries", que fazia o return de um array estranho que nos dava o mesmo valor 2x. ENTRETANTO, COM OS MAPS, ESSE MÉTODO RENDE DIFERENTES EFEITOS....
+    console.log(entry) //professor faz o console.log da constante local "entry", para ver se consegue outputtar todas as entries do map "personData" aqui.
+}
+
+
+
+
+----------------------> SE RECARREGARMOS A PÁGINA, VEREMOS QUE 
+                        AS 2 ENTRADAS, RELATIVAS A PERSON1 E PERSON2, SERÃO OUTPUTTADAS.
+
+
+                        Professor diz que o que vemos aqui faz mais sentido do que o ".entries()" dos SETS.
+                        Nós loggamos um array, essencialmente, com sempre exatamente 2 elementos. 
+                        O primeiro elemento sempre será a chave, e o SEGUNDO SEMPRE SERÁ O VALOR/VALUE.
+
+
+                        Para um mapa, faz sentido esse array ser exatamente de dois elementos.... porque mapas 
+                        sempre possuem 2 elementos, um key/keyname e um value (ao contrário de set(), onde isso 
+                        não faz muito sentido... no set isso existe para que vocÊ possa reutilizar código, essencialmente, 
+                        mas não cumpre nenhuma outra função).
+
+                        BEM... como nós aprendemos sobre array destructuring, poderíamos, é claro, reestruturar 
+                        a constante local do for of loop como um array, um array de "[key, value]" PARA ENTÃO PUXAR 
+                        PARA FORA A "KEY" E O "VALUE" para fora desse array, que garantidamente terá esses 2 exatos 
+                        elementos... E ENTÃO ARMAZENÁ-LOS EM CONSTANTES, constantes APENAS DISPONÍVEIS DENTRO DO FOR OF LOOP, 
+                        daqueles nomes específicos (uma const para "key", outra const para "value").
+
+
+                        ex:
+
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+personData.set(person2, [{date: 'two weeks ago', price: 100}]);
+
+
+            (substitui "entry")
+for (const [key, value] of personData.entries()) {
+    console.log(key, value); //OUTRA ALTERAÇÃO.
+}
+
+--------------------
+
+
+O CÓDIGO ACIMA UTILIZA UM POUCO DA SINTAXE DE DESTRUCTURING QUE APRENDEMOS NAS ÚLTIMAS LIÇÕES.
+Como nós recebemos um array com exatamente 2 elementos, podemos usar essa sintaxe para PUXAR PARA FORA 
+ESSES DOIS ELEMENTOS E ENTÃO ARMAZENÁ-LOS EM CONSTANTES DE MESMO NOME (as keys do map de "personData" são armazenadas em uma constante local chamada de "key", enquanto que os values desse mesmo map são armazenados em uma const chamada de "value".)
+
+
+
+No console do devtools, podemos então observar esse output:
+
+
+
+{name: 'Max'}  (é a key)
+
+[{...}] (é o value)
+
+
+{name: 'Manuel'} (é a key)
+
+[{...}] (é o value).
+
+
+
+.... ESSA É UMA MANEIRA DE IR POR TODAS AS ENTRIES DE UM MAP. É A PRIMEIRA MANEIRA.
+
+
+
+------------------------------------------------
+
+
+
+
+
+2A MANEIRA) 
+
+
+
+
+A segunda maneira envolve usar um for of loop também... mas digamos que você apenas 
+esteja interessado nas keys... Se quiser fazer isso, você pode passar por todas as KEYS 
+de personData. Você faz isso por meio do método "xxx.keys()", QUE TE DÁ 
+ACESSO A TODAS AS KEYS DESSE MAPA, E NADA MAIS.
+
+
+ex:
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+
+personData.set(person2, [{date: 'two weeks ago', price: 100}]);
+
+
+for (const key of personData.keys()) {
+    console.log(key); // Alteração vai aqui; você apenas logará as keys dessa função, por meio dessa sintaxe. Os valores não serão console.loggados. É um código mais barato e curto, apenas irá atrás de todas as keys. 
+}
+
+
+
+--------------------------------------
+
+
+
+3A MANEIRA ----> A ÚLTIMA MANEIRA DE PASSAR POR VALORES DENTRO DE UM MAPA FAZ COM QUE VOCÊ 
+                    PEGUE OS VALORES(values) dele. Para tal, você deverá usar o método "values()".
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const personData = new Map([[person1, [{date: 'yesterday', price: 10}]]]);
+
+
+personData.set(person2, [{date: 'two weeks ago', price: 100}]);
+
+
+for (const value of personData.values()) {
+    console.log(key); //
+}
+
+------------------------------------------
+
+
+
+
+
+ALÉM DESSES MÉTODOS USADOS PARA RETORNAR PARTES ESPECÍFICAS DE MAPAS/TODOS OS VALORES DE UM MAPA, 
+NÓS TEMOS OUTROS MÉTODOS INTERESSANTES:
+
+
+
+
+
+
+clear() ----> limpa todos os dados de um determinado mapa.
+
+
+
+
+
+delete() ----> deleta uma única entrada (por meio da referência à sua KEY) do mapa.
+
+
+
+
+forEach() ---> TE PERMITE IR POR DENTRO DE TODOS OS ITEMS DE UM MAP. É uma alternativa ao FOR OF LOOP....
+
+
+
+
+has() --> checa se determinada KEY é parte de um mapa
+
+
+
+set() ---> te permite definir um valor (ou um key e um valor; uma entry, basicamente) a um mapa....
+
+
+
+
+size ----> te informa QUANTOS ITEMS ESTÃO DENTRO DE UM MAP() EM UM DETERMINADO MOMENTO. Size na verdade não é um método, mas sim uma propriedade que você pode acessar com o chamado "xxxx.size" (é, sem os parênteses mesmo). 
+
+
+
+
+
+ex:
+
+
+
+
+ console.log(personData.size); // --------> vai retornar 2, QUE É O NÚMERO DE ENTRADAS DESSE MAP.

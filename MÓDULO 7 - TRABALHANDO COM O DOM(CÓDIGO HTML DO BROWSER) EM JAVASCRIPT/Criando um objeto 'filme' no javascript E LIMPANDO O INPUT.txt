@@ -1,0 +1,185 @@
+Agora que coletamos todos os inputs do usuário,
+o professor quer _____ARMAZENÁ-LOS____________.
+
+
+
+
+
+Para tal, ele cria uma nova constante, a qual ele chama de 
+
+
+
+"movies". Essa CONSTANTE SERÁ UM ___ARRAY VAZIO___ (inicialmente).
+
+
+
+
+
+ex:
+
+
+
+
+const movies = [];
+
+
+
+
+ 
+Ele também quer adicionar OBJETOS AO ARRAY, e cada objeto 
+deverá representar UM FILME QUE FOI ADICIONADO PELO USUÁRIO. 
+Isso por si só não fará com que os filmes sejam mostrados na página/na tela, 
+mas é um bom começo. Muitas vezes nos aplicativos que você escrever, você vai querer 
+armazenar dados no javascript para que sejam utilizados mais tarde (para fazer display de esse dado ao usuário, por exemplo).
+O professor diz que muitas vezes vocÊ vai lidar com esses elementos como 
+dados por trás das cenas, que você vai movê-los e manipulá-los por trás 
+das cenas, e não na cara do usuário/visível na página, porque isso 
+é péssimo em questão de  consumo de memória e processamento (e também 
+faz com que você escreva código desnecessário).
+
+
+-----------------------------------------------------------
+
+
+
+
+Aqui, depois de selecionar e pegar todos os inputs dos inputs fields, o professor 
+vai querer colocar todos eles dentro de uma constante que servirá de 
+objeto que será inserido no array de "movies". Essa constante, criada 
+DENTRO DA FUNÇÃO "ADDMOVIEHANDLER",
+consistirá em UM OBJETO, que terá algumas propriedades/key-value pairs.
+
+O professor explica que os keyNames que você coloca aqui cabem 
+totalmente à sua escolha, você pode usar os nomes que quiser. Só a parte 
+da direita, os data pairs, é que devem ser aqueles ali.
+
+ex:
+
+
+const addMovieHandler = () => {
+ const titleValue = userInputs[0].value;
+    const imageUrlValue = userInputs[1].value;
+    const ratingValue = userInputs[2].value;
+
+    if(titleValue.trim() === '' ||
+        imageUrlValue.trim() === '' ||
+        ratingValue.trim() === '' ||
+        +ratingValue < 1 ||
+        +ratingValue > 5
+    ) {
+        alert('Please enter valid values (rating between 1 and 5).');
+        return;
+    }
+
+
+
+const newMovie = {
+    title: titleValue,
+    image: imageUrlValue,
+    rating: ratingValue
+}; 
+
+movies.push(newMovie);
+
+console.log(movies);
+
+toggleMovieModal();
+};
+
+
+
+-----------------------------------
+
+
+VOCÊ PODE PERCEBER QUE NO FINAL, ALI, O PROFESSOR COLOCOU MAIS UMA 
+FUNÇÃO: ".push(newMovie)". Isso vai empurrar o objeto newMovie (na verdade é 
+ a constante newMovie, que segura um objeto) para dentro 
+ do array de "movies". Isso vai fazer com que os key-value pairs todos 
+ sejam enfiados dentro daquele array de movies.
+
+ Por fim, o professor faz o chamado de uma função console.log, para que 
+ possamos ver se o que fizemos, essa inserção do objeto dentro do array, funcionou.
+
+
+
+Feito tudo isso, percebemos que o negócio funcionou, o console realmente 
+nos mostra o objeto que foi adicionado lá dentro.
+
+
+-------------------------------------------
+
+
+Entretanto, não paramos por aí: o professor também quer que o modal 
+feche ao terminar essa operação de adição. Por isso, ele vai lá 
+e adiciona um chamado da função "toggleMovieModal()".
+Isso realmente funciona.
+
+A url que colocamos não é checada, e isso é um problema, no entanto.
+
+
+------------------------------------------------
+
+
+
+OUTRO PROBLEMA: se nós abrirmos o modal DE NOVO, veremos 
+que ele sempre mostrará o input antigo que colocamos ali. Ele não 
+"refresha" a cada vez que nós adicionamos um filme ao array. Se nós 
+cancelamos o modal, ocorre a mesma coisa, as informações continuam ali. 
+
+
+O professor quer fazer com que as informações sejam apagadas sempre que nós 
+cliquemos em "add" ou "cancel".
+
+Para tal, ele decide criar uma nova função, chamada de "clearMovieInput".
+Ele define o valor de cada um dos inputs como UMA EMPTY STRING (''), o 
+que fará com que todos os espaços fiquem em branco, como nós queremos.
+
+
+
+
+
+ex:
+
+
+const clearMovieInput = () => {
+    userInputs[0].value = '';
+    userInputs[1].value = '';
+    userInputs[2].value = '';
+}     
+
+
+
+
+------------------------------
+
+O professor diz que essa solução representada acima funciona, mas que nós 
+podemos UTILIZAR UMA SOLUÇÃO MAIS DINÂMICA, POR MEIO DE UM ___FOR  OF LOOP___.
+fazemos o loop passar por todos os items dentro de userInputs por meio da criação de 
+uma constante nova própria, a const "usrInput". Para 
+cada um desses objetos dentro de userInputs (um arraylike object), o professor 
+vai querer definir "empty string" como seu valor.
+
+
+ex:
+
+
+
+const clearMovieInput = () => {
+    for(const usrInput of userInputs) {
+        usrInput.value = '';
+    }
+}
+
+
+--------------------------------------
+
+
+Feito tudo isso, agora podemos simplesmente chamar essa função 
+clearMovieInput em cancelAddMovieHandler. Também colocamos 
+a função em "addMovieHandler", para que os campos também sejam limpos 
+ao término da operação de adicionar o filme À página.
+
+Ao testar essa função, percebemos que tudo funciona.
+
+
+AGORA QUEREMOS OUTPUTTAR O FILME NA NOSSA TELA.

@@ -1,0 +1,94 @@
+PADRÕES MAIS IMPORTANTES DE ATAQUE 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---> SECURITY DETAILS IN YOUR (BROWSERSIDE) CODE, 
+
+EXPOSED ACCIDENTALLY, e 
+
+
+
+
+'CROSS-SITE SCRIPTING ATTACKS (XSS)'...
+
+
+
+
+
+
+ESSES SÃO 
+
+OS 
+
+
+PADRÕES DE ATAQUE 
+
+___ESPECÍFICOS AO JAVASCRIPT___....
+
+
+
+
+
+
+
+--> pq o 'cross-site request forgery' é MEIO ESPECÍFICO 
+
+DOS BACKENDS E dos HTML/webapps em geral ,
+
+
+
+
+E O 
+
+
+
+'CORS' É UM CONCEITO GERAL DE MECANISMO DE SEGURANÇA...
+
+
+
+
+
+
+--------------------------
+
+
+
+MAS OS SECURITY DETAILS E OS XSS 
+
+são coisas que 
+
+você tem que 
+
+CONSERTAR NO SEU CÓDIGO...
+
+
+
+
+XSS ---> 
+
+
+
+
+VOCÊ DEVE SANITIZAR O OUTPUT DE USER CONTENT....
+
+
+
+Você deve fazer isso POR MEIO DO USO DE 'textContent', ou 
+
+PELO USO
+
+
+
+DE 'SANITIZE-HTML'...

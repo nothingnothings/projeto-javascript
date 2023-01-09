@@ -1,0 +1,242 @@
+
+
+
+
+preventDefault(), portanto, é uma propriedade MUITO IMPORTANTE 
+
+
+NO OBJETO 'event'...
+
+
+
+ex:
+
+
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(event);
+})
+
+
+
+POR MEIO DELA PODEMOS CONTROLAR AQUILO QUE O BROWSER IRÁ 
+
+FAZER COM O 'event'...
+
+
+----------------------------------------------
+
+
+
+MAS NÓS TAMBÉM TEMOS OUTRO MÉTODO IMPORTANTE... porém, antes de trabalhar com ele,
+
+temos de entender COMO O 'EVENT' (eventos) SE COMPORTA....
+
+
+
+
+
+DOM Events --> Bubbling & Capturing...
+
+
+
+
+
+
+NOSSOS EVENTOS EM JAVASCRIPT, EM BROWSERS, POSSUEM 2 FASES/phases:
+
+
+2 fases pelas quais eles são executados e então ATIVAM/TRIGGAM os seus eventListeners...
+
+
+
+
+1a fase ----> CAPTURING PHASE 
+
+
+
+
+2a fase ----> BUBBLING PHASE.
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+DIGAMOS QUE TEMOS UM BOTÃO EM UMA DIV, E QUE ESSA DIV ESTÁ EM UMA SEÇÃO (Section)....
+
+
+
+eX:
+
+
+                -------------------------------------
+                |         <section>                 |
+                |                                   |
+                |        ----------------           |
+                |       |      <div>      |         |
+                |       |   -----------   |         |
+                |       |   | <button>|   |         |
+                |       |   -----------   |         |
+                |       |                 |         |
+                |       |-----------------          |
+                |                                   |
+                |----------------------------------
+
+
+------------------------------------------------------------
+
+
+
+AGORA DIGAMOS QUE APERTAMOS NO BOTÃO....
+
+
+
+O que acontece aqui é, na verdade, que O BROWSER RODA POR DUAS PHASES ('runs through two phases')...
+
+
+2 fases em QUE ELE CHECA POR LISTENERS ÀQUELE EVENTO ('listeners to that event'....).
+
+
+
+
+PRIMEIRAMENTE ELE RODA POR UMA PHASE QUE É CHAMADA DE 'capturing phase' (first it runs through a phase which is called the CAPTURING PHASE).
+
+
+
+DEPOIS, ELE RODA POR UMA PHASE QUE É CHAMADA DE 'BUBBLING PHASE'...
+
+ex:
+
+
+
+|
+|
+|
+|
+|
+|
+|                      -------------------------------------
+                |         <section>                 |
+                |                                   |
+                |        ----------------           |
+                |       |      <div>      |         |
+                |       |   -----------   |         |
+                |       |   | <button>|   |         |
+                |       |   -----------   |         |
+                |       |                 |         |
+                |       |-----------------          |
+                |                                   |
+                |----------------------------------                         ^
+|                                                                           |B
+|C                                                                          |U
+|A                                                                          |B
+|P                                                                          |B
+|T                                                                          |L
+|U                                                                          |I
+|R                                                                          |N
+|I                                                                          |G
+|N                                                                          |
+|G                                                                          |
+|
+|
+V
+
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+A CAPTURING PHASE, portanto, vai sempre do LADO DE FORA PARA O LADO DE DENTRO....
+
+
+ou seja, 
+
+
+ele vai 
+
+, nesse exemplo, 
+
+no sentido 
+
+'section' -> 'div' -> 'button'.
+
+
+
+
+MAS OQ ISSO SIGNIFICA? 
+
+
+
+é importante entender QUE UM CLICK EVENT EM UM BOTÃO NESTEADO DESSES ('button' em '<div>', em 'section'...)
+
+NÃO PODE SER APENAS 'LISTENED TO' COM EVENTLISTENERS NO BOTÃO ('em cima do botão', ON THE BUTTON), MAS 
+
+TAMBÉM COM EVENTLISTENERS EM CIMA DAQUELA SEÇÃO ('section') QUE O ABRIGA...
+
+
+
+
+E o browser, durante A CAPTURING PHASE, CHECA SE VOCÊ TEM UM 'CAPTURING EVENTLISTENER' registrado, POR EXEMPLO, nA SECTION....
+
+Se você tiver um 'capturing eventListener' registrado NA SECTION, a função DA SECTION SERIA EXECUTADA ANTES DE QUAISQUER 
+
+EVENTLISTENERS REGISTRADOS NO 'button'.... isso pq o sentido de execução é 
+
+'outside to inside' NA CAPTURING PHASe... como a section está FORA do botão, seu código é executado primeiro.
+
+
+
+---------------------------
+
+
+
+
+A BUBBLING PHASE, POR SUA VEZ, FAZ O EXATO OPOSTO DA CAPTURING PHASE:
+
+
+
+é 'inside to outside'....
+
+
+
+
+CERTO.
+
+
+
+TODOS OS EVENTLISTENERS QUE VOCê ADICIONA COM 'addEventListener' SÃO, POR DEFAULT, REGISTRADOS 
+
+NESSA TAL DE 'BUBBLING PHASE'...
+
+
+
+Isso significa que SE NÓS TEMOS UM EVENTLISTENER EM CIMA DO BOTÃO E OUTRO EM CIMA DA SECTION, O EVENTLISTENER 
+
+DO BOTÃO SERÁ RODADO ANTES DO EVENTLISTENER DA SECTION....
+
+
+-----------------------------------
+
+
+
+NÓS PODEMOS ____MUDAR ESSE COMPORTAMENTO____, e também podemos fazer COISAS INTERESSANTES 
+
+COM AQUELE COMPORTAMENTO DE BUBBLING E CAPTURING....
+
+O professor nos mostrará essas coisas nas próximas aulas.
+
+--------------------------

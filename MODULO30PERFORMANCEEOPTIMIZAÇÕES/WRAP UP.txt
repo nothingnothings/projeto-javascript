@@ -1,0 +1,153 @@
+
+
+
+
+
+
+
+
+
+
+
+----> COM ISSO, ACABAMOS...
+
+
+
+
+
+
+----> professor vai resumir tudo que aprendemos..
+
+
+
+---> aprendemos sobre runtime performance...
+
+
+
+---> DEVEMOS 
+
+
+
+__EVITAR EXECUÇÕES DESNECESSÁRIAS DE CÓDIGO...
+
+
+
+---> também devemos BATCHEAR (batch, AGRUPAR) operações
+
+
+EM 1 ÚNICO CONJUNTO (http requests) --> PARA EVITAR ROUNDTRIPS...
+
+
+
+
+
+
+----> DEVEMOS ENCONTRAR E CONSERTAR MEMORY LEAKS, PQ ELES PODEM DEIXAR NOSSA PÁGINA LENTA E ATÉ MESMO A CRASHAR...
+
+
+
+
+
+---> PARA OPERAÇÕES DE __ALTA FREQUÊNCIA__ (múltiplos refreshes
+ por segundo), USE A APPROACH MAIS RÁPIDA... --> aí você poderia considerar MICRO OPTIMIZAÇÕES.... (nesse caso específico) ---> mas se vocÊ fizer isso, você sempre deve ter cuidado --> vocÊ 
+ pode acabar optimizando algo que realmente não importa, ou o código JS vai mudar no futuro, evoluir, avanços tecnológicos, e aí sua micro optimização 
+ será tornada irrelevante....
+
+
+
+
+
+ ----> STARTUP PERFORMANCE- --> eliminar código desnecessário/não usado.... --> fazemos isso 
+para que o usuário CONSIGA OBTER O MENOR PACOTE DE DADOS POSSÍVEL AO ENTRAR NA SUA PÁGINA... ---> essa 
+é outra razão para NÃO USAR MUITOS THIRD PARTY LIBRARIES... --> eles 'bloatam' o nosso código...
+
+
+
+--> TODA TPL que adicionamos ao nosso código é MAIS CÓDIGO QUE O USUÁRIO 
+TEM QUE BAIXAR E ANALISAR (parsear)... --> quanto mais TPL, mais código nós/o usuário tem de baixar...
+
+
+
+
+--> SE VOCÊ USAR TPLs, você talvez TENHA QUE __IMPORTAR ___ ESSAS 
+libraries NOS SEUS SCRIPT FILES e então tenha que USAR O WEBPACK PARA BUNDLAR 
+ELAS NO SEU CÓDIGO... (você faz isso EM VEZ DE USAR LINKS DO CDN, 
+
+PQ SE VOCÊ USA 'CDN LINKS', você não pode usar 
+
+CODE SPLITTING... )
+
+
+
+
+---> RESUMINDO: fazer BUNDLING e usar LAZY LOADING na sua página é 
+
+__UMA ÓTIMA IDEIA__ para assegurar que seu código/página comece relativamente rápido (e sem código 
+desnecessário...)
+
+
+
+
+
+--> VOCÊ TAMBÉM SEMPRE DEVE ____ 'MINIFAR' (minify) o SEU CÓDIGO... --> WEBPACK 
+
+FAZ ISSO AUTOMATICAMENTE, MAS VOCÊ __DEVE USAR OS SOURCE-MAPS___... --> 
+
+
+você faz MINIFY do seu código SEMPRE 
+
+PARA QUE VOCê SHIPPE O MENOR CÓDIGO POSSÍVEL 
+
+AOS SEUS END USERS.... 
+
+
+
+
+---> E ACABOU.... ---> professor nos mostrou muitas coisas nesse módulo... --> 
+ele nos mostrou bastante coisa sobre optimizações 
+
+
+
+
+--> há muitos resources sobre  optimização neste módulo...
+
+
+
+--> PERFORMANCE E OPTIMIZAÇAÕ ---> é impossível masterizar... --> vem com experiência...
+
+
+
+
+----> VOCÊ TAMBÉM PODE GOOGLAR POR PERFORMANCE OPTIMIZATIONS... 
+
+
+
+
+---> NUNCA 'OVERDO IT'... --> você quer melhorar seu aplicativo, consertar 
+
+bugs e leaks, 
+
+
+MAS NUNCA ACABAR DEIXANDO SEU CÓDIGO MAIOR DO QUE ELE ERA NO INÍCIO...
+
+
+
+
+-----------------------
+
+
+
+
+Attached, you find the source code for this section. The snapshots are also attached to individual lectures throughout this module (i.e. the lectures to which each snapshot belongs).
+
+---
+
+The following resources may be helpful.
+
+Google Performance Docs: https://developers.google.com/web/fundamentals/performance/rendering
+
+Chrome DevTools Performance Docs: https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/reference
+
+Chrome DevTools Memory Docs: https://developers.google.com/web/tools/chrome-devtools/memory-problems
+
+

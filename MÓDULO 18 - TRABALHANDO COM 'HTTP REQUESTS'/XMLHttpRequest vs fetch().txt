@@ -1,0 +1,154 @@
+
+
+
+
+
+AGORA QUE DEMOS UMA OLHADA EM XMLHttpRequest e FETCH() API, 
+
+
+
+
+
+
+
+AGORA SABEMOS QUE AMBOS NOS PERMITEM ENVIAR HTTP REQUESTS....
+
+
+
+
+
+A FETCH API É MAIS MODERNA, E NÃO É SUPORTADA POR TODOS OS BROWSERS.
+
+
+
+
+
+
+
+
+
+
+
+UMA GRANDE VANTAGEM DA FETCH API É QUE É GERALMENTE 
+
+
+
+FÁCIL DE USAR, e que 
+
+USA PROMISES 
+
+'out of the box'...
+
+
+
+
+UMA GRANDE DESVANTAGEM É QUE O SEU ERROR HANDLING PODE SER CLUNKY....
+
+
+
+
+-----------------------------------
+
+
+
+
+CLARO QUE NÃO É O FIM DO MUNDO ESSE ERROR HANDLING, mas ainda assim é uma desvantagem.
+
+
+
+
+
+------> O ERROR HANDLING DE 
+
+
+XMLHttpRequest TAMBÉM PODE NÃO SER TÃO BONITO...
+
+
+
+MAS SE VOCê ESCONDÊ-LO ATRÁS DE UMA FUNÇÃO CUSTOM, esse código de error handling do XMLHttpRequest pode ficar 
+
+um pouco mais legível e fácil de se entender.
+
+
+
+
+
+
+MAS VOCÊ TAMBÉM PODE ESCONDER O ERROR HANDLING Do FETCH API atrás de uma função,
+
+quase a mesma coisa que o outro.
+
+
+
+
+
+
+CABE A VOCÊ DECIDIR QUAL DAS DUAS ESCOLHER.
+
+
+
+
+
+UMA TERCEIRA ALTERNATIVA 
+
+É USAR UMA 
+
+
+
+'THIRD PARTY LIBRARY' (que é algo sobre o qual não conversamos ainda)...
+
+
+
+
+
+essa third party library pode fazer o WRAP ESSE 
+
+
+XMLHttpRequest ou esse FETCH API APPROACH, e aí 
+
+te dar UM API MAIS BONITO DE SE LER E TRABALHAR COM,
+
+
+
+UMA THIRD PARTY LIBRARY QUE TE FARÁ DEIXAR DE SE IMPORTAR 
+
+COM COMO O CÓDIGO VAI FICAR INTERNAMENTE (com a legibilidade do código)...
+
+
+
+
+ISSO É ALGO QUE VEREMOS NO MÓDULO 'third party libraries'...
+
+
+
+
+
+
+
+
+
+ENTRETANTO, AINDA É IMPORTANTE ENTENDER COMO IMPLEMENTAR ESSE ERROR HANDLING/CÓDIGOS DE ENVIAR HTTP REQUESTS 
+
+NATIVAMENTE, 
+
+
+E MUITAS VEZES A FETCH API É ÓTIMA PQ 
+
+É FÁCIL DE USAR, FÁCIL DE COMEÇAR E tbm 
+
+
+USA PROMISES 'DIRETO DA CAIXA'...
+
+
+
+
+
+mas você também deve ter ciência que XMLHttpRequest tem melhor 
+
+SUPPORT EM BROWSERS ANTIGOS, e o seu error handling pode 
+
+
+ser mais 
+
+
+STRAIGHTFORWARD.

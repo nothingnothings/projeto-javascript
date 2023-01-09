@@ -1,0 +1,425 @@
+
+
+O modal deve ser escondido quando a operação de 'location get' acaba...
+
+
+
+
+
+PARA REMOVER O MODAL DE NOSSA UI, PRECISAMOS ESSENCIALMENTE REMOVER 
+
+O 'modalElement' e 'backdropElement' DO DOM....
+
+
+
+
+
+Para remover esses elementos, O PROFESSOR ARMAZENA O 'modalElement' 
+
+
+
+EM UMA PROPRIEDADE....
+
+
+
+
+
+Ele faz isso por meio de uma simples troca de sintaxe no código:
+
+
+
+ele troca 
+
+
+
+'const modalElement = modalElements.querySelector('.modal');'
+
+
+
+PARA 
+
+
+
+'this.modalElement = modalElements.querySelector('.modal');'
+
+
+
+--------------------------------------------------------------
+
+
+
+
+(ISSO FAZ COM QUE O 'modalElement' VIRE UMA PROPRIEDADE...)
+
+
+
+
+
+ex:
+
+
+
+
+export class Modal {
+  constructor(contentId, fallbackText) {
+    this.fallbackText = fallbackText;
+    this.contentTemplateEl = document.getElementById(contentId);
+    this.modalTemplateEl = document.getElementById('modal-template');
+  }
+
+  show() {
+    if ('content' in document.createElement('template')) {
+      const modalElements = document.importNode(
+        this.modalTemplateEl.content,
+        true
+      );
+      this.modalElement = modalElements.querySelector('.modal'); /////////EIS AQUI O CÓDIGO EM QUESTÃO.
+      this.backdropElement = modalElements.querySelector('.backdrop'); /////////////EIS AQUI.
+      const contentElement = document.importNode(
+        this.contentTemplateEl.content,
+        true
+      );
+
+      modalElement.appendChild(contentElement);
+
+      document.body.insertAdjacentElement('afterbegin', modalElement);
+      document.body.insertAdjacentElement('afterbegin', backdropElement);
+    } else {
+      alert(this.fallbackText);
+    }
+  }
+
+  hide() {}
+}
+
+
+
+
+
+--------------------------------------------
+
+
+
+O professor faz isso PARA QUE ESSES ELEMENTOS NÃO SEJAM ____CONSTANTES___ SOMENTE 
+DISPONÍVEIS DENTRO DO MÉTODO 'SHOW', E 
+
+
+SIM DISPONÍVEIS EM TODA A CLASSE 'MODAL'... (ou das INSTÂNCIAS 'modal' que críamos a partir da classe 'modal'...).
+
+
+
+
+
+FAZ ISSO PARA QUE POSSAMOS USAR ESSES NEGÓCIOS NÃO SÓ NO MÉTODO 'SHOW', MAS TAMBÉM 
+EM TODOS OS 
+
+MÉTODOS DESSA CLASSE 'MODAL'... (e é POR ISSO QUE PODEREMOS UTILIZÁ-LOS EM 'hide()', pois 
+HIDE É UM DOS MÉTODOS DA CLASSE 'modal'...)
+
+
+
+------------------------------------
+
+
+
+
+Ok. mas como fizemos essa alteração, fizemos a adição de propriedades com esse nome,
+
+PRECISAMOS  MUDAR TODAS AS OCORRÊNCIAS DELES, COLOCANDO 'this.' na frente delas....
+
+
+
+ex:
+
+
+
+'modalElement.appendChild(contentElement);' --------->
+
+---------------->
+
+
+VAI VIRAR 
+
+
+'this.modalElement.appendChild(contentElement);'
+
+
+
+---------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+export class Modal {
+  constructor(contentId, fallbackText) {
+    this.fallbackText = fallbackText;
+    this.contentTemplateEl = document.getElementById(contentId);
+    this.modalTemplateEl = document.getElementById('modal-template');
+  }
+
+  show() {
+    if ('content' in document.createElement('template')) {
+      const modalElements = document.importNode(
+        this.modalTemplateEl.content,
+        true
+      );
+      this.modalElement = modalElements.querySelector('.modal'); 
+      this.backdropElement = modalElements.querySelector('.backdrop'); 
+      const contentElement = document.importNode(
+        this.contentTemplateEl.content,
+        true
+      );
+
+      this.modalElement.appendChild(contentElement); ////eis aqui a troca em questão.
+
+      document.body.insertAdjacentElement('afterbegin', modalElement);
+      document.body.insertAdjacentElement('afterbegin', backdropElement);
+    } else {
+      alert(this.fallbackText);
+    }
+  }
+
+  hide() {}
+}
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+TAMBÉM PRECISAMOS MUDAR ISSO NA PARTE EM QUE INSERIMOS ESSES ELEMENTOS NO DOM, por meio do 'insertAdjacentElement'....
+
+
+EX:
+
+
+
+  document.body.insertAdjacentElement('afterbegin', this.modalElement);
+    document.body.insertAdjacentElement('afterbegin', this.backdropElement);
+
+
+----------------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+export class Modal {
+  constructor(contentId, fallbackText) {
+    this.fallbackText = fallbackText;
+    this.contentTemplateEl = document.getElementById(contentId);
+    this.modalTemplateEl = document.getElementById('modal-template');
+  }
+
+  show() {
+    if ('content' in document.createElement('template')) {
+      const modalElements = document.importNode(
+        this.modalTemplateEl.content,
+        true
+      );
+      this.modalElement = modalElements.querySelector('.modal'); 
+      this.backdropElement = modalElements.querySelector('.backdrop'); 
+      const contentElement = document.importNode(
+        this.contentTemplateEl.content,
+        true
+      );
+
+      this.modalElement.appendChild(contentElement); ////eis aqui a troca em questão.
+
+      document.body.insertAdjacentElement('afterbegin', this.modalElement);
+      document.body.insertAdjacentElement('afterbegin', this.backdropElement);
+    } else {
+      alert(this.fallbackText);
+    }
+  }
+
+  hide() {}
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+precisamos fazer essas trocas PQ ESSES NEGÓCIOS NÃO SERÃO MAIS 
+
+CONSTANTES DO MÉTODO 'SHOW', E SIM ___PROPRIEDADES____ DA CLASSE 'modal'...
+
+
+
+
+
+
+AGORA, PORTANTO, PODEMOS USAR 'this.backdropElement' e 'this.modalElement'
+ 
+
+
+ EM HIDE...
+
+
+
+
+ --------------------------------------
+
+
+
+
+ Dentro do método 'hide()', 
+
+
+ PRIMEIRAMENTE VOU QUERER CHECAR 
+
+ ___sE TEMOS UM 'this.modalElement', 
+
+ 
+
+
+com um if check...
+
+
+
+O PROFESSOR SÓ FAZ ISSO PARA QUE, ANTES DE NOSSO CÓDIGO TENTAR REMOVê-LO, 
+ELE CERTIFIQUE-SE QUE NÓS 
+
+TEMOS ELE JÁ PRESENTE na UI....
+
+
+
+ex:
+
+
+
+hide() {
+    if(this.modalElement) {
+
+    }
+}
+
+
+-----------------------------------------------
+
+
+
+FEITO ISSO, PODEMOS 
+
+
+ESCREVER 
+
+
+'document.body.removeChild(this.modalElement);'      --------------> professor diz que usará 'removeChild' PORQUE O SUPORTE É MELHOR EM BROWSERS MAIS ANTIGOS...
+
+
+e 
+
+
+'document.body.removeChild(this.backdropElement);'
+
+
+
+-------------------------------------------------------------
+
+
+
+
+ex:
+
+
+
+hide() {
+    if(this.modalElement) {
+        document.body.removeChild(this.modalElement);
+        document.body.removeChild(this.backdropElement);
+    }
+}
+
+
+
+------------------------------------------------------
+
+
+
+
+Por fim, o professor DEFINE O modalElement E O backdropElement 
+
+COMO NULL.... ELE FAZ ISSO PARA QUE NOSSO BACKDROP/MODAL 'RESETTE'...
+
+
+
+Ele faz isso para que o javascript entenda que ESSAS PROPRIEDADES ESTÃO 'CLEARED', 
+
+E que essas referências a esses elementos DOM já não são mais necessárias, que 
+
+podem ser limpadas da memória para que não tenhamos memory leaks e coisas do gênero.
+
+
+
+ex:
+
+
+
+
+hide() {
+    if(this.modalElement) {
+        document.body.removeChild(this.modalElement);
+        document.body.removeChild(this.backdropElement);
+        this.modalElement = null;
+        this.backdropElement = null;
+    }
+}
+
+
+--------------------------------------------------
+
+
+
+
+PORTANTO, ESSE É UM USE CASE EM QUE SETTAR o valor de algo como 'null' FAZ SENTIDO;
+
+FAZ SENTIDO PQ EU QUERO DEIXAR BEM CLARO QUE ESSAS PROPRIEDADES FORAM RESETTADAS,
+
+QUE NÃO PRECISO MAIS DESSES ELEMENTOS.
+
+
+
+
+SALVAMOS E RECARREGAMOS....
+
+
+
+O SPINNER DE CARREGANDO APARECE e fica alguns segundos até o processo de get da localização terminar...
+
+
+Assim que ele acaba, o spinner some.
+
+
+Sucesso.
+
+
+
+
+
+
+AGORA DEVEMOS VER O PRÓXIMO PASSO:
+
+
+
+
+
+Devemos como MOSTRAR UM MAPA COM UM 'PIN' NO LOCAL QUE O USUÁRIO GANHOU/RECEBEU NO CÓDIGO (ou que nós recebemos, hahaha).

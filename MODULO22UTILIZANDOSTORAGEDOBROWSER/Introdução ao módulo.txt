@@ -1,0 +1,90 @@
+
+
+
+
+
+
+
+Estamos ficando cada vez mais avançados.
+
+
+
+
+
+
+
+
+Agora que temos um entendimento acerca de http requests e third party libraries,
+
+
+ESTAMOS PREPARADOS PARA ESTE MÓDULO, em que falaremos de BROWSER STORAGE...
+
+
+('Storing (some) Data Locally')...
+
+
+
+
+
+
+
+--------> esse curso que estamos fazendo é um curso GERAL de javascript, 
+
+
+mas é claro que o foco dele é mais o BROWSER, pois esse é o LUGAR MAIS COMUM PARA 
+
+OS CÓDIGOS JAVASCRIPT.
+
+
+
+
+----> No módulo 'http', nós demos uma olhada em COMO VOCÊ PODE ARMAZENAR 
+
+DADOS e então dar fetch neles DE DENTRO DO JAVASCRIPT.......
+
+
+
+armazenar dados EM SERVIDORES (post) e entÃO PEGAR ESSES DADOS DO SERVIDOR (GET).
+
+
+
+
+
+
+----> esses processos eram basicamente O GUIA DE COMO VOCÊ PODE BASICAMENTE FAZER ATTACH DA SUA 
+
+USER INTERFACE A ALGUM BACKEND/SERVER, o qual então pode talvez conversar com uma DATABASE, database 
+em que 
+
+esses dados são ARMAZENADOS e 'retrievados' (recuperados).
+
+
+
+
+
+
+
+
+
+
+
+
+-----------> ALGUNS DADOS, ENTRETANTO, PODEM TAMBÉM SER ARMAZENADOS ___NO BROWSER___...
+
+ou seja, DIRETAMENTE NO LUGAR EM QUE SEU USUÁRIO ESTÁ....
+
+
+
+
+
+--> Nem toda espécie de dado/dados é compatível/'suitable' PARA 
+
+'DISK STORAGE', e exploraremos neste módulo
+
+exatamente o que é 
+
+esse 'browser storage', e para quais tipos de dados PODEMOS
+
+QUERER USÁ-LO.
+
+----------------------------------------------------

@@ -1,0 +1,43 @@
+Devemos dar um passo para trás, para longe da webpage e o trabalho com o DOM, para 
+que possamos estudar mais um pouco sobre a teoria, sobre 
+data structures importantes que nós temos  EM JAVASCRIPT.
+
+
+
+
+Devemos estudar mais coisas sobre ARRAYS E ITERABLES. (lists of data).
+
+
+É claro que já trabalhamos com arrays, mas de uma forma muito básica.
+
+
+Há muito mais coisas para se descobrir em arrays, e é isso que veremos.
+
+
+Veremos:
+
+
+
+1) As diferentes maneiras de criar arrays.
+
+
+
+
+2) Como trabalhar com arrays --- como manipulá-los, adicionar/remover items.
+O que é especial sobre eles, e sobre como se comportam.
+
+
+
+
+3) MÉTODOS IMPORTANTES PARA ARRAYS (important array methods). --> há muitos 
+métodos importantes de array em javascript, que nós ajudam 
+a transformar arraydata, summarize array data, sort arraydata e 
+muito mais.
+
+
+4) Outra iterables que vocÊ encontra em javascript: Maps e SETS.
+
+----------------------------------------------
+
+
+O professor também esclarecerá o que diabos "iterable" significa.

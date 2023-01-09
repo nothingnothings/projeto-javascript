@@ -1,0 +1,334 @@
+Special keynames & "square bracket property access".
+
+
+
+
+
+
+
+Agora nós sabemos como CRIAR UM OBJETO e como adicionar/deletar/alterar propriedades dinamicamente.
+
+Também sabemos como ler propriedades/métodos e como chamar métodos/funções de dentro de objetos.
+
+
+
+
+
+
+AGORA DEVEMOS DAR UMA OLHADA NOS "PROPERTY NAMES" que usamos até agora... nas "keys".
+
+
+
+
+Até agora, o professor só usou "keys". Ele sempre as utilizou como se fossem "NOMES DE VARIÁVEIS". Mesmo comportamento, 
+mesmas regras. Qualquer coisa que você pode usar como nome de variável PODE SER UTILIZADO 
+COMO KEY NAME.
+
+
+Keys, na verdade, são AINDA MAIS FLEXÍVEIS DO QUE VARIÁVEIS.
+
+
+
+
+Qualquer nome que você coloca em uma variável pode ser utilizado em uma key. 
+
+
+
+MAS NEM TUDO QUE VOCÊ PODE USAR COMO KEYNAME PODE SER UTILIZADO COMO O NOME DE UMA VARIÁVEL.
+
+
+
+Aqui há um exemplo:
+
+
+
+
+Digamos que eu não queira ter "name" como nome de key, mas sim "firstName". 
+Mas não "firstName" escrito assim, e sim assim: "first name"
+
+ex:
+
+let person = {
+
+    first name: 'Max'; //---------> O __IDE___ JÁ VAI EM FRENTE E NOS DÁ UM ERRO, AQUI. 
+}
+
+
+Por que o IDE nos dá um erro? Bem, porque isso aí não é exatamente uma sintaxe VÁLIDA DE JAVASCRIPT.  
+Ter 2 palavras separadas aqui, em javascript, faz com que o JS não entenda o que você quis dizer...
+Ele tenta entender como essas 2 palavras funcionam EM CONJUNTO, e vê que a primeira palavra não é nem um operador 
+nem outra keyword, e aí NÃO SABE O QUE DIABOS ESSE "FIRST" DEVERÁ FAZER COM "NAME".
+E isso faz sentido, porque se você tivesse UMA VARIÁVEL OU UMA CONSTANTE, VOCÊ TAMBÉM NÃO PODERIA 
+UTILIZAR "first name" dessa forma, com as palavras separadas:
+
+
+let first name ----> NÃO É SINTAXE VÁLIDA.
+
+
+const first name ----> não é sintaxe válida.
+
+
+ISSO NÃO É SUPORTADO, VOCÊ NÃO PODE TER UM ESPAÇO EM BRANCO NO SEU NOME DE VARIÁVEL/CONSTANTE. Deve 
+sempre ser exatamente uma única palavra, sem whitespace, traços, etc etc.
+
+
+A MESMA REGRA SE APLICA, GERALMENTE, A ESSAS PROPRIEDADES DE OBJETOS...
+"first name" e "first-name" NÃO SÃO PERMITIDOS COMO KEYNAMES....
+
+*******MASSSSSSSSSSSSSS*********** 
+----------> Você TEM, SIM, UM TRUQUE QUE DÁ BYPASS 
+NESSA LIMITAÇÃO!
+
+----> VOcê pode usar ___QUALQUER ----STRING----_____ COMO KEY em um objeto, e qualquer 
+string que você insere no espaço das keys É AUTOMATICAMENTE "COERCED" (coagida).
+
+"coercing" ---> é um comportamento que ocorre nos bastidores do javascript, é um PROCESSO DE CONVERSÃO que ocorre nos bastidores.
+Até mesmo a propriedade "age", que não tem marcação de string ('string') É CONVERTIDA EM UMA STRING DENTRO DO JAVASCRIPT...
+
+
+
+PORTANTO, UM OBJETO É, NA VERDADE, APENAS UM DICIONÁRIO BIZARRO, UM DICIONÁRIO DAS KEYS (que são "string values") e 
+seus valores (que podem ser qualquer tipo de valor).
+
+
+------> Para "first name/first-name", Javascript NÃO É CAPAZ DE AUTOMATICAMENTE CONVERTER 
+        ESSE INPUT/KEY em uma string porque ANTES DESSE CÓDIGO RODAR e o javascript ter uma 
+        chance de convertê-lo, ELE JÁ QUEBRA DIRETO (porque, primeiro de tudo, o javascript 
+        tenta interpretar essa combinação de palavras de uma maneira distinta que, no final das contas, 
+        não é válida.). Portanto, para nomes idiotas como "first name" e "first-name", devemos dizer ao javascript 
+        que "não, não, não, nós queremos utilizar isso como uma KEY; não é um cálculo que você deve 
+        fazer ou qualquer coisa do gênero, ela deverá ser apenas um keyname."
+
+
+        E COMO PODEMOS FAZER ISSO? COMO PODEMOS DIZER AO JAVASCRIPT QUE AQUELA COMBINAÇÃO DE TERMOS 
+        DEVERÁ SER APENAS UM KEYNAME (que no final das contas, é apenas uma string/é convertida em uma simples string)?
+
+        O professor explica, de forma anticlimática: "Beeeem... NÓS APENAS A ENVOLVEMOS EM quotes ('quote')".    OBS::: ESSA SINTAXE ___NÃO___ FUNCIONA COM VARIÁVEIS/CONSTANTES.
+
+
+        ex:
+
+
+
+
+        let person ={
+
+            'first-name': 'Max';       --------------> ESSA SINTAXE É VÁLIDA. NÃO IMPORTA SE VOCê UTILIZAR '' ou "", qualquer uma das 2 funciona.
+        }
+
+
+
+
+Portanto, você pode usar QUALQUER STRING naquele slot de keys como KEYNAMES. Com "-', com espaço em branco, 
+com múltiplas palavras, qualquer bosta, DESDE QUE VOCÊ ENVOLVA AS KEYS EM '' e "".
+
+
+
+Contudo, o professor aponta que nomes como 'first name' SÃO EXCEÇÕES....
+tipicamente você utilizará nomes que você também poderia utilizar em variáveis (porque, com variáveis e constantes, essa sintaxe idiota do '' não funciona).
+
+
+
+
+
+const 'first name' = 10; -------------> ESSA SINTAXE É INVÁLIDA.
+
+
+
+----------------------------------
+
+
+
+Tudo bem, tudo bem. Nós conseguimos DEFINIR UM KEYNAME COM ESPAÇO EM BRANCO, Agora. MAS EIS QUE 
+SURGE OUTRO PROBLEMA: COMO DIABOS VAMOS ACESSAR ESSA KEYNAME GOZADA (com '', "") ?
+
+
+Professor diz que vocÊ pode pensar "ah, ok, vou utilizar "person.first name" ------> MAS COM ISSO, TEREMOS BASICAMENTE O MESMO PROBLEMA DE ANTES: O JAVASCRIPT TENTA ANALISAR ISSO COMO SE FOSSE UMA EXPRESSÃO (como se first fizesse algo à 'name'), e em javascript, 'first name' NUNCA É ACEITO COMO SINTAXE VÁLIDA. 2 palavras separadas por um espaço apenas funcionam se ALGUMA DAS PALAVRAS É OU UM OPERADOR OU UMA KEYWORD (ex: ' delete person.age;' ---> essa é uma sintaxe válida. 'delete' é um operador, e person.age é uma propriedade de um objeto). O JS tenta a mesma coisa com "first name", mas ele percebe que não conhece 'first', ele acha que é um operador ou uma keyword, mas não é nenhum dos dois.
+
+PORTANTO, 'person.first name' --------> NÃO FUNCIONA EM JAVASCRIPT!!!!
+
+
+
+MAS, então, como diabos podemos acessar a propriedade de 'first name' que está dentro do objeto 'person'?
+
+
+
+
+A RESPOSTA:  BEM, COM ESSA NOTAÇÃO ESPECÍFICA, NÓS ____NÃO PODEMOS____.
+Não conseguimos acessar essa propriedade com nome bizarro por meio do dot notation (.).
+
+A ÚNICA ALTERNATIVA QUE NOS RESTA PARA ACESSÁ-LA É UTILIZAR UM CAMINHO ALTERNATIVO....
+
+Caminho alternativo para acessar propriedades em um objeto, em javascript:
+
+
+ESSE CAMINHO ENVOLVE O USO DA ___SQUARE BRACKET NOTATION____.
+
+
+Já conhecemos essa notation, ela é a mesma que utilizamos com ARRAYS....
+
+
+Com arrays, nós a utilizávamos para acessar os elementos em certos indexes...
+
+
+No final das contas, isso faz sentido, porque ARRAYS SÃO SIMPLESMENTE ESPÉCIES DE OBJETOS...
+arrays são simplesmente objetos, e a SQUARE BRACKET NOTATION É ESSENCIALMENTE UMA NOTATION GENÉRICA 
+DE OBJETOS; a única peculiaridade é que para array-objects nós temos aquele comportamento especial built-in (dos indexadores automáticos 
+assignados a cada um dos elementos  e dos métodos específicos utilizados para adicionar/modificar/remover elementos  do/ao array.)
+----> MAS ALÉM DISSO, NÓS TEMOS 
+ESSA SQUARE BRACKET NOTATION DISPONÍVEL
+ EM ___QUALQUER_____ OBJETO______.
+
+
+
+
+ ex:
+
+
+
+
+ console.log(person[]);  //////--------------> ENTRETANTO, O QUE NÓS INSERIMOS DENTRO DESSES SQUARE BRACKETS, AGORA, NÃO É UM NÚMERO DE INDEXADOR, POIS ___ESSE_____OBJETO____ 'PERSON'_____ NÃO POSSUI_____ INDEXADORES/INDEXES (o objeto 'person' não é um array).
+                                            //EM vez disso, o que você pode inserir aqui dentro dos [] é QUALQUER KEYNAME... você pode inserir qualquer keyname, mas (IMPORTANTE!!!) NÃO 
+                                            // NÃO DE FORMA "SOLTA", ou seja, não dessa forma: 'console.log(person[age]);', porque 
+                                            // ESSA expressão faria o javascript tentar PROCURAR POR 'age' NO LADO DE FORA DO OBJETO PARA ENTÃO TENTAR 
+                                            //LER O VALOR DESSA VARIÁVEL 'age'... se ele achasse uma variável com esse nome, ele então tentaria 
+                                            //ENCONTRAR UMA KEY COM O VALOR DESSA VARIÁVEL DENTRO DO OBJETO 'person'....... algo bem diferente, que não queremos no momento.
+
+
+                                                    RESUMO:
+                                                //----->  'console.log(person[age]);' ////-----> NÃO É AQUILO QUE VOCÊ QUER, NÃO É A FORMA ADEQUADA PARA ACESSAR A SINTAXE BIZARRA DE 'first name'.
+
+
+
+                                                    //em vez desse código que faz esse processo maluco, devemos 
+                                                    //simplesmente PASSAR PARA DENTRO DOS SQUARE BRACKETS UMA STRING EQUIVALENTE AO NOME DA KEY/KEYNAME QUE VOCÊ QUER ACESSAR:
+
+
+                                                    EX:
+
+
+                                                    console.log(person['age']); ......... OU  __________ console.log(person['first name']); ________ //----> ESSA É UMA FORMA VÁLIDA DE ACESSAR KEYNAMES/KEYS COM NOMES BIZARROS QUE NÃO SEGUEM AS NORMAS PADRÕES DE NOMENCLATURA DO JAVASCRIPT.
+
+
+
+
+                                                    Se salvarmos isso e recarregarmos a página, veremos o valor 'Max' printado no 
+                                                    devtools, pois é o valor daquela keyname sendo printado no console. É um 
+                                                    resultado daquele acesso àquela propriedade/key/keyname por meio 
+                                                    dos SQUARE BRACKETS.
+
+
+
+                                                    É bem importante se lembrar dessa técnica, desse meio alternativo 
+                                                    de utilizar propriedades/keynames/keys (e keynames/keys/property names 
+                                                    que você geralmente não poderia utilizar, por meio de '' e "").
+
+
+
+
+
+
+                                                    Isso também é muito interessante porque, como você deve se lembrar, 
+                                                    com dom nodes, onde trabalhamos com estilos, para coisas 
+                                                    como "BACKGROUND COLOR", nós tivemos que utilizar 
+                                                    a notação "camelCase"...
+
+
+                                                    O professor utiliza um exemplo de dentro do html da página dos movies...
+
+                                                    a <ul> de id "movie-list".
+
+
+
+
+                                                
+                                                    Ele vai lá para o topo do código do "object.js" e entõa 
+                                                    cria uma constante "movieList".
+
+
+                                                    ex:
+
+
+                                                    const movieList = document.getElementById('movie-list'); //--------> ISSO NOS DARÁ ACESSO AO item <ul> de id 'movie-list'.
+
+
+                                                    ------------------------------------
+
+
+
+                                                    O professor utiliza, então, o objeto "style" para poder trabalhar com os diferentes estilos css desse dom node.
+
+
+                                                    ex:
+
+
+
+                                                    const movieList = document.getElementById('movie-list');
+
+                                                    movieList.style.backgroundColor = 'red';  //-------> ELE VAI LÁ E DEFINE A COR DO BACKGROUND COMO "VERMELHO".
+
+
+
+                                                                    O professor explica que somos __OBRIGADOS__ a utilizar "backgroundColor", porque "background-color" nunca seria lido pelo javascript. O javascript nos dá "translated property names" se tentamos utilizá-los pela sua sintaxe do CSS.
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+
+
+                                                     const movieList = document.getElementById('movie-list');
+
+                                                    movieList.style.backgroundColor = 'red'; 
+
+                                                    movieList.style.display = 'block';
+
+                                                    ------------> por meio dessas 2 alterações no estilo de movieList, conseguimos um item/elemento com um fundo vermelho.
+
+
+
+                                                    A COISA INTERESSANTE AQUI, EXPLICA O PROFESSOR, É QUE SE NÓS UTILIZARMOS A ___SQUARE BRACKET NOTATION____ (junto de '' e ""), SOMOS CAPAZES 
+                                                    DE UTILIZAR ESSA SINTAXE ALTERNATIVA NO JAVASCRIPT....
+
+
+                                                    ex:
+
+
+
+
+                                                        const movieList = document.getElementById('movie-list');
+
+                                                    movieList.style['backgroundColor'] = 'red';    //////////---------> ESSA SINTAXE FUNCIONA. É LIDA PELO JAVASCRIPT E ENTENDIDA POR ELE. Entretanto, se você tentasse o código "movieList.style[background-color]" (ou seja, sem as quotes dentro da propriedade acessada dentro do square brackets notation...), isso faria o javascript TENTAR LOCALIZAR UMA VARIÁVEL "backgroundColor" no nosso código e então usar o valor dentro dessa variável PARA ENTÃO PROCURAR POR UMA KEY NO OBJETO "style" COM UM VALOR CORRESPONDENTE AO VALOR DESSA VARIÁVEL. 
+
+                                                    movieList.style['display'] = 'block';
+
+
+
+
+
+                                                    ----------------> MAS A COISA INTERESSANTE, AGORA, QUE ACONTECE POR MEIO DA UTILIZAÇÃO DESSA SINTAXE, É QUE 
+                                                                            NA VERDADE O objeto "style" não só terá ESSAS PROPERTY NAMES TRADUZIDAS, MAS 
+                                                                            VOCÊ TAMBÉM ENCONTRARÁ OS NOMES ORIGINAIS DE CSS COMO PROPERTY NAMES DENTRO DESSE OBJETO (background-color, por exemplo).
+                                                                            Isso ocorre porque, se você envolve seu "property access" em quotes ('') e utiliza a square brackets notation, você 
+                                                                            PODE, É CLARO, utilizar 'background-color' em vez de backgroundColor, pois sua key JÁ É UMA STRING, e ___EM UMA STRING___, 
+                                                                            VOCÊ PODE TER QUAIQUER CARACTERES QUE VOCÊ DESEJAR (traços, espaços em branco, pontos de exclamação/interrogação, whatever).
+
+
+
+                                                                            ex:
+
+
+                                                                            const movieList = document.getElementById('movie-list');
+
+                                                                            movieList.style['background-color'] = 'red';    ///////-----> SINTAXE VÁLIDA. '' e [] necessários, no entanto.
+
+
+                                                                            movieList.style['display'] = 'block';
+
+
+
+                                                                            O "SQUARE BRACKET PROPERTY ACCESS" NOS DÁ MAIOR FLEXIBILIDADE, POIS PODEMOS UTILIZAR 
+                                                                            QUALQUER STRING COMO KEYNAME.
+
+                                                                            Todas as keys/keynames que NÃO SÃO NATURALMENTE STRINGS (strings já 'de começo') SÃO AUTOMATICAMENTE 
+                                                                            COAGIDAS (COERCED) PARA SEREM STRINGS PELO PRÓPRIO JAVASCRIPT.

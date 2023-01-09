@@ -1,0 +1,31 @@
+Veremos um pouco das NOVAS FEATURES, NOVOS BEHAVIOURS do javascript.
+
+
+É UM MÓDULO IMPORTANTE, POIS VEREMOS OS BASTIDORES DO JAVASCRIPT, VEREMOS COMO ELE FUNCIONA, O QUE O BROWSER 
+FAZ COM O NOSSO SCRIPT.
+
+
+
+VEREMOS AS PARTES ESTRANHAS DO JAVASCRIPT, E COMO ELE EVOLUIU AO LONGO DO TEMPO.
+
+VEREMOS ES5 E ES6, O QUE SÃO E COMO DIFEREM UM DO OUTRO.
+
+
+
+
+1a parte) ---> ES5 VS ES6+  SYNTAX. Veremos a diferença entre as 2.
+
+
+Veremos como a sintaxe mudou ao longo dessas versões do javascript.
+
+
+Veremos principalmente a diferença entre a criação de variáveis agora e o método antigo (var).
+
+
+
+2a parte) ---> veremos como javascript funciona, como ele analiza/parsa e interpreta o código, e como ele executa o código.
+
+
+
+3a parte) --> veremos as partes ESTRANHAS do javascript, que podem parecer 
+estranhas em um primeiro momento, mas que não são tão confusas assim.

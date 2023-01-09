@@ -1,0 +1,1115 @@
+Ajustamos todas as classes para que 
+
+
+utilizassem aquele conceito de 'Inheritance'.... (xxx extends yyyy).
+
+
+
+
+
+
+
+
+Agora podemos melhorar o código um pouquinho...
+
+
+
+
+
+
+
+
+O professor aponta que HÁ INÚMERAS DIFERENTES MANEIRAS DE IMPLEMENTAR ISSO 
+
+QUE ELE ESTÁ PRESTES A NOS MOSTRAR...
+
+
+
+
+Ele diz que se quisermos tentar isso por conta própria, achar 
+um método melhor, podemos tentar.
+
+
+
+
+
+
+
+A COISA QUE O PROFESSOR QUER FAZER, para início de conversa, 
+
+É alterar os calls de render...
+
+
+
+
+ex:
+
+
+'this.cart.render();' .... dentro do render() de shop, 
+
+
+
+ESSA CALL É MEIO REDUNDANTE...
+
+
+
+'productList.render();' ----> também redundante....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+class Shop {
+    render() {
+       
+        
+        this.cart = new ShoppingCart('app');  
+
+        this.cart.render();
+        const productList = new ProductList('app');
+        productList.render();
+    }
+}
+
+
+
+
+------------------------------------
+
+
+
+Explicação:
+
+
+
+Bem, eu essencialmente crio uma productList por meio de 
+
+'new ProductList' PARA DEPOIS __CHAMAR___ 'RENDER()' (o render que fica dentro dessa productList) 
+
+___MANUALMENTE____.... (é isso que estamos fazendo agora, e isso precisa mudar... é redundante demais).
+
+
+
+
+
+
+O professor diz que essa renderização por meio de 'productList.render();' DEVE SER PARTE 
+DO PRÓPRIO PROCESSO DE CRIAÇÃO de 'productList' (por meio de 'new ProductList').
+
+
+Essa noção advém do princípio de streamline de tudo no nosso código: 
+
+É muito melhor que juntemos todos os processos em um só; é melhor que essa renderização 
+da productList ocorra de dentro da mesma (isso fará com que descartemos a linha redundante de código 'productList.render()'... )
+
+
+
+
+
+É por isso que vamos em frente e removemos
+
+
+'
+this.cart.render();'  
+
+
+e 
+
+
+
+'productList.render();'
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class Shop {
+    render() {
+       
+        
+        this.cart = new ShoppingCart('app');  
+   
+        const productList = new ProductList('app');
+     
+    }
+}
+
+
+
+---------------------------------
+
+
+Feita essa alteração, professor diz que PODEMOS TAMBÉM 
+
+DESCARTAR o trecho 
+
+
+'const productList', pois NÃO PRECISAMOS MAIS FAZER O STORE DE UMA PRODUCTLIST/DA NOSSA PRODUCTLIST nessa 
+
+constante, porque nós já não temos que chamar 'render()' manualmente em cima dela...
+
+Basta, portanto, chamar 'new ProductList' e deixá-la solta nesse render body.... (afinal, 
+faremos com que o código que renderize a productList exista DENTRO DA PRÓPRIA 
+classe/objeto ProductList....)
+
+
+
+ex:
+
+
+
+
+class Shop {
+    render() {
+       
+        
+        this.cart = new ShoppingCart('app');  
+        new ProductList('app'); ///código alterado...
+     
+    }
+}
+
+
+
+
+------------------------------------------
+
+
+
+
+O 'this.cart', entretanto, não pode ser removido, pois é utilizado/referenciado em outras partes de nosso código.
+
+
+
+
+
+--------------------------------------
+
+
+
+
+Mas podemos remover outros códigos redundantes de nosso documento...
+
+
+
+
+Como o 'Shop' no método 'static init()' de 'App';  podemos simplesmente REMOVER o 
+
+'shop.render();'...   (faremos com que esse código que renderiza o elemento 'Shop' exista dentro 
+do próprio shop, também...).....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+    static cart;
+
+
+    static init() {
+
+
+        const shop = new Shop();
+        shop.render(); ////código a ser removido...
+        this.cart = shop.cart; 
+        
+
+
+    }
+
+    static addProductToCart(product) {
+        this.cart.addProduct(product);
+    }
+
+}
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class App {
+    static cart;
+
+
+    static init() {
+
+
+        const shop = new Shop();
+        this.cart = shop.cart; 
+        
+
+
+    }
+
+    static addProductToCart(product) {
+        this.cart.addProduct(product);
+    }
+
+}
+
+
+
+
+-------------------------------
+
+
+
+
+
+Porém, ainda precisamos do armazenamento de 'Shop' (new Shop) em uma constante ('const shop') PORQUE 
+
+AINDA TEMOS UMA REFERÊNCIA A ELE NA LINHA 
+
+
+'this.cart = shop.cart;' ...
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+Feito isso, podemos ir até a classe ProductList em si mesma, 
+onde eu faço a renderização de todos os 
+
+productItems do código por meio de 
+
+
+'productItem.render();', EU POSSO REMOVER ESSA LINHA DE CÓDIGO, POIS 
+
+TAMBÉM É REDUNDANTE. Vou fazer com que essa renderização efetiva 
+dos productItem aconteça dentro de sua própria classe/objeto.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+}
+
+
+
+
+      render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')]);
+
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+        productItem.render();   ////////CÓDIGO A SER REMOVIDO.
+   
+    }
+   
+        
+----------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+}
+
+
+
+
+      render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')]);
+
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+      
+   
+    }
+   
+
+---------------------------------------------------
+
+
+
+
+
+
+Outra vez, como eu fiz a remoção daquele 'productItem.render();', POSSO SIMPLESMENTE 
+REMOVER TAMBÉM O ARMAZENAMENTO do objeto 'productItem' feito logo acima, 
+
+em 'const productItem = new ProductItem(prod, 'prod-list') ',  POIS 
+SUA EXISTÊNCIA JÁ NÃO TEM PROPÓSITO (só era utilizado para chamar manualmente o render dessa classe/objeto com 'productItem.render();'...)
+
+
+
+Eu simplesmente removo 'const productItem ='  e deixo o chamado de 'new ProductItem' solto 
+no código...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+}
+
+
+
+
+      render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')]);
+
+
+    for (const prod of this.products) { 
+      new ProductItem(prod, 'prod-list');
+      
+   
+    }
+   
+
+
+
+
+
+
+-------------------------------------
+
+
+
+
+
+Para colocar o render DENTRO da classe/objeto de productList, o que podemos fazer, é claro, 
+
+é chamar 'render()' DENTRO DO CONSTRUCTOR de ProductList... (colocar esse chamado EMBAIXO DO SUPER; lembre-se, só assim você pode adicionar propriedades/chamados ao constructor de uma determinada classe...)
+
+
+
+O professor faz isso por meio do código 
+
+'this.render()'    ('this' irá se referenciar à classe 'ProductList'....)
+
+
+
+Ou seja, 'render()' solto, dentro desse constructor === ERRADO.
+
+
+'this.render()' dentro desse constructor === CERTO.
+
+
+
+ex:
+
+
+
+
+
+
+
+class ProductList extends Component {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+    this.render(); ////Eis o código em questão.
+}
+
+
+
+
+      render() {
+    this.createRootElement('ul', 'product-list', [
+        new ElementAttribute('id', 'prod-list')]);
+
+
+    for (const prod of this.products) { 
+      new ProductItem(prod, 'prod-list');
+      
+   
+    }
+   
+
+
+-------------------------------------------------
+
+
+
+
+ENTRETANTO, PROFESSOR DIZ QUE ATÉ MESMO ESSA LINHA 
+
+DE CÓDIGO 'this.render()' SERIA ___REDUNDANTE___... 
+
+
+
+Seria redundante porque nós TERÍAMOS DE ADICIONAR ESSA LÓGICA 
+IDIOTA ('this.render()' ) A TODOS OS CONSTRUTORES DE TODAS AS 
+SUBCLASSES (tempão desperdiçado).
+
+
+
+
+Então....
+
+
+Como nós estamos chamando o constructor PAI (base), Component, de qualquer forma; COMO 
+
+NÓS ESTAMOS COMPARTILHANDO ESSE 'Component' COM TODAS AS SUBCLASSES, Devemos 
+
+SIMPLESMENTE ESCREVER ESSA LÓGICA LÁÁÁ NO PARENTE, para que esse traço seja 
+compartilhado por 
+todas as subclasses....
+
+
+
+
+
+
+Então, lá no constructor de Component, o professor escreve 'this.render();'
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+        this.render(); ///////eis o código em questão.
+    }
+
+
+    createRootElement(tag, cssClasses, attributes) {
+
+   
+
+
+
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+        if (attributes && attributes.length > 0) {
+            for(const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value);
+            }
+            
+        }
+        document.getElementById(this.hookId).append(rootElement);
+        return rootElement;
+    }
+}
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+A ÚNICA OUTRA COISA QUE O PROFESSOR IRÁ FAZER EM 'Component'  SERÁ 
+
+ADICIONAR UM MÉTODO 'RENDER()' EM SEU INTERIOR....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+        this.render(); ///////eis o código em questão.
+    }
+
+
+    createRootElement(tag, cssClasses, attributes) {
+
+   
+
+
+
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+        if (attributes && attributes.length > 0) {
+            for(const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value);
+            }
+            
+        }
+        document.getElementById(this.hookId).append(rootElement);
+        return rootElement;
+    }
+
+
+
+    render() {
+
+    };
+
+
+
+
+}
+
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+E, __IMPORTANTE___, ESSE MÉTODO QUE ELE ESCREVE ALI 
+
+
+VAI SER UM ___MÉTODO VAZIO____. É um método __VAZIO__, não fará nada de útil 
+ali em 'Component'...
+
+
+
+
+ELE APENAS O ESTÁ ADICIONANDO para que ___CASO___ ALGUÉM___ EXAMINE ESSA CLASSE COMPONENT (um desenvolvedor), 
+ESSA PESSOA NÃO VAI FICAR 
+
+PONDERANDO/questionando a razão de nós termos chamado 
+
+'render();' dentro de 'Component...'   
+
+
+Caso escrevamos esse render VAZIO, essa pessoa pelo menos vai entender/reconhecer QUE 
+
+ESSE MÉTODO REALMENTE EXISTE (e que não o chamamos por nada/por erro em 'Component...')
+
+
+
+------------------------------------------------
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+        this.render(); ///////eis o código em questão.
+    }
+
+
+    createRootElement(tag, cssClasses, attributes) {
+
+   
+
+
+
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+        if (attributes && attributes.length > 0) {
+            for(const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value);
+            }
+            
+        }
+        document.getElementById(this.hookId).append(rootElement);
+        return rootElement;
+    }
+
+
+
+    render() {
+
+    };
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+Podemos, ainda, fazer algo que é chamado de ___OVERWRITING___ (overriding)...
+
+Overwriting de 'render()'...
+
+
+
+Posso fazer o overwrite de 'render()' porque EM TODAS AS SUBCLASSES eu estou essencialmente
+
+IMPLEMENTANDO UMA SPECIAL WORD DE 'RENDER()' depois de 'Component'...
+
+
+
+O que o overwrite faz, no nosso código javascript, É A 'PASSAGEM POR CIMA' do código das funções/métodos 
+que definimos na nossa classe 'BASE' POR AQUELES códigos QUE ESTÃO DEFINIDOS NOS 
+MÉTODOS/FUNÇÕES/PROPRIEDADES DAS SUBCLASSES...
+
+
+
+
+O overwrite de um método que está em uma classe 'parent' VAI SUBSTITUÍ-LO COMPLETAMENTE...
+
+
+
+
+
+Continuando.... :
+
+
+
+
+POrtanto, se dentro da classe parent nós chamarmos 'this.render();'  (como fizemos nesse exemplo) , 
+
+NÓS NÃO IREMOS NOS REFERIR AO RENDER VAZIO DO COMPONENT ('render() {}'), 
+MAS SIM 
+
+O RENDER DA SUBCLASSE EM QUE ESSA CLASSE PARENT ESTÁ SENDO UTILIZADA/referenciada...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+        this.render(); 
+    }
+
+
+    
+
+
+    render() { /////// 'THIS.RENDER();' dentro daquele constructor de 'Component' não estará se referindo a isso...
+
+    };
+
+
+
+
+}
+
+
+
+
+
+
+
+
+render() { ////////////////////////      'THIS.RENDER()' de COMPONENT ESTARÁ SE REFERINDO A ESSE RENDER(), POIS É O RENDER() DA SUBCLASSE...
+        const prodEl = this.createRootElement('li','product-item');
+     
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+ 
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+    }
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+Quanto à toda essa bizarrice do overwriting HÁ APENAS UMA ÚNICA SIMPLES REGRA, e é 
+
+uma regra que já aprendemos... É UMA REGRA 
+
+NADA INTUITIVA, mas que é a utilizada...
+
+
+
+
+
+
+
+____SEMPRE LEMBRE-SE ___ QUE 'this'  SE REFERE à COISA QUE CHAMOU O MÉTODO... (método em que 'this' está inserido...)....
+
+
+
+E para o constructor (constructor de 'Component'..), ISSO É BASICAMENTE SEMPRE O 
+
+OBJETO QUE VOCÊ ESTÁ CRIANDO.....
+
+
+Isso pode parecer um pouco estranho, pois, no final das contas, o objeto que você 
+está criando por meio do call de 'new' (ex: 'new ProductItem'...)....   mas no final 
+das contas, o que a keyword 
+
+'NEW' faz é ASSEGURAR QUE UM NOVO OBJETO SEJA CRIADO... E que o 'THIS' DENTRO DO 
+
+CONSTRUCTOR DESSE OBJETO SEJA DEFINIDO A ESSE OBJETO... (essa é uma mágica peculiar do 'new', é o new que faz isso para nós...)
+
+
+
+
+
+ISSO É ALGO QUE VOCÊ DEVE DECORAR:
+
+
+
+Dentro de um constructor, 'THIS' SEMPRE SE REFERE AO OBJETO QUE ESTÁ SENDO CRIADO POR MEIO DE 'new'...
+
+
+E o objeto que está sendo criado, no nosso código, é SEMPRE 
+
+'productList', 'ProductItem' ou 'ShoppingCart'........... OU SEJA, 
+
+
+
+NUNCA É A CLASSE 'Base' (component)...
+
+
+
+Estamos chamando o CONSTRUCTOR da CLASSE BASE, sim, mas ESTAMOS FAZENDO ISSO 
+
+EM MEIO AO PROCESSO DE CRIAR UMA SHOPPINGCART, UMA PRODUCTLIST, UM PRODUCTITEM...
+
+
+E sempre APENAS 1 ÚNICO OBJETO ESTÁ SENDO CRIADO, e nunca aquele 'Component'..., 
+
+sempre a SUBCLASSE...
+
+
+
+
+--------------------------
+
+
+
+Portanto, quando nós chamamos o constructor de 'ShoppingCart', UM SHOPPINGCART SEMPRE está sendo/é criado 
+com base nessa classe...
+o constructor da classe BASE TAMBÉM ESTÁ SENDO CHAMADO, mas o 
+
+'THIS' dentro do constructor da classe BASE SEMPRE SE REFERIRÁ A EXATAMENTE O MESMO OBJETO 
+QUE O 'THIS' DO CONSTRUCTOR DA SUBCLASSE SE REFERE.
+
+
+E como esse objeto que está sendo criado TEM SUA PRÓPRIA IMPLEMENTAÇÃO DO MÉTODO 'render()',
+
+'this.render()' na classe base VAI SE REFERIR AO RENDER METHOD DO OBJETO QUE ESTÁ 
+PARA SER CRIADO A PARTIR DA SUBCLASSE....
+
+
+
+Com isso, estamos quase lá...
+
+
+
+A única coisa que está faltando agora é algo dentro do 'Shop', 
+
+porque se vocÊ recarregar a página, vocÊ verá que tudo estará EM BRANCO.
+
+
+Mas pq isso acontece?
+
+
+É pq quando nós críamos o nosso 'Shop' em 'const shop = new Shop()' em "static init();', 
+
+A CLASSE ___SHOP____ NÃO TEM UM CONSTRUCTOR... NÃO TEM UM CONSTRUCTOR NO QUAL 
+POSSAMOS CHAMAR O PARENT CONSTRUCTOR... (isso é em decorrência do funcionamento de 'Shop'...)
+
+
+
+
+
+No final das contas, aqui, em 'Shop', eu vou ADICIONAR UM CONSTRUCTOR....
+
+dentro desse constructor, vou ter de chamar 'Super();'... E NÃO 
+
+PRECISAMOS PASSAR ARGUMENTO ALGUM A SUPER, na verdade; não precisamos 
+porque aquele 'renderHookId' NÃO É NECESSÁRIO para fazer o 'Shop' funcionar, 
+não é necessário pq o render() de 'Shop' não o utiliza.
+
+
+
+Professor diz que, certamente, nós poderíamos reestruturar o código para que passassemos 
+algum argumento para a classe base component, mas afirma ele que isso não é necessário.
+(nós não estamos chamando 'this.createRootElement' no render de 'Shop', por isso 
+passar esse argumento para a classe base por meio de super() é desnecessário. )
+
+
+
+
+O que é necessário, no caso, é chamar 'super()' em 'Shop' PARA ASSEGURAR QUE O 
+MÉTODO RENDER() de 'shop' seja ativado/overwrite o 'render()' de component, que é 
+vazio.
+
+
+
+
+
+Se recarregarmos a página, RECEBEREMOS OUTRA ESPÉCIE DE ERRO....
+
+
+'
+Uncaught TypeError: this.products is not iterable
+    at ProductList.render (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:352:29)
+    at new Component (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:55:14)
+    at new ProductList (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:336:5)
+    at Shop.render (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:263:9)
+    at new Component (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:55:14)
+    at new Shop (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:249:9)
+    at Function.init (file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:287:22)
+    at file:///C:/projeto/M%C3%93DULO%2010%20-%20Classes%20&%20'Object-oriented%20Programming'%20(OOP)/assets/scripts/app.js:484:5'
+
+
+
+
+
+
+Entretanto, já podemos ver que O CART ESTÁ SENDO RENDERIZADO NORMALMENTE....
+
+
+
+
+
+Antes de consertar esse pequeno erro; 
+
+
+uma alternativa 
+
+ao extend de 'Component' nessa classe shop seria o seguinte código:
+
+
+
+
+
+ex:
+
+
+
+class Shop {
+
+
+        constructor() {
+            this.render();
+        }
+
+
+}
+
+
+
+--------------------------------
+
+
+
+Ou seja, apenas chamar o render de Shop dessa forma, sem fazer menção à classe 
+base para fazer esse render.... (professor aponta que você talvez pense que 
+extender a classe base aqui seja irrelevante, redundante, e que talvez não faça 
+sentido... ele diz que isso é uma questão de opinião, porque se você utilizar 
+o método da classe base, é mais bonito, porque todas as subclasses do código 
+estarão utilizando essa classe base, é mais organizado).  (você pode utilizar 
+essa alternativa, nesse caso específico, porque NÃO ESTAMOS INTERESSADOS EM NENHUMA OUTRA 
+FEATURE DA CLASSE BASE, É POR ISSO QUE O EXTEND de component aqui pode ser considerado 
+meio desnecessário.)
+
+
+
+
+
+Agora devemos consertar aquele erro.

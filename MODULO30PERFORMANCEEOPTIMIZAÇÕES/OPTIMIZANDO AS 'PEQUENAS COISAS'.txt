@@ -1,0 +1,749 @@
+
+
+
+
+---> nesse 'dummy application' que o professor nos dá aqui, 
+
+
+
+
+NÓS JÁ CONSEGUIMOS OS IMPROVEMENTS de performance MAIORES...
+
+
+
+
+
+
+
+----> AGORA HÁ COISAS _MENORES____ ----> coisas 
+
+em que poderíamos considerar/optar 
+
+
+POR CÓDIGO __ALTERNATIVO__... código alternativo que 
+
+
+TALVEZ POSSA FICAR MAIS EFICIENTE/MELHOR DO QUE O ORIGINAL...
+
+
+
+
+----> ENTRETANTO, AQUI NÓS ACABAMOS CHEGANDO PERTO DAQUELE 
+
+NEGÓCIO QUE O PROFESSOR CHAMA DE 
+
+
+'micro-optimizations'... ---> ESSAS MICRO OPTIMIZAÇÕES O PROFESSOR/NÓS 
+
+GERALMENTE VAMOS QUERER __EVITAR__.... --> 
+
+
+e o professor já vai nos explicar a razão para tentar evitar isso...
+
+
+
+
+
+---> uma parte do código que poderíamos melhorar é o código QUE DELETA UM 'PRODUCT'....
+
+
+
+é o código de 
+
+
+'
+
+import { products as prods } from './products';
+
+let products = prods;
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for(const prod of products) {
+        if (prod.id !== prodId) {
+            updateProducts.push(prod);
+        } else {
+            deletedProduct = prod;
+        }
+    }
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+'
+
+
+
+
+
+
+
+
+NESSE TRECHO AÍ, SE usarmos o código 'mais óptimo possível', provavelmente (não é garantido)
+
+GANHAREMOS 
+
+
+1 POUQUINHO DE PERFORMANCE... ---> mas nós vamos melhorar 
+
+esse código mais POR RAZÕES DE 'SIMPLICIDADE' (simplicity reasons)...
+
+
+
+
+
+---> PQ O que estamos fazendo nesse trecho de código, no final das contas, 
+
+é UMA MANEIRA BEM COMPLEXA DE ___OVERWRITE___ do array 
+
+de 'products' ('let products = prods') 
+
+
+POR UM NOVO array de products ('const updatedProducts = [];'), 
+
+
+UM NOVO array que CERTAMENTE é armazenado na memória e que ocupa um certo 
+
+espaço lá dentro... ---> ESSE NOVO ARRAY OCUPA UM NOVO ESPAÇO __QUE NÃO PRECISAMOS __ que 
+seja ocupado ---> podemos escrever uma alternativa QUE NÃO USA ESSE ESPAÇO, 'frees up space'...
+
+
+
+
+
+-----> EM VEZ DISSO, o que poderíamos fazer aqui é 
+
+
+SIMPLESMENTE USAR APENAS O array de 'products' que estamos importando por meio de 
+
+'import { products }' .......
+
+
+
+
+
+Ok... vamos fazer SÓ O SIMPLES IMPORT DESSE NEGÓCIO... podemos retirar aquele 'as prods' de dentro do import...
+
+
+
+--------------------------------------------------
+
+
+ex:
+
+
+
+
+
+
+import { products } from './products';
+
+let products = prods;
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for(const prod of products) {
+        if (prod.id !== prodId) {
+            updateProducts.push(prod);
+        } else {
+            deletedProduct = prod;
+        }
+    }
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+--------------------------------
+
+
+ARRAYS, 
+
+COMO BEM SABEMOS, 
+
+são 
+
+'reference types'... ---------> e por isso QUANDO NÓS TRABALHAMOS 
+
+COM O ARRAY IMPORTADO AQUI, nós acabamos trabalhando COM O __ÚNICO___ (one and only) 
+ARRAY ARMAZENADO NA MEMÓRIA, QUE É O ARRAY de 'products' DEFINIDO 
+
+em 
+
+'products.js'... --------->  E É POR ISSO QUE NÃO PRECISAMOS 
+
+DE 
+
+
+'let products = prod' NO CONTEXTO GLOBAL...
+
+
+-----------------------------
+
+
+
+Ex:
+
+
+
+
+
+
+import { products } from './products';
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for(const prod of products) {
+        if (prod.id !== prodId) {
+            updateProducts.push(prod);
+        } else {
+            deletedProduct = prod;
+        }
+    }
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+------------------------------------
+
+
+
+
+
+É POR ISSO QUE, EM VEZ DE FAZER OVERWRITE desse array global de 'products' CRIADO 
+
+AQUI NESSE 'product-management.js', podemos SIMPLESMENTE APENAS USAR O ARRAY original... (em 'products.js'...).
+
+
+
+Para isso, para realizar nossa operação nesse array originário,
+
+apenas temos que pegar o __INDEXADOR__  do item que será/deverá ser deletado...
+
+
+
+é por isso que o professor cria uma constante de nome 'deletedProductIndex'....
+
+(e deleta o restante do código.... )
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import { products } from './products';
+
+
+export function deleteProduct(prodId) {
+    const deletedProductIndex = ...
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+----------------------------------
+
+
+
+
+ESSA CONSTANTE CONTERÁ O INDEXADOR do item que deverá ser deletado... 
+
+
+Para isso, o professor usará 
+
+
+
+o método '.findIndex()' 
+
+
+
+no array DE 'PRODUCTS'...
+
+
+
+
+ele usará 
+
+'findIndex()' e PASSARÁ 
+
+
+UM PARÂMETRO 
+
+
+especial...
+
+
+o Parâmetro 
+
+
+especial é uma FUNÇÃO INTERNA/FUNÇÃO ANÔNIMA... uma 
+
+função anônima 
+
+QUE LOOPARÁ 
+
+
+POR DENTRO DE TODOS OS 'prod' (objetos/items) dentro 
+
+do array de 'products'....
+
+
+
+dentro desses items, ele vai SELECIONAR/ENCONTRAR o item 
+
+CUJA PROPRIEDADE 
+
+
+'id' É EQUIVALENTE à 'prodId'.....
+
+
+
+
+ex
+
+
+
+
+
+
+
+import { products } from './products';
+
+
+export function deleteProduct(prodId) {
+    const deletedProductIndex = products.findIndex(prod => prod.id === prodId); /////EIS O CÓDIGO EM QUESTÃO.
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+------------------------------------------
+
+
+
+
+FEITO ESSE 'find' do INDEXADOR DO ELEMENTO QUE QUEREMOS/VAMOS DELETAR, 
+
+o professor diz que podemos 
+
+usar 
+
+
+'.splice()' no array de PRODUCTS para ENTÃO ___ EXPURGAR/DELETAR__ aquele item do nosso array 'products'...
+
+
+
+O PARÂMETRO QUE DEVEMOS PASSAR, É ÓBVIO, DEVERÁ ser o __INDEXADOR___, o 'deletedProductIndex', que contém o indexador do item a ser deletado...
+
+
+
+
+
+SPLICE() ----> aprendemos sobre ele no MÓDULO DE ARRAYS E ITERABLES...
+
+-----------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+import { products } from './products';
+
+
+export function deleteProduct(prodId) {
+    const deletedProductIndex = products.findIndex(prod => prod.id === prodId);
+    products.splice(deletedProductIndex);
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+----------------------------------
+
+
+
+Certo...
+
+
+mas o método 
+
+'splice()' exige um segundo método, QUE 
+
+INFORMA A ELE QUANTOS ELEMENTOS DEVEM SER DELETADOS A PARTIR DAQUELE ITEM...
+
+colocamos '1', pois SOMENTE AQUELE ITEM DEVERÁ SER DELETADO....
+
+
+
+
+ex:
+
+
+
+
+
+
+import { products } from './products';
+
+
+export function deleteProduct(prodId) {
+    const deletedProductIndex = products.findIndex(prod => prod.id === prodId); 
+    products.splice(deletedProductIndex, 1);
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+
+CERTO, E ESSA SERIA/É UMA MANEIRA SIMPLES DE UPDATAR NOSSOS PRODUTOS, nessa função 
+
+de delete...
+
+
+
+
+
+----> porém, não acabamos...
+
+
+
+O professor diz que ele precisa ARMAZENAR esse product QUE SERÁ 
+
+DELETADO antes de o deletar... (para que o parâmetro nº 1 da função 'updateProducts', 'deletedProduct', SEJA SATISFEITO.)
+
+
+Ele faz isso por meio 
+
+da criação de uma nova constante, 
+
+'deletedProduct'...
+
+
+Para armazenar esse product, 
+
+ele chama o código de 
+
+'products[deletedProductIndex]' ---> ESSE INDEXADOR SERÁ EXATAMENTE O DO ITEM REMOVIDO....
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+import { products } from './products';
+
+
+export function deleteProduct(prodId) {
+    const deletedProductIndex = products.findIndex(prod => prod.id === prodId);
+    const deletedProduct = products[deletedProductIndex]; ///////EIS O CÓDIGO EM QUESTÃO.
+    products.splice(deletedProductIndex, 1);
+    updateProducts(deletedProduct, prodId, deleteProduct, false);
+}
+
+
+
+-------------------------------------------------
+
+
+
+
+
+COM ISSO, SE AGORA SALVARMOS 
+
+
+NOSSO CÓDIGO E VOLTARMOS A NOSSA PÁGINA....
+
+
+
+
+
+---> Nossa página ainda vai funcionar normal, mas agora 
+
+
+COM CÓDIGO MENOS COMPLICADO e mais RÁPIDO.
+
+
+
+
+--------------------------------------------------
+
+
+
+
+-----> OUTRA MELHORIA QUE PODERÍAMOS ADICIONAR ESTÁ 
+
+EM 'addProduct'...
+
+
+
+
+--> Em 'addProduct', 
+
+
+eu sempre estou GANHANDO/SENDO OBRIGADO 
+
+
+A GANHAR 
+
+NOVO ACESSO  À 
+
+
+'titleEl'    ('const titleEl = document.querySelector('#new-product #title');')
+
+ 
+
+e 
+
+'priceEl'... ('const priceEl = document.querySelector('#new-product #price');') 
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+export function addProduct(event) {
+    const titleEl = document.querySelector('#new-product #title'); /////eis o código em questão. 
+    const priceEl = document.querySelector('#new-product #price');
+
+
+
+  const title = titleEl.value;
+  const price = priceEl.value;
+
+  if (title.trim().length === 0 || price.trim().length === 0 || +price < 0) {
+    alert('Please enter some valid input values for title and price.');
+    return;
+  }
+
+  const newProduct = {
+    id: new Date().toString(),
+    title: title,
+    price: price
+  };
+
+  products.unshift(newProduct);
+  updateProducts(newProduct, newProduct.id, deleteProduct, true);
+}
+
+
+
+------------------------------------------------------
+
+
+
+
+
+----> AGORA, como 'addProduct' POTENCIALMENTE RODA/RODARÁ 
+
+__MAIS DE 1 ÚNICA VEZ__, nós podemos 
+
+também 
+
+
+__AGARRAR ___ esses códigos, essas 2 linhas, 
+
+
+e então 
+
+AS TRANSFORMAR 
+
+
+EM 
+
+'MODULE-WIDE GLOBAL CONSTANTS....'   (constantes usáveis em qualquer lugar desse módulo de 'product-management.js'... )
+
+
+
+
+EX:
+
+
+
+import { updateProducts } from './rendering';
+import { products } from './products';
+
+
+    const titleEl = document.querySelector('#new-product #title'); /////eis o código em questão. 
+    const priceEl = document.querySelector('#new-product #price');
+
+
+
+
+export function addProduct(event) {
+
+
+  const title = titleEl.value;
+  const price = priceEl.value;
+
+  if (title.trim().length === 0 || price.trim().length === 0 || +price < 0) {
+    alert('Please enter some valid input values for title and price.');
+    return;
+  }
+
+  const newProduct = {
+    id: new Date().toString(),
+    title: title,
+    price: price
+  };
+
+  products.unshift(newProduct);
+  updateProducts(newProduct, newProduct.id, deleteProduct, true);
+}
+
+
+-----------------------------------------
+
+
+
+ISSO É POSSÍVEL, PODEMOS FAZER ISSO, PQ __ESSES 2 ITEMS, os acesso 
+a esses 2 items ('titleEl' e 'priceEl') __ ___ NUNCA MUDARÃO __...
+
+
+
+---->  OUTRA COISA:
+
+
+
+Quando nós selecionamos os items por meio de 'querySelector' com 
+
+esse seletor composto de '#new-product + ...'  ---> ESSE SELECTOR 
+
+É UM POUCO 
+
+___COMPLEXO DEMAIS___...
+
+
+
+
+---> ESSE SELECTOR VAI FUNCIONAR, É CLARO, mas como 
+
+TODOS OS INPUTS AQUI (e esse selector ALCANÇA OS INPUTS, é claro) 
+
+TÊM UM 'ID' (temos um id de 'title' e um id de 'price'), 
+
+
+NÓS PODEMOS SIMPLESMENTE 
+
+USAR 
+
+
+'document.getElementById', QUE 
+
+
+É __MUITO ___ MAIS RÁPIDO DO QUE 
+
+um querySelector padrão...
+
+
+
+----------------------------------------------
+
+
+
+
+
+RESULTADO DA TROCA:
+
+
+
+
+
+
+import { updateProducts } from './rendering';
+import { products } from './products';
+
+
+    const titleEl = document.getElementById('title'); /////eis o código em questão. 
+    const priceEl = document.getElementById('price');
+
+
+
+
+export function addProduct(event) {
+
+
+  const title = titleEl.value;
+  const price = priceEl.value;
+
+  if (title.trim().length === 0 || price.trim().length === 0 || +price < 0) {
+    alert('Please enter some valid input values for title and price.');
+    return;
+  }
+
+  const newProduct = {
+    id: new Date().toString(),
+    title: title,
+    price: price
+  };
+
+  products.unshift(newProduct);
+  updateProducts(newProduct, newProduct.id, deleteProduct, true);
+}
+
+
+---------------------------------------------------
+
+
+
+
+
+
+CERTO... ISSO FEITO, 
+
+lá embaixo 
+
+
+em 
+
+
+'addProduct',
+
+tudo continua a mesma coisa...
+
+nossos valores ('.value') ainda são 
+
+RETRIEVADOS com sucesso....
+
+nossa validation também 
+
+
+ainda ocorre... 
+
+
+
+
+MAS AGORA O CÓDIGO ESTÁ UM POUCO MELHORADO... --->  mas você SEMPRE DEVE TER CUIDADO COM SUAS 
+
+OPTIMIZAÇÕES...

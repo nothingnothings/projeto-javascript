@@ -1,0 +1,81 @@
+
+
+
+
+
+
+
+
+Antes de mergulharmos em tópicos mais complexos de javascript,
+
+
+
+
+
+
+
+
+
+
+
+
+É HORA DE PRATICAR A PROGRAMACAO COM CLASSES E 
+
+COM 'oop'.
+
+
+
+
+
+
+ESSE MÓDULO É OPCIONAL, mas é bom 
+
+
+
+estudá-lo.
+
+
+
+
+
+
+
+O PRÓXIMO MÓDULO UTILIZARÁ O APLICATIVO DESTE MÓDULO.....
+
+
+
+-------------------------------------------------------
+
+
+
+
+
+Nesse módulo, trabalharemos em um pequeno aplicativo.....
+
+
+
+
+
+Escrevemos o codigo do projeto rapidamente....
+
+
+
+
+Trabalharemos com app.js.
+
+
+Faremos com que  
+
+
+
+SEJA POSSÍVEL CLICAR NAS OPCOES ALI DE CIMA ('Finish' em 'finish the course', por exemplo).
+
+
+ISSO FARÁ COM QUE OS ITEMS/ELEMENTOS/CAIXAS SEJAM ENVIADOS LA PARA 
+
+BAIXO; ou seja, os active projects serao enviados à caixa 
+de 'finished projects'.
+
+
+
+Mtas oportunidades para praticar as coisas que aprendemos até o momento.

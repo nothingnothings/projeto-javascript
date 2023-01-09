@@ -1,0 +1,704 @@
+
+
+
+
+"O QUE É BROWSER STORAGE"?
+
+
+
+
+
+
+
+
+
+
+
+----> Como o professor mencionou, nós temos 
+
+
+O BROWSER e um SERVIDOR...
+
+
+
+
+
+BROWSER                         SERVER 
+
+
+
+
+
+
+
+
+
+ESSAS SÃO AS 2 PARTES/PEDAÇOS QUE GERALMENTE INTERAGEM QUANDO ESTAMOS DANDO 
+
+'SERVE' EM UMA WEBPAGE......
+
+
+
+A webpage RODA NO BROWSER, mas ela é essencialmente SERVIDA/RODADA por um servidor...
+
+
+
+E a grande maioria das web applications TAMBÉM _____CONVERSA_____ COM UM SERVIDOR:
+
+
+a) POR TRÁS DAS CENAS, POR MEIO DO JAVASCRIPT CODE 
+
+
+
+
+b) POR MEIO DE USO DO COMPORTAMENTO DEFAULT DO BROWSER  -----> POR EXEMPLO,
+ VOCÊ PODE SUBMITTAR UMA FORM, O QUE FARÁ COM QUE O REQUEST SEJA AUTOMATICAMENTE ENVIADO
+AO/ A UM SERVIDOR...
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+---------> O SERVER, POR SUA VEZ, TEM UMA "SERVER-SIDE DATABASE" em que 
+            DADOS PODEM SER ARMAZENADOS...
+
+            (Store essential e persistent data)
+
+
+
+---------------------------------------------------------
+
+
+
+-----> MAS O BROWSER TAMBÉM TEM UNS MECANISMOS DE STORAGE DE DADOS....
+
+
+(Store temporary, "convenience" data)
+
+Na verdade, ele tem um punhado deles, ele tem:
+
+
+
+
+
+a) LocalStorage, sessionStorage
+
+
+b) Cookies 
+
+
+
+c) IndexedDb
+
+
+
+--------------------------------------------------
+
+
+
+(browser)
+
+
+
+a) LocalStorage, sessionStorage
+
+
+b) Cookies 
+
+
+
+c) IndexedDb
+
+
+
+
+
+VS 
+
+
+
+
+
+(SERVER)
+
+
+
+
+
+-) SERVER-SIDE DATABASE.
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+Agora, porém, devemos ver os dois lados EM DETALHE.
+
+
+
+
+No 
+
+
+'server-side', 
+
+
+
+os dados que enviamos ao servidor POR MEIO DE UM 
+
+HTTP REQUEST SÃO TIPICAMENTE 'essential data"...
+
+
+SÃO DADOS QUE PRECISAM 'persistir'... ----> 
+
+
+SÃO OS DADOS QUE TIPICAMENTE QUEREMOS 'LOCK AWAY FROM THE USERS', MANTER 
+
+LONGE DO ACESSO DO USUÁRIO COMUM. ------>
+
+
+ex: LISTA DE TODOS OS USUÁRIOS, COM INFORMAÇÕES DE EMAIL,
+CARTÃO DE CRÉDITO, etc etc. 
+
+
+
+----------------> ISSO TUDO TEM QUE SER ARMAZENADO EM UM SERVIDOR CENTRAL.
+
+
+
+----------------------------------------
+
+
+
+
+
+Já quando nós armazenamos DADOS NO BROWSER, nós estamos efetivamente 
+
+ARMAZENANDO DADOS __NA MÁQUINA__ DO NOSSO USUÁRIO, no pc dele.
+
+
+
+
+A implicação disso é que:
+
+
+
+A) esses dados são dados que nós, desenvolvedores, não podemos sempre 'usar'/'tap into'...
+------> NÓS APENAS PODEMOS 'TAP INTO' nesse código QUANDO O USUÁRIO VISITA/ESTIVER VISITANDO A 
+NOSSA PÁGINA... ---> quando isso acontece, podemos USAR O CÓDIGO JAVASCRIPT 
+PARA ___INTERAGIR___ COM O BROWSER STORAGE DO USUÁRIO... ------------------------> RESUMO: OS DADOS DO BROWSER NÃO FICA SEMPRE DISPONÍVEL A NÓS.
+
+
+
+
+B) Os dados de browser NÃO SÃO CAPAZES DE SER COMPARTILHADOS COM OUTROS USUÁRIOS...
+
+
+
+
+
+Como pode-se observar, o 'browser storage' É BEM LIMITADO EM CENÁRIOS 
+
+
+EM QUE ESSA LIMITAÇÃO FAZ SENTIDO....
+
+
+
+
+EX:
+
+
+você está construindo uma LOJA ONLINE. É óbvio que vocÊ 
+
+NÃO VAI ARMAZENAR OS PRODUTOS/PEDIDOS/coisa do gênero 
+
+
+__NO BROWSER___... você não vai fazer isso 
+
+PORQUE VOCê 
+
+PRECISA COMPARTILHAR OS PRODUTOS COM OS OUTROS USUÁRIOS, 
+
+COM TODOS OS USUÁRIOS DE SEU APLICATIVO... ----> É POR ISSO 
+
+QUE DADOS COMO ESSES PRECISAM SER ARMAZENADOS ___EM SERVIDORES__, NO SEU SERVIDOR.
+
+
+
+
+OS ____PEDIDOS___, é claro, pertencem a um único usuário, 
+
+MAS VOCê, COMO DONO DA LOJA, TAMBÉM PRECISA DE ACESSO A ELES PARA QUE VOCÊ 
+
+POSSA CUMPRÍ-LOS... (fulfill them), e é por isso que esses pedidos TAMBÉM 
+
+SERIAM/SÃO ARMAZENADOS EM UMA 'SERVER-SIDE DATABASE'.
+
+
+
+
+
+
+
+---------->>>>>>>>> ENTRETANTO, HÁ ALGO QUE VOCÊ PODERIA/PODE CONSIDERAR COMO 
+
+CAPAZ/BOM DE SER ARMZENADO NO BROWSER... é o exemplo 
+
+óbvio do 
+
+SHOPPING CART....
+
+
+O shopping cart atual do usuário pode, sim, ser armazenado no browser sem maiores problemas,
+
+POIS ISSO APENAS IMPORTA ÀQUELE USUÁRIO, e é algo 
+
+QUE VOCÊ NÃO PRECISA ARMAZENAR NO SEU SERVIDOR (se você não estiver rodando ALGUM
+'analytics', ou algo do gênero... se vocÊ não estiver usando essa feature para 
+
+analisar dados, probabilística, você pode SIMPLESMENTE ARMAZENAR ESSES DADOS 
+NO LUGAR EM QUE O USUÁRIO ESTÁ, OU SEJA, NO SEU BROWSER.)....
+
+
+
+
+------------------------------
+
+
+
+
+
+
+---> O mesmo se aplica para 'AUTHENTICATION DATA', como uma SESSION ID...
+
+
+Session IDS também podem ser armazenadas em browsers...
+
+
+
+
+
+
+
+
+DADOS TEMPORÁRIOS/'CONVENIENCE DATA', dados que podem MELHORAR A USER EXPERIENCE MAS 
+
+QUE NÃO SÃO ESSENCIAIS a seu 'offering' inteiro.
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+Quando falamos de browser storage, temos TRÊS GRANDES ESPÉCIES.
+
+
+
+
+
+
+
+a) localStorage e sessionStorage (estão relacionados)
+
+
+
+
+
+b) Cookies 
+
+
+
+
+c) IndexedDB
+
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+Quais as diferenças entre os 3?
+
+
+
+
+
+
+
+
+
+LocalStorage e sessionStorage ----> É UM SIMPLES 'KEY-VALUE STORE'...   ('a simple key-value store').....
+
+
+
+
+É QUASE COMO UM OBJETO JAVASCRIPT, o qual SALVAMOS EM UM ARQUIVO.
+
+
+
+
+
+É basicamente um punhado de KEY-VALUE pairs...
+
+
+
+
+
+VOCÊ PODE USAR ISSO PARA, POR EXEMPLO, ARMAZENAR A 'SESSION ID' de um 
+usuário...
+
+
+
+Pode usar também para ARMAZENAR UMA 'ANALYTICS KEY' (uma analytics key que você 
+pode precisar PARA ENVIAR AO SEU ANALYTICS SERVER, etc etc.)...
+
+
+
+
+
+Ou seja, você tipicamente usa 'localStorage' para GERENCIAR PREFERÊNCIAS DO USUÁRIO, 
+ou dados básicos do usuário.
+
+
+('MANAGE USER PREFERENCES OR BASIC USER-DATA').
+
+
+
+
+
+
+
+VOCÊ PODE 'TAP INTO' a local storage SOMENTE COM A AJUDA DE JAVASCRIPT...
+
+NADA MAIS TE DEIXA 'TAP INTO' NA LOCAL STORAGE, só o javascript.
+
+
+APENAS O CÓDIGO JAVASCRIPT QUE RODA NO BROWSER É CAPAZ 
+
+DE SE COMUNICAR COM O 'LocalStorage' E O 'sessionStorage'...
+
+
+
+
+------> esse tipo de storage É BEM SIMPLES DE USAR, BEM VERSÁTIL, mas é 
+
+claro que É RUIM PARA DADOS COMPLEXOS, pois é APENAS UM STORE DE KEY VALUE (um armazenamento simples de 'key-value' pair.)...
+
+----> ISSO SIGNIFICA QUE, SE VOCÊ ESTIVESSE CONSTRUINDO UM APLICATIVO
+RICO COMO O 'GOOGLE SHEETS', por exemplo, EM QUE É NECESSÁRIO ARMAZENAR UM MONTE 
+
+DE DADOS COMPLEXOS NO BROWSER também, ESSA OPÇÃO DE 
+
+'localStorage' e 'sessionStorage' NÃO É UMA OPÇÃO RECOMENDADA.
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+OUTRO BROWSER STORAGE RELATIVAMENTE COMUM E SIMPLES É O FORMATO DOS 
+
+
+'COOKIES'...
+
+
+
+
+
+----> cookies TAMBÉM SÃO KEY-VALUE PAIRS, no final das contas.
+
+
+(         Simple key-value store 
+            (some config options )         )
+
+
+
+
+
+------------> APESAR DE SEREM SIMPLES KEY-VALUE PAIRS, nós podemos CONFIGURÁ-LOS de 
+
+diversas maneiras... por exemplo,
+
+podemos colocar uma definição em um cookie PARA QUE ELE ____EXPIRE___ EM ALGUM MOMENTO NO FUTURO, o que 
+
+fará com que ele seja automaticamente deletado quando o momento definido chegar.
+
+(OBS: PARA 'LOCAL STORAGE', NÓS TAMBÉM PODEMOS DELETAR DADOS COMO FAZEMOS COM COOKIES, MAS 
+
+EM 'LOCAL STORAGE' PRECISAMOS FAZER ISSO MANUALMENTE POR MEIO DO JAVASCRIPT....
+
+
+
+Já por meio dos cookies, podemos definir ESSA DELEÇÃO/DELETION COMO UMA ____OPÇÃO___ 
+EM UMA DE NOSSAS ENTRIES/key-value pairs.... )....
+
+
+
+
+
+
+
+Como COOKIES ainda são relativamente simples, também podemos os utilizar 
+
+
+PARA GERENCIAR PREFERÊNCIAS BÁSICAS, SESSION ID, 
+
+coisas do gênero.
+
+
+('Manage user preferences or basic user data ----- igual ao 'localStorage' e 'sessionStorage'.)...
+
+
+
+POR FIM, 
+
+
+TAMBÉM PODEMOS ACESSAR E LIMPAR COOKIES POR MEIO DA AÇÃO DO USUÁRIO, 
+
+OU PELO JAVASCRIPT...  (da mesma forma que o 'localStorage' e o 'sessionStorage' também podem.)......
+
+
+
+
+
+
+-------> O USUÁRIO TAMBÉM PODE LIMPAR TODOS ESSES DADOS, TANTO POR MEIO DO DEVELOPER TOOLS COMO 
+
+POR MEIO DAS SETTINGS DO BROWSER....
+
+'clear all local data' ----> ISSO É POSSÍVEL.
+
+
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+A diferença dos cookies para os local e session storages É QUE 
+
+O COOKIE É UM POUCO MAIS 
+
+
+
+____CLUNKY_____ de usar do que eles...........
+
+
+OS COOKIES NÃO TEM UMA API TÃO LEGAL QUANTO a do local e sessionStorage...
+
+
+PORÉM, É TÃO VERSÁTIL QUANTO ESSES SEUS PRIMOS 'STORAGE', talvez até UM POUCO MAIS,
+
+POIS VOCÊ PODE DEFINIR 'EXPIRACY DATES' (datas de expiramento) PARA 
+
+OS COOKIES.....
+
+
+
+
+
+
+MAS UMA DISTINÇÃO CHAVE DOS COOKIES É O FATO DE QUE ELES SÃO SEMPRE 
+
+ENVIADOS ___AO SERVER___ por meio de OUTGOING HTTP REQUESTS....
+                                        (isso não existe com 'local storage' e 'sessionStorage'...)
+
+
+
+
+ISSO SIGNIFICA QUE COOKIES PODEM SER LIDOS 
+
+PELO SERVIDOR, e os session e localStorages, NÃO.
+
+
+
+
+
+
+
+PODEM SER LIDOS PELO SERVIDOR PQ ELES SÃO ANEXADOS 
+
+A OUTGOING HTTP REQUESTS... , SÃO SEMPRE ANEXADOS ___NOS HEADERS_____ DOS HTTP REQUESTS....
+
+
+
+
+(
+
+
+    'A bit clunky to use, quite versatile, sent to server, bad for complex data'
+
+)
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+ASSIM COMO O LOCAL E SESSION STORAGE, 
+
+
+OS COOKIES NÃO SÃO BONS PARA 
+
+O STORAGE DE DADOS MAIS COMPLEXOS, POIS APENAS LIDAM 
+
+COM KEY-VALUE PAIRS...
+
+
+
+--------------------------------------
+
+
+
+
+
+
+AGORA TEMOS O 'INDEXedDB'
+
+
+
+
+
+indexedDB é o MECANISMO DE STORAGE MAIS SOFISTICADO DENTRE TODOS ESSES QUE ESTAMOS VENDO.
+
+
+
+
+É UMA 'CLIENT SIDE DATABASE', no final das contas, BUILTIN NO BROWSER, com 
+
+o qual você pode USAR COM 
+
+
+UMA LINGUAGEM DE 'QUERY'.... (query language).....
+
+
+
+
+VOCÊ PODE RODAR QUERIES MAIS OU MENOS COMPLEXOS contra o indexedDB,
+
+
+
+você pode GERENCIAR DADOS COMPLEXOS DENTRO DO INDEXEDDB, porque ele 
+
+deixa você ter MÚLTIPLAS TABELAS, com 'records' que são conectados e assim por diante....
+
+
+
+
+
+
+VOCÊ PODE ACESSAR O 'INDEXEDDB' por meio DO JAVASCRIPT.
+
+
+
+
+Você também pode DAR CLEAR no indexedDB por meio do javascript, 
+
+e, assim como TODOS OS BROWSER-SIDE STORAGES, o USUÁRIO SEMPRE PODE LIMPAR 
+
+
+E APAGAR TODOS ESSES DADOS COM UM CLIQUE DE UM BOTÃO, COM UMA FUÇADA NAS PREFERENCIAS DO BROWSER.
+
+
+
+
+EM RAZÃO DISSO, DESSA FACILIDADE DE APAGAR OS DADOS, ESSAS ESPÉCIES DE STORAGE NUNCA DEVERÃO 
+
+SER STORAGES EM QUE VOCê ___''CONFIA''___ (RELY ON).
+
+
+
+
+Você pode, é claro, utilizá-las PARA MELHORAR A USER EXPERIENCE DO SEU SITE,
+
+
+MAS VOCÊ TEM QUE VIVER COM O FATO DE QUE 
+
+__SEU USUÁRIO____ SEMPRE PODE___ LIMPAR ___ ESSES STORAGES___.
+
+
+
+
+
+
+
+INDEXEDDB, POR SUA VEZ, TAMBÉM É MEIO CLUNKY DE USAR....
+
+
+ 
+INDEXEDDB TEM UMA JAVASCRIPT API, MAS ELA É MEIO IRRITANTE...
+
+Mas é excelente para dados COMPLEXOS e NÃO-CRÍTICOS.
+
+
+
+Possui boa performance, por isso é MUITO BOA EM CASOS EM QUE VOCÊ 
+
+TRABALHA COM DADOS COMPLEXOS, em aplicativos que utilizam/trabalham com dados complexos.
+
+
+
+
+
+----> entretanto, cabe ressaltar que o professor fala aqui de CLIENTSIDE applications RICAS,
+
+Coisas absurdas, como 'google sheets' e assim por diante....
+
+
+CASOS EM QUE VOCÊ CONSTRÓI 
+
+UM APLICATIVO 'DESKTOP-LEVEL' DENTRO DO BROWSER... 
+
+
+Casos em que você tem que usar MUITOS DADOS TEMPORÁRIOS/SEMI-TEMPORÁRIOS em algum 
+
+storage no browser, casos em que VOCÊ REALMENTE QUER QUE OS DADOS DE SEU APLICATIVO 
+FIQUEM ARMAZENADOS NO BROWSER DO USUÁRIO, e não em um servidor externo, talvez para que 
+
+O APLICATIVO SEJA CAPAZ DE FUNCIONAR OFFLINE, etc etc.
+
+
+ex: WORD ONLINE.
+
+
+
+IndexedDB, portanto, é bem raro.
+-----------------------------------------------

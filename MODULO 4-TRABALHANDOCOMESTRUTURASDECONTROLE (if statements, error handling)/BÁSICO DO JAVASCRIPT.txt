@@ -1,0 +1,691 @@
+
+DIVE INTO CORE SYNTAX -> como escrever código javascript válido
+
+
+
+ENTENDENDO VARIÁVEIS E DATA TYPES, COMO OS USAMOS EM NOSSOS PROGRAMAS->
+
+
+
+
+TRABALHANDO COM OPERADORES (OPERATORS), CALCULATIONS, EXECUTAR CÓDIGO 
+POR MEIO DA COMBINAÇÃO DE VALORES
+
+
+EXPLORAREMOS AS FUNÇÕES, UM CONSTRUCT IMPORTANTE DE LINGUAGENS QUE É USADO
+EM PRATICAMENTE TODAS AS LINGUAGENS DE PROGRAMAÇÃO.
+
+
+
+
+
+
+
+
+
+
+
+**você --pode-- colocar código javascript dentro do arquivo HTML, dentro da tag <script></script>, mas isso não é recomendado, 
+pois o arquivo ficará muito grande e difícil de mexer. Não é prático, a não ser que o script seja muito curto. O mais recomendado é importar
+um script por meio de src.
+
+
+
+
+
+
+VARIÁVEIS E CONSTANTES ---> ex de variável:
+
+
+let userName = 'Max';  
+
+
+    VARIÁVEL = É UM DATA CONTAINER, OU UM DATA STORAGE. Na maior parte dos programas que você 
+    escreverá, você trabalhará com data, seja um usuário inputtado pelo usuário, que "trava" o usuário no aplicativo,
+    seja uma calculadora, que armazena o resultado mais recente/final e o número que o usuário acabou de inputtar. Variáveis são
+    valores que são necessários para funcionar corretamente. A calculadora precisa o valor antigo inputtado e o valor mais recente inputtado,
+    que serão somados para extrair o resultado final (current result).
+
+
+    precisamos, então, de 2 variáveis para conseguir a terceira. 
+
+
+
+    Variáveis são criadas em javascript com a LET keyword.
+
+
+    ex:         let userName = 'Max';
+
+    let (nome de sua escolha)
+            userName = 'Max';  (Valor que você quer armazenar na variável).
+
+            Uma vez que uma variável é criada, você sempre pode reassigná-la e colocar
+            outro valor em seu interior. É VARIÁVEL PORQUE SEU VALOR PODE MUDAR/FREQUENTEMENTE MUDA. É UM DATA CONTAINER EM QUE O SEU CONTEÚDO PODE MUDAR.
+
+            ex:
+
+            userName = 'Manu';
+
+
+    IMPORTANTE: VOCÊ SÓ PRECISA DA KEYWORD LET, EM JAVASCRIPT, PARA A PRIMEIRA VEZ QUE VOCÊ MENCIONA A VARIÁVEL (QUANDO VOCÊ A INTRODUZ NO CÓDIGO),
+    NAS VEZES SUBSEQUENTES VOCÊ PODE OMITÍ-LA.
+
+
+
+
+    HÁ TAMBÉM UMA OUTRA FORMA DE VARIABLE, UMA FORMA MUITO IMPORTANTE, AS CONSTANTES.
+
+
+    CONSTANTS.
+
+
+
+    ex: você tem uma quantidade de usuários total em seu aplicativo que é fixa. 15 pessoas, não pode exceder isso.
+    Criamos essa constante com a fórmula:
+
+    const totalUsers = 15;
+            (nome da constante)
+
+
+            ---------> o importante das constantes é que você NÃO pode mudar o seu valor;
+            você não pode fazer, por exemplo, uma const totalUsers = 15;
+            e depois tentar mexer nela com
+
+            totalUsers = 20; ---------> isso resultará em um erro.
+
+
+
+            ...mas... por que armazenar um valor em uma variável, se ela não pode mudar?
+            uma variável sem variação, qual é sua utilidade?
+
+            A resposta é que, às vezes, no seu código, você tem valores que nunca mudam que VOCÊ
+            ainda quer armazenar em um data container para que você possa iniciá-los em um lugar central,
+            digamos o início do documento, e então usá-los ao longo do seu programa, talvez utilizar a mesma
+            constante em múltiplos lugares diferentes múltiplas vezes para que você sempre referencie-se à mesma 
+            constante e não tenha que mudá-la em 10 lugares diferentes, evitar perdas de tempo desnecessárias; você
+            muda o valor em apenas um lugar e ele afeta o documento/código inteiro.
+
+
+
+
+            DICA: VOCÊ TIPICAMENTE VAI QUERER USAR CONSTANTES COM A MAIOR FREQUÊNCIA POSSÍVEL, O QUE PODE PARECER
+            ESTRANHO EM UM PRIMEIRO MOMENTO, PORQUE ELAS SÃO RESTRITIVAS, RESTRITAM AQUILO QUE VOCÊ PODE FAZER COM
+            ELE, VOCÊ NÃO PODE MUDÁ-LAS TÃO FACILMENTE, MAS ISSO É BOM, PORQUE FAZ SUAS INTENÇÕES FICAREM BEM MAIS CLARAS
+            PARA OS DESENVOLVEDORES QUE LEREM SEU CÓDIGO NO FUTURO; OUTRAS PESSOAS CONSEGUIRÃO ENTENDER SEU CÓDIGO MAIS FÁCILMENTE,
+            ENTENDERÃO QUE AQUELA VARIÁVEL NUNCA DEVE MUDAR.
+
+
+
+
+
+
+
+            DENOMINAÇÃO DE VARIÁVEIS:
+
+ALGUNS NOMES SÃO PERMITIDOS; JÁ OUTROS, NÃO.
+
+
+
+
+PERMITIDOS:
+JAVASCRIPT É CASE SENSITIVE.
+camelCase
+(inicial minúscula, apenas uma palavra mas
+com cada inicial no meio do negócio com letra maiúscula).
+
+
+EX:
+let userName
+
+é um bom nome, porque também descreve
+qual tipo de informação que a variável 
+armazenará; aqui, ela armazenará o nome
+do usuário. Não ficaria bom "whatTheUserEntered",
+apesar de estar correta, pois isso seria muito vago (não
+sabemos se o cara colocou uma senha, se colocou um username, se
+colocou uma data, etc...)
+
+javascript diferencia entre Username e userName. (letras maiúsculas importam.)
+
+
+outro exemplo de bom nome:
+
+let ageGroup5 (nomes de variáveis pode incluir letras e dígitos)
+
+let $kindOfSpecial (você pode usar $, até mesmo no início da variável. Isso é permitido)
+
+
+let _internalValue (nomes que começa com _ são permitidos, e com _ no meio também são permitidos, apesar de não serem recomendados.)
+
+
+
+
+NÃO PERMITIDOS/NÃO RECOMENDADOS.
+
+
+let user_name -----> convenção chamada snake_case; é permitida, mas é uma prática não recomendada. É a linguagem do phyton.
+
+
+let 21Players ----> você NÃO PODE começar variáveis com dígitos.
+
+
+let user-b -----> você pode usar dollar signs e underscore no início da variável, mas você não pode usar
+outros carácteres especiais, tanto no início quanto em qualquer outro lugar do nome.
+
+
+let let -----> usar as próprias keywords como nome não é permitido. Buga a máquina.
+
+
+
+
+
+
+QUE TIPOS DE DATA TYPES SÃO DISPONÍVEIS A VOCÊ?
+
+
+
+NÚMEROS --> NORMAIS, DECIMAIS, NEGATIVOS, ETC.           IMPORTANTE---> NÚMEROS COM DECIMAIS SÃO CHAMADOS "FLOATS" ou "FLOATING POINTS".
+                                                                ----->NÚMEROS INTEIROS SÃO CHAMADOS "INTEGERS". (INTEGRAIS)
+
+
+
+**VOCÊ USA NÚMEROS QUANDO VOCÊ PRECISA DE CÁLCULOS E QUANDO VOCÊ PRECISA TRABALHAR COM UM NÚMERO.
+TIPICAMENTE, ISSO NECESSITA DE MUITO CÓDIGO.
+
+
+
+
+
+TEXTO ---> às vezes temos que trabalhar com texto; enviar uma mensagem ao usuário, pegar o seu username, etc.
+
+
+
+**texto é chamado de STRINGS. string = "text/type".  strings são escritas com 'string'.  `string` é a marcação espcial.
+
+**são importantes para outputtar resultados, gather inputs, etc.
+
+
+
+
+
+
+
+COMO UM SCRIPT É EXECUTADO:
+
+
+
+O CÓDIGO JAVASCRIPT É SEMPRE EXECUTADO DE CIMA PARA BAIXO. NA VERDADE, SEU CÓDIGO HTML É PARSEADO
+DE CIMA PARA BAIXO, E SEU CÓDIGO JAVASCRIPT É TAMBÉM SEMPRE ANALISADO, COMPILADO E EXECUTADO DE CIMA PARA BAIXO.
+
+
+ex: 
+
+
+let currentResult = 0
+
+currentResult = 3
+
+let calculationDescription = (currentResult + 10);
+
+
+
+----->a variável currentResult utilizada em calculationDescription será de valor 3, e não 0, porque o código é lido
+de cima para baixo, e a segunda definição da variável dá overwrite na primeira. Para conseguirmos 0 nesse exemplo, poderíamos ou trocar a linha 2 e 3 
+de lugar:
+
+EX:
+
+let currentResult = 0
+
+let calculationDescription = (currentResult + 10);
+
+currentResult = 3
+
+
+OU, assignar o valor 0 a outra constante, diversa.
+
+ex:
+
+let currentResult2 = 0
+
+let calculationResult = 3
+
+let calculationDescription = (currentResult + 10);
+
+calculation description = (currentResult2 - 10)
+
+                        (aqui, o valor currentResult2 ainda seria 0.)
+
+
+
+OUTRA alternativa seria criar uma constante e UTILIZÁ-LA EM UMA VARIÁVEL (sim, isso é permitido):
+
+ex:
+
+
+const defaultResult = 0;   //valor que nunca mudará.
+
+let currentResult = defaultResult;    //variável definida com o valor de outra variável/constante.
+
+
+currentResult = (currentResult + 10) * 3 / 2 - 1;
+
+
+
+let calculationDescription = '(' + currentResult + ' + 10) * 3 / 2 - 1;
+
+outputResult(currentResult, calculationDescription);
+
+
+
+
+IMPORTANTE: você não pode substituir o currentResult na linha 3-esquerda pela constante defaultResult; isso é porque
+constantes, ao contrário de variáveis, nunca podem mudar. Se fizer isso, o código quebra e não funciona mais, e mostrará
+0 no campo do resultado (0, o conteúdo inicialmente hard-codeado na página HTML).
+
+
+ex do fracasso:
+
+
+const defaultResult = 0;   //valor que nunca mudará.
+
+let currentResult = defaultResult;    //variável definida com o valor de outra variável/constante.
+
+
+defaultResult = (currentResult + 10) * 3 / 2 - 1;  //eis aqui o erro. O erro chama-se Uncaught TypeError: Assignment to constant variable.
+
+
+
+let calculationDescription = '(' + currentResult + ' + 10) * 3 / 2 - 1;
+
+outputResult(currentResult, calculationDescription);
+
+
+
+
+
+IMPORTANTE: AINDA QUE PAREÇA QUE A CONSTANTE FOI MUDADA AO LONGO DAS MUITAS LINHAS DE CÓDIGO, É IMPORTANTE RESSALTAR QUE ELA 
+NÃO (REPITO: NÃO) FOI MUDADA, ELA CONTINUA A MESMA, AINDA QUE ISSO PAREÇA DIFERENTE NO CÓDIGO. A VARIÁVEL NA segunda
+LINHA APENAS COPIA O VALOR DA CONSTANTE, NÃO É COMO SE ELA MUDASSE O VALOR DA MESMA/VIRASSE ELA. simples função de cópia do valor.
+
+
+
+
+
+
+
+
+
+
+QUANTO A STRINGS:
+
+
+se você quiser que ' apareça no código, ou ", faça wrap dela em outro tipo de quote notation.
+
+ex:
+
+(resultado que quero)
+       'cu' ----->   "'cu'" -----> 'cu' ---------> assim, faço os quotes aparecerem no texto final, no display da página.
+
+
+        "cu" ------> '"cu"'-----> "cu"    -----------> ------> mesma coisa.
+
+
+
+
+REESTRUTURAÇÃO DO CÓDIGO APP.JS:
+
+
+Professor quer mudar a estrutura da linha de código
+
+let calculationDescription = '(' + defaultResult + ' + 10) * 3 / 2 -1; -----> construímos uma string aqui composta de 2 pedaços de string com uma variável/valor/consante no meio.
+
+AQUI NESSES CASOS, VOCÊ PODE USAR BACK-TAKES (````) EM VEZ DE QUOTES:
+
+                                                                                livre-se de todos outros quotes que você usou, e substitua o último quote por um backtick, que fecha a string.
+
+       `(defaultResult + 10) * 3 / 2 - 1`;
+
+
+
+
+
+// O PROFESSOR FEZ ISSO PORQUE BACKTICKS TE DÃO ACESSO À UMA SINTAXE ESPECIAL:
+                    // VOCÊ PODE AGORA USAR UM DOLLAR SIGN ANTES DO DEFAULTRESULT E UMA CURLYBRACE DEPOIS DELE, ONDE PODEMOS COLOCAR NOSSA VARIÁVEL OU QUALQUER OUTRA EXPRESSÃO QUE PODE SER OUTPUTTADA COMO TEXTO.
+                                                                                                                                                        // (poderiámos colocar ${1 + 1}, por exemplo.)
+                    //O que isso faz é mandar javascript a outputtar o valor que está nesta constante neste lugar (o espaço entre os curlybraces) do seu texto. No caso, será 0.
+                    // função = ${valordavariável/valoraleatório}
+                    // essa função só funciona com backticks, single e doublequotes não permitem, mostram a fórmula como texto e não usam o negócio de demonstrar o valor.
+                    // A função ${} é ótimo se você quer/precisa embed ou injetar valores dinâmicos (resultado de algum cálculo ou o valor que
+                    // está armazenado em uma variável)   em um texto/string qualquer que você quer dar display.
+                    // É útil porque economiza tempo e código, você não precisa manualmente selecionar os elementos que quer que sejam apresentados como texto com '' e "".
+                    // evita o manual string concatenation com "", '' e +.
+
+                    //o nome desse CONSTRUCT, desse pedaço de sintaxe, que usamos aqui é chamado "template literal", no google há mais exemplos disso.
+                    // essa é a forma mais básica e útil de utilizá-lo, pois é muito comum que você tenha que injetar esses valores dinâmicos em textos estáticos.
+
+
+
+                    //uma coisa muito conveniente dos TEMPLATE LIBERALS é que você pode facilmente escrever strings de múltiplas linhas dentro deles. Elas ajudam visualmente, pois não fica tudo em uma mesma linha embolada.
+                    // exemplo visual:
+                    //
+                    //
+                    //              let calculationDescription = "(defaultResult + 10)      
+
+                    //                      (continua embaixo)
+                    //                      * 3 / 2 - 1;"      ---------------------------------> NÃO É PERMITIDO. USO DE '' OU "" E LINE BREAKS NÃO SÃO COMPATÍVEIS (TUDO TÊM DE SER NA MESMA LINHA).
+                    //              
+                    //
+                    //
+                    //             let calculationDescription = `(${defaultResult} + 10)
+
+                    //                      (continua embaixo)
+                    //                      * 3 / 2 - 1`; --------------------------------------------> PERMITIDO. COM BACK TICKS, PODEMOS TER LINE BRAKES NO MEIO DA AFIRMATIVA QUE INPUTTAMOS NO JAVASCRIPT. O ESPAÇO EM BRANCO APARECE, SIM, NO RESULTADO DO DOCUMENTO HTML FINAL. É O BROWSER QUE RETIRA ESSE ESPAÇO BRANCO EXCESSIVO; PORÉM, HÁ CASOS DE ESTILIZAÇÃO EM QUE O ESPAÇO BRANCO IRÁ APARECER.
+                    //                                                                                                                                                                                                                                                                                         (ex: propriedade de CSS white-space: pre; faz aparecer o pedação em branco, porque esse comando faz os espaços em branco transparecerem.)                                                         
+                    //                      SEMPRE TENHA EM MENTE QUE ESSA COISA DE ESCREVER O CÓDIGO EM MÚLTIPLAS LINHAS NÃO É APENAS "VISUAL", ELA TEM EFEITOS NO CÓDIGO TAMBÉM, PRINCIPALMENTE QUANDO MEXEMOS COM ESTILOS DE CSS.
+                    //                       APENAS USE LINE BREAK OU EXTRA WHITESPACE FEATURE SE VOCÊ QUISER REALMENTE QUER QUE TENHA ESSE ESPAÇO EM BRANCO, NÃO O FAÇA APENAS PARA MELHORAR A READABILITY.
+
+
+
+
+
+
+
+
+                     //realmente não precisamos de mensagens de erro nesse site-calculadora, mas colocamos uma aqui mesmo assim apenas para demonstrar como trabalhamos com strings normais, e não strings TEMPLATE LITERAL.
+                    //se você quiser que a mensagem seja mostrada em múltiplas linhas (2), você tem duas opções: ou separar as duas partes com '' e então uní-las com o operador + e com um espaço logo depois para dar o espaço. (essa opção não os divide de verdade, apenas os divide no código, no display final da página, as duas partes continuam juntas, e não há espaço branco entre elas. ); 
+                    //---> ex: 
+                    //                  let errorMessage = 'An error' +
+                    //                                    'has occurred';
+                    //
+                    //
+                    // Isso é código javascript válido; você pode fazer span de expressões que usam operadores ao longo de múltiplas linhas. Isso é possível aqui tanto para operações matemáticas, quanto para concatenated strings com o + operator.
+
+                    //SEGUNDA OPÇÃO, a opção que realmente adiciona um espaço em branco entre os valores/mensagens e as separa; isso é possível com um carácter/combinação de carácteres especial:
+                    //   é a combinação   \n -----> o display final da página não irá tratar essa combinação \n como \n, mas sim como um line break. Depois adicionamos o operador + para unir as 2 strings de texto.
+                    //então, com esse "backslash n" você pode adicionar um linebreak no meio de uma string não importando se você está usando quote ou double quotes.
+                    //   \n também é suportado no template liberal, mas lá naquele modelo ele não é necessário, porque você pode simplesmente criar um simples linebreak comum no meio do código.
+                    let errorMessage = 'An error \n' +
+                                    'has occurred!';
+ 
+
+
+        You can use the + operator to append multiple strings together, like this:
+
+let longString = "This is a very long string which needs " +
+                 "to wrap across multiple lines because " +
+                 "otherwise my code is unreadable."
+
+
+
+
+                 let longString = "This is a very long string which needs \
+to wrap across multiple lines because \
+otherwise my code is unreadable."
+
+
+(seu resultado é o mesmo do anterior, mas com o uso de backslash.)
+
+
+
+
+
+
+
+
+//precisamos de uma nova feature da linguagem, que seria a figura da FUNÇÃO.
+
+
+
+funções seriam "code on demand", uma função seria um construct de linguagem que você não tem em apenas javascript, mas 
+também em outras linguagens de programação que te permite definir um pedaço de código que você então executa em um ponto futuro no tempo.
+
+fórmula de um código javascript:
+
+
+
+(keyword
+obrigatória )    (nome que você quiser)
+function    --            greetUser          ---        (name)                                                                              {alert('hi ' + name);}
+                                      (aqui vão os parâmetros, algum input para a function.
+                                    você pode, mas não é obrigado a, usar parâmetros. VocÊ também pode, mas não é obrigado a,
+                                      retornar valores (com a ajuda de return.)    )                                                  (aqui temos a parte final, a function body, é o código que você vai querer executar no futuro.)
+
+
+
+                                      montado: function greetUser(name) {alert('Hi ' + name);}
+
+
+
+//a vantagem das funções em javascript é poder executar códigos depois do momento inicial em que a página é carregada.
+
+//AGORA, o interessante de quando você tem uma função definida é que o código que você tem dentro do body não roda imediatamente quando seu script é inicialmente 
+executado; em vez disso, javascript só vê a função e a registra na memória. Você então executa o código na função por meio de um chamado.
+//você CHAMA uma função por meio do seu nome:
+
+
+
+
+
+// ex de call: greetUser ('Max');  ---> agora a função greetUser é executada toda vez que no campo name (parâmetros) colocamos "Max". podemos colocar mais parâmetros naquele campo, por meio de vírgulas entre eles.
+
+
+//podemos executar a tal função quantas vezes quisermos no nosso código, passando valores de parâmetro diferentes.
+//DETALHE IMPORTANTE: toda execução de função então corre independentemente de (possíveis) outras execuções.
+
+
+
+
+
+
+
+
+
+//isso é importante para a calculadora, porque damos attach as funções aos bottões para assegurar que apenas quando
+um botão é pressionado o código roda. A página então se torna dinâmica, pois o código só roda quando algo acontece antes.
+//você não está limitado a apenas o pressionamento de botões para ativar os códigos inseridos nas funções, você pode atribuí-los
+//a uma variedade de eventos, ou chamá-los manualmente em qualquer momento em que você precise fazê-lo.
+
+
+
+//na verdade, em outputResult, em app.js, nós já estamos CHAMANDO UMA FUNÇÃO. outputResult é uma função
+que o professor nos providenciou em vendor.js. Nesse caso, essa função outputResult simplesmente roda o código no seu interior,
+que faz com que certos campos no documento html (result e text) sejam mudados/substituídos quando apertamos os botões da calculadora.
+
+//a função recebe os VALORES INSERIDOS nas variáveis, e não os nomes das variáveis.
+
+
+
+
+
+
+
+
+
+//para ilustrar melhor este exemplo, vamos escrever uma simples função:
+
+
+
+//uma função para o botão + da calculadora funcionar, para que o número que colocarmos no campo seja adicionado.
+//(aplicativo começa com 0 na tela, aí você pode apertar, por exemplo, o botão 5. Depois disso, o botão +, e depois disso, o botão 10. Queremos que a máquina faça um cálculo e que apareça 15 no mesmo campo.)
+//PARA ISSO, PRECISAMOS DE UMA FUNÇÃO. UMA FUNÇÃO QUE ADICIONE 2 NÚMEROS
+
+//você pode colocar essa função tanto no início quanto no final:
+//javascript é tão esperto que lê todo o arquivo antes de executá-lo, por isso pega até mesmo as funções que estão no final do documento. Ele puxa essas funções para o topo, basicamente.
+
+
+//IMPORTANTE: isso não é permitido com variáveis e constantes, dá bugs no código.
+
+
+
+//COMO CHAMAR UMA FUNÇÃO DEFINIDA ANTERIORMENTE?
+
+
+//vocÊ pode simplesmente usar o function name
+
+// ex: 
+
+           num1  num2
+        add(1, 2);
+
+
+
+
+
+
+
+There is a difference between writing correct code (i.e. avoiding syntax errors) and writing readable, properly formatted code.
+
+Here's a syntax error example:
+
+function greetUser {
+  alert('Hi there!');
+}
+What's the problem?
+
+This function has no parameter list (the ()), it should be:
+
+function greetUser() {
+  alert('Hi there!');
+}
+
+
+
+
+
+
+
+
+Whitespace, line breaks and indentation are all totally OPTIONAL! Not required!
+
+But of course this version of the code is more readable:
+
+function greetUser() {
+  alert('Hi there!');
+}
+The same goes for variable definitions:
+
+let userName='Max';
+would be valid. And of course you can also read it.
+
+But
+
+let userName = 'Max';
+is simply a bit more readable - it makes it easier to see where the variable name ends and the value starts.
+
+So in general, whitespace, adding a line break and indentation is optional as long as you don't create syntax errors by omitting it - e.g. functiongreet(){} would be wrong since the function keyword can now no longer be identified.
+
+
+
+
+
+
+//FUNÇÕES TEM MUITAS APLICAÇÕES, MAS ÀS VEZES TAMBÉM HÁ CASOS EM QUE VOCÊ USA FUNÇÕES APENAS PARA DAR OUTSOURCE EM ALGUNS CÓDIGOS, talvez
+CÓDIGOS QUE VOCÊ VAI QUERER REPETIR E RODAR VÁRIAS VEZES DURANTE O DOCUMENTO, E QUE VOCÊ NÃO VAI QUERER TER QUE COPIAR E COLAR VÁRIAS VEZES.
+//COMO UM DESENVOLVEDOR, É MELHOR SER "LAZY", E NÃO SE REPETIR, VOCÊ VAI QUERER SEMPRE ESCREVER SEU CÓDIGO UMA VEZ E AÍ EXECUTÁ-LO 
+MÚLTIPLAS VEZES POR MEIO DA REFERÊNCIA À FUNÇÃO. PORTANTO, VOCÊ PODERIA TER UMA FUNÇÃO CUJA APLICAÇÃO É A DE SIMPLESMENTE DAR
+OUTSOURCE EM ALGUMA FUNCIONALIDADE. NESSE CASO, UMA FUNÇÃO QUE JUNTA DOIS PEDAÇOS DE INFORMAÇÃO, QUE ADICIONA DOIS NÚMEROS UM AO OUTRO. ENTÃO,
+NESSE CASO, VOCÊ TALVEZ NÃO QUEIRA ALERTAR OU FAZER ALGUMA COISA DENTRO DO CÓDIGO, TALVEZ VOCÊ APENAS QUEIRA --RETORNAR-- UM CÓDIGO/O RESULTADO.
+ISSO É POSSÍVEL COM A ''RETURN'' KEYWORD, que é inerente ao javascript.
+
+
+ex: function add(num1, num2) {
+        const result = num1 + num2;
+        alert('The result is ' + result); 
+}
+
+                VIRA/CHANGES TO
+
+        function add(num1, num2) {const result = num1 + num2;
+                                  return result;                
+                                                                
+                                }
+
+
+
+RETURN faz o que o nome sugere: essa função agora retorna o valor que está armazenado em "result" como um RESULTADO dessa function call.
+
+
+Isso significa que, QUANDO EXECUTAMOS "add" dessa forma, "nada" acontece na página, ela fica estática. Não vemos nada, 
+porque agora a função em si não faz nada que tenha um impacto visual; em vez disso, ela RETORNA UM VALOR. isso significa que 
+agora "ADD" NOS DÁ UM VALOR, tal qual um operador + ou . (multiplicação). Em outras palavras, agora, quando adicionamos dois números um ao 
+outro (num1 + num2), eles nos dão um valor, que é armazenado em uma constante (a constante result). Isso significa que agora, quando chamamos nossa função, 
+ela nos dá um valor, valor que poderemos armazenar em uma variável, por exemplo.
+
+
+O professor então cria uma nova constante, a constante "additionResult":
+
+
+const additionResult = add(1, 2);
+add(5, 5);
+
+
+O professor diz que usa uma constante aqui, assim como definiu dentro do function body, porque ele nunca mais irá assignar ou adicionar um novo
+valor a essa constante nesse documento, por isso também usa o operador "=", porque tem ciência desse fato. E se você nunca mais assignar um
+novo valor com o "=", então essa variável additionResult é, efetivamente e validamente, uma constante, e você deve marcar bem no código que
+ela nunca irá mudar. Fazemos isso para os outros developers lerem melhor.
+
+
+
+
+A (DES)IMPORTÂNCIA DA ORDEM DO CÓDIGO.
+
+
+
+
+
+
+ordem: defino variáveis e constantes antes de usá-las, bem no topo do documento script. A primeira vez que o professor tenta utilizá-las é na linha mais abaixo,
+onde define a variável/constante currentResult como a função add(1, 2). (currentResult = add(1, 2);). Ele também a utiliza lá embaixo, onde
+ele passa a variável (ou, mais corretamente, o valor da variável) para a função outputResult, que fora definida em vendor.js.  (outputresult(currentResult, calculationDescription); )
+
+
+
+AGORA, VEJA SÓ: nosso código QUEBRARIA se movessemos a variável currentResult até a parte mais de baixo do documento. Ou seja,
+se declarássemos a variável lá embaixo, nós veríamos zeros por toda a parte. Se você abrir os developer's tools do chrome, Você
+verá um erro: "Cannot access 'currentResult' before initialization."
+
+Essa mensagem que o browser está nos dando é bem clara: estamos tentando utilizar a constante lá em cima, tentando assignar uma call de função à constante/variável currentResult, quando nem mesmo havíamos definido a tal constante/variável.
+
+
+RESUMINDO: quando você está escrevendo javascript, se você quiser declarar let e const (você vai querer), você precisa sempre DECLARÁ-LOS ANTES DE USÁ-LOS.
+
+
+basicamente, temos uma
+
+DECLARE phase
+
+e uma
+
+
+EXECUTE phase.
+
+
+
+
+
+lembrando também: você sempre somente precisa definir/declarar uma constante/variável uma única vez, você não precisa/não pode se repetir.
+Isso não quer dizer que você não pode mudar o valor de, por exemplo, variáveis, por meio do operador "=". Você pode fazer isso, mas aí não precisará usar a keyword
+let ou const antes de fazê-lo. E como nós a usamos por meio da inicialização de currentResult com um valor lá embaixo/assignando um valor lá embaixo (currentResult = add(1, 2);) de qualquer forma, 
+nós não precisamos inicializá-la lá em cima no código, na parte do let currentResult (por isso, escrever let currentResult = defaultResult; na segunda linha é totalmente opcional, não precisamos fazê-lo, na verdade, porque nós já estamos assignando um valor lá embaixo de qualquer forma, e esse valor assignado lá embaixo (currentResult = add(1, 2);) dará overwrite nesse de cima.)
+
+
+
+
+Para funções, essa conversa toda é um pouco diferente. Eu poderia pegar a função add e movê-la para o final desse arquivo, e se eu fizer isso
+TENHA EM MENTE QUE EU DE FATO A CHAMEI MAIS EM CIMA, NA LINHA "currentResult = add(1, 2); ----> isso pode parecer um presságio de um erro no código, mas 
+a neura de colocar uma função no final do código, até mesmo DEPOIS do seu chamado, ou seja, FORA DE ORDEM, para funções, é permitido.
+
+
+PARA FUNÇÕES, TEMOS UM COMPORTAMENTO ESPECIAL EM JAVASCRIPT: O QUE JAVASCRIPT(OU O BROWSER) FAZ, NA VERDADE, É QUE 
+AO CARREGAR O SEU SCRIPT, ELE RODA-O DE CIMA A BAIXO, ANALIZA/PARSA O SCRIPT INTEIRO, MAS NÃO O EXECUTA DIRETO; EM VEZ DISSO, ELE
+SÓ LÊ ELE DE CIMA A BAIXO E PEGA QUAISQUER FUNÇÕES QUE ELE ENCONTRA E AUTOMATICAMENTE AS EMPURRA PARA O TOPO E FICA CIENTE DA SUA EXISTÊNCIA. 
+ELE AUTOMATICAMENTE REGISTRA TODAS SUAS FUNÇÕES ANTES DE REALMENTE EXECUTAR O SEU SCRIPT.
+
+A VOCÊ FICA A DECISÃO: COLOCAR FUNÇÕES NO INÍCIO, OU NO FINAL? O OBJETIVO É SEMPRE A CONSISTÊNCIA.
+
+O PROFESSOR GOSTA DE COLOCAR AS FUNÇÕES NO INÍCIO DOS ARQUIVOS NA GRANDE MAIORIA DOS CASOS, PORQUE QUANDO
+VOCÊ LÊ O ARQUIVO COMO UM DESENVOLVEDOR, VOCÊ MAIS OU MENOS VÊ O QUE ESTÁ DENTRO DO DOCUMENTO E GRAVA NA SUA CABEÇA. 
+QUANDO VOCÊ VÊ A FUNÇÃO CHAMADA MAIS A FRENTE NO CÓDIGO, VOCÊ SE LEMBRA DAQUILO QUE FOI DEFINIDO LÁ PELO INÍCIO, E AÍ VOCÊ 
+NÃO PRECISA SCROLLAR LÁÁÁ PARA BAIXO DO DOCUMENTO PARA ENCONTRAR A FUNÇÃO ESPECÍFICA. 
+

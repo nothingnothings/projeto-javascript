@@ -1,0 +1,886 @@
+
+
+
+ATÉ AGORA, ASSUMIMOS QUE AS COISAS SEMPRE VÃO FUNCIONAR....
+
+
+
+
+
+
+
+É claro que, no mundo real, as coisas 
+
+
+também dão errado..
+
+
+
+
+Você também terá http requests QUE 
+
+
+VÃO FALHAR....
+
+
+
+
+E fazer o handling correto dessas falhas/erros é SEMPRE IMPORTANTE.
+
+
+
+
+
+
+
+------> HTTP REQUESTS PODEM FALHAR POR UM CONJUNTO DE RAZÕES:
+
+
+
+
+1) Pq a conexão de internet está ruim.
+
+
+
+
+
+2) Porque o servidor ESTÁ CAÍDO.
+
+
+
+
+3) porque você enviou dados INVÁLIDOS.
+
+
+
+-----------------------------------
+
+
+
+
+
+
+PARA SERMOS INFORMADOS DE UM HTTP REQUEST QUE FALHA/FALHOU, 
+
+DEVEMOS ADICIONAR OUTRO 
+
+LISTENER ao nosso 
+
+objeto 
+
+'XMLHttpRequest'...
+
+
+
+
+E ESSE LISTENER É O LISTENER 
+
+'onerror'..   (é o listener/handler 'onerror'.).
+
+
+
+
+
+ESSE LISTENER SERÁ TRIGGADO 
+
+
+SEMPRE QUE TIVERMOS UM ERRO AO ENVIAR O HTTP REQUEST....
+
+
+
+
+ex:
+
+
+xhr.onerror = function() {
+
+}
+
+
+---------------------------------------------
+
+
+
+AGORA, DEVEMOS VER O QUE CONSEGUIMOS AQUI.... (dentro da function body desse 'onerror'...)....
+
+PARA ISSO,
+
+DEVEMOS CONSOLE.LOGGAR 
+
+'xhr.response'... ------> isso nos DARÁ A RESPOSTA DO SERVIDOR NESSES CASOS DE ERRo...
+
+
+Também devemos console.loggar 
+
+'xhr.status'.... ----------> ISSO NOS DÁ O 'CÓDIGO DE STATUS' que recebemos como resposta/response do servidor....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+
+    };
+
+
+    xhr.onerror = function() { //////EIS O CÓDIGO EM QUESTÃO.
+        console.log(xhr.response);
+        console.log(xhr.status); 
+    }
+
+  xhr.send(JSON.stringify(data));
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+
+
+
+
+
+  ---------------------------------------
+
+
+
+
+  PARA SIMULAR UM ERRO, 
+
+  PODEMOS, POR EXEMPLO,
+
+   
+
+   ir até o nosso request de tipo 'GET' E ENVIAR ESSE 
+
+   REQUEST À UMA 'URL' INVÁLIDA...
+
+
+
+Podemos conseguir isso por meio do simples corte de 'ts' em 'posts'...
+
+
+
+
+ex:
+
+
+
+
+
+async function fetchPosts() {
+  const responseData = await sendHttpRequest(
+    'GET', 
+    'https://jsonplaceholder.typicode.com/pos'
+  ); //////EIS O CÓDIGO EM QUESTÃO.
+const listOfPosts = responseData;  
+    for (const post of listOfPosts) {
+    const postEl = document.importNode(postTemplate.content, true);
+    postEl.querySelector('h2').textContent = post.title.toUpperCase();
+    postEl.querySelector('p').textContent = post.body;
+    postEl.querySelector('li').id = post.id;
+    listElement.append(postEl);
+  }
+}
+
+
+
+-----------------------------------------
+
+
+COM ISSO, TEREMOS UM PATH que não é suportado pelo servidor, e que resultará em um 
+
+ERRO.
+
+
+
+
+
+
+Professor salva e recarrega a página; clica em 'fetch posts' 
+
+E RECEBE UM ERRO...
+
+
+
+CONSOLE NOS DIZ 
+
+
+
+'>GET http://jsonplaceholder.typicode.com/pos'  404 
+
+
+
+
+
+>Uncaught (in promise) TypeError: listOfPosts is not iterable at HTMLButtonElement.fetchPosts
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+ESSE ERRO ESTÁ SENDO EMITIDO EXATAMENTE DA LINHA EM QUE O PROFESSOR executou o 
+
+
+'xhr.send(JSON.stringify(data));'   ---------> (OU SEJA, NÃO DA LINHA EM QUE EU ESCREVI O 'onerror' em si, MAS SIM DA LINHA EM QUE HOUVE O ERRO/http request INVÁLIDO.)
+
+
+
+
+
+
+
+Já o segundo erro, 
+
+o do 'Uncaught (in promise)...' 
+
+SIMPLESMENTE 
+
+INDICA QUE NÓS FALHAMOS 
+
+EM FAZER 'LOOP' POR DENTRO DE TODOS OS POSTS (justamente pela falha ao tentar acessar aquela URL inexistente...)
+
+---------------------------------------
+
+
+
+
+
+SE NÓS OLHARMOS RAPIDAMENTE A ABA 'NETWORK', veremos que 
+
+
+LÁ 
+
+NÓS TAMBÉM RECEBEMOS ALGO DIFERENTE:
+
+
+
+Recebemos uma response '404'............
+
+
+
+
+CERTO.
+
+
+
+
+MAS O QUE NÓS NÃO ESTAMOS VENDO AQUI 
+
+É O NOSSO ERROR HANDLER FAZENDO O SEU TRABALHO...
+
+
+(pq nós, afinal de contas, de fato escrevemos 'console.log(xhr.response) e (xhr.status)'..., e isso não nos foi mostrado)...
+
+
+
+
+
+E ESSA É A PARTE IMPORTANTE DE SE ENTENDER:
+
+
+
+
+O error handler, aqui escrito, 
+
+NÃO É ATIVADO 
+
+PARA 
+
+HTTP REQUESTS QUE SÃO 
+
+
+'TECNICAMENTE' BEM SUCEDIDOS... (ou seja, 
+
+EM CASOS EM QUE NÓS APENAS TEMOS UM ERRO 'SERVERSIDE'...)....
+
+
+
+
+OU SEJA, O ERROR HANDLER NÃO É ATIVADO PARA ERROS 
+
+
+QUE DERIVAM DE STATUS de números QUE NÃO SEJAM '200 e pouco'....
+
+
+(como 404, que é um status QUE NÃO ACABA ATIVANDO 
+
+ESSE ERROR HANDLER...)...
+
+
+
+
+
+----------------------------------
+
+
+ISSO SIGNIFICA QUE ESSA 'ERROR FUNCTION' só será ativada 
+
+
+se vocÊ, por exemplo, 
+
+TIVER UM ERRO DE CONEXÃO...
+
+
+OU SEJA, ele só será ativado ____SE FOR FALHADO O ENVIO DO REQUEST, 
+
+OU SE ELE SOFRER TIMEOUT ou qualquer outra coisa do gênero.
+
+
+
+
+
+
+---> SE VOCÊ TEM UM REQUEST QUE 
+
+CONSEGUE 'SAIR DE SUA PÁGINA' com sucesso,
+
+SE VOCê CONSEGUE DE VOLTA UMA RESPONSE DO SERVIDOR,
+
+___AINDA QUE ESSA RESPONSE___ INDIQUE QUE 
+
+ALGO ESTÁ 
+
+ERRADO NO 'SERVERSIDE' (ex: O PATH ao qual vocÊ enviou o request
+NÃO FOI ENCONTRADO)....
+
+,
+
+AINDA QUE ISSO ACONTEÇA, 
+
+VOCê DE FATO NÃO ESTARÁ 
+
+
+'MAKING IT INTO' no erro ('.onerror'), 
+
+EM VEZ DISSO VOCê ESTARÁ 
+
+ENTRANDO/ADENTRANDO/SENDO ACEITO 
+
+NO
+
+CÓDIGO DE 
+
+'.onload', 
+
+POIS ____TECNICAMENTE____ VOCÊ TEM UM PAR 
+
+'REQUEST-RESPONSE' 
+
+
+____CORRETO____.
+
+
+
+
+É POR ISSO QUE VOCê DEVE COLOCAR UM IF CHECK 
+
+
+dentro do '.onload'...
+
+
+
+
+
+VOCê VAI CHECAR 
+
+
+'se xhr.status for IGUAL OU MAIOR QUE 200 E, AO MESMO TEMPO, 
+
+MENOR DO QUE 300 (OBS: 300 INDICA UM CASO DE 
+
+___SUCESSO____ no envio do código.),
+
+SE ESSE FOR O CASO 
+
+QUE OCORRER, VOU QUERER 
+
+'resolve' com a passagem do parâmetro de 'xhr.response'....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+    }
+}
+
+
+
+--------------------------------------------
+
+
+''SE ISSO NÃO ACONTECER, SABEREI QUE ALGO DEU ERRADO, E POR ISSO 
+
+VOU QUERER chamar 
+
+'reject()', aquela coisa das promises, E ENTÃO 
+
+PASSAR UM PARÂMETRo de 
+
+
+'new Error()' PARA 
+
+ESSE 'REJECT'..., um new Error com parâmetro 
+
+
+de 'Something went wrong', etc...
+
+
+
+ex:
+
+
+
+
+
+
+xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+    } else {
+        reject(new Error ('Something went Wrong!)); 
+    }
+}
+
+
+
+
+-------------------------------------------------
+
+
+
+É EVIDENET QUE, COMPLEMENTANDO ESSE CÓDIGO, 
+
+
+PRECISAMOS CHAMAR em 'onerror'
+
+
+UM OUTRO
+
+REJECT, dessa vez 
+
+com 
+
+
+
+um parâmetro de 'Failed to send request'....
+
+
+
+
+ENTRETRANTO, ESSE 
+
+CÓDIGO DE 'onerror' RODARÁ 
+
+SIMPLESMENTE EM UM MOMENTO DIFERENTE,
+ 
+
+ RODARÁ SE ___fALHARMOS ___ TECNICAMENTE____ EM ENVIAR AQUELE REQUEST...
+
+
+
+
+
+ ex:
+
+
+
+ xhr.onerror = function() {
+     reject(new Error('Failed to send request!));
+
+
+
+ }
+
+
+
+
+
+ ----------------------------------- 
+
+
+
+ SE JUNTARMOS OS 2 CÓDIGOS, AGORA TEREMOS UM HANDLING 
+
+
+ADEQUADO...
+
+ 
+ handling adequado 
+
+ PARA ERROS 
+
+ 'serverside' TAMBÉM.... (o handling de erros em 'onload'...).
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+    } else {
+        reject(new Error ('Something went Wrong!)); 
+    }
+}
+
+
+
+
+ 
+
+ xhr.onerror = function() {
+     reject(new Error('Failed to send request!));
+
+
+
+ }
+
+
+
+
+ -------------------------------------------
+
+
+
+
+
+
+POR MEIO DO CHECK DE 'status' em 
+
+
+onload, conseguimos fazer o handling dos erros do servidor também...
+
+
+------------------------------------------------------
+
+
+
+
+
+
+AGORA, SE CLICARMOS EM FETCH POSTS 
+
+DE NOVO,
+ 
+
+ VEREMOS 
+
+
+
+os erros 
+
+
+> GET https://jsonplaceholder.typicode.com/pos 
+
+
+> Uncaught (in promise) Error: Something went wrong! 
+at XMLHttpRequest.xhr.onload
+
+
+
+----------------------------------------------------
+
+
+
+agora realmente vemos o 'something went wrong', que 
+
+É A MENSAGEM QUE FOI ESCRITA PELO PROFESSOR EM 
+
+'onload'....  ----------> ISSO SINALIZA QUE HOUVE UM ERRO de tipo 'serverside'...
+
+
+
+
+
+E ESSE ERRO 
+
+
+SIGNIFICA QUE AGORA PODEMOS, É CLARO, 
+
+USAR AS MANEIRAS NORMAIS DE GERENCIAR 
+
+ESSES ERROS 
+
+
+
+em 'promises', COM OS 
+
+CATCH BLOCKS.... OU, QUANDO USAMOS 
+
+ASYNC AWAIT, COM A AJUDA 
+
+DE 
+
+'try-catch'...
+
+
+
+ ESSES CATCH BLOCKS/TRY CATCHS VÃO 
+
+ ASSEGURAR QUE O CÓDIGO NÃO CONTINUE RODANDO SE NÓS/USUÁRIOS 
+
+ ENCONTRAREM ALGUM ERRO NA PROMISE do código...
+
+
+
+
+
+ Professor demonstra isso com 
+
+ o WRAP 
+
+ de um monte de linhas 
+
+
+ de código 
+
+
+
+ de 
+
+
+ 'fetchPosts' 
+
+
+
+EM UM BLOCO 'try'....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function fetchPosts() {
+    try {
+         const responseData = await sendHttpRequest(
+        'GET', 'https://jsonplaceholder.typicode.com/pos'
+    );
+
+    const listOfPosts = responseData;
+    for (const post of listOfPosts) {
+        const postEl = document.importNode(postTemplate.content, true);
+        postEl.querySelector('h2').textContent = post.title.toUpperCase();
+        postEl.querySelector('p').textContent = post.body;
+        postEl.querySelector('li').id = post.id;
+        listElement.append(postEl);
+    }
+    }
+   
+}
+
+
+
+-----------------------------
+
+
+
+
+DEPOIS ELE COLOCA UM 'CATCH BLOCK', cuja 
+
+sintaxe é 
+
+
+
+'catch (nomeDoErroQueSeráRecebido) {
+    código/ex:  'alert(error.message);'
+}'
+
+
+-------------------------------------
+
+
+
+ESSE 'alert(error.message)' IRÁ MOSTRAR A MENSAGEM DE ERRO AO USUÁRIO....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+async function fetchPosts() {
+    try {
+         const responseData = await sendHttpRequest(
+        'GET', 'https://jsonplaceholder.typicode.com/pos'
+    );
+
+    const listOfPosts = responseData;
+    for (const post of listOfPosts) {
+        const postEl = document.importNode(postTemplate.content, true);
+        postEl.querySelector('h2').textContent = post.title.toUpperCase();
+        postEl.querySelector('p').textContent = post.body;
+        postEl.querySelector('li').id = post.id;
+        listElement.append(postEl);
+    }
+    } catch (error) {
+        alert(error.message);
+    }
+   
+}
+
+
+
+------------------------------------------
+
+
+
+COM ISSO, AGORA O ERRO 
+
+É PROPRIAMENTE 
+
+'handled' POR NOSSO CÓDIGO...
+
+
+AGORA SIMPLESMENTE GANHAMOS UMA MENSAGEM 
+
+
+'Something went wrong!' 
+
+
+
+NA NOSSA PÁGINA QUANDO HÁ UM ERRO 'SERVERSIDE', em vez 
+
+daquele 'SCRIPT QUEBRADO' que aparecia no devconsole...
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+O conceito/ideia chave aqui é 
+
+
+QUE 
+
+NÓS NÃO ACABAMOS ENTRANDO no código de 'onerror' aqui PQ 
+
+O SERVIDOR REALMENTE RESPONDE UMA MENSAGEM DE VOLTA..., um status code de 'NÃO SUCESSO' (non success status code)..
+
+É uma mensagem dizendo que as coias não estão funcionando bem, 
+
+MAS AINDA É UMA MENSAGEM....
+
+
+
+
+
+A PARTE MAIS IMPORTANTE DE ENTENDER DISSO AQUI É QUE VOCê 
+
+
+
+REALMENTE NÃO ACABA ENTRANDO/EXECUTANDO NO 
+
+
+CÓDIGO DE 'onerror' PQ O SERVIDOR 'REPORTS BACK' (responde de volta) UM 
+
+ESTADO DE 'NÃO SUCESSO'... aí isso faz com que o código só execute aquilo que 
+
+está em 'onload'....
+
+
+
+VOCê SÓ CONSEGUE/TEM O CÓDIGO DE 'onerror' sendo executado SE 
+
+
+___o REQUEST FALHA POR DIFERENTES RAZÕES____, COMO FALTA 
+
+DE INTERNET, REQUEST TIMEOUT, etc etc. 
+
+
+SÓ AÍ ISSO É TRIGGADO, O CÓDIGO DE 'onerror' é trigado....
+
+
+
+
+
+
+PORTANTO, EM 'onload'  VOCÊ TAMBÉM DEVERÁ ADMINISTRAR CÓDIGOS 
+
+DE 'NON SUCCESS', como estamos fazendo aqui...
+
+
+(ou seja, COM HTTP REQUESTS, 
+
+VOCê SEMPRE LIDA/PRECISA 
+
+DE 2 ERROR HANDLERS DIFERENTES: 
+
+UMA PARA CONEXÕES/REQUEST TIMEOUTS/PROBLEMAS ESTRUTURAIS,
+
+E OUTRO 
+
+PARA 
+PROBLEMAS 'SERVERSIDE', como erros de path/url.)

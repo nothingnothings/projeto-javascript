@@ -1,0 +1,206 @@
+
+
+
+
+
+
+
+
+
+
+
+----> Certo, o que é o 'react.js'...?
+
+
+
+
+É UMA LIBRARY JAVASCRIPT USADA PARA CONSTRUIR ____USER INTERFACES___, no final das contas...
+
+
+
+
+
+
+
+--------> É 'LIBRARY' PQ TECNICAMENTE ELA FOCA 
+
+NESSE ASPECTO DA 'USER INTERFACE BUILDING...'...
+
+
+
+
+
+ELA FAZIA SÓ ISSO NO INÍCIO, MAS ENRIQUECIDA PELO ECOSSISTEMA DE PROGRAMADORES E PACKAGES 
+ADICIONAIS, ELA PASSOU A FAZER OUTRAS COISAS....
+
+
+
+Por isso que ela é basicamente UMA FRAMEWORK...
+----------------------------------------------------
+
+
+
+
+Mas a parte 'user interface' É IMPORTANTE....
+
+
+
+REACT É 'ALL ABOUT USER INTERFACE'...
+
+
+-----> REACT TE DÁ UMA USER INTERFACE QUE TEM UMA BOA APARÊNCIA, mas, MAIS DO QUE ISSO, 
+
+TE DÁ UMA ____UI___ QUE ___É UPDATADA___ """REATIVAMENTE"""".... (reactively)...
+
+
+
+
+Por exemplo... vocÊ define 'se esse botão é apertado, esse certo pacote de dados deverá mudar... e se esse 
+pacote de dados mudar, em vez de outputtar esse texto ali embaixo, eu vou querer outputtar ESSE MEU __OUTRO TEXTO__....' ------->
+
+----------> RESUMINDO:
+
+VOCÊ BASICAMENTE DEFINE DIFERENTES TIPOS DE 'SITUAÇÕES/SCENARIOS' e RESULTS (a partir desses cenários)...
+
+Assim que você define essas situações, O REACT VAI FAZER O 'HEAVY LIFTING' de ALCANÇAR (reach out) OS 
+
+DIFERENTES ELEMENTOS DOM; é ele que VAI ADICIONAR/REMOVER ELEMENTOS DOM... É 
+
+ELE QUE VAI __ADICIONAR CLASSES CSS___, REMOVER CLASSES CSS....____
+
+
+ELE vai fazer TUDO ISSO PARA QUE VOCÊ NÃO TENHA QUE ESCREVER MANUALMENTE TODAS ESSAS INSTRUÇÕES incômodas...
+
+
+
+
+EM VEZ DISSO, VOCÊ APENAS GERENCIA/ADMINISTRA O __ESTADO__ (the 'state') DO SEU APLICATIVO...
+
+
+VocÊ gerencia o 'application state' (the state of your application) E AÍ 
+
+O REACT VAI UPDATAR A UI (user interface) COM BASE NAQUILO QUE FOI ALTERADO/MUDOU....
+
+
+
+
+
+
+
+
+ISSO É CHAMADO DE UM APPROACH 'declarativo'.... (DECLARATIVE APPROACH).
+
+
+
+
+
+
+Declarative Approach: You define the result, not the steps that lead to the result... (ou seja, VOCÊ DEFINE O FIM, e o REACT VAI ESCREVER OS __MEIOS__ PARA CHEGAR A ESSE FIM, PARA VOCÊ).
+
+
+
+
+
+
+--> no declarative approach, você define o 'GOAL', A COISA QUE VOCÊ VAI QUERER VER NA TELA EM 
+UM DETERMINADO CENÁRIO, e o REACT VAI ENTÃO ADMINISTRAR A __MANEIRA__ PELA QUAL VAMOS CHEGAR LÁ,
+OS CÓDIGOS QUE SERÃO EXECUTADOS PARA QUE ESSE RESULTADO ACONTEÇA.
+
+
+
+
+
+
+----> O OPOSTO DO 'DECLARATIVE APPROACH' é o ___IMPERATIVE APPROACH____ (que é o JAVASCRIPT NORMAL...).
+
+
+
+
+---> IMPERATIVE APPROACH (javascript normal): VOCê 
+    DEFINE TODAS AS ETAPAS NECESSÁRIAS PARA CHEGAR ÀQUELE RESULTADO...
+
+(é mais trabalhoso, basicamente). -------> ESSE PROCESSO EM PROJETOS MAIORES PODE RAPIDAMENTE SE TORNAR INCÔMODO E DIFÍCIL DE GERENCIAR... É AÍ que o 'declarative approach' TEM SUAS VANTAGENS MAIS DESTACADAS.
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+Declarative approach ---> te ajuda a FOCAR NO ___RESULT___ E NO 'state' E EM COMO CHEGAR ATÉ ESSE RESULT, EM VEZ 
+DE FOCAR NA 'MANEIRA DE CHEGAR LÁ'....
+
+
+
+E ESSA MANEIRA DE ESCREVER CÓDIGOS É 
+
+MENOS 'ERROR PRONE' DO QUE a 'imperative approach'...
+
+
+ELA TE DÁ MAIS PODER, BASICAMENTE.
+
+
+
+
+
+------> EM REACT, ANGULAR E 'VUE.JS', 
+
+VOCÊ FAZ ISSO, ESTABELECE ESSE 'DECLARATIVE APPROACH', POR MEIO 
+
+DA DEFINIÇÃO 
+
+
+DAQUILO QUE CHAMAMOS DE 'components'...
+
+
+
+----> VOCÊ DEFINE ""___COMPONENTS___"" E ENTÃO CONSTRÓI 
+A UI A PARTIR DESSES COMPONENTS...
+
+
+
+----> components são ELEMENTOS __UI____ REUTILIZÁVEIS...
+
+
+
+
+
+----> COMPONENTS __NÃO SÃO___ ELEMENTOS HTML, NÃO SÃO 
+ELEMENTOS 
+
+OS QUAIS O BROWSER ENTENDE/COMPREENDE, não; 
+
+eles são, no final das contas, APENAS __COMPONENTS__. São tipo umas javascript 
+
+CLASSES QUE VOCê DEFINE NO SEU CÓDIGO, umas pseudoclasses javascript que durante o runtime, QUANDO 
+O SEU CÓDIGO E O CÓDIGO DE REACT SÃO EXECUTADOS NA PÁGINA, SÃO INTERPRETADAS POR __REACT___...
+
+O react, lendo esses components, SABE EXATAMENTE O QUE FAZER COM SUAS INSTRUÇÕES, QUAIS ELEMENTOS 
+'TOCAR' e renderizar/remover NO DOM A PARTIR DAS INSTRUÇÕES DADAS POR MEIO DA ORGANIZAÇÃO DESSES COMPONENTS....
+
+
+
+
+
+
+São os components que dizem ao 'react.js' O LUGAR EM QUE DEVEM SER RENDERIZADOS ELEMENTOS, QUAIS ELEMENTOS 
+REMOVER, O QUE FAZER NA UI...
+
+
+
+
+
+---> NO FINAL DAS CONTAS, VOCÊ NÃO RENDERIZA ELEMENTOS HTML DE VERDADE COM OS 'COMPONENTS', vocÊ 
+
+SÓ USA ALGUMA COISA (no caso, o REACT) QUE ENTÃO REAGE AOS SEUS COMPONENTS, OS COMPREENDE E ENTÃO 
+MEXE NO DOM A PARTIR DESSES COMPONENTS E SUAS INSTRUÇÕES, diz a ele 
+
+O QUE ELE DEVE RENDERIZAR, E SOB QUAIS CIRCUNSTÂNCIAS.
+
+
+
+
+DEVEMOS DAR UMA OLHADA NISSO...

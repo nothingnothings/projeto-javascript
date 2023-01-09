@@ -1,0 +1,96 @@
+AQUI O PROFESSOR ENSINA O USO DA EXTENSÃO DE CHROME DEBUG TOOLS, COLOCADA DENTRO DO VISUAL STUDIO CODE (VS STUDIO)
+
+
+As chrome dev tools são muito boas, e podem ser utilizadas muito bem.
+
+
+
+
+ENTRETANTO, VOCÊ PODE, TAMBÉM, USAR O SEU IDE(EDITOR DE TEXTO) PARA SETTAR BREAKPOINTS e tudo mais.
+
+
+
+
+Para fazer isso no studio visual code, você precisa ter uma extensão especial. O nome da extensão é CHROME DEBUG.
+
+
+Isso permitirá a você conectar o visual studio code aos chrome debug tools.
+
+
+ 
+Com a tralha instalada, volte para o explorer view. Digamos que temos o mesmo problema que apareceu antes, que os elementos estão sendo adicionados
+como texto em vez de números. Voltamos para app.js e para a linha da função getUserNumberInput, que tem o parseInt em seu interior.
+
+
+
+Agora, queremos rodar esse código com a ajuda do chrome debugger tool, mas ao mesmo tempo estando conectados a nosso editor aqui, para que possamos
+colocar breakpoints dentro do código.
+
+E podemos, de fato, colocar breakpoints aqui. Digamos que temos uma suspeita de que as coisas começam a dar errado bem na hora que clicamos
+no botão de add e sua function body é executada, o problema começaria já na primeira linha, na definição da const enteredNumber como o chamado da função getUserNumberInput().
+
+
+Agora, podemos testar os breakpoints: para adicionar um breakpoint numa página de javascript, vá até o número da linha que você quer, como você fez antes dentro do chrome dev tools,
+e clique nela. Uma bolinha vermelha aparecerá e aí estará adicionado o breakpoint.
+
+
+
+Depois disso, apenas precisamos rodar nossa página com a ajuda dessa nossa aplicação, com a ajuda do visual studio code.
+
+
+Então, em vez de abrirmos manualmente o browser e abrirmos o html file lá no browser, vamos até a opção RUN -> START DEBUGGING. (ou apenas apertamos a tecla F5.)
+
+
+a primeira vez que você clica na opção debug, o IDE te pergunta sobre qual ambiente você quer rodar isso. Escolha chrome.
+
+Ele adicionará um arquivo LAUNCH.JSON dentro da pasta .vscode . Isso configura como ele irá lançar sua aplicação no browser, PORQUE ELE ABRIRÁ UMA 
+NOVA JANELA DO BROWSER.
+
+
+DENTRO DESSAS OPÇÕES EM LAUNCH.JSON, VEMOS QUE TUDO ESTÁ CERTO, COM UMA ÚNICA EXCEÇÃO: a URL.
+
+
+"url": "http://localhost:8080",
+
+
+
+Essa url estaria correta se vocÊ tivesse um server local de desenvolvimento, o qual nós ainda 
+não temos, então isso não funcionará para nós.
+
+
+Veremos essas coisas de local development servers depois. Por agora, DEVEMOS APENAS COPIAR A URL QUE TEMOS NO BROWSER,
+A URL DA PÁGINA DA CALCULADORA (OU QUALQUER OUTRA PÁGINA QUE VOCÊ QUEIRA DEBUGGAR) E COLÁ-LA ALI DENTRO.
+
+
+Tudo isso salvo, você pode simplesmente apertar "start debugging" novamente lá em cima, que então será aberta uma nova JANELA
+de browser.
+
+
+O que o run -> start debugging vai fazer é INICIAR O CHROME, E TUDO FICARÁ LARANJA (DEBUGGING VIEW). A parte da esquerda também mudará, e mostrará o DEBUGGING VIEW, com 
+as variáveis, watch e o callstack, além dos breakpoints bem lá embaixo. Você pode clicar em view: explorer para voltar para a visão dos arquivos, enquanto o debug mode ainda estiver rodando.
+
+
+Continuando: agora, se você pegar aquela janela do browser que abriu e apertar nos botões, vocÊ verá que a página ficará pausada e pularemos ao
+pedaço de código que está assignado àquela função/botão, bem como vimos no caso do chrome. Assim como na versão do chrome, aqui vemos exatamente os 
+valores atribuídos às variáveis nessa exata linha (enteredNumber, initalResult e "this".)
+
+
+PODEMOS ADICIONAR EXPRESSÕES DE WATCH, EXATAMENTE DA MANEIRA COMO O PROFESSOR MOSTROU ANTES.
+
+
+Podemos também passar o mouse por cima das coisas para ver seus valores. Temos, além disso, os controles do chrome de pular sobre funções, em funções, STEP, etc, etc.
+
+
+Você pode fazer a mesma coisa que você fazia no chrome, mas no seu IDE, o que você pode achar mais conveniente.
+
+
+
+Uma observação sobre o CONSOLE que abriu lá embaixo: esse debug console abre durante o debugging, ele faz o output de MENSAGENS DE LOG ali, e você pode
+também  avaliar expressões aqui DURANTE O RUNTIME para executar certos cálculos ou pegar o valor de uma certa variável.
+
+Portanto, enquanto o debug mode está rodando, vocÊ pode usar esse debug console para ver o que está acontecendo no seu código.
+
+
+
+
+Acabamos o módulo de debug de código.

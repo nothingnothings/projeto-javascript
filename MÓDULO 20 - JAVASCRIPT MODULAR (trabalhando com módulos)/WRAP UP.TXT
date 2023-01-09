@@ -1,0 +1,115 @@
+
+
+
+
+ACABAMOS COM O TÓPICO DOS MÓDULOS.
+
+
+
+
+
+
+
+
+
+
+
+
+-----> É UMA FEATURE EXTREMAMENTE IMPORTANTE PARA PROJETOS JAVASCRIPT SÉRIOS.
+
+
+
+
+
+--> TER TUDO EM 1 ARQUIVO .JS É RUIM: DEIXA ESSE ARQUIVO PESADO E DIFÍCIL DE LER....
+
+
+
+
+
+
+----> POR OUTRO LADO, MUITOS IMPORTS MANUAIS 
+
+LEVA A UM MICROMANAGEMENT DESGRAÇADO E A UMA QUANTIDADE ABSURDA 
+
+DE HTTP REQUESTS NA SUA PÁGINA, o que torna tudo mais lento e bosta. O micromanagement 
+
+de imports faz o código virar um error source de merda.
+
+
+
+
+
+
+
+-----> COM MÓDULOS, QUE VOCê DESBLOQUEIA POR MEIO DA ADIÇÃO DO ATRIBUTO 'type=module',
+
+PELA CRIAÇÃO/USO DE UM WEBSERVER (serve js) E POR MEIO DE EXPORT/IMPORT, 
+
+
+você SE LIVRA DE TODOS OS PROBLEMAS DOS 2 APPROACHES CITADOS ACIMAS
+
+
+
+
+-----> ISSO OCORRE PQ, COM MÓDULOS, CADA ARQUIVO JAVASCRIPT decreta suas dependências já no início 
+de seus arquivos, e possui seus próprios imports.
+
+
+
+
+
+
+----> LEMBRE-SE: você só pode IMPORTAR AQUILO QUE VOCÊ JÁ EXPORTOU COM a 
+
+keyword 'export'...
+
+
+
+
+
+---> você pode EXPORTAR NAMED exports ou DEFAULT exports... E você pode ter ambos em um mesmo arquivo.
+
+
+
+
+
+
+
+
+---> O EXPORT/IMPORT TE DÁ MUITA FLEXIBILIDADE:
+
+
+
+VOCÊ PODE importar coisas com 'apelidos'....
+
+
+você pode 'BUNDLAR' todos exports em um único conjunto  (import * as DOMH from ... )
+
+
+
+
+
+VOCÊ PODE TAMBÉM IMPORTAR NAMED EXPORTS E DEFAULT EXPORTS AO MESMO TEMPO...
+
+
+
+
+-------------------------------
+
+
+
+TAMBÉM VIMOS OS 'DYNAMIC IMPORTS', que te deixam baixar coisas no seu código APENAS QUANDO VOCÊ 
+
+PRECISa, em vez de sempre no início da execução.
+
+
+
+--------------------------------
+
+
+
+
+ACABAMOS OS MÓDULOS.
+
+No próximo módulo veremos como USÁ-LOS DE MANEIRAS AINDA MAIS EFICIENTES.

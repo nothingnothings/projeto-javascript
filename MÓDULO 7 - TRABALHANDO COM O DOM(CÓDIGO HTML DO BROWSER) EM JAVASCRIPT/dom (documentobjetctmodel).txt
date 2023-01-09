@@ -1,0 +1,191 @@
+O QUE É DOM?
+
+
+
+
+Para que entendamos isso, devemos entender o que o browser faz com o código html, 
+e como o javascript trabalha com esse código.
+
+
+
+Temos, portanto o javascript e o browser. Essas duas peças interagem uma com a outra todo o tempo.
+Digamos que na nossa webpage, onde esse código javascript é carregado eventualmente, nós também renderizamos
+um código básico genérico html. (<body><h1>Welcome!</h1></body>). É claro que temos uma <head> nesse código html, mas digamos que 
+aquilo ali é o que está dentro do body.
+
+
+
+
+
+JAVASCRIPT                         BROWSER
+
+
+                                    <body>
+                                        <h1>Welcome!</h1>
+                                    </body>
+
+
+
+O que acontece, na verdade, é que quando o arquivo/documento html é baixado, o browser
+vai por cima dele, O ANALISA (parsing) E O RENDERIZA. O professor nos mostrou mais cedo no curso, 
+quando ele nos mostrou as diferentes maneiras de carregar um código javascript em uma webpage, e como 
+isso AFETA O PARSING DO CÓDIGO HTML, porque o browser simplesmente lê aquele documento html de cima a baixo, e quando 
+ele encontra um script, ele o executa imediatamente, e quando ele encontra outros elementos html, 
+ele simplesmente parseia e renderiza esses elementos... e no fim, ele renderiza os pixels na tela, 
+que são o que você precisa para ver as coisas, ver um botão, um título, etc. 
+
+é isso, portanto, que está acontecendo.
+
+Javascript pode ser parte daquela webpage, ele certamente é parte da webpage em todas as páginas que 
+trabalhamos nesse curso, e é CARREGADO PELO BROWSER.
+
+***MASSSSS NÃO SE ESQUEÇA DE QUE JAVASCRIPT ___É____ UMA___ LINGUAGEM____ HOSTEADA. HOSTED LANGUAGE.
+O professor mencionou isso NO PRIMEIRO MÓDULO. Isso significa que O BROWSER PROVIDENCIA O AMBIENTE 
+PARA QUE O JAVASCRIPT RODE. Ele providencia a javascript engine, que no final das contas parseia e entende 
+todo o código javascript e o executa, no final. É o browser que providencia isso. Ele também 
+providencia um monte de APIs, que são um monte de funcionalidades nas quais javascript pode "tap" (tap into these functionalities); ele pode 
+"tap" para que possa interagir com o browser.
+
+
+
+JAVASCRIPT                                          BROWSER
+
+
+                                    Exposes Web API to                             
+                             allow Javascript to                              <body>
+                                Work with the parsed                       <h1>Welcome!</h1>
+                                    document                                   </body>  
+                                                                                    |
+                                                                                    |
+                                                                                    |
+                                                                                    |---> parseado e analisado pelo browser.
+
+
+
+Nós também ja vimos isso antes, e isso vai virar super importante aqui, agora, quando 
+trabalharmos com o código HTML carregado e renderizado; isso é porque o BROWSER NA VERDADE 
+EXPÕE "FUNCIONALIDADE" (functionality) para PERMITIR QUE JAVASCRIPT INTERAJA com aquele 
+código HTML renderizado.
+
+NO FINAL DAS CONTAS, ISSO É CHAMADO DE "DOM" (Document Object Model). Modelo do objeto do documento.
+                                     
+
+O DOM, no final das contas, é ESSE CÓDIGO HTML CARREGADO E RENDERIZADO... para ser mais preciso, 
+ele é A REPRESENTAÇÃO EM OBJETO (object representation) DESSE CÓDIGO QUE É CRIADA PELO BROWSER, por trás das cenas.
+É a coisa na qual nós podemos "tap" com Javascript. 
+
+O javascript pode, portanto, trabalhar com UM MONTE DE OBJETOS, QUE SERÃO EXPOSTOS A NÓS COMO 
+"OBJETOS JAVASCRIPT", que no final das contas REPRESENTAM AQUILO QUE O BROWSER RENDERIZOU, AQUILO 
+QUE O BROWSER FEZ A PARTIR DAQUELE CÓDIGO HTML que foi providenciado.
+
+
+E em Javascript, nós temos certos MÉTODOS, certas FUNCIONALIDADES como por ex:
+
+const.titleEl = 
+document.querySelector('h1');
+
+Isso é o código de um document query selector, método que nos permite alcançar o código html 
+carregado e, por exemplo, com esse snippet, nós ganhamos acesso ao PRIMEIRO ELEMENTO H1 QUE temos naquele 
+código HTML carregado.
+
+
+
+
+JAVASCRIPT                                          BROWSER
+
+
+const titleEl =                                                      Exposes Web API to                             
+document.querySelector('h1');                                      allow Javascript to                              <body>
+                                                                    Work with the parsed                       <h1>Welcome!</h1>
+                                                                               document                                   </body>  
+                                                                                                                             |
+                                                                                                                            |
+                                                                                                                            |
+                                                                                                                          |---> parseado e analisado pelo browser.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+É claro que você verá todas as diferentes maneiras de fazer query de elementos HTML, e também como 
+configurá-los, neste módulo.
+
+
+
+
+O professor também quer BREVEMENTE MENCIONAR QUE o DOM NÃO ESTÁ LIGADO ESTRITAMENTE AOS BROWSERS;
+
+"DOMs ARE NOT STRICTLY TIED TO Browsers! There are other tools that can parse HTML!". 
+
+Essas outras ferramentas nem mesmo estão, necessariamente, ligadas ao javascript, também.
+
+Ou seja, em linguagens como Phyton você também pode encontrar certas ferramentas ou plug-in extensions 
+que permitem a você ler e trabalhar com CÓDIGO HTML ou com CÓDIGO JAVASCRIPT, se você estiver rodando-o 
+por meio do NODE.JS, por exemplo. o NODE.JS não tem essa funcionalidade do DOM "built-in", porque você 
+tipicamente usa o node.js de forma "serverside" ou de forma desconectada/dettached de um browser, MAS 
+VOCÊ AINDA PODE ADICIONAR CERTOS PACOTES(PACKAGES) PARA + OU - TRAZER ESSA FUNCIONALIDADE DE VOLTA 
+À LINGUAGEM, Trazer de volta essa funcionalidade de poder ler e parsear um arquivo html.
+
+ 
+O BROWSER, ENTRETANTO, TEM TODA ESSA FUNCIONALIDADE "BUILT-IN" para você, e no final das contas, o browser tem 
+2 OBJETOS GLOBAIS BUILT-IN MUITO IMPORTANTES, VOCÊ PODERIA DIZER. 
+São Esses objetos + ou - (kind of) garantem a você esse acesso ao documento html. 
+
+VOCê JÁ PODE VER UM DELES NESSE ARQUIVO DE TEXTO/NESSA LIÇÃO, É AQUELE CÓDIGO 
+DO QUERY SELECTOR. Mas não o código inteiro, e sim aquele trecho "document". Esse 
+"document" É UM OBJETO, É O OBJETO IMPORTANTE DO QUAL O PROFESSOR ESTÁ FALANDO. O objeto 
+"document" é disponível globalmente pelo javascript, e não é criado por nós. É O BROWSER QUE 
+EXPÕE ESSE OBJETO A NÓS. Ele expõe esse objeto a nós para que a nós seja garantido acesso A TODAS 
+AS MANEIRAS DIFERENTES DE INTERAGIR COM O A PÁGINA HTML CARREGADA.
+
+
+
+
+
+"document" = um pedaço muito importante para trabalhar com o código html carregado. É uma propriedade 
+desse próximo objeto importante, que está logo abaixo. É uma propriedade de "window", o objeto importante.
+É o node ROOT do DOM, isso significa que esse objeto é realmente o entrypoint (é o entrypoint mais topmost, mas não é o negócio mais topmost) mais "topmost" (superior, superficial) para conseguir 
+acesso a todo aquele código html carregado. Esse objeto, portanto, te providencia DIVERSOS MÉTODOS E FUNCIONALIDADES 
+PARA CONSEGUIR ACESSO AOS ELEMENTOS, para "query" para elementos html (query for elements), para interagir com 
+os conteúdos do DOM, ou seja, para interagir com o código HTML carregado.
+
+(provides access to element querying, DOM content, etc).
+
+
+
+
+OUTRO OBJETO GLOBAL IMPORTANTE = "window".
+
+
+
+"window" engloba "document".
+
+
+
+A diferença entre as duas é que DOCUMENT, no final das contas, é o "NODE" ROOT do DOM, o qual o 
+browser expõe a nós.
+
+
+
+WINDOW ----> Por outro lado, window é UM OBJETO GLOBAL QUE POSSUI "DOCUMENT" COMO PROPRIEDADE. Window, portanto, 
+é o VERDADEIRO OBJETO GLOBAL MAIS "TOPMOST" DISPONÍVEL A NÓS EM JAVASCRIPT NO BROWSER, e isso, no final das contas, reflete 
+a janela ativa do browser (a "tab"). É basicamente seu entry point global; SEU "STORAGE GLOBAL", em outras palavras, para 
+o seu script. Window te dá acesso a TODAS as features que o browser quer expor a você. 
+
+
+**O ROOT ENTRY POINT é SEMPRE o objeto "WINDOW", mas esse objeto também te dá algumas propriedades 
+específicas dele (específicas de window, "window specific properties."), como exemplo uma propriedade 
+que mede a "window width", ou qualquer coisa do gênero. Veremos isso ao longo deste módulo.

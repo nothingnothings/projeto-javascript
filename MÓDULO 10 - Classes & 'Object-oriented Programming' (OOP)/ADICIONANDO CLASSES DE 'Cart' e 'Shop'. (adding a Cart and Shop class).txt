@@ -1,0 +1,689 @@
+
+
+Hora de criar uma nova classe...
+
+
+
+
+
+
+
+Devemos adicionar uma classe com nome 
+de 'ShoppingCart'...
+
+
+
+
+
+
+ex:
+
+
+
+
+class ShoppingCart {
+
+}
+
+
+
+
+
+
+---------------------
+
+
+
+
+Dentro dela, eu vou querer um FIELD para 
+
+'items', QUE INICIALMENTE SERÁ VAZIO (um array vazio... detalhe, arrays vazios são TRUTHY e não falsy, como uma empty string o seria).
+
+
+
+ex:
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+}
+
+
+------------------------
+
+
+
+Além disso, eu também 
+vou querer um método 
+
+
+'render(){}'  (NÃO CONFUNDIR 
+COM O RENDER ANTIGO, PRESENTE EM 
+PRODUCTITEM...) aqui, QUE 
+RENDERIZARÁ ALGO NA TELA...
+
+Esse 'algo' deverá simplesmente 
+
+
+
+ser, digamos,  O VALOR TOTAL (dos produtos) e então 
+um botão que nos permite PEDIR (order) os items.
+
+
+
+
+Professor diz que vocÊ poderia, é claro, ser mais fancy 
+que isso e fazer com que todos os items sejam renderizados, 
+MAS PARA MANTER ESSE MÓDULO CURTO, ele apenas 
+renderizará o valor total dos produtos...
+
+
+Ele vai lá e cria um elemento Cart, chamado
+de 
+'cartEl', que segurará um objeto criado 
+por 
+'document.createElement('section');
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+    
+    }
+}
+
+
+
+------------------------------------------
+
+
+
+
+DEPOIS DISSO, ELE DIZ QUE IRÁ DEFINIR O 'innerHTML' desse elemento 
+cart como sendo.... (aí ele insere backticks; backticks para que ele possa inserir código html multilinha.).
+
+
+
+
+O PROFESSOR ENTÃO coloca o innerHTML a ser adicionado como 
+sendo uma h2 tag que dirá o total, que terá 
+um $ (dinheiro) e aí UM VALOR DINÂMICO, INSERIDO POR MEIO DE 
+'${}'.
+
+
+Dentro desse ${}, o professor colocará UM ZERO. Ele diz que 
+esse 0 logo fará referência a algo dinâmico no nosso código.
+
+
+Por fim, ele vai lá e insere um botão que dirá 'order now'.
+
+
+Ele diz que também acessará uma classe, por meio de 'cartEl.className', para 
+CONSEGUIR UMA ESTILIZAÇÃO BOA. Ele define a propriedade 
+'className' como sendo 'cart', que é outro estilo que foi definido 
+no arquivo css.
+
+
+
+ex:
+
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+        
+        cartEl.className = 'cart';
+    
+    }
+}
+
+
+
+----------------------------------
+
+
+
+Claro, mais tarde o professor ADICIONARÁ UM EVENTLISTENER nessa 
+classe ShoppingCart, mas por enquanto ele só vai 
+retornar 'cartEl' aqui, dentro do método 'render()'...
+
+
+
+ex:
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+        
+        cartEl.className = 'cart';
+        return cartEl;
+    }
+}
+
+
+
+------------------------------------------------
+
+
+
+
+
+O professor escreveu 'return cartEl' para que SEMPRE 
+QUE NÓS CRIARMOS UM SHOPPINGCART novo, nós possamos 
+fazer o append dele ao DOM.
+
+
+
+
+
+Mas qual é o lugar no código em que eu quero 
+usar o ShoppingCart????
+
+
+
+
+Bem, esse lugar PROVAVELMENTE DEVE SER 
+UMA NOVA CLASSe, a ser criada, que + ou - 
+combine 'productList' e 'ShoppingCart'....
+
+
+
+ISSO PORQUE O 'CART' ITEM, o 
+conteúdo HTML do cart, CERTAMENTE 
+NÃO FAZ PARTE DA PRODUCTLIST; por isso, 
+renderizar o cart por meio do render() de productList 
+seria incorreto....
+
+
+Mas apesar disso, productList ainda é a coisa 
+que renderizamos na tela INICIALMENTE, ANTES 
+DE MAIS NADA, no código...
+
+
+
+
+
+É por isso que devemos adicionar uma nova 
+classe, a qual nós chamaremos 
+de 'shop', 'page', 'app', ou qualquer outra coisa.
+
+
+Dentro dessa classe, eu vou adicionar OUTRO RENDER method, 
+e dessa vez eu vou querer 
+
+COMBINAR o 'ShoppingCart' e a 'productList'...
+
+
+
+Para que eu consiga fazer isso, eu simplesmente 
+PEGO 
+
+AS LINHAS DE CODIGO 
+
+
+'const productList = new ProductList();
+productList.render();' 
+
+E INSIRO DENTRO DO MÉTODO 
+'RENDER()' DE  minha classe '
+shop'.
+
+
+
+ex:
+
+
+
+
+
+class Shop {
+    render() {
+        const productList = new ProductList();
+        productList.render();
+    }
+}
+
+
+
+
+
+------------------------------
+
+
+
+
+Agora, portanto, a productList é 
+CRIADA DENTRO DO RENDER METHOD de 
+'shop'.
+
+
+Porém, o professor não para por aí:
+
+
+ele vai lá e cria o objeto 'CART' DENTRO 
+DO MÉTODO RENDER da classe shop....
+
+como valor desse objeto, ele coloca 'new ShoppingCart', 
+que terá todo aquele código html do qual precisamos, e que 
+completará a comunicação entre as diferentes partes do código.
+
+
+
+ex:
+
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+        
+        cartEl.className = 'cart';
+        return cartEl;
+    }
+}
+
+
+
+
+
+class Shop {
+
+    render() {
+        const cart = new ShoppingCart();
+        const productList = new ProductList();
+        productList.render();
+    }
+}
+
+
+
+
+------------------------
+
+
+Por fim, o professor 
+chama 'cart.render()' para fazer uso 
+do método 'render()' dentro da classe 'ShoppingCart'.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+        
+        cartEl.className = 'cart';
+        return cartEl;
+    }
+}
+
+
+
+
+
+class Shop {
+
+    render() {
+        const cart = new ShoppingCart();
+        cart.render();
+        const productList = new ProductList();
+        productList.render();
+    }
+}
+
+
+
+--------------------------
+
+
+
+
+ProductList, por enquanto, sempre 
+renderiza ela mesma naquele lugar 'app' (const renderHook = document.getElementById('app') ), 
+NAQUELA DIV DO DOCUMENTO index.html...
+
+
+
+
+
+AGORA NÓS PRECISAMOS MUDAR ISSO... precisamos essencialmente (quase isso)
+CORTAR o 
+
+
+'renderHook' que está no método render de productList E ENTÃO MOVÊ-LO para 
+dentro de 'Shop', que agora PASSOU A SER O NOVO LUGAR ONDE RENDERIZAREMOS 
+TUDO NA TELA....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+        
+        cartEl.className = 'cart';
+        return cartEl;
+    }
+}
+
+
+
+
+
+class Shop {
+
+    render() {
+        const renderHook = document.getElementById('app');
+        const cart = new ShoppingCart();
+        cart.render();
+        const productList = new ProductList();
+        productList.render();
+    }
+}
+
+
+
+
+-------------------------
+
+
+
+
+AGORA PRECISAMOS NOS ASSEGURAR DE QUE em vez do método 
+
+render() em productList fazer o append de 'prodList' À renderhook (que é o elemento div do html) por meio 
+de append(), ELE FARÁ
+
+O RETURN DE 'prodList'.... (mesma coisa que fazemos nas outras classes...).
+
+
+
+
+ex:
+
+
+
+
+
+
+class ShoppingCart {
+    items: [];
+
+
+
+    render() {
+        const cartEl = document.createElement('section');
+        cartEl.innerHTML = `
+                        <h2>Total: \$${0}</h2>
+                        <button>Order Now!</button>
+                            `;
+        
+        cartEl.className = 'cart';
+        return cartEl;
+    }
+}
+
+
+
+
+
+class Shop {
+
+    render() {
+        const renderHook = document.getElementById('app');
+        const cart = new ShoppingCart();
+        cart.render();
+        const productList = new ProductList();
+        productList.render();
+    }
+}
+
+
+
+
+class ProductList {
+
+
+
+    render() {
+        const prodList = document.createElement('ul');
+        prodList.className = 'product-list';
+        for(const prod of this.products) {
+            const productItem = new ProductItem(prod);
+            const prodEl = productItem.render();
+            prodList.append(prodEl);
+        }
+        return prodEl; //////ALTERAÇÃO.
+    }
+}
+
+
+--------------
+
+
+
+
+
+E agora, no componente/classe 'SHOP' nós apenas precisamos 
+ARMAZENAR ESSES ELEMENTOS QUE FORAM RETORNADOS....
+
+
+
+Para isso, o professor edita 'cart.render();' de dentro 
+de Shop, colocando-o 
+
+dentro de uma constante chamada de 'cartEl'.
+
+
+
+ex:
+
+
+
+
+
+
+
+class Shop {
+
+    render() {
+        const renderHook = document.getElementById('app');
+        const cart = new ShoppingCart();
+        const cartEl = cart.render();  //alteração.
+        const productList = new ProductList();
+        productList.render();
+    }
+}
+
+
+
+------------------------
+
+
+
+
+Por fim, o professor coloca 'productList.render();' em outra  dessas constantes, chamada 
+
+de 
+'prodListEl' (product list element).
+
+
+
+Ele também transfere o  append 
+de prodList em 'renderHook' que estava lááá em ProductItem para dentro do render 
+de shop..... MAS ELE MUDA o 'prodList' que estava como parâmetro desse append, 
+ele o troca por 'cart'. 
+
+Mas ele também faz um append de ProdList nesse renderHook... (afinal, ele realmente disse que queria combinar o SHOP e o CART em um único elemento...)
+
+
+ex:
+
+
+
+
+
+
+class Shop {
+
+    render() {
+        const renderHook = document.getElementById('app');
+        const cart = new ShoppingCart();
+        const cartEl = cart.render();  //alteração.
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+        renderHook.append(cart);   ////// 'cart' é o resultado/objeto lógico da classe 'ShoppingCart'
+        renderHook.append(prodList);  //////  'prodList' é o resultado/objeto lógico da classe 'ProductList'
+    }
+}
+
+
+--------------------------
+
+
+
+
+AGORA SÓ NOS RESTA CRIAR NOSSO 
+
+
+'shop' no código, por meio 
+
+
+
+de 'new Shop', embaixo de todas as definições de classe...
+
+
+
+Fazemos isso por meio 
+
+
+de 
+
+
+
+'const shop = new Shop();'
+
+
+
+
+CRIADO O SHOP, SIMPLESMENTE 
+
+
+
+EXECUTAMOS 
+
+
+'shop.render();'.
+
+
+-----------------------
+
+
+
+shop.render() vai executar as partes INDIVIDUAIS do nosso código, todas criadas com aquelas 'const' dentro do render() de Shop.
+
+
+
+
+
+
+
+
+
+
+
+PERCEBEMOS QUE A APARÊNCIA DE NOSSA WEBPAGE FOI ALTERADA. 
+
+Agora há uma ÁREA 'cart' LÁ EM CIMA...
+
+
+
+Entretanto, a parte 'add to cart' ainda não funciona.... não funciona 
+porque ainda não adicionamos essa lógica.

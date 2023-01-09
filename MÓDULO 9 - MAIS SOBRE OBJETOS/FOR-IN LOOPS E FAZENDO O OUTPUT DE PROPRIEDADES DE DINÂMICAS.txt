@@ -1,0 +1,314 @@
+Como podemos fazer o output da combinação key-value inputtada pelo usuário na página? (aqueles 2 elementos dos input fields, o 'extraInfo' e o 'extraValue'...)
+
+
+
+
+
+
+Professor aponta que podemos armazená-los dinâmicamente por meio daquela sintaxe específica lá:
+
+
+
+ex:
+
+
+"const newMovie = {
+    ...
+    [extraName]: extraValue
+    ...
+}
+
+
+-----------------------------------
+
+
+Podemos armazenar, claro, MAS COMO DIABOS PODEMOS FAZER OUTPUT DESSES INPUTS DO USUÁRIO?
+
+
+Professor diz que nós aprendemos SOBRE COMO ACESSAR VALORES DINÂMICOS, E SOBRE COMO 
+NÓS TAMBÉM PODEMOS FAZER ISSO POR MEIO DA "SQUARE BRACKETS NOTATION".
+
+
+
+Ele diz que você pode, por exemplo, definir o textContent do movieEl como:
+
+
+"movieEl.textContent = movie.info.title + '-' + movie.info[extraName];" -------> ISSO VAI UTILIZAR A variável "extraName" como key/propriedade/keyName dinâmico, aqui.... ENTRETANTO, O PROFESSOR DIZ QUE ISSO ___NÃO FUNCIONA___. NÃO VAI FUNCIONAR.
+
+                                                                //////NÃO, NÃO VAI FUNCIONAR. Não vai funcionar porque "extraName" É UMA CONSTANTE EM "addMovieHandler", E NÃO NESSA FUNÇÃO DE "movies.forEach". Como você aprendeu nas aulas passadas, variáveis e constantes são BLOCK SCOPE; ou seja, não podem ser utilizadas fora dos curly braces que demarcam suas funções respectivas. Não podemos utilizar o 'extraName' de addMovieHandler em "movies.forEach", isso não é permitido.
+
+                                                                    /////PROFESSOR DIZ QUE UM CAMINHO "SUJO" POR VOLTA DESSE PROBLEMA É ___TRANSFORMAR____ extraName EM UMA VARIÁVEL GLOBAL... isso ainda deixaria que você definisse um valor de extraName em addMovieHandler, além de possibilitar a você utilizar ela também no interior de "movies.forEach"..
+
+                                                                    //PORÉM, PROFESSOR DIZ QUE ISSO, ALÉM DE SER SUJO, TAMBÉM ______NEM __________ FUNCIONARIA______.
+                                                                    //não funcionaria porque "addMovieHandler" é chamado MÚLTIPLAS VEZES PARA MÚLTIPLOS FILMES, sendo que cada vez que é chamado, "extraName" segura um NOVO VALOR.
+                                                                    ----> se nós tivéssemos uma única variável/const global em que armazenássemos esse valor, essa variável/constante 
+                                                                    ///global sempre seguraria o ÚLTIMO VALOR QUE FOI INPUTTADO, E NÃO ______TODOS _____ OS VALORES_______ (como queremos).
+                                                                    
+                                                                    //Isso significa que se nós tentássemos fazer o output de "movieEl.textContent = movie.info.title + '-' + movie.info[extraName];", 
+                                                                    // nos daríamos mal, pois só seria outputtado o último valor, e não todos eles.
+
+                                                                    //Essa, portanto, NÃO É UMA SOLUÇÃO QUE PODEMOS UTILIZAR.
+
+
+                                    
+                                    ------------------------------------------------
+
+
+
+
+                                    Em vez disso, podemos fazer algo DIFERENTE.
+
+
+
+Deletamos "movieEl.textContent = movie.info.title + '-' + movie.info[extraName];". 
+
+
+Adicionamos, então, uma nova variável À "movies.forEach". Uma variável chamada "text". Por enquanto, 
+essa variável segurará apenas "movie.dot.title", que é uma PROPRIEDADE QUE CERTAMENTE 
+PODEMOS ACESSAR, PORQUE ELA FOI HARDCODADA (ao contrário de extraName e extraValue, que são chaves dinâmicas)...
+"title" foi hardcodeado por nós, desenvolvedores, por isso que sabemos que ela SEMPRE ESTARÁ DENTRO DE 
+"addMovieHandler".
+
+
+
+ex:
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    let text = movie.dot.info.title;                                     //
+});
+
+
+
+------------------------
+
+
+
+
+O professor então adiciona um + '-' para SEPARAR ISSO DE OUTRAS PARTES DESSA LINHA.
+
+
+
+ex:
+
+
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    let text = movie.dot.info.title + ' - ';
+
+});
+
+
+
+-----------------------
+
+
+O professor AGORA QUER PASSAR POR TODAS AS PROPRIEDADES QUE ELE TEM 
+EM "newMovie.info".... E ele sabe que toda propriedade que NÃO É TITLE 
+SERÁ UMA PROPRIEDADE QUE FOI ADICIONADA PELAS MÃOS DO USUÁRIO.
+É claro que isso será exatamente uma única propriedade, diz ele, mas 
+ainda assim essa será a propriedade que foi inserida pelo usuário.
+
+
+Mas então, como diabos passaremos por dentro de todos os key-value pairs em um objeto?
+
+APRENDEMOS ISSO NO MÓDULO DE "CONTROL STRUCTURES"... 
+
+TEMOS UM FOR LOOP ESPECIAL PARA ISSO, O "FOR IN LOOP".
+
+
+FARÁ ISSO POR MEIO DE for in loop. Isso passará por dentro DE TODAS AS KEYS 
+EM UM DETERMINADO OBJETO.
+O OBJETO QUE O PROFESSOR VAI QUERER ENTRAR DENTRO É "movie.info" (o objeto info, que é um objeto no interior do objeto 'movie').
+
+
+
+
+ex:
+
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    let text = movie.dot.info.title + ' - ';
+    for (const key in movie.info) {
+        if(key !=== 'title) {
+
+        }
+    }
+
+
+});
+
+
+-------------------
+
+
+Esse FOR IN LOOP vai ir por dentro de TODAS AS PROPRIEDADES QUE TENHO DENTRO DESSE OBJETO (e isso, é claro, inclui a propriedade "title", QUE EU NÃO QUERO ADICIONAR MAIS UMA VEZ, e terei que ocultar/remover de alguma forma). ----> OBS::: além disso, é bom relembrar aqui que o parâmetro "movie" desse método forEach é, na verdade, CADA ITEM "FILME" QUE ESTARÁ DENTRO DO ARRAY DE "MOVIES".
+                                                                                        -------------------------------------------------------------------------------------------------------------------------------------------------------------> (FAZEMOS ISSO DE 'KEY !== 'title' PARA QUE A PROPRIEDADE "title", que foi hardcodeada dentro desse objeto, NÃO SEJA REPETIDA, NÃO SEJA RE-ADICIONADA POR MEIO DESSA PARTE DO CÓDIGO.)
+Lá dentro, portanto, podemos adicionar um IF CHECK e checar "se key não for igual a title.... (title, no caso, 
+será o title como UMA STRING, PORQUE SE VOCÊ COLOCASSE SEM A NOTAÇÃO DE STRING (''), O JAVASCRIPT IRIA
+PROCURAR POR UMA ___vARIÁVEL___ CHAMADA "TITLE", QUE ELE NUNCA ENCONTRARIA NESSA FUNÇÃO. Se ele encontrasse 
+essa variável/const chamada "title", ele utilizaria os valores segurados por ela nessa comparação do if check. Mas não queremos isso, 
+portanto seguimos em frente. Em vez disso, como keys SÃO STRINGS, COMO VOCÊ APRENDEU, DEVEMOS 
+COMPARAR "KEY" à UMA ___STRING____, AQUI.)"... se key não for title, SABEREMOS QUE ESTAMOS LIDANDO 
+COM UMA PROPRIEDADE INPUTTADA PELO USUÁRIO... (que não é 'title', que é uma keyname/key-value pair que foi HARDCODEADO POR NÓS DENTRO DESSE OBJETO. Esse if check, portanto, é utilizado para que EVITEMOS REPETIR O 'title' 2x; ele vai 
+fazer com que 'title' seja EXCEPCIONADO, VAI FAZER COM QUE O FOR IN LOOP O IGNORE E SE CONCENTRE 
+NAQUELES OUTROS 2 KEY-VALUE PAIRS, de 'extraInfo' e 'extraValue', que são inputtados pelo usuário.) E é exatamente ESSA PROPRIEDADE INPUTTADA PELO USUÁRIO 
+QUE QUEREMOS ADICIONAR AO NOSSO TEXTO, POR MEIO DE "text"....
+                                                    (como fazer isso?)
+
+
+
+                                                    por meio de 
+                                                    (a variável criada mais acima nesse método forEach).
+                                                   
+                                                    text = text `${key}`;
+
+
+
+
+ex:
+
+
+
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    let text = movie.dot.info.title + ' - ';
+    for (const key in movie.info) {
+        if(key !=== 'title) {
+            text = text + `${key}`;
+        }
+    }
+
+
+});
+
+
+
+                                                (para isso, utilizamos o template literal, por meio de BACKTICKS ``)
+DEFINIMOS O VALOR DE "TEXT" COMO SENDO "TEXT" + aquela propriedade dinâmica, inputtada pelo usuário (será o keyName inputtado pelo usuário) (no campo "extraInfo"/"extraName").
+
+
+
+Depois disso, o professor também adiciona ": ${}`; (isso será uma referência ao elemento dinâmico de "extraValue", que 
+por sua vez é acessado por meio do comando "movie.info[key]". ). -----> [key] é um uso daquela LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES, em que 
+key é derivada dinamicamente como parte desse FOR IN LOOP e "mOVIE.INFO" é o objeto; e nós queremos acessar 
+O VALOR PARA ESSA KEY COM ESSE NOME QUE ESTÁ ARMAZENADA NA CONSTANTE "key", e fazemos isso 
+por meio do uso de square brackets.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    let text = movie.dot.info.title + ' - ';
+    for (const key in movie.info) {
+        if(key !=== 'title) {
+            text = text + `${key}: ${movie.info[key]}`;
+        }
+    }
+
+
+});
+
+
+
+Com movie.info[key] NÓS ACESSAMOS DINAMICAMENTE O VALOR PARA/DE QUALQUER 
+NOME DE PROPRIEDADE QUE O  USUÁRIO ESCOLHEU...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+movies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    let text = movie.dot.info.title + ' - ';
+    for (const key in movie.info) {
+        if(key !=== 'title) {
+            text = text + `${key}: ${movie.info[key]}`;  
+
+
+            ////"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+        }
+    }
+});
+
+
+
+
+Com isso, após o FOR IN LOOP, podemos definir movie.textContent como igual 
+à "text", ou seja, igual à essa variável que nós recém tivemos dentro daquele for in loop...
+
+
+
+
+
+
+
+
+
+
+//"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+
+
+
+//"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+
+//"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+
+//"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+
+//"${movie.info[key]}" --> é a representação do "extraValue", também inputtado pelo usuário. É UM EXEMPLO DE USO DA "LÓGICA DE ACESSO DINÂMICO A PROPRIEDADES", onde key é derivada DINAMICAMENTE como parte desse FOR IN LOOP.... movie.info é o objeto, e queremos acessar o VALOR para a KEY COM AQUELE NOME que está armazenado na constante 'key'. o uso de [] dentro de um objeto, fazendo referência À UM KEYNAME, FAZ COM QUE O VALOR DO RESPECTIVO KEYNAME SEJA REFERENCIADO, E NÃO O KEYNAME EM SI. Eu tive muita confusão nessa parte da matéria:  o professor, ao digitar "${movie.info[key]", FAZ COM QUE O JAVASCRIPT PRIMEIRAMENTE PEGUE o ___segundo key-value pair____ do objeto "info" (o primeiro key-value pair, o de 'title', é completamente ignorado). Ao pegar esse key-value pair, a REFERÊNCIA EXPRESSA À .info[key] é ___ESPECIAL____. Ela não funciona como pensamos que funciona: ela na verdade faz com que O VALOR DESSA RESPECTIVA KEY SEJA ESCOLHIDO/REFERENCIADO AQUI, e __NÃO__ o seu KEYNAME (até porque isso seria meio inútil/redundante... poderíamos apenas chamar o keyName por seu valor direto, aqui, sem usar os square brackets estranhos). Por isso, quando nós escrevemos "objeto[chaveExemplo]", nós NÃO VAMOS SELECIONAR O KEYNAME DESSE OBJETO, MAS SIM O RESPECTIVO VALOR QUE ESTÁ ASSIGNADO A ELE.
+
+
+
+
+
+É ASSIM QUE PODEMOS FAZER PARA TRABALHAR COM NOMES DE PROPRIEDADES/KEYNAME-VALUE PAIRS 
+OS QUAIS NÃO TEMOS COMO SABER OS NOMES AINDA; CUJOS NOMES SERÃO INPUTTADOS 
+PELO USUÁRIO NO FUTURO, E NÃO DEFINIDOS POR NÓS ANTECIPADAMENTE. 
+
+Em vez de tentar adivinhar o que o usuário vai escrever no futuro, aqui nós 
+simplesmente EXCLUÍMOS AS COISAS QUE JÁ SABEMOS QUE O OBJETO TERÁ (como 'title', por meio 
+daquele if check bizarro) e então APENAS ACESSAMOS DINAMICAMENTE O VALOR 
+DA PROPRIEDADE QUE AINDA NÃO CONHECEMOS, por meio de [] (ex: movie.info[key]).
+
+
+
+
+
+

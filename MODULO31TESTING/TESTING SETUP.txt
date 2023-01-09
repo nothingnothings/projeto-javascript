@@ -1,0 +1,381 @@
+
+
+PARA O SETUP DE TESTING, O PROFESSOR PREPAROU UM PEQUENO STARTING PROJECT...
+
+
+
+
+Devemos criar ele do 0, como prática...
+
+
+
+
+
+
+----> TEMOS 2 ARQUIVOS, 
+
+
+'app.js' 
+
+
+e 'util.js' (junto do index.html)....
+
+
+
+
+Também temos um folder 'dist'...
+
+
+
+
+
+
+
+E um 'styles.css'....
+
+
+
+
+
+TEMOS UM APLICATIVO SIMPLES 'FRONTEND'---> nesse aplicativo nós fazemos 
+
+
+IMPORT DE UNS NEGÓCIOS... ('require('./util')' ) ---> 
+
+
+
+
+O PROFESSOR ENTÃO TEM UM CÓDIGO PARA ESSENCIALMENTE DEFINIR UM EVENTLISTENER 
+
+
+em um botão e então ADICIONAR UM 
+
+
+'USER' A UMA LISTA DE USERS...( quando esse botão é clicado).
+
+
+
+
+---------------------
+
+
+
+O PROFESSOR TAMBÉM TEM 
+
+
+'util.js', 
+
+QUE SEGURA 
+
+
+as FUNÇÕES QUE O PROFESSOR VAI IMPORTAR/IMPORTA ao 
+
+'app.js'...
+
+
+
+
+
+
+-----> o professor ESTÁ USANDO 
+
+
+A SINTAXE DO 'NODE.JS' ( aquela sintaxe de imports de 'exports.xxxxx', que depois você usa 'require(xxx)' no DOCUMENTO EM QUE 
+VOCê QUER IMPORTAR A FUNÇÃO/OBJETO/COISA...) PQ 
+
+ELA É SIMPLESMENTE ___MAIS FÁCIL___ DE SER TESTADA___... ela é mais fácil 
+
+de ser testada PORQUE NÃO PRECISA DE 
+
+UMA 
+
+
+'COMPLEX BUILD WORKFLOW SETUP' para funcionar... ---> o professor 
+
+não quer focar nesse 
+
+'setup' do BUILD WORKFLOW de testing neste vídeo aqui...
+
+
+
+
+
+
+----> MAS O PROFESSOR AINDA USA WEBPACK PARA BUNDLAR TODOS ESSES ARQUIVOS EM 1 ÚNICO 
+
+ARQUIVO, em um arquivo chamado 
+
+'main.js'
+
+
+em 
+
+'dist'...
+
+
+
+
+ESSE ARQUIVO 
+
+
+'main.js' 
+
+É O ARQUIVO QUE UTILIZAREMOS...
+
+
+
+
+--------------------------------------
+
+
+
+
+-------->  professor diz para nós clicarmos 2x em index.html... --> professor 
+
+não settou um webpack dev server nem nada do gênero, 
+
+
+pois ele diz que não vai focar no 'frontend workflow', e sim 
+
+
+NO TESTING...
+
+
+
+
+ok... consegui fazre o código compilar em 'main.js' 
+
+
+no folder 'dist'...
+
+
+----------------------
+
+
+
+Certo... consertei o código... agora temos o setup 
+
+do professor, basicamente.
+
+
+
+
+NESSA PÁGINA DO PROFESSOR, NÓS PODEMOS ENFIAR DATA nos
+
+campos (text e number, 'name' e 'age).... ESSAS INFORMAÇÕES 
+
+
+VAO CRIAR UM ELEMENTO MAIS ABAIXO, um elemento '<li>'...
+
+
+
+
+-------------------------
+
+
+É UM APLICATIVO SIMPLES, MAS É ÓTIMO PARA 
+
+COMEÇAR A ESCREVER TESTES, pois 
+
+
+podemos ver o sentido de cada teste bem claramente....
+
+
+
+----> podemos ver se os testes testam algo que NÓS TESTARÍAMOS 
+
+MANUALMENTE TAMBÉM...
+
+
+
+----> Esse é o aplicativo, portanto... 
+
+
+-----------------------
+
+
+
+PARA CRIAR/ESCREVER TESTES, PRECISAMOS DE FERRAMENTAS PARA NOS 
+
+AJUDAR COM ISSO...
+
+
+
+
+-----> 'TESTING SETUP' --->
+
+
+
+DO QUE PRECISAMOS?
+
+
+
+
+
+---> precisamos essencialmente de 3 TIPOS DE FERRAMENTAS...
+
+
+
+
+1) um TEST RUNNEr 
+
+
+
+
+2) UMA 'ASSERTION LIBRARY'
+
+
+3) UM __HEADLESS BROWSER___...
+
+
+
+---------------------------------------
+
+
+
+
+
+TEST RUNNER ---> É SIMPLESMENTE UMA FERRAMENTA QUE __rODA/EXECUTA__ NOSSOS TESTES...
+ELE VAI RODAR NOSSOS TESTES E ENTÃO RESUMIR ('summarize') OS RESULTADOS... --> ele nos 
+dá algum output sobre esses results, frequentemente... ---------> os 'test runners' 
+
+mais usados são 
+
+__MOCHA___ e 'JEST' (que se torna mais popular a cada ano)...
+
+
+
+
+
+
+
+
+2) ASSERTION LIBRARIES ---> É POR MEIO DELAS QUE DEFINIMOS NOSSAS 
+
+'TESTED LOGICS', e os OUTCOMES/resultados ESPERADOS PARA CADA TESTE.... ---> 
+
+assertion libraries nos dão AS FERRAMENTAS DE QUE PRECISAMOS PARA 
+
+DEFINIR 'expectations'.. ----> PARA DEFINIR 'COMPARAÇÕES', também 
+CONDIÇÕES que vamos 
+querer 
+
+CHECAR como parte de nossos testes ---> uma assertion library 
+
+comum é 
+
+
+a 
+
+'CHAI'... ---> é bem popular.... ----> MAS O QUE O PROFESSOR NOS ENSINARÁ/MOSTRARÁ 
+
+É UMA LIBRARY MUITO POPULAR, USADA TANTO PARA 
+
+'ASSERTING' E PARA 'TEST RUNNING'... ---> é o 
+
+'JEST'...
+
+
+
+JEST ---> CRIADO PELO FACEBOOK....
+
+
+
+
+JEST --> É RELATIVAMENTE NOVO... ---> ELE FOI REESCRITO HÁ NÃO MUITO TEMPO...
+
+
+
+
+É UMA ENGINE MUITO POPULAR PARA ESCREVER TESTS, pq serve como test runner e assertion library...
+
+
+
+
+---> É MUITO FORTE, E DIVERTIDO DE USAR....
+
+
+
+
+----> 3a coisa de que precisamos --> PRECISAMOS DE UM 
+
+'HEADLESS BROWSER' (principalmente para simulações/testes de 'END TO END' (e2e) )----> 
+
+É UM BROWSER QUE _____SIMULA 'BROWSER INTERACTION'___>... --->
+
+
+é basicamente um browser em que nÓS NÃO 
+
+TEMOS QUE CLICAR MANUALMENTE, é um browser em que podemos usar 
+
+A __bROWSER API___ ___SEM CLICAR__ manualmente... --> por meio de headless browsers, 
+
+somos capazes de usar/interagir com O DOM e todas as partes do browser 
+
+____SEM UMA USER INTERFACE___... ----> como já 
+
+vamos analisar todo 
+
+nosso projeto POR MEIO DO SEU CÓDIGO, os headless browsers são muito convenientes, 
+pois tiram um elemento que pode nos distrair, o elemento visual...
+
+
+
+
+--->  HEADLESS BROWSER MAIS POPULAR = 'puppeteer'.....
+
+
+
+
+
+
+
+PRECISAMOS 
+
+DOS HEADLESS BROWSERS PARA RODAR TESTES 
+
+DE 
+
+'END TO END' (simular processos inteiros feitos pelos usuários na nossa página...)
+
+
+
+
+
+
+
+Já o 'test runner + assertion library' JÁ BASTAM PARA __UNIT___ TESTS E ___INTEGRATION TESTS___...
+
+
+
+
+
+----- 
+
+
+
+COMEÇAMOS COM 
+
+
+'JEST' E 'UNIT TESTS'....
+
+
+
+
+rodamos 'npm install --save-dev jest'.... (JEST É UMA DEVELOPMENT DEPENDENCY DE NOSSO PROJETO...) --> ele será usado para 
+
+
+ESCREVER E RODAR ALGUNS TESTES... (test running and assertion)....
+
+
+
+
+
+
+COM ISSO, PODEMOS ESCREVER NOSSO PRIMEIRO CÓDIGO...
+
+
+Professor explica que ele escreverá códigos para testar
+ 
+
+ as funções/interações em 'util.js'...

@@ -1,0 +1,240 @@
+Há um operador que não usamos até agora.
+
+
+É o operador Ternário.
+
+Antes de usá-lo, é importante entender que IF statements NÃO RETORNAM VALORES. Eles por si próprios retornam valor algum. Você 
+apenas joga eles no seu código para rodar códigos condicionalmente, não funcionam como funções 
+ou operadores de cálculos, porque um IF STATEMENT não te retorna um valor que você pode armazenar em algum lugar.
+
+
+Portanto, levando em consideração esse fato, vocÊ pode entender que:
+
+
+ISSO AQUI:
+
+
+
+const userName = if (isLogin) {
+    return 'Max';
+} else {
+    return null;
+}
+
+
+NÃO FUNCIONARÁ. Você não pode assignar um IF statement à uma constante, porque 
+isso não retornará nada, e essa expressão será tratada como um ERRO DE SINTAXE.
+If statements não retornam nada.
+
+
+
+Mas talvez você tenha código em que você quer usar um diferente valor na constante/variável userName, e 
+o valor concreto que você quer de fato salvar naquela constante precisa depender de alguma condição.
+
+
+Na verdade, isso é algo que já temos em nosso código do monster Killer:
+
+
+Lá na função attackMonster, temos as variáveis maxDamage e logEvent, que são variáveis que SEGURAM 
+VALORES CONDICIONAIS.----> maxDamage segura tanto "ATTACK_VALUE", COMO "STRONG_ATTACK_VALUE", dependendo da condição, que é o tipo de modo escolhido/definido pelo usuário,
+e mais tarde usamos essa tal variável maxDamage, lá embaixo, em dealmonsterDamage(maxDamage).
+
+
+Portanto, aqui temos uma variável em que nós armazenamos dados QUE DEPENDEM DE ALGUMA CONDIÇÃO.
+Mas o professor fez isso por meio de um procedimento especial, primeiro ele teve 
+que settar a variável lá no início, sem definir valor algum à ela; segundamente, ele colocou uma if condition logo após, uma if condition 
+que ele NÃO TENTOU ARMAZENAR EM VARIÁVEL/CONSTANTE ALGUMA (porque isso resultaria em um erro de sintaxe).
+Então, dentro da if condition, ele assignou um valor à variável maxDamage e à outra, "logEvent".
+
+Isso é código válido, e isso funciona, MAS AQUELE SNIPPET QUE MOSTRAMOS LÁ EM CIMA, NÃO.
+
+Mas não seria conveniente ter algum tipo de if statement que funcionasse assim, que conseguisse 
+RETORNAR UM VALOR QUE ESTÁ NELE E ENTÃO ARMAZENAR ESSE VALOR EM UMA VARIÁVEL?
+
+
+Isso nos salvaria algumas boas linhas de código.
+
+Bem, existe uma solução para isso, o OPERADOR TERNÁRIO, que é usado em casos como esse.
+
+
+ex de operador ternário:
+
+
+
+
+const userName = isLogin ? 'Max' : null
+
+
+
+O OPERADOR TERNÁRIO TE PERMITE TER UM "INLINE IF STATEMENT", sem a keyword IF (porque essa keyword não pode ser usada inline, em nenhuma hipótese.)
+
+
+O operador ternário é usado por meio do question mark e da colon.
+                                        (?)                 (:)
+
+
+
+                                    isLogin ? 'Max' : null 
+
+
+    
+    A lógica aqui é simples:
+
+
+    Você primeiramente bota a condição que vocÊ quer checar:
+
+(no caso, seria o "isLogin".)
+
+if
+(isLogin) ---> isLogin
+
+
+
+isLogin 
+
+
+
+Você pode ter qualquer condição que poderia ser inserida em um if statement, inclusive múltiplas condições combinadas com && e ||, 
+
+
+Depois da condição, você coloca o VALOR QUE SERÁ DEFINIDO ÀQUELA VARIÁVEL CASO A CONDIÇÃO SEJA VERDADEIRA.
+
+
+ex:
+
+const userName = 
+
+(condição para o código rodar)
+isLogin ? 'Max'
+            (valor que será definido no caso de ifLogin ser true/truthy.)
+
+
+
+Professor diz que isso é importante, que vocÊ tem um VALOR AQUI, ou seja, algo que poderia 
+ser armazenado em uma constante. Você NÃO coloca código mais complexo aqui, não coloca código com múltiplas linhas, 
+código com múltiplas expressões, VOCÊ NÃO PODE USAR UM IF STATEMENT AQUI, NÃO PODE DEFINIR UMA NOVA VARIÁVEL AQUI, 
+TUDO ISSO É PROIBIDO. Em vez disso, depois da question mark, você precisa de ALGUM VALOR QUE PODERIA SER ARMAZENADO EM UMA CONSTANTE OU VARIÁVEL, OU EM QUALQUER OUTRO LUGAR (objetos, por exemplo, arrays, etc.).
+Essa expressão é um substituto para o =, que assigna variáveis.
+
+
+
+DEPOIS DISSO, VEM A COLON (:), E ENTÃO O SEU "ELSE" VALUE; SERÁ AQUILO QUE VAI SER 
+EXECUTADO NO CASO DA IF CONDITION SER FALSA/FALSY.
+OMITIR ESSE VALOR ELSE NÃO É ALGO PERMITIDO, ELE DEVE SEMPRE SER COLOCADO NO FINAL, sob pena de 
+ter um erro de sintaxe.
+
+
+
+const userName = isLogin ? 'Max':null
+
+isso significa:
+
+
+
+"se isLogin for true/truthy, defina o valor da constante userName como 'Max'; caso isLogin seja false/falsy, 
+defina o valor de userName como NULL. Armazene NULL nele.
+
+
+
+É assim que o operador ternário funciona, na prática.
+
+
+
+
+E podemos utilizá-lo, na verdade, no nosso código do monster killer.
+
+Podemos mudar o código anterior para NÃO USAR O IF STATEMENT/ELSE STATEMENT. O professor diz que não há problema em usar um if statement como o antigo, em certos casos usar if statements são até mais legíveis do que ternary operators.
+
+
+
+
+ex do código antigo:
+
+
+let maxDamage;
+let logEvent;
+if(mode === MODE_ATTACK) {
+    maxDamage = ATTACK_VALUE;
+    LogEvent = LOG_EVENT_PLAYER_ATTACK;
+    } else if (mode === MODE_STRONG_ATTACK) {
+        maxDamage = STRONG_ATTACK_VALUE;
+        logEvent = LOG_EVENT_PLAYER_STRONG_ATTACK;
+    }
+    ...
+}
+
+
+Podemos mudar isso para:
+
+
+let maxDamage = mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+
+
+
+Por meio dessa expressão, definimos MODE_ATTACK como ATTACK_VALUE no caso de mode ser igual a MODE_ATTACK.
+se o mode não for igual a MODE_ATTACK, queremos que o código atribue o valor de STRONG_ATTACK_VALUE a ele.
+Na versão do código antigo, nós primeiramente apenas inicializávamos maxDamage sem atribuir valor algum à ela, para 
+depois atribuírmos valores por meio dos if e else if statements.
+Com a ajuda do operador ternário, não precisamos dos if statements, porque já 
+colocamos essa "definição condicional" do valor da variável maxDamage já na linha de 
+sua inicialização.
+
+toda essa parte, todas essas linhas de código:
+
+
+if(mode === MODE_ATTACK) {
+    maxDamage = ATTACK_VALUE;
+    LogEvent = LOG_EVENT_PLAYER_ATTACK;
+    } else if (mode === MODE_STRONG_ATTACK) {
+        maxDamage = STRONG_ATTACK_VALUE;
+        logEvent = LOG_EVENT_PLAYER_STRONG_ATTACK;
+    }
+
+
+Poderão ser omitidas, caso mantenhamos a simples expressão:
+
+
+let maxDamage = mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+
+
+
+É claro que, como o professor nunca reassigna um novo valor à variável maxDamage, já que 
+ela é inicializada de pronto, já definimos as condições e a condição "else" com o ternary operator, não precisamos colocar 
+aquele restolho de código (o if e else if statement.), e como nunca assignamos um novo valor à essa variável maxDamage, podemos 
+já ir em frente e transformá-la em uma CONSTANTE, trocando "let" por "const".
+
+
+Trocados todos os negócios (trocamos a variável logEvent pela constante logEvent, a qual também inicializamos e definimos 
+como:
+
+
+const logEvent = mode === MODE_ATTACK 
+                            ? LOG_EVENT_PLAYER_ATTACK
+                            : LOG_EVENT_PLAYER_STRONG_ATTACK;)
+
+                            (e sim, podemos estruturar um ternary code dessa forma, o importante é o ";" no final da expressão.)
+
+
+
+
+If statements são preferíveis quando lidamos com condições mais difíceis/longas. O ternary operator é útil para casos simples e curtos.
+
+
+
+É importante apontar, também, que ternary operators podem ter NESTED CONDITIONS. Mas isso deve ser usado com cuidado, 
+pois pode levar a códigos muito difíceis de ler.
+
+
+ex: 
+
+
+const maxDamage = mode === MODE_ATTACK ? 5 == 5 ? 'nested value' : 'nested alternative' : STRONG_ATTACK_VALUE;
+
+
+bem confuso, como pode ver.
+
+
+
+
+
+Usar um if statement geralmente é uma opção melhor para entender o código.

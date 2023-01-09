@@ -1,0 +1,176 @@
+Além de nomes de propriedade STRINGS, há 
+
+
+__DOIS OUTROS TIPOS/ESPÉCIES DE VALORES QUE VOCÊ PODE USAR PARA SEUS ___NOMES DE PROPRIEDADE___.
+
+
+
+Eles são NÚMEROS E SÍMBOLOS. Ignoramos os símbolos... e estudamos os números.
+
+
+
+
+
+
+NÚMEROS ---> Não é surpreendente que possamos utilizar NÚMEROS como keys/nomes de propriedades/keynames, pois 
+é essencialmente isso que eles fazem nos arrays, assignam INDEXADORES (indexes) aos nossos valores/elementos 
+de dentro do array. (No final das contas, como você sabe, um array é um objeto... é um objeto que AUTOMATICAMENTE 
+ASSIGNA KEYS-NÚMERO AOS VALORES/ELEMENTOS QUE VOCÊ ADICIONOU AO SEU INTERIOR ).
+
+
+DENTRO DO OBJETO "PERSON", POR EXEMPLO, PODERÍAMOS ADICIONAR UMA "KEY-NÚMERO". O professor aponta que 
+para o objeto 'person', uma key de número não faria muito sentido (afinal, o que diabos seria um número aqui?), 
+mas podemos colocar "1.5" como uma key aqui e então assignar um valor de 'hello' (ou qualquer outro valor...).
+
+
+
+ex:
+
+
+
+
+
+let person = {
+        'first name': 'Max',
+        age: 30,
+        hobbies: ['Sports', 'Cooking'],
+        greet: function() {
+            alert('Hi there!');
+        },
+        1.5: 'hello'
+};
+
+
+-----------------------------------------
+
+
+Agora temos "1.5" como uma CHAVE e como UM NÚMERO. Nos bastidores do javascript, o "1.5" ainda será 
+convertido (coerced) À uma string, MAS VOCÊ PODE UTILIZÁ-LO____ COMO UM NÚMERO AQUI E ACESSÁ-LO COMO UM NÚMERO...____
+
+ex: se eu armazenar "hello" em 1.5 ou em qualquer outro número de minha escolha (qualquer número que NÃO seja UM NÚMERO NEGATIVO. Números negativos __não são permitidos___. Deve ser um número positivo, 0 ou acima).
+ Mas se nós armazenarmos esse valor dentro dessa propriedade e então acessarmos essa key/propriedade por meio 
+ de "console.log(person[1.5]);" ------> (ATENÇÃO: AQUI NÓS NÃO UTILIZAMOS A NOTAÇÃO PADRÃO, A "DOT NOTATION", POIS ELA NÃO FUNCIONA COM NÚMEROS. EX: 'console.log(person.1.5);" -------> ISSO NÃO FUNCIONA. NÃO É LIDO ADEQUADAMENTE PELO JAVASCRIPT. O JAVASCRIPT NOS DÁ UM ERRO. Sintaxe INVÁLIDA. Essa sintaxe TAMBÉM NÃO FUNCIONA PARA INTEGRAIS, ou seja, para valores inteiros. Ex: 'console.log(person.1);' ---> ISSO TAMBÉM É SINTAXE INVÁLIDA; DEVE-SE UTILIZAR O SQUARE BRACKETS NOTATION, mas as quotes podem ser omitidas, algo distinto do que se vê com strings compostas como 'first name', que EXIGEM os '' e ".).
+        
+        (NÃO UTILIZAMOS '' E " PARA ENVOLVER ESSE NÚMERO DENTRO DO SQUARE BRACKETS NOTATION, POIS NÃO SÃO NECESSÁRIOS, AFIRMA O PROFESSOR. É UM CASO DISTINTO DAQUELE DAS STRINGS COMPOSTAS, COMO 'first name' e 'first-name', que exigem, sim, os quotes. )
+
+
+
+
+
+
+
+
+ex:
+
+
+
+let person = {
+        'first name': 'Max',
+        age: 30,
+        hobbies: ['Sports', 'Cooking'],
+        greet: function() {
+            alert('Hi there!');
+        },
+        1.5: 'hello'
+};
+
+
+console.log(person['first name']);
+
+console.log(person[1.5]);    //////////--------> AGORA AQUI JAVASCRIPT CLARAMENTE DETECTA QUE "1.5" DEVE SER UM NÚMERO. Portanto, agora que todo esse número está dentro dos square brackets, o número inteiro é analisado/parseado como uma única coisa, um único número.
+                                //professor vai adiante e recarrega a página... 
+                                //vemos "hello" impresso no devtools, sinal de que nossa pequena empreitada funcionou, a key NUMERAL funcionou.
+
+
+                                //Professor aponta que NÓS PODEMOS ENVOLVER "1.5" em QUOTES, SE ASSIM O DESEJARMOS...
+                                //nada mudará, isso funciona também, pois o javascript automaticamente CONVERTE OS VALORES EM STRINGS (coercion), 
+                                ele + ou - traduz eles para strings.
+
+
+
+
+
+
+
+
+
+
+----------> ENTRETANTO, ARMAZENAR NÚMEROS EM OBJETOS NORMAIS 
+PROVAVELMENTE NÃO É ALGO QUE VOCÊ FARÁ COM MUITA FREQUÊNCIA...
+MAS ISSO TUDO FUNCIONA, e é assim que você pode 
+acessar "keys numerais", por meio do tal SQUARE BRACKET NOTATION.
+
+
+
+
+
+
+
+
+
+--------> IMPORTANTE!!!! ----------> PROFESSOR FALA SOBRE A ______ORDEM_____ DAS PROPRIEDADES.
+
+
+
+Uma questão comum é: Como diabos propriedades são ordenadas dentro de um objeto javascript?
+
+
+
+Devemos dar uma olhada nisso: faremos o console.log de todo objeto "person".
+
+
+
+ex:
+
+
+
+
+let person = {
+        'first name': 'Max',
+        age: 30,
+        hobbies: ['Sports', 'Cooking'],
+        greet: function() {
+            alert('Hi there!');
+        },
+        1.5: 'hello',
+        isAdmin: true
+};
+
+
+
+console.log(person); //////////////-----------------> SE FIZERMOS ISSO, PODEREMOS 
+                                                                    EXPANDIR O OBJETO DESSA CONST NO DEVTOOLS.
+                                                                    SE EXPANDIRMOS O NEGÓCIO, 
+                                                                    VEREMOS AUTOMATICAMENTE UMA "VISÃO ORGANIZADA" 
+                                                                    do objeto... "sorted view".
+                                                                    Entretanto, se nós NÃO EXPANDIRMOS O OBJETO (no dev tools), 
+                                                                    nós veremos que as propriedades/valores estarão ordenados 
+                                                                    NA ORDEM EM QUE OS DEFINIMOS NO NOSSO DOCUMENTO JAVASCRIPT...----------> É ASSIM QUE NOSSAS PROPRIEDADES/KEY-VALUE PAIRS SÃO ORDENADOS. ELES MANTÊM A ORDEM EM QUE NÓS ADICIONAMOS ORIGINALMENTE AS COISAS.
+                                                                    (nesse caso, first name, hobbies, greet, 1.5 e isAdmin....) -----------> 
+
+                                                                    ----> MAS HÁ UMA ___IMPORTANTE EXCEÇÃO______QUE O PROFESSOR 
+                                                                    QUER NOS MOSTRAR, AQUI:
+
+
+                                                                    se nós tivermos um objeto que é composto apenas de 
+                                                                    "KEYS NUMERAIS"... digamos um 5 com valor de 'Hi', 
+                                                                    e então 1 com valor de 'true'...
+
+                                                                    ex:
+
+
+                                                                    const numbers = {5: 'hi', 1: 'true'};
+
+
+                                                                    -------------------------------------
+
+                                                                    SE NÓS FIZERMOS O CONSOLE.LOG DISSO/OUTPUT DISSO, 
+                                                                    VEREMOS QUE ______OS NÚMEROS SERÃO ORGANIZADOS EM ORDEM CRESCENTE____. (SERÃO "SORTED"):
+
+                                                                        ex:
+                                                                    {1:"true", 5: "hi"}
+
+
+                                                                    NÚMEROS SERÃO SEMPRE ORGANIZADOS EM ORDEM CRESCENTE (isso faz sentido: pense em arrays. Arrays são objetos com KEYS NUMERAIS onde a ordem sempre é garantida, os indexadores sempre são em escala ascendente, do 0 ao infinito.)
+
+                                                                    Já "string keys" SEMPRE SERÃO ORGANIZADAS PELA ORDEM DE ADIÇÃO ORIGINAL NO SEU CÓDIGO.

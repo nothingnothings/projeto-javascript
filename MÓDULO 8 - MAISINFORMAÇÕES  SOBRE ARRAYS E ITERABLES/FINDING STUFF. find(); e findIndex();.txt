@@ -1,0 +1,273 @@
+Como poderíamos resolver essa situação, então?
+
+
+
+Como podemos encontrar o indexador de um objeto dentro de um array, se indexOf e lastIndexOf 
+não funcionam?
+
+
+
+
+
+Bem, você tem 2 outros métodos que você pode usar nessas situações.
+
+
+
+
+
+
+
+
+Digamos que queremos encontrar o objeto "name: 'Manuel'". Devemos utilizar o método ".find()". 
+Esse método está disponível EM TODOS ARRAYS DE VERDADE.
+
+
+Find é um método interessante: ele recebe um argumento, mas O ARGUMENTO QUE ELE 
+RECEBE É, NA VERDADE, OUTRA FUNÇÃO. 
+
+
+O professor explica que esse é um caso típico de uso de uma FUNÇÃO ANÔNIMA, apesar de que você 
+também poderia definir uma função separadamente/standalone e então apenas 
+passar nesse lugar uma referência a essa função, o function name.
+
+Mas como essa função na grande maioria dos casos é uma função que você apenas 
+precisa rodar nesse único lugar e que não é rodada em nenhum outro lugar de seu código, esse 
+é um caso perfeito para funções anônimas.
+
+
+ex:
+
+
+const personData = [{ name: 'Max'}, {name: 'Manuel'}];
+
+//console.log(personData.indexOf({name: 'Manuel'})); // ----------> NÃO FUNCIONA, NÃO FUNCIONA COM OBJETOS.
+
+
+const manuel = personData.find(() => {});
+
+
+--------------------------------------------
+
+
+
+O professor explica que é claro que não será uma função como a que está logo acima, não 
+será uma função anônima que fará nada. Em vez disso, será uma função que poderá 
+aceitar até 3 argumentos.
+
+O PRIMEIRO ARGUMENTO SEMPRE SERÁ UM ÚNICO OBJETO DAQUELE ARRAY. O professor usa o nome "person", mas 
+ele nos explica que podemos utilizar qualquer nome que quisermos, aqui. 
+
+O SEGUNDO ELEMENTO 
+SEMPRE SERÁ O INDEX DAQUELE ÚNICO ELEMENTO. O professor diz que você pode usar "idx", "index", qualquer coisa.
+
+JÁ O TERCEIRO ARGUMENTO SERÁ O ARRAY INTEIRO. O professor usa o nome "persons", como exemplo. Mas pode ser qualquer coisa, de novo.
+
+
+Mas a questão é: quem chamará essa função?
+
+
+
+O JAVASCRIPT A CHAMARÁ PARA NÓS. Find é executado nesse array, e o que ele faz é 
+EXECUTAR ESSA FUNÇÃO ANÔNIMA que você passou a ele. Ele vai executar essa função 
+anônima em CADA ELEMENTO EM PERSONDATA. Para cada elemento em que ele executar essa função, 
+ele vai passar 1) esse elemento/objeto que ele está procurando, 2) o indexador desse elemento e 
+3) o array inteiro. 
+
+
+
+Professor nos explica que podemos utilizar find em QUALQUER ARRAY, ainda que seja um array cheio de números ou texto, ele 
+não é restrito àpenas a arrays cheios de objetos. O uso desse método em objetos é somente o use case mais ÚTIL. É mais 
+útil nesses casos porque nos ajuda a identificar um objeto ou um valor (se esse valor é um valor referencial).
+
+
+
+
+
+VALORES PRIMITIVOS (números, strings) ---> "indexOf" e "lastIndexOf" nos ajudam a encontrá-los.
+
+
+
+VALORES REFERENCIAIS (objetos) -----> find() e findIndex() nos ajudam a encontrá-los.
+
+
+
+
+
+ex:
+
+
+
+
+const personData = [{ name: 'Max'}, {name: 'Manuel'}];
+
+//console.log(personData.indexOf({name: 'Manuel'})); // ----------> NÃO FUNCIONA, NÃO FUNCIONA COM OBJETOS.
+
+
+const manuel = personData.find((person, idx, persons) => {});
+ 
+
+
+------------------------------------------------------------
+
+
+"find", portanto, é executado em cada um dos elementos de personData (o array de personData). Ele então 
+espera que essa função que você passou como argumento RETORNE "TRUE" PARA O ELEMENTO PELO QUAL 
+VOCÊ ESTÁ PROCURANDO. Para o elemento pelo qual você está procurando, essa função 
+deverá retornar true para os 3 parâmetros. Para outros elementos, apenas 1 false já 
+impossibilita aquele elemento de ser tido como aquilo que você estava procurando.
+Depois de definir os PARÂMETROS dessa função anônima (3 parâmetros), vocÊ deve 
+COLOCAR O FUNCTION BODY DELA.
+
+Tipicamente, você faz o function body RETORNAR ALGUMA COISA. Retornar algum valor... mas 
+geralmente vocÊ faz algum tipo de comparação. Aqui, o professor faz uma comparação entre 
+person.name (porque sabemos que name é uma das propriedades de "personData", o valor "keyname" reutilizado em todos os objetos
+; também sabemos que "name" é o primeiro argumento dessa função, que é 'person'.) e 
+'Manuel', OU SEJA, FAZEMOS ESSA FUNÇÃO RETORNAR UM VALOR SE
+ESSE OBJETO/VALOR FOR  "person.name === 'Manuel' ". Isso fará com que 
+essa função nos retorne exatamente o que queremos, que é o objeto do array que 
+contém esse valor de 'Manuel' definido no key-data pair, na propriedade 'name'.
+
+
+ex:
+
+
+const personData = [{ name: 'Max'}, {name: 'Manuel'}];
+
+
+
+
+const manuel = personData.find((person, idx, persons) => {
+    return person.name === 'Manuel';
+});
+
+--------------------------
+
+
+ESSE CÓDIGO VAI NOS FAZER ENCONTRAR O OBJETO QUE TEM a propriedade"name" DEFINIDA COMO O VALOR 
+"MANUEL".
+
+Se você tiver múltiplos objetos com o nome Manuel, a função "find" vai fazer a mesma coisa que 
+outras funções usadas em arrays, VAI PARAR NO PRIMEIRO ELEMENTO QUE SATISFAZER ESSE CRITÉRIO.
+Retornará apenas 1 único elemento, e não vários.
+
+
+Nesse exemplo prático, o professor nem está usando "idx" e "persons" (o array inteiro). Ele diz que 
+na grande maioria dos casos esses 2 argumentos posteriores são inúteis, mas mesmo assim é bom saber que eles 
+sempre estão disponíveis.
+
+
+Depois disso, ele faz o console.log da const manuel, para ver se conseguimos 
+ver loggado um objeto javascript que tenha "name:manuel".
+
+
+
+
+ex:
+
+
+const personData = [{ name: 'Max'}, {name: 'Manuel'}];
+
+
+
+
+const manuel = personData.find((person, idx, persons) => {
+    return person.name === 'Manuel';
+});
+
+
+console.log(manuel);
+
+
+
+
+RESULTADO: 
+
+{name: 'Manuel'};
+
+
+
+
+Importante detalhe sobre find() ----> Ele retorna 
+O ____MESMO____ OBJETO____ QUE VOCÊ___ TEM____ NO ARRAY____ ORIGINAL.
+
+Ele não cria uma cópia do original ou qualquer coisa do gênero.
+
+Isso significa que se eu tentasse manipular o "name" de 'Manuel' e tentasse definí-lo como
+'Anna', eu veria não só uma mudança no console.log da const "manuel", MAS DO ARRAY "personData" INTEIRO.
+
+ex:
+
+
+
+
+const personData = [{ name: 'Max'}, {name: 'Manuel'}];
+
+
+
+
+const manuel = personData.find((person, idx, persons) => {
+    return person.name === 'Manuel';
+});
+
+
+console.log(manuel);
+
+
+manuel.name = 'Anna';
+
+
+console.log(manuel, personData); // ----> ESSE CONSOLE.LOG VAI NOS MOSTRAR EXATAMENTE OS REFLEXOS DA MUDANÇA, tanto na const manuel como no array personData.
+                                            Isso ocorre porque estamos trabalhando COM O MESMO EXATO REFERENCE VALUE(VALOR REFERENCIAL), ou seja, o objeto que procuramos e selecionamos com a ajuda de find, se settado à uma função, continua sendo o mesmo objeto do antigo array que tínhamos (nesse caso, o array personData).
+                                            Isso é importante de entender; É importante entender que find() não cria uma cópia, ele não funciona da mesma forma que "slice()", que cria uma cópia idêntica e independente do array antigo.
+
+
+
+--------------------------------------------------
+
+
+
+ALÉM DISSO, TEMOS TAMBÉM o método "findIndex()". Como exemplo, podemos checar o index do objeto {name: 'Max'};
+
+
+
+ex:
+
+
+
+const maxIndex = personData.findIndex();
+
+
+--------------------------------------------
+
+
+ESSA FUNÇÃO TEM AS MESMAS COISAS QUE A VERSÃO FIND(). ISSO QUER DIZER QUE ELA NECESSITA 
+DE UMA FUNÇÃO ANÔNIMA PARA FUNCIONAR ADEQUADAMENTE, ALÉM DA TRANSMISSÃO DE 3 ARGUMENTOS/PARÂMETROS.
+
+
+ex:
+
+
+
+
+
+ex:
+
+
+
+const maxIndex = personData.findIndex((person, idx, persons) => {
+    return person.name === 'Max'
+});
+
+
+
+
+console.log(maxIndex);
+------------------------------------------------
+
+A DIFERENÇA ENTRE FIND() E FINDINDEX() É QUE FINDINDEX() NÃO VAI NOS RETORNAR OS OBJETOS EM SI QUE ATINGIREM OS 
+CRITÉRIOS, MAS SIM O INDEX DESSES OBJETOS.
+
+
+
+Esse exemplo da constante "maxIndex" vai nos retornar "0", que é o número indexador atrelado 
+ao objeto que tem "name: 'Max'".

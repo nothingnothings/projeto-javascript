@@ -1,0 +1,525 @@
+
+
+
+
+O QUE PODE DAR DE ERRADO QUANDO ESCREVEMOS CÓDIGO JAVASCRIPT????
+
+
+
+
+
+
+OU O QUE PODE DAR ERRADO QUANDO NÓS EXPOMOS NOSSO CÓDIGO JAVASCRIPT?
+
+
+
+
+
+
+
+---> para explicar isso, primeiramente temos que dividir entre 
+
+'
+ESCREVER CÓDIGO QUE RODA NO BROWSER' 
+
+
+e 
+
+
+
+'ESCREVER CÓDIGO QUE RODA NO SERVER'...
+
+
+
+------------------------------------
+
+
+
+
+O PROFESSOR COMEÇARÁ COM ALGO QUE SÓ É RELEVANTE 
+
+SE VOCÊ ESTÁ ESCREVENDO/ESCREVE CÓDIGO 
+
+
+JAVASCRIPT 
+
+
+
+'BROWSERSIDE'...
+
+
+
+
+
+
+O PROFESSOR QUER FALAR SOBRE 
+
+
+
+"""SECURITY DETAILS NO NOSSO CÓDIGO""".... (serverside, basicamente)....
+
+
+
+
+
+
+SECURITY DETAILS ---> podem ser DADOS PRIVADOS (private information).
+
+
+
+
+
+
+
+
+----> NÓS TAMBÉM DAREMOS UMA OLHADA EM 
+
+
+
+'XSSS' (CROSS-SITE SCRIPTING ATTACKS ) ----> ISSO, POR SUA VEZ, É RELEVANTE TAMBÉM PARA __ o JAVASCRIPT BROWSERSIDE___...
+
+
+
+
+
+
+O PROFESSOR NOS MOSTRARÁ BREVEMENTE 
+
+
+O QUE SIGNIFICA E COMO FUNCIONA O 
+
+
+'cross-site request forgery' (CSRF)....  
+
+
+
+
+ATAQUES CSRF... ---------> ISSO É RELEVANTE __TANTO PARA O FRONTEND___ COMO PARA O BACKEND...
+
+
+
+
+
+___ENTRETANTO___, os ataques 'csrf' SÓ EXISTEM  e são um problema SE VOCê DE FATO TIVER 
+
+UM SERVIDOR/BACKEND para o qual vocÊ está/estará enviando dados..
+
+
+
+
+
+
+POR FIM, O PROFESSOR REVISITARÁ 
+
+O CONCEITO DE 
+
+'CORS' ----> 'cross-origin resource sharing'... ---> VEREMOS 'CORS ATTACKS'...
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+Começamos pelo básico:
+
+
+
+'Security details in your code'...
+
+
+
+
+
+O que o professor quer dizer por isso?
+
+
+
+
+
+
+-----> A COISA IMPORTANTE DE SE ENTENDER SOBRE O JAVASCRIPT NO BROWSER É QUE 
+
+
+
+O SEU CÓDIGO JAVASCRIPT É ___PARTE____ DAS COISAS ___ QUE O BROWSER BAIXA... E, mais do que isso, 
+
+ELE ___RODA __ NO BROWSEr___....
+
+
+
+
+
+iSSO SIGNIFICA que ____tODO O SEU CÓDIGO ___ roda __NA MÁQUINA __ daquelas 
+
+pessoas que visitam o seu site....
+
+
+E isso é importante de entender:
+
+
+
+VOCÊ TEM QUE ENTENDER 
+
+____QUE O SEU CÓDIGO ___ JAVASCRIPT ___ PODE SER LIDO ___POR QUALQUER PESSOA_____...
+
+
+
+('Your javascript code can be read by ANYONE'....)
+
+
+
+
+
+Qualquer um que esteja visitando sua página poderá ler seu código javascript, o código 
+
+JS que roda nessa página...
+
+
+
+
+
+
+----> O CÓDIGO NÃO É ESCONDIDO EM LUGAR ALGUM, NÃO É COMPILADO EM ALGUM 'MACHINE CODE' ilegível, 
+
+NÃO, 
+ele fica 
+
+BEM AO ALCANCE DO USUÁRIO.....
+
+
+
+
+
+ELE FICA TOTALMENTE DISPONÍVEL A QUALQUER PESSOA QUE ESTEJA VISITANDO O SEU SITE...
+
+
+
+E isso é SUPER  importante.
+
+
+
+
+
+----> ISSO SIGNIFICA QUE quaisquer detalhes de SEGURANÇA relevantes que 
+
+você tenha DENTRO 
+
+DO SEU CÓDIGO JAVASCRIPT 'público' PODERÃO SER EXPLOITADOS/USADOS... 
+
+
+
+TODO E QUALQUER 'DATA' CONFIDENCIAL QUE VOCÊ TENHA dentro desse código javascript 
+
+da página PODERÁ 
+
+
+SER LIDA PELOS USUÁRIOS DE SUA PÁGINA.... ('security-relevant details can be read')...
+
+
+
+
+
+___PORTANTO, VOCÊ NUNCA DEVE DEIXAR DETALHES RELEVANTES DE SEGURANÇA DENTRO DESSE ARQUIVO__... NUNCA 
+DEIXAR ESSE TIPO DE DETALHE 
+
+
+NO CÓDIGO DO SEU 'CLIENTSIDE JAVASCRIPT'.... ---> pq aí os 'attackers' PODERÃO ABUSAR 
+
+ESSES DADOS EXPOSTOS...
+
+
+
+ex: credentials armazenadas no código javascript serverside.... ---> caras vão simplesmente pegar isso e usar... poderão pegar esse negócio e usar na sua database para ALTERAR DADOS, LER DADOS e qualquer outra coisa que quiserem.
+TAMBÉM PODERÃO FERRAR COM OS SEUS USUÁRIOS... ---> todos os usuários da sua página podem ficar expostos...
+
+
+
+Você pode acabar expondo dados de outras pessoas A TODOS OS USUÁRIOS
+
+
+
+
+
+-----
+
+
+
+De volta ao aplicativo que escrevemos, o aplicativo do mapa lá,
+
+
+Você talvez se lembre QUE NA SEÇÃO DE 'DEBUGGING' nós demos 
+
+uma olhada na aba de 'sources'...
+
+
+
+
+---> SOURCES ---> podemos, ali, ver o SOURCE CODE DA PÁGINA...
+
+
+
+
+---> é evidente que se formos no projeto do mapa, 
+nós veremos um código MODIFICADO,
+ 
+ um código ESCRITO PELO WEBPACK em cima do nosso código (é a tradução feita pelo webpack)...
+
+
+
+ ---> É o código em 'development mode' que está nos 'sources' dessa página, agora...
+
+
+ Mas se você scrollar bastante para baixo, 
+
+
+VOCÊ VERÁ SEU ___CÓDIGO DE VERDADE__......
+
+
+e ele estará 
+
+
+__BEM LEGÍVEL___... estará quase como você o escreveu, POIS ELE NÃO ESTARÁ 'MINIFIED', não estará_ __NADA OPTIMIZADO___...
+
+
+Isso significa que ele estará BEM LEGÍVEL....
+
+
+Portanto, qualquer coisa que você talvez tenha ali dentro VAI FICAR EXPOSTA...
+
+
+
+SE scrollarmos até as ultimas linhas, vamos 
+
+encontrar 
+
+
+
+"./src/Utility/Location.js".... ----> ISSO NOS  DÁ UM 'HINT' ao local do 'Location.js'......
+
+
+
+Logo à direita desse código, podemos encontrar ___TODO NOSSO CÓDIGO EM UM FORMATO "INLINE" ___ (ou seja, em uma GRANDE FITA de código, uma STRING GIGANTE... esse é o nosso código)...
+
+
+
+
+Professor explica que esse código até talvez seja um pouco difícil de ler, MAS É LEGÍVEL.... E não é só a gente 
+que pode ler isso aí, QUALQUER PESSOA PODE. QUalquer um que visita o nosso site....
+
+
+
+
+
+---> DEPOIS QUE NÓS 'BUILDARMOS PARA PRODUCTION', esse código FICARÁ 
+
+MAIS OPTIMIZADO E MENOS LEGÍVEL.....   ___MAS____ HÁ FERRAMENTAS QUE FAZEM ESSA 'DESCONVERSÃO', FAZEM 
+
+ESSA TRANSFORMAÇÃO PARA UM CÓDIGO MAIS LEGÍVEL... um exemplo disso é o 
+
+PRÓPRIO 'PRETTY PRINT' do devtools do google... Essa opção, usada quando clicamos no '{}',
+
+
+FAZ  COM QUE NOSSO CÓDIGO FIQUE MAIS FÁCIL DE LER (principalmente se ele tiver sido minifado antes... ('minified')   )
+
+
+
+
+
+
+MAS SE ALGUÉM ESTÁ REALMENTE INTERESSADO EM PEGAR OS SEUS DADOS, HÁ CERTAS 
+
+INFORMAÇÕES __VITAIS___, 'pieces of data', como 
+
+SUA 
+
+'DATABASE CONNECTION STRING' e sua 'password', COISAS QUE SERÃO 
+
+SEMPRE A MESMA COISA, SERÃO SEMPRE AS MESMAS STRINGS, não importando em nada 
+o fato do resto do código estar 
+minifado ou não (minified)...   
+
+
+
+---> ESSES DADOS PODEM SER UTILIZADOS POR OUTRAS PESSOAS, SE OS DESCOBRIREM.
+
+
+
+
+
+---> É POR ISSO QUE QUAISQUER DADOS QUE PODEM SER ABUSADOS POR OUTRAS PESSOAS __NÃO PODEM__ IR DENTRO DESSE CÓDIGO javascript
+
+CLIENTSIDE...
+
+
+
+
+
+
+
+---> nesse código do projeto do mapa, talvez você esteja se perguntando sobre coisas como 
+
+
+a 'GOOGLE API KEY'.... ---> isso não seria   UM DETALHE DE SEGURANÇA __RELEVANTE___?
+
+
+
+
+
+
+------> PROFESSOR EXPLICA QUE ELE __PODERIA SER___... Mas no caso do google, no caso dessa API KEY, você 
+
+pode 'actually' RESTRINGIR A USAGE DESSA API KEY ___ já no seu 'google developer console'... ---> lá você poderia 
+botar uma restrição, por exemplo, que APENAS CERTOS 
+
+
+____ENDEREÇOS IP___ podem usar essa key... você faria isso para QUE 
+
+____APENAS O IP ADDRESS___  EM QUE VOCÊ ESTÁ __HOSTEANDO SEU APLICATIVO__ (um servidor, por exemplo) 
+
+PODERIA REALMENTE ENVIAR REQUESTS COM A AJUDA DESSA 'API KEY' do google...  -----------> E SE ALGUÉM 
+
+
+__ROUBAR__ ESSA KEY E TENTAR USÁ-LA, O PRÓPRIO __GOOGLE__ vai bloquear OS REQUESTS POR MEIO DO IP ADDRESS DAQUELE USUÁRIO 'PROIBIDO'....
+
+
+
+(ou seja, o google vai ter uns 'router.get()' e 'router.post' QUE POSSIBILITARÃO APENAS 
+
+1 DETERMINADO/ALGUNS DETERMINADOS IPs, os ips que realmente possuem aquela key....)
+
+
+
+---> PORTANTO, ESSE É UM __MECANISMO DE SEGURANÇA __ USADO POR __MUITAS ___ __APIs___. É oferecido 
+por MUITAS APIs, se vocÊ as utilizar... -----> E É EXATAMENTE POR ISSO QUE O PROFESSOR NÃO CONSIDERA 
+
+ESSAS 'API KEYs' COMO UM 'security relevant detail'... não é relevante porque é IMPOSSÍVEL DE FORJAR/ROUBAR/PIRATEAR/FALSIFICAR...
+
+É impossível de forjar/roubar PORQUE A PRÓPRIA API tem um sistema de legitimação QUE __BLOQUEIA__ requests vindos de 
+
+IPs não autorizados.... (exemplo da GOOGLE MAPS API e da sua KEY...)
+
+
+
+
+
+
+-------------> Mas as coisas poderiam ser DIFERENTES.... :
+
+
+
+
+E se acabássemos expondo dados POR MEIO DE NOSSO BACKEND, por meio da nossa application do 'node.js'?
+
+
+
+
+
+
+
+----> para demonstrar isso, o professor CARREGOU UM DIFERENTE PROJETO, UM PROJETO DISTINTO DAQUELE DO MAPA...
+
+
+
+
+
+Mas antes disso, ele mostra algo no 
+
+'location.js', naquele ARQUIVO USADO PARA AS 'routes' NO NOSSO ÚLTIMO PROJETO...
+
+
+
+ele sublinha 
+
+
+o código de 
+
+
+'const url = 
+'mongodb+srv://etcetcetc.....  (url)'
+
+
+
+
+
+
+ELE EXPLICA QUE ESSE CÓDIGO NÃO É UM 'SECURITY RELEVANT DETAIL', nesse nosso caso....
+
+
+
+não é relevante PQ ELE SEMPRE FICARÁ ___DENTRO DO SERVIDOR____... ELE NÃO É EXPOSTO 
+
+
+
+AOS NOSSOS USUÁRIOS/ao clientside PQ ELE RESIDE NO INTERIOR DO SERVIDOR....
+
+
+
+Esse código vai RODAR DENTRO DE UMA MÁQUINA, E O USUÁRIO NUNCA SERÁ CAPAZ de ver esse código.... 
+
+
+nunca será capaz de ver esse código PQ ESSE CÓDIGO ___NUNCA ACABA SENDO ENVIADO AO USUÁRIO__, ELE SEMPRE 
+FICA 
+
+'EXCLUSIVO' na máquina do servidor, exclusiva aos olhos dos desenvolvedores...
+
+
+
+
+--> isso significa que esse código NUNCA É ANEXADO à 'outgoing html page', 
+
+
+E NUNCA É ANEXADO À NOSSA 'response' enviada ao usuário...
+
+
+
+isso significa que o código 
+
+
+de 
+
+
+ex:
+
+
+
+
+'const router = express.Router();
+
+
+
+
+const url = .... 
+
+
+const client = new MongoClient(url) {
+    locations: []
+}
+
+--------------------------------
+
+
+
+É SEGURO, ele SEMPRE RODA NO SERVIDOR, e A MENOS QUE OS USUÁRIOS 
+
+SEJAM CAPAZES DE ACESSAR O SERVIDOR, o que requer que eles efetivamente HACKEIEM O nosso servidor, 
+
+eles não conseguirão ler esse código....
+
+
+
+
+
+
+---> MAS SE ESSE CÓDIGO, ESSA URL NA const de nome 'url', SE ELA ESTIVESSE 
+NO NOSSO CÓDIGO CLIENTSIDE, ela seria carregada pelos usuários, eles poderiam
+
+extrair essa informação.... (e abusá-la...).
+
+
+
+
+---> é por isso que não podemos colocar nenhum data confidencial no clientside javascript code....
+---------------------------------- 

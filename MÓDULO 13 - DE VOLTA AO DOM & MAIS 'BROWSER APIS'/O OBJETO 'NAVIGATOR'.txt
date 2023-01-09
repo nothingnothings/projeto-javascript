@@ -1,0 +1,439 @@
+
+
+
+
+
+
+
+
+
+
+Além de 'location' 'history', há também o objeto 'Navigator'.
+
+
+
+
+
+
+ex (no devtools):
+
+
+
+
+navigator; --------> nos retorna 
+
+um objeto com
+
+
+'Navigator {vendorSub: "", productSub: "20030107", vendor: "Google Inc.", 
+maxTouchPoints: 0, hardwareConcurrency: 8, ...}'
+
+
+
+------------------------------------------
+
+
+
+
+O OBJETO 'NAVIGATOR' NOS DEIXA INTERAGIR COM O BROWSER E SISTEMA OPERACIONAL 
+
+
+DO USUÁRIO...., por assim dizer. É claro que essa interação é LIMITADA, não há 
+
+ACESSO ILIMITADO...
+
+
+
+
+--------------------------------------
+
+
+
+Se expandirmos o objeto 'navigator,' podemos encontrar algumas informações bem úteis 
+
+
+sobre O BROWSER QUE O USUÁRIO UTILIZOU....
+
+
+
+(nos diz se o browser é chrome, mozilla, internet explorer, etc etc.)
+
+
+----------------------------------------
+
+
+
+ex:
+
+'appCodeName: "Mozilla"
+
+
+appName: "Netscape"
+
+
+
+-----------------------------
+
+
+
+AQUI VEMOS ALGO INTERESSANTE:
+
+
+
+o appCodeName ESTÁ NOS MOSTRANDO 'mozilla', MAS O PROFESSOR ESTÁ USANDO CHROME, NO MOMENTO...
+
+
+
+
+Mais interessante ainda é uma propriedade ESPECÍFICA nesse objeto que é geralmente 
+
+UTILIZADA PARA CHECAR QUAL BROWSER O USUÁRIO ESTÁ USANDO...
+
+
+É a propriedade 
+
+
+'userAgent' (que agora está nos mostrando "Mozilla/5.0 (Macintosh)")'
+
+
+
+------------------------------
+
+
+
+
+SE ACESSARMOS ESSA PROPRIEDADE, POR MEIO DO CHAMADO DE 'navigator.userAgent', ESPERAMOS 
+
+RECEBER INFORMAÇÃO ACERCA DO BROWSER QUE O USUÁRIO ESTARIA UTILIZANDO...
+
+
+
+
+Mas agora, com o professor examinando a propriedade, ele observa apenas 
+
+que há a informação 
+
+
+"Mozilla/5.0 (Macintosh; Intel Mac OSX 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
+
+
+
+
+
+MAS O QUE DIABOS É ISSO?
+
+
+
+
+
+Professor diz que isso tem essa aparência POR RAZÕES HISTÓRICAS...
+
+
+
+
+Browser vendors NO PASSADO COSTUMAVAM __FALSIFICAR__ ('fake this') PARA ASSEGURAR 
+
+QUE SEUS BROWSERS TIVESSEM ACESSO A TODAS AS FEATURES QUE OS SITES PUDESSEM ESTAR 
+
+UTILIZANDO EM SEUS SCRIPTS...
+
+Isso pq, no passado, o browser support era bem DIFERENTE para as várias features da web...
+
+
+E portanto alguns programadores que trabalhavam em websites UTILIZAVAM 
+
+'userAgent' PARA DESCOBRIR SE O USUÁRIO ESTAVA USANDO, POR EXEMPLO, INTERNET EXPLORER....
+
+
+Se ele estivesse usando IE, por exemplo, ELES NÃO EXECUTARIAM UM CERTO SCRIPT...
+
+
+
+Agora, com a evolução dos browsers, as coisas mudaram.
+
+
+
+
+
+Ex: digamos que o internet explorer 7 INCLUIU UMA FEATURE QUE NÃO ESTAVA NA VERSÃO 6....
+
+    Aquele script que IMPEDIA O INTERNET EXPLORER DE GANHAR ACESSO A CERTAS FEATURES DO WEBSITE 
+
+    Ainda iria bloquear o acesso ao internet explorer 7, ainda que o suporte a tais features já talvez tivesse sido adicionado ao internet explorer 7...
+
+
+    É POR ISSO QUE OS BROWSER VENDORS PASSARAM A COLOCAR BASICAMENTE __TODOS OS __ BROWSER NAMES___ dentro 
+    DA STRING DE 'userAgent' (porque 'navigator.userAgent' É DEFINIDO PELO BROWSER, E NÃO NÓS; ISSO É FEITO 
+    PARA QUE AS PESSOAS QUE CONSTROEM OS BROWSERS POSSAM, É CLARO, INFLUENCIAR AQUILO QUE É MOSTRADO NESSE 
+    'userAgent')....
+
+
+    OS BROWSERVENDORS FAZIAM TUDO ISSO PARA QUE OS USUÁRIOS NÃO TIVESSEM SUA USER EXPERIENCE LIMITADA 
+
+    POR esses browsers não serem o mozilla/outros browsers, essencialmente.
+
+
+
+    'navigator.userAgent', portanto, hoje já não é mais tão útil a nós, webdevelopers.
+
+
+
+    ANEXADo a essa aula há um documento que nos mostra UMA MANEIRA CONFIÁVEL DE LER 
+
+    o 'userAgent', que pode ser utilizado PARA DETERMINAR QUAL BROWSER O USUÁRIO 
+
+    DE SUA PÁGINA ESTÁ UTILIZANDO (pq essa porcaria não nos dá essa informação de cara, não.).
+
+    https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
+
+
+    MAS SE VOCê REALMENTE PRECISA SABER QUAL O BROWSER QUE O SEU USUÁRIO ESTÁ UTILIZANDO, VOCÊ NÃO 
+
+    DEVE UTILIZAR ESSA STRING NO .userAgent, E SIM em vez disso checar 
+
+
+    ______sE ALGUMAS FEATURES ÚTEIS ESTÃO DISPONÍVEIS.... 
+
+
+    Se você constatar que certa feature não está disponível, você pode afunilar os tipos de 
+    browsers e ter certeza de qual é o modelo que o cara está usando.
+
+
+
+
+    VOCÊ TAMBÉM DEVE CHECAR O MÓDULO DE SUPPORT DE BROWSERS, EM QUE O PROFESSOR NOS MOSTRA TÉCNICAS 
+
+    QUE NOS AJUDAM A FAZER SCRIPTS FUNCIONAREM EM UMA VARIEDADE DE BROWSERS, e também a definir 
+
+    FALLBACKS, comportamentos de fallback que são ativados quando certa feature não é suportada. 
+
+
+
+
+    O professor apenas nos mostrou 'userAgent' PQ ELE ACHA INTERESSANTE ESTUDAR COMO ESSE NEGÓCIO EVOLUIU AO LONGO DO TEMPO..
+
+
+--------------------------------------------------------
+
+
+
+NAVIGATOR TAMBÉM TEM MUITAS OUTRAS FEATURES:
+
+
+
+
+Ele também nos expõe o acesso à 'clipboard API'... , 
+
+por meio de 
+
+
+
+'navigator.clipboard' .....
+
+
+
+
+
+ISSO NOS PERMITE ___ADICIONAR___ ALGUMA COISA AO CLIPBOARD DO USUÁRIO... (Que nem aqueles sites 'let me show you how to google'.s), 
+
+
+
+OU TALVEZ COLAR ALGO EM ALGUM INPUT FIELD, por exemplo...
+
+
+
+---------------------------------------------
+
+
+
+TAMBÉM NOS DÁ ACESSO à 'geolocation', por meio de 
+
+
+'navigator.geolocation'
+
+
+
+
+ISSO NOS PERMITE ____LOCALIZAR____ O NOSSO USUÁRIO por meio de 'getCurrentPosition();'
+
+
+ex:
+
+
+
+navigator.geolocation.getCurrentPosition();
+
+
+
+-----------------------------------------
+
+
+
+
+Esse último método/função/objeto de 'getCurrentPosition' funciona POR MEIO DA PASSAGEM 
+
+DE uma função COMO PARÂMETRO, QUE É ENTÃO EXECUTADA ASSIM QUE A POSIÇÃO É OBTIDA...
+
+
+Para que isso aconteça, basta que você digite uma arrow function de 
+
+
+(data) => {console.log(data)};   (O PARÂMETRO 'data' SERÁ OBTIDO AUTOMATICAMENTE PELO MÉTODO 'getCurrentPosition'....)
+
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+navigator.geolocation.getCurrentPosition(
+    (data) => {console.log(data)}
+)
+
+
+
+ex de output no devconsole:
+
+
+
+
+
+coords: GeolocationCoordinates {latitude: -30.1006848, longitude: -51.2557056, altitude: null, accuracy: 963, altitudeAccuracy: null, …}
+timestamp: 1609018143350
+
+
+
+
+---------------------------------
+
+
+
+Se você tiver esse comando no código, esse 'navigator.geolocation.getCurrentPosition();', O 
+
+BROWSER SEMPRE VAI PEDIR AO USUÁRIO SE ___ELE PERMITE OU NÃO___ QUE ESSE CÓDIGO JAVASCRIPT 
+
+RECEBA A POSIÇÃO DELE...
+
+
+
+Eventualmente você vai receber isso que está logo acima, 
+
+
+o objeto 'Position' com 
+
+O OBJETO 
+
+'coords'...
+
+
+com 'coords' podemos determinar em que lugar o usuário está.
+
+
+
+--------------------------------
+
+
+
+
+HÁ MUITO MAIS FEATURES EM 'navigator', mas não veremos todas elas agora.
+
+
+
+----------------------------------
+
+
+PROFESSOR RECOMENDA USAR O MDN PARA VER ALGUMAS DAS FEATURES...
+
+
+Vimos, portanto, location e history, que nos deixam MOVER O USUÁRIO POR AÍ...
+
+
+
+e 'navigator', que nos deixa interagir COM A MÁQUINA E COM O SISTEMA OPERACIONAL DO USUÁRIO (como saber a localização, ter uma vaga informação sobre o browser que o usuário está utilizando, etc etc.)
+
+
+
+
+
+
+
+You should never do user agent sniffing. There is always the alternative of doing feature detection instead.
+
+
+
+
+
+Do you want to provide different HTML depending on which browser is being used?
+This is usually a bad practice, but there are some cases in which this is necessary. In these cases, you should first analyze your situation to be sure it's really necessary. Can you prevent it by adding some non-semantic <div> or <span> elements? The difficulty of successfully using user agent detection is worth a few disruptions to the purity of your HTML. Also, rethink your design: can you use progressive enhancement or fluid layouts to help remove the need to do this?
+
+
+
+
+
+
+
+
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator#Example_1_Browser_detect_and_return_a_string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var sBrowser, sUsrAg = navigator.userAgent;
+
+// The order matters here, and this may report false positives for unlisted browsers.
+
+if (sUsrAg.indexOf("Firefox") > -1) {
+  sBrowser = "Mozilla Firefox";
+  // "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
+} else if (sUsrAg.indexOf("SamsungBrowser") > -1) {
+  sBrowser = "Samsung Internet";
+  // "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G955F Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/9.4 Chrome/67.0.3396.87 Mobile Safari/537.36
+} else if (sUsrAg.indexOf("Opera") > -1 || sUsrAg.indexOf("OPR") > -1) {
+  sBrowser = "Opera";
+  // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 OPR/57.0.3098.106"
+} else if (sUsrAg.indexOf("Trident") > -1) {
+  sBrowser = "Microsoft Internet Explorer";
+  // "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; Zoom 3.6.0; wbx 1.0.0; rv:11.0) like Gecko"
+} else if (sUsrAg.indexOf("Edge") > -1) {
+  sBrowser = "Microsoft Edge";
+  // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
+} else if (sUsrAg.indexOf("Chrome") > -1) {
+  sBrowser = "Google Chrome or Chromium";
+  // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/66.0.3359.181 Chrome/66.0.3359.181 Safari/537.36"
+} else if (sUsrAg.indexOf("Safari") > -1) {
+  sBrowser = "Apple Safari";
+  // "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1 980x1306"
+} else {
+  sBrowser = "unknown";
+}
+
+alert("You are using: " + sBrowser);
+
+
+
+
+
+^^^BEM ÚTIL, mas não é perfeito.
+
+
+
+---------------------------

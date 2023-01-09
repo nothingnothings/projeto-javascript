@@ -1,0 +1,952 @@
+
+
+
+
+
+
+
+-----> O QUE SÃO ESSAS DIFERENTES FEATURES?
+
+
+
+
+
+-> AGORA DEVEMOS VER 'symbols'...
+
+
+
+
+
+----> SYMBOLS SÃO ___VALORES PRIMITIVOS___.
+
+
+
+--> STRINGS, NÚMEROS, BOOLEANS E SYMBOLS ---> são valores primitivos.
+
+
+
+
+
+
+----> symbols NÃO SÃO OBJETOS, NÃO SÃO REFERENCE VALUES, SÃO PRIMITIVE VALUES.
+
+
+
+
+
+
+
+----> você pode usar symbols como 'OBJECT PROPERTY IDENTIFIERS', ou seja, COMO KEYS 
+EM OBJETOS... (da mesma forma que você pode usar NUMEROS E STRINGS lá...)
+
+
+
+
+----> EXISTEM SYMBOLS 'BUILTIN' no javascript e symbols CRIADOS POR DESENVOLVEDORES... (você pode construir seus próprios symbols)....
+
+
+
+
+
+
+----> A FEATURE PRINCIPAL DOS SYMBOLS É QUE ELES ___gARANTEM ____ 'uniqueness'... SÃO ÚNICOS.
+
+
+
+
+--> cada symbol que você cria é __ÚNICO__.
+
+
+
+
+--> por isso, você pode ADICIONAR UMA KEY/PROPERTY A UM OBJETO, uma 
+
+key que você SABE QUE ESSE NOME É IMPOSSÍVEL DE JÁ EXISTIR NESSE OBJETO, pois você 
+recém criou o symbol dele, esse symbol será único.... e você NÃO PODE 
+FAZER OVERWRITE DE UM SYMBOL com um SYMBOL DE MESMO NOME, pois CADA 
+_SYMBOL__ É ___STANDALONE___ e UNIQUE___. ---> essa é a maior feature dos symbols...
+
+
+
+
+-----> DEVEMOS UTILIZÁ-LOS E ENTENDER O QUE ESSA 'UNIQUENESS' FAZ, BASICAMENTE.
+
+
+
+----------------------------------------
+
+
+Professor usa um projeto bem simples.
+
+
+
+
+Não vamos criar uma fancy UI, aqui, não.
+
+
+
+
+
+TODAS ESSAS FEATURES NÃO ADIANTAM MUITO PARA O 'END USER INTERACTION'...
+
+
+Essas features são mais sobre QUALIDADE DE CÓDIGO e o write de código que vocÊ 
+compartilhar com outros, código feito de uma forma que outras pessoas também 
+possam trabalhar com ele...
+
+
+
+--------------------------------------------
+
+
+
+
+Começamos com symbols.
+
+
+
+Criamos um 
+
+
+
+novo symbol, uma 
+
+const de nome 'uid'... (userId)..
+
+
+
+
+
+ex:
+
+
+
+
+const uid = xxxx'
+
+
+
+
+------------------------------
+
+
+
+
+VOCê CRIA UM SYMBOL POR MEIO DO CALL de 'Symbol()'....
+
+
+
+ex:
+
+
+
+
+const uid = Symbol();
+
+
+
+
+-------------------------------
+
+
+
+
+IMPORTANTE!!!! -->> PROFESSOR DESTACA QUE 
+
+
+VOCÊ DEVE SEMPRE CRIAR UM SYMBOL POR MEIO DE 'Symbol()', e nunca por 'new Symbol()'... 
+
+
+
+
+'new Symbol()' --------> ISSO NÃO FUNCIONARÁ.
+
+
+
+-------------------------------------------------
+
+
+esse 
+
+
+'Symbol()' VAI CRIAR UM NOVO SÍMBOLO...
+
+
+
+Se agora console.loggarmos 'uid',
+
+
+
+vamos ver o que recebemos lá...
+
+
+ex:
+
+
+
+
+const uid = Symbol();
+
+
+
+console.log(uid);
+
+
+
+---------------------------
+
+
+
+VEREMOS ISSO NO CONSOLE:
+
+
+
+" Symbol() "
+
+
+
+----------------------------------
+
+
+
+
+
+Professor explica que conseguimos um 'symbol' ali...
+
+
+
+Ele explica que ISSO NÃO É TAO EMPOLGANTE.... mas que isso, no final das contas, 
+É UM SYMBOL... (e isso é verdade). 
+
+
+
+
+
+Ele explica que podemos passar um IDENTIFICADOR A UM SYMBOL.... esse identifier é uma STRING...
+
+
+
+ex:
+
+
+
+
+'const uid = Symbol('uid');'
+
+
+console.log(uid);
+
+---------------------------------
+
+
+
+PROFESSOR EXPLICA QUE ESSE 'identifier' é APENAS PARA 
+
+'LOGGING PURPOSES' --> ou seja, para aparecer no console.log.. ---> ou seja, 
+seu único propósito é PARA AUXILIAR VOCê, COMO DESENVOLVEDOR DO CÓDIGO... (ele não tem impacto no funcionamento do código/interação com o usuário).
+
+
+
+
+
+Se recarregarmos o código, veremos no console:
+
+
+
+
+'Symbol(uid)' ----> isso nos diz que aquele Symbol é aquele Symbol de identificador 'uid'...
+
+
+
+
+ISSO NÃO QUER DIZER QUE ESSE SYMBOL AGORA TERÁ UM 'internal name', uma ID, ou qualquer outra coisa 
+do gênero... é apenas uma 'identification criteria'' para você, como desenvolvedor...
+
+
+
+
+
+CERTO, MAS COMO USAMOS ESSE SYMBOL???
+
+
+
+
+
+Bem, digamos que temos um objeto 'PERSON'...
+
+
+Nesse objeto person, vamos querer ter um id de 'abc':
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const uid = Symbol('uid');
+
+
+
+const person = {
+    id: 'p1'
+}
+
+
+console.log(uid);
+
+
+
+------------------------------
+
+
+
+Nós também vamos querer ter uma propriedade de 'name' lá dentro....
+
+
+
+com um valor de 'max'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const uid = Symbol('uid');
+
+
+
+const person = {
+    id: 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+console.log(uid);
+
+
+
+
+
+----------------------------------------------------
+
+
+
+Esse é um objeto padrão...
+
+dentro dele temos uma propriedade 'id', que é UMA SIMPLES PROPRIEDADE REGULAR...
+
+
+Não é um SYMBOL, é apenas um keyname COMUM. 
+
+
+
+-------------------------------------------------
+
+
+
+
+AQUI VAMOS TER QUE FAZER UM 'YOGA MENTAL'...
+
+
+
+
+Digamos que vocÊ está construindo uma library EM QUE VOCê 
+
+___EXPÕE____ CERTOS OBJETOS COM OS USUÁRIOS DE SUA LIBRARY (os desenvolvedores)...
+
+
+
+(essa é a mesma coisa, por exemplo, que o AXIOS FAZIA CONOSCO:
+ele sempre EXPUNHA a nós o objeto 'axios', que é o objeto que faz os http requests...)
+
+
+
+
+Certo.
+
+Nos objetos que você EXPÕE, vocÊ pode ter algumas KEYS/PROPRIEDADES QUE 
+
+VOCê QUER ___ASSEGURAR___ que fiquem INCAPAZES DE SEREM 'OVERWRITTEN' pelos usuários da sua 
+library....
+
+
+
+
+Digamos que nós temos alguma library, talvez uma library de AUTENTICAÇÃO...
+
+
+Essa library de autenticação, hipoteticamente, cria objetos 'USER'...
+
+
+
+Dentro dos objetos 'user', VOCê QUER DAR AOS USUÁRIOS/DESENVOLVEDORES DE SUA LIBRARY 
+
+O PODER ___COMPLETO___ para MUDAR OS OBJETOS que sua library 'cospe'...
+
+
+
+
+ex:
+
+
+
+
+const user = {
+
+    id: 'p1',
+    name: 'Max',
+    age: 30
+
+}
+
+
+--------------------------------------
+
+
+
+Entretanto, você ao mesmo tempo quer certificar/assegurar que todos os objetos 'user' que 
+sua library gera SEMPRE TENHAM algum identificador 'id' que não pode/não consegue ser 
+overwritten...
+
+
+
+Certo... agora, se sua library gerará objetos como esse logo acima, aí é claro que, se eu 
+for o consumidor de uma library dessas, EU SEMPRE PODERIA ALTERAR O ID desses objetos...
+
+
+ex:
+
+
+
+
+
+const user = {
+
+    id: 'p1',
+    name: 'Max',
+    age: 30
+
+}
+
+
+
+user.id = 'p2';
+
+
+-------------------------------------
+
+
+
+
+ESSA É UMA SITUAÇÃO EM QUE 'SYMBOLS' podem ser bem úteis...
+
+
+
+
+Digamos que esse código a seguir é  dividido em 'library land' e 'app land'...
+
+
+ex:
+
+
+
+//Library Land
+const uid = Symbol('uid');
+
+
+
+const user = {
+    id: 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+
+//App Land => Using the library 
+
+
+user.id = 'p2';
+
+
+
+------------------------------------------
+
+
+
+
+O que quer dizer esse esquema?
+
+
+
+Quer dizer que A PARTE DE CIMA É A LIBRARY EM Si....
+
+Ali estamos __AUTORIZANDO__ aquele código... (o código 'const user = {...}')....
+
+
+
+
+
+JÁ NA PARTE DE BAIXO, é a situação do USUÁRIO USANDO AQUELE CÓDIGO DA NOSSA LIBRARY...
+
+
+
+
+
+
+Certo.
+
+
+O 'user', esse objeto, ESTÁ SENDO EXPOSTO POR NOSSA LIBRARY...
+
+
+
+
+Em 'app land', algum usuário está utilizando esse objeto...
+
+
+
+
+
+MAS NÓS, COMO DESENVOLVEDORES DA LIBRARY, NÃO QUEREMOS QUE O USUÁRIO 
+consiga ALTERAR A PROPRIEDADE 'id' de dentro do nosso objeto, na 'app land' (no contexto de uso da library por um usuário qualquer)...
+
+
+
+
+
+Para conseguir esse intuito, impedir o cara de alterar a propriedade, PODEMOS USAR 
+
+UM ___SYMBOL___.
+
+
+SE QUISERMOS QUE ___APENAS O CÓDIGO___ EM NOSSA PRÓPRIA LIBRARY ___ SEJA CAPAZ DE INTERAGIR COM AQUELE 
+ID, podemos simplesmente ADICIONAR UM 'SYMBOL' como key desse key-value pair...
+
+
+
+
+
+
+ok.... o código do library land está assim:
+
+
+
+
+
+
+//Library Land
+const uid = Symbol('uid');
+
+
+
+const user = {
+    '': 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+
+------------------------------------
+
+
+
+
+Certo, como colocamos aquele symbol de identificador 'uid' DENTRO 
+DO NOSSO OBJETO USER, em ''?
+
+
+
+Professor explica que o simples uso de 'uid' (o nome da constante que segura o 'Symbol(uid)') 
+
+NÃO VAI FUNCIONAR... 
+
+
+SE FIZÉSSEMOS ISSO, APENAS ADICIONARÍAMOS UMA KEY REGULAR DE NOME 'uid' ao nosso objeto --> e não queremos isso.
+
+
+
+
+
+EM VEZ DISSO, NÓS USAMOS ESSA 'SINTAXE DINÂMICA DE PROPRIEDADES' que aprendemos mais cedo no curso...
+
+
+
+É AQUELA SINTAXE EM QUE VOCÊ USA SQUARE BRACKETS ([]) DENTRO DO SEU OBJETO, no keyname, 
+
+o que te DEIXA APONTAR A ALGUMA VARIÁVEL QUE SEGURA O __KEYNAME__ QUE VOCÊ QUER USAR __ (nesse caso, 'uid', aquela const que está segurando o 'Symbol(uid)')...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+//Library Land
+const uid = Symbol('uid');
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+---------------------------------------
+
+
+
+
+
+Isso vai usar AQUELE SYMBOL COMO KEYNAME/PROPRIEDADE...
+
+
+
+O objeto 'user' CONTINUA SENDO UM OBJETO VÁLIDO, mesmo com esse SYMBOL...
+
+
+
+
+MAS AGORA, SE NÓS FOSSEMOS O DEVELOPER USANDO ESSA LIBRARY, SE FOSSEMOS ESSE CARA 
+E TENTÁSSEMOS DAR OVERWRITE NO ID por meio do código 'user.id = 'p2' ',
+
+
+NÓS VAMOS CONSEGUIR (ou seja, uma propriedade 'id' REALMENTE SERÁ ADICIONADA AO OBJETO, NESSE EXEMPLO, 
+pois inexiste uma propriedade COM ESSE NOME ESPECÍFICO DENTRO DO OBJETO, pois é o SYMBOL que está agindo 
+como esse id....),
+
+NÓS VAMOS CONSEGUIR MAS ESSA MUDANÇA/ADIÇÃO NÃO VAI INTERFERIR EM NADA COM O 'id' EXPRESSADO PELO 
+'Symbol'... (POIS ELE É __ÚNICO___.)
+
+
+
+
+Resumindo: o Symbol faz com que essa propriedade de 'id' se torne uma 'library internal id'...., algo que não pode ser mexido pela interferência externa do desenvolvedor que usa nossa library...
+
+
+
+
+
+
+
+Como exemplo, podemos console.loggar o objeto 'user'....
+
+
+
+ex:
+
+
+
+
+//Library Land
+const uid = Symbol('uid');
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+user.id = 'p2';
+
+
+console.log(user);
+
+
+
+--------------------------------
+
+
+
+SE FIZERMOS ISSO, VEREMOS QUE O OBJETO 'user' CONTINUARÁ COM 
+
+AQUELa propriedade com keyname de 'Symbol(uid)', OU SEJA 
+
+NOSSA PROPRIEDADE RESTARÁ INTOCADA PELA AÇÃO DO USUÁRIO, que acabou adicionando 
+aquele 'id' (diferente do id representado pelo Symbol) no nosso objeto...
+
+
+
+
+ex (console):
+
+
+
+
+{
+
+age: 30
+id: "p2"
+name: "Max"
+Symbol(uid): "p1"
+
+}
+
+-------------------
+
+
+
+
+
+COMO NÓS, OS DESENVOLVEDORES DA LIBRARY, CONHECEMOS ESSE SYMBOL (mas esse código do 
+Symbol FICA __ESCONDIDO___ DOS USUÁRIOS DA NOSSA LIBRARY... ---> USUÁRIOS DA NOSSA LIBRARY NÃO TEM NENHUM 
+ACESSO A ESSAS PROPRIEDADES 'ESCONDIDAS' DOS symbol...) -------> USUÁRIOS 
+
+NÃO TEM NENHUMA CHANCE DE ACESSAR ESSAS PROPRIEDADES SYMBOL, POIS ELES ___NÃO FAZEM A MENOR IDEIA ___ DE QUAL 
+É O 'Symbol' DE CADA UMA DELAS...
+
+
+
+
+E se vocÊ tentasse acessar algo como 
+
+
+'Symbol('uid')' dentro do user, por meio de um call... 
+
+
+ex:
+
+
+
+console.log(user[Symbol('uid')]);
+
+---------------------------------------------
+
+
+Se você tentasse fazer isso, VAI ACABAR CRIANDO UM SYMBOL 'on the fly' dentro do 'user' E AÍ ISSO VAI 
+TENTAR ACESSAR ESSE SYMBOL DENTRO DO OBJETO 'user'...
+
+
+Mas se recarregarmos a página e vermos esse console.log, constataremos que 
+
+VAMOS RECEBER 'UNDEFINED'....
+
+
+
+
+----> mas pq diabos eu (o desenvolvedor usuário da library) recebo 'undefined'?
+
+
+
+
+Eu recebo undefined pq AINDA QUE EU USE O MESMO IDENTIFICADOR NO Symbol passado 
+no 'console.log'  (eu uso 'Symbol('uid')'), 
+
+
+COMO O PROFESSOR MENCIONOU ANTERIORMENTE, ESSE IDENTIFICADOR É APENAS PARA FINS DE 
+DEBUGGING ('debugging purposes only') ---> isso significa que 
+
+'Symbol('uid')' nesse console.log TECNICAMENTE AINDA/JÁ 
+
+É UM SYMBOL TOTALMENTE NOVO, NOVO E SEM RELAÇÃO ALGUMA COM o SYMBOL que 
+
+já está dentro do user e que possui o '''''ID''''' de 'uid'...
+
+
+
+Isso quer dizer que esses 2 symbols SÃO 2 OBJETOS TOTALMENTE DIFERENTES...
+
+
+
+
+Você também consegue ver isso se vocÊ 
+
+
+
+console.loggar o seguinte código:
+
+
+
+ex:
+
+
+console.log(Symbol('uid') === Symbol('uid'));
+
+
+
+
+-----------------------------------------
+
+
+
+ESSE CONSOLE LOG VAI RETORNAR ___fALSE__, pois os DOIS NÃO SERÃO IGUAIS NEM MESMO TENDO A MESMA 
+GRAFIA E SINTAXE... (não serão iguais PQ OS SEUS IDENTIFICADORES SÃO PARA 'debugging purposes only'...)
+
+
+
+
+
+ESSA É A IDEIA POR TRÁS DOS SYMBOLS...
+
+
+
+
+Nós de fato TEMOS 'UNIQUE IDENTIFIERS' (os symbols em si) QUE 
+
+NÃO PODEM SER ACIDENTALMENTE 'OVERWRITTEN'...
+
+
+
+SÃO UNIQUE IDENTIFIERS ___QUE APENAS ____ PODEM SER ___ ALTERADOS___ 
+SE __ OS CHAMAMOS ___ DIRETAMENTE __ NO ___ NOSSO CÓDIGO___...
+
+
+
+E os únicos que podem acessá-los diretamente no código das libraries SÃO 
+OS CRIADORES DAS LIBRARIES...
+
+
+E ELES SÓ SÃO CAPAZES DE FAZER ISSO POR MEIO DA REFERÊNCIA DIRETA àQUELE SYMBOL, à contante 
+QUE O SEGURa....
+
+(como por meio do código 'user[uid] = 'p3'  ')
+
+
+ex:
+
+
+
+
+
+
+//Library Land
+const uid = Symbol('uid');
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+user[uid] = 'p3';
+
+
+
+
+----------------------------
+
+
+
+
+Ou seja, com esse 
+
+
+'user[uid] = 'p3' 
+
+
+EU, 
+
+O DESENVOLVEDOR DA LIBRARY, POSSO DEIXAR A POSSIBILIDADE DO USUÁRIO 
+MUDAR AQUELA PROPRIEDADE COm nome de 'symbol' NA MINHA LIBRARY...
+
+
+
+MAS SE EU NÃO EXPOR ESSE SYMBOL COMO PARTE DE MINHA LIBRARY, MEUS USUÁRIOS 
+
+NÃO TERÃO CHANCE ALGUMA DE USAR/ALTERAR/REMOVER/MODIFICAR/USAR AQUELA PROPRIEDADE  nomeada com o 
+symbol...
+
+
+
+
+----------------------------
+
+
+
+SE O PROFESSOR DEIXAR O CÓDIGO assim:
+
+
+
+//Library Land
+const uid = Symbol('uid');
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age: 30
+}
+
+
+user[uid] = 'p3';
+
+
+console.log(user);
+
+
+-------------------------------
+
+
+
+E ENTÃO CHECAR O CONSOLE.LOG, ele verá que 
+
+O VALOR 
+
+
+
+DE '[uid]' (desse Symbol) DENTRO 
+
+DO USER FOI REALMENTE ALTERADO (para 'p3')... mas ele só foi alterado, explica o professor, pq 
+
+EU MESMO ALTEREI ELE, DE DENTRO DO CÓDIGO DA MINHA LIBRARY... --> (e essa possibilidade de mudança de valor NÃO EXISTE FORA DO CÓDIGO DA MINHA LIBRARY, PARA OS USUÁRIOS/desenvolvedores, POR EXEMPLo.)
+
+
+
+
+
+
+
+----> É EVIDENTE QUE VOCÊ NÃO É OBRIGADO A USAR SYMBOLS DENTRO DE LIBRARIES, 
+esse é apenas um use-case comum em que os Symbol podem ser úteis.
+
+
+
+
+
+
+
+
+
+----> PROFESSOR TAMBÉM RESSALTA QUE O USO DO IDENTIFIER NÃO É OBRIGATÓRIO, você pode deixar um Symbol 'pelado', como 
+
+essa sintaxe:
+
+
+'const uid = Symbol()' ----> isso é perfeitamente aceitável.
+
+
+
+
+
+mas você tem essa possibilidade, vocÊ pode adicionar um identificador para fins de debugging, para que 
+depois nos console.log você possa diferenciar os Symbols do seu código.

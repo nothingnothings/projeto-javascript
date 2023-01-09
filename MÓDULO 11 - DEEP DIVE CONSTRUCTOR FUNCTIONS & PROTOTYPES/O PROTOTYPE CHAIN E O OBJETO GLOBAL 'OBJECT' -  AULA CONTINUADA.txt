@@ -1,0 +1,346 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Retomamos a aula de onde paramos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Propriedades e métodos estáticos SÃO AS COISAS QUE FICAM DENTRO 
+DO OBJETO GLOBAL/CONSTRUCTOR FUNCTION GLOBAL 'OBJECT'.
+
+
+
+
+
+
+
+quando voce vai na sua classe e voce adiciona uma propriedade estatica, 
+isso e a mesma coisa que 
+
+
+
+voce adicionar uma propriedade normalmente em uma constructor FUNCTION
+(propriedades adicionadas diretamente a constructor functions 
+nao sao replicadas nos objetos criados a partir dessas constructor functions;
+seu comportamento, portanto, e similar a de uma propriedade/metodo/field ESTATICOS em 
+uma classe...)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function () {
+        console.log('Hi, I am' + this.name + ' and I am ' this.age + ' years old. '
+         );
+    };
+
+
+
+
+
+}
+
+
+
+Person.describe = function() {
+    console.log('Creating persons...');  //// EXEMPLO DO QUE O PROFESSOR DISSE -----> ESSA ADICAO DE PROPRIEDADE VISTA AQUI FAZ COM QUE A PROPRIEDADE TENHA UMA COMPORTAMENTO SEMELHANTE AQUELE VISTO EM PROPRIEDADES/METODOS/FIELDS STATICOS DE CLASSES...
+}
+
+
+
+---------------------------------------
+
+
+
+
+
+Ou seja, essa propriedade apenas e adicionada NO OBJETO 
+DA CONSTRUCTOR FUNCTION EM SI....
+
+
+
+
+
+
+
+O objeto/constructor function global `object` TEM UM MONTE 
+DESSAS PROPRIEDADES/METODOS PRE-DEFINIDOS.
+
+
+
+
+
+
+Mas o importante e entender que o OBJETO `OBJECT` NAO E O PROTOTYPE/FALLBACK OBJECT QUE 
+O JAVASCRIPT SEMPRE RECORRE QUANDO NAO ENCONTRA UMA PROPRIEDADE/METODO EM UM DETERMINADO OBJETO...
+
+
+professor mostra isso por meio de um exemplo com `length`.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function () {
+        console.log('Hi, I am' + this.name + ' and I am ' this.age + ' years old. '
+         );
+    };
+
+
+
+
+
+}
+
+
+
+Person.describe = function() {
+    console.log('Creating persons...'); 
+}
+
+
+const p = new Person();
+
+
+console.log(p.length); /////SE REALMENTE O JAVASCRIPT SEMPRE RECORRESSE a `Object`, esse valor retornado pelo console.log seria DE '1', pois e isso que esta definido no objeto global `object`. Entretanto, podemos observar que aqui o valor retornado e 'undefined', o que refuta essa hipotese.
+
+
+
+
+Person.prototype.printAge = function() {
+    console.log(this.age);
+}
+
+
+
+
+
+
+
+
+----------------------------------------
+
+
+
+Em vez de 'object' ser o fallback object/prototype de tudo, 
+
+
+
+O FALLBACK OBJECT DE TODOS OS OBJETOS EM JAVASCRIPT 
+
+E 'Object.prototype'.
+
+
+
+
+ PROFESSOR DIZ QUE ISSO PODE PARECER CONFUSO. NOMENCLATURA CONFUSA.
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+console.dir(Object.prototype);
+
+
+
+--------------------------------------
+
+
+
+
+Pode parecer confuso, mas devemos ter em mente 
+
+essa propriedade 'prototype' EXISTE EM TUDO AQUILO 
+
+QUE E UMA CONSTRUCTOR FUNCTION... (e `Object`, o `Object` global, E UMA CONSTRUCTOR FUNCTION, NO FINAL DAS CONTAS.)
+
+
+
+
+
+
+'Object.prototype' ------> DEFINE O QUE SERA ASSIGNADO 
+                            COMO UM PROTOTYPE A QUALQUER 
+                            OBJETO QUE E CRIADO COM BASE 
+                            NESSA CONSTRUCTOR FUNCTION...
+
+
+
+        ---> Portanto, qualquer objeto criado 
+        com base em 'Person' RECEBE O PROTOTYPE 
+        DEFAULT (default prototype).....  (recebe o prototype default + ALGUMA PROPRIEDADE/METODO QUE ADICIONAMOS OPCIONALMENTE.... VOCE PODE VER ISSO NO CODIGO LOGO ACIMA, EM QUE ADICIONAMOS 'printAge' COMO METODO DO PROTOTYPE DE 'Person'... essa adicao complementa o prototype default, ou seja, nao o substitui.)
+
+
+
+
+
+
+
+
+
+--> TODO OBJETO CRIADO A PARTIR DESSE `OBJECT` CONSTRUCTOR FUNCTION GLOBAL (que e built-in)
+RECEBE O PROTOTYPE DEFAULT DELE.... ('Object.prototype')
+
+
+
+
+
+
+E ESSE PROTOTYPE MALDITO E QUE TEM O METODO 'TOSTRING' e outros metodos...
+
+
+
+---------------------------
+
+
+
+
+'Object.prototype', portanto, e importante, pois define 
+o fallback object de todos objetos construidos a partir dele, a partir dessa constructor function global.
+
+
+
+A partir dai, apenas e importante entender que 
+
+
+o fallback object 
+
+de 'Person'  (e qualquer objeto criado a partir da 
+object literal notation OU constructor functions OU classes)
+
+
+SEMPRE SERA, POR DEFAULT, ESSE PROTOTYPE DO OBJETO GLOBAL 'OBJECT'.
+
+
+
+
+
+
+Todo objeto, portanto, utiliza como valor fallback default 
+esse 'prototype' do objeto global 'Object'. (inclusive o prototype que voce recebe quando cria uma constructor function)
+
+
+
+-------------------------------
+
+
+
+
+
+
+ENTRETANTO, esse 'prototype' de Object NAO 
+
+
+POSSUI NENHUM OUTRO PROTOTYPE EM SEU INTERIOR...
+
+
+
+Ou seja, nenhum __proto__ sera encontrado 
+dentro desse prototype de 'Object'..........
+
+
+
+A unica coisa que pode ser encontrada aqui e um 'getter'
+e um 'setter',  MAS ELES NAO FARAO NADA, 
+
+O QUE ELES FARAO E BASICAMENTE CAPTURAR QUAISQUER 
+
+INTERACOES....
+
+(porque, se voce tentar console.loggar o '__proto__' do prototype 
+de tudo/do objeto global 'Object', voce vera que o console nos outputtara 
+'NULL')
+
+
+
+
+--------------------------------
+
+
+
+ex:
+
+
+
+
+
+console.log(Object.prototype.__proto__); 
+
+
+
+
+-------------------------------------
+
+
+ISSO NOS RETORNA 'NULL'.
+
+
+
+
+ISSO SINALIZA/SIGNIFICA O ___FIM____ DA PROTOTYPE 
+
+CHAIN, e exatamente aqui que ela acaba...
+
+
+
+ela acaba, portanto, em 'Object.prototype', e nao chega a 
+entrar em __proto__, pois ele inexiste (aqui apenas existem os 
+getters e setters desse __proto__....)
+
+
+
+

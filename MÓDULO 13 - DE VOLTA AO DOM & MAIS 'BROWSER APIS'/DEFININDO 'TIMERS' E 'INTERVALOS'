@@ -1,0 +1,972 @@
+
+
+
+
+
+COM AQUELE SCRIPT DINÂMICO ADICIONADO, o professor praticamente acabou com a parte 
+
+
+
+da 'interação com o DOM' que o professor queria aprofundar neste módulo...
+
+
+
+
+-------------------------------
+
+
+
+
+
+ENTRETANTO, HÁ MAIS ALGUMAS FEATURES LEGAIS QUE O BROWSER EXPÕE A NÓS EM JAVASCRIPT,
+
+que também nos permitem 
+
+INFLUENCIAR A EXPERIÊNCIA DO USUÁRIO.....
+
+
+
+UMA DESSAS FEATURES LEGAIS é 
+
+
+UM ___tIMER_____, O QUAL VOCÊ PODE DEFINIR.....
+
+
+
+Na verdade, SÃO 2 ESPÉCIES DISTINTAS DE TIMER, as quais você pode definir no seu código javascript.
+
+
+
+
+
+DIGAMOS QUE, EM VEZ DE executarmos 'this.startAnalytics' dentro do addEventListener do 
+
+botão 
+
+'start-analytics-btn' (ou seja, sujeitar esse startAnalytics ao apertar de um botão), 
+
+NÓS QUEIRAMOS FAZER ISSO (começar 'startAnalytics') 3 SEGUNDOS APÓS A PÁGINA 
+
+
+TER SIDO CARREGADA....
+
+
+
+------------------------------------
+
+
+Para isso, você pode, de fato, adicionar um TIMER...
+
+
+
+---------------------
+
+
+VOCÊ FAZ ISSO POR MEIO DO MÉTODO 'built-in'  'setTimeout()'........
+
+
+
+
+
+
+
+
+setTimeout();
+
+
+---------------------------
+
+
+Professor explica que, 'por trás das cenas', esse método EXISTE 
+
+
+DENTRO DO OBJETO GLOBAL 'window', 
+
+MAS, COMO NÓS APRENDEMOS ANTERIORMENTE, VOCÊ PODE 
+
+OMITIR 'WINDOW' e chamar o método mesmo assim no seu código, em qualquer parte....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+        activeProjectsList.setSwitchHandlerFunction(
+            finishedProjectsList.addProject.bind(finishedProjectsList)
+        ); 
+        finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+            activeProjectsList)
+            ); 
+        
+
+
+
+
+
+
+
+
+        setTimeout();
+            
+
+
+    }
+
+
+    ------------------------------------------
+
+
+
+
+
+E O MÉTODO 
+
+
+'setTimeout()' FAZ EXATAMENTE O QUE SEU NOME SUGERE,
+
+
+ELE DEFINE UM TIMER...
+
+
+
+
+Esse método aceita 
+
+
+DOIS ARGUMENTOS:
+
+
+
+
+1º argumento) Uma função que DEVERÁ SER EXECUTADA QUANDO O TIMER EXPIRAR, QUANDO ACABAR O SEU TEMPO.
+
+ESSA FUNÇÃO PODE SER:
+
+a) uma função anônima (tanto na forma 'função normal/function keyword', Como também ARROW FUNCTIONS...)
+
+b) pode ser um POINTER A UMA FUNÇÃO QUALQUER NO SEU CÓDIGO, como fazemos muitas vezes. ('ex: this.startAnalytics');
+
+
+
+
+
+
+
+2º argumento) O tempo do timer.
+
+---> é a quantidade de tempo, mesmo.
+
+3000 ----> 3 MIL SIGNIFICA 3 mil millisegundos, o que significa 3 SEGUNDOS.
+
+
+
+OU SEJA, É UM NÚMERO EM MILISSEGUNDOS.
+
+
+
+
+
+
+
+--------------------------------------------
+
+
+ex de sintaxe:
+
+
+setTimeout(this.startAnalytics, 3000);
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+class App {
+   static init() {
+        const activeProjectsList = new ProjectList('active');
+        const finishedProjectsList = new ProjectList('finished');
+        activeProjectsList.setSwitchHandlerFunction(
+            finishedProjectsList.addProject.bind(finishedProjectsList)
+        ); 
+        finishedProjectsList.setSwitchHandlerFunction(activeProjectsList.addProject.bind(
+            activeProjectsList)
+            ); 
+        
+
+
+
+
+
+
+
+
+        setTimeout(this.startAnalytics, 3000);
+            
+
+
+    }
+
+------------------------------------------------
+
+
+
+
+Isso, btw, TAMBÉM É UM EXEMPLO DE EXECUÇÃO ASSÍNCRONA DE CÓDIGOS 
+
+EM JAVASCRIPT, um tópico que realmente não olhamos até agora.
+
+
+
+------------------------------------------
+
+
+
+
+Uma coisa que vocÊ perceberá é que QUANDO ESSE CÓDIGO É DEFINIDO, 
+
+
+ELE NÃO PAUSARÁ TODA A EXECUÇÃO DOS SEUS SCRIPTS....
+
+
+Ou seja, nós/o usuário poderemos clicar em TODOS OS BOTÕES E TER OS COMPORTAMENTOS 
+
+NORMAIS DO SCRIPT, tudo funcionará da mesma forma, mas com esses efeitos 'incubados' por meio do timer...
+
+
+
+
+
+EM VEZ DISSO, ESSE 'timer' É REGISTRADO PELO BROWSER EM ALGUM LUGAR DO BACKGROUND...
+
+
+
+O browser gerencia o timer E TAMBÉM REGISTRA QUE ESSA FUNÇÃO DEVERÁ SER CHAMADA ASSIM QUE 
+
+O TEMPO DO TIMER SE ESGOTAR...
+
+
+
+
+
+------------------------------------------------
+
+
+UMA VEZ QUE O BROWSER PERCEBA QUE O TIMER EXPIROU, ele vai VOLTAR AO SCRIPT 
+
+
+E EXECUTAR ESSA FUNÇÃO PARA VOCÊ ....
+
+
+
+
+Resumindo: é importante saber que ESSE TIMER NÃO PAUSARÁ A EXECUÇÃO DE SCRIPTS; EM VEZ DISSO, É O BROWSER QUE VAI GERENCIAR TUDO ISSO PARA NÓS, GERENCIARÁ TUDO DE UM JEITO QUE PERMITIRÁ QUE SEU SCRIPT CONTINUE A SER EXECUTADO....
+
+
+
+
+-----------------------------------------------
+
+
+
+
+OUTRA SIDENOTE:
+
+
+
+
+VOcê também 
+
+
+PODE PASSAR UM TERCEIRO ARGUMENTO a 'setTimeout()'...
+
+
+
+ESSE TERCEIRO ARGUMENTO É UM 
+
+
+ARRAY DE ARGUMENTOS QUE VOCÊ TALVEZ QUEIRA PASSAR ÀQUELA FUNÇÃO DO PRIMEIRO ARGUMENTO 
+
+QUANDO A MESMA FOR EXECUTADA....
+
+
+
+ex:
+
+
+
+setTimeout(this.sum, 3000, [num1, num2, num3]);
+
+
+------------------------------------------------------
+
+
+
+COMO A FUNÇÃO 'startAnalytics' NÃO PRECISA DE ARGUMENTO ALGUM,
+
+
+podemos simplesmente deixar as coisas como estão.
+
+
+
+-------------------------------------------------
+
+
+
+
+
+Agora, se recarregarmos a página, veremos que a engine 
+
+
+
+executará o código de 
+
+'analytics.js' 
+
+ESGOTADOS OS 3 SEGUNDOS DO TIMER...
+
+
+------------------------------------
+
+
+
+E isso, de fato, ocorre.
+
+
+
+
+
+(O botão 'startAnalytics' agora n faz nada, though)
+-----------------------------
+
+
+
+
+
+
+
+
+ESSE TIMER QUE DEFINIMOS POR MEIO DE 
+
+
+
+'setTimeout()' É UM 
+
+
+TIMER QUE RODA UMA ÚNICA VEZ....
+
+
+
+
+HÁ VEZES EM QUE VOCÊ VAI QUERER 
+
+
+
+TER UM TIMER QUE RODA EM UM INTERVALO... ('runs on an interval'),
+
+
+
+
+OU SEJA, QUE EXECUTA UM SCRIPT 
+
+
+
+
+A CADA 3, 5, 10, 100 MILISSEGUNDOS, etc etc...
+
+
+
+
+
+
+E você pode fazer isso, também:
+
+
+
+
+
+
+
+PROFESSOR DIZ QUE DEVEMOS FAZER ISSO NO ARQUIVO 
+
+
+
+'Analytics.js'...
+
+
+
+
+
+---------------------------------
+
+
+
+LÁ DENTRO, EM VEZ DE 
+
+
+
+CONSOLE.LOGGAR 'Sending Analytics' NO MOMENTO EM QUE 
+
+O SCRIPT É EXECUTADO ,
+
+
+
+
+agora queremos DEFINIR 
+
+
+___UM TIMER____....
+
+
+Pq nós talvez queiramos ENVIAR 
+
+
+ANALYTICS DATA ao nosso servidor 
+
+
+A CADA 2 SEGUNDOS...
+
+
+-----------------------------
+
+
+
+
+PARA ISSO, NÓS DEVEMOS UTILIZAR O MÉTODO 
+
+
+
+'setInterval()'; , QUE É UMA 
+
+ALTERNATIVA AO 
+
+
+'setTimeout()'....
+
+
+
+É UMA ALTERNATIVA PQ FAZ ALGO DIFERENTE, PQ RODA A FUNÇÃO DEFINIDA COMO PRIMEIRO ARGUMENTO A CADA x milissegundos...
+
+
+
+
+
+
+ARGUMENTOS DE 'setInterval();' --->
+
+
+
+
+1º) DEVEMOS PASSAR UMA ANONYMOUS FUNCTION... (pode ser tanto uma anonymous function normal, ou uma anonymous function COM ARROW FUNCTIOn...)
+
+
+
+2º ) É O INTERVALO DE TEMPO ATÉ QUE ESSA FUNÇÃO SEJA EXECUTADA/RE-EXECUTADA (nunca vai parar de ser re-executada...)
+
+
+
+ex:
+
+
+
+
+
+setInterval(
+    () => {
+        console.log('Sending Analytics Data...');
+    }, 
+
+    2000
+
+
+);
+
+
+
+-----------------------
+
+
+Como digitamos '2000', essa função definida no primeiro parâmetro 
+
+
+SERÁ EXECUTADA A CADA 2 SEGUNDOS....
+
+
+
+------------------------------------
+
+
+
+
+
+VOCÊ TAMBÉM PODE (é uma opção) PASSAR _____UM TERCEIRO ARGUMENTO_____ , quE É 
+
+UM ARRAY 
+
+
+DE ARGUMENTOS QUE PODERÃO ALIMENTAR A FUNÇÃO DO PRIMEIRO PARÂMETRO...
+
+
+
+
+ex:
+
+
+
+setInterval(
+    () => {
+        console.log('Sending Analytics Data...');
+    }, 
+
+    2000, [num1, num2, num3]
+
+
+);
+
+
+-----------------------------------------------
+
+
+
+
+O RESULTADO DE TUDO ISSO É QUE SE O PROFESSOR RECARREGAR O CÓDIGO, ele verá 
+
+
+
+que inicialmente, NADA DE NOVO APARECERÁ NA NOSSA PÁGINA...
+
+
+
+Mas, passados 2 segundos, o script de startAnalytics.js SERÁ 
+
+CARREGADO NO NOSSO CÓDIGO (isso graças ao método de setTimeout(), dentro do 'app.js')....
+
+
+PASSADOS MAIS 3 SEGUNDOS, 'Sending Analytics Data' SERÁ MOSTRADO NO DEVTOOLS, O QUE 
+
+
+SINALIZARÁ QUE O CÓDIGO DE 'setInterval()' FOI LIDO E QUE AGORA A FUNÇÃO DEFINIDA EM SEU 
+
+PRIMEIRO PARÂMETRO AGORA ESTÁ SENDO EXECUTADA A CADA 2 SEGUNDOS...
+
+
+
+
+Ou seja, a cada 2 segundos, os 'analytics' estão sendo 'enviados ao server'...
+
+
+
+
+-----------------------------------------------------
+
+
+
+AGORA, SE VOCÊ QUISER __PARAR UM TIMER____ OU ___ PARAR UM INTERVAL___, 
+
+
+
+você pode fazê-lo:
+
+
+
+
+
+Professor sugere que voltemos ao index.html e alteremos o nome 
+
+
+do button de 'start-analytics-btn'...
+
+
+Ele também muda o nome do id 
+
+
+para 'stop-analytics-btn'...
+
+
+
+-----------------------------
+
+
+
+ESSE BOTÃO FARÁ COM QUE O TIMER SEJA 
+
+
+OU 1) PARADO SE ELE AINDA ESTIVER QUASE SENDO EXECUTADO (relação com 'setTimeout()')
+
+
+OU 2) PARADO SE O SCRIPT DE ANALYTICS.JS JÁ ESTIVER SENDO EXECUTADO, e aquela função estiver sendo re-executada a cada 2 segundos...
+
+
+
+
+------------------------------
+
+
+
+
+O professor começa com o código do TIMER DE 'app.js'.
+
+
+
+ALI, DEPOIS DE TER DEFINIDO O TIMER, 
+
+
+ELE VAI ADICIONAR UM EVENTLISTENER
+
+
+
+de 
+
+
+'document.getElementById('stop-analytics-btn').addEventListener('click', )'
+
+
+
+-------------------------------------
+
+
+
+DENTRO DO SEGUNDO PARÂMETRO DO EVENTLISTENER, O PROFESSOR COLOCARÁ 
+
+UMA ANONYMOUS FUNCTION.... (ele diz que poderíamos definir, é claro, um método para colocar aqui, mas ele prefere uma funçã anônima.)
+
+
+
+
+
+
+ELE QUER PARAR O TIMER DE 'setTimeout()' SE ELE AINDA ESTIVER SENDO EXECUTADO 
+
+NA NOSSA PÁGINA....
+
+
+
+
+Para isso, é ÚTIL SABER QUE O TIMER VAI, NA VERDADE, SEMPRE RETORNAR UM ID....
+
+
+
+É por isso que podemos 
+
+
+ARMAZENAR O TIMER EM UMA CONSTANTE, A CONSTANTE 
+
+
+'timerId'...
+
+
+
+
+
+ex:
+
+
+
+const timerId = setTimeout(this.startAnalytics, 3000);
+
+
+document.getElementById('stop-analytics-btn').addEventListener('click', )
+
+
+-------------------------------------------
+
+
+
+ENTÃO, DENTRO DO addEventListener, você poderá executar 
+
+o método 
+
+
+'clearTimeout();'  --------------> É OUTRA FUNÇÃO PROVIDENCIADA ___PELO BROWSER_____.
+
+
+
+
+A esse método 'clearTimeout()' VOCÊ DEVE PASSAR O ____ID______ DO TIMER, DE UM 'TIMEOUT'
+
+QUE VOCÊ QUER ____PARAR______.
+
+
+
+----------------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+const timerId = setTimeout(this.startAnalytics, 3000);
+
+
+document.getElementById('stop-analytics-btn').addEventListener('click', () => {clearTimeout(timerId)}); //////// DE FATO, O FUNCIONAMENTO DESSE 'CANCELADOR DE TIMER' DEPENDE DESSE SEGUNDO ARGUMENTO, dessa passagem de UMA FUNÇÃO ANÔNIMA a esse addEventListener.... Caso colocassemos o 'clearTimeout()' "solto" no segundo parâmetro, NEM O COMPORTAMENTO NORMAL DE 'const timerId', ou seja, o timer normal que queremos na página, funcionaria.
+
+
+
+
+-------------------------------------
+
+
+
+
+SE EU SALVAR ESSE CÓDIGO E ENTÃO RECARREGAR A PÁGINA, verei que 
+
+
+SE EU CLICAR NO BOTÃO 'Stop Analytics', o timer que faz com que o script de 
+
+
+analytics.js seja adicionado automaticamente do código SERÁ INTERROMPIDO.
+
+
+
+
+
+----------------------------------------------
+
+
+
+CERTO. AGORA CONSEGUIMOS PARAR O CARREGAMENTO DE 'analytics.js' POR MEIO DESSE CANCELAMENTO DO 
+
+
+TIMER... (por meio de 'clearTimeout(timerId)'.). 
+
+
+MAS SOMENTE CONSEGUIMOS ESSA PARADA SE APERTARMOS O BOTÃO __antes__ do script de analytics.js ter sido 
+
+carregado.
+
+
+
+APÓS O SCRIPT TER SIDO CARREGADO, o botão torna-se inútil, pois não faz parar 
+
+aquele comportamento de 'setInterval', que faz com que 'sending Analytics data' seja 
+
+mostrado no console a cada 2 segundos....
+
+
+
+------------------------------------
+
+
+
+
+O INTERVALO NÃO SERÁ PARADO, NEM RECEBEREMOS UMA MENSAGEM DE ERRO....
+
+Isso pq O TIMER JÁ EXPIROU... (não há como expirarmos ele por meio de clearTimeout() pq ELE JÁ EXPIROU.).
+
+
+
+
+
+
+O INTERVALO, POR SUA VEZ, CONTINUA PQ NÓS NÃO ESTAMOS DIZENDO NADA SOBRE O INTERVALO AQUI, NÃO ESTAMOS 
+
+DANDO ORDENS A ELE...
+
+
+MAS NÓS PODEMOS, NA VERDADE, TAMBÉM 
+
+
+LIMPAR O INTERVALO...
+
+
+
+Para tal, devemos ir até o 
+
+
+analytics.js....
+
+
+Lá, devemos copiar e colar 
+
+o código 
+
+
+
+de 
+
+
+
+
+'document.getElementById('stop-analytics-btn').addEventListener('click', () => {clearTimeout(timerId)});'
+
+
+
+
+
+Feito isso, devo essencialmente ARMAZENAR O INTERVALO ( 
+    
+    ou seja, 
+    ' setInterval(
+        () => {
+            console.log('Sending Analytics Data...')
+        }, 2000
+    );
+
+)'
+    EM 
+
+
+UMA CONSTANTE 
+
+
+'intervalId'...
+
+
+
+ex:
+
+
+
+
+
+const intervalId = setInterval(
+        () => {
+            console.log('Sending Analytics Data...')
+        }, 2000
+    );
+
+
+
+
+document.getElementById('stop-analytics-btn').addEventListener('click', () => {clearTimeout(timerId)});
+
+
+
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+OU SEJA, DEVO ESSENCIALMENTE ARMAZENAR 'intervalId' DENTRO DESSA CONSTANTE de mesmo nome....
+
+
+faço isso pq INTERVALOS ESSENCIALMENTE retornam exatamente isso, um 'intervalId'... (valor 'intervalId', um valor que é um ID PARA AQUELE INTERVALO)....
+
+
+
+E então, em vez de usar 'clearTimeout(timerId)' Dentro do addEventListener do botão lá, aqui 
+
+eu vou usar 
+
+'clearInterval();' E PASSAR O 'intervalId' A ELE....
+
+
+
+ex:
+
+
+
+
+
+
+const intervalId = setInterval(
+        () => {
+            console.log('Sending Analytics Data...')
+        }, 2000
+    );
+
+
+
+
+document.getElementById('stop-analytics-btn').addEventListener('click', () => {clearInterval(intervalId)});
+
+
+
+------------------------------------------------
+
+
+
+
+
+FUN FACT:
+
+
+ você poderia, na verdade, usar 
+
+
+ 'clearTimeout()' aqui, e ELE REALMENTE FUNCIONARIA, mas como 
+
+ nós temos 
+
+ 'clearInterval()', É SEMPRE MELHOR UTILIZÁ-LO PARA INTERVALOS, POIS 
+
+ DEIXA MAIS CLARAS AS NOSSAS INTENÇÕES aos outros desenvolvedores.
+
+
+Também é mais DESCRITIVA.
+
+
+
+clearTimeout ---> para limpar timeouts 
+
+
+clearInterval --> para limpar intervals.
+
+
+
+
+ ----------------------------------------
+
+
+
+
+ COM ESSE CÓDIGO NO LUGAR, SE AGORA SALVARMOS TUDO E RECARREGARMOS, veremos 
+  
+
+
+  que tudo funcionará. SE AGORA APERTARMOS O BOTÃO DEPOIS DO SCRIPT 'analytics.js' TER SIDO 
+
+  CARREGADO, simplesmente o 'sending analytics data' CESSARÁ, não haverá mais ocorrências desse console.log a cada 2 segundos.
+
+
+
+  -----------------------------------------------
+
+
+
+
+
+
+ESSES, PORTANTO, SÃO OS TIMERS EM JAVASCRIPT, E AS MANEIRAS PELAS QUAIS 
+
+PODEMOS CONTROLÁ-LOS.
+
+
+
+OS BROWSERS GERENCIAM ESSES TIMERS POR TRÁS DAS CENAS, FAZENDO COM QUE ELES NUNCA INTERFIRAM 
+
+NA EXECUÇÃO NORMAL DO SEU CÓDIGO JS.
+
+
+
+Timers são muito úteis.
+
+
+------------------------------------------
+

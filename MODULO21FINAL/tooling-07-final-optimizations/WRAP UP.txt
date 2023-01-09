@@ -1,0 +1,83 @@
+
+
+
+
+ACABAMOS.
+
+
+
+
+
+--->
+ 
+
+ ESTAMOS USANDO WEBPACK PARA BUNDLAR NOSSOS ARQUIVOS, OPTIMIZÁ-LOS E PARA TER UM DEV SERVER.
+
+
+
+
+
+ --->
+
+
+ ESTAMOS USANDO ESLint.....
+
+
+
+
+
+ ---> AGORA TEMOS UM SETUP EM QUE PODEMOS ESCREVER NOSSO CÓDIGO DE MANEIRA INTERATIVA, QUE SPLITTA 
+
+ NOSSO CÓDIGO, E QUE ENTÃO OUTPUTTA O CÓDIGO DE FORMA OPTIMIZADA, de uma 
+
+ forma que reduz o número de http requests.
+
+
+
+
+---> E FEATURES COMO o 
+
+
+tooltip ''DINÂMICO'' (imports dinâmicos) AINDA 
+
+
+FUNCIONAM NESSES SERVIDORES/BUILDS DE DESENVOLVIMENTO/BUILDS DE PRODUÇÃO...
+
+(tudo isso é suportado pelo webpack).
+
+------------------------------------
+
+
+
+
+HÁ MAIS COISAS QUE VOCÊ PODE FAZER COM WEBPACK, MAS VOCÊ TEM QUE VER UNS CURSOS.
+
+
+
+
+
+
+----> uma coisa que NÃO FIZEMOS É USAR 
+
+
+________LOADERS_____ em webpack....
+
+
+
+
+
+LOADERS NOS PERMITEM ___transformar___ arquivos --->
+
+
+
+ISSO NOS POSSIBILITA UTILIZAR JAVASCRIPT NEXT-GEN FEATURES na escrita do nosso código....
+
+---> usar next-gen javascript code E AINDA ASSIM PRODUZIR CÓDIGO QUE NÃO USA ESSAS FEATURES E QUE 
+
+FUNCIONA EM BROWSERS MAIS ANTIGOS...
+
+
+
+Isso é algo que exploraremos no módulo 'browser support'...
+
+

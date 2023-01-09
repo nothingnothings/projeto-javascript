@@ -1,0 +1,230 @@
+Vimos, então, que a ordem importa para variáveis e constantes, mas não para funções.
+
+
+Há mais uma coisa interessante em nosso código, que é o fato de possuirmos uma constante DENTRO da função, e possuirmos uma variável e uma constant FORA da função.
+
+
+Quando devemos usar dentro, e quando devemos usar fora?
+
+
+
+Há alguma diferença entre as duas?
+
+
+
+SIM, A DIFERENÇA É QUE GERALMENTE, SE VOCÊ USAR ALGUNS DADOS SOMENTE DENTRO DA FUNÇÃO, COMO O "result" obtido por meio de num1 + num2, que é retornado com a função return lá dentro da função, você provavelmente vai querer definí-lo na função.
+
+
+O professor mostra um exemplo, exemplo de uma variável "result" diferente, uma que é definida globalmente no nosso código:
+
+
+
+const defaultResult = 0;
+let currentResult = defaultResult;
+let result;        ----->nova variável.
+
+
+function add(num1, num2) {result = num1 + num2;
+                            return result;
+                            }
+
+
+add(1, 2 );
+currentResult = result;
+
+
+let calculationDescription = `(${defaultResult} + 10) * 3 /2 -1`;
+
+
+outputResult (currentResult, calculationDescription);
+
+
+                                                                                    |-------> APESAR DE ISSO NÃO SER NEM UM POUCO RECOMENDADO, SE ESCUTARMOS AS PALAVRAS DO PROFESSOR. ISSO PORQUE FICA DIFÍCIL DE LER O CÓDIGO, E O COMPORTAMENTO DAS VARIÁVEIS TORNA-SE IMPREVISÍVEL. NÃO DEVEMOS MUDAR O VALOR DE VARIÁVEIS/ASSIGNAR COISAS A ELAS DENTRO DE FUNÇÕES.
+                                                                                    |
+                                                                                    |
+                                                                                    |
+                                                                                    |
+//A DIFERENÇA DE UMA VARIÁVEL DEFINIDA GLOBALMENTE É QUE ELA PODE SER USADA/DEFINIDA ATÉ MESMO DENTRO DOS FUNCTION BODY (ALÉM DE PODER SER USADA NO LADO DE FORA.). UMA VARIÁVEL DEFINIDA LOCALMENTE, COM A PALAVRA-CHAVE VAR, É 
+APENAS CAPAZ DE SER USADA LOCALMENTE. 
+
+
+//PORTANTO, QUANDO MAIS TARDE O PROFESSOR CHAMA A FUNÇÃO,
+
+add(1, 2); ----> função chamada logo embaixo.
+
+
+ELE NÃO SE IMPORTA COM O VALOR DE RETURN, ELE DESCARTA O VALOR DO RETURN,
+MAS COMO DENTRO DA FUNÇÃO ELE DEFINIU UM NOVO VALOR PARA A VARIÁVEL "result",
+ele pode USAR ESSA VARIÁVEL GLOBAL e ARMAZENÁ-LA em OUTRA global variable ou usá-la em qualquer outro lugar.
+
+
+
+Ou seja...
+
+
+
+const defaultResult = 0;
+let currentResult = defaultResult;
+let result;  ----> variável definida globalmente. É o contrário de variáveis definidas localmente com "VAR".
+
+
+
+function add(num1, num2) {result = num1 + num2;  ------> isso daqui AFETA a variável no lado de fora, NÃO SÓ as coisas que estão aqui dentro.
+
+                            return result}
+
+                            ------------------------->toda essa lenga-lenga
+                                                        da variável result sendo modificada aqui NÃO AFETA, por exemplo,
+
+                                                        "currentResult = result";  -------> esse assignment colocado logo abaixo, que DESCONSIDERA o valor de result como "num1 + num2", que fora definido dentro da função add. Aqui, a definição do valor de result é completamente nova, inafetada pelas definições da variável contidas dentro da função. 
+
+
+
+APESAR DE PARECER ALGO POSITIVO, ISSO NÃO COMPUNHARIA UM CÓDIGO BOM, PORQUE NÓS TEMOS UMA 
+FUNÇÃO QUE MANIPULA UMA VARIÁVEL GLOBAL --> ISSO É ALGO QUE VOCÊ ÀS VEZES QUER FAZER, MAS NA MAIOR PARTE DO TEMPO
+ISSO ACABA DEIXANDO SUAS FUNÇÕES MAIS DIFÍCEIS DE ENTENDER E DE PREVER O QUE IRÃO FAZER, ALÉM DO FATO DE QUE COM ESSA MUDANÇA, DEIXAMOS
+AQUELA FUNÇÃO RETURN INCLÚIDA DENTRO DA FUNÇÃO add COMPLETAMENTE INÚTIL E REDUNDANTE.
+
+
+Em vez disso, é muito melhor se nós seguirmos com o setup que tínhamos anteriormente, em que
+nós tinhamos nossa constante result contida dentro da função add, retornada com a função return e com 
+uma função que funciona, portanto, de forma standalone. Standalone = separada, não vai magicamente mudar as nossas
+variáveis globais; ao invés disso, nós sabemos que quando CHAMARMOS a função, ela não vai alterar nada globalmente e irá funcionar
+apenas com seus DADOS INTERNOS e então retornar a nós um valor. ISSO É AQUILO QUE NÓS CHAMAMOS DE """FUNÇÃO PURA""" ---> "PURE FUNCTION".
+
+
+
+PURE FUNCTION = AQUELA FUNÇÃO QUE RECEBE CERTO "INPUT" E RETORNA UM OUTPUT PARA O MESMO INPUT. É O TIPO DE FUNÇÃO QUE SEMPRE 
+RETORNA O MESMO TIPO DE OUTPUT E NUNCA MANIPULA NADA GLOBAL. 
+
+
+
+
+**MAS CABE AQUI LEMBRAR QUE FUNÇÕES PODEM, SIM, ACESSAR VARIÁVEIS GLOBAIS. 
+
+
+**PODEM TAMBÉM ACESSAR OUTRAS FUNÇÕES QUE VOCÊ TAMBÉM DEFINIR. (VOCÊ PODE CHAMAR UMA FUNÇÃO DENTRO DE OUTRA FUNÇÃO).
+
+
+******ENTRETANTO.... O CAMINHO INVERSO NÃO FUNCIONA: SE VOCÊ DEFINIR UMA CONSTANTE OU VARIÁVEL DENTRO DE UMA FUNCTION, ELA
+___NÃO____, REPITO, ____NÃO___ FUNCIONARÁ NO LADO DE FORA DA FUNÇÃO. VOCÊ SEMPRE TEM QUE DEFINIR A VARIÁVEL/CONSTANTE NO INÍCIO
+DO DOCUMENTO, FORA DA FUNÇÃO, SE QUISER QUE ELA FUNCIONE GLOBALMENTE. CASO VOCÊ CRIE A CONSTANTE OU VARIÁVEL DENTRO DA FUNÇÃO,
+ACONTECERÁ O CHAMADO LOCAL OU BLOCK-SCOPE, O QUE QUER DIZER QUE A VAR/CONST É DISPONÍVEL DENTRO DESTE BLOCO (CURLY BRACES), MAS 
+NÃO PODEMOS UTILIZÁ-LA NO LADO DE FORA.
+
+
+EX: tentar fazer um alert com uma variável definida dentro de uma function:
+
+
+
+const defaultResult = 0;
+let currentResult = defaultResult;
+  <------- aqui não temos nada de constante/variável "result" definida---->
+
+
+function add (num1, num2) {const result = num1 + num2;   ----> apenas aqui foi definida a constante result.
+                                 return result;           }
+
+
+alert(result);  --------------------> não funciona, não aparece um alerta com 3, porque conforme fora mencionado, a constante result foi definida apenas dentro da função, ela NÃO EXISTE fora dela.
+
+
+
+
+E isso é uma das coisas importantes que você precisa entender sobre JAVASCRIPT: funções tem ACESSO TOTAL ao contexto que as rodeia, ou seja, a todas às variáveis e etc. que estão definidas acima e abaixo delas. ENTRETANTO, O QUE VOCÊ DEFINE EM UMA FUNÇÃO APENAS FICA DISPONÍVEL DENTRO DA MESMA. 
+
+****------>>>>>> A ÚNICA FORMA DE + OU - EXTRAIR UMA VARIÁVEL/CONSTANTE CRIADA DENTRO DE UMA FUNÇÃO É POR MEIO DA FUNÇÃO DE RETORNO (return), que pode nos RETORNAR o valor da constante/variável.
+
+
+Mas e se uma variável é definida globalmente e tentamos criá-la localmente em uma função? o que acontece?
+
+(temos a função declarada com let/const la no início do documento, e então queremos fazer o mesmo dentro da função, criar a mesma constante
+de novo, com let/const, mas dentro da função... A resposta é SIM, é possível definir a mesma constante/variável com let/const dentro da função logo após ela ter sido definida no início do código. 
+ESSE É UM PROCESSO CHAMADO "SHADOWING",)
+
+
+Usar a constante que definimos dentro da function nunca funcionará.
+
+
+
+
+SOBRE O SHADOWING: 
+
+
+
+
+You learned about local ("function-internal") variables and global variables.
+
+What happens if you have this code?
+
+let userName = 'Max';
+function greetUser(name) {
+  let userName = name;
+  alert(userName);
+}
+userName = 'Manu';
+greetUser('Max');
+This will actually show an alert that says 'Max' (NOT 'Manu').
+
+You might've expected that an error gets thrown because we use and declare userName more than once - and as you learned, that is not allowed.
+
+It indeed is not allowed on the same level/ in the same scope.
+
+So this would fail:
+
+let userName = 'Max';
+let userName = 'Manu';
+Why does it work in the first code snippet though?
+
+Because we first create a global variable userName via
+
+let userName = 'Max';
+But then we never re-declare that on the global level (that would not be allowed).
+
+We only declare another variable inside of the function. But since variables in functions get their own scope, JavaScript does something which is called "shadowing".
+
+It creates a new variable on a different scope - this variables does not overwrite or remove the global variable by the way - BOTH CO-EXIST.
+
+When referring to userName inside of the greetUser function we now always refer to the local, shadowed variable. Only if no such local variable existed, JavaScript would fall back to the global variable.
+
+
+
+O SHADOWING, PORTANTO, É QUANDO UMA MESMA VARIÁVEL TEM UM TIPO GLOBAL E OUTRO LOCAL, E AMBOS COEXISTEM. ESSA É UMA FUNÇÃO DO JAVASCRIPT: 
+O CÓDIGO "VIVE NA SOMBRA" DO OUTRO, GLOBAL. SEMPRE QUANDO NOS REFERIMOS À userName, naquele exemplo, DENTRO DA FUNCTION, ESTAMOS NOS REFERINDO à variável userName QUE ESTÁ
+DENTRO DA FUNÇÃO, E NÃO A GLOBAL.  
+
+
+When referring to userName inside of the greetUser function we now always refer to the local, shadowed variable. Only if no such local variable existed, JavaScript would fall back to the global variable.
+
+
+
+
+Voltando às aulas: 
+
+
+
+a return function é útil para extrair dados para fora das funções.
+
+Porém, há um punhado de coisas que devemos saber acerca do return statement.
+
+Primeiramente, devemos saber que QUALQUER RESULTADO QUE VOCÊ COLOCAR DEPOIS DELE, como por exemplo "alert", ___NÃO___ SERÁ EXECUTADO.
+
+Segundamente, devemos saber que EXISTEM FUNÇÕES EM QUE A FUNÇÃO RETURN retorna LITERALMENTE NADA (return... sem nada depois do return.). isso PODE PARECER INÚTIL, MAS VEREMOS
+MAIS PARA A FRENTE SITUAÇÕES EM QUE UMA FUNÇÃO FAZ ALGUMA COISA COMO UM CÁLCULO, E ENTÃO ENVIA DADOS COM O HTTP REQUEST PARA UM SERVIDOR PARA ARMAZÊNÁ-LOS LÁ, E DAÍ VOCÊ
+VAI QUERER "QUIT" A EXECUÇÃO DE FUNÇÕES, TALVEZ CONDICIONALMENTE, ALGO QUE VAMOS VER MAIS TARDE, O IF STATEMENT, QUE NOS CONFERE A POSSIBILIDADE
+DE CHECAR/PROCURAR POR UMA CONDIÇÃO E ENTÃO "EXIT THE FUNCTION" SE A CONDIÇÃO É VERDADEIRA (TRUE), E SOMENTE CONTINUAR A FUNÇÃO 
+SE NÃO É VERDADEIRA (FALSE). Nesses casos, você poderia retornar das funções com NADA, você iria retornar com nada, apenas para interromper a execução/cancelar a execução
+do código que está dentro da function.
+
+
+
+No caso da calculadora, isso não faz o menor sentido, porque a função vai acabar depois de return de qualquer jeito, por isso não precisamos
+retornar "nada". Porém, é importante entender que return acaba a execução da função, para casos em que você tem mais código depois, você saberá
+que não pode colocá-los após return, a não ser que você esteja trabalhando com IF statements e lógica
+condicional, algo que veremos mais para a frente. Como não temos essa lógica na calculadora agora, usar return com nada não faria sentido.
+
+
+Terceiro: devemos ter apenas UM ÚNICO return statement dentro de uma função. Na verdade, você poderia ter mais um, mas sua presença
+seria irrelevante, pois todo o código que vem depois nem mesmo é executado, para início de conversa.
+Se você precisa retornar mais de um pedaço de dados, na verdade, nós veremos uma solução mais tarde. Veremos outros data constructs que 
+nos permitem retornar mais de um pedaço de dados.

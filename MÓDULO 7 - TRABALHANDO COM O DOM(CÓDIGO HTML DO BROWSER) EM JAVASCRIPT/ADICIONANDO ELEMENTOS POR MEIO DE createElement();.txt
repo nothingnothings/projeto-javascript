@@ -1,0 +1,301 @@
+Você conhece algumas situações em que usar html por meio de innerHTML e insertAdjacentHTML
+NÃO É NADA BOM?
+
+
+
+Bem, o professor diz que performance não é o problema com o método "insertAdjacentHTML". Nem 
+que nós podemos perder o user input. O problema é outro. 
+
+
+A DESVANTAGEM DESSE APPROACH É QUE VOCê DIZ AO BROWSER QUAL ELEMENTO/conteúdo ELE DEVE RENDERIZAR,
+e esse elemento/conteúdo pode ser qualquer HTML content, não precisa ser um único elemento, pode 
+ser um blocão de html com duzentos elementos diferentes. 
+
+A DESVANTAGEM, NA VERDADE, É QUE VOCÊ NÃO TEM ACESSO DIRETO ALGUM A ESSES NOVOS 
+ELEMENTOS/CONTEÚDO QUE FORAM/FOI RENDERIZADO (s).
+
+Digamos que você iria querer, mais tarde, alcançar aquele <p> (paragraph) e mudá-lo...
+ou você inseriu um botão por meio do código HTML e depois você iria querer adicionar 
+um eventListener.... 
+
+O professor nos mostra isso por meio de um exemplo:
+
+ele vai lá e tenta selecionar o parágrafo novo por meio do querySelector...
+
+ex:
+
+
+div.querySelector('p');
+
+
+Esse querySelector vai encontrar o primeiro elemento que for <p>.
+PROBLEMA: quanto mais complexo o código html que você inseriu por meio de 
+insertAdjacentHTML, MAIS COMPLEXO É PARA O JAVASCRIPT FAZER O QUERY para encontrar 
+as coisas que você quer, mais complexo é para ele pegar os objetos com os quais você vai 
+querer trabalhar, inserir addEventListeners, mudar propriedades, etc etc.
+
+
+PERDER ACESSO DIRETO AOS ELEMENTOS INSERIDOS POR MEIO DE ADJACENT, PORTANTO, PODE 
+SER UM PROBLEMÃO.
+
+
+É claro que não é um problema se você não planeja fazer nada com os elementos inseridos 
+por meio de ADJACENT no seu código javascript... MAS ASSIM QUE VOCÊ PRECISAR ADICIONAR 
+ADDEVENTLISTENERS, MUDAR ESTILOS, TENTAR LER ALGUNS VALORES OU FAZER QUALQUER COISA 
+COM AQUELE CÓDIGO HTML em javascript, esse approach tem a pesada desvantagem de 
+NÃO TE DAR ACESSO DIRETO. E se você se encontra inserindo conteúdo por meio 
+de adjacentHTML e então fazendo query por meio de querySelector logo após a 
+essa inserção, você basicamente ___ESTARÁ____SEGUINDO ____ DUAS ____ETAPAS (rodando 2 etapas) 
+PARA CONSEGUIR ACESSO A UM ELEMENTO RECÉM ADICIONADO... quando apenas uma única 
+etapa é necessária (a utilização dessas 2 etapas, da conjunção de adjacentHTML com querySelector,
+é estúpida e desnecessária, gasta recursos demais da memória e não funciona direito, pois não 
+te dá acesso direto ao elemento).
+
+
+Essa etapa única, que faz nós evitarmos esse cenário, vem por meio 
+do comando chamado "createElement();".
+
+
+O approach "createElement" é usado para ADICIONAR NOVOS ELEMENTOS.
+
+
+Para nos mostrar seu uso, o professor recarrega a página com a qual estávamos trabalhando.
+
+
+
+
+Digamos que aqui, na unordered list, ele queira adicionar um list item no final, um list 
+item CLICÁVEL (ou seja, ele interage com javascript, não é algo inerte como os items 
+adicionados por meio de insertAdjacentHTML.) 
+
+
+Para isso, podemos ganhar acesso à lista por meio do querySelector, como já fizemos várias vezes.
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+----------------------------------------------------
+
+
+Depois disso, poderíamos, é claro, usar innerHTML ou adjacentHTML para adicionar conteúdo à essa lista...
+MAS DESSA VEZ, FAREMOS ALGO DIFERENTE. O professor agora quer criar UM NOVO ELEMENTO/NODE aqui 
+no javascript, e então fazer "APPEND" dele ao final da lista. Isso 
+Como ele faz isso?
+
+
+DETALHE: VOCÊ SEMPRE DEVE CHAMAR "createElement()" DENTRO DE 'DOCUMENT'. ESSA 
+PROPRIEDADE NÃO EXISTE FORA DO OBJETO GERAL DOCUMENT. NÃO EXISTE EM OUTROS NODES MENORES/
+OBJETOS DIVERSOS DO DOM. Essencialmente, é sempre "document.createElement()", essa propriedade.
+
+
+
+
+
+Isso pode ser feito, inicialmente, com uso de "document.createElement()".
+
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+document.createElement();
+
+
+
+------------------------------------------------------>
+
+
+Essa propriedade cria um novo elemento/novo objeto DOM (sua sintaxe é idêntica à sintaxe 
+que você utiliza para selecionar um elemento, porém aqui, em vez de ele selecionar esse elemento, ele o cria do nada.)
+
+
+------------------------------->
+
+
+createElement() recebe PELO MENOS UM ARGUMENTO. Esse argumento é a ____TAG NAME______ do 
+elemento que você quer criar. Nesse caso, colocamos 'li', que é o tipo de tag do elemento que queremos 
+criar. Você deve inserir a tag name SEM OS BRACKETS ('<>').
+Isso vai criar um elemento "li", um elemento list item...
+JÁ O SEGUNDO ARGUMENTO DESSE MÉTODO/PROPRIEDADE NÃO É NECESSÁRIO AQUI.
+ MAS O QUE É ELE?
+
+
+ ELE É ESSENCIALMENTE UM OBJETO ( {}; ) QUE TEM EXATAMENTE UMA ÚNICA PROPRIEDADE QUE 
+ É SUPORTADA, a propriedade "is:" ("{is:}"). A propriedade 'is:' está relacionada com 
+ ELEMENTOS CUSTOMIZADOS (custom elements). Elementos customizados é um tópico bem avançado
+  que ainda não estudaremos. Esse formato com 2 argumentos é pouco usado, mais frequente é aquele 
+  com apenas um único parâmetro ('li', nesse caso).
+
+
+
+
+ex:
+
+
+
+const list = document.querySelector('ul');
+
+
+document.createElement('li');
+
+
+------------------------------------>
+
+
+Aqui, poderíamos simplesmente apertar enter no devtoolsconsole. Mas se fizéssemos isso, 
+esse elemento simplesmente seria jogado no vácuo, ele não ficaria disponível a nada no nosso código. Na verdade, 
+esse código seria RECOLHIDO PELO GARBAGE COLLECTOR DO BROWSER, PORQUE O PROFESSOR NÃO O SALVARIA EM LUGAR ALGUM.
+Ao usar "createElement()", nós criamos um novo elemento e, na verdade, O RETORNAMOS. É por isso que 
+devemos armazená-lo em uma const/varíavel, por meio do seguinte código:
+
+
+
+ex:
+
+
+
+const list = document.querySelector('ul');
+
+
+//document.createElement('li'); // ---> isso vai ser recolhido pelo garbage collector, porque essencialmente não está sendo armazenado em lugar algum.
+
+
+
+const newLi = document.createElement('li'); 
+
+------------------------------------------------------->
+
+
+
+
+com a criação desse elemento 'li' por meio de createElement, agora temos esse elemento disponível.
+
+
+
+MASSSS... ESSE ELEMENTO AINDA NÃO FOI INSERIDO EM LUGAR ALGUM. Deve ser inserido manualmente 
+no código para funcionar. Podemos fazer isso com o comando "appendChild()". Para fazê-lo, 
+devemos primeiro ganhar acesso ao elemento (<ul>) em que queremos adicionar o novo elemento 
+
+
+ex:
+
+
+
+
+
+const list = document.querySelector('ul');
+
+
+//document.createElement('li'); // ---> isso vai ser recolhido pelo garbage collector, porque essencialmente não está sendo armazenado em lugar algum.
+
+
+
+const newLi = document.createElement('li'); 
+
+
+
+list.appendChild(newLi);
+
+
+
+
+
+------------------------->
+
+APPENDCHILD pega qualquer node (tecnicamente até mesmo nodes de texto, apesar do fato de que você tipicamente/geralmente 
+não cria textnodes com o javascript, o que você faz geralmente é apenas definir texto com 
+'textContent', porque você raramente quer adicionar um textNode do lado de um elemento/elementNode que já existe. )
+
+
+
+CONTINUANDO:
+Você usa a propriedade/método appendChild e então passa como argumento aquele 
+elemento que foi criado por você, representado pela constante newLi.
+
+
+
+ex:
+
+
+
+
+
+const list = document.querySelector('ul');
+
+
+//document.createElement('li'); 
+
+const newLi = document.createElement('li'); 
+
+
+list.appendChild(newLi);
+
+
+
+
+
+
+----------------------------------->
+
+
+Se você digitar essa última linha de código, você perceberá que na página 
+web um novo BULLET POINT SERÁ ADICIONADO LOGO ABAIXO DO ÚLTIMO LIST ITEM. É claro 
+que nenhum conteúdo estará ao lado desse bullet point, mas ainda assim é um elemento 
+html que foi adicionado na página com a ajuda de javascript, createElement() e appendChild().
+
+
+
+ENTRETANTO... COMO NÓS TEMOS ACESSO à constante newLi, que segura esse elemento, NÓS TAMBÉM PODEMOS 
+AGORA DEFINIR CONTEÚDO DE TEXTO A ESSA LISTA COM A AJUDA DE "textContent".
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+//document.createElement('li');// 
+
+const newLi = document.createElement('li'); 
+
+
+list.appendChild(newLi);
+
+
+newLi.textContent = 'Item 4';
+
+
+
+
+------------------------------------------>
+
+
+
+Se fizermos isso, veremos que os dizeres "Item 4" vão aparecer ao lado 
+daquele último bullet point adicionado com javascript. 
+O PROFESSOR NOS ESCLARECE UM DETALHE: GERALMENTE VOCÊ DEFINE O 
+textContent e todos os outros detalhes ______ANTES_____ DE FAZER APPEND/appendChild daquele 
+elemento ao código html já carregado na página. Raramente você vai "primeiro fazer append, depois
+mudar o conteúdo de texto". Isso é porque você só vai querer 
+fazer append depois de você ter terminado de configurar o negócio. Você pode 
+mudar o conteúdo de texto, o estilo, etc desse elemento html. Tudo é possível, em relação 
+a esses quesitos, mesmo se você ainda não tiver adicionado o tal elemento na página; 
+isso é possível porque esse elemento já está guardado na memória do javascript/browser engine,
+está guardado no heap.
+
+É assim, portanto, que podemos adicionar elementos criados com createElement(). A grande 
+vantagem é que agora nós já temos esse objeto no lugar que queremos (Ao final), além 
+do fato de que JÁ PODEMOS ADICIONAR eventListeners, mudar estilos, mudar textContent, 
+tudo que quisermos. Por isso que esse método é tão diferente do insertAdjacentHTML, 
+porque ele nos deixa acessar o conteúdo adicionado e interagir com ele, alterá-lo, removê-lo, 
+adicioná-lo dinamicamente, etc.
+
+

@@ -1,0 +1,192 @@
+DEBUG DO JAVASCRIPT
+
+
+
+
+
+
+
+VISÃO GERAL:
+
+
+
+
+
+
+
+
+Ter erros no código não é sinal de um mau desenvolvedor.
+
+
+
+QUando pensamos em debugging, há vários TIPOS de erro que podemos ter.
+
+
+
+Há aqueles erros que basicamente te dão uma mensagem de erro ("ex: o aplicativo crashou, memória estourada, etc etc.")
+
+E AÍ VOCê TEM ERROS DE ____LÓGICA____.
+ 
+ ERROS DE LÓGICA NÃO FAZEM SEU APLICATIVO CRASHAR, ELES SÓ FAZEM COM QUE AQUILO QUE VOCÊ QUER FAZER NÃO SEJA EXECUTADO CORRETAMENTE.
+ NÃO TE DÃO MENSAGENS DE ERRO, MAS FAZEM SEU APLICATIVO FUNCIONAR INCORRETAMENTE.
+
+
+
+
+
+ erros de crash X erros de lógica.
+
+
+
+
+ **PRIMEIRA DICA: SE VOCê ESTÁ RECEBENDO UMA MENSAGEM DE ERRO, UTILIZE-A SERIAMENTE PARA ENCONTRAR O PROBLEMA.
+
+
+ muitas vezes pessoas recebem erros e entram no modo de pânico, nem mesmo leem o negócio. VocÊ DEVE LER A MENSAGEM DE ERRO, 
+ E ENTENDER O QUE ESTÁ ACONTECENDO ALI, perceber o que está errado.
+
+ Também, navegar até a linha de código que resultou no erro, isso já resolve muitos erros.
+
+
+ Você provavelmente não é a primeira pessoa a receber aquele erro.
+
+ Entretanto, às vezes apenas fazer isso não é o bastante. Às vezes você precisa olhar o seu código enquanto ele está executando/sendo executado,
+ ver onde estão indo todos os elementos e funções durante o runtime, e ver onde começam os problemas ali, em tempo real.
+
+ Para fazer isso, utilizamos a função console.log() NO DEVELOPER TOOLS, que é sempre nossa amiga.
+
+ o console.log é um comando que faz o output de informações no console do developer tools, e por isso é muito útil.
+
+
+console.log();
+
+USE CONSOLE.LOG to gain insights into your code flow.
+
+
+
+
+os usuários normais da sua página não conseguem ver as mensagens que vocÊ faz display com console.log, mas desenvolvedores sabem que isso existe
+e vão perceber se você deixou um console.log no código.
+
+
+Todos conseguem ver o que você outputou no console do DEV TOOLS , então tenha cuidado.
+
+
+
+Mesmo assim, o console.log te permite loggar qualquer coisa que você quiser, loggar qualquer variável que você quer.
+Isso pode ser muito útil para quando queremos dar uma primeira olhada em certas coisas e valores do seu código.
+
+
+VOcê pode também ter multiplos statements de console.log para VER COMO AS COISAS MUDAM AO LONGO DA EXECUÇÃO DO PROGRAMA, 
+PARA PODER VER, EM OUTRAS PALAVRAS, O "FLOW" DA SUA APLICAÇÃO.
+
+
+Mas escrever esses log statements pode atrapalhar um pouco, ESPECIALMENTE SE VOCÊ TEM UM ERRO MAIS SÉRIO PARA CORRIGIR.
+
+ex: casos onde você vai ter que usar dezenas de console.logs para ver o que mudar certinho no código, você teria que mudá-los, configurá-los corretamente, etc, toda ladaia.
+Isso pode ficar bem irritante ao longo do tempo.
+
+
+Devido a esse empecilho de mexer com console.log ser repetitivo, demorado e irritante, 
+sempre prefira usar as tools de DEBUGGING dos próprios browsers. O professor recomenda as ferramentas
+de debugging do chrome, que são muito boas. Porém, firefox também tem debugging tools.
+
+
+
+
+ÚLTIMA COISA, MAS NÃO MENOS IMPORTANTE= OS IDE (ex: visual studio code) TAMBÉM TE AJUDAM COM O DEBUGGING DE SITES e conserto de erros.
+
+
+
+
+
+
+// Comecemos com mensagens de erro que você pode evitar. Simples erros de sintaxe. EX: esquecemos de fechar um curly brace ou square bracket.
+
+
+// OBS, Ctrl + ;----> muito útil, atalho para comments.
+
+// Nisso, o IDE já nos ajuda.
+
+
+
+// O visual studio code marca na direita, com um quadrado vermelho, a parte errada do código.
+
+
+
+
+
+//outro indicador de erro é essa linha vermelha embaixo do código, que aparece se ele estiver incorreto.
+
+
+
+
+ você pode ver isso já aqui, nessa linha normal.
+
+
+// se você colocar o mouse sobre o termo que está como errado/com problemas, o IDE te dá uma descrição da possível questão/problema.
+
+let logEntries = [;
+
+// erro que está ali: "expression or comma expected." ---> professor diz que essa não é a melhor mensagem de erro de todas, sinceramente. Ela
+// não descreve completamente o problema, o problema de uma square bracket estar faltando para fechar a inicialização/definição daquela variável, 
+// mas ainda assim, você percebe rapidamente que há algo errado por aqui. 
+
+// Entretanto, esses erros de sintaxe são os mais fáceis de corrigir, você apenas percebe e os corrige rapidamente.
+
+// Ainda assim, essa ajuda do IDE não pode ser subestimada, todos nós cometemos erros às vezes.
+
+
+
+// Porém, às vezes temos erros que não aparecem no IDE, e cuja existência devemos sempre considerar.
+
+// ex: return parse(usrInput.value);
+
+return parse(usrInput.value);
+
+// Essa função não é incorporada/built-in no javascript (como parseInt o é), mas o browser ainda assim não considera
+// isso como um erro, porque ainda é uma função válida, apesar desse detalhe dela ter sido definida pelo usuário, e não pelo browser/javascript.
+
+
+// imagine que é exatamente isso que acontece, o sujeito deixa parse em vez de parseInt, e aí nada na calculadora funciona. Como descobrir o problema
+// e resolvê-lo? Usamos OS DEVELOPER TOOLS do chrome.
+
+
+// obs: sempre usar DEV tools no modo incognito do chrome, para não sofrer alterações no código por parte de terceiros.
+
+
+// Sempre quando você abrir o DEV TOOLS, vá diretamente para o console, porque é lá que estarão, potencialmente, as mensagens de erro.
+
+
+// Caso leiamos as mensagens de erro no DEVTOOLS, veremos que o browser reclama um monte. Não devemos entrar em pânico, devemos ler as mensagens 
+// atentamente. 
+
+// ERRO = parse is not defined. Vemos até mesmo a linha em que essa função foi chamada. "at..."
+
+
+// podemos, além disso, clicar no app.js:7 (ou qualquer linha que o seja). Isso fará com que o browser nos mostre exatamente a linha de código que está dando problema.
+
+
+// E, como esse código que deu erro foi executado pelo browser durante o runtime, o browser sabe que, de fato, a função parse não está definida. O IDE não consegue saber disso porque ele não
+// sabe de qual script estamos carregando aquela função, de outro servidor, etc... MAS O BROWSER SABE EXATAMENTE O QUE ESTÁ DISPONÍVEL DURANTE ESSE RUNTIME, que não há mais nada de código
+//disponível para essa função, tanto código escrito por mim ou por outra pessoa, E POR ISSO JÁ
+// APONTA, DE PRONTO, O ERRO, o erro de que parse NÃO EXISTE/não foi definido.
+
+// assim que percebemos o erro de não ter uma função parse/não termos digitado parseInt corretamente, já podemos proceder e então consertar o pequeno erro.
+
+
+
+
+
+
+
+
+
+
+
+//  COMO CONSERTAR ERROS DE LÓGICA: 
+
+
+
+
+

@@ -1,0 +1,649 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS COMEÇAR COM 'NÚMEROS'...
+
+
+
+
+
+NÚMEROS SÃO UM 'CONSTRUCT' IMPORTANTE EM JAVASCRIPT....
+
+
+
+
+
+
+
+
+É IMPORTANTE TER EM MENTE QUE, em javascript, CADA NÚMERO É UM 
+
+
+'____FLOAT______'....
+
+
+
+
+
+------> UM 'FLOAT' É UM  '''FLOATING POINT NUMBER'''', 
+
+
+UM NÚMERO COM UM 'INTEGER PLACE' e com 
+
+um punhado de 'DECIMAL PLACES'...
+
+
+
+
+(THAT MEANS: NUMBERS LIKE 5, -3 OR 12 WOULD ACTUALLY BE STORED LIKE 
+
+5.0, -3.0 or 12.0)......
+
+
+
+
+OU SEJA, NÃO HÁ UM TIPO ESPECÍFICO DE 'INTEGRAL' (there is no specific 'integer type') PARA 
+
+
+NÚMEROS ___SEM CASAS DECIMAIS....
+
+
+(isso não existe em javascript....)
+
+
+
+
+(In javascript, every number is a float.
+
+Unlike other Programming Languages, Javascript DOES NOT KNOW SPECIAL INTEGER TYPES...)
+
+
+
+
+---------------------------------------------
+
+
+
+NÓS REALMENTE TEMOS UMA 'SPECIAL INTEGER TYPE' EM CERTAS OUTRAS LINGUAGENS DE PROGRAMAÇÃO, 
+
+MAS JAVASCRIPT NÃO É UMA DELAS...
+
+
+
+
+Em vez disso, em js, CADA NÚMERO É UM FLOAT, o que significa que CADA NÚMERO É 
+
+UM NÚMERO COM CASAS DECIMAIS... (with decimal places)...
+
+
+----------------------------------
+
+
+
+CERTO.
+
+
+
+AGORA, INTERNAMENTE, TODOS OS NÚMEROS SÃO ARMAZENADOS COMO FLOATING POINTS 
+
+DE 64 BITS (numbers are stored as 64 bit floating points)...
+
+
+
+ISSO SIGNIFICA QUE HÁ 64 BITS DISPONÍVEIS PARA ____REPRESENTAR ____ UM NÚMERO 
+
+_____ INTERNAMENTE....
+
+
+
+
+
+BITS ---> SÃO ESSAS COISAS QUE PODEM SER OU '0' OU '1'.
+
+
+
+
+1 DOS 64 BITS É RESERVADO PARA O ___SINAL___ DAQUELE NÚMERO...
+
+
+ex: positivo ou negativo.
+
+
+
+
+
+OS OUTROS 63 BITS ESTÃO ALI PARA BASICAMENTE REPRESENTAR OS DÍGITOS DE CADA NÚMERO,
+
+OS DÍGITOS E também EM QUE LUGAR O 'ponto' (the 'dot' ) fica... (o separador decimal)...
+
+
+
+
+A COMBINAÇÃO DESSES BITS, PORTANTO, É CAPAZ DE 
+
+DESCREVER NÚMEROS...
+
+
+
+É CLARO QUE HÁ CERTOS __LIMITEs__ ('boundaries') PARA ESSAS DESCRIÇÕES...
+
+
+
+
+
+
+SE VOCÊ QUER DESCOBRIR TODA A TEORIA POR TRÁS DE 'FLOATING POINT ARITHMETIC' e sobre 
+
+COMO NÚMEROS SÃO REPRESENTADOS COMO BITS NÃO APENAS EM JAVASCRIPT, MAS 
+
+EM TODAS AS LINGUAGENS DE PROGRAMAÇÃO, 
+
+
+VOCÊ PODE CHECAR O ARTIGO DA WIKIPEDIA, OU UMA DISCUSSÃO NO STACKOVERFLOW....
+
+
+
+É interessante, mas não é o core de javascript....
+
+
+
+
+
+
+A PARTE IMPORTANTE DESSAS ANOTAÇÕES É QUE, DEVIDO AO FATO DE QUE 
+
+NÓS TEMOS APENAS
+
+64 BITS DISPONÍVEIS PARA REPRESENTAR UM NÚMERO, 
+
+HÁ CERTOS __LIMITES___ NO JAVASCRIPT...
+
+
+
+
+OU SEJA, 
+
+HÁ 
+
+UM NÚMERO MÁXIMO E UM NÚMERO MÍNIMO...
+
+
+
+
+ALÉM DISSO, A QUANTIDADE DE 'PRECISÃO' QUE PODEMOS CONSEGUIR 
+
+EM QUESTÃO DAS CASAS DECIMAIS DE UM CERTO NÚMERO É 
+
+
+__LIMITADA___...
+
+
+
+
+Isso quer dizer que VOCÊ NÃO PODE REPRESENTAR ___TODO E QUALQUER NÚMERO EM JAVASCRIPT____...
+
+
+
+É CLARO QUE HÁ CAMINHOS POR VOLTA DISSO, (se vocÊ REALMENTE PRECISAR), 
+
+Mas é claro que nós estamos falando aqui de NÚMEROS 
+
+
+ABSURDAMENTE GRANDES, números com muitas e muitas casas decimais, ou muito grandes....
+
+
+
+
+
+
+
+A QUESTÃO É: 
+
+
+com qual frequência você realmente precisa trabalhar com números tão grandes,
+ 
+ ou com números tão detalhados?
+
+
+
+
+
+
+
+CLARO QUE A FREQUÊNCIA É BAIXA, MAS É EXCELENTE QUE SAIBAMOS OS LIMITES 
+
+DO JAVASCRIPT...
+
+
+
+
+
+
+Professor quer nos mostrar os limites...
+
+
+
+
+PROJETO BÁSICO HTML...
+
+
+
+
+
+
+POR ENQUANTO, APENAS TRABALHAREMOS COM O CONSOLE....
+
+
+
+
+
+
+
+
+
+EM JAVASCRIPT, NÓS TEMOS UM NÚMERO MÁXIMO E UM NÚMERO MÍNIMO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+para achar esses expoentes, basta 
+
+
+digitar 
+
+'Number' no console para então VER OS MÉTODOS E PROPRIEDADES 
+
+
+DISPONÍVEIS NESSE OBJETO GLOBAL....
+
+
+
+
+
+
+'Number.' ---->  Isso aí.
+
+
+
+
+
+
+ENTÃO, O PROFESSOR DIGITA 
+
+
+
+
+'Number.MAX_SAFE_INTEGER' -----------> É ISSO QUE NOS DÁ O NÚMERO MAIS ALTO SUPORTADO PELO JAVASCRIPT.
+
+
+
+é 
+
+
+9007199254740991
+
+
+
+PARA SER MAIS PRECISO: ESSE É O NÚMERO INTEGRAL (integer; ou seja, sem casas decimais necessárias) MAIS ALTO SUPORTADO PELO JAVASCRIPT 
+
+
+
+
+
+
+ESSENCIALMENTE, ESSE NÚMERO É 9 QUADRILHÕES...
+
+
+
+
+É um número bem alto.
+
+
+É basicamente o mesmo que 
+
+
+
+2 elevado a 53  menos 1 ---> 
+
+
+
+
+
+ESSE VALOR VOCÊ PODE CALCULAR COM O OBJETO 'Math'...
+
+
+
+
+O objeto 'Math' tem uma função 'POWEROF' (calcula potencias)....
+
+
+
+'Math.pow();'
+
+
+
+ESSA FUNÇÃO É ESSENCIALMENTE ____A MESMA FUNÇÃO ___ QUE ESCREVEMOS 
+
+NAQUELE MÓDULO DAS FUNÇÕES AVANÇADAS, COM O RECURSION....
+
+
+(ou seja, funções com RECURSION TAMBÉM EXISTEM __BUILTIN_ NO JAVASCRIPT...)
+
+
+
+
+
+
+Dentro desse método, você pode escrever 
+
+
+
+'Math.pow(2, 53) - 1' ------------> ESSE É O NÚMERO MAIS LARGO QUE 
+
+O JAVASCRIPT CONSEGUE REPRODUZIR __CONFIAVELMENTE___.
+
+
+
+certo....
+
+
+
+
+
+MAS SE EU digitar
+
+
+
+
+
+'Math.pow(2, 53)' SOLTO, ou seja, SEM A SUBTRAÇÃO DO 
+
+'1', 
+
+
+O JAVASCRIPT AINDA VAI ME DAR UM NÚMERO, E ESSE NÚMERO VAI SER SUPERIOR 
+
+A ESSE MÁXIMO... (vai ser 9007199254740992 ).
+
+
+
+
+BEM, PROFESSOR EXPLICA QUE, APESAR DO JAVASCRIPT REALMENTE __SER CAPAZ DE FAZER DISPLAY DESSE NÚMERO QUE EXCEDE 9007199254740992,
+
+
+OS __CÁLCULOS___ ENVOLVENDO ESSE NÚMERO
+
+______NÃO VÃO FUNCIONAR DIREITO____....
+
+
+
+exemplo:
+
+
+
+
+Professor adiciona '1' à quantia de 
+
+'9007199254740992'....
+
+
+
+O CONSOLE NOS OUTPUTTA O MESMO NÚMERO, NOS OUTPUTTA
+9007199254740992  (ou seja, a adição NÃO FOI REALIZADA, O CÁLCULO NÃO FUNCIONOU.)
+
+
+
+
+ISSO COMPROVA QUE esse número gigante, o 9007199254740991, 
+
+
+É O NÚMERO MAIS ALTO COM O QUAL PODEMOS TRABALHAR EM JAVASCRIPT...
+
+
+
+
+Testamos isso no console, mas os cálculos ainda funcionam.... (?).
+
+
+
+
+AH, AGORA PERCEBI, os cálculos não funcionam.
+
+Está certo, essa limitação realmente existe.
+
+-------------------------------------------
+
+
+
+É EVIDENTE QUE NÓS NÃO TEMOS APENAS UMA INTEGRAL MÁXIMA, TEMOS TAMBÉM 
+
+
+UMA INTEGRAL MÍNIMA...
+
+
+'Number.MIN_SAFE_INTEGER' ----> 
+
+
+
+OUTPUTTA 
+
+
+
+
+
+
+-9007199254740991
+
+
+
+
+
+
+É O MESMO NÚMERO, MAS DESSA VEZ 
+
+
+COM UM '-' NA FRENTE...
+
+
+
+
+--------------------------------
+
+
+
+
+é claro que nós TAMBÉM TEMOS UMA PROPRIEDADE 
+
+
+
+'MAX_VALUE'....
+
+
+
+ex:
+
+
+'Number.MAX_VALUE' -----> A DIFERENÇA ENTRE ESSE E OS VALORES ANTERIORES É 
+
+QUE ESSE VALOR AQUI 
+
+
+É UM VALOR COM CASAS DECIMAIS...
+
+
+
+OU SEJA, NÃO É A MAIOR INTEGRAL, E SIM O NÚMERO 
+
+MAIS LARGO EM QUESTÃO DE EXTENSÃO DE SUA ESCRITA que podemos expressar em javascript...
+
+
+
+é 
+
+
+1.7976931348623157e+308
+
+.
+
+
+(1.7.... MULTIPLICADO AO VALOR de e na potencia de 308).
+
+
+--------------------------------------
+
+
+
+ESSE É O MAIOR VALOR NÃO DECIMAL POSSÍVEL EM JAVASCRIPT.
+
+
+
+
+
+
+
+
+
+ESSES MAIORES E MENORES NÚMEROS POSSÍVEIS EM JAVASCRIPT SIMPLESMENTE DECORREM DA 
+
+MANEIRA PELA QUAL OS NÚMEROS SÃO REPRESENTADOS INTERNAMENTE NO JAVASCRIPT,
+
+
+como são armazenados nesses 64 bits, no final das contas.
+
+
+
+
+O NEGÓCIO IMPORTANTE AQUI É QUE SE ALGUMA VEZ 
+
+
+VOCê FOR TRABALHAR COM NÚMEROS/INTEGERS TÃO DETALHADOS/LARGOS,
+
+você deve ter ciência de QUE HÁ LIMITES...
+
+
+
+TER CIÊNCIA DE QUE VOCÊ NÃO PODE DEDUZIR UM VALOR 
+
+
+DO 
+
+MONTANTE DE '-9007199254740991', pois esse já é o menor valor integral (integer) possível no javascript....
+
+
+
+
+
+OUtra:
+
+
+você não pode adicionar coisa alguma a 
+
+
+'1.7976931348623157e+308',
+
+
+
+pois esse já é o maior número capaz de ser representado em javascript.
+
+
+
+
+------------------------------------------
+
+
+
+
+SE VOCÊ ADICIONAR/REDUZIR NÚMEROS A ESSES MONTANTES, 
+
+
+O QUE ACONTECE É QUE O JAVASCRIPT NOS 
+
+DÁ UM 
+
+
+__rESULTADO IMPRECISO____.
+
+
+O JAVASCRIPT SIMPLESMENTE (no segundo caso) VAI 
+
+__CORTAR___ OS NÚMEROS DEPOIS DOS SEUS 64 BITS DISPONÍVEIS e então 
+
+converte esse número para um valor decimal...
+
+
+
+
+ex:
+
+
+
+-9007199254740991   -   10   = 
+
+
+
+-9007199254741000  (valor errado).
+
+
+
+------------------------------
+
+
+
+
+Pode ser meio difícil entender tudo isso, pois estamos trabalhando COM DOIS DIFERENTES 
+
+SISTEMAS DE NÚMEROS AQUI...
+
+
+(estamos trabalhando com O SISTEMA DECIMAL, com uma base de 10, E O 
+SISTEMA BINÁRIO, com uma base de 2, que é utilizado 
+
+quando TRABALHAMOS COM BITS, em situações em que temos APENAS 1 E 0....) ---->
+
+
+--------> devido ao fato de que o javascript trabalha INTERNAMENTE COM O SISTEMA BINÁRio, e 
+
+pelo fato de ele sempre CONVERTER O NÚMERO DE VOLTA AO SISTEMA 
+
+DECIMAL QUANDO ELE É OUTPUTTADO, É QUE VEMOS ESSE RESULTADO/OUTPUT ESTRANHO 
+
+
+COM O VALOR ERRADO, quando fazemos aquela subtração.
+
+
+
+Quando fazemos essa dedução, NÓS ACABAMOS EXCEDENDO O 'RANGE' DE 'BITS' que 
+
+ficam disponíveis aos números...
+
+
+quando isso acontece, o javascript simplesmente CORTA FORA os bits 
+
+excedentes e ENTÃO CONVERTE ESSE 'bit', esse NÚMERO BINÁRIO, de volta a 
+
+um número decimal, que seria esse número '-9007199254741000'.
+
+
+
+
+
+ISSO PODE SER TRICKY, É CLARO, MAS VOCê RARAMENTE TRABALHA COM NÚMEROS COMO ESSES.

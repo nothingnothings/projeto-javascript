@@ -1,0 +1,72 @@
+
+
+Neste curso, nós TRABALHAMOS COM MUITO CÓDIGO, e TESTAMOS MUITO CÓDIGO, TAMBÉM...
+
+
+
+
+---> 
+
+Nós sempre fizemos nossos testes de forma MANUAL, por meio de CLIQUES aleatórios 
+
+no nosso webapp... ('clicking around'...)
+
+
+
+
+---> NESTE MÓDULO, VEREMOS UM POUCO 
+
+SOBRE 
+
+
+______AUTOMATED TESTING___...
+
+
+
+
+---> isso significa que nós VAMOS __ESCREVER __ CÓDIGO __ QUE VAI, 'ACTUALLY', ___TESTAR___ O NOSSO 
+
+CÓDIGO....
+
+
+
+---> basicamente CÓDIGO PARA RODAR OUTROS CÓDIGOS, e para AVALIAR OS RESULTADOS
+ desse 'run'..
+
+
+
+
+ ---
+
+
+
+
+ ---> 'UNIT TESTS, INTEGRATION TESTS e  more'... ---> 
+
+ NÓS VEREMOS EXATAMENTE O QUE 
+
+ É 'testing', e porque nós o utilizamos...
+
+
+
+
+
+
+ ---> VEREMOS DIFERENTES TIPOS DE TESTE: 'unit tests', 'integration tests' 
+
+
+ E 'END TO END tests'....
+
+
+
+
+
+ --> TAMBÉM VAMOS EXPLORAR COMO PODEMOS TESTAR __TANTO CÓDIGOS SÍNCRONOS__ 
+
+ COMO ___ASSÍNCRONOS___... e em geral. 
+
+
+
+
+
+ --> introdução ao MUNDO DO TESTING...

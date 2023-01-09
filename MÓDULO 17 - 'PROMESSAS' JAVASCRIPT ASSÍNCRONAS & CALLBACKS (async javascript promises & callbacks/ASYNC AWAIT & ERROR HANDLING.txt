@@ -1,0 +1,463 @@
+ASYNC AWAIT PODE SER ÓTIMO, PORTANTO, PARA ESCREVER CÓDIGOS MAIS CURTOS E CONCISOS.
+
+
+
+
+
+
+MAS É CLARO QUE PERDEMOS O ERROR HANDLING, AQUI....
+
+
+
+
+
+NÃO TEMOS NENHUM SUBSTITUTO PARA O '.CATCH BLOCK' NO MOMENTO...
+
+
+
+
+
+COMO FAZEMOS ERROR HANDLING COM 'ASYNC/AWAIT'?
+
+
+
+
+
+---->BEM, AWAIT SEMPRE VAI PARA A PRÓXIMA LINHA SE A SUA PRÓPRIA LINHA 
+
+JÁ FOI 'resolved' (se sua promise, portanto, já foi 'resolved'...).
+
+
+
+
+----> certo.
+
+
+MAS E SE TIVÉSSEMOS UM ERRO?
+
+
+
+
+
+-------------------------------------------
+
+
+
+ex:
+
+
+
+
+async function trackUserHandler() {
+    const posData = await getPosition();
+    const timerData = await setTimer(2000);
+    console.log(timerData, posData);
+}
+
+------------------------------------
+
+
+BEM, COMO ESSAS LINHAS DE CÓDIGO SE ____PARECEM COM CÓDIGO SÍNCRONO____ (synchronous code),
+
+EM QUE NÓS VEMOS AS LINHAS SENDO EXECUTADAS 1 APÓS A OUTRA (e, no final das contas,
+
+estamos REALMENTE FAZENDO ISSO, EM RAZÃO DA TRANSFORMAÇÃO INVISÍVEL DOS 'then blocks' introduzidos 
+por meio das keywords 'await/async'...),
+
+
+NÓS PODEMOS, POR CONSEQUÊNCIA, 
+
+UTILIZAR 
+
+
+O ___ERROR HANDLING___ DAS FUNÇÕES 
+
+SÍNCRONAS COMUNS, COMO SE NÃO HOUVESSE NADA 
+
+DE DIFERENTE COM ESSAS FUNÇÕES...
+
+
+
+
+OU SEJA, USAMOS O ERROR HANDLING QUE APRENDEMOS SUUUUUUPER CEDO NO CURSO...
+
+
+O 'TRY-CATCH'...
+
+
+
+---------------------------------------
+
+
+
+
+
+Professor explica que, por isso, podemos 
+
+fazer um exemplo assim:
+
+
+
+
+
+Eu posso querer 'try' alguma linha de código, 
+
+
+como 
+
+
+'const posData = await getPosition();
+
+
+
+
+ex:
+
+
+
+
+
+async function trackUserHandler() {
+
+
+
+    try {
+    const posData = await getPosition();
+    }
+   
+    const timerData = await setTimer(2000);
+    console.log(timerData, posData);
+}
+
+
+
+------------------------------------------------
+
+
+
+
+FEITO ESSE 'TRY', 
+
+posso tentar então 'catch' QUAISQUER ERROS QUE TALVEZ CONSIGAMOS PEGAR COM ESSE 'try'...
+
+
+
+
+(coloco um '(error)' para que ESSE SEJA O NOME DESSE ERRO ESPECÍFICO NO CÓDIGO...)
+
+ex:
+
+
+
+
+
+
+async function trackUserHandler() {
+
+
+
+    try {
+    const posData = await getPosition();
+    } catch (error)
+   
+    const timerData = await setTimer(2000);
+    console.log(timerData, posData);
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+POR FIM, EU ESCREVO A 'ADMINISTRAÇÃO' DESSE ERRO NO 'CATCH BLOCK', o qual 
+
+escrevo após o 'nome' do erro....
+
+
+
+
+Aqui, por exemplo, o professor vai simplesmente querer printar o erro no console ou whatever.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+async function trackUserHandler() {
+
+
+
+    try {
+    const posData = await getPosition();
+    } catch (error) {
+        console.log(error);
+    }
+   
+    const timerData = await setTimer(2000);
+    console.log(timerData, posData);
+}
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+COM ISSO, TUDO AQUILO QUE VOCÊ TEM EM 'try';
+
+
+OU SEJA, PODE SER VÁRIAS LINHAS DE CÓDIGO...
+
+
+
+ex:
+
+
+
+
+async function trackUserHandler() {
+
+
+
+    try {
+    const posData = await getPosition();
+    const timerData = await setTimer(2000);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(timerData, posData);
+}
+
+------------------------------------
+
+
+
+A PRIMEIRA LINHA DENTRO DE 'TRY' SÓ SERÃO EXECUTADA SE 
+
+'try', a linha de 'try', FOR BEM SUCEDIDA.........
+
+
+E, DA MESMA FORMA, A SEGUNDA LINHA DENTRO DE TRY ('const timerData = await setTimer(2000);')
+
+SÓ SERÁ EXECUTADA SE A PRIMEIRA LINHA DENTRO DE TRY FOR BEM SUCEDIDA ('const posData = await getPosition();')
+
+
+
+SE ALGUMA DAS PROMISES FOR REJEITADA/SE O TRY BLOCK EM SI FOR ___REJEITADO__,
+
+NÓS ENTRAREMOS NO ____CATCH BLOCK____.
+
+
+
+(ou seja: SE A PRIMEIRA LINHA, DA 'posData', SE ESSA PROMESSA FOR 
+
+REJEITADA, A SEGUNDA LINHA, de 'timerData', TAMBÉM NÃO SERÁ EXECUTADA, 
+
+E PULAREMOS PARA O CATCH BLOCK...)
+
+
+
+(E MAIS: se a primeira linha fosse executada MAS A SEGUNDA LINHA NÃO FOSSE; OU SEJA,
+
+SE A PROMESSA DA SEGUNDA LINHA FOSSE 'rejected', A SEGUNDA LINHA FARIA COM QUE ENTRÁSSEMOS NO CATCH BLOCK...)
+
+
+
+
+
+
+AS LINHAS QEU VEM DEPOIS DO CATCH BLOCK, ALÉM DISSO, SEMPRE 
+
+SERÃO EXECUTADAS....
+
+
+
+ex:
+
+
+
+
+async function trackUserHandler() {
+
+
+
+    try {
+    const posData = await getPosition();
+    const timerData = await setTimer(2000);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(timerData, posData); //////// ESSA LINHA SERÁ SEMPRE EXECUTADA NORMALMENTE.
+}
+
+
+-----------------------------------------
+
+
+
+
+
+
+
+ISSO SEMPRE EXECUTARÁ, 
+
+NÃO INTERESSA SE VOCê ESTAVA EM 'TRY' OU 'CATCH' antes de essa linha ter de ser executada...
+
+
+
+Professor explica que é MAIS 
+
+INTERESSANTE AQUI TER 
+
+AS VARIÁVEIS 
+
+
+'posData' e 
+
+'timerData' 
+
+
+DISPONÍVEIS NA FUNÇÃO 'trackUserHandler' INTEIRA, 
+
+e não somente no 
+
+
+'TRY BLOCK'.....   (por causa do BLOCK SCOPING)....
+
+
+
+
+POR ISSO ELE 
+
+
+
+VAI LÁ E ADICIONA 
+
+
+AS VARIÁVEIS NO CONTEXTO ROOT do trackUserHandler...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function trackUserHandler() {
+
+
+let posData;
+let timerData;
+
+
+    try {
+    posData = await getPosition();
+    timerData = await setTimer(2000);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(timerData, posData); //////// ESSA LINHA SERÁ SEMPRE EXECUTADA NORMALMENTE.
+}
+
+
+
+----------------------------------
+
+
+
+
+
+OU SEJA, AGORA NÓS TEMOS 2 VARIÁVEIS 
+
+DISPONÍVEIS EM TODA ESSA FUNÇÃO:
+
+
+nós definimos novos valores a elas NAQUELE TRY BLOCK, e então 
+
+console.loggamos esses valores logo depois...
+
+
+
+
+
+
+-------------------------------
+
+
+
+É ASSIM QUE GERENCIAMOS ERROS/ERROR HANDLING QUANDO 
+
+usamos
+'async/await'....
+
+
+
+
+NÓS SEMPRE UTILIZAREMOS 'try catch' em vez de 'catch' com essa sintaxe... 
+
+
+
+
+
+E VOCÊ PODE COLOCAR QUALQUER COISA DENTRO DE 'try',
+
+
+vocÊ apenas tem que ter em mente que SE UMA DAS COISAS/LINHAS FALHAR, 
+
+
+AS ETAPAS SUBSEQUENTES SÃO SEMPRE ___SKIPPADAS__ e o negócio pulará 
+
+para 
+
+o CATCH BLOCK (ou seja, É UMA MECÂNICA PARECIDA COM O 'CATCH' clássico 
+
+usado em 'then blocks'....)....
+
+
+
+
+SE TODAS AS LINHAS FOREM BEM SUCEDIDAS,
+
+É CLARO QUE VOCÊ __NÃO ENTRA ___ EM 'catch'....
+
+
+MAS O QUE INTERESSA É QUE SEMPRE A LINHA/AS LINHAS QUE VÊM 
+
+DEPOIS DO 
+
+'TRY/CATCH BLOCKS' SEMPRE SERÃO EXECUTADAS NORMALMENTE PELO JAVASCRIPT...
+
+
+
+
+---------------------------------
+
+
+
+PROFESSOR RECARREGA A PÁGINA E CLICA EM 'BLOCK' para o pedido de localização do usuário....
+
+
+
+
+O CONSOLE RETORNA 'undefined undefined', pois 
+
+às variáveis 
+
+'posData' e 'timerData' NUNCA FORAM DEFINIDOS VALORES.

@@ -1,0 +1,120 @@
+
+
+
+
+
+Nós já TRABALHAMOS COM O DOM ANTES.... 
+
+
+
+
+
+Nós já criamos elementos, os inserimos, fizemos query por eles (query de elementos do DOM).....
+
+
+
+
+
+
+
+NESSE MÓDULO, VAMOS DAR UM PASSO ALÉM.
+
+
+
+
+
+Vamos examinar um pouco mais de perto o DOM, ver coisas 
+
+
+mais complexas que podemos fazer com elementos do DOM...
+
+
+
+
+
+TRABALHAREMOS COM AS COORDENADAS DOS DOM ELEMENTS, com seus tamanhos;
+
+
+veremos como FAZER ATTACH de dados a esses elementos....
+
+
+
+
+Também veremos O QUE MAIS O BROWSER NOS OFERECE EM QUESTÃO DE 
+TRABALHAR COM AS COISAS 
+
+QUE O USUÁRIO VÊ E EXPERENCIA NA JANELA DO BROWSER....
+
+
+
+
+
+--------------------------------------------
+
+
+Veremos:
+
+
+
+
+1) COMO FAZER ATTACH de dados a ELEMENTOS DO DOM ('Attaching Data to Elements') --------> TAMBÉM VEREMOS OS BENEFÍCIOS DE FAZER ISSO, QUAIS AS VANTAGENS, POR QUE FAZER ISSO?
+
+
+
+2) TRABALHAREMOS COM COORDENADAS E TAMANHOS DE ELEMENTOS.... ('Working with element coordinates e sizes')... -------->     Devemos aprender isso para que saibamos COMO USAR JAVASCRIPT PARA DESCOBRIR EM QUE LUGAR UM ELEMENTO ESTÁ POSICIONADO/RESIDE; também para ver qual o TAMANHO QUE ELE TEM, e para saber como MODIFICAR ESSES VALORES DE TAMANHO...                      
+
+
+
+
+
+3) Trabalharemos com TEMPLATES E SCRIPTS DINÂMICOS ('Working with Templates & Dynamic Scripts')....
+----------> O professor nos mostrará ____COMO ADICIONAR ____ SCRIPTS____ DINAMICAMENTE, ou seja, como você pode carregar e CRIAR SCRIPTS com javascript (o que é algo bem META, diz o professor)...
+
+
+
+
+4) Daremos uma olhada no OBJETO 'NAVIGATOR', objeto 'LOCATION' e  'window.history'.....
+
+
+    VAMOS APRENDER O QUE SÃO ESSAS COISAS e o que podemos fazer com elas, além de descobrir a razão de sua existência...
+
+
+-----------------------------------------------------------
+
+
+
+
+AO LONGO DESSE MÓDULO, USAREMOS O CÓDIGO DO APLICATIVO DO ÚLTIMO MÓDULO, aquele aplicativo que movia 
+
+'active' e 'finished' projects entre 2 listas....
+
+
+
+------------------------------------------------
+
+
+
+UMA COISA QUE O PROFESSOR FEZ DIFERENTE NESSE ÚLTIMO PROJETO FOI O USO de 
+
+'callback functions', o professor passou FUNÇÕES PELO CÓDIGO como CALLBACK FUNCTIONS...
+
+
+
+Por exemplo, em 
+
+
+
+'activeProjectsList.setSwitchHandlerFunction(
+    finishedProjectsList.addProject.bind(finishedProjectsList)
+);', 
+
+
+
+Professor usou esse fenômeno do callback PARA QUE FOSSE POSSÍVEL PASSAR OS OBJETOS PROJECTITEM entre 
+
+as 2 caixas...
+
+
+Para que isso fosse possível, passamos funções POR DENTRO DOS NOSSOS 2 OBJETOS 'projectList'  (que são 2 instâncias criadas a partir da mesma classe) 
+
+PARA QUE ESSAS FUNÇÕES ATIVASSEM DIFERENTES AÇÕES EM DIFERENTES INSTÂNCIAS DESSAS CLASSES....

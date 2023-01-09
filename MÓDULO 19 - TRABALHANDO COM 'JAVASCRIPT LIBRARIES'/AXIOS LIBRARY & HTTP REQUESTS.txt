@@ -1,0 +1,1659 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VAMOS USAR O 'AXIOS'...
+
+
+
+
+
+
+APRENDEMOS SOBRE HTTP REQUESTS NO ÚLTIMO MÓDULO...
+
+
+
+APRENDEMOS SOBRE COMO 
+
+USAR XMLHttpRequest 
+
+
+ou a fetch() api 
+
+PARA ENVIAR 
+
+
+REQUESTS...
+
+
+
+
+
+
+
+
+NÓS CONSTRUÍMOS A NOSSA PRÓPRIA UTILITY FUNCTION QUE 
+
+
+FACILITAVA O ENVIO de requests (e subsequente RECEBIMENTO DE RESPONSES),
+
+
+
+
+MAS O NEGÓCIO AINDA ERA CLUNKY... 
+
+
+
+
+(aqui estamos falando daquela função 
+
+'function sendHttpRequest'...)............
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+  /////////O CÓDIGO AQUI FICA BEM MAIS LIMPO, ''LEAN'', pois o código todo que estava aqui foi movido para a função 'fetchPosts'.
+    };
+
+
+    xhr.onerror = function() { ////'onerror' -----------> EVENT LISTENER que trigga sempre que houver um 'erro'... por isso 'onerror'.
+      console.log(xhr.response);
+      console.log(xhr.status); 
+  }
+
+
+  xhr.send(JSON.stringify(data));
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+  */
+
+
+
+
+
+
+  ----------------------------------------
+
+
+
+
+
+  AINDA ERA CLUNKY,
+   
+
+   pois 
+
+
+   'XMLHttpRequest' era CLUNKY por causa 
+
+
+   daquele 
+
+   '.onload'
+
+
+   e 
+
+   '.onerror'...
+
+
+
+
+   E AQUELA 
+
+
+
+   FETCH API() 
+
+
+
+
+   ERA BEM IRRITANTE POR CAUSA DO ERROR HANDLING...
+
+
+
+--------------------------------------
+
+
+
+ENTRETANTO, NÃO SÃO PROBLEMAS TÃO GRANDES....
+
+
+
+
+MAS QUANTO MAIOR FOR O SEU PROJETO,
+
+MAIS AS COISAS PODEM FICAR COMPLEXAS E MAIS MERDA PODE FICAR ESSA SITUAÇÃO.
+
+
+
+
+
+
+
+Seus 'requirements' DE COMO VOCÊ QUER CONFIGURAR 
+
+OS REQUESTS PODEM FICAR MAIS COMPLEXOS,
+
+
+e esse management da utility function pode se tornar, eventualmente,
+um inferno. 
+
+
+
+
+
+
+
+
+A utility function (sendHttpRequest) que 
+
+
+'WRAPPA' as funcionalidades 
+
+nativas 
+
+de 
+
+
+ENVIAR HTTP REQUESTS (ou seja,a fetch() API ou o XMLHttpRequest)
+
+
+
+pode se tornar de difícil administração.
+
+
+
+
+
+
+
+VOCÊ PODE CONTINUAR USANDO ISSO,
+
+
+OU VOCÊ PODE USAR 
+
+
+
+
+O ___AXIOS___.
+
+
+
+
+
+--------------------------
+
+
+
+
+
+DEVEMOS USAR 'AXIOS' NAQUELE PROJETO DO ÚLTIMO MÓDULO....
+
+
+
+ 
+
+
+
+ Temos uma snapshot do projeto anterior nesse módulo presente...
+
+
+
+
+
+
+
+ --------------------------------------
+
+
+
+
+
+
+
+
+ CERTO.
+
+
+
+ PEGAMOS O CÓDIGO DO ÚLTIMO PROJETO.
+
+
+
+
+
+
+
+ NAQUELE PROJETO EM QUE TRABALHAMOS,
+
+
+
+
+ NÓS TINHAMOS 
+
+
+ A UTILITY FUNCTION 
+
+
+
+ DE 'sendHttpRequest',
+
+
+
+
+ A QUAL CHAMÁVAMOS
+
+
+
+ DENTRO DA FUNÇÃO
+
+
+
+
+
+ assíncrona 
+
+
+ 'fetchPosts()'
+
+
+
+
+ e dentro 
+
+
+
+da função assíncrona
+
+ de 'createPost()'
+
+
+ ---------------------------------------
+
+
+
+
+
+
+
+ AGORA DEVEMOS ADICIONAR 'AXIOS',
+
+
+ e para isso, 
+
+ devemos adicionar esse recurso por meio do import 
+
+
+ do LINK 'CDN'
+
+
+ dessa library 
+
+
+ dentro do nosso html...
+
+
+
+
+(ou vocÊ pode salvar esse arquivo .js e colocar no seu projeto, como eu fiz.)
+
+
+
+
+
+
+
+
+CERTO, INSTALAMOS O AXIOS....
+
+(na verdade, instalamos a versão CDN pq o professor disse que há algumas
+coisas de autorização na versão do arquivo...)
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+
+AGORA TEMOS ESSES 2 SCRIPT IMPORTS...
+
+
+
+
+e agora devemos usar o AXIOS...
+
+
+
+
+
+COMO O NEGÓCIO É OPEN SOURCE,
+
+VOCÊ PODE TAMBÉM EXPLORAR O CÓDIGO QUE ESTÁ Na homepage do negócio...
+
+
+
+
+
+
+o código às vezes é meio difícil de entender...
+
+
+
+
+
+
+FEITA ESSA INSTALAÇÃO, TEREMOS UM 
+
+
+OBJETO GLOBAL 'axios'....
+
+
+
+-----------------------------------------
+
+
+
+O professor comenta para fora do código a função 
+
+
+'sendHttpRequest'...
+
+
+
+-------------------------------------
+
+
+
+
+
+ 
+
+ Então, naquele lugar em que 
+
+ o professor 
+
+
+ faz o 'await' de sendHttpRequest 
+
+
+
+ (ou seja, em fetchPosts, nesse 
+ 
+ trecho aqui:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ async function fetchPosts() {
+
+
+
+  try{
+    const responseData = await sendHttpRequest(
+      'GET', 
+      'https://jsonplaceholder.typicode.com/posts'
+    ); 
+  const listOfPosts = responseData;  
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id;
+      listElement.append(postEl);
+    }
+  } catch(error) {
+    console.log('Something went wrong...');
+  }
+  }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ),
+
+
+
+ NESSE LUGAR AÍ, POSSO SUBSTITUIR 
+
+
+ 'sendHttpRequest' por 
+
+
+ 'axios'...
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+  async function fetchPosts() {
+
+
+
+  try{
+    const responseData = await axios(
+      'GET', 
+      'https://jsonplaceholder.typicode.com/posts'
+    ); 
+  const listOfPosts = responseData;  
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id;
+      listElement.append(postEl);
+    }
+  } catch(error) {
+    console.log('Something went wrong...');
+  }
+  }
+ 
+ 
+ 
+ -----------------------------------------------
+
+
+
+
+
+ 'axios' É UMA VARIÁVEL DISPONÍVEL GLOBALMENTE, AGORA 
+
+ DISPONÍVEL GRAÇAS AO IMPORT DAQUELE SCRIPT por meio do link do 'CDN'...
+
+
+
+ ---------------------------------
+
+
+
+
+
+
+ 'axios' é um objeto QUE TEM UM MONTE DE MÉTODOS...
+
+
+ ele tem um método 
+
+
+ '.get' QUE É UTILIZADO PARA 
+
+ ENVIAR __REQUESTS__ DE TIPO 'GET'........
+
+
+
+
+
+
+ Ele também tem os métodos 
+
+
+ '.post'
+
+
+
+ '.put' 
+
+
+
+ e 
+
+ '.delete'...
+
+
+
+
+
+
+ ----------------------------------------
+
+
+
+
+
+ AQUI, NESSE EXEMPLO, QUEREMOS O Método '.get'...
+
+
+ e esse método não é como a UTILITY FUNCTION que tínhamos 
+
+ para enviar os requests de tipo 'get'; 
+
+
+ OU SEJA, NÃO PRECISAMOS FICAR PASSANDO AQUELES 3 PARÂMETROS 
+
+ de 'method, url e data'...
+
+
+
+ ---------------------------------------------
+
+
+
+
+
+ AQUI, BASTA QUE ESCREVAMOS 
+
+
+ 'axios.get();'
+
+
+
+
+A ÚNICA COISA QUE O 'axios.get' vai querer 
+
+É A __URL____...
+
+
+ ----------------------------------------------
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+ 
+  async function fetchPosts() {
+
+
+
+  try{
+    const responseData = await axios.get('https://jsonplaceholder.typicode.com/posts');
+  const listOfPosts = responseData;  
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id;
+      listElement.append(postEl);
+    }
+  } catch(error) {
+    console.log('Something went wrong...');
+  }
+
+
+  ------------------------------------------------
+
+
+
+
+
+  CERTO.
+
+
+  Mas, afinal de contas, o que diabos 
+
+  'axios' retorna para nós?
+
+
+
+
+
+  ----> ELE ___SEMPRE___ RETORNA PROMISES......
+
+
+  Retorna promises porque USA promises...
+
+
+
+
+  Isso é bem conveniente, pois aí nós não precisamos escrever 
+
+  nossas promises manualmente......
+
+
+  não precisamos promisifar as coisas, pois ele usa 
+
+  'promises'  'DIRETO DA CAIXA'...
+
+
+
+
+
+  Certo.
+
+  O método 'axios.get()', portanto, RETORNA UMA PROMISE....
+
+
+  por ele retornar/usar promises, 
+
+
+
+as keywords 
+
+
+'async/await' e seus efeitos FUNCIONAM....
+
+
+
+
+
+O que nós conseguimos aqui, por meio desse método, é uma espécie 
+
+de OBJETO 'response'... (o professor vai lá e altera o nome da constante de 'responseData' para 'response'...).
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+  async function fetchPosts() {
+
+
+
+  try{
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+  const listOfPosts = responseData;  
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id;
+      listElement.append(postEl);
+    }
+  } catch(error) {
+    console.log('Something went wrong...');
+  }
+
+
+---------------------------------------------
+
+
+
+
+Nós vamos querer SABER O QUE DIABOS ESTÁ DENTRO DESSE OBJETO 
+
+'reponse' antes de fazer QUALQUER COISA COM ELE...
+
+
+-----------------------------------
+
+
+
+
+
+
+Certo.
+
+
+O que recebemos no devtools console 
+
+
+é 
+
+
+'Promise {<pending>}
+
+ __proto__: Promise 
+
+ [[PromiseState]]: "fulfilled"
+ [[PromiseResult]]: Object
+ '
+
+
+
+--------------------------------------------------------------
+
+
+ISSO ESTÁ ERRADO. O output deveria ser diferente.
+
+
+
+Talvez seja porque esquecemos o 'await' antes de 'axios.get()'...
+
+
+Tentamos de novo...
+
+
+Certo, agora funcionou.
+
+
+
+Conseguimos o output de um objeto no console com muitos dados/propriedades.
+
+
+
+
+ex:
+
+
+
+
+{data: Array(100), status: 200, statusText: "", headers: {…}, config: {…}, …}
+config: {url: "https://jsonplaceholder.typicode.com/posts", method: "get", headers: {…}, transformRequest: Array(1), transformResponse: Array(1), …}
+data: (100) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+headers: {cache-control: "max-age=43200", content-type: "application/json; charset=utf-8", expires: "-1", pragma: "no-cache"}
+request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+status: 200
+statusText: ""
+__proto__: Object
+  }
+
+
+------------------------
+
+
+
+
+ESSE OBJETO QUE FOI RETORNADO É NICE.
+
+
+
+
+É um objeto com o 
+
+
+
+STATUS CODE DA RESPONSE (200)...
+
+
+MAS AO CONTRÁRIO DA FETCH API(), por exemplo, 
+
+ESSE OBJETO TAMBÉM INCLUI 
+
+
+
+a 
+
+
+'READY TO BE USED DATA'........
+
+
+
+ISSO SIGNIFICA QUE NÓS NÃO PRECISAMOS FAZER 
+
+AQUELE PROCESSO CHATO DE CONVERTER 
+
+'STREAMED DATA' EM UMA SNAPSHOT, como 
+
+tínhamos de fazer... (sempre tínhamos que fazer isso na fetch API)...
+
+
+
+
+NÓS TAMBÉM NÃO PRECISAMOS CONVERTER OS DADOS ENVIADOS PELO SERVIDOR, TODOS EM JSON,
+
+EM JAVASCRIPT DATA...
+
+
+
+Em vez disso, nós conseguimos essa SNAPSHOT DATA ___automaticamente____ COMO 
+
+PARTE DESSE 
+
+OBJETO 'reponse'..., 
+
+
+Essa snapshot data (os dados efetivamente recebidos pelo servidor) 
+
+
+VÃO NO FIELD 
+
+
+de 'data' DENTRO 
+
+DESSE OBJETO 'response' que é 
+
+retornado 
+
+pelo 
+
+'axios.get()'....
+
+
+
+Esse field 'data', nesse nosso caso, é 
+
+aquele array de posts...
+
+
+
+
+
+Ou seja, para que os posts daquele site jsonplaceholder agora apareçam na nossa página, 
+
+
+
+
+basta que eu troque 
+
+
+
+'const listOfPosts = responseData' (código antigo)
+
+
+
+por 
+
+
+'const listOfPosts = response.data' (é igual à propriedade/valor da propriedade 'data'  dentro do objeto 'response' retornado por 'await axios.get()'...)]
+
+
+
+
+
+
+
+-------------------------------------------------------
+
+
+
+
+Certo.
+
+
+
+Nosso código funciona como antes, mas agora 
+
+com uma third party library que facilita muito 
+
+o envio e recebimento de http requests...
+
+
+
+
+----------------------------------------
+
+
+MAS, PERGUNTA O PROFESSOR, 
+
+O QUE ACONTECE EM CASO DE ERROS?
+
+
+
+
+E se nós, por exemplo, enviarmos esse request 
+
+À UMA URL INCORRETA?
+
+
+incorreta como 
+
+
+'jsonplaceholder.typicode.com/pos'
+
+
+
+
+
+
+----------------------------------------
+
+
+BEM, SE EU FIZER ISSO, VOU RECEBER UMA MENSAGEM DE ERRO AUTOMÁTICA NA MINHA PÁGINA, 
+
+
+Um alerta que dirá 
+
+
+'Request failed with status code 404'...
+
+
+
+---------------------------------------
+
+
+
+Isso significa que o axios também 'got me covered' nesse aspecto....
+
+
+
+------------------------------
+
+
+
+
+
+AO CONTRÁRIO DA FETCH API e XMLHttpRequest, 
+
+
+AXIOS  não trata responses 'TECNICAMENTE BEM SUCEDIDAS', as quais 
+
+têm um 'status code',  COMO REALMENTE BEM SUCEDIDAS....
+
+
+
+Em vez disso, 
+
+o axios FAZ A MESMA COISA 
+
+QUE NÓS 
+
+BUILDAMOS __MANUALMENTE__ NO NOSSO CÓDIGo por meio 
+
+das linhas 
+
+
+'       console.log('clicked');
+        if(response.status >= 200 && response.status < 300) {
+          return response.json();
+        } else {
+          return response.json().then(errData => {
+            console.log(errData);
+            throw new Error('Something went wrong - server-side.');
+          });
+        }
+
+'''',
+
+
+
+OU SEJA, 
+
+ELE ATIRA (throw) UM ERRO SE NÓS RECEBERMOS UMA RESPONSE QUE TECNICAMENTE 
+
+FOI 'BEM SUCEDIDA'... (que foi entregue SEM PROBLEMAS, MAS QUE TEM UM STATUS CODE DE 400-500)....
+
+------> axios atira erros para responses como essas...
+
+
+
+ISSO SIGNIFICA QUE ELE NÃO ATIRA SÓ ERROS PARA 
+
+
+PROBLEMAS COMO CONECTIVIDADE DE REDE, 
+mas também 
+
+
+ATIRA ERROS QUANDO TEMOS RESPONSES 'TECNICAMENTE CORRETAS' que possuem 
+
+status codes de ERROS...
+
+
+
+
+
+
+-------> 
+
+COM ISSO, NÓS GANHAMOS (GEt) um ERRO 
+
+E conseguimos alcançar 
+
+O 'catch block' DE NOSSO CÓDIGO SEM 
+
+FAZER QUALQUER TRABALHO EXTRA... 
+
+
+(
+
+
+} catch (error) {
+  alert(error.message);
+}
+
+
+
+
+
+)
+
+
+
+-----------------------------------------
+
+
+
+
+
+E ESSA É UMA DAS RAZÕES DE AXIOS SER TÃO POPULAR.......
+
+
+
+ELE SIMPLESMENTE __FUNCIONA__. 
+
+Usar a data é simples, trabalhar 
+
+com os erros é simples, tudo simples.
+
+
+--------------------------------------
+
+
+
+
+
+AQUI nós temos nossa error message, naquele 'catch block'...
+
+
+NÓS TAMBÉM PODEMOS DAR UMA OLHADA NO 
+
+'error.response' (por meio do console log dele)
+
+PARA 
+
+'OLHAR DENTRO' DA RESPONSE QUE CAUSOU O ERRO... (pq TECNICAMENTE essa response foi uma response VÁLIDA; ela tem uma propriedade 'status', um pouco de data, etc etc....)
+
+
+
+E SE NÓS PRECISAMOS, PODEMOS GANHAR DETALHES SOBRE ESSA RESPOSTA/RESPOSTA VINCULADA AO 
+
+ERRO POR MEIO 
+
+De 'error.response', por meio da propriedade 'response' DENTRO DO ERRO... (essa propriedade 'response' é produzida pelo AXIOS).
+
+
+
+
+As informações acerca das features das third party libraries geralmente ficam 
+
+nos DOCS OFICIAIS, como a home page, github, etc.
+
+
+
+
+Se eu salvar esse código e recarregar a página, receberei 
+
+um erro e a 'response' gerada/vinculada ao erro/que deu causa ao erro...
+
+
+
+ganharemos aquele erro '404'...
+
+
+
+-------->
+
+ganharei os dados que o erro foi de '404' no 'status'....
+
+
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+CERTO.
+
+
+ESSE É O USO DE 'AXIOS' para __conseguir dados___ (GET requests).... 
+
+
+
+
+
+
+
+
+
+
+
+AGORA QUEREMOS CRIAR UM POST...
+
+
+
+
+para isso, 
+
+vamos usar 
+
+
+'.post()' em vez de '.get()'....
+
+
+
+
+
+
+
+Vamos até 
+
+
+'createPost()' 
+
+e substituímos 
+
+
+'sendHttpRequest' 
+
+
+por 
+
+
+'axios.post('url');'
+
+
+
+
+
+
+
+
+
+OBS::::
+
+'axios.post()' APENAS 
+
+
+EXIGE COMO PARÂMETROS 
+
+
+1) a url 
+
+
+
+2) A 'data' QUE EU QUERO ENVIAR..
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+
+  axios.post('https://jsonplaceholder.typicode.com/posts');
+
+
+}
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+Aqui eu não vou querer mandar minha formData como antes (aquela fd), 
+
+por isso eu simplesmente forwardo 
+
+
+meu 
+
+'post'  CRIADO NESSA MESMA FUNÇÃO 'createPost'....
+
+
+
+ex:
+
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+
+  axios.post('https://jsonplaceholder.typicode.com/posts', post);
+
+
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+Professor explica que então, após esse passo, devemos 
+
+usar um  '.then() block'   (POIS ESSE 'AXIOS.POST()' VAI SEMPRE NOS RETORNAR UMA PROMISE...)
+
+OUUUUUUUUUUU SEGUIR USANDO A SINTAXE DE 'ASYNC/AWAIT'...
+
+
+como já começamos usando async nessa função, 
+
+ele simplesmente coloca um 'await' no 
+
+call 
+
+
+de 'axios.post()'...
+
+
+
+
+ex:
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+
+  await axios.post('https://jsonplaceholder.typicode.com/posts', post); /////EIS O CÓDIGO EM QUESTÃO.
+
+
+}
+
+
+
+------------------------------------------
+
+
+
+
+Mas não acabamos por aqui, pois o professor 
+
+armazena esse resultado em uma constante de nome 'response', que então 
+
+ele utilizará 
+
+PARA FAZER UM CONSOLE.LOG (quer ver o conteúdo interior dessa 'response'...).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+
+  const response = await axios.post('https://jsonplaceholder.typicode.com/posts', post); 
+
+  console.log(response);
+
+
+
+}
+
+
+
+------------------------------
+
+
+
+
+
+
+
+COM ISSO, O CONSOLE NOS OUTPUTTARÁ 
+
+
+o objeto 
+
+
+'{data: {…}, status: 201, statusText: "", headers: {…}, config: {…}, …}
+config: {url: "https://jsonplaceholder.typicode.com/posts", method: "post", data: "{"title":"AAA","body":"AAA","userId":0.05387374626182728}", headers: {…}, transformRequest: Array(1), …}
+data: {title: "AAA", body: "AAA", userId: 0.05387374626182728, id: 101}
+headers: {cache-control: "no-cache", content-length: "83", content-type: "application/json; charset=utf-8", expires: "-1", location: "http://jsonplaceholder.typicode.com/posts/101", …}
+request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
+status: 201
+statusText: ""
+__proto__: Object}'
+
+
+-----------------------------------
+
+
+
+
+ESSE OBJETO É A RESPONSE AO NOSSO REQUEST DE POST, que tem 
+
+um status code de 201...
+
+
+
+E a data que nós inputtamos realmente foi enviada, então isso foi um sucesso.
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+HÁ MAIS UM DETALHE BOM AQUI:
+
+
+
+
+
+
+além do uso de axios SER MUITO SIMPLES, também há 
+
+o fato DE QUE NÓS NÃO TIVEMOS QUE ADICIONAR QUAISQUER HEADERS 
+
+Aqui...
+
+
+
+(LEMBRE-SE: 
+
+
+para/com 'XMLHttpRequest' e a 'Fetch API' NÓS 
+
+SEMPRE TÍNHAMOS QUE MANUALMENTE ADICIONAR AQUELE 
+
+HEADER DE 
+
+
+'application/json', que indicava que o conteúdo/data que eu estava 
+
+
+ENVIANDO ao servidor era 'json'...)
+
+
+
+
+
+
+COM AXIOS, O PROCESSO É AUTOMÁTICO, ele faz isso por você....
+
+
+
+
+Ele pega o 'post' que vocÊ inseriu como parâmetro (o post que NÃO É JSON DATA, mas sim um OBJETO JAVASCRIPT COMUM... )
+
+
+E ENTÃO 
+
+
+
+1) transforma ele em json 
+
+
+
+
+2) ADICIONA O HEADER DE 'application/json' POR VOCÊ...
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+E AXIOS NÃO adiciona sempre 'JSON' COMO HEADER...
+
+
+
+
+ELE É, NA VERDADE, BEM ESPERTO:
+
+
+ELE ___ANALIZA___ os dados que você está tentando adicionar....
+
+
+
+se ele detecta que é um objeto/array, ele assume que você está 
+
+QUERENDO CONVERTER ISSO EM json.......
+
+
+ele então faz STRINGIFY dos dados que você passou e OS CONVERTE EM 'JSON'...
+
+Depois ele vai lá e anexa um header de 'application/json'...
+
+
+
+
+
+-------------------------------------------
+
+
+
+MAS SE POR ACASO SE QUISÉSSEMOS ADICIONAR 'FormData' EM VEZ DE JSON DATA,
+
+AXIOS DETECTARIA ISSO TAMBÉM; detectaria esse tipo de dados e então 
+
+faria o envio correto dele...
+
+ele faria o append() CORRETO da formData e então 
+
+settaria o content-type desse 
+
+
+request como 
+
+sendo 
+
+
+'multipart/form-data'...
+
+
+
+--------------------------------------------
+
+
+
+PORTANTO, AXIOS ANALIZA O BODY QUE VOCÊ ESTÁ FAZENDO APPEND() e então 
+
+
+se comporta corretamente para DEFINIR OS HEADERS CORRETOS 
+E PARA 
+
+CONVERTER OS DADOS CORRETAMENTE....
+
+
+
+__MUITO CONVENIENTE____.
+
+
+
+-----------------------------------------
+
+
+
+
+Por fim, devemos ver o método '.delete()' do axios...
+
+
+
+----------------------
+
+
+
+
+
+colocamos no eventListener de 'postList' as alterações de axios...
+
+
+
+
+
+O '.delete()' de axios...
+
+
+
+SIMPLESMENTE PASSAMOS A URL DO POST ALI, que isso já bastará...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+postList.addEventListener('click', event => {
+  if (event.target.tagName === 'BUTTON') {
+      console.log('Clicked on Button!');
+      const postId = event.target.closest('li').id;
+      const visualPost = event.target.closest('li');
+      console.log(postId);
+      axios.delete(`https://jsonplaceholder.typicode.com/posts/${postId}`); /////EIS O CÓDIGO EM QUESTÃO.
+      visualPost.remove();      ////////////ISSO VAI REMOVER O 'LI' DE NOSSO DOM E DA INTERFACE VISUAL DO USUÁRIO...
+  }
+})
+
+
+
+
+------------------------------------
+
+
+
+
+CERTO, E ESSE É O AXIOS...
+
+
+É UMA GRANDE ALTERNATIVA AO 
+
+
+SETTING MANUAL DE 
+
+'XMLHttpRequest' 
+
+
+e 
+
+
+Fetch API...

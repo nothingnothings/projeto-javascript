@@ -1,0 +1,315 @@
+Voltemos àquele assunto das funções anônimas:
+
+
+O professor criou uma função anônima no projeto 5:
+
+
+
+
+
+
+const start = function() {
+    console.log('Game is starting...');
+};
+
+
+
+------------> Nós poderíamos ter assignado um nome, como você estudou antes, mas isso 
+seria inútil, pois essa função anônima NÃO EXISTE NO GLOBAL SCOPE DESSE DOCUMENTO JAVASCRIPT. 
+Ela só existe dentro dessa constante start, como você viu antes. Não precisamos de um nome 
+de função aqui.
+
+
+Esse é um exemplo de lugar onde você pode usar funções anônimas, porque você as armazena em uma variável e então O NOME 
+DA VARIÁVEL ACABA VIRANDO O NOME DA FUNÇÃO, ACABA VIRANDO O NOME PELO QUAL VOCÊ CHAMA E REFERENCIA AQUELA FUNÇÃO.
+
+
+ex:
+
+
+ 
+startGameBtn.addEventListener('click', start);  //--> chamamos a função por meio do nome da constante.
+
+
+
+
+
+MAS VOCÊ PODE TAMBÉM USAR FUNÇÕES ANÔNIMAS EM LUGARES QUE VOCÊ NEM MESMO AS ARMAZENOU EM VARIÁVEIS.
+
+
+Um lugar desses seria um cenário exatamente como esse do addEventListener, um cenário 
+onde você adiciona um eventListener é um cenário típico de uso de funções anônimas. Você simplesmente 
+define/chama (você faz as duas ao mesmo tempo, nesse caso) DENTRO DOS PARÂMETROS DO "ADDEVENTLISTENER".
+ex:
+
+
+
+startGameBtn.addEventListener('click', function() {
+
+});
+
+
+Você definira uma função anônima dentro dos parâmetros, onde você vai precisar dela, imediatamente.
+
+
+
+IMPORTANTE === Essa forma de escrever a função anônima, de definir/chamar ela de dentro 
+dos parâmetros do addEventListener, É A MESMA COISA QUE DEFINI-LA E ARMAZENÁ-LA DENTRO DE UMA 
+VARIÁVEL/CONST ANTERIORMENTE A CHAMÁ-LA NESSE EVENTLISTENER. Anteriormente a referenciar a tal variável nesse eventListener.
+
+
+ex:
+
+
+const start = function() {
+    console.log('Game is starting...');
+};
+
+
+
+startGameBtn.addEventListener('click', start);
+
+
+
+
+É A MESMA COISA QUE:
+
+
+
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+});
+
+
+
+
+
+
+
+
+
+
+
+----------->
+
+startGameBtn.addEventListener('click', function() {
+    
+});
+
+
+----> o que está escrito aqui NÃO VAI EXECUTAR A FUNÇÃO IMEDIATAMENTE. Por que diabos ela iria? Não há 
+parênteses algum depois dela (parênteses que você poderia escrever... essa sintaxe é válida para o javascript.)
+
+
+Essa sintaxe aqui NÃO VAI EXECUTAR A FUNÇÃO ANÔNIMA QUE VOCÊ DEFINIU ANTES (isso não existe), essa sintaxe 
+vai EXECUTAR ESSA FUNÇÃO CRIADA NA HORA DENTRO DESSE MÉTODO EVENTLISTENER. Ou seja, você precisa colocar a função que você quer que rode ali dentro (nesse caso, você transplanta o código que estava na função lá em cima para esse lugar, para esse segundo slot do parâmetro do addEventListener.)
+
+
+Mas por que utilizar esse estilo alternativo de chamar uma função anônima?
+
+Porque há casos em que NÃO TEMOS MAIS NENHUM OUTRO LUGAR NO CÓDIGO QUE PRECISE DESSA FUNÇÃO 
+OUTRA VEZ. De fato, esse é o caso que temos em mãos, aqui. A função start 
+nunca mais é chamada no nosso código; ela é apenas chamada para decretar o início do jogo, e é completamente 
+inútil após isso.
+
+É por isso que a função anônima acaba sendo útil a nós, nesse caso.
+
+
+Código revisado:
+
+
+
+
+
+
+
+//const start = function() {            ---------------> NÃO PRECISAMOS MAIS DESSAS LINHAS DE CÓDIGO, JÁ QUE AQUELA FUNÇÃO ANÔNIMA QUE É EXECUTADA DENTRO DOS PARÂMETROS DO ADDEVENTLISTENER é suficiente, isso porque temos um caso em que uma função é executada APENAS UMA VEZ AO LONGO DO CÓDIGO, hipótese PERFEITA para a utilização de uma função anônima.
+//    console.log('Game is starting...');       -------------------->
+//};                                    --------------> 
+
+
+
+startGameBtn.addEventListener('click', function() { console.log('Game is starting...');});
+
+-----------------------------------
+
+MAS o fato de nós utilizarmos uma função anônima aqui para dispensar 
+o uso de uma função declarada/statement NÃO QUER DIZER QUE ESSE MÉTODO CONVENCIONAL (declaração/statement de função) É ERRADO...
+ELE É ATÉ MELHOR EM ALGUNS CASOS, POIS VOCÊ SEMPRE TEM QUE CONSIDERAR POSSÍVEIS MEMORY LEAKS (lembre-se do problema dos memory leaks: referências a coisas em seu código que não serão mais utilizadas).
+
+Entretanto, se você sabe, tem certeza, de que você só vai adicionar UM ÚNICO EVENTLISTENER aqui, então 
+essas considerações sobre memory leaks realmente não incidem sobre o caso em questão, não há 
+como criar um memory leak aqui, por isso que a função anônima é boa: ela nos salva um pouco de código.
+
+Há outro benefício: se outra pessoa lê seu código, ela não vai precisar ENCONTRAR ESSA FUNÇÃO A QUAL VOCÊ ESTÁ SE REFERINDO, PORQUE 
+ELA JÁ VAI ESTAR EXPLICITADA NO PRÓPRIO ADDEVENTLISTENER que você escreveu, a função anônima já estará explicitada ali.
+
+
+
+addEventListeners, portanto, são um cenário comum para o uso de funções anônimas.
+
+funções anônimas são usadas em casos como:
+
+
+1) EventListeners
+
+
+
+2) casos em que você PASSA A REFERÊNCIA DE UMA FUNÇÃO À OUTRA FUNÇÃO. Como no nosso caso em questão:
+
+
+addEventListener(é uma função) (
+    'click', function() (é outra função, aqui fizemos a referência de uma função à outra função, que no caso é a função addEventListener) {
+
+    }
+);
+
+.    -----------> a função addEventListener, portanto, aceita uma função como segundo argumento, se você parar para pensar. 
+Veremos mais sobre isso neste módulo.
+
+
+3) casos em que você nunca mais vai usar aquela determinada função no seu código.
+
+
+
+
+
+Se salvarmos as alterações no código e recarregarmos, veremos que a página estará funcionando bem. O botão funciona, 
+e a mensagem é mostrada quando o mesmo é pressionado.
+
+
+
+MAS AINDA HÁ UMA PERGUNTA:
+
+
+Mas por que diabos vocÊ ainda assignaria um nome à essa função anônima? Qual é a utilidade disso?  
+
+BEM SIMPLES, É PORQUE TALVEZ ESSA FUNÇÃO POSSA TE JOGAR UM ERRO.
+
+
+ex:
+
+
+digamos que temos o mesmo código do addEventListener, mas com UMA SIMPLES ADIÇÃO À FUNÇÃO CONSOLE.LOG(), 
+QUE AGORA DEVERÁ LOGAR UM SEGUNDO PARÂMETRO, A VARIÁVEL "age" (que não existe, fazemos isso para receber um erro).
+
+
+Código representado:
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...', age);
+});
+
+--------------------------------------------
+
+Aqui, tentamos logar AGE, que é uma variável QUE SIMPLESMENTE NÃO EXISTE, INEXISTE TANTO LOCAL QUANTO GLOBALMENTE.
+
+Portanto, age NÃO FUNCIONA. isso é de propósito.
+
+
+
+
+SIDENOTE === "name" como segundo parâmetro FUNCIONARIA. FUNCIONARIA PORQUE "NAME" É UMA VARIÁVEL 
+GLOBAL DEFAULT DISPONÍVEL EM SEU SCRIPT, QUE É DEIXADA DISPONÍVEL DEVIDO À AÇÃO DO BROWSER. É O BROWSER 
+QUE DISPONIBILIZA ESSA VARIÁVEL DEFAULT, "NAME". Por isso não use "name" aqui, porque aí não nos será 
+dado um erro, que é o que queremos.
+
+
+
+Como age não existe, se nós salvarmos, recarregarmos a página e apertarmos o botão, receberemos um ERRO.
+Uncaught reference error. Mas o erro não nos diz O NOME DA FUNÇÃO ONDE O PROBLEMA OCORREU. Mas ainda temos o número da linha, aí 
+isso nem importa tanto. Contudo, se você tiver um script GIGANTE e na hipótese de  você estar rodando uma versão 
+optimizada aqui no browser, onde o número da linha que é mostrada no browser não corresponde ao número da linha que 
+você tem em seu código... se isso acontecesse, seria legal ver O NOME DA FUNÇÃO AQUI, que é uma informação que nós não temos.
+
+
+A SITUAÇÃO RUIM MUDARIA SE NÓS TIVÉSSEMOS UMA FUNÇÃO DEFINIDA DA MANEIRA "OLDSCHOOL", DO ESTILO OLDSCHOOL.
+OLDSCHOOL É UMA PALAVRA EQUÍVOCADA, porque é perfeitamente aceitável usar o método "oldschool".
+
+
+
+Mas se eu declarasse minha função da forma normal, ou seja, , sem armazená-la em uma constante/variável, 
+ou sem colocá-la dentro de outra função, assim:
+
+ex:
+
+function start() {
+    console.log('Game is starting...', age);
+}
+
+
+Digamos que eu tivesse essa função, declarada ao modo oldschool.
+
+
+
+E digamos que então eu substituísse a função anônima do addEventListener por uma referência à essa função "oldschool".
+
+
+
+ex:
+
+
+function start() {
+    console.log('Game is starting...', age);
+}
+
+
+
+startGameBtn.addEventListener('click', start);   //referência à função start, que contém o console.log que dá erro (devido ao fato da variável "age", a ser logada, NÃO EXISTIR.)
+
+
+ -----------------------------------------
+
+Se fizermos isso e recarregarmos a página, VEREMOS QUE AINDA RECEBEMOS O MESMO ERRO, MAS AGORA 
+NÓS REALMENTE RECEBEMOS O NOME DA FUNÇÃO QUE DEU O ERRO (recebemos um hint 
+do function name na mensagem de erro), ALGO QUE NÃO CONSEGUÍAMOS COM O USO DA 
+FUNÇÃO ANÔNIMA.
+
+
+representação da mensagem de erro:
+
+
+Uncaught ReferenceError: age is not defined at HTMLButtonElement.start (app.js:X)
+
+                                                                (esse ".start" nos indica o nome da função.)
+
+
+
+Se eu usar uma função anônima, como fizemos antes, a mensagem de erro ficará:
+
+
+
+Uncaught ReferenceError: age is not defined at HTMLButtonElement. <anonymous> (app.js:X). 
+
+
+
+PORTANTO, EIS UMA DAS DESVANTAGENS EM USAR FUNÇÕES ANÔNIMAS DA FORMA NORMAL, SEM DAR NOMES A ELAS.
+
+
+Podemos mitigar esse ponto negativo por meio do etiquetamento das funções anônimas: simplesmente conferimos um nome à função anônima, para que 
+ela seja mostrada especificamente nas mensagens de erro quando a culpa do erro for delas.
+
+
+ex: 
+
+function() {
+
+}   ----------------------> Deverá virar -----------> function startGame() {
+
+}
+
+
+Se repetirmos o processo, salvarmos o documento e recarregarmos, apertarmos o botão, veremos que 
+agora o nome da função anônima é mostrado na mensagem de erro.
+ 
+
+
+
+
+LEMBRE-SE: você não pode chamar a função anônima por esse nome que você deu, isso não é permitido (porque ela não foi declarada e gerenciada globalmente pelo javascript...).
+O único uso do nome de uma função anônima é para fins DE DEBUGGING, para fins de jogar erros por meio do browser.
+
+

@@ -1,0 +1,597 @@
+Até agora, não progredimos muito com o jogo.
+
+
+nosso código:
+
+
+const startGameBtn = document.getElementById('start-game-btn');
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+});
+
+
+--------------------------------------
+
+
+
+
+Precisamos de mais algumas funções no meio de nosso código, funções que podem ser iniciadas 
+assim que o jogo for começado por aquela função anônima.
+
+
+
+Queremos deixar o usuário escolher qualquer opção que ele quer, se ele quer pedra, papel ou tesoura.
+Esse é o jogo.
+
+Para isso, podemos adicionar uma nova função. O professor diz que podemos usar aquele approach em que 
+ele armazenara uma constante. Ele diz que é opcional usar uma constante aqui, mas que é recomendado o seu uso porque 
+nós logo iremos fazer uns tweaks à ela.
+
+
+ex:
+
+const getPlayerChoice = function() ...
+
+
+----------------
+
+O professor explica que essa constante será efetivamente uma função, por isso que seu nome 
+é efetivamente o nome da função, também. Ele armazena dentro da constante uma função.
+
+
+
+
+
+const getPlayerChoice = function() {
+
+};
+
+
+
+O professor diz que "getPlayerChoice" deve MOSTRAR UM PROMPT AO USUÁRIO pedindo por 
+pedra, papel ou tesoura. Por isso nós criamos uma constante chamada "selection" dentro 
+da nossa função que está dentro da constante getPlayerChoice. A constante selection tem seu 
+valor definido pela "PROMPT" function. Na função prompt, no primeiro parâmetro devemos estabelecer a mensagem; no segundo, o que deve estar no input field 
+no início (colocamos '', que é "em branco", uma empty string).
+
+
+EX:
+
+
+const startGameBtn = document.getElementById('start-game-btn');
+
+
+const getPlayerChoice = function() {
+    const selection = prompt('Rock, Paper or Scissors?', '');
+};
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+});
+
+
+Agora, portanto, o javascript vai abrir um prompt ao usuário e ARMAZENARÁ O RESULTADO 
+DO INPUT DO USUÁRIO DENTRO DA CONSTANTE "SELECTION".
+
+Obviamente, o usuário poderia colocar qualquer porcaria dentro do input field. Por isso, o professor 
+estabelece um if check. Quer checar " se selection não for igual a 'Rock', 'Paper' ou 'Scissors',"... (criamos um if block para essas hipóteses).
+
+
+o if block ficaria assim:
+
+
+if(
+    selection !== 'Rock' &&
+    selection !== 'Paper' &&
+    selection !== 'Scissors'
+) {
+    ...
+}
+
+
+
+
+AGORA TEMOS UM IF BLOCK.
+
+Conectamos esse if block a um function body ----> rodaremos esse código se forem satisfeitas TODAS 
+AS HIPÓTESES do if block (não é rock, não é paper e não é scissors). -->
+
+código que queremos rodar é "alert('Invalid choice!');"
+
+
+ex:
+
+
+
+if(
+    selection !== 'Rock' &&
+    selection !== 'Paper' &&
+    selection !== 'Scissors'
+) {
+    alert('Invalid choice!');
+} 
+
+
+Agora o usuário sabe que ele fez uma escolha inválida... podemos também 
+fazer o usuário escolher sempre uma das opções (pedra, no caso) nas hipóteses 
+de ele tentar ser engraçadinho e colocar um input inválido. Para isso, fazemos algumas alterações no código:
+
+
+
+
+
+if(
+    selection !== 'Rock' &&
+    selection !== 'Paper' &&
+    selection !== 'Scissors'
+) {
+    alert('Invalid choice! We chose Rock for you.');
+} 
+
+
+
+
+...O professor aponta outro ajustezinho que ele quer fazer; ele quer trabalhar COM CONSTANTES, com algumas 
+constantes GLOBAIS, para que quando ele use "rock", "paper" e "scissors" como palavras a serem registradas 
+nas opções, ele não tenha a possibilidade de escrever typos (erros de digitação).
+
+O professor usará o padrão que ele utilizou lááá no primeiro módulo, aquele negócio de usar `` (back ticks) e ${nomedaconstante}.
+
+
+ex:
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '');    //AQUI FIZEMOS OUTRA ALTERAÇÃO, UTILIZAMOS AQUELE NEGÓCIO DA SINTAXE DOS BACKTICKS E ${} PARA INPUTTAR VALORES DINÂMICOS NESSES ESPAÇOS. 
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.
+    selection !== scissors
+) {
+    alert('Invalid choice! We chose Rock for you.');
+} 
+
+
+
+}
+
+
+
+
+
+//IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+
+
+RESULTADO:
+
+
+
+
+ex:
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toLowerCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${rock} for you.`);
+} 
+
+
+
+}
+
+
+
+
+//Você também aprendeu que strings são VALORES PRIMITIVOS, e que não são objetos, MAS NESSE MESMO VÍDEO, O PROFESSOR MOSTROU QUE VOCÊ AINDA PODE ACESSAR CERTAS PROPRIEDADES E FUNÇÕES ____DENTRO DESSES PRIMITIVE VALUES_____, AINDA QUE ELES NÃO SEJAM PROPRIAMENTE OBJETOS. QUANDO FAZEMOS ISSO, QUANDO USAMOS PROPRIEDADES DENTRO DE PRIMITIVE VALUES, OS UTILIZAMOS TEMPORARIAMENTE COMO OBJETOS (+ OU - ISSO). O assunto é mais complexo, mas essa é basicamente a ideia.
+//javascript faz isso nos bastidores para nós, para que nós possamos utilizá-los como objetos, mas esses valores primitivos (strings, números) não são, de fato, objetos.
+
+//Uma string, portanto, é um valor primitivo, mas ELA AINDA TEM ESSE MÉTODO ".UPPER/LOWERCASE();" q expõe a nós.
+
+ele expõe esse método a nós, e o que esse método faz é RETORNAR UMA NOVA STRING (clonar aquela string antiga, mas o clone vem numa forma alterada)
+para nós em que todos as letras são minúsculas. 
+
+O que armazenarmos em "selection", então, será uma string com somente lowercase characters, e aí podemos utilizár o tal input
+if check sem quaisquer problemas.
+
+Agora portanto, deixamos o usuário escrever algo válido, e se ele não escreve algo válido, nós informamos a ele 
+que nós escolhemos pedra como default. Criamos, então, uma nova constante, que será usada para uma (possível) hipótese 
+de algum dia querermos mudar o default.
+
+o código ficaria assim:
+
+
+
+ex:
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toLowerCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+} 
+
+
+
+}
+
+
+
+
+
+
+Mas apenas isso não basta:
+
+
+o professor também quer RETORNAR PEDRA como valor, no caso do cara realmente ter colocado algo inválido. Até agora, 
+nosso código só informa ele de que ele colocou algo errado, não faz mais nada além disso.
+
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+
+
+}
+
+
+
+retornamos a DEFAULT_USER_CHOICE, que é "rock".
+
+
+MAS SE DEIXARMOS O CÓDIGO ASSIM, ELE FICARÁ INCOMPLETO. ISSO É PORQUE NÃO TEMOS UM CÓDIGO QUE SERÁ 
+RODADO NO CASO DE O USUÁRIO NÃO AVACALHAR... AFINAL, O QUE DEVERÁ SER RETORNADO DESSA FUNÇÃO "NORMALMENTE"?
+
+Ora, o que é retornado normalmente é O RESULTADO DA SELEÇÃO, OU SEJA, O RESULTADO DA CONSTANTE "SELECTION".
+Por isso retornamos "selection", que será um input colocado pelo usuário que será uma daquelas 3 opções, 
+"rock", "paper" ou "scissors".
+
+
+
+ex:
+
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toLowerCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+}
+
+--------------------------------------
+
+
+
+...Bem, isso resolve as coisas para a constante "getPlayerChoice". Mas ainda há um problema:
+a constante getPlayerChoice não é chamada em nenhum lugar de nosso código. POR ISSO DEVEMOS 
+CHAMÁ-LA DENTRO DA FUNÇÃO ANÔNIMA DAQUELE ADDEVENTLISTENER, CONDICIONADO AO CLICK.
+
+
+
+ex:
+
+
+
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toLowerCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+}
+
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+    getPlayerChoice();
+})
+
+
+O PROFESSOR CHAMA A FUNÇÃO/CONSTANTE "getPlayerChoice()" (Sim, essa sintaxe É VÁLIDA. VER ANOTAÇÕES DA AULA "FUNCTION 
+EXPRESSION VS FUNCTION STATEMENTS". ), que nos retorna o valor da seleção do usuário, tanto na hipótese de ele avacalhar (aí é definido o valor default, pedra), como na 
+hipótese de ele realmente ter colocado alguma daquelas 3 opções.
+
+O professor também decide armazenar esse chamado de função dentro de outra constante, que ele chama de "playerSelection".
+
+
+
+
+ex:
+
+
+
+
+
+ex:
+
+
+
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toLowerCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+}
+
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+    const playerSelection = getPlayerChoice();  //aqui está a nova constante.
+})
+
+
+
+--> playerSelection é agora a nova constante LOCAL dessa função anônima, e é a constante que segura 
+o retorno do valor da função/constante "getPlayerChoice()". Por fim, console.logamos a constante "playerSelection" aqui, 
+para que essa função nos mostre o valor que foi escolhido.
+
+
+
+
+
+ex:
+
+
+
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toLowerCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+}
+
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+    const playerSelection = getPlayerChoice();  //aqui está a nova constante.
+    console.log(playerSelection); //console.log do valor retornado dessa mesma constante.
+})
+
+
+Se salvarmos isso tudo e recarregarmos a página... Veremos que o negócio está funcionando.
+O console nos mostra o valor selecionado pelo usuário.
+
+
+Antes de continuarmos, o professor quer se assegurar de que, uma vez que comecemos o jogo, não possamos 
+simplesmente começar um novo imediatamente depois.
+
+Para isso, ele cria uma variável global nova, a variável "gameIsRunning". Ele define 
+um valor segurado por ela, que é do boolean "false" (é false no início, depois ela é alterada...).
+
+
+
+
+EX:
+
+
+const rock = 'Rock';
+
+const paper = 'Paper';
+
+const scissors = 'Scissors';
+
+const DEFAULT_USER_CHOICE = rock;
+
+
+let gameIsRunning = false; //---> a variável em questão.
+
+
+
+const getPlayerChoice = function() {
+
+const selection = prompt(`${rock}, ${paper} or ${scissors}?`, '').toUpperCase();    //IMPORTANTE ----> SE NÓS DEIXARMOS ASSIM, AS ÚNICAS STRINGS QUE ESSA FUNÇÃO ACEITARÁ (únicos inputs colocados pelo usuário) SERÃO STRINGS SEM MAIÚSCULAS, EXATAMENTE DESSA FORMA QUE AS DEFINIMOS. MAS HÁ UMA FORMA DE CONVERTER AS STRINGS PARA LOWERCASE/UPPERCASE. Para fazer isso, UTILIZAMOS A FUNÇÃO ".toUpperCase()". Chamamos essa função NO RETURN VALUE DE PROMPT. O return value de prompt É UMA STRING, COMO VOCÊ APRENDEU... E COMO VOCÊ APRENDEU, OBJETOS PODEM, SIM, TER MÉTODOS (funções).
+
+if(
+    selection !== rock &&
+    selection !== paper &&      //referências às constantes definidas lá em cima.  
+    selection !== scissors
+) {
+    alert(`Invalid choice! We chose ${DEFAULT_USER_CHOICE} for you.`);
+    return DEFAULT_USER_CHOICE;
+} 
+
+return selection;
+
+}
+
+
+startGameBtn.addEventListener('click', function() {
+    console.log('Game is starting...');
+    const playerSelection = getPlayerChoice();  //aqui está a nova constante.
+    console.log(playerSelection); //console.log do valor retornado dessa mesma constante.
+})
+
+
+
+
+
+---------------------------------
+
+
+o valor dessa variável é então alterado mais para baixo no código... ele é settado como verdadeiro 
+dentro daquela função anônima.
+
+
+ex:
+
+
+
+
+
+startGameBtn.addEventListener('click', function() {
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerSelection = getPlayerChoice();  //aqui está a nova constante.
+    console.log(playerSelection); //console.log do valor retornado dessa mesma constante.
+})
+
+
+
+Como podemos perceber, a variável tem seu valor alterado para "true". MAS ANTES DESSE CÓDIGO DE DEFINIR 
+SEU VALOR PARA TRUE, O PROFESSOR ADICIONA UM IF CHECK... "se gameIsrunning (podemos só colocar a variável 
+solta aqui, porque ela é tratada como truthy pelo Javascript, lembra-se? Então... "se gameIsRunning for true...", 
+por isso não precisamos adicionar "=== true" no final desse parâmetro.) é verdadeiro, vou QUERER RETORNAR" (retornar porra nenhuma, nada, porque não queremos que o jogador comece novos jogos.)
+
+
+ex:
+
+gameIsRunning = false;
+
+
+
+startGameBtn.addEventListener('click', function() {
+    if (gameIsRunning) {
+        return;         //If check e function body do if check, em questão.
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerSelection = getPlayerChoice();  //aqui está a nova constante.
+    console.log(playerSelection); //console.log do valor retornado dessa mesma constante.
+})
+
+
+
+É CLARO QUE, ATÉ AGORA, NÃO FAZEMOS MUITA COISA EM NOSSO JOGO, E ISSO É ALGO QUE TEMOS QUE MUDAR.
+
+Até agora:
+
+
+1) começamos o jogo
+
+
+2) deixamos o usuário escrever qual opção ele quer
+
+
+3) A PRÓXIMA ETAPA É FAZER COM QUE O COMPUTADOR TAMBÉM SEJA CAPAZ DE FAZER A SELEÇÃO DE ALGUMA DAQUELAS OPÇÕES.
+
+
+Mas antes de fazermos isso, devemos ver outras maneiras de criar funções, PORQUE HÁ OUTRO JEITO DE CRIAR ELAS.

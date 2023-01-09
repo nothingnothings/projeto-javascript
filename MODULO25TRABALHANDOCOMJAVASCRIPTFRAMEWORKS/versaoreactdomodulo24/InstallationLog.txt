@@ -1,0 +1,41 @@
+************************************* Invoked: sex mai 15 22:11:31 2020
+[0] Arguments: C:\Users\Usuário\Downloads\citra-setup-windows.exe
+[5] Operations sanity check succeeded.
+[3656] addDownloadable "citra-osx-20200514-0ef6ba8.7z"
+[3662] addDownloadable "citra-linux-20200513-213c956.7z"
+[3668] addDownloadable "citra-linux-20200514-0ef6ba8.7z"
+[3672] addDownloadable "citra-windows-mingw-20200513-213c956.7z"
+[3676] addDownloadable "citra-windows-mingw-20200514-0ef6ba8.7z"
+[3681] addDownloadable "citra-osx-20200513-213c956.7z"
+[30181] Tmp and install directories are on the same volume. Volume mount point: "C:\\" Free space available: "45.02 GiB"
+[30181] Installation space required: "98.14 MiB" Temporary space required: "49.07 MiB" Local repository size: "0.00 bytes"
+[30829] Starting elevated process "C:\\Users\\Usuário\\Downloads\\citra-setup-windows.exe" with arguments " --startserver PRODUCTION,{c978fcfb-40d6-40a4-b420-0ef99cc0cf54},{30757e44-2067-4704-b075-eec3583d4cc5}"
+[31889] Finished starting elevated process.
+[31914] backup  operation: Mkdir
+[31914] 	- arguments: C:/Program Files (x86)/aa
+[31918] Done
+[31918] perform  operation: Mkdir
+[31918] 	- arguments: C:/Program Files (x86)/aa
+[31919] Done
+[31920] Install size: 1 components
+[207913] backup org.citra.nightly.mingw operation: Extract
+[207913] 	- arguments: installer://org.citra.nightly.mingw/1547citra-windows-mingw-20200513-213c956.7z, C:\Program Files (x86)\aa
+[207913] Done
+[207913] perform org.citra.nightly.mingw operation: Extract
+[207913] 	- arguments: installer://org.citra.nightly.mingw/1547citra-windows-mingw-20200513-213c956.7z, C:\Program Files (x86)\aa
+[211710] Done
+[211710] backup org.citra.nightly.mingw operation: CreateShortcut
+[211710] 	- arguments: C:\Program Files (x86)\aa/nightly-mingw/citra-qt.exe, C:\Users\Usuário\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Citra/Citra Nightly.lnk, workingDirectory=C:\Program Files (x86)\aa/nightly-mingw
+[211710] Done
+[211711] perform org.citra.nightly.mingw operation: CreateShortcut
+[211711] 	- arguments: C:\Program Files (x86)\aa/nightly-mingw/citra-qt.exe, C:\Users\Usuário\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Citra/Citra Nightly.lnk
+[215326] Done
+[215327] backup org.citra.nightly.mingw operation: License
+[215327] 	- arguments:
+[215327] Done
+[215327] perform org.citra.nightly.mingw operation: License
+[215327] 	- arguments:
+[215334] Done
+[215360] Writing maintenance tool: "C:\\Program Files (x86)\\aa/maintenancetool.exe.new"
+[217750] Wrote permissions for maintenance tool.
+[225959] Maintenance tool restart: false.

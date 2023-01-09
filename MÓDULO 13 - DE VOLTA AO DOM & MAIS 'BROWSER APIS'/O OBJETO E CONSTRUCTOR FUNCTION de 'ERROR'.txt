@@ -1,0 +1,302 @@
+
+
+
+ALÉM DO OBJETO/constructor function global 'DATE', há também 
+
+
+
+OUTRO OBJETO BUILT-IN do javascript que deve ser mostrado, pq pode ser importante no futuro.
+
+
+
+
+
+
+É O OBJETO GLOBAL 
+
+'Error();'
+
+
+
+
+
+
+
+
+VOCÊ SEMPRE DEVE UTILIZAR 'new' COM ELE, pois 'Error' É UMA CONSTRUCTOR FUNCTIOn...
+
+
+
+
+Essa constructor function CRIA UM ERRO.
+
+
+
+A ESSE ERRO VOCÊ PODE PASSAR UMA STRING COMO PARÂMETRO; ESSA STRING SERÁ 
+
+A SUA MENSAGEM DE ERRO....
+
+
+
+
+
+ex:
+
+
+
+'new Error('Something went wrong here...');
+
+
+
+
+----------------------------------
+
+QUANDO VOCÊ CRIA UMA MENSAGEM DE ERRO COMO ESSA, VOCê 
+
+
+PODE 'jogá-la' (throw it) COM 
+
+
+A KEYWORD 'throw'....
+
+
+
+
+
+VOCÊ PODE LEMBRAR-SE DISSO, AFINAL VIMOS ISSO MUITAS AULAS ATRÁS....
+
+
+
+
+Vimos isso no módulo de 'ERROR HANDLING' e 'try-catch'....
+
+
+
+
+ex:
+
+
+
+throw new Error('Oh shit, something went wrong!');
+
+
+
+
+
+-------------------------------------
+
+
+MAS LÁ, NAQUELE MÓDULO DOS ERROS E TRY-CATCH, o professor não atirou 
+
+
+UM OBJETO 'Error' como esse de agora, e sim um OBJETO NORMAL (o que VOCÊ PODE 
+
+FAZER, TAMBÉM: VOCÊ PODE ATIRAR/JOGAR ___QUALQUER COISA___ COMO UM ERRO, não 
+precisa obrigatoriamente ser um erro criado com o 'new Error()'... Você pode atirar um objeto, 
+
+atirar uma string, qualquer coisa msm. )....
+
+
+
+
+ex:
+
+
+
+throw 'An error'; ------------> ISSO VAI CAUSAR, BEM, UM ERRO... ('Uncaught An error')...
+
+
+
+
+
+
+---------------------------------
+
+
+
+MAS VOCÊ TALVEZ QUEIRA UTILIZAR ESSA CONSTRUCTOR FUNCTION DEDICADA DE OBJETOS 'Error'....
+
+
+
+
+-----------------------------
+
+
+
+Quando você o faz, quando você utiliza a constructor function de 'Error()', você 
+
+NÃO RECEBE APENAS A SUA MENSAGEM DE ERRO (como 'Oh shit, Something went wrong...', mensagens que 
+
+são AUTOMATICAMENTE INSERIDAS em uma propriedade 'message' desse objeto 'error'...  ) ,
+
+MAS TAMBÉM 
+
+RECEBE UM ''STACK TRACE'', que é BASICAMENTE TE DIZ O LUGAR DO CÓDIGO EM QUE 
+
+ESSE ERRO FOI JOGADO/LANÇADO...
+
+
+
+ex:
+
+
+'Uncaught Error: Oh shit, something went wrong... 
+
+at <anonymous>1:7 
+(anonymous) @VM178:1
+
+
+
+
+
+------> NESSE EXEMPLO, como o erro é lançado no CONSOLE, nós 
+
+observamos '<anonymous>1:7'....
+
+
+MAS SE FIZÉSSEMOS ISSO EM UM ARQUIVO, VERÍAMOS O NOME 
+
+DO ARQUIVO E O NÚMERO DA LINHA do arquivo, etc etc.
+
+
+
+
+
+Ou seja, ALÉM DE TE DAR A MENSAGEM DE ERRO QUE VOCÊ DEFINIU ANTERIORMENTE, ESSE OBJETO 
+
+'Error' pode ser ÚTIL PQ ELE TAMBÉM TE DÁ INFORMAÇÃO SOBRE A LINHA EM QUE O ERRO 
+
+ACONTECEU...
+
+
+
+
+
+Além disso, por ser um objeto, vocÊ PODE ADICIONAR ___COISAS___ DENTRO DELE....
+
+
+--------------------------------
+
+
+VOcê pode, por exemplo, criar o seu objeto com 
+
+
+ex:
+
+
+const customError = new Error('Something went wrong');
+
+
+--------------------------------------
+
+
+Feito isso, você pode então 
+
+
+ACESSAR ESSE OBJETO E VER OUTRAS PROPRIEDADES/ADICIONAR OUTRAS PROPRIEDADES DE SUA ESCOLHA...
+
+
+
+ex:
+
+const customError = new Error('Something went wrong');
+
+'customError.message'; (nos dá a mensagem de erro que definimos anteriormente).
+
+
+
+'customError.stack' (outra propriedade da constructor function de 'Error'.) The non-standard stack property of Error objects offer a trace of which functions were called, in what order, from which line and file, and with what arguments. The stack string proceeds from the most recent calls to earlier ones, leading back to the original global scope call.
+
+
+
+'customError.name' (nome do erro. Não existe antes de o definirmos. EX: definir um CÓDIGO DE ERRO, COMO 404.)
+
+
+
+'customError.name = example'; (exemplo)
+
+
+
+'customError.code = 404' (outro exemplo de definição/adição de propriedade por nossa conta. É o famoso 'erro 404'.)
+
+
+
+
+
+
+
+VOCÊ SEMPRE PODE USAR 'CONSOLE.DIR(nomeDaConstQueEstáSegurandoOErro) para 
+
+
+VER TODAS AS PROPRIEDADES/MÉTODOS DESSE OBJETO 'ERROR'.
+
+
+
+Sempre veremos '
+                stack:
+                message:'
+
+
+(o resto das propriedades, como 'name' e 'code', são adicionados POR NOSSA CONTA.)
+
+
+-------------------------------------------
+
+
+
+
+É ESSA A ERROR CONSTRUCTOR FUNCTION.
+
+
+
+
+Tudo que você passa como parâmetro ao 'new Error();' É INSERIDO COMO VALOR DA sua propriedade 'message'.
+
+
+
+
+SE VOCÊ FIZER CONSOLE.LOG do erro, O DEVTOOLS NOS DARÁ A MENSAGEM DE ERRO.
+
+
+ex:
+
+
+
+> console.log(customError);
+
+
+VM460:1 Error: Something went wrong
+    at <anonymous>:1:21
+
+
+    ------------------------------
+
+
+
+    CONSOLE.LOG, PORTANTO, IRÁ ACESSAR DIRETAMENTE A PROPRIEDADE 'message' do 
+
+    'Error'...
+
+
+
+
+MAS COM CONSOLE.DIR VOCê SEMPRE PODE ACESSAR O RESTO DAS PROPRIEDADES...
+
+
+
+
+
+
+
+NA VERDADE, 'Error' é COMO QUALQUER OUTRO OBJETO; a única coisa especial acerca dele 
+
+é que VOCÊ PODE JOGÁ-LO (throw it) MELHOR DO QUE OUTROS OBJETOS, PORQUE ELE NOS DÁ 
+
+INFORMAÇÕES EXTRAS, COMO A 'message' e o STACK TRACE (o número da linha que nos lançou o erro).
+
+
+
+
+
+
+O OBJETO 'ERROR' pode ser MUITO ÚTIL PARA CUSTOM ERROR HANDLING...

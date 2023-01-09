@@ -1,0 +1,377 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UMA ÚLTIMA FEATURE IMPORTANTE ACERCA DA SINTAXE IMPORT/EXPORT....
+
+
+
+
+
+
+
+
+SE VOCê TEM UM ELEMENTO 'CORE' QUE É EXPORTADO EM UM ARQUIVO, ou até mesmo um único elemento sendo exportado, 
+
+
+como temos em 
+
+'Component.js', em que APENAS A CLASSE 'component' ACABOU SENDO EXPORTADA...
+
+
+
+
+SE VOCÊ TIVER ESSA SITUAÇÃO, VOCÊ PODE 
+
+OBVIAMENTE 
+
+
+EXPORTÁ-LO DA FORMA NORMAL:
+
+
+
+'export class Component'....
+
+
+
+------------------------------------------
+
+
+
+
+MAS VOCê TAMBÉM PODE NOMEÁ-LA como 
+
+
+
+'DEFAULT EXPORT' desse arquivo....
+
+
+
+
+VOCÊ FAZ ISSO POR MEIO DA ADIÇÃO DA KEYWORD' default' 
+
+DEPOIS da keyword 'export'....
+
+
+
+
+Ex:
+
+
+
+
+export default Component {...};
+
+
+
+---------------------------------------------
+
+
+
+
+PROFESSOR DIZ QUE VOCÊ PODE ___aTÉ OMITIR___ O NOME DESSA CLASSE, agora, POIS 
+
+É EVIDENTE QUE, POR SER O EXPORT 'DEFAULT', ele será A ÚNICA COISA SENDO 
+
+IMPORTADA 
+
+
+NO OUTRO ARQUIVO...
+
+
+
+
+ex:
+
+
+
+
+
+export default class {...}
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+SE FIZERMOS ISSO, NO ARQUIVO IMPORTADO NÓS SÓ TEMOS QUE APONTAR AO ___aRQUIVO____ que contém 
+
+a class/objeto/função que foi EXPORTADO COMO DEFAULT, que ele 
+
+JÁ SERÁ IMPORTADO __AUTOMATICAMENTE___.
+
+(o professor logo logo nos mostrará como esse import acontece...).
+
+
+
+-------------------------------------------------
+
+
+
+
+MAS VOCê TAMBÉM PODE TER 'named exports' junto desse 'default export'...
+
+
+
+Imagine que o professor tem uma função chamada 
+
+'doSomething', a qual ele exportará...
+
+
+Ficaria assim:
+
+
+
+
+ex:
+
+
+
+
+
+
+export function doSomething() {...};
+
+
+
+export default class {...}
+
+
+
+
+
+--------------------------------------
+
+
+
+
+SE EU ESCREVESSE ESSAS LINHAS, NÃO HAVERIA PROBLEMA, eu ainda poderia exportar as 
+
+duas....
+
+
+
+A primeira seria importada POR NOME, especificamente, 
+
+JÁ A SEGUNDA 
+
+
+SERIA EXPORTADA DE CARA, sem chamar o nome específico (justamente pq É O 'DEFAULT EXPORT' desse arquivo)....
+
+
+
+-----------------------------------------------
+
+
+
+
+
+CERTO, MAS COMO DIABOS IMPORTAMOS ALGO COMO 'DEFAULT EXPORT'?
+
+
+
+
+
+primeiramente, cabe ressaltar que ESSE CÓDIGO AQUI NÃO FUNCIONARÁ, se você tentar importá-lo de forma comum...
+
+
+ex:
+
+
+
+
+export default class Component {...} ////aqui, o nome após 'default xxx' É INÚTIL, justamente pq esse elementO JÁ SE TORNOU O DEFAULT EXPORT por meio da keyword 'default'..
+
+
+import { Component } from './scripts/Component.js'; ///////////ISSO NÃO FUNCIONARÁ, POIS AQUELa keyword 'default' transformou o elemento em EXPORT DEFAULT, e essa referência ao nome daquela classe vai falhar, o javascript simplesmente JÁ IGNORA O NOME 'Component' NAQUELE NEGÓCIO QUE FOI EXPORTADO...
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+MAS ENTÃO, COMO PODEMOS DIZER A UM CERTO ARQUIVO QUE ESTAMOS INTERESSADOS NO 
+
+'DEFAULT EXPORT' DE COMPONENT.JS?
+
+
+
+
+
+PROFESSOR DIZ QUE É MT SIMPLES, 
+
+VOCÊ 
+
+
+DEVE USAR 
+
+
+A SINTAXE 
+
+
+'import/from',
+ 
+
+ MAS DESSA VEZ VOCÊ INVENTA UM NOME QUE VOCÊ VAI QUERER DAR ÀQUELE 'DEFAULT EXPORT' dentro desse arquivo em que ele foi importado...
+
+ PODE SER QUALQUER NOME, só para ter e para poder referenciar depois....
+
+
+
+
+ ex:
+
+
+
+
+
+ export default class {...}
+
+
+ -------------------------------
+
+
+import Cmp from './Component.js'; ///////'Cmp', aqui, é o nome que assignamos a esse objeto importado de 'Component.js'...
+
+
+ -------------------------------------
+
+
+
+DETALHE: ESSE 'DEFAULT EXPORT' DEVE SEMPRE SER ESCRITO _______SEM OS CURLY BRACES_________ (sem {})...
+
+
+
+ ISSO VAI DIZER AO JAVASCRIPT QUE, COMO VOCÊ NÃO ENVOLVE ISSO EM CURLY BRACES,
+
+ ESSE NEGÓCIO NOMEADO AQUI DEVERÁ 
+
+ SER O DEFAULT EXPORT DAQUELE ARQUIVO QUE FOI EXPORTADO...
+
+ ____ESSA SINTAXE SÓ FUNCIONA____ SE O ARQUIVO IMPORTADO TIVER REALMENTE UM 'DEFAULT EXPORT'...
+
+
+
+
+ ---------------------------------------------
+
+
+
+
+ Você certamente pode usar essa feature, 
+
+ MAS ELA TEM UMA PEQUENA DESVANTAGEM:
+
+
+
+
+
+ Como você tem que RENOMEAR o seu elemento/objeto/classe/função/variável quando 
+
+ você o importa, SE VOCÊ TRABALHA EM UMA EQUIPE,
+
+ CADA TEAMMEMBER TALVEZ TENHA SEU PRÓPRIO 
+
+ 'NAMING CONVENTION',
+
+
+
+E aí você pode acabar COM CÓDIGO QUE USA DIFERENTES 
+
+NAMING CONVENTIONS...
+
+
+
+
+É por isso que usar NAMED EXPORTS às vezes é melhor, porque 
+
+todos se obrigam a usar aqueles nomes, e aí não ficam mudando tudo constantemente 
+
+por meio dessa sintaxe do 'default export'......
+
+
+
+
+
+CERTO, MAS QUAL É A SINTAXE PARA IMPORTAR 
+
+'DEFAULT EXPORT' E 'NAMED EXPORTS' ao mesmo tempo...?
+
+
+
+
+Professor diz que é simples:
+
+
+
+você só tem que 
+
+
+escrever primeiro o 'default export', SEM CURLY BRACES, 
+
+seguido dos NAMED EXPORTS, dentro de curly braces...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+export default class {...} 
+
+
+export function doSomething() {...}
+
+
+import Cmp, { doSomething } from './scripts/Component.js';  ///////////É ASSIM QUE FICA A SINTAXE.
+
+
+
+-----------------------------------------
+
+
+PORTANTO, VOCÊ PODE 
+
+
+TER OS DEFAULT E NAMED EXPORTS IMPORTADOS AO MESMO TEMPO....
+
+
+
+
+
+OBS---> VOCÊ SÓ PODE TER UM ÚNICO 'DEFAULT EXPORT' por arquivo, não é possível ter mais de um.

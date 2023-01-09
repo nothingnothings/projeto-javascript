@@ -1,0 +1,789 @@
+
+
+
+
+
+
+
+CERTO.
+
+
+
+VIMOS MUITAS COISAS SOBRE PRECISÃO E NÚMEROS...
+
+
+
+
+
+Mas é importante entender  ENTENDER TUDO ISSO.
+
+
+
+
+
+
+Em versões modernas do javascript, há, na verdade, uma alternativa 
+
+AO 'NÚMERO NORMAL'... (os números com os quais trabalhamos toda hora).
+
+
+
+
+
+
+ESSA ALTERNATIVA É O 
+
+
+'BIG INTEGER'... 
+
+
+
+
+
+O TIPO 'big integer' É UM VALOR __PRIMITIVO___ (e não referencial), 
+
+
+E O SEU OBJETIVO É PERMITIR A VOCÊ REPRESENTAR NÚMEROS 
+
+
+QUE SÃO SUPERIORES AO 'MAX_SAFE_INTEGER' (maximum safe integer)...
+
+
+
+('Number.MAX_SAFE_INTEGER' ----> output =  9007199254740991)
+
+
+
+
+
+OU SEJA, UM NÚMERO SUPERIOR A ESSE.
+
+
+
+
+SE você , por exemplo, quisesse representar um número 
+
+
+SUPERIOR A ESSE....
+
+
+por exemplo, um '9' EXTRA AO FINAL DELE...
+
+
+se você fizesse isso de forma 'crua', vocÊ 
+receberia um número completamente diferente no console:
+
+
+ex:
+
+90071992547409919
+
+
+
+OUTPUT = 
+
+90071992547409920
+
+
+
+----------------------------
+
+
+
+
+ISSO É DEVIDO ÀQUILO QUE JÁ VIMOS, DEVIDO AO FATO DE QUE O JAVASCRIPT TRABALHA APENAS COM 
+
+64 BITS, e com esse 9 no final excederíamos esse limite, e o javascript 
+
+CORTARIA O NÚMERO EM UM CERTO PONTO e mostraria um diferente número (20, nesse caso).
+
+
+
+
+
+
+UM 'BIGINT' pode nos ajudar com isso.
+
+
+
+
+
+VOCÊ CRIA UM BIGINT SIMPLESMENTE PELA ADIÇÃO DE um 
+
+'n' NO FINAL DO SEU NÚMERO...
+
+
+
+
+
+
+ex:
+
+
+
+
+(número maior que o MAX_SAFE_INTEGER)
+90071992547409919
+
+
+-------->
+
+
+
+
+90071992547409919n
+
+
+----------------------------------
+
+
+
+
+
+SE VOCÊ DIGITAR ISSO COM o 'n' no final no devtools console, 
+
+
+VOCê VERÁ QUE O OUTPUT DO CONSOLE SERÁ DIFERENTE, TERÁ UMA 
+
+COR 'VERDE'...
+
+
+
+a cor será verde pq isso representa que ESSE NÚMERO É DE UM DIFERENTE TIPO...
+
+
+o '90071992547409919n', essa marcação, 
+
+
+MANTÉM O VALOR DESSE NÚMERO...
+
+
+
+GRAÇAS A ISSO, PODEMOS REPRESENTAR NÚMEROS ARBITRARIAMENTE GRANDES 
+
+
+COMO 
+
+
+
+9007199254740991912515215151510521125215897n 
+
+
+
+
+----------------------------
+
+
+
+Somos capazes de fazer isso pq, internamente, isso é 
+
+ADMINISTRADO __DIFERENTEMENTE___ dos números comuns...
+
+
+
+ESSES VALORES com 'n' no final não são administrados como 
+
+FLOATING POINT NUMBERS de 64 bits, e sim, no final das contas, 
+
+COMO ____STRINGS_____.
+
+
+
+E O JAVASCRIPT FAZ TODO O TRABALHO SUJO DE CONVERTER ESSE NÚMERO POR AÍ quando 
+
+você o utiliza em cálculos...
+
+
+--------------------------
+
+
+OU SEJA, O 'BigInt' PODE SER ÚTIL SE VOCÊ ESTÁ TRABALHANDO COM NÚMEROS MUITO LARGOS...
+
+
+É evidente que ele funciona TAMBÉM COM NÚMEROS NEGATIVOS...
+
+
+-------------------------
+
+
+Mas tenha em mente que NÃO HÁ CÁLCULO DE FLOATING POINTS COM BIGINTS, 
+
+OU SEJA, QUE NÃO HÁ COMO FAZER CÁLCULOS/REPRESENTAÇÕES DE NÚMEROS COM 
+
+DECIMAIS com essa notação 'bigint'...
+
+
+ex:
+
+
+
+
+9007199254740991912515215151510521125215897.25125152n  ------------> ISSO VAI TE DAR UM ERRO, 
+
+
+PORQUE VOCÊ ESTÁ TENTANDO REPRESENTAR/CALCULAR UM 'bigInt' COM CASAS DECIMAIS (floating point number).
+
+
+
+
+'UncaughtSynthaxError: Invalid or unexpected token'...
+
+
+----------------------------------------
+
+
+
+CHAMA-SE 'BigInt' PQ ELE SÓ FUNCIONA COM INTEGERS....
+
+
+
+é perfeito para trabalhos com INTEGERS BEM LARGAS....
+
+
+----------------------------
+
+
+É evidente que você pode representar números menores com 
+bigInt, como 
+
+
+'10'.
+
+ex:
+
+10n.
+
+
+----------------------------
+
+
+
+A QUESTÃO É SE ISSO FAZ ALGUM SENTIDO... não faz sentido pq NÚMEROS 
+
+BIGINT SÓ PODEM PARTICIPAR DE CÁLCULOS COM OUTROS NÚMEROS BIGINT...
+
+
+
+ex:
+
+
+
+10n - 4  ----------> ISSO NOS DARÁ UM ERRO, pois o 10 é um BigInt, e o 4, não.
+
+
+
+ERRO É 
+
+
+'Uncaught TypeError: Cannot mix BigInt and other types, use explicit conversions'...
+
+
+-----------------------------------------------------------------
+
+'use explicit conversions' ---> isso quer dizer que você TERIA DE CONVERTER O '4' em um BIGINT antes de poder utilizá-lo em cálculos com '10n'...
+
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+OUTRA DICA:
+
+
+
+
+Você pode converter números 'bigInt' por meio da expressão 'parseInt'....
+
+
+
+ex:
+
+
+parseInt(10n) -------------> ISSO TRANSFORMARÁ o '10n' EM 10....
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+VOCÊ TAMBÉM PODE CONVERTER NÚMEROS NORMAIS EM 'BigInt' POR MEIO 
+
+DA FUNCTION CALL DE 'BigInt'...
+
+
+
+ex:
+
+
+
+10n - BigInt(4);   //////ESSE 'BigInt()' VAI CONVERTER O '4' em '4n'...
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+Professor diz que devemos usar 'BigInt(número)', e não 
+
+
+'new BigInt()' (são coisas diferentes).
+
+
+-------------------------------------------
+
+
+
+ESSA É A MANEIRA PELA QUAL PODEMOS CONVERTER NÚMEROS EM BIGINTS E VICE-VERSA, 
+
+e como podemos utilizá-los em diversos cálculos.
+
+
+
+
+É CLARO QUE CONVERSION (de números/big integers) SÓ é NECESSÁRIA SE VOCÊ PRECISAR 
+
+MISTURAR OS TIPOS NO SEU CÓDIGO;
+
+
+
+
+
+
+SE VOCÊ, POR EXEMPLO, TEM UMA BIG INTEGER E QUER MÚLTIPLICÁ-LA POR UMA OUTRA 
+
+BIG INTEGER, nada te impede de simplesmente fazer 
+
+
+10n * 4n, por exemplo.
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+UM DETALHE IMPORTANTE:
+
+
+
+se você DIVIDIR UM BIGINT, como casas decimais 
+
+NÃO PODEM SER REPRESENTADAS com bigInt, O JAVASCRIPT 
+
+VAI SIMPLESMENTE ___OMITI-LAS____....
+
+
+
+
+
+ex:
+
+
+
+'5n/2n' ---> RENDERÁ '2n' COMO OUTPUT NO DEVCONSOLE....
+
+
+------------------------------------
+
+
+
+e se eu digitar '2.5n' no console??? ---------> ERRO:  'Uncaught SyntaxError: Invalid or unexpected token'
+
+
+
+
+ESSA É A BIGINTEGER; não é um data type que você utilizará 
+
+todos os dias, mas que pode ser bem útil se você tem dados com números grandes....
+
+
+
+-------------------------------
+
+
+
+
+
+OS OBJETOS GLOBAIS 
+
+
+'Math' e 'Number'...
+
+
+--------------------------
+
+
+
+Agora que aprendemos sobre números e bigInt, antes de avançarmos até as 
+
+STRINGS, DEVEMOS DAR UMA OLHADA NESSES 2 OBJETOS GLOBAIS....
+
+
+
+
+---------------------------
+
+
+
+
+Nós já utilizamos algumas das features desses objetos em alguns projetos de javascript....
+
+
+
+
+AGORA O PROFESSOR APENAS QUER DAR UMA SEGUNDA EXAMINADA NELES, nos ensinar mais algumas coisas.
+
+
+
+
+ex:
+
+
+
+
+'Number'...
+
+
+
+--> propriedades:
+
+
+'MAX_SAFE_INTEGER'
+
+
+'MAX_VALUE' 
+
+
+'MIN_SAFE_INTEGER'
+
+
+'MIN_VALUE'
+
+
+----------
+
+
+
+
+TAMBÉM TEMOS 'NEGATIVE_INFINITY' e 'POSITIVE_INFINITY'...
+
+
+
+
+ESSES SÃO VALORES ESPECIAIS EM JAVASCRIPT, os quais você pode 
+
+digitar também na sua forma simples 
+
+
+ex:
+
+
+'Infinity' no javascript é a mesma coisa QUE 'Number.POSITIVE_INFINITY'...
+
+
+
+
+--------------------------------------------------------
+
+
+
+ex:
+
+
+'-Infinity' É A MESMA COISA QUE 'Number.NEGATIVE_INFINITY'.
+
+
+-------------------------------------
+
+
+
+
+
+ESSE (o infinity positivo) É O VALOR QUE VOCê CONSEGUE AO 
+
+DIVIDIR 1 POR 0 (1/0) no javascript....
+
+
+ex:
+
+
+
+1/0 
+
+
+--> console nos outputta 'Infinity'.
+
+-------------------------------------
+
+
+
+OU SEJA, NÓS NÃO RECEBEMOS UM ERRO, E SIM 'INFINITY'....
+
+
+
+Recebemos 'infinity' pq o javascript basicamente APROXIMA O RESULTADO '1/0'...
+
+
+
+INFINITY É UM VALOR ESPECIAL QUE VOCÊ PODE CONSEGUIR NO JAVASCRIPT....
+
+
+VOCÊ TAMBÉM PODE CHECAR POR 'INFINITY' EM LUGARES EM QUE VOCÊ PRECISA 
+
+DE 'true'/'false'...
+
+
+--------------------------------
+
+
+
+PARA ISSO, VOCÊ POSSUI O MÉTODO '.isFinite()', QUE TAMBÉM RESIDE NO 
+
+OBJETO 'Number'...
+
+
+
+(MAS ESSE MÉTODO TAMBÉM EXISTE NO OBJETO GLOBAL 'Object'....).
+
+
+
+
+
+
+ex:
+
+
+
+
+Number.isFinite(10)
+
+
+
+
+
+-->output = 'true'.
+
+
+
+------------------------------------------------
+
+
+
+
+A ESSE MÉTODO 'isFinite' VOCê PASSA UM PARÂMETRO, COMO POR EXEMPLO O NÚMERO '10'... 
+
+o método retornará 'true' se esse valor for finito, e 'false' se ele for infinito.
+
+
+
+
+
+ex:
+
+
+
+Number.isFinite(Infinity);
+
+
+---> retorna 'false'...
+
+
+
+----------------------------------------------
+
+
+
+'Number.isFinite' PODE SER ÚTIL...
+
+
+
+
+TAMBÉM JÁ VIMOS O MÉTODO 
+
+
+
+'.isNaN' ('is not a number'...)
+
+
+
+
+ex:
+
+
+
+
+Number.isNaN() ---------------> ESSE MÉTODO TAMBÉM EXISTE GLOBALMENTE.
+
+Number.isNaN(123) -----> RETORNA 'false', pois esse número não é 'not a number' (NaN).
+
+
+------------------------------------------------
+
+
+
+
+
+Também temos 
+
+
+'.parseInt()' e 'parseFloat()',  QUE TAMBÉM EXISTEM GLOBALMENTE....
+
+
+
+
+------------------------------------------------
+
+
+
+O OBJETO 'Number' é esse, basicamente.
+
+
+
+
+
+
+MAIS INTERESSANTE DO QUE 'NUMBER' É O objeto 'Math'....
+
+
+
+---------------------------------------
+
+
+Em 'Math', nós temos diversos métodos e constantes/propriedades 
+
+que NOS AJUDAM COM OPERAÇÕES MATEMÁTICAS.
+
+
+
+
+
+
+Você tem o valor para o número 'E',  A propriedade Math.E representa a base dos logarítmos naturais, aproximadamente 2.718. \mathtt{\mi{Math.E}} = e \approx 2.718
+
+
+para o PI, e para outras constantes.
+
+
+'Mat.PI'
+
+
+-------------------------------
+
+
+
+VOCÊ TAMBÉM TEM MÉTODOS PARA  CALCULAR RAÍZES QUADRADAS:
+
+
+'Math.sqrt'
+
+
+E PARA CALCULAR COSSENOS/SENOS, TANGENTES, ETC...
+
+
+ex:
+
+
+'Math.sin'
+
+
+
+-----------------------------
+
+
+
+TAMBÉM TEMOS O MÉTODO 
+
+'Power of' (potência de alguma coisa).
+
+
+EX:
+
+
+'Math.pow(2, 53)'...
+
+----------------------------
+
+
+
+
+TAMBÉM TEMOS O MÉTODO '.abs', que nos dá um NÚMERO ABSOLUTO BASEADO NAQUELE PARÂMETRO QUE VOCÊ PASSOU.
+
+
+
+ex:
+
+
+
+'Math.abs(-5);'
+
+
+
+output ---> '5'.
+
+
+
+----------------------------------
+
+
+
+
+TAMBÉM TEMOS O MÉTODO 'Math.random()', QUE PODE 
+
+
+SER MUITO CONVENIENTE.
+
+
+
+------------------------------------
+
+
+
+
+Devemos estudar esses métodos.
+
+
+Sempre que tivermos uma operação matemática no seu código, podemos 
+
+usar o objeto 'Math' para encontrar essa operação.
+
+
+
+ex:
+
+
+Math.cbrt(x)
+Retorna a raiz cúbica de um número (\root{3}{x}).
+
+
+
+Math.max([x[,y[,…]]])
+Retorna o maior dentre os parâmetros recebidos.
+Math.min([x[,y[,…]]])
+Retorna o menor dentre os parâmetros recebidos.
+
+
+
+
+Math.round(x)
+Retorna o valor arrendodado de x, para o valor inteiro mais próximo.
+
+
+
+
+
+Math.toSource()
+Retorna a string "Math".
+Math.trunc(x)
+Retorna a parte inteira de x, removendo quaisquer dígitos fracionários.

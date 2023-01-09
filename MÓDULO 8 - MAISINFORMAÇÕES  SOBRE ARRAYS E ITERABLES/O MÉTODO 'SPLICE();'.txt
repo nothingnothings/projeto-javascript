@@ -1,0 +1,286 @@
+O professor mencionou o método "splice()".
+
+Agora vamos entender do que se trata.
+
+Ele nos ajuda a inserir elementos no meio de outros 2 elementos.
+
+
+ex:
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+---------------------------------------------
+
+
+
+Na verdade, o professor explica, o método SPLICE é um MÉTODO EXTREMAMENTE ÚTIL
+QUE NOS PERMITE FAZER UM MONTÃO DE COISAS COM ARRAYS.
+
+
+
+Vamos começar com aquele caso concreto de tentar adicionar alguma coisa 
+entre 2 elementos prévios.
+
+
+OBS: IMPORTANTE!!! SPLICE SÓ FUNCIONA COM ARRAYS DE VERDADE; ELE INEXISTE EM 
+ARRAYLIKE OBJECTS, E INEXISTE EM ITERABLES. Splice geralmente é uma 
+das potenciais razões para você querer converter um arraylike object/ITERABLE 
+em um array de verdade (com "Array.from();" ).
+
+-----------------------------------------
+
+ex:
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+hobbies.splice();
+
+
+--------------------------------
+
+
+
+Mas como splice funciona?
+
+
+
+"SPLICE" RECEBE ___NO MÍNIMO___ 2 ARGUMENTOS. Entretanto, HÁ UMA VERSÃO 
+ALTERNATIVA QUE RECEBE MAIS ARGUMENTOS.
+
+Há 2 diferentes versões dessa poderosa função.
+
+
+
+Na versão com 2 argumentos, você ESPECIFICA UM "INDEX INICIAL" (start index), que 
+obviamente é zero-based. Depois disso, você deve 
+especificar o NÚMERO DE ELEMENTOS QUE VOCÊ QUER DELETAR PARTINDO DAQUELE INDEX.
+
+Professor diz que não queremos deletar coisa alguma de "hobbies", não é mesmo?
+
+
+Diz que devemos colocar "0 e 0", pois não queremos deletar nada nesse exemplo.
+Em vez de querermos deletar algo, queremos inserir um elemento no meio de outros 2 
+já existentes. Para fazer isso, precisamos usar A SEGUNDA VERSÃO DE SPLICE ("the second version comes into play").
+
+
+
+2a versão= para utilizá-la, devemos adicionar MAIS ARGUMENTOS.
+
+ex:
+
+
+hobbies.splice(0, 0, ...); //----------> Assim que você adiciona a segunda vírgula, você já está ativando a 2a versão de splice, que te deixa adicionar argumentos indefinidamente depois dos 2 primeiros. Todos esses argumentos colocados DEPOIS DA SEGUNDA VÍRGULA vão ser ____INSERIDOS___ NO LUGAR QUE VOCÊ MANDOU DELETAR (OU NÃO), POR MEIO DOS PRIMEIROS 2 ARGUMENTOS.
+
+
+
+
+ex:
+
+const hobbies = ['Sports', 'Cooking'];
+
+hobbies.splice(0, 0, 'Good Food');
+
+
+console.log(hobbies);
+
+
+------> O CONSOLE VAI NOS RETORNAR:
+
+["Good Food", "Sports", "Cooking"]; ---> A STRING "GOOD FOOD" FOI ADICIONADA AO INÍCIO, POIS ESPECIFICAMOS NO MÉTODO SPLICE os valores 0 (início no indexador 0, seleciona o indexador 0) e 0 (deletar 0 elementos a partir do indexador 0) e "Good Food" (inserir esse elemento no lugar onde deletamos/não deletamos os elementos prévios).
+
+
+--------------------------------
+
+
+
+
+Outro ex:
+
+const hobbies = ['Sports', 'Cooking'];
+
+hobbies.splice(0, 1, 'Good Food');
+
+console.log(hobbies);
+
+
+------> O CONSOLE VAI NOS RETORNAR:
+
+(2) ["Good Food", "Cooking"]; (deletamos o primeiro elemento desse array e inserimos good food no seu lugar)
+
+
+--------------------------------------
+
+
+outro ex:
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+
+hobbies.splice(1, 1, 'Good Food');
+
+console.log(hobbies);
+
+
+------> O CONSOLE VAI NOS RETORNAR:
+
+
+(2) ["Sports", "Good Food"];
+
+
+----------------------------------------
+
+
+
+outro ex:
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+
+hobbies.splice(1, 0, 'Good Food');
+
+console.log(hobbies);
+
+
+------> O CONSOLE VAI NOS RETORNAR:
+
+
+(2) ["Sports", "Good Food", "Cooking"]; // (ESSA É A VERSÃO QUE FAZ VOCÊ INSERIR O ELEMENTO NO MEIO DE OUTROS DOIS JÁ EXISTENTES).
+
+
+
+
+
+1o argumento --> onde splice deve começar a procurar
+
+
+
+2o argumento --> quantos elementos ele deve deletar partindo desse lugar/indexador.
+
+
+3o argumento/4o/5o... ---> elementos que ele deve inserir naquele lugar indicado no 1o argumento.
+
+
+
+--------------------------
+
+É assim, basicamente, que splice funciona. É claro que você também pode utilizá-lo para deletar items.
+
+
+
+--------------------------
+
+OUTRO TRUQUE:
+
+
+SPLICE com o argumento 0 ("splice(0);") VAI ____DELETAR_____ TODOS OS ELEMENTOS QUE ESTÃO DENTRO DE UM ARRAY.
+
+ex: 
+
+hobbies.splice(0);
+
+
+
+VocÊ também pode fazer com que todos os elementos, exceto alguns, sejam deletados:
+
+ex:
+
+
+hobbies.splice(1); //------------> ISSO VAI FAZER COM QUE TODOS OS ELEMENTOS QUE NÃO SEJAM O INICIAL (com o indexador 0) NESSE ARRAY SEJAM DELETADOS. Todos os elementos que vêm depois.
+
+
+-------------------------------------
+
+
+Tipicamente, você usa a versão de 2 argumentos de splice, a versão que te deixa 
+especificar quantos elementos que você quer deletar. Entretanto, é evidente que 
+existem use cases em que você vai querer usar o splice(0), casos em que você 
+vai querer limpar o array inteiro.
+
+
+
+Além disso, splice também vai RETONAR ALGUMA COISA. ELE SEMPRE RETORNA 
+OS ELEMENTOS QUE SÃO REMOVIDOS. Ele retorna os elementos removidos ____PARA QUE ELES NÃO SEJAM PERDIDOS___, PARA QUE __NÃO SEJAM__ ATIRADOS__ NO VÁCUO__.
+
+
+ex:
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+
+const removedElements = hobbies.splice(0, 1);
+
+
+------------> Essa constante removedElements vai acabar segurando o valor da string 'Sports'.
+
+
+
+-------------------------
+
+
+
+Essa função de return dos elementos removidos existe para casos em que você deseja 
+fazer algo com os elementos que foram removidos.
+
+-----------------------------------
+
+
+Outra coisa interessante sobre splice(); :
+
+
+ESSE MÉTODO FUNCIONA COM INDEXES NEGATIVOS.
+
+ex:
+
+
+const removedElements = hobbies.splice(-1, 1);
+
+
+
+-------------------------------------
+
+Se você especificar um index negativo, o que o splice vai fazer é ir até 
+ o final do array E ENTÃO ___OLHAR___ DA____ DIREITA___ PARA___ A ____ ESQUERDA.
+ELE VAI PROCURAR OS ELEMENTOS PELO SENTIDO INVERSO.
+
+ex:
+
+
+const hobbies = ['Sports', 'Cooking'];
+
+hobbies.splice(-1, 1); ---> Isso vai remover 'Cooking', o ÚLTIMO ELEMENTO DESSE ARRAY. Vai remover cooking porque começa a contagem do lado oposto.
+
+
+-1 = último elemento do array 
+
+
+-2 = penúltimo elemento do array 
+
+-3 = antepenúltimo elemento do array, etc etc.
+
+
+
+----------------------------------------------
+
+ESSES INDEXES NEGATIVOS SÓ SÃO PERMITIDOS AO MÉTODO SPLICE.
+
+
+Os indexes negativos não são permitidos para acessar dados em arrays, etc.
+
+ex:
+
+
+hobbies[-2]; ---> ISSO NÃO FUNCIONA. Vai te dar "undefined".
+
+----------------------------------------
+
+
+
+Indexes negativos são exclusivos ao método splice (e mais alguns outros métodos).
+
+
+LEMBRE-SE: SPLICE SÓ FUNCIONA COM ARRAYS; NÃO FUNCIONA COM ARRAY-LIKE OBJECTS.

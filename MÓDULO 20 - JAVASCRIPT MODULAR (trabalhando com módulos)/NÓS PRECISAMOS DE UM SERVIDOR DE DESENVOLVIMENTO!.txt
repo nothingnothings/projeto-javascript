@@ -1,0 +1,556 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MAS DE ONDE ESSE ERRO 
+
+
+
+
+Access to script at 'file:///C:/projeto/M%C3%93DULO%2020%20-%20JAVASCRIPT%20MODULAR%20(trabalhando%20com%20m%C3%B3dulos)/scripts/App/app.js' from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, chrome-untrusted, https.
+
+
+
+
+
+
+ESTÁ VINDO?
+
+
+
+
+
+
+
+O que ele significa?
+
+
+
+
+
+
+
+
+MODULES SÃO UMA FEATURE RELATIVAMENTE MODERNA... --->
+
+
+
+como você pode imaginar, como os scripts aqui VAO APONTAR 
+
+PARA OUTROS SCRIPTS que vao ser importados,
+
+
+
+
+AQUI NÓS TEMOS DE SER RIGOROSOS QUANTO AO ASPECTO DA 
+
+
+
+______sEGURANÇA_____.
+
+
+
+DEVEMOS NOS ASSEGURAR DE QUE UM SCRIPT NÃO CONSIGA IMPORTAR 
+
+
+UM SCRIPT DE OUTRA PÁGINA que possa ser maliciosa.
+
+
+
+
+
+'MAS PQ EU ADICIONARIA UM SCRIPT DESSES NO MEIO DOS MEUS SCRIPTS?'
+
+
+
+
+
+bem, se você estiver usando third party libraries, 
+
+
+UMA LIBRARY PODE ESTAR FODIDA E PODE TENTAR carregar 
+
+scripts maliciosos que baixarão 
+
+arquivos ruins de outros sources....salva
+
+
+
+
+
+É POR ISSO QUE 
+
+
+TEMOS 
+
+
+uma 
+
+
+
+
+'CROSS ORIGIN REQUEST POLICY'   (é o 'CORS policy'.)
+
+
+
+
+
+ISSO BASICAMENTE SIGNIFICA 
+
+
+
+'cross-origin' ---> ''REQUESTS ATRAVÉS DE DOMÍNIOS'' NÃO SÃO PERMITIDOS... ----> APENAS É PERMITIDO A VOCê ___BAIXAR____ SCRIPTS__ DE UM MESMO DOMÍNIO...(domain), DO MESMo DOMAIN em que sua página está rodando....
+
+
+
+
+
+
+
+O PROBLEMA AQUI, NO NOSSO EXEMPLO, 
+
+
+É QUE 
+
+ESTAMOS 
+
+
+FAZENDO 'SERVE' 
+
+desses arquivos 
+
+
+
+.JS 
+
+
+POR MEIO DO 
+
+
+_______fILE PROTOCOL___ (pq estamos simulando um servidor).
+
+
+
+
+LEMBRE-SE:
+
+
+
+o que sempre fizemos até agora foi clicar 2x em index.html no WINDOWS explorer...
+
+
+
+
+ISSO abre a página no browser, 
+
+mas não é a mesma coisa que abrir a página por meio de um servidor.
+
+
+
+
+
+
+
+
+ELE APENAS ABRE COM O FILE PROTOCOL..., quando abrimos assim...
+
+
+
+
+
+
+
+
+
+ISSO ATÉ AGORA NÃO FOI UM PROBLEMA, POIS UM MONTE DAS FEATURES 
+
+DE javascript funcionam ok com o file protocol,
+
+
+MAS FEATURES DEPENDENTES DE WEBSERVICE ___NÃO FUNCIONAM___ COM O FILE PROTOCOL...
+
+
+
+
+
+essa policy chinelo REQUER QUE A PÁGINA SEJA 
+
+SERVIDA (served) DE UM SERVIDOR WEB REAL 
+
+para que seja validado.
+
+
+
+
+
+E, PORTANTO, PRECISAMOS SERVIR A NOSSA PÁGINA POR 
+
+
+MEIO DE UM WEB SERVER, e não por meio do 
+
+'file protocol'...
+
+
+
+
+ISSO PODE PARECER DIFÍCIL:
+
+
+pode parecer que temos que criar nosso próprio servidor,
+
+hosteado em algum lugar, talvez pagar por ele...
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+SE VOCÊ PROCURAR POR 'SERVE JS' no google, 
+
+
+
+você encontrará 
+
+
+uma página 
+
+
+
+chamada 
+
+
+
+'serve' 
+
+
+
+no site 
+
+
+
+www.npjms.com/package/serve.
+
+ 
+
+
+ -----------------------------------
+
+
+
+
+
+
+
+NPM É AQUELE SITE QUE VIMOS NO MÓDULO DE 'THIRD PARTY LIBRARIES'...
+
+
+
+
+
+COM 'serve', você 
+
+GANHA UM WEB SERVER BÁSICO
+
+
+
+QUE VOCÊ PODE BAIXAR E INSTALAR NO SEU SISTEMA.... (e executar nele tbm)
+
+
+
+
+ESSE 'serve js' 
+
+
+te deixA NÃO PRECISAR SE PREOCUPAR COM SERVIDORES,
+
+não precisa alugar nada, 
+
+
+
+
+ele cria um PEQUENO SERVIDOR NA SUA MÁQUINA....
+
+
+
+e esse servidor RODARÁ O SEU APLICATIVO...
+
+
+Para instalá-lo,
+
+
+
+
+precisamos instalar NODE.JS....
+
+----------------------------
+
+
+NÓS NÃO USAMOS NODE.JS ATÉ AGORA, 
+
+
+e teremos um módulo sobre ele,
+
+
+
+MAS NÓS NÃO TEREMOS DE ESCREVER QUALQUER CÓDIGO 'NODE.JS' AGORA....
+
+
+
+
+
+
+-----> SÓ PRECISAMOS INSTALAR O NODE.JS RUNTIME na nossa máquina...
+
+
+precisamos do runtime de node.js pq 
+
+aquele serve js USA 
+
+O NODE.JS, foi escrito em node.js
+
+
+
+
+
+
+ALÉM DISSO, NODE.JS NOS DARÁ UMA FERRAMENTA A QUAL PODEREMOS UTILIZAR 
+
+
+PARA INSTALAR ESSA FERRAMENTA DO 'SERVE js'...
+
+
+
+
+2 COELHOS EM UMA CAJADADA SÓ.
+
+
+
+
+DEPOIS QUE VOCÊ TEM O NODE.JS,
+
+
+
+
+
+VOCÊ DEVE INSTALAR O serve js...
+
+
+
+
+Isso feito, você deve 
+
+
+
+ABRIR O __TERMINAL__/COMMAND PROMPT do seu sistema....
+
+
+
+
+
+aí você vai lá e digita 
+
+
+
+npm install -g serve
+
+
+(OBS: '-g' SIGNIFICA 'GLOBAL'...)
+
+
+
+-----------------------------------------------
+
+
+
+
+DIGITE ENTER.
+
+
+
+
+Talvez te peçam um PASSWORD.
+
+
+
+ISSO FEITO, SERÁ INSTALADO O SERVE JS GLOBALMENTE NO SEU PC...
+
+
+
+
+---> NODE.JS VEM COM SEU PRÓPRIO 'PACKAGE MANAGEMENT SYSTEM' , o qual 
+
+estudaremos no módulo 'tooling'... ------> 
+
+ESSE SISTEMA GERENCIA PACKAGES com base em 'projeto-por-projeto' (project per project basis)
+
+
+E TAMBÉM 
+
+
+EM UMA 
+
+'GLOBAL BASIS' (que é o que estamos fazendo agora, instalando um projeto em uma GLOBAL basis).
+
+
+
+
+
+
+ESSA PACKAGE AGORA É DISPONÍVEL EM NOSSA MÁQUINA INTEIRA...
+
+
+
+
+
+
+AGORA, DENTRO DO NOSSO PROJETO, PODEMOS 
+
+
+ABRIR UM TERMINAL (que é navegado PARA DENTRO DESSE PROJETO...)....
+
+
+
+
+
+View --> terminal ----> 
+
+abre um terminal (é o system terminal/command prompt, por default ) ---> MAS 
+
+
+O VISUAL STUDIO CODE É DEMAIS: ele já navega para dentro do folder do seu projeto, o que é muito conveniente.
+
+
+
+
+
+
+AGORA, COM 
+
+'serve' INSTALADO, VOCÊ PODE 
+
+
+SIMPLESMENTE DIGITAR 'serve', QUE 
+
+ISSO AUTOMATICAMENTE PROCURARÁ
+
+
+O ARQUIVO 'INDEX.HTML' DESSE SEU FOLDER E ENTÃO 
+
+'serví-lo' nesse 
+
+
+'dummy web server'...
+
+
+
+
+
+
+-------> E, DE FATO, APARECE UMA PEQUENA JANELINHA, no terminal, com 
+
+
+
+"serving! 
+
+
+
+-LOCAL   http://localhost:5000
+
+- On Your Network: http://192.168.0.12:5000
+
+
+
+'
+
+
+------------------------------------------
+
+
+
+
+ESSE NEGÓCIO TE DÁ 
+
+
+
+o ENDEREÇO QUE VOCê PRECISA COLOCAR NO BROWSER PARA VISUALIZAR O SEU PROJETO ('localhost:5000').
+
+
+
+------------------------------------------------
+
+
+
+
+SE VOCÊ COLOCAR ESSE ENDEREÇO E ENTÃO VISUALIZAR A SUA PÁGINA,
+
+TEREMOS A MESMA PÁGINA DE ANTES, MAS AGORA 
+
+
+AQUELE ERRO DO 'CORS' não sei oq TERÁ 
+
+___SUMIDO____. (pois resolvemos aquela coisa do 'cross imports' ou whatever) ----->
+
+
+Aquela coisa do 'CORS' é administrada pelo 'serve js' POR TRÁS DAS CENAS,
+
+
+É ELE QUE FAZ ESSE NEGÓCIO TODO FUNCIONAR...
+
+
+E AGORA PODEMOS USAR MÓDULOS!
+
+
+
+
+
+AGORA APENAS PRECISAMOS CONSERTAR NOSSOS MÓDULOS 
+
+
+E ASSEGURAR QUE CONSIGAMOS 
+
+UTILIZAR AQUELE 'Component' (a classe Component) que ESTÁ SENDO EXPORTADO...
+
+
+
+
+
+
+
+
+NOTA IMPORTANTE: VOCÊ 
+
+
+DEVE MANTER ESSE PROCESSO DO TERMINAL RODANDO...
+
+
+
+você sempre pode QUITAR com control + C ou
+ 
+ control + D...
+
+
+
+
+
+
+ VocÊ só poderá visitar essa nossa página enquanto esse processo estiver rodando...
+
+
+
+
+
+ 

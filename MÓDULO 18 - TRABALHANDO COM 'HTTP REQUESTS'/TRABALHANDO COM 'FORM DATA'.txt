@@ -1,0 +1,1414 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ALÉM DE DIFERENTES MANEIRAS DE ENVIAR HTTP REQUESTS, NÓS TAMBÉM PODEMOS 
+
+
+ENVIAR DIFERENTES DADOS.... (em teoria, pelo menos.... PQ SEMPRE DEPENDE DO SERVIDOR )...
+
+
+
+
+O ENVIO DE DADOS SEMPRE DEPENDE DO SERVIDOR AO QUAL VOCê ESTÁ ENVIANDo o request, E 
+
+DA URL À QUAL VOCÊ ESTÁ O ENVIANDO... 
+
+
+
+1) qual url 
+
+
+
+2) QUAL TIPO DE DADOS O SERVIDOR ACEITA....
+
+
+
+
+---------------------------------
+
+
+
+
+
+EX:
+
+
+o nosso 'dummy server' de jsonplaceholder 
+
+
+
+
+SÓ ACEITA JSON DATA...
+
+
+
+
+OU SEJA, 
+
+QUANDO NÓS 
+
+ADICIONAMOS DADOS PARA CRIAR 
+
+
+UM 'FAKE POST', 
+
+NÓS SOMOS OBRIGADOS A ADICIONAR DADOS JSON/CONVERTER 
+
+DADOS JAVASCRIPT EM JSON EM NOSSO CÓDIGO...
+
+
+
+
+
+OU SEJA, 
+
+
+O SERVIDOR fake, aqui apresentado, 
+
+NÃO ACEITA NENHUM OUTRO TIPO DE DATA...
+
+
+
+
+
+
+
+
+MAS É CLARO QUE VOCÊ PODE ESTAR TRABALHANDO COM OUTROS TIPOS DE APIs no seu projeto,
+
+
+
+E nele DIFERENTES TIPOS DE DADOS PODEM ESTAR SENDO ACEITOS TAMBÉM... 
+
+
+
+
+
+
+--> você pode enviar:
+
+
+
+1) ARQUIVOS 
+
+
+
+2) BINARY DATA 
+
+
+
+
+
+
+VOCÊ PODE ADICIONÁ-LOS COMO O BODY do objeto que vocÊ vai enviar....
+
+
+
+
+ISSO QUER DIZER QUE DENTRO DO JAVASCRIPT VOCÊ PODE COLOCAR 
+
+UM 'pointer' AO ARQUIVO QUE VOCê VAI QUERER ENVIAR.../arquivo que o usuário pegou em um 'file picker', por exemplo...
+
+
+
+
+
+
+OUTRO DATA FORMAT MUITO COMUM/POPULAR É a 
+
+
+
+
+_______FORM DATA____________.
+
+
+
+
+
+
+
+
+MAS O QUE DIABOS É 'FORM DATA'?
+
+
+
+
+
+
+
+
+
+------------>
+
+
+Para isso, devemos ir até 
+
+'createPost'....
+
+
+
+
+ex:
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+
+
+}
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+no 'createPost', O PROFESSOR CRIOU O OBJETO 'post' 
+
+
+E O ENVIOU POR MEIO DO 'sendhttpRequest'...
+
+
+
+
+Dentro do sendhttpRequest, esse 
+
+
+'post' ACABA BASICAMENTE CONVERTIDO EM 
+
+'JSON DATA' E É ENTÃO ADICIONADO AO REQUEST.
+
+
+(
+
+return fetch(url, {
+    method: method,
+    body: JSON.stringify(data),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+
+
+
+
+
+
+
+)
+
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+PORÉM, NÓS PODEMOS 
+
+
+ADICIONAR, EM VEZ DISSO, 
+
+
+________fORM DATA_____.
+
+
+
+
+------------------------------------
+
+
+
+
+OBS:::: PROFESSOR NOS EXPLICA QUE ESSA API 'fetch API' NÃO 
+
+SUPORTA o 'FORM DATA', 
+
+
+MAS OUTROS APIs podem suportar, e é por isso que ele está explicando isso a nós.
+
+
+------------------------------------
+
+
+
+
+Para isso, para mostrar como form data funciona, 
+
+o professor vai até createPost 
+
+
+
+E CRIA UMA NOVA CONSTANTE LOCAL...
+
+
+
+'fd' (formData).
+
+
+
+Aí ele armazena o valor 'new FormData()' dentro dessa constante....
+
+
+
+
+'new FormData()' É UMA CONSTRUCTOR FUNCTION BUILTIN no javascript/browser, providenciada pelo javascript...
+
+
+
+
+
+
+
+
+
+
+CERTO.
+
+
+
+'FormData' CONSTRÓI UM NOVO OBJETO, AO QUAL VOCÊ PODE ENTÃO ADICIONAR 
+
+
+
+'key-value' pairs...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+  const fd = new FormData();
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+
+
+}
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+Certo.
+
+
+O formato, portanto, dessa constructor function é 
+
+
+SIMILAR AO DE UM 'OBJETO JAVASCRIPT' comum... (com key-value pairs).....
+
+
+MAS ISSO APENAS INICIALMENTE, PQ INTERNAMENTE/QUANDO ESSA FORM DATA 
+
+FOR ENVIADA 'over the wire', ESSA DATA SERÁ ENVIADA DE UMA FORMA DIFERENTE, 
+
+DISTINTA DE 'JSON DATA'...
+
+
+
+OU SEJA, 
+
+
+
+FORM DATA __NÃO É __ DADOS NO FORMATO JSON;
+
+
+
+ELA TEM UM FORMATO DIFERENTE.
+
+
+
+
+
+Certo.
+
+
+
+À 'formData' você pode fazer 
+
+'append()'....
+
+
+
+aí, dentro desse append, cada APPEND é um KEY-VALUE PAIR....
+
+neste exemplo, o professor adicionará 
+
+uma key de 'title' E UM VALOR DE TITLE.... (valor referencial).
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const fd = new FormData();
+fd.append('title', title); ////////////PRIMEIRO KEY-VALUE pair adicionado no interior dessa 'formData'...
+
+
+----------------------------------------------------
+
+
+
+
+
+O MESMO SE APLICA AO BODY, O PROFESSOR PODE FAZER A MESMA COISA E ADICIONAR UM KEY-VALUE PAIR PARA ELE...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);///código do body.
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+
+
+}
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+Por fim, podemos passar tbm o nosso 'userId'...
+
+
+
+
+ex:
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);///código do body.
+fd.append('userId', userId);
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+
+
+}
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+COM ISSO, AGORA TERÍAMOS PREPARADO UM OBJETO DE TIPO 'FORM DATA'...
+
+
+
+
+
+
+
+Para que esse objeto seja enviado, devemos trocar o 'post', terceiro parâmetro de 'sendhttpRequest', 
+
+PELO NOME DA CONSTANTE QUE SEGURA ESSE OBJETO 'form data', 
+QUE É´
+
+'fd'....
+
+
+
+
+ex:
+
+
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);///código do body.
+fd.append('userId', userId);
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', fd);
+
+
+}
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+FEITO ISSO, DEVEMOS TAMBÉM MUDAR A FUNÇÃO 
+
+
+'sendhttpRequest' UM POUCO...
+
+
+devemos mudar um pouco o request em si...
+
+
+
+
+O PROFESSOR DECIDE COMENTAR PARA FORA OS 'HEADERS' PORQUE 
+
+ELE NÃO QUER MAIS DIZER AO SERVIDOR QUE ESTÁ 
+
+ENVIANDO 'JSON DATA' (e isso era comunicado por meio do código 'headers: {'Content-Type': 'applcation/json'}')
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: JSON.stringify(data),
+   
+      }).then(response => {
+        console.log('clicked');
+        if(response.status >= 200 && response.status < 300) {
+          return response.json();
+        } else {
+          return response.json().then(errData => {
+            console.log(errData);
+            throw new Error('Something went wrong - server-side.');
+          });
+        }
+        
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error('Something went wrong!');
+      })
+    
+
+  
+
+  };
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);///código do body.
+fd.append('userId', userId);
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', fd);
+
+
+}
+
+
+
+
+
+----------------------------------------------------
+
+
+
+
+
+
+A ALTERAÇÃO FINAL EM 'sendhttpRequest' É 
+
+ALTERAR O VALOR DO BODY, 
+
+
+mudá-lo de 'JSON.stringify(data)' (QUE ERA O CALL DE UMA FUNÇÃO QUE CONVERTIA OS DADOS JAVASCRIPT EM DADOS JSON, PARA QUE PUDESSEM SER ENVIADOS...)
+
+
+PARA 
+
+
+APENAS 'data'...
+
+
+
+
+
+EX(representação da mudança):
+
+
+
+
+
+
+ISSO AQUI:
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: JSON.stringify(data) ///////////////////////////// ISSO  AQUI
+   
+      }).then(response => {
+        console.log('clicked');
+        if(response.status >= 200 && response.status < 300) {
+          return response.json();
+        } else {
+          return response.json().then(errData => {
+            console.log(errData);
+            throw new Error('Something went wrong - server-side.');
+          });
+        }
+        
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error('Something went wrong!');
+      })
+    
+
+  
+
+  };
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);
+fd.append('userId', userId);
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', fd);
+
+
+}
+
+
+
+
+
+
+
+
+VIRA ISSO DAQUI:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: data ///////////////////////////// VIRA ISSO DAQUI.
+   
+      }).then(response => {
+        console.log('clicked');
+        if(response.status >= 200 && response.status < 300) {
+          return response.json();
+        } else {
+          return response.json().then(errData => {
+            console.log(errData);
+            throw new Error('Something went wrong - server-side.');
+          });
+        }
+        
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error('Something went wrong!');
+      })
+    
+
+  
+
+  };
+
+
+
+
+async function createPost(title, content) {
+  const userId = Math.random();
+  const post = {
+    title: title,
+    body: content,
+    userId: userId
+  };
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);
+fd.append('userId', userId);
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', fd);
+
+
+}
+
+
+
+
+
+
+------------------------------------------
+
+
+
+
+Isso significará que 
+
+os dados SERÃO 
+
+
+REALMENTE APENAS 'formData', não serão CONVERTIDOS EM 'DADOS JSON' por meio de 'JSON.stringify()'...
+
+
+
+
+
+
+CERTO.
+
+
+
+
+E PARA 'form data', 
+
+
+A 'fetch API' VAI AUTOMATICAMENTE 
+
+
+
+PERCEBER QUE SE TRATA
+
+
+
+DE 'form data' 
+
+
+E AUTOMATICAMENTE ENVIARÁ 
+
+
+OS ___HEADERS___ CORRETOS...
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+PROFESSOR SALVA O CÓDIGO, RECARREGA E CRIA UM POST, ENVIANDO-O COM O BOTÃO 'add'...
+
+
+
+
+
+
+AÍ ELE ABRE A ABA 'NETWORK' do dev tools e examina os requests enviados...
+
+
+ELE EXPLICA QUE 
+
+O DEVTOOLS ainda nos diz que o ENVIO DO REQUEST FOI UM SUCESSO (código 201), 
+
+
+E QUE ISSO OCORRE PQ 
+
+O API que estamos usando É BEM MISERICORDIOSO, que 
+
+
+ele não se interessa com os dados que nós enviamos pq, NO FINAL DAS CONTAS,
+ 
+ é uma FAKE API................
+
+
+
+
+
+
+
+ MAS SE SCROLLARMOS ATÉ O FINAL DESSE REQUEST, CONSTATAREMOS QUE 
+
+ NÓS TEREMOS ENVIADO __DIFERENTE 'DATA'___....
+
+
+
+ Será 
+
+
+ diferente 'data' PQ FORM DATA É, DE FATO, UM TIPO ESPECIAL DE DADOS 
+
+ na internet....
+
+
+
+ E ESSE TIPO DE DATA É ENTÃO ADICIONADO/ANEXADO AO OUTGOING REQUEST...
+
+
+
+
+ SE DERMOS UMA OLHADA NOS OUTROS HEADERS,
+
+ VEREMOS QUE 
+
+O 'CONTENT TYPE' DELES FOI AUTOMATICAMENTE DEFINDO COMO 
+
+
+ESSE VALOR:
+
+
+'multipart/form-data; boundary=----------
+WebKitFormBoundaryzlYcVanJMJ21UYnr', 
+
+
+
+valor o qual FOI AUTOMATICAMENTE DERIVADO PELO BROWSER, NO FINAL DAS CONTAS...
+
+
+
+-------------------------------------------
+
+
+
+
+A VANTAGEM DE 'FORM DATA' É, primeiramente, QUE....
+
+
+
+você pode achar mais organizado/estruturado 
+
+escrever o código com essa sintaxe:
+
+
+
+
+
+
+
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);
+fd.append('userId', userId);
+
+
+
+
+
+
+
+
+MAS OUTRA COISA EXCELENTE DESSE DATA TYPE é que 
+
+VOCÊ PODE FACILMENTE ADICIONAR ARQUIVOS por meio dele...
+
+
+BASTA VOCê APONTAR A ALGUM ARQUIVO, tipo assim:
+
+
+....
+
+
+
+
+
+OBS: 
+
+
+Primeiro parâmetro é o NOME DA STRING/KEYNAME...
+
+
+
+SEGUNDO PARÂMETRO É O ARQUIVO EM SI (ex: photo, uma constante desse nome, que segura o arquivo foto).
+
+
+
+TERCEIRO PARÂMETRO: NOME QUE PODE SER ATRIBUÍDO A ESSE ARQUIVO, UM NOME QUE O SERVER PODE UTILIZAR.... (ex: 'photo.png'...).
+
+
+
+
+
+ex:
+
+
+
+
+fd.append('someFile', photo, 'photo.png');
+
+
+
+
+--------------------------------------
+
+
+
+
+E VOCÊ PODE MISTURAR TEXTO E FOTOS/MÚSICA/QUALQUER OUTRO ARQUIVO COM ESSES APPENDS...
+
+
+pode fazer misturas desses dados...
+
+
+ISSO PODE SER BEM CONVENIENTE, DEPENDENDO DO QUE VOCÊ ESTÁ CONSTRUINDO.
+
+ex:
+
+
+
+
+
+
+
+
+const fd = new FormData();
+fd.append('title', title);
+fd.append('body', content);
+fd.append('userId', userId);
+fd.append('someFile', photo, 'photo.png');
+
+
+---------------------------------------------
+
+
+
+
+
+
+A TERCEIRA E ÚLTIMA VANTAGEM DESSE DATA TYPE É QUE VOCÊ 
+
+
+
+
+PODE USAR 
+o 
+
+
+'new FormData()' PARA 
+
+
+
+AUTOMATICAMENTE ___PARSEAR___ UMA 'FORM'... (um formulário)....
+
+
+
+
+E É EXATAMENTE ISSO QUE O PROFESSOR QUER NOS MOSTRAR AQUI....
+
+
+
+
+
+
+Ele diz:
+
+
+
+
+digamos que NÃO ADICIONEMOS MANUALMENTE 'title' e 'body' por meio dessa sequência de appends...
+
+
+
+digamos que, em vez disso, queiramos ADICIONAR OS 'FORM FIELDS' que JÁ TEMOS EM NOSSO ARQUIVO INDEX.HTML......
+
+
+ex:
+
+
+
+
+ <form>
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input type="text" id="title" />
+        </div>
+        <div class="form-control">
+          <label for="content">Content</label>
+          <textarea rows="3" id="content"></textarea>
+        </div>
+        <button type="submit">ADD</button>
+      </form>
+
+-------------------------------------------
+
+
+
+
+O QUE QUEREMOS FAZER AQUI, ESSENCIALMENTE, É   REPLICAR O 
+
+
+COMPORTAMENTO ___DEFAULT___ QUE O BROWSER TERIA/EXECUTARIA 
+
+
+
+SE NÓS ___ NÃO HOUVÉSSEMOS _______ CHAMADO 'event.preventDefault()' 
+
+EM NOSSA 'submission' (em nosso envio da form...).
+
+
+
+(e, lembrando, nós chamamos esse 'event.preventDefault()' no addEventListener de 
+'fetchButton'...
+
+
+ex:
+
+
+
+
+
+fetchButton.addEventListener('click', fetchPosts);
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const enteredTitle = event.currentTarget.querySelector('#title').value;
+  const enteredContent = event.currentTarget.querySelector('#content').value;
+
+  createPost(enteredTitle, enteredContent);
+  
+  
+});
+
+
+
+
+
+
+)
+
+
+
+
+
+QUANDO NÓS CHAMAMOS 'preventDefault', NÓS QUEREMOS ASSEGURAR QUE 
+
+O SERVIDOR NÃO COLECIONE AQUELES DADOS E OS ENVIE AO SERVIDOR.....
+
+
+
+NESSE NOSSO USO DO 'FORM DATA', nós ainda QUEREMOS QUE O BROWSER NÃO 
+
+COLECIONE OS DADOS E OS ENVIE, MAS VAMOS QUERER 
+
+COLETAR ESSES DADOS MANUALMENTE _____DA MESMA MANEIRA____ QUE O BROWSER O FARIA, 
+
+mas com nossas próprias mãos.
+
+
+
+Para fazer isso, professor explica que A ÚNICA COISA QUE VOCÊ TEM QUE FAZER É ESCREVER 
+
+UM 'POINTER' ao seu elemento 'form' QUE ESTÁ NO INDEX.HTML......
+
+
+você coloca esse pointer ao seu elemento 'form' DENTRO 
+
+Do call do constructor de 'formData'/dentro do objeto global 'FormData'...
+
+
+
+---------------------------------------------------------------------------
+
+
+ex:
+
+
+const form = document.querySelector('#new-post form'); ////////seletor que seleciona nosso elemento 'form' no index.html
+
+
+const fd = new FormData(form); ////constructor de 'formData' COM O PASSE DO PARÂMETRO 'FORm' (do nosso elemento form) COMO ARGUMENTO...
+
+fd.append('userId', userId);
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+SE PASSARMOS 
+
+
+'form' como parâmetro ao 'FormData', o javascript vai tentar 
+
+
+COLETAR AUTOMATICAMENTE TODOS OS DADOS ___dA FORM___... (dessa form que o usuário preencherá)....
+
+
+
+
+PARA QUE O JAVASCRIPT SEJA BEM SUCEDIDO, NO ENTANTO, VOCê 
+
+PRECISARÁ 
+
+ASSEGURAR 
+
+QUE SEUS INPUTS 
+
+TENHAM 
+
+UM ATRIBUTO 'NAME'.....
+
+
+
+nesse caso, vocÊ terá que adicionar 
+
+
+'name' em cada input 
+
+
+e colocar os valores corretos em cada um deles, 
+
+DE ACORDO COM O QUE VOCê QUER QUE CADA UM DELES SEJA... (pq os dados no javascript serão coletados com base na atribuição do name de cada 1 desses inputs...)
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+      <form>
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input type="text" id="title"  name="title" />   <!-- COLOCA-SE AQUI o 'name' com valor de 'title', pois você quer que ESSES DADOS SEJAM COLETADOS SOB ESSA DENOMINAÇÃO, NO JAVASCRIPT... -->
+        </div>
+        <div class="form-control">
+          <label for="content">Content</label>
+          <textarea rows="3" id="content" name="body"></textarea>  <!-- MESMA COISA AQUI, outro 'name' -->
+        </div>
+        <button type="submit">ADD</button>
+      </form>
+
+
+
+---------------------------------------
+
+
+
+
+
+
+O ATRIBUTO 'name' é importante pq SE VOCÊ NÃO O TIVER DEFINIDO NOS INPUT NO SEU HTML, 
+
+a constructor function 'FormData' NÃO SERÁ CAPAZ DE IDENTIFICAR 
+
+ESSES INPUTS E EXTRAIR OS DADOS DELES.... E, por consequência, não será 
+
+capaz de armazenar esses dados corretamente na 'FORMDATA'......
+
+
+
+
+
+
+
+OBS::: VOCÊ AINDA PODE FAZER O APPEND DE ___DADOS EXTRAS____ QUE 
+
+TALVEZ NÃO ESTIVESSEM INCLUÍDOS NA FORM ORIGINALMENTE (ou seja, que talvez não 
+estivessem incluídos no 'input' no HTML....),
+
+
+como vemos aqui com o append de 'userId' à formData... (esse 'userId' é apenso posteriormente, portanto... posteriormente à criação/coleta da form pela interação html-javascript).
+
+
+
+
+----------------------------------------
+
+
+
+
+Com isso, 
+
+
+com essas alterações no código,
+
+
+professor salva página e recarrega.
+
+
+
+
+Testa a criação de um post....
+
+
+
+Vai na aba network e constata que 
+
+
+
+o POST FOI 'populado' 
+
+
+
+por 'title'
+
+
+e 
+
+
+'body' -----------> 
+
+
+.....
+
+
+
+E 'userId' (que foi apenso POSTERIORMENTE).
+
+
+
+------------------------------
+
+
+PROFESSOR EXPLICA QUE 
+
+
+'title' e 'body' popularam a 'form data' 
+
+EXATAMENTE COMO ANTES, MAS 
+
+DESSA VEZ O FIZERAM __DE FORMA AUTOMÁTICA___ direto da 
+
+'FORM' no nosso html...
+
+
+
+
+
+
+
+
+
+PROFESSOR RESSALTA QUE É IMPORTANTE TER EM MENTE QUE NEM 
+
+
+TODAS AS APIs suportam 'FORM DATA'...
+
+
+
+
+SE UMA API QUISER JSON DATA, VOCÊ NÃO PODERÁ 
+
+UTILIZAR FORM DATA, não interessa o quão conveniente você ache 
+
+o form data...
+
+
+
+
+mas se vocÊ encontrar  uma 
+
+combinação/API ENDPOINT, 
+
+
+
+ou seja, 
+
+UMA URL/HTTP-METHOD combination,   QUE SUPORTE ESSE DATA TYPE,
+
+VOCê PODE UTILIZAR ESSE APPROACH.
+
+
+
+
+
+
+É POR ISSO QUE FORM DATA É UM TIPO DE DADOS, 
+
+
+DE DATA STRUCTURE, QUE PODE SER MUITO ÚTIL, 
+
+
+E QUE É UTILIZADA NO ENVIO 
+
+DE DADOS 'CLIENTSIDE' em direção aos
+
+SERVIDORES.......

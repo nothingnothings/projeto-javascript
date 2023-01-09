@@ -1,0 +1,41 @@
+VOLTEMOS AO ESTUDO DAS FEATURES PRINCIPAIS/CORE DO JAVASCRIPT, PARA VER MAIS SOBRE AS FUNÇÕES.
+
+
+
+
+
+Usamos funções muito, até agora. Estão por toda a parte e são um conceito/construct
+ muito importante no javascript e em qualquer linguagem de programação.
+
+
+ MAS HÁ MAIS COISAS QUE PODEMOS FAZER, E MAIS MANEIRAS DIFERENTES DE CONFIGURAR 
+ E USAR FUNÇÕES DO QUE AS QUE NÓS VIMOS ATÉ AGORA.
+
+
+ Neste módulo, depois de um breve recap do que nós já sabemos, nós veremos 
+
+
+
+ 1) AS DIFERENTES MANEIRAS DE CRIAR FUNÇÕES ---> há mais de uma única maneira de criar funções
+
+
+
+
+
+
+
+ 2) UM ESTUDO MAIS APROFUNDADO DAS FUNÇÕES ANÔNIMAS --> Algo que o professor mencionou pouco antes, mas que não explicou bem o que consistiam, e por que nós talvez queiramos usá-las...
+
+
+
+ 3) CallBack functions e FUNÇÕES DENTRO DE FUNÇÕES. ---> sim, isso é possível, você pode definir uma função dentro de uma função.
+                                                        Aqui veremos como isso funciona.
+
+
+4) ARGUMENTOS DEFAULT E O "REST OPERATOR".  ---> veremos o que o rest operator é, e a razão de nós querermos utilizá-lo.
+
+
+
+
+5) POR ÚLTIMO, MAS NÃO MENOS IMPORTANTE, veremos uma função que pode ser considerada 
+uma função especial "BUILT-IN", A FUNÇÃO "BIND()" e mais algumas funções relacionadas --> professor explicará o que são e o que fazem, e as razões para nós talvez precisarmos deles.

@@ -1,0 +1,102 @@
+DEVEMOS CONSTRUIR EM CIMA 
+
+
+DE NOSSO CONHECIMENTO DE EXECUÇÃO ASSÍNCRONA DE CÓDIGO 
+
+JAVASCRIPT.....
+
+
+
+DEVEMOS MERGULHAR EM 'network requests'....
+
+
+
+
+
+devemos entender COMO PODEMOS UTILIZAR JAVASCRIPT PARA 
+
+ENVIAR HTTP REQUESTS 'kind of' POR TRÁS DAS CENAS...
+
+
+
+
+
+
+
+VAMOS ENTENDER:
+
+
+
+
+1) O QUE SÃO HTTP REQUESTS, PQ USÁ-LOS/ENVIÁ-LOS E COMO ENVIÁ-LOS...
+
+
+
+
+
+2) VEREMOS AS 2 MANEIRAS PRINCIPAIS DE ENVIAR HTTP REQUESTS,
+
+
+que são:
+
+
+
+
+a) O Objeto XMLHttpRequest 
+
+
+
+
+
+b) fetch() API.  -----------> 'BUILTIN' no javascript moderno....
+
+
+
+
+--------------------------------------
+
+
+
+
+
+3) VEREMOS COMO FAZER A TRANSFERÊNCIA DE DADOS ENTRE 
+
+OS NOSSOS CLIENTS ('browserside') 
+
+E NOSSOS SERVIDORES (serverside).
+
+
+
+
+
+
+4) VEREMOS QUAIS DIFERENTES TIPOS DE DADOS PODEMOS USAR 
+
+EM CLIENTS/SERVERSIDE.  (JSON Data & FormData).
+
+
+
+
+
+
+5) VEREMOS EXEMPLOS DE COMO PODEMOS __CONSEGUIR___ DADOS/DATA com 
+
+
+'GET REQUESTS' (GETting Data)' 
+
+e DE COMO PODEMOS 
+
+
+___POSTAR___ DADOS/DATA com 'POST REQUESTS' (POSTing Data).
+
+
+
+
+PROFESSOR EXPLICARÁ 
+
+
+'GET' E 'POST' NESTE MÓDULO.
+
+
+
+------------------------------

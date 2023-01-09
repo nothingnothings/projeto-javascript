@@ -1,0 +1,289 @@
+
+
+
+
+
+
+
+
+DEVEMOS ENTENDER 'CÓDIGO SÍNCRONO', e como o javascript funciona....
+
+
+
+
+
+NO INÍCIO DO CURSO, APRENDEMOS QUE JAVASCRIPT É 'SINGLE THREADED'...
+
+
+ 
+
+
+ ATÉ AGORA, ISSO NÃO IMPORTAVA TANTO...
+
+
+
+
+ ISSO SIGNIFICA QUE O JAVASCRIPT SÓ PODE REALIZAR 1 FUNÇÃO POR VEZ...
+
+
+
+
+
+ DIGAMOS QUE TEMOS UM PUNHADO DE CÓDIGO, EM QUE 
+
+
+
+
+ fazemos um console.log, 
+
+
+
+ CHAMAMOS UMA FUNÇÃO, AÍ TALVEZ NESSA FUNÇÃO, depois de ela ter sido executada, 
+
+ DESABILITAMOS ALGUM BOTÃO ('button.disabled = true'), 
+
+ E ENTÃO TALVEZ RODEMOS 
+
+ UMA OUTRA FUNÇÃO ('moreCode();').
+
+
+
+
+
+ SEQUÊNCIA:
+
+
+
+ console.log()
+
+
+
+ someFunction() 
+
+
+ button.disabled = true;
+
+
+
+ moreCode();
+
+
+ ---------------------------------
+
+
+
+
+ O IMPORTANTE AQUI É RECONHECER QUE TODAS ESSAS ETAPAS RODAM __EM SEQUÊNCIA__, 
+
+ UMA ATRÁS DA OUTRA...
+
+
+ (Code executes step by step, in order).
+
+
+
+ NÃO ESTÃO RODANDO SIMULTANEAMENTE, em vez disso, o javascript 
+
+ vai FAZER TUDO EM ORDEM...
+
+ 1
+
+ 2
+
+
+ 3
+
+ 4
+
+ .
+
+
+ -----------------------------
+
+
+
+ Tudo é feito de acordo com uma ordem, de cima para baixo...
+
+
+
+
+-----------------------------
+
+
+
+Digamos que para cada 1 dessas execuções seja dada uma letra.
+
+
+
+A
+
+
+
+B
+
+
+C
+
+
+D
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+O bloco 'B', que é 'someFunction' 
+
+
+
+___aPENAS É EXECUTADO ___APÓS___ A EXECUÇÃO DO BLOCO 'A' (console.log()),
+
+MAS AO MESMO TEMPO ELE ___BLOQUEIA___ A EXECUÇÃO DO BLOCO 'C' ('button.disabled = true').
+
+
+
+
+
+OU SEJA, O CÓDIGO EM 'C' NÃO SERÁ EXECUTADO ATÉ QUE ALGUMA FUNÇÃO O EXECUTE... (execute o 'C'....).
+
+Nesse caso concreto, a função que o executa é 'someFunction()'....s
+
+
+-------------------------------------
+
+
+
+
+NÓS JÁ VIMOS ISSO NOS NOSSOS PROJETOS AO LONGO DO CURSO.
+
+
+
+EXAMINE ESSE CÓDIGO DO PROJETO DESTE MÓDULO:
+
+
+
+
+ex:
+
+
+
+const button = document.querySelector('button');someFunction
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+--------------------------
+
+
+NESSE TRECHO, NÓS NÃO TEMOS 
+
+
+TANTO CÓDIGO ASSIM... 
+
+mas como o javascript PARSEIA (parse) e 
+EXECUTA o nosso código 
+
+PARTINDO DO TOPO E INDO ATÉ EMBAIXO, o que acontece aqui é 
+
+
+QUE, PRIMEIRO DE TUDO, ESSA PRIMEIRA LINHA DE CÓDIGO ('const button = document...') 
+
+É EXECUTADA E ENTÃO 
+
+JAVASCRIPT SELECIONA ESSE BOTÃO E O ARMAZENA EM UMA CONSTANTE 
+
+CHAMADA 'button'...
+
+
+
+AÍ, SÓ DEPOIS QUE ESSA PRIMEIRA LINHA TERMINOU DE SER EXECUTADA, A SEGUNDA LINHA É 
+
+EXECUTADA E SUA TAREFA, CUMPRIDA ('document.querySelector('p')' e seu store na constante 'output').
+
+
+
+
+
+CERTO.
+
+Mas a função 'trackUserHandler', e funções em geral, FUNCIONA DE FORMA UM POUCO DIFERENTE:
+
+
+ela é executada QUANDO O JAVASCRIPT LÊ O DOCUMENTO JS, bem no início, MAS 
+
+
+AÍ, NO PROCESSO DE EXECUÇÃO, 
+
+AQUELA LINHA 
+
+
+'button.addEventListener('click', trackUserHandler)' SÓ É EXECUTADA 
+
+APÓS ESSAS 2 LINHAS LÁ 
+
+DO INÍCIO 
+
+(
+
+const button = document.querySelector('button');someFunction
+
+
+const output = document.querySelector('p');
+
+
+)
+
+
+TEREM SIDO EXECUTADAS.
+
+
+
+Isso é importante para nós, aqui, POIS PRECISAMOS QUE O BOTÃO ESTEJA DISPONÍVEL 
+
+PARA QUE CONSIGAMOS ADICIONAR UM EVENTLISTENER A ELE... -------->
+
+-------> ESSENCIALMENTE DEPENDEMOS DESSA ORDEM forçada pelo javascript para fazer as coisas...
+
+
+
+
+
+
+SE O JAVASCRIPT FOSSE MULTI THREADED, ELE ATÉ CONSEGUIRIA RODAR TODAS AS TAREFAS 
+
+AO MESMO TEMPO.....
+
+
+mas isso SERIA RUIM NESSE NOSSO EXEMPLO, POIS AÍ NÓS NÃO PODERÍAMOS 
+
+DEPENDER DO FATO DO BOTÃO ESTAR DISPONÍVEL QUANDO PRECISAMOS DELE....
+
+
+PQ SE ESSA LINHA 'addEventListener' FOSSE EXECUTADA NO MESMO INSTANTE 
+
+EM QUE A LINHA 'const button = document.querySelector('button')', 
+
+PODERIA ACONTECER A HIPÓTESE DO BOTÃO AINDA NÃO ESTAR DEFINIDO/selecionado, O QUE 
+
+LEVARIA A UM GORDO ERRO (o EVENTLISTENER não conseguiria ser adicionado).
+
+
+
+Mas isso, como o professor já nos explicou, não é algo com o que devemos nos preocupar, pois 
+
+o JAVASCRIPT, JUSTAMENTE POR SER SINGLE THREADED, garante essa ordem de execução.

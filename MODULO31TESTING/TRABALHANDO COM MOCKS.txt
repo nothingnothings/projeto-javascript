@@ -1,0 +1,1330 @@
+
+
+
+
+PARA TRABALHAR COM 'APIS' e TPPS enquanto estamos 
+testando nossas coisas,
+
+devemos 
+
+usar aquilo que 
+
+chamam de 
+
+'MOCKING'... ---------> NÓS 'MOCKAMOS' features, fingimos que as temos... --> isso significa que 
+
+
+NÓS ___SUBSTITUÍMOS FEATURES___. ---> NÓS SUBSTITUÍMOS 
+
+FEATURES 
+
+
+QUE NÓS 
+
+______NÃO QUEREMOS TESTAR NO NOSSO CÓDIGO ___ (coisas como 'APIs' e TPPs) 
+
+
+POR 'DUMMY IMPLEMENTATIONS', ou seja, 
+
+COISAS QUE RODARÃO NO SEU 
+
+LUGAR 
+
+
+E SIMULARÃO O SEU FUNCIONAMENTO...
+
+
+
+---------------
+
+
+
+Certo, mas como isso ficaria no nosso código?
+
+
+
+
+
+
+Bem, em 'util.test.js' 
+
+nós temos 
+
+
+'loadTitle()'...
+
+
+
+E NÓS QUEREMOS TESTAR 
+
+
+SE 
+
+ESSE 
+
+'loadTitle()' 
+
+TRANSFORMA 
+
+DE FORMA ADEQUADA 
+
+nosso 'title' 
+
+PARA SER 
+
+
+TODO ELE 'UPPERCASE' (maiúsculas... na verdade, para que 'title' fique/seja 'DELECTUS AUT AUTEM'...)....
+
+
+
+
+------------------
+
+
+
+---> PARA TESTAR ISSO, O QUE PRECISAMOS 
+
+
+FAZER 
+
+É 
+
+
+_____SUBSTITUIR_____ 'fetchData' (
+
+
+
+const fetchData = () => {
+    return axios
+    .get('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => 
+        {
+            return response.data;
+        });
+};
+
+
+
+
+)
+
+
+
+
+
+POR um 'mock'...
+
+
+
+
+
+
+-->BEM, O 'JEST' NOS DÁ UMA MANEIRA MUITO BOA DE 
+
+NOS 
+
+PREVENIR DE USAR 
+
+
+AQUELE MÉTODO 
+
+
+'fetchData' que críamos...
+
+
+
+--------------------------
+
+
+
+Nós podemos criar um novo 
+
+
+
+___FOLDER ___ no nosso projeto,
+
+chamado de 
+
+__mocks__ (assim mesmo, com os underscores...) esse folder 
+
+
+ficará 
+
+
+
+próximo dos arquivos que contém noso "raw source code"...
+
+
+
+
+Dentro do 
+
+'__mocks__',
+
+
+podemos 
+
+
+colocar 
+
+
+'http.js' (ou seja, devemos adicionar um arquivo COM O MESMO FILE NAME 
+DO ARQUIVO EM QUE USAREMOS ESSE MOCK, o arquivo que tem 
+
+A FUNÇÃO QUE QUEREMOS SUBSTITUIR...)
+
+
+
+-------------------------------
+
+
+
+CERTO....
+
+
+agora dentro do 'http.js'
+
+
+em '__mocks__',
+
+nós podemos 
+
+FAZER UMA MÁGICA 
+
+para settar ALGUMAS FUNÇÕES 
+
+
+QUE VAI SUBSTITUIR NOSSAS FUNÇÕES 
+
+DE VERDADE quando nós 
+
+estivermos rodando os testes... -------> 
+
+
+Vou copiar meu código 
+
+
+de 'http.js' 
+
+
+e colar no 'http.js' do mocks....
+
+
+
+
+ex:
+
+
+
+
+
+const axios = require('axios');
+
+
+
+const fetchData = () => {
+    return axios
+    .get('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => 
+        {
+            return response.data;
+        });
+};
+
+
+exports.fetchData = fetchData;
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+Certo... primeiramente vou me livrar 
+
+de 'axios', do import do AXIOS...
+ 
+
+ (pq não vou usar o axios)
+
+
+ex:
+
+
+
+
+const fetchData = () => {
+    return axios
+    .get('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => 
+        {
+            return response.data;
+        });
+};
+
+
+exports.fetchData = fetchData;
+
+
+
+----------------------------------
+
+
+
+ENTRETANTO, 
+
+O EXPORT 
+
+
+DE 'fetchData' vai continuar nesse trecho de código... (ainda vamos exportar 'fetchData')...
+
+
+
+
+MAS EM 'fetchData', dentro do function body de 'fetchData', 
+
+
+O PROFESSOR VAI DELETAR TUDO E SIMPLESMENTE 
+
+___RETORNAR UMA PROMISe____ QUE SERÁ RESOLVIDA 
+
+
+__INSTANTANEAMENTE ___ (o código para isso é 'Promise.resolve()')
+
+
+
+
+
+EX:
+
+
+
+
+
+
+const fetchData = () => {
+    return Promise.resolve();
+};
+
+
+exports.fetchData = fetchData;
+
+
+
+
+---------------------------------------
+
+
+
+
+Certo.... ---> essa resolve será ''resolvida'' como um 
+
+OBJETO QUE TERÁ 
+
+UMA PROPRIEDADE 
+
+'title'....
+
+
+
+essa propriedade 'title' terá um
+
+ valor de 
+
+ 'DELECTUS AUT AUTEM'... (que é o que queremos que SEJA RETURNADO POR NOSSA API, BASICAMENTE...)
+
+
+
+ex:
+
+
+
+
+const fetchData = () => {
+    return Promise.resolve({title: 'DELECTUS AUT AUTEM'});
+};
+
+
+exports.fetchData = fetchData;
+
+
+------------------------------------------
+
+
+
+
+mas o professor vai 
+
+
+deixar toda essa string em LOWERCASE, pois é 
+
+a função 
+
+de 'converter em uppercase' do nosso código 
+
+QUE VAMOS QUERER TESTAR por meio do test do jest....
+
+
+ex:
+
+
+
+
+
+
+const fetchData = () => {
+    return Promise.resolve({title: 'delectus aut autem'});
+};
+
+
+exports.fetchData = fetchData;
+
+-------------------------------------
+
+
+
+CERTO...
+
+agora que o professor está/estará exportando esse 'fetchData' nesse arquivo http.js em '__mocks__',
+
+
+
+
+
+
+
+CERTO....
+
+
+
+Essa 
+
+'função falsa' (MOCK) de 
+
+'fetchData'
+
+
+
+agora está PRONTA...
+
+
+
+e ela já 
+
+está sendo exportada 
+
+
+por meio do 
+
+código 
+
+
+de 
+
+'exports.fetchData = fetchData';
+
+
+
+
+
+
+---> O PROFESSOR EXPLICA QUE ALGO INTERESSANTE 
+
+JÁ ESTARÁ 
+
+ACONTECENDO POR CAUSA DESSE 'MOCK'... ----> em HTTP.JS, 
+
+
+
+o professor adicionou um statement de 'console.log' ao 
+
+
+'fetchData' de 'http.js' NORMAL (
+
+
+
+
+    const fetchData = () => {
+    console.log('Fetching data...'); /////////EIS O CÓDIGO EM QUESTÃO
+    return axios
+    .get('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => 
+        {
+            return response.data;
+        });
+};
+exports.fetchData = fetchData;
+
+
+
+)
+
+
+
+, 
+
+para QUE PUDÉSSEMOS VER/OBSERVAR/PERCEBER 
+
+
+__QUANDO___ ESTARÍAMOS/estamos 
+
+
+atingindo 
+
+
+a API 
+
+(request e response) 
+
+
+DO NOSSO CÓDIGO (e para que pudéssemos ver também 
+
+QUANDO NÃO ESTAMOS/NÃO CONSEGUIMOS ACERTAR ESSA API..) ---> 
+
+
+
+Se o professor 
+
+agora rodar 'npm test' , 
+
+
+
+PERCEBEREMOS QUE 
+
+
+
+_____A API____ ESTÁ SENDO 
+
+'HITTADA'... ----> pq podemos ver 
+
+'Fetching data..'
+
+no console/terminal
+ 
+ do nosso IDE....
+
+
+
+ ----------------------------------------------
+
+
+
+ PARA QUE 
+
+
+ POSSAMOS UTILIZAR 
+
+
+
+ O NOSSO 'mock',
+
+
+
+ DEVEMOS 
+
+
+ IR ATÉ 
+
+
+
+ 'util.test.js' 
+
+
+
+ E ENTÃO 
+
+
+
+ adicionar 
+
+
+ o comando 
+
+
+ 'jest.mock()' --------> É ISSO QUE NOS DEIXARÁ USAR 
+
+ OS __MOCKS__.... -------> 
+
+
+
+ CERTO..
+
+
+
+ Mas esse call EXIGE UM PARÂMETRO... ---> o parâmetro 
+
+
+ que devemos 
+
+
+ PASSAR 
+
+ É O ARQUIVO 
+
+
+ EM QUE ESTARÃO OS MOCKS, 
+
+
+ ___DENTRO DA PASTA DE '__mocks__'....
+
+
+
+
+
+ NO NOSSO CASO, é no arquivo 
+
+ 'http.js'....
+
+
+
+ POR ISSO 
+
+
+ NÓS VAMOS 
+
+ ESCREVER 
+
+
+
+ 'jest.mock('./http');' 
+
+
+
+
+ EM 
+
+
+ 'util.test.js'...
+
+
+ ---------------------------------
+
+
+
+
+ ---> FEITO ISSO, O PROFESSOR RE-EXECUTA 
+
+ 'npm test'... ---> executa nosso test 
+
+
+ de novo... -----> dessa vez, nosso código 
+
+
+ SÓ TOMOU 1 SEGUNDINHO, 
+
+ porque 
+
+ ELE FEZ __ALGUMA MÁGICA POR TRÁS DAS CENAS__... --------> 
+
+ MAS AGORA NÓS 
+
+ NÃO ESTAREMOS/NÃO VEREMOS MAIS AQUELE 
+
+
+ STATEMENT DE 'console.log' (aquele 'fetching data...') NO 
+
+ CONSOLE... ---> isso ocorre pq OQ ACONTECE AGORA É QUE 
+
+ QUANDO 
+
+
+ ESSE TEST É EXECUTADO, 
+
+
+ ele vai em frente 
+
+ E ___SUBSTITUI____ o 
+
+
+ arquivo 
+
+
+
+ 'http.js COMUM'
+
+
+
+ pelo nosso 
+
+ 'http.js MOCK'... ( o arquivo 'http.js' na pasta '__mocks__')
+
+
+
+ ------------------------------------------------------------
+
+
+
+ ---> OU SEJA,
+
+
+ TODAS AS FUNÇÕES QUE SÃO 
+
+ EXPORTADAS NESSE ARQUIVO 'mock' DO ORIGINAL 
+
+ SUBSTITUEM AS FUNÇÕES 
+
+QUE 
+
+
+NÓS NORMALMENTE exportaríamos/exportamos no 
+
+
+arquivo 
+
+'http.js' comum/de verdade... 
+
+
+
+
+
+----------> MAS A VANTAGEM, AQUI, É QUE ESSA SUBSTITUIÇÃO 
+
+_______ACONTECERÁ____ APENAS NOS NOSSOS TESTS, e EM NENHUM OUTRO RUNTIME... (ou seja, o código 
+
+'legit' continuará rodando igual, 
+
+continuará usando aquelas APIs e coisas especiais do nosso código... é 
+
+APENAS 
+
+
+O CÓDIGO DE 'TEST' que excluirá as APIs por meio do 
+
+uso de MOCKS...)
+
+
+
+---------------------
+
+
+
+Para nossos tests, podemos usar 
+
+esses mocks, 
+
+esses 
+'dummy fetchData' 
+
+e afins...
+
+
+
+
+
+
+essa fetchData dummy 
+
+nos dá 
+
+UMA 
+
+PROMISE QUE DEIXA O RESTO DO CÓDIGO FUNCIONAR NORMAL AO MESMO 
+
+
+TEMPO QUE NOS FAZ EVITAR 'HITTAR A API'... (pq nós 
+
+
+não queremos testar a RESPONSE DA API, e TAMBÉM NÃO QUEREMOS 
+
+TESTAR O AXIOS/QUE O AXIOS INTERFIRA...)
+
+
+
+
+---> apenas queremos que A FUNÇÃO 
+
+
+DE __tRANSFORM___ DO NOSSO CÓDIGO (lowerCase para UPPERCASE)...
+
+
+
+
+--------------------------
+
+
+
+É ASSIM QUE PODEMOS TESTAR ASYNC CODE (http requests, coisas demoradas, APIs, etc etc)
+
+
+E É 
+
+
+ASSIM QUE TESTAMOS FUNCIONALIDADES SEM 
+
+
+'HITTAR A API', ETC ETc...
+
+
+
+
+
+Outro ex: código que acessa FUNCIONALIDADES DO SISTEMA (file system) ---> você 
+
+
+não vai querer testar essa parte do código? beleza, então use MOCKS para 
+
+substituir esse pedaço do testing...
+
+
+
+
+
+
+---------------------------
+
+
+
+
+VOCÊ PODE, ALÉM DISSO,
+
+
+MOCKAR 
+
+
+___PACKAGES GLOBAIS___ 
+
+(como o 'axios' em si...)....
+
+
+
+
+Como assim?
+
+
+
+Bem, 
+
+
+
+no nosso código, em vez de mockarmos 
+
+a funçaõ 
+
+
+'fetchData', 
+
+
+NÓS PODERÍAMOS 
+
+MOCKAR 
+
+
+UM ARQUIVO 
+
+chamado 
+
+
+'axios.js'...   (que vamos criar em '__mocks__', nessa pasta especial)
+
+
+
+
+---> dentro desse arquivo 'axios.js', 
+
+
+NÓS PODERÍAMOS/PODEMOS EXPORTAR NOSSA 
+
+__PRÓPRIA FUNÇÃO 'get'__....
+
+
+
+
+ex:
+
+
+
+
+
+exports.get = .... ////////////ESSA SERÁ NOSSA PRÓPRIA FUNÇÃO 'get', plagiada da função 'get' do axios normal...
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+Para exportar essa 'mock function' e usá-la nos nossos testes, 
+
+você deve 
+
+
+escrever aquela sintaxe (sintaxe de exports) que o professor já mostrou:
+
+
+
+
+
+Ex
+
+
+
+
+exports.get = get;
+
+
+
+
+------------------------------------
+
+
+
+
+
+ué, mas pq DEFINIR UMA FUNÇÃO de nome 'get' em um arquivo de nome 'axios.js'?
+
+
+
+
+
+SIMPLES... 
+
+
+veja a função 
+
+'fetchData', 
+
+em 'http.js', 
+
+
+QUE REALMENTE CHAMA 
+
+'axios'...
+
+
+ex:
+
+
+
+
+const fetchData = () => {
+    console.log('Fetching data...');
+    return axios  ////////////////////////AQUI ESTÁ O CALL DE AXIOS... ---> axios está sendo chamado ' DE VERDADE', por enquanto...
+    .get('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => 
+        {
+            return response.data;
+        });
+};
+
+
+----------------------------------------
+
+
+
+
+esse 'return axios.get(...)' 
+
+
+
+SERÁ avacalhado 
+
+
+com o 
+
+
+
+'axios.js' 
+
+
+e o método 'get' 
+
+
+dentro de 'axios.js', 
+
+
+NA PASTA 
+
+
+
+'__MOCKS__'....
+
+
+
+
+------------------------
+
+
+
+Certo....
+
+
+
+a função 
+
+get SERÁ 
+
+UMA FUNÇÃO 
+
+
+QUE 
+
+ACEITARÁ 
+
+UMA 
+
+URL COMO ARGUMENTO....
+
+
+
+mas nós/a função NÃO SE IMPORTARÁ COM ESSA URL... --------> 
+
+o que essa função fará é APENAS RETORNAR UM OBJETO, 
+
+um objeto 
+
+'fake' --> objeto fake --> VAMOS SIMULAR/COPIAR A COISA 
+
+
+QUE O AXIOS NOS RETORNARIA NORMALMENTE, A 'RESPONSE NORMAL', mas uma 
+
+response '''FALSA'''.... --------> 
+
+
+
+
+---> a coisa retornada NORMALMENTE 
+
+por 'axios' 
+
+
+é uma 
+
+RESPONSe com uma 
+
+
+propriedade/key de 
+
+
+
+'data'... ('response.data')...
+
+
+
+
+É POR ISSO QUE NO MOCK DE AXIOS 
+
+
+o professor 
+
+vai querer 
+
+escrever 
+
+o código da função assim:
+
+
+
+
+ex:
+
+
+
+
+const get = (url) => {
+    return { data: {title: ''}}
+}
+
+
+
+--------------------------------
+
+
+
+
+ESSA FUNÇÃO 
+
+VAI RETORNAR 
+
+
+O 'title' QUE VAMOS QUERER 
+
+TESTAR...
+
+
+(que é o 'delectus aut autem').... -------> essencialmente, 
+
+estamos 
+'mockando' UMA FUNCIONALIDADE 
+
+QUE É 
+
+' nível acima'  da funcionalidade mockada pelo nosso mock do 'fetchData'...
+
+
+
+ex:
+
+
+
+
+const get = (url) => {
+    return { data: {title: 'delectus aut autem'}}
+}
+
+
+
+
+-----------------------------
+
+
+Isso quer dizer QUE AGORA 
+
+
+ESTAMOS MOCKANDO 
+
+
+A FUNÇÃO 
+
+'axios', a função 
+
+que a 
+
+função 
+
+
+
+'fetchData' 
+
+
+TEM COMO DEPENDENCY (pq 'fetchData' DEPENDE DE 'AXIOS'... --> depende do RETURN 
+de axios...)
+
+
+
+ex (código de fetchData):
+
+
+
+
+
+    const fetchData = () => {
+    console.log('Fetching data...'); /////////EIS O CÓDIGO EM QUESTÃO
+    return axios
+    .get('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => 
+        {
+            return response.data;
+        });
+};
+exports.fetchData = fetchData;
+
+
+------------------------------
+
+
+
+
+ISSO FEITO, 
+
+
+
+agora podemos 
+
+
+VOLTAR 
+
+
+
+no 'util.test.js' 
+
+
+E PODEMOS 
+
+___REMOVER____ 
+
+
+O CÓDIGO DE 
+
+ 
+'jest.mock('./http');'      (OU SEJA, AGORA NÃO USAREMOS MAIS OS MOCKS DE 'http.js', e SIM USAREMOS OS MOCKS DE AXIOS, os mocks de axios em 'axios.js'...)
+
+
+
+
+
+(isso significa que DEIXAREMOS DE USAR OS MOCKS DE 'http.js'.... agora só usaremos 
+
+o mock 
+
+de 
+
+'axios'...)
+--------------------------------------------------
+
+
+
+
+
+OBS::: NÃO PRECISAMOS DO CÓDIGO de 
+
+
+'jest.mock('./axios');'  em 'util.test.js'... --> não 
+
+
+precisamos desse código 
+
+
+PQ O JEST VAI AUTOMATICAMENTE USAR 
+
+___MOCKS___ DE 'global node modules' ------> ISSO SIGNIFICA QUE 
+
+
+O MOCK DE 'axios.js' na pasta '__mocks__' SERÁ 
+
+USADO AUTOMATICAMENTE PELO 'jest'...
+
+
+
+
+
+
+---> PODEMOS RODAR O NPM TEST...
+
+
+
+---> o test vai FALHAR... ---> isso
+
+basicamente 
+
+
+
+NOS PROVA QUE ESSE ARQUIVO/função 
+
+'mock'
+
+
+
+ESTÁ SENDO USADO de verdade... ---> pq se não estivesse sendo 
+
+usado, 
+
+NÃO TERÍAMOS RECEBIDO ESSE 'FAIL'....
+
+
+
+
+
+
+O ERRO QUE RECEBEMOS É :
+
+
+
+   TypeError: axios.get is not a function
+
+
+
+
+
+   -------> ISSO ACONTECE PQ 
+
+
+
+   NÓS ESTAMOS 
+
+
+   RETORNANDO UM OBJETO 
+
+
+   na função de 'get'....
+
+
+
+   ex:
+
+
+   const get = (url) => {
+    return { data: {title: 'delectus aut autem'}}
+}
+
+
+-----------------------------------
+
+
+
+PARA CONSERTAR ESSE ERRO, 
+
+PROFESSOR EXPLICA QUE 
+
+____ELE DEVE RETORNAR UMA PROMISE__ nesse lugar... (deve WRAPPAR esse 
+
+objeto em uma PROMISE... 
+
+UMA PROMISE 
+
+RESOLVIDA IMEDIATAMENTE... ou seja, uma 'Promise.resolve()'...)
+
+
+
+EX:
+
+
+
+
+
+
+
+
+   const get = (url) => {
+    return Promise.resolve({ data: {title: 'delectus aut autem'}});
+}
+
+
+
+
+
+--------------------------
+
+
+é basicamente uma PROMISE QUE 
+
+
+'YIELDA' esse objeto aí... --> uma vez 
+
+
+que o professor faz isso, essa alteração 
+
+PARA QUE O NEGÓCIO RETORNE UMA __PROMISE___ (pq o 'AXIOS' também 
+
+retornava UMA PROMISE, é por isso que esse ERRO ESTAVA ACONTECENDO, nosso código esperava 
+uma promise pq o AXIOS DE VERDADE retornava uma promise... e o mock deve 
+fazer a mesma coisa, retornar uma promise, justamente por isso.)
+
+
+
+---------------------------
+
+
+COM ISSO, NOSSO CÓDIGO FUNCIONA... (na verdade, não)
+
+
+
+
+
+AGORA FUNCIONA... 
+
+
+
+--> portanto, é ASSIM QUE PODEMOS MOCKAR CERTAS FUNCIONALDADES ---> mockamos 
+
+funcionalidades 
+
+PARA TESTAR 
+
+ASYNC CODE OU CÓDIGOS EM GERAL... (código em geral, código que 
+depende de THIRD PARTY PACKAGES  )
+
+
+
+
+
+--> HÁ OUTRAS ESTRATÉGIAS PARA TESTING ---> 'spies', 'stubs' e 'mocks'...
+
+
+
+HÁ BASTANTES RECURSOS NESSE MÓDULO...

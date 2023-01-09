@@ -1,0 +1,2356 @@
+
+
+
+
+
+
+FIZEMOS O DEPLOY DA NOSSA PÁGINA, AQUELA PÁGINA COM SOMENTE CÓDIGO BROWSERSIDE SERVIDO 
+
+
+
+POR MEIO DO 'FIREBASE' (serviço de hosting ESTÁTICO)....
+
+
+
+
+
+
+
+
+--------> OK... 
+
+
+mas e quanto à NOSSO APLICATIVO DO NODE.JS.... (APLICATIVO DINÂMICO, POIS TEM CÓDIGO QUE 
+RODA DIRETO NO SERVIDOR/SERVERSIDE...)?
+
+
+
+
+
+
+--------> NÃO IMPORTA A 'MODALIDADE' Desse node.js/serverside...
+
+
+
+pode ser:
+
+
+
+1) AQUELA VARIANTE QUE PRODUZ OS HTML NO SERVIDOR E ENTÃO OS RETORNA AO USUÁRIO (é a modalidade 
+
+que vimos NO INÍCIO DO MÓDULO DO NODE.JS, aquela parte DO FORM e tals....)
+
+
+
+
+
+2) A SEGUNDA VARIANTE, QUE TEM UM MONTE DE 'ROUTES' E QUE 
+
+TROCA (exchanges) .JSON DATA   COM O BROWSERSIDE....
+
+
+
+
+
+
+---------------------------------------------------
+
+
+
+
+NÃO INTERESSA A ROTA QUE VOCÊ ESCOLHER, O PROCEDIMENTO PARA HOSTEAR ESSA 'PÁGINA COM CONTEÚDO DINÂMICO'/ 'PÁGINA DINÂMICA' 
+
+É O __MESMO____....
+
+
+
+
+VOC~E AINDA TEM QUE RODAR O NODE.JS NO SERVIDOR....
+
+
+
+
+
+
+FIREBASE ___NÃO É UM SERVIDOR___ QUE SUPORTA O 'RUN' de node.js em um servidor...
+
+
+
+
+
+
+---> eles tem, na verdade, um 'cloud function service' QUE TE PERMITE 
+
+EXECUTAR ALGUM CÓDIGO/UM POUCO DE CÓDIGO NO SERVIDOR,  MAS 
+
+
+
+É ___UM POUCO DIFERENTE___...
+
+
+NÃO É FEITO PARA ESSE TIPO DE DEPLOYMENT QUE O PROFESSOR ESTÁ NOS ENSINANDO, APESAR DE 
+
+EXISTIREM MANEIRAS DE FAZER ELE FUNCIONAR de forma similar a um servidor executando node.js...
+
+
+
+
+
+--------------------------------
+
+
+
+NÃO USAREMOS O FIREBASE....
+
+
+
+
+PROCURAREMOS 
+
+
+'nodejs hosting'....
+
+
+
+
+USAREMOS O HEROKU. (mas não é o único, AWS também tem serviços disso.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+PODEMOS VISITAR A PÁGINA DO HEROKU....
+
+
+
+CRIAMOS UMA CONTA...
+
+
+etc etc
+
+
+
+
+
+PODEMOS CLICAR EM 
+
+
+'CREATE NEW APP'...
+
+
+
+
+---> DOCUMENTAÇÃO DO HEROKU NOS MOSTRA COMO HOSTEAR APLICATIVOS NODE.JS NELE...
+
+
+
+Professor usa qualquer app name...
+
+
+
+Create app (não faça nada com a PIPELINE)...
+
+
+
+
+
+
+---> temos algumas OPÇÕES...
+
+
+
+USE 'HEROKU GIT'...
+
+
+
+Para que o heroku FUNCIONE, você precisa ter 
+
+
+
+O __GIT___ instalado na sua máquina...
+
+
+
+
+
+ENCONTRAMOS  A PÁGINA 
+
+'git-scm'...
+
+
+
+
+----> GIT É UMA FERRAMENTA DE 
+
+
+'VERSION-CONTROL'...
+
+
+
+
+ELA TE PERMITE 
+
+
+
+_________CRIAR MÚLTIPLOS ___SNAPSHOTS ___ DO SEU CÓDIGO 
+
+
+ENQUANTO VOCÊ ESTÁ O DESENVOLVENDO... 
+
+
+
+
+ELE TE AJUDA, ADEMAIS, A 'PUSH' o seu código 
+
+
+A REPOSITORIES REMOTOS, REPOSITÓRIOS EM QUE VOCÊ PODE _aRMAZENAR ESSES SEUS CÓDIGOS__....
+
+
+-------------------------------
+
+
+NO CASO DO HEROKU, VOCÊ ___ARMAZENA O CÓDIGO DOS SEUS SERVIDORES ____ NOS SERVIDORES 
+
+
+DO HEROKU...
+
+
+
+
+
+
+INSTALE O GIT....
+
+
+
+
+
+DEPOIS INSTALE O HIROKU-CLI por meio 
+
+
+do instalador DO WINDOWS...
+
+
+
+
+
+Certo... instale tudo...
+
+
+
+
+Aí vocÊ terá o 'heroku CLI'...
+
+
+
+
+
+com o heroku CLI, você pode rodar 
+
+
+
+'heroku login'
+
+
+no TERMINAL DO IDE....
+
+
+
+
+
+CERTO.....
+
+
+
+
+DEVEMOS FAZER LOGIN....
+
+
+
+
+Jucapirama.
+
+
+
+Logging in... done
+Logged in as arth
+
+
+
+
+
+
+FEITO ISSO, 
+
+
+
+AGORA, EXPLICA O PROFESSOR, TEREMOS UM 
+
+
+COMANDO 
+
+
+'git' DISPONÍVEL NA NOSSA MÁQUINA...
+
+
+
+
+DEVEMOS NAVEGAR ATÉ O FOLDER DO NOSSO PROJETO COM PÁGINA DINÂMICA 
+
+
+
+E ENTÃO 
+
+
+
+
+
+
+RODAR
+
+
+
+'git init'....
+
+
+
+(PROFESSOR EXPLICA QUE __eLE JÁ ESTÁ ADMINISTRANDO ESSE NOSSO FOLDER COM A AJUDA 
+
+DE 'git') ---> e é POR ISSO QUE HÁ UM ARQUIVO CHAMADO '.gitignore' NESSA NOSSA PÁGINA.... isso significa que O GIT ESTÁ SENDO USADO...
+
+
+----------------------------
+ 
+
+
+
+
+ok, rodamos 'git init'....
+
+
+
+
+Initialized empty Git repository in C:/projeto/MODULO29DEPLOYINGJAVASCRIPTCODE/parte2dynamicpagedeployment/.git/
+PS C:\projeto\MODULO29DEPLOYINGJAVASCRIPTCODE\parte2dynamicpagedeployment>
+
+
+.....Certo.... isso mudou alguma coisa no nosso 
+
+IDE...
+
+
+
+agora ele está com 
+
+
+UMA COR ___VERDE___ em cima 
+
+
+dos arquivos de nosso projeto... (provavelmente é um efeito do 
+
+
+
+GIT no nosso IDE... --> também é possível observar 
+
+
+
+um "U" do lado de cada arquivo.... com exceção das pastas...)
+
+
+
+----------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE, DEPOIS DE INSTALAR E RODAR O 'GIT' na pasta de nosso 
+
+projeto com 'git init', 
+
+
+DEVEMOS 
+
+
+RODAR 
+
+
+O código 
+
+
+'heroku git:remote -a js-node-js-deployment'...
+
+
+
+
+DEVEMOS RODAR ISSO NO TERMINAL DO NOSSO PROJETO...
+
+
+ »   Error: You do not have access to the app js-nodejs-deployment.
+ »
+ »   Error ID: forbidden
+
+
+
+--------------------------------
+
+
+
+'ID: forbidden'?
+
+
+
+
+
+Tento substituir aquele 
+
+
+'js-nodejs-deployment' por 
+
+
+
+'projeto442', o nome do PROJETO QUE CRIEI NA PÁGINA DO HEROKU...
+
+
+
+
+
+Certo. Isso funcionou...
+
+
+
+----------------------------------
+
+
+
+RESUMINDO:
+
+
+
+'heroku git:remote -a js-node-js-deployment'...
+
+
+
+'node-js-deployment' ----> ISSO AQUI DEVE SER SUBSTITUÍDO PELO NOME DO SEU PROJETO NO 
+HEROKU...
+
+
+
+---------------------------------------
+
+
+
+
+POR MEIO DESSE COMANDO NO TERMINAL, BASICAMENTE CONFIGURAMOS NOSSO CÓDIGO 
+
+______pARA QUE ELE SEJA ___ DEPLOYADO ____ PELO 'heroku', DEPLOYADO 
+
+
+COMO UMA ''NODE.JS APPLICATION'' PELO HEROKU...
+    (a application que você criou 
+        LÁ NO SITE DO HEROKU)
+
+
+-----------------------------------------------
+
+
+
+DEPOIS QUE VOCÊ FEZ ISSO, 
+
+
+VOCÊ PRECISA 
+
+
+RODAR ___3 COMANDOS__, 
+
+
+
+3 comandos para que o 
+
+
+SEU CÓDIGO NODE.JS dentro dessas suas PASTAS 
+
+SEJA EFETIVAMENTE ADICIONADO E EXECUTADO NO 
+
+
+APLICATIVO/SERVIDOR HEROKU QUE 
+
+
+
+ESTÁ NA WEB...
+
+
+(para deployar seus arquivos...).....
+
+
+
+
+os códigos são:
+
+
+
+
+'git add .'   (O '.' DEVE SER ESCRITO...)
+'git commit -am "make it better"
+'git push heroku master'
+
+
+
+---------------------------------------------
+
+
+
+PROFESSOR EXPLICA QUE ELE __JÁ ADICIONOU OS ARQUIVOS DELE___, 
+
+
+e que ele já fez aquilo que é chamado de um 'COMMIT'...
+
+
+
+
+
+
+COMMIT ----> É UM 'SNAPSHOT EM CÓDIGO'... ('It's basically a snapshot in code')....
+
+
+
+
+
+
+
+EX:
+
+
+
+In version control systems, a commit is
+ an operation which sends the latest changes
+  to the source code to the repository, making
+   these changes part of the head revision of the repository. 
+   Unlike commits in data management, commits in version control 
+   systems are kept in the repository indefinitely.
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+
+OBS: 
+
+
+
+quando eu escrevi 
+
+
+
+
+'git add.' , 
+
+
+
+A SEGUINTE MENSAGEM APARECEU NO TERMINAL:
+
+
+
+
+
+warning: LF will be replaced by CRLF in app.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in files.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in package.json.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in pure-node.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in routes/location.js.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in views/index.ejs.
+The file will have its original line endings in your working directory
+PS C:\projeto\MODULO29DEPLOYINGJAVASCRIPTCODE\parte2dynamicpagedeployment> 
+
+
+
+-----------------------------------------
+
+
+
+
+ALÉM DISSO,
+
+
+TODOS OS ARQUIVOS QUE 
+
+
+
+ESTAVAM COM 
+
+'U' do lado de seu nome, no IDE,
+ 
+
+
+ AGORA PASSARAM A TER UM 'A'... (WTF? o que isso significa? 'U' e "A"?)
+
+
+
+
+
+
+Certo... agora 
+
+
+entendi:
+
+
+
+'U' stands for untracked file, 
+meaning a file that is new or changed 
+but has not yet been added to the repository. 
+You can now click the plus icon by the index. 
+html file listing to add the file to be tracked by the repository.
+
+
+
+
+You can now click the plus
+ icon by the index.html file listing to 
+ add the file to be tracked by the repository. 
+ Notice now that the letter next to the file has changed to an 'A'. 
+ 'A' stands for a new file that has been added to the repository.
+
+'A' represents a new file that has been added to the repository.
+
+
+
+
+----------------------------
+
+
+Hm....
+
+
+ENTÃO ISSO SIGNIFICA QUE 
+
+
+
+'git add . '
+
+
+
+
+
+FAZ __TODOS OS ARQUIVOS __ NO FOLDER 
+
+
+DE NOSSO APLICATIVO/PROJETO 
+
+___sEREM ADICIONADOS___ 
+
+
+AO 'GIT'/repositório do git....
+ 
+ (cria tipo um SNAPSHOT do código.)
+
+
+--------------------------
+
+
+
+
+
+Let's add a bit of 
+content to our index.html file. 
+We can use an Emmet shortcut to generate an HTML5 
+skeleton by pressing the '!' character followed by Tab.
+ Go ahead and add something in the body like a Header and save it.
+
+As you would expect, 
+in the Source Control panel, you should see that your file has been changed.
+ It should show the letter 'M', which stands 
+ for a file that has been MODIFIED.
+'M' represents a file that has been modified.
+
+For practice, go ahead and commit this change as well.
+
+
+
+------------------------------
+
+
+
+
+
+OK....
+
+
+
+E o que acontece se eu executar 
+
+
+'git commit -am "make it better"?
+
+
+
+
+ISSO ME DÁ ESSE AVISO GIGANTE:
+
+
+
+
+warning: LF will be replaced by CRLF in app.js.
+The file will have its original line endings in your working directory
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'Usuário@DESKTOP-V43A7S1.(none)')
+PS C:\projeto\MODULO29DEPLOYINGJAVASCRIPTCODE\parte2dynamicpagedeployment>
+
+
+
+----------------------------------------
+
+
+
+
+
+
+
+Eu então tento executar 
+
+
+'git push heroku master'...
+
+
+
+
+
+Recebo outro erro:
+
+
+
+
+
+error: src refspec master does not match any
+error: failed to push some refs to 'https://git.heroku.com/projeto442.git'
+PS C:\projeto\MODULO29DEPLOYINGJAVASCRIPTCODE\parte2dynamicpagedeployment> 
+
+
+-----------------------------------
+
+
+
+Agora todos os arquivos estão como 
+
+
+'A' (added)...
+
+
+
+
+LF => Line Feed (ASCII 10)
+CRLF => Carriage Return + Line Feed (ASCII 13+10)
+
+
+
+
+(ISSO É UM ERRO DE LINHA.
+
+ACONTECE QUANDO NÃO TEMOS ESPAÇAMENTO CORRETO ENTRE OS CÓDIGOS; OU SEJA, 
+
+
+QUANDO NÃO USAMOS BEAUTIFY/PRETTIER para ARRUMAR O CÓDIGO...)
+
+
+
+
+
+(E eu ainda não sei bem como o git funciona...)
+
+
+
+
+---------------------------------------
+
+
+
+
+E AQUELE CÓDIGO DE 
+
+
+
+git commit -am "make it better"
+
+
+
+
+
+ainda PRODUZ AQUELE aviso de 
+
+
+'
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'Usuário@DESKTOP-V43A7S1.(none)')
+PS C:\projeto\MODULO29DEPLOYINGJAVASCRIPTCODE\parte2dynamicpagedeployment>
+
+
+'
+-----------------------------------
+
+
+
+
+Ok... aprendi algumas coisas sobre o GIT...
+
+
+---> primeiramente, você precisa DEFINIR UM USUÁRIO 
+
+e um EMAIL como responsável por esse projeto/git...
+
+
+
+
+
+
+---> você pode fazer commit de 1 arquivo ou de todos os arquivos na 
+
+
+pasta em que você instalou/deployou o git...
+
+
+por meio de 'git commit xxxx'...
+
+
+
+
+--> se você digitar 'git log', vocÊ pode ver O HISTÓRICO DE COMMITS 
+
+de um determinado projeto... (faça isso quando você quer determinar/decidir 
+
+PARA QUAL COMMIT VOCÊ VAI QUERER REVERTER O SEU CÓDIGO... Essas são 
+Todas VERSÕES SALVAS DO SEU CÓDIGo...)
+
+
+
+Quando vocÊ salva/faz algum commit no seu código, 
+
+o editor de texto SEMPRE PEDE POR UM COMENTÁRio (no sublime)....
+
+Aí vocÊ pode anotar mudanças entre os códigos, nesses comentários...
+
+
+
+
+--> se você digita 'git log', vocÊ consegue O HISTÓRICO DE COMMITS...
+
+PARA REVERTER o código PARA ALGUM DOS COMMITS ANTIGOS
+
+
+
+
+
+siga essa dica:
+
+
+
+
+If you want to test the previous commit 
+just do git checkout <test commit hash> ;
+ then you can test that last working version of your project.
+  If you want to revert the last commit just do git revert 
+  <unwanted commit hash> ; then you can push this new commit, 
+  which undid your previous commit.
+
+
+(mas não é isso que queremos.)
+
+
+
+----------------------------------------
+
+git reset --hard <commit_id>
+
+"Move" your HEAD back to the desired commit.
+
+# This will destroy any local modifications.
+# Don't do it if you have uncommitted work you want to keep.
+git reset --hard 0d1d7fc32 (hash)
+
+# Alternatively, if there's work to keep:
+git stash
+git reset --hard 0d1d7fc32
+git stash pop
+# This saves the modifications, then reapplies that patch after resetting.
+# You could get merge conflicts if you've modified things which were
+# changed since the commit you reset to.
+
+
+------------------------------------------
+
+
+hahahah, acho que eu saquei (acabei deletando 
+
+
+TODO O CÓDIGO DO NOSSO PROJETO, com exceção de 'files.js'....) --> 
+
+É EXATAMENTE ISSO 
+
+QUE O COMANDO 
+
+
+'git reset --hard <commit_id>' 
+
+
+
+FAZ.... ELE __RESETTA__ TODO O CÓDIGO DAQUELA PÁGINA PARA O ÚLTIMO COMMIT QUE VOCÊ 
+
+FEZ...
+
+
+
+COMO NÓS ____APENAS HAVÍAMOS FEITO COMMIT DAQUELE ÚNICO ARQUIVO 
+
+
+DE 'FILES.JS', efetivamente TODO O CONTEÚDO DO NOSSO PROJETO FOI DELETADO...
+
+
+
+
+Isso nos leva a um BOM DITADO DA COMUNIDADE DE PROGRAMAÇÃO:
+
+
+''COMMIT EARLY, COMMIT OFTEN...'' --> para que não aconteçam CAGADAS COMO esta...
+
+
+
+
+
+Certo... restaurei TODO O CÓDIGO...
+
+
+
+(OBS: quando você APAGA TODOS OS ARQUIVOS DE UM PROJETO QUE TENHA O GIT INSTALADO/DEPLOYADO,
+
+o GIT __CONTINUA EXISTINDO NAQUELE PROJETO__, os arquivos continuarão verdes 
+
+no IDE, tudo normal...)
+
+
+
+
+
+
+E agora, temos vários 
+
+"U" nos arquivos... U de 'unadded'/'untracked'... ----> devemos,
+
+
+
+antes de fazer commit,
+
+
+
+
+____ADICIONAR___ TODOS ESSES ARQUIVOS AO GIT,
+
+
+por meio do comando 
+
+
+
+'git add xxxxx'....
+
+
+
+
+
+nesse caso, 
+
+
+
+'git add .'...
+
+
+
+
+
+
+Certo...
+
+
+isso fez com que todos eles ficassem com 'A'....
+
+
+
+
+
+DEPOIS DISSO, PODEMOS FAZER ___COMMIT___ DESSES ARQUIVOS (salvar uma versão
+ deles no nosso git)....
+
+
+
+
+ ex:
+
+
+
+ 'git commit .'
+
+
+
+
+
+ CERTO, ISSO FUNCIONOU:
+
+
+
+ [master e4e4266] PRIMEIRO TESTE DO GIT.
+ 7 files changed, 156 insertions(+)
+ create mode 100644 Procfile
+ create mode 100644 app.js
+ create mode 100644 package.json
+ create mode 100644 pure-node.js
+ create mode 100644 routes/location.js
+ create mode 100644 user-data.txt
+ create mode 100644 views/index.ejs
+
+
+
+
+
+ -----------------------------------
+
+
+
+
+
+ Executo 'git log'...
+
+
+
+
+
+ Depois, executo 
+
+
+
+ 'git reset --hard <commit_id>'
+
+
+
+ ----------------------------------------
+
+
+
+
+ CERTO....
+
+
+
+ TESTEI A FEATURE DO 'HARD RESET' com um console.log 
+
+
+
+
+ em 'files.js'...
+
+
+
+ ESSA FEATURE REALMENTE FUNCIONA...
+
+
+
+
+ Sempre que estivermos satisfeitos/querendo testar alguma coisa no nosso 
+
+ código, devemos fazer COMMIT ANTES de realizar alguma mudança....
+
+
+
+(e para usar git em um projeto, devemos chamar 'git init' no terminal....)
+
+ -----------------------------------------------
+
+
+
+
+ Certo, agora devemos continuar com o hEROKU....
+
+
+
+
+ ----------------------------------
+
+
+
+ depois dessas coisas do git, 
+
+
+ professor diz que devemos 
+
+
+
+ rodar 
+
+
+
+
+ 'heroku git:remote -a projeto442' 
+
+
+
+
+ NO TERMINAL DO NOSSO PROJETO...
+
+
+
+
+
+ Isso vai nos render uma mensagem 
+
+
+ de 
+
+
+
+ 'set git remote heroku to https://git.heroku.com/projeto442.git'...
+
+
+
+ 
+
+
+
+
+ ''''GIT REMOTE ____HEROKU___''''
+
+
+ --> isso vai basicamente configurar seu código para que
+ ele seja deployado COMO UMA 
+
+
+NODE.JS heroku application... (application que você recém criou)...
+
+
+
+
+
+
+depois precisamos 
+
+
+
+DAQUELAS 3 LINHAS DE CÓDIGO....
+
+
+
+
+
+'git add .'  (adiciona todo código do nosso projeto AO WEBSERVER/WEBHOST DO HEROKU....)..
+
+'git commit -am "make it better"    ('am'?)         (isso apenas nos rendeu 'nothing to commit, working tree clean')...
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+Qual seria a diferença entre digitar: git commit -m "Teste" e git commit -am "Teste"?
+
+Estou aprendendo sobre Git e gostaria de saber como diferenciar isso.
+
+
+
+
+
+
+git commit -m "Teste"
+Faz o commit apenas dos arquivos modificados e que encontram-se 
+adicionados na área de stage (Changes to be committed) do Git.
+ Ou seja, trata-se apenas dos arquivos que você adicionou usando
+  um comando como este:
+
+git add nome_arquivo.txt
+
+
+
+
+Ou este:
+
+git add .
+
+
+
+Já o comando:
+
+git commit -am "Teste"
+Faz duas coisas: adiciona todos os arquivos modificados na área de stage e, em seguida, faz o commit dos mesmos. Em termos de comando, é o mesmo que você fizesse estes dois comandos abaixo:
+
+git add .               # adiciona todos os arquivos modificados no stage
+git commit -m "Teste"   # faz o commit dos arquivos modificados
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+e 
+
+
+
+'git push heroku master'.... ----> isso vai nos render:
+
+
+
+
+
+
+
+
+Enumerating objects: 17, done.
+Counting objects: 100% (17/17), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (17/17), 2.96 KiB | 758.00 KiB/s, done.
+Total 17 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Compressing source files... done.
+remote: Building source:
+remote: 
+remote: -----> Building on the Heroku-20 stack
+remote: -----> Determining which buildpack to use for this app
+remote: -----> Node.js app detected
+remote:        
+remote: -----> Creating runtime environment
+remote:
+remote:        NPM_CONFIG_LOGLEVEL=error
+remote:        NODE_VERBOSE=false
+remote:        NODE_ENV=production
+remote:        NODE_MODULES_CACHE=true
+remote:
+remote: -----> Installing binaries
+remote:        engines.node (package.json):  unspecified
+remote:        engines.npm (package.json):   unspecified (use default)
+remote:
+remote:        Resolving node version 14.x...
+remote:        Downloading and installing node 14.16.0...
+remote:        Using default npm version: 6.14.11
+remote:        
+remote: -----> Installing dependencies
+remote:        Installing node modules (package.json)
+remote:        
+remote:        > ejs@2.7.4 postinstall /tmp/build_37b04337/node_modules/ejs
+remote:        > node ./postinstall.js
+remote:
+remote:        added 67 packages from 46 contributors and audited 67 packages in 2.972s
+remote:        found 0 vulnerabilities
+remote:
+remote:        
+remote: -----> Build
+remote:        
+remote: -----> Caching build
+remote:        - node_modules
+remote:        
+remote: -----> Pruning devDependencies
+remote:        audited 67 packages in 0.842s
+remote:        found 0 vulnerabilities
+remote:
+remote:        
+remote: -----> Build succeeded!
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 33.2M
+remote: -----> Launching...
+remote:        Released v3
+remote:        https://projeto442.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/projeto442.git
+ * [new branch]      master -> master
+
+
+
+ -------------------------------------------------
+
+
+
+
+ Se digitarmos 'git log',
+
+
+ veremos 
+
+
+
+
+ commit e4e42669d79556f2f62ddf15c6f98a964fa21926 (HEAD -> master, heroku/master)
+Author: Arthur <madblorga@hotmail.com>
+Date:   Fri Apr 2 15:07:44 2021 -0300
+
+
+
+
+
+
+ou seja, agora esse commit/nossos commits SEMPRE 
+
+VAO ENVIAR O SNAPSHOT/COPIA 
+
+
+
+ao head de nosso 'master' e ao head do NOSSO SERVIDOR ('heroku/master')....
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+OU SEJA....
+
+
+
+
+o que o 'git push heroku master' faz é 
+
+
+EMPURRAR/tentar empurrar A 'LATEST SNAPSHOT' que eu criei COM 
+
+OS COMANDOS 'ADD' E 'COMMIT' (nos nossos arquivos/em 1 único arquivo...)
+
+
+
+PARA DENTRO DO SERVIDOR DO HEROKU...
+
+
+
+
+Para o professor, esse negócio __FALHA___ com uma mensagem de erro...
+
+
+A MENSAGEM DE ERRO DO PROFESSOR 
+
+
+DIZ QUE '''''NO DEFAULT LANGUAGE COULD BE DETECTED FOR THIS APP....''''
+
+
+(por 'default language', ele não quer dizer LINGUAGEM HUMANA, 
+E SIM LINGUAGEM DE PROGRAMAÇÃO...)
+
+
+
+
+
+PARA SOLUCIONAR ESSE ERRO,
+
+ 
+
+ DEVEMOS IR ATÉ O 'PACKAGE.JSON' e adicionar um novo script lá....
+
+
+
+
+ Devemos nomear esse script de 
+
+
+ 'start'...
+
+
+
+ 'start' e então colocar 'node app.js'  COMO SEU VALOR/CÓDIGO A SER EXECUTADO...
+
+
+ ex:
+
+
+
+
+ "scripts" {
+   "start": "node app.js"
+ }
+
+
+
+ -----------------------------------------
+
+
+
+ISSO VAI DIZER AO SERVIDOR, NO FINAL DAS CONTAS, COMO 
+
+ELE DEVERÁ EXECUTAR/COMEÇAR SEUS ARQUIVOS DO SERVIDOR.../como ele deverá 
+começar o servidor...
+
+
+
+professor então faz um commit desse 
+
+
+desse ARQUIVO MODIFICADO (o 'package.json') POR MEIO 
+
+DO CÓDIGO 
+
+
+'git commit -m'....
+
+
+
+
+'-m' ----> ISSO É UM 'COMPLEMENTO' ao comando 'commit'... ele basicamente 
+
+especifica QUE ___SOMENTE OS ARQUIVOS MODIFICADOS____ DEVERÃO SER INSERIDOS
+ NESSE COMMIT/ÚLTIMA SNAPSHOT DO NOSSO PROJETO....
+
+
+
+(e '-am' É PARA ____ADICIONAR(a) e COMMITAR (m) TODOS OS ARQUIVOS no 'stage' (na pasta)
+NO ÚLTIMO COMMIT DO NOSSO PROJETO...  )
+
+
+
+ok, 
+
+mas e 
+
+
+
+'git commit -m "texto inútil que não é inútil" "?
+
+
+
+
+bem, aquela coisa que vocÊ coloca do lado, aquela string, 
+
+É O NEGÓCIO 
+
+
+QUE SERÁ OUTPUTTADO NAQUELA COMMIT QUANDO VOCÊ USAR 
+
+
+'git log'... ....... isso aí será/é __TANTO O IDENTIFICADOR DAQUELA 
+COMMIT COMO TAMBÉM PODE SER/DEVE SER UMA EXPLICAÇÃO DAS MUDANÇAS QUE 
+O CÓDIGO SOFREU NAQUELA VERSÃO/SNAPSHOT/COMMIT....
+
+
+
+
+ex (do professor):
+
+
+
+git commit -m
+
+
+-----------------------------------------
+
+
+
+
+
+EXEMPLO DE ADIÇÃO E COMMIT DE UM ARQUIVO no último commit/snapshot do 
+nosso projeto...
+
+
+ex:
+
+
+
+git commit -am "added console.log to files.js"
+
+
+
+-----------------------
+
+
+
+git log =
+
+
+commit 400af4e65fd98d12441f053f8a7e48d0446aa3fc (HEAD -> master)
+Author: Arthur <madblorga@hotmail.com>
+Date:   Fri Apr 2 15:36:31 2021 -0300
+
+    added console.log to files.js
+
+
+-------------------------------------------------------
+
+
+
+
+
+(entretanto... você deve ter percebido: ISSO 
+
+APENAS UPDATOU OS ARQUIVOS DE NOSSO 'MASTER', e não do 
+
+'HEROKU/MASTER'... 
+
+Para que os arquivos/git 
+
+
+do HEROKU seja updatado, precisamos 
+
+
+daquele comando 
+
+
+'git push heroku master'...)
+
+
+
+------------------------------------------------
+
+
+
+
+
+----> SE O NEGÓCIO AINDA FALHAR, 
+
+
+
+COMO FALHOU PARA O PROFESSOR, 
+
+
+
+
+Você deve criar UM ARQUIVO CHAMADO 
+
+
+'Procfile'  (sim, assim mesmo, 'procfile', SEM 
+
+NENHUMA 'file extension', como '.js' ou '.jsx'...)
+
+
+
+
+
+DENTRO DESSE ARQUIVO,
+ 
+
+ VOCÊ 
+
+
+ DEVERÁ 
+
+
+ ESCREVER 
+
+
+ 'web: node app.js'...
+
+
+
+ ex:
+
+
+
+ web: node app.js
+
+
+
+
+
+
+
+
+ --------------------------------------
+
+
+
+
+
+ Procfile ----------> É UM ARQUIVO PROCURADO ESPECIFICAMENTE PELO 
+
+
+ 'HEROKU'....
+
+
+ ------------------------------
+
+
+ Isso feito, 
+
+
+ rodamos 
+
+ de novo 
+
+
+ o código 
+
+
+
+ 'git commit -m "mudança x" '...
+
+
+
+
+
+ talvez 
+
+
+
+ 'git commit -m "added procfile" '...
+
+
+
+
+ --------------------------------------
+
+
+
+
+
+
+ AGORA SEU SERVIDOR DO HEROKU DEVE ___FUNCIONAR___...
+
+
+
+
+
+ DEPOIS DISSO, VOCÊ DEVE 
+
+
+ IR ATÉ O HEROKU, SUA CONTA HEROKU NO BROWSER,
+
+
+ observar seu projeto e então CLICAR EM 
+
+
+ 'OPEN APP'...
+
+
+
+
+
+ Certo...
+
+
+
+
+ ISSO NOS rendeu
+
+
+UMA PÁGINA COM 
+
+ 'Cannot GET / ' 
+
+
+ ( o que significa que ESSE NOSSO SERVIDOR 
+ 
+ ESTÁ FUNCIONANDO, EMBORA COM UM ERRO...)
+
+
+
+
+ É EVIDENTE, EXPLICA O PROFESSOR, 
+
+
+
+
+ QUE ESSE APLICATIVO QUE ESTAMOS FAZENDO DEPLOY AQUI 
+
+
+ NESSE 'HEROKU SERVER' É UM 
+
+ ______APLICATIVO____ QUE 
+
+
+ NÃO RETORNA NENHUM CÓDIGO HTML; é um aplicativo 
+
+ QUE APENAS ARMAZENA LOCATIONIDs no mongoDb...
+
+
+
+
+ (ele se conecta a uma database, faz retrieve de dados nessa database 
+ 
+ E ENTÃO NOS DEIXA ADICIONAR DADOS NELA... )
+
+
+
+
+
+
+ professor diz que agora 
+
+
+
+ SE NÓS 
+
+
+ colocarmos a url 
+
+
+ de um de nossos PATHS/ROUTES, 
+
+ como 
+
+
+
+ '/location/lid' (substituindo o 'lid' por algum ID ALEATÓRIO que nós talvez tenhamos....)
+
+
+
+ ex:
+
+
+
+
+
+ https://projeto442.herokuapp.com/location/qwpii210jisog
+
+
+
+
+ ---------------------------
+
+
+
+ Se fizermos isso, 
+
+ receberemos uma 
+
+
+ PÁGINA DE ERRO DO 'heroku'...
+
+
+
+ 'application error'...
+
+
+
+
+
+ -------------------------
+
+
+ MAS SE FORMOS ATÉ A ABA 'NETWORK' e então recarregarmos essa página,
+
+
+ veremos que 
+
+
+ O REQUEST ESTÁ __fALHANDO___...
+
+
+
+
+ O request de dados desse servidor do HEROKU ESTÁ 
+
+
+ _____fALHANDO___; ELE NÃO ESTÁ CONSEGUINDO FAZER RETRIEVE 
+
+ DE DADOS 
+
+
+ DAQUELA 
+
+
+ 'cloud database' de 'mongoDB'...
+
+
+
+ ISSO ACONTECE PQ 
+
+
+
+ NÓS __ AINDA __ NÃO FIZEMOS O WHITELIST ____ DO SERVIDOR 
+
+
+ 'HEROKU' lá NO MONGODB (e sim, isso é necessário...)
+
+
+
+
+
+ POr isso vamos até o site do mongodb fazer essa alteração...
+
+
+
+ VAMOS ATÉ 
+
+
+
+ 'NETWORK ACCESS'...
+
+
+ Lá colocamos 
+
+
+
+ 'add ip address'...
+
+
+
+
+ depois 
+
+
+ colocamos 
+
+
+ 'allow access from anywhere' (isso faz com que o mongodb
+ 
+ FIQUE DISPONÍVEL NA WEB...) --> pessoas AINDA VAO PRECISAR DO SEU USERNAME E DO SEU PASSWORD, mas agora NÓS NÃO DEIXAREMOS MAIS ESSE NEGÓCIO (a database) LIMITADO A APENAS O SEU ENDEREÇO IP...
+
+
+
+
+
+
+ E COMO O 'HEROKU', pelo menos na setting 'FREE', 
+
+
+
+ SEMPRE ASSIGNA UM NOVO IP ADDRESS, 
+
+
+
+ NÓS NÃO VAMOS ACABAR DEIXANDO TODOS OS 
+
+ IP adresses serem 'flexible'.... 
+
+ Isso não vai acontecer 
+
+ PQ NÓS NÃO 
+
+
+ TEMOS UM ENDEREÇO IP FIXO...
+
+
+
+ (ou seja, para que essa setting funcione, 
+ 
+ basta que 
+ 
+ nós 
+ 
+ 
+ ADICIONEMOS UM IP DE '0.0.0.0/0' e 
+ 
+ 
+ com 'allow access from anywhere' no HEROKU...)
+
+
+
+ ------------------------------
+
+
+ ISSO FARÁ COM QUE O HEROKU FIQUE CAPAZ
+  
+
+
+
+  DE ACESSAR ESSA DATABASE DO MONGODB COM A AJUDA 
+
+  DO NOSSO APLICATIVO 'node.js' SERVERSIDE...
+
+
+
+
+  -------------------------
+
+
+  COM ISSO TERMINADO, 
+
+
+
+  devemos ir até 
+
+
+  o 
+
+
+  heroku e clicar em 
+
+
+
+  'More' e então em 
+
+  'RESTART ALL DYNOS' ---> isso reinicia todos os nossos servidores, 
+
+  basicamente.
+
+
+
+
+
+  --------------------------------------
+
+
+
+
+  ISSO VAI FAZER O SERVIDOR CAIR BREVEMENTE, antes de ele começar de novo.
+
+
+
+  DESSA VEZ, O NOSSO SERVIDOR VAI FUNCIONAR MSM...
+
+
+  nada aparece na página, pois não configuramos nada para aparecer (apenas configuramos as 2 routes....)
+
+
+
+
+
+
+---> OBS: NÃO IMPORTA O 'MODUS OPERANDI' DO SEU SERVIDOR,
+ 
+ NÃO INTERESSA 
+
+
+ SE ELE __rETORNA CONTEÚDO HTML PURO__, ou se ELE 
+
+ FAZ 'EXCHANGES' de .JSON DATA com 
+
+ o browserside... (como o nosso exemplo).
+
+
+
+
+---> para ver algo nessa página, precisamos visitar uma página 
+
+QUE EXISTE,
+ 
+
+ como 
+
+
+ '/location/:lid'...
+
+
+ ex:
+
+
+
+
+
+ ---------------------------------
+
+
+
+
+ PROFESSOR ADMITE QUE ESSA URL 
+
+
+ VAI NOS RETORNAR UMA PÁGINA 
+
+
+ DE ____ERRO_____....
+
+
+
+ --------------------------------
+
+
+A razão disso, explica o professor, 
+
+é que 
+
+
+a coisa que colocamos no lugar do ':lid' É UMA STRING INVÁLIDA...
+
+
+
+E isso faz com que nosso código FALHE no processo de converter 
+
+essa string a um objectId buscado lá no 
+mongodb.... 
+
+(em 'new mongodb.ObjectId(locationId)')
+
+
+
+
+
+
+
+----> COMO NÓS __NÃO TEMOS ERROR HANDLING__ no nosso servidor,
+
+
+
+ele simplesmente CRASHA.
+
+
+
+---------------------------
+
+
+
+---> professor nos mostra error handling no curso de node.js...
+
+
+
+
+
+--------------------------------------------- 
+
+
+
+
+
+
+
+AINDA ASSIM, AINDA COM UM LOCATIONID __VÁLIDO___, esse aplicativo 
+
+aidna vai falhar...
+
+
+
+
+
+A RAZÃO PARA ISSO, explica o professor, é bem TRIVIAL:
+
+
+UMA PREPARAÇÃO ESTÁ FALTANDO...
+
+
+
+em 
+
+'app.js', o professor/nós 
+
+ESTAMOS 
+
+
+
+FAZENDO 'LISTEN TO' NA 
+
+
+PORTA
+ 
+
+
+ '3000'...
+
+
+
+ QUANDO NÓS QUEREMOS 
+
+
+ FAZER DEPLOY DE UM APLICATIVO EM UM SERVIDOR DE 
+
+ ____VERDADE___, nós não vamos querer usar esse dummy port... (que é apenas usado localmente)...
+
+
+
+ EM VEZ DISSO, DEVEMOS USAR O PORT QUE O SERVIDOR QUE ESTAMOS USANDO 
+
+ NOS PROVIDENCIA....
+
+
+
+ E nós podemos COMUNICAR O NODE.JS dessa decisão...
+
+
+
+ Devemos dizer a ele que 
+
+
+ a porta '3000' É APENAS UMA ___aLTERNATIVA__...
+
+
+ fazemos isso por meio do operador OR ('||')...
+
+
+
+
+como parâmetro DEFAULT de 'listen' ('app.listen();'),
+
+
+DEVEMOS PASSAR 
+
+A PROPRIEDADE DE 
+
+
+'process.env.PORT'...
+
+
+
+
+
+ ex:
+
+
+
+
+app.listen(process.env.PORT || 3000);
+
+
+
+
+----------------------------------------
+
+
+
+
+app.listen(process.env.PORT || 3000);
+ ///////CÓDIGO USADO PARA DEPLOY EM 
+ __SERVIDORES DE VERDADE____.. pode parecer estranho, 
+ mas usa um SISTEMA BUILTIN no node.js CHAMADO DE 
+ 'environment variables'... isso é um PLACEHOLDER, 
+ um placeholder EM QUE O VALOR CONCRETO SERÁ INJETADO 
+ DINAMICAMENTE PELO 'ENVIRONMENT' QUE RODA O NOSSO SCRIPT....
+
+
+
+ -------------------------------------
+
+
+
+
+
+
+ QUANDO ESSE CÓDIGO/ESSE AMBIENTE __NÃO É PROVIDENCIADO__, COMO 
+
+ DURANTE O DEVELOPMENT DO CÓDIGO, 
+
+ NÓS
+
+ USAMOS O FALLBACK DE 3000....
+
+
+ MAS se esse valor É PROVIDENCIADO (e o heroku VAI PROVIDENCIAR),
+
+ nós o utilizamos... ---> ISSO SIGNIFICA QUE O HEROKU 
+
+ PODE/VAI PROVIDENCIAR SUA PRÓPRIA 'PORT' EM QUE 
+
+ NÓS VAMOS QUERER FAZER 'LISTEN TO', em vez daquela port '3000', 
+
+
+ que é apenas USADA EM/NO DEVELOPMENT...
+
+
+
+ DEVEMOS 
+
+
+ REALIZAR ESSA MUDANÇA E FAZER PUSH 
+
+ DESSE CÓDIGO PARA 
+
+
+ O 'heroku master',
+
+
+ com 
+
+
+ 'git push heroku master'....
+
+
+
+ -------------------------------------------------
+
+
+
+
+
+
+ FEITO ESSE PUSH ao heroku master ,
+
+
+
+ agora poderemos RODAR E VISUALIZAR NOSSO APLICATIVO... 
+
+
+ QUANDO REVISITARMOS ESSA PÁGINA, 
+
+
+
+ SEREMOS CAPAZES 
+
+ DE VER NOSSA LOCATION DATA ( e não o HTML, não uma PÁGINA BONITA, pois 
+ 
+ ESSE NÃO É O PROPÓSITO INTRÍNSECO DO HEROKU.... ELE PODE FAZER ISSO, 
+ 
+ SE VOCê ESTIVER CONSTRUINDO PÁGINAS DINÂMICAS,
+ 
+ mas geralmente ele SÓ VAI RETORNAR CÓDIGO PURO...)
+
+
+
+
+ É ASSIM QUE PODEMOS FAZER DEPLOY DE APLICATIVOS NODE.JS no 
+
+
+
+ heroku....
+
+
+
+
+
+ ----> UM MONTE DE ETAPAS DE HOSTING SÃO SEMPRE AS MESMAS, 
+
+ COMO ESSE 
+
+
+
+ 'app.listen(process.env.PORT || 3000);'
+
+
+
+
+
+
+ --> O CATCH DE ERROS TAMBÉM É UMA BOA IDEIA...
+
+
+
+
+
+
+
+ ---> VOCê TAMBÉM TEM QUE ASSEGURAR QUE VOCÊ 
+
+
+ FAZ/FARÁ O __WHITELIST___ DO IP ADDRESS (no mongoDB/database) do servidor 
+
+ em que seu aplicativo node.js vai rodar...
+
+
+ OU, 
+
+ SE VOCÊ NÃO SABE O IP, OU SE ESSE IP MUDA FREQUENTEMENTE,
+  
+
+  vocÊ deverá  MARCAR 'whitelist all ips' COM o '0.0.0.0/0'...
+
+
+
+
+
+
+
+  COM ISSO, VOCÊ É CAPAZ DE FAZER DEPLOY DE APLICATIVOS QUE USAM JAVASCRIPT EM SERVIDORES (ou seja, 
+  
+  NODE.JS em servidores...)
+
+
+
+
+
+
+https://academind.com/tutorials/git-the-basics/
+
+
+
+
+
+
+
+  # Useful Git Commands
+Quickly need to find a Git command? Here is your little helper:
+
+git init: Initialize a Git repository in the current folder
+git status: Show the current status of your Git repository (the “working tree” status)
+git add .: Track changes of all files in your Repository
+git commit -m "your message": Save updated code to a new Commit named “your message”
+git log: List all Commits inside your Branch
+git checkout branch-name: Jump to the last Commit of a Branch
+git checkout commitid Jump to a specific Commit of a Branch (commitid should be the ID of the Commit you want to checkout)
+git checkout -- .: Jump back to the last Commit and remove any untracked changes
+get reset --hard: Turn the selected Commit into the new HEAD
+git branch: List all Branches inside your Repository
+git checkout -b branch-name: Create a new Branch named branch-name
+git merge branch-name: Merge two Branches, branch-name is the Branch you merge with the Branch you’re currently working in
+git branch -D branch-name: Delete the Branch named branch-name
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+
+git checkout --   
+
+
+
+--------> Turns out that we actually don’t need that code and we would like to delete it 
+
+- the changes were not commited though.
+ Besides manually deleting our code
+  (which won’t work that easily if you changed a lot of code in different places), git checkout -- .
+   let’s us jump back to our last Commit (which doesn’t include these uncomitted changes of course).
+
+Awesome, these were the basics about Commits, time to move on to Branches now.
+
+
+
+
+
+
+If we add and commit this change too, we worked on the same code in two different Branches (the first <p>), so what happens if we try to merge the Branches now?
+
+git merge new-feature will give us an error: “Automatic merge failed; fix conflicts and then commit the result”.
+
+The conflict can be solved by deleting the code you do not want to keep. After that, commit the changes as learned before, this resolves the conflict and merges the Branches successfully.
+
+But again: Be careful whenever you delete code, Branches or Commits, after deleting information it is gone so you should know what you’re doing here.
+
+# Useful Git Commands

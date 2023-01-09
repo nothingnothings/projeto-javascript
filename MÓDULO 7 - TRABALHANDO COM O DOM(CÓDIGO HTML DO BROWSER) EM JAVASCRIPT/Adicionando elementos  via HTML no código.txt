@@ -1,0 +1,277 @@
+Adicionando elementos via html por meio do código javascript.
+
+
+
+O professor quer começar com "innerHTML".
+
+
+
+Para início de conversa, o professor quer selecionar a section de novo. Ele quer mudar inteiramente 
+o conteúdo de "section".
+
+Para isso, ele escreve:
+
+
+
+ex:
+
+
+
+const section = document.querySelector('section');
+
+
+
+
+Dentro de section, o professor utiliza a propriedade INNERHTML. Essa propriedade 
+existe dentro de todos os elementNodes, sempre. Anteriormente, vimos "textContent", que nos dá 
+acesso a todo o TEXTO que existe dentro de um determinado elemento. Podemos testar 
+textContent com section... se fizermos isso no dev console, ele irá nos mostrar 
+
+"Text 1
+Text 2 
+Text 3", que é o conteúdo de texto desse elemento/node. ----> É O TEXTO DE TODOS OS NOSSOS LIST ITEMS, OU SEJA, NÃO SÓ TEXTOS DE 
+CHILDS DIRETOS (direct child texts), mas de quaisquer textos nesteados dentro desse elemento que foi selecionado (espaços em branco, line breaks, etc etc.)
+Você também pode definir novos textos, novos "textContent" aqui, como por exemplo "New Content!" ----> BTW, SE VOCÊ 
+DIGITAR ESSE "NEW CONTENT!" ELE VAI SUBSTITUIR TODO O TEXTO QUE EXISTIA ANTERIORMENTE NESSE ELEMENTO, TODO O TEXTCONTENT ANTIGO. Vai substituir 
+todo conteúdo html relativo ao texto (tudo que está dentro de >Texto<) dentro dali... ou seja, podemos observar 
+que "textContent" também pode ser utilizado para colocar novo conteúdo,  mas ele só te deixa COLOCAR NOVO TEXTO. SE VOCê QUISER COLOCAR NOVOS 
+ELEMENTOS E ASSIM POR DIANTE, VOCÊ ___PRECISA___ usar  "innerHTML".
+
+
+
+
+ex:
+
+
+const section = document.querySelector('section');
+
+
+section.innerHTML = '<h2>A new title!</h2>'; --------------> ISSO REALMENTE FUNCIONA. AGORA TEMOS DENTRO DESSE ELEMENTO APENAS esse elemento 
+
+                                                                    <h2>, MAS O IMPORTANTE AQUI É QUE ESSA PROPRIEDADE "INNERHTML" VAI SEMPRE 
+                                                                    _____SUBSTITUIR_____ O CÓDIGO HTML QUE ESTAVA AQUI ANTIGAMENTE. VAI SUBSTITUIR 
+                                                                    ELE INTEIRO, SEM DISCERNIR ENTRE AS MÚLTIPLAS DIVS QUE ESTÃO NO SEU INTERIOR.
+                                                                    Quaisquer nodes antigos entre as tags de <Section></section>, ou seja, 
+                                                                não só direct child nodes, mas todos os descendants e o caralho vão ser 
+                                                                TOTALMENTE SUBSTITUIDOS (OVERWRITED) pelo código novo.
+
+
+
+InnerHTML ---> essencialmente apenas troca o conteúdo HTML na sua integralidade (todo conteúdo HTML ali, todo conteúdo 
+HTML nesteado) pelo novo conteúdo HTML que vocÊ 
+digita no javascript.
+
+
+
+Em certos casos, isso é EXATAMENTE aquilo que vocÊ precisa...
+
+
+Porém, há vezes em que você apenas quer ADICIONAR 1 ÚNICO PEQUENO ELEMENTO E MANTER TODO O CONTEÚDO ANTIGO.
+Quando você quer fazer isso, innerHTML não é tão bom assim....
+
+
+Um workaround (uma gambiarra) que você pode utilizar é o truque de 
+
+"APPEND CONTENT TO INNERHTML".
+
+
+Como assim? Bem, digamos que aqui 
+nós selecionamos a 
+
+
+unordered list (<ul>) e a armazenamos na constante 
+"list".
+
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+
+
+----------------------------->
+
+Agora, o professor quer manter sua lista existente; ou seja, todos os elementos <li> que estão dentro 
+de <ul>. Ele quer manter todos os elementos, e aí adicionar um novo elemento.
+
+
+VOCÊ PODERIA FAZER ISSO POR MEIO desse método:
+
+
+ex:
+
+
+list.innerHTML = list.innerHTML + '<li>Text 4<li>';   
+
+
+
+(isso também poderia ser escrito como:)
+
+
+list.innerHTML += '<li>Text 4<li>';
+
+
+------> Esse método é essencialmente "quero que o innerHTML de list seja o innerHTML antigo (list.innerHTML) + essa string que forma um novo elemento da list."
+
+
+------> ESSE MÉTODO REALMENTE FUNCIONA! O item 4 realmente é adicionado ao final da lista, logo após todos os outros elementos.
+
+
+
+----> ISSO funciona, MAS ESSE APPROACH TEM UMA VANTAGEM GIGANTE:
+
+
+Fica claro que se nós formos a "elements" e observarmos a relação dos elementos no devtools...
+
+
+o professor mostra, por meio da adição de um novo elemento "item 5", repetindo aquele mesmo código, que 
+QUANDO NÓS ADICIONAMOS UM NOVO ELEMENTO POR MEIO DESSE MÉTODO, todos elementos da <ul> PISCAM ("flash"), 
+o que, segundo ele, é um péssimo sinal.
+
+Esse "flash" ---> INDICA QUE TODOS OS ITEMS QUE PISCARAM DE FATO MUDARAM, OU SEJA, FORAM ESSENCIALMENTE 
+RE-RENDERIZADOS. Isso é muito ruim. Ruim porque o que essencialmente ocorreu aqui é que quando nós escrevemos 
+aquele código que foi executado no javascript, nós basicamente SUBSTITUÍMOS TODO O CÓDIGO HTML DA UNORDERED LIST (<UL>)
+COM CONTEÚDO NOVINHO EM FOLHA.... sim, o conteúdo novo é baseado/praticamente idêntico ao velho em questão de valor...
+MAS_________ NÃO É O MESMO CONTEÚDO_______; isso é óbvio, é óbvio que não é o mesmo que o conteúdo antigo, pois todo o conteúdo dessa 
+ul foi basicamente re-renderizado.
+
+
+
+O fato de tudo em <ul> ser re-renderizado com esse método tem 2 implicações/consequências importantes:
+
+
+
+1) NÃO É LEGAL, EM QUESTÃO DE PERFORMANCE. Você está forçando o browser a reparsear e a re-renderizar um monte de código HTML que, no final 
+das contas, não mudou quase nada. É claro que para uma lista pequena como essa, em uma página pequena, isso não importa nem um pouco. Mas em 
+páginas grandes, a diferença é notável. Pode ser MUITO RUIM e realmente machucar a performance e user experience. 
+
+
+
+2) Além disso, se você fizesse isso a outro elemento, como "input", por exemplo, aí você enfrentaria um problema COMPLETAMENTE DIFERENTE, MAS 
+AINDA PIOR: 
+
+Digamos que, no nosso index.html, o input estivesse dentro de uma div. Estivesse wrappeado por uma <div>.
+
+ex:
+
+<div>
+
+
+<input type="text" value="default-text"/>
+</div>
+
+
+
+O professor então ganha acesso a essa div por meio dos devtools:
+
+
+
+ex:
+
+
+const div = document.querySelector('div');
+
+
+
+---------------------------------
+
+
+
+Então, digamos que, por alguma razão, o professor quer mudar o conteúdo da div.
+Para tal, ele usa a propriedade innerHTML que fica dentro da div. Quer adicionar o conteúdo antigo da div + um elemento "paragraph".
+Ele quer usar isso como resposta ao usuário para casos em que ele digitou algo incorreto. 
+
+Resumo: ele vai querer renderizar esse parágrafo enquanto "mantém" todo o conteúdo antigo.
+
+ex:
+
+const div = document.querySelector('div');
+
+div.innerHTML = div.innerHTML + '<p>Something went wrong!</p>';
+
+-------------------------------->
+
+
+
+MAS... EIS QUE SURGE O PROBLEMA:
+
+digamos que ele inputta alguma coisa no lugar do input (quando ele faz isso, ele substitui o "default text" que 
+está em input por aquilo que ele escreveu. ex: 'Hi, I'm Max.' ---> isso vai ficar no slot "value".). Então 
+ele muda aquele texto do input e executa esse comando da div.
+
+Aí que aparece o problema: quando nós usamos esse comando do innerHTML, o INPUT DO USUÁRIO ANTIGO É COMPLETAMENTE PERDIDO. ISSO 
+OCORRE PORQUE O CÓDIGO HTML INTEIRO É REFRESHADO QUANDO UTILIZAMOS "innerHTML", ou seja, o código HTML antigo (com o input do usuário) é 
+completamente descartado. O código novo substitui o antigo totalmente (ainda que o conteúdo novo 
+seja baseado no antigo, isso ainda acontece), até mesmo o input é perdido.
+
+
+É POR ISSO que innerHTML é uma propriedade perigosa, que pode resultar em merda.
+
+
+Esse ponto negativo é ainda maior do que o primeiro, o da performance.
+
+
+
+RESUMO: innerHTML é útil sempre que vocÊ precisa mudar TUDO naquele trecho do HTML, todo código HTML de um certo 
+elemento. Não é bom para casos em que você quer apenas adicionar alguma coisa ao conteúdo que já existe (como adicionar 
+um item list à uma lista.)
+
+
+uma forma melhor de updatar essa lista, que faz com ela seja updatada e também faz com que o USER INPUT SEJA MANTIDO, é o comando 
+"insertAdjacentHTML".
+
+ex:
+
+
+list.insertAdjacentHTML('beforeend', '<li>Item 4</li>');  -----------> ISSO ('beforeend')VAI FAZER COM QUE O ITEM 4 SEJA ADICIONADO 
+                                                                        AO FINAL DESSE ELEMENTO, MAS AINDA DENTRO DELE.
+
+
+
+
+insertAdjacentHTML ----------> TE PERMITE A ESCOLHER UMA POSIÇÃO (primeiro parâmetro) E ENTÃO DEFINIR QUAL 
+HTML CODE VOCê VAI QUERER INSERIR NAQUILE LUGAR.
+
+
+É bom ler o artigo do MDN sobre essa propriedade. Lá há os diferentes valores para o parâmetro de posição.
+
+
+
+'beforebegin' ---> antes do elemento em si 
+
+
+'afterbegin' ---> dentro do elemento, mas antes da primeira child.
+
+'beforeend' --> dentro do elemento, mas depois da última child.
+
+'afterend' --> depois do elemento em si.
+
+
+
+ex: 
+
+
+
+div.insertAdjacentHTML('beforeend', '<p>Something went wrong!</p>');
+ 
+
+
+ -----------------> Se digitarmos eses comando, veremos que esse parágrafo será adicionado 
+ ao final, mas o conteúdo html antigo não será descartado, ficará mantido. Esse 
+ comando é utilizado em casos que você quer manter inputs de usuário e conteúdo da página em geral. O que 
+ esse código faz é apenas renderizar e inserir esse código novo naquele lugar.
+
+
+
+
+
+ Essa é uma das maneiras principais de adicionar novo conteúdo a elementos html já existentes.
+É UM EXEMPLO DE CÓDIGO HTML QUE VOCÊ ESCREVE ____DENTRO DO JAVASCRIPT____, e é, portanto, 
+uma excelente maneira de manipular esses elementos.
+
+
+No entanto, apesar de isso parecer perfeito, ainda há cenários em que você 
+não vai querer adicionar elementos/código javascript dessa forma.

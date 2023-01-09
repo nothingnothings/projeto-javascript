@@ -1,0 +1,124 @@
+
+
+
+
+AS FERRAMENTAS BUILTIN NO chrome QUE NOS AJUDAM COM A PERFORMANCE DO NOSSO CÓDIGO PODEM SER 
+
+'daunting', 'complexas'... --------> POR ISSO É IMPORTANTE 
+
+SABER EM QUE LUGAR NÓS PODEMOS APRENDER __MAIS SOBRE ISSO___...
+
+
+
+
+
+Anexadas a essa lição você pode encontrar 2 páginas 
+
+QUE O PROFESSOR RECOMENDA...
+
+
+
+
+
+------------> UMA DELAS É DO 'chrome website'... ---> É UM NEGÓCIO QUE EXPLICA MUITO BEM 
+
+AS FERRAMENTAS DE ANÁLISE DE PERFORMANCE NO 'BROWSER DEV TOOLS'... --------> ali você aprende 
+
+
+TUDO SOBRE ESSAS FERRAMENTAS, sobre o que vocÊ pode fazer lá, o que tudo significa, 
+
+etc.
+
+
+
+----> também te explica COMO VOCÊ PODE CONFIGURAR essa aba, 
+
+COMO VOCÊ PODE SALVAR E CARREGAR SNAPSHOTS e assim por diante....
+
+
+
+----> essa página é MUITO ÚTIL...
+
+
+
+---> muito útil se você quer APRENDER TUDO SOBRE ESSAS FERRAMENTAS.
+
+
+
+---> você quer ser capaz de analisar ___TUDO____...
+
+
+
+
+-->você também deve checar os outros resources que existem nessa página, 
+
+
+como o artigo 
+
+sobre 
+
+OPTIMIZAR A VELOCIDADE DE WEBSITES, 
+
+que fala sobre MAIS do que apenas javascript... ---> esse artigo também fala sobre OPTIMIZAR IMAGENS e assim por diante... 
+
+
+
+
+Ver todos os artigos sobre performance e javascript nesse artigo...
+
+
+
+
+
+
+
+
+
+
+Você também pode aprender mais sobre os browser dev tools nessa página, em geral...
+
+
+
+
+TAMBÉM INTERESSANTE É A OUTRA PÁGINA QUE O PROFESSOR ANEXOU....
+
+ELA FALA SOBRE A PERFORMANCE EM UM CONTEXTO DO BROWSER...
+
+
+
+alguns conceitos aqui podem ajudar com node.js, mas 
+
+
+
+a maior parte deles TE AJUDA COM O BROWSER....
+
+
+
+--> e é no browser onde podemos CAGAR UM MONTE A PERFORMANCE, por isso esses artigos são importantes.
+
+
+
+
+
+Ler sobre o 
+
+
+'RAIL' 
+
+
+
+'RESPONSE - ANIMATION - IDLE - LOAD'...
+
+
+
+
+Essa página também fala sobre animação em paginas web, o que é útil.
+
+
+
+--> animação é controlada pelo JAVASCRIPT e pelo CSS...
+
+
+
+
+-------------------------------

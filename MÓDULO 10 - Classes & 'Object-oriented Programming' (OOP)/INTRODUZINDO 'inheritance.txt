@@ -1,0 +1,464 @@
+ 
+
+
+
+
+ Nesse nosso aplicativo, temos um punhado 
+
+
+
+ de classes:
+
+
+
+
+ ProductItem, 
+
+
+
+
+ ProductList, 
+
+
+
+
+
+ ShoppingCart....
+
+
+
+
+ etc etc.
+
+
+
+
+
+
+
+
+ O QUE TODAS ELAS TEM EM UM COMUM É 
+
+
+
+ UM __RENDER METHOD___...
+
+
+
+
+ Nesse render method de cada uma delas, 
+
+
+ nós fazemos coisas diferentes (é claro), 
+
+ MAS NÓS SEMPRE 
+
+
+
+ __cRIAMOS UM NOVO ELEMENTO___...
+
+
+ "document.createElement('section');"
+
+
+
+
+
+
+
+
+ Nós então, depois disso, adicionamos 
+
+
+ COISAS a esse elemento... 
+
+
+
+ podemos ver isso, por exemplo, com 
+
+
+
+
+ o uso de 'innerHTML'...
+
+
+
+
+ POr fim, nós geralmente retornamos o elemento (ex: 'return cartEl')...
+
+
+
+
+
+
+
+ ESSA LÓGICA ESTÁ DUPLICADA MÚLTIPLAS VEZES NO CÓDIGo...
+
+
+ é claro que a exata configuração dessa lógica  
+
+
+
+ difere (em alguns deles temos uma definição de className,
+ criação de diferentes html tags...) .... isso 
+
+
+ tudo difere, MAS A LÓGICA EM GERAL É SEMPRE a
+  MESMA...
+
+
+
+
+
+
+
+
+
+
+Portanto, embora nós tenhamos diferentes lógicas para o que 
+
+nós então adicionamos A ESSE ELEMENTO QUE NÓS CRIAMOS, 
+
+
+A criação e configuração  BASICAMENTE, como o professor 
+apontou múltiplas vezes, É A MESMA.
+
+
+
+
+
+Em casos como esse, em que há a repetição de uma mesma 
+lógica múltiplas vezes em nosso código, 
+
+
+podemos utilizar um conceito chamado de 
+
+
+'INHERITANCE'.
+
+
+
+
+O conceito de 'inheritance' É UTILIZADO EM MÚLTIPLAS 
+
+
+LINGUAGENS DE PROGRAMAÇÃO, não é exclusiva do javascript...
+
+
+
+
+
+
+
+
+O conceito de inheritance é UTILIZADO PARA 
+
+
+
+COMPARTILHAR CONVENIENTEMENTE CÓDIGO 
+
+AO LONGO DE DIFERENTES CLASSES...
+
+
+
+Devemos explorar mais esse conceito...
+
+-------------------------------------
+
+
+
+
+A ideia por trás de inheritance é que nós 
+
+
+
+temos uma classe 'BASE', digamos, por exemplo, uma classe 
+
+
+chamada de 'Post':
+
+
+
+
+
+
+ex:
+
+
+
+
+-----------
+|   Post    |
+|           |
+------------    
+            |
+            |
+title       |
+            |
+text        |
+            |
+creatorId   |
+            |
+------------
+
+
+
+
+
+temos aqui um 'POST', um post 
+
+ 
+de uma rede social... essa classe 'post' 
+
+TEM UM PUNHADO DE PROPRIEDADES/e ou métodos...
+
+
+
+
+
+Nesse exemplo, nosso post tem 3 propriedades....
+3 PROPRIEDADES, AS QUAIS NÓS TAMBÉM UTILIZAMOS EM OUTRAS 
+CLASSES (precisamos utilizá-las em outras classes, nesse exemplo).
+ 
+
+
+
+
+
+Digamos que temos uma versão ESPECIALIZADA dessa classe post, 
+
+chamada de 'ImagePost'...   essa versão do post 
+
+tem TODAS AS PROPRIEDADES de 'post',  MAS 
+
+
+TEM PROPRIEDADES ADICIONAIS, como uma 
+
+
+'imageUrl' e uma 'ImageDescription'....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+-----------
+|   Post    |
+|           |
+------------    
+            |
+            |
+title       |
+            |
+text        |
+            |
+creatorId   |
+            |
+------------
+
+
+
+
+
+
+
+
+
+-----------
+|   Image   | 
+|   Post    |
+|           |
+------------    
+            |
+            |
+title       |
+            |
+text        |
+            |
+creatorId   |
+            |
+ ------------           
+ imageDesc  |
+ imageUrl   |
+            |
+------------
+
+
+
+
+
+
+-----------------------------
+
+
+
+
+
+E AINDA TEMOS OUTRO TIPO DE POST ESPECIALIZADO, que seria o VIDEOPOST...
+
+O videoPost tem propriedades exclusivas, como 
+
+
+videoDesc e VideoUrl.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+-----------
+|   Post    |
+|           |
+------------    
+            |
+            |
+title       |
+            |
+text        |
+            |
+creatorId   |
+            |
+------------
+
+
+
+
+
+
+
+
+
+-----------
+|   Image   | 
+|   Post    |
+|           |
+------------    
+            |
+            |
+title       |
+            |
+text        |
+            |
+creatorId   |
+            |
+ ------------           
+ imageDesc  |
+ imageUrl   |
+            |
+------------
+
+
+
+
+
+
+
+
+
+-----------
+|   Video   | 
+|   Post    |
+|           |
+------------    
+            |
+            |
+title       |
+            |
+text        |
+            |
+creatorId   |
+            |
+ ------------           
+ videoDesc  |
+ videoUrl   |
+            |
+------------
+
+
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+NÓS PODEMOS, É CLARO, CONSTRUIR MÚLTIPLAS 
+CLASSES, UMA PARA CADA TIPO DE POST......
+
+
+mas isso é SUBÓPTIMO (suboptimal), PORQUE 
+
+NÓS ACABAMOS DUPLICANDO UM MONTE DE CÓDIGO.
+
+
+'title' 'text' e 'creatorId' são repetidos 1 milhão 
+de vezes, e isso não é bom.
+
+
+
+(Building multiple classes with code duplication is suboptimal!).
+
+
+
+---------------------------------
+
+
+
+
+Em vez disso, seria muito bom se você pudesse 
+
+ESTENDER a classe 'base' (post)... e, é claro, vocÊ pode 
+
+
+fazer isso com javascript....
+
+
+
+
+Com o javascript, você pode fazer com que 
+
+as outras classes FAÇAM O INHERIT das propriedades
+
+que a classe base (post) tem...
+
+
+
+VOcê pega o conteúdo do post automaticmaente nas outras classes, 
+basicamente... (e você ainda pode adicionar 
+o conteúdo exclusivo de cada classe em cima desse conteúdo 
+herdado... você pode adicionar o conteúdo exclusivo/lógica por cima 
+dessas subclasses...)
+
+
+
+
+ADEMAIS, VOCÊ TAMBÉM PODE OVERWRITAR coisas que foram compartilhadas 
+
+pela classe base com coisas das classes novas...
+
+
+
+
+E esse conceito de inheritance pode ser utilizado no nosso projeto, 
+agora mesmo.

@@ -1,0 +1,452 @@
+
+
+
+BEM, POR EXEMPLO, com nossa EXTENSÃO 'eslint'...  
+
+
+
+
+APERTE CONTROL SHIFT P 
+
+
+
+
+e então 
+
+
+
+escolha 
+
+'create ESLint configuration'...
+
+
+
+Isso te dá algumas opções de configuração...
+
+
+
+
+
+Professor opta por 
+
+
+'check syntax, find problems, and enforce code style'...
+
+
+
+
+Sempre escolha a config file como sendo 'json'...
+
+
+
+
+
+
+CRIE SEMPRE PASTAS COM NOMES SIMPLES, SEM -, SEM ACENTOS (´, ^, ~), 
+
+NADA DE FIRULA. 
+
+ISSO VAI FACILITAR A SUA VIDA.
+
+
+
+
+-------------------------------------
+
+
+
+CERTO, CONSEGUIMOS INSTALAR O LINT (finalmente)
+
+
+
+
+
+FOI criado um arquivo '.eslintrc.json' na pasta 'MODULO21JAVASCRIPTTOOLING&WORKFLOWS'
+
+
+
+
+
+Você pode ler como essa config file funciona na documentação do lint, na página oficial.
+
+
+
+
+
+Se olharmos dentro desse arquivo, podemos ver que essa foi a config definida por nossas escolhas...
+
+
+
+
+
+Várias regras...
+
+
+
+
+
+A parte mais interessante é, de fato, a propriedade 
+
+
+'rules'....
+
+
+
+
+
+DENTRO DE 'rules', vemos 'quotes'....
+
+
+
+SE LERMOS AQUILO ALI, VEREMOS QUE ELE ACEITA 'single' e 'double' quotes....
+
+
+
+
+
+
+
+AGORA, SE EU FOR NO MEU CÓDIGO E ESCREVER, por exemplo, 
+
+
+'globalThis.DEFAULT_VALUE = "MAX";
+
+
+
+,
+
+
+
+CONSEGUIREI VER QUE O 'lint' NÃO GOSTOU DESSE ESTILO (não é um erro TÉCNICO PROPRIAMENTE DITO, mas sim um erro de ESTILO, de legibilidade).
+
+
+
+
+
+
+
+E COMO PODEMOS VER ESSE 'DESGOSTO' DO LINT?
+
+
+
+Simples, basta recarregar a página.
+
+
+
+
+
+O lint vai sublinhar o 'problema'...
+
+
+
+Nesse caso, ele dirá 
+
+
+'strings must use single quote'...
+
+
+
+
+
+
+-----> DE NOVO, NÃO É UM ERRO TÉCNICO ESCREVER ISSO DESSA FORMA, mas nós 
+
+__não estamos seguindo nosso próprio estilo__. (style guide).
+
+
+
+
+
+
+
+ELE TAMBÉM ESTÁ RECLAMANDO DE 'globalThis',
+
+
+
+dizendo que 'ELE ESTÁ UNDEFINED', e que NENHUMA 'UNDEFINED VARIABLE' deve ser utilizada.
+
+
+
+
+
+---> aqui, é claro, sabemos que 'globalThis' é, na verdade, uma 'RESERVED WORD' que 
+é disponível e exposta pelo javascript... --> é por isso que podemos 
+clicar em "quick fix" para isso e então DESABILITAR ESSA REGRA ESPECÍFICA PARA 
+ESSA LINHA (isso é útil para tirar regras do ESLint que você não ache relevantes/pertinentes.)
+
+
+
+(SE VOCÊ FIZER ISSO VOCÊ VERÁ QUE UMA LINHA 
+
+"//eslint-disable-next-line no-undef" é ADICIONADA LOGO ACIMA 
+dessa linha de "globalThis.DEFAULT_VALUE = 'MAX';" -----> isso fará com que 
+o ESLint ignore o erro/impropriedade dessa linha...) ---> 'por favor, ignore essa regra específica na execução/análise linha específica"
+
+
+
+
+
+
+-------------------------------------------------
+
+
+
+
+PODEMOS TAMBÉM MERGULHAR EM OUTROS ARQUIVOS E VER OUTROS ERROS.
+
+
+
+Em 'Analytics.js", por exemplo, podemos ver outros erros de estilo.
+
+
+
+Se clicarmos em quick fix, veremos vários potenciais fixes.
+
+
+
+É claro que, se você estiver descontente com alguma regra, vocÊ pode simplesmente 
+
+colocar o cursor do mouse em cima do erro/marcação. Isso vai mostrar uma janela no IDE que 
+
+te dirá o nome/código da regra que está incidindo sobre essa linha do código.
+
+
+VOcê então copia esse código da regra e vai até o 
+
+'.eslintrc.json', 
+
+onde você poderá então procurar a parte do código que possui essa opção 
+e então trocar 
+
+"never" para "always", ou vice e versa...
+
+
+
+
+(WHICH VALUES CAN YOU USE? Check the official docs OR try auto-completion (CTRL + SPACE) between 
+the double quotes)...
+
+
+
+
+Se você trocar 
+
+"newline-after-var" para 'always', por exemplo, 
+
+
+a regra específica que nos dava aquele erro lá agora SUMIU, pois agora 
+
+nós vamos sempre FORÇAR UMA NOVA LINHA após cada definição de variável.
+
+
+
+
+Agora, por meio dessa alteração, o ESLint sempre irá reclamar/pedir que você pule uma linha 
+
+após a definição das consts/variables.
+
+
+
+
+também há outro "Problema" no código, 
+
+um CONSOLE.LOG.
+
+
+
+CONSOLE.LOGS não são permitidos durante A PRODUÇÃO PORQUE ELES NÃO ACRESCENTAM COISA ÚTIL 
+AO CÓDIGO.
+
+
+Mas o professor __quer___ utilizá-los,
+
+por isso ele vai até o .eslintrc.json 
+
+
+e altera 
+
+
+a linha de código 
+
+
+"no-console", cujo valor ele troca para 'off', o que DESABILITA AQUELA REGRA.
+
+
+
+
+Outro problema, 
+
+número 
+
+"2000" (milissegundos) em 
+
+
+"setIntervalId(() => {} )..."
+
+
+
+
+
+O ESLint reclama que esse é um "magic number"....
+
+
+
+Se você não entender/conhecer algo, você sempre pode clicar em 
+
+"show documentation" para ver a documentação e informações acerca daquilo.
+
+
+
+
+---> A DOCUMENTAÇÃO IRÁ NOS DIZER QUE NÚMEROS COMO 
+
+'2000' não são permitidos, que é muito melhor 
+
+ARMAZENÁ-LOS em uma constante, como 
+
+'const timerTime = 2000;' e então 
+
+
+referenciar a constante naquele outro lugar.
+
+
+
+
+
+----> O professor também tira outra coisa que ele não 
+
+gosta, 
+
+
+"eslint(function-call-argument-newline)" ---> isso vai desabilitar os espaços quando definimos um argumento interno de uma function call.
+
+
+
+----------------------------------------
+
+
+
+
+Podemos ir corrigindo as issues em todos os arquivos....
+
+
+
+Mas uma coisa que você talvez queira fazer é 
+
+
+digitar "ESLint" no command prompt do IDE (Ctrl shift P) e então clicar 
+
+em 
+
+"fix all auto-fixable problems"
+
+
+
+
+MAS MESMO COM ISSO, VOCÊ VERÁ QUE AINDA TEREMOS UM BOCADO DE ERROS.
+
+
+
+
+Isso ocorre pq há certas regras que SIMPLESMENTE NÃO GOSTAM DE CERTOS ESTILOS.
+
+
+--> isso não quer dizer que nosso código é bom ou ruim,
+
+esses são apenas alguns defaults QUE NÃO 
+
+ESTÃO 'fine-tuned" às suas especificidades.
+
+
+
+
+
+Você teria que mexer em tudo e ver o que cada opção faz, e isso é bom 
+
+de fazer....
+
+
+É assim que você encontra o seu próprio estilo...
+
+
+O que o professor vai fazer, portanto, é remover todas essas 
+regras E DEIXAR APENAS 
+
+
+A REGRA DOS 'quotes'... (SINGLE QUOTES E DOUBLE QUOTES)
+
+
+
+
+Professor diz que você deve adicionar apenas as regras que você precisa, e deletar o restante...
+
+
+que vocÊ não deve deixar todas as rules como "error", pois isso fará o ESLint ser muito pau no cu. 
+
+
+
+
+
+
+Professor ainda diz que É POSSÍVEL ADICIONAR REGRAS NOVAS AO ESLint, que para isso
+devemos checar os docs do ESLint, que explicam como fazer isso.
+
+
+ex:
+
+
+
+"semi": "error" ------> isso agora nos dará UM ERRO se nós não usarmos uma "semi-colon" (;)
+-------------------------------------------------
+
+
+
+
+É POR MEIO DO 'ESLint' que vocÊ pode criar um estilo próprio e então 
+
+aplicá-lo ao resto do seu código.
+
+
+
+
+CERTO.
+
+
+
+ENTENDEMOS COMO USAR ESSA FEATURE.
+
+
+
+AGORA DEVEMOS ENTENDER O BUNDLING, no qual nós não TRABALHAMOS NA QUALIDADE 
+
+DO NOSSO CÓDIGO, e sim, em vez disso, no CÓDIGO QUE NÓS OUTPUTTAMOS, para que nós 
+
+acabemos outputtando múltiplos arquivos com múltiplos requests.
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+ESLint offers a lot of different options so that you can really fine-tune it exactly to your requirements.
+
+You can set up your own rules from the ground up (basically what we started doing in the lectures) but you can also use presets and pre-configured rulesets.
+
+To fully understand all options you can configure in .eslintrc.json, this part of the official docs should be helpful: https://eslint.org/docs/user-guide/configuring
+
+To explore all available rules and what they mean, explore this part of the official docs: https://eslint.org/docs/rules/
+
+Want to use a preset? Here you go: https://www.npmjs.com/search?q=eslint-config (just click on one of the results and follow the instructions provided there)
+
+Also check out the docs in general: https://eslint.org/docs/user-guide/getting-started

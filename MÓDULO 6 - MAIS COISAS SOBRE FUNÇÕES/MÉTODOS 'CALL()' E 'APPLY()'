@@ -1,0 +1,48 @@
+De volta ao código em que estavamos mexendo antes.
+
+
+Bind() é um MÉTODO MUITO ÚTIL que você vai usar constantemente como javascript developer. É usado para 
+*PREPARAR* suas funções a serem chamadas (funções futuras, que serão chamadas no futuro, chamadas PELA MÁQUINA, E NÃO POR VOCÊ).
+É usado para preparar as funções para serem chamadas no futuro pela máquina, sem a ajuda do próprio developer.
+
+
+HÁ FUNÇÕES SIMILARES, que vocÊ geralmente encontra quando você pesquisa sobre o "bind()" method,  são 
+as funções/métodos 
+
+CALL()
+
+
+e 
+
+APPLY().
+
+
+
+showResult.apply();
+
+showResult.call();
+
+------------------------------------------------------
+
+
+ESSENCIALMENTE, elas também te permitem especificar O QUE DEVERÁ SER PASSADO COMO PARÂMETRO ÀQUELA FUNÇÃO, mas elas ___TAMBÉM____
+EXECUTAM___IMEDIATAMENTE____A FUNÇÃO a qual estão ligadas, e isso, é claro, NÃO É O QUE BIND FAZ. 
+
+BIND = PREPARA A FUNÇÃO PARA SER CHAMADA NO FUTURO. Geralmente é usado com eventListeners(que lidam com ações futuras no código, como cliques).
+
+CALL E APPLY = EXECUTAM A FUNÇÃO IMEDIATAMENTE...
+
+
+
+Existe uma diferença entre apply e call, mas como executar imediatamente uma função não é tão útil para nós agora, 
+porque sempre podemos chamar uma função imediatamente por meio de, por exemplo, "função();"... nós devemos ignorar 
+apply e call por enquanto. Veremos mais sobre elas mais tarde, quando entendermos de verdade qual é o seu uso.
+Não há muito sentido em estudá-las agora.
+
+Professor só queria jogar os nomes delas na nossa cabeça para que nós as conhecêssemos.
+
+
+BIND É MUITO ÚTIL PARA NÓS, NO MOMENTO. 
+
+
+Ser capaz de PREPARAR funções é muito, muito útil. 

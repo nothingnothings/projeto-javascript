@@ -1,0 +1,302 @@
+Função muito útil para debuggar, é a figura dos breakpoints no chrome dev tools.
+
+
+
+
+
+MAS O QUE SÃO BREAKPOINTS?
+
+Breakpoints permitem que você diga ao browser para PARAR A EXECUÇÃO DE CÓDIGO QUANDO UMA CERTA PARTE DO CÓDIGO É ALCANÇADA.
+
+
+no exemplo da calculadora, vamos até a função ADD e colocamos um breakpoint na linha da constante enteredNumber.
+
+
+Podemos observar, por meio desse breakpoint, o nosso código no nosso presente estado DURANTE A EXECUÇÃO.
+
+
+
+Para colocar um breakpoint, você somente precisa apertar no número da linha ali. O negócio ficará azul; você pode colocar múltiplos breakpoints, a propósito.
+
+
+
+quando você recarregar a página e APERTAR NO BOTÃO DE +, aplicado o breakpoint, você verá que o chrome PAUSARÁ a página no EXATO MOMENTO em que chega-se a esse trecho de código no documento.
+
+
+mensagem "paused in debugger". ---> Você pode resumir a página/código por meio do botão play.
+
+
+Você verá que a linha que a linha selecionada ficou azul, sublinhada, o que marca a parte em que o código foi pausado.
+
+
+Com essa pausa mágica, é possível agora passar o mouse por cima das constantes e funções para ver as características/valores de cada um.
+
+
+Por exemplo, como a execução do código é sempre pausada logo ANTES da linha que você selecionou para colocar o breakpoint
+, nesse caso concreto a constante enteredNumber, durante esse momento no código, tem seu valor como indefinido (undefined).
+-->Faz sentido, porque a execução do código para naquele instante, poucos milisegundos antes de ser executada a linha que você selecionou para marcar o breakpoint.
+Tudo isso está indefinido.
+
+
+
+
+Agora, você pode andar por seu código por meio daqueles botões/controles na esquerda:
+
+os comandos são:
+
+
+RESUME - continua a tocar o código até que ele chegue até o próximo breakpoint.
+
+
+STEP OVER FUNCTION CALL -> pula para a próxima função, o que basicamente significa que você pula para a próxima linha de código.
+                **você também pode step over para DENTRO de uma function call (step into a function call.). Isso seria legal aqui, pois 
+                nós estamos chamando uma função(a função getUserNumberInput();).
+
+
+STEP INTO FUNCTION CALL -> faz aquilo ali que mencionamos: no caso concreto, o professor pula para dentro da função getUserNumberInput, que já
+estava dentro da função ADD.     Quando pulamos para DENTRO de uma function call (como getUserNumberInput();), nós imediatamente
+pulamos para a parte do código onde aqueles comandos/function body da função    está definido.
+
+
+O professor então passa o mouse por cima da função getUserNumberInput, por cima da constante usrInput.value, e denota que aqui o chrome nos fala que 
+a constante usrInput.value está se referindo a um elemento no arquivo HTML.
+Isso é visto por meio da notação "input#input-number". O elemento é até mesmo sublinhado
+na parte visual do site, o que é ótimo e conveniente para quem edita o site.
+
+
+O professor diz, também, que como usrInput.value é um objeto de uma complexidade considerável, 
+posso encontrar muitas e muitas propriedades (todas elas) desse objeto, e posso pegar o valor que está ali.
+
+Também posso pegar o valor se eu passar o mouse por cima do objeto/constante.
+
+Quando passamos o mouse por cima da constante usrInput.value, percebemos que o browser
+nos relata que é uma STRING DE VALOR 10. ("10" em vermelho, o valor que será adicionado pelo usuário depois que o código for despausado.)
+
+
+Essa única informação já nos dá condições de consertar esse erro, mas suponha que não o consertamos
+ainda.
+
+
+Então, vemos que aquilo ali (o 10 que fora digitado pelo usuário) é uma string.
+
+
+ADEMAIS, ESTAMOS ACABADOS POR ALI. PODEMOS SAIR DESSA FUNÇÃO, POR MEIO DO BOTÃO "STEP OUT OF FUNCTION", PARA ENTÃO VOLTARMOS PARA A PARTE NO 
+CÓDIGO ONDE INSERIMOS O NOSSO BREAKPOINT. (percebe-se que agora o valor daquela função que é chamada nesse pedaço de código aparece no lado, À direita, para fins de conveniência.)
+
+
+Ao sair daquela função e voltarmos ao breakpoint, o chrome dev tools faz com que vocÊ automaticamente pule para a próxima linha.
+
+Porem, não estamos interessados nessa linha do const initialResult = currentResult, então pulamos linhas.
+
+pulamos linhas por meio de "step over next function", "step INTO next function"  OU "STEP"
+
+
+a diferença entre elas é simples: "step over next function" simplesmente vai até o call da outra função, ele não entra propriamente nela, apenas pula ela e pega o resultado da função e o apresenta/faz display do seu resultado  na mesma linha.
+Já o STEP faz algo mais completo, vai até o call da outra função e ENTRA DENTRO DELA. Você deve usar as duas, dependendo da situação que você
+tem em mãos. O STEP é uma combinação do step OVER next line e o step INTO NEXT FUNCTION.
+
+ao pular linhas e entrar/sair de funções, o chrome também nos mostra o resultado das variáveis na direita, o que é bem conveniente.
+Vemos, por exemplo, os valores das constantes enteredNumber e currentResult, mesmo que não passemos o mouse por cima deles.
+
+
+Isso já deve ter nos conferido + ou - uma forma de consertar o erro, porque vemos imediatamente que enteredNumber é uma string, e que esse talvez
+seja o problema com a nossa adição, o fato da constante ser uma string/ter uma string como valor.
+
+
+Ademais, se eu for depois na linha do currentResult += enteredNumber e passar o número por cima de currentResult, verei que o valor 
+é uma string (valor em vermelho, "0510".), e constatarei que o problema aqui é causado devido ao código querer usar esses valores como strings,
+quando deveriam ser utilizados como números nos cálculos.
+
+
+Antes de consertá-lo, porém, devemos dar uma olhada no resto das utilidades na parte inferior dos debugging tools, no debugging view.
+
+Na parte de baixo há o "call stack". O CALL STACK é basicamente uma lista de todas as funções que foram chamadas no código.
+
+Digamos que vamos step into  na função createAndWriteOutput. se fizermos isso, ela é imediatamente adicionada como opção
+no CALLSTACK.
+
+no callstack, você pode clicar em ADD ou em createAndWriteOutput, você pode alternar entre as funções que se encontram conectadas.
+
+A função do callstack é ordenar nosso pensamento E O CÓDIGO:
+
+as funões que estão em cima são aquelas que estão sendo executadas no presente momento no código, que estão rodando
+efetivamente, e as que estão abaixo são aquelas que já foram
+executados, e que estiveram relacionadas com a call dessa função mais recente (estão todas conectadas, sempre).
+
+
+Isso, portanto, te mostra a ordem de execução do seu código, basicamente.
+
+
+Em callstack, vocÊ também pode ver as VARIÁVEIS QUE ESTÃO DISPONÍVEIS, TANTO AS LOCAIS QUANTO ÀS GLOBAIS. A propósito, temos um monte
+de dummy variables, porque no browser, temos um monte de informação geral sobre a JANELA DISPONÍVEL GLOBALMENTE (??? window.screen?) mas isso é algo que veremos depois.
+
+
+As variáveis locais aqui disponíveis são as variáveis disponíveis dentro dessa função createAndWriteOutput(), que são
+as variáveis calcDescription, calcNumber, operator e resultBeforeCalc.   (This--> está relacionado a window, algo que n vimos ainda.).
+
+As variáveis locais são essencialmente todos os parâmetros que estou recebendo na função, além da constante calcDescription, que é a junção
+dos 3 parâmetros em uma string.
+
+os DEVTOOLS são muito convenientes porque VOCÊ PODE VER QUAIS VARIÁVEIS ESTÃO DISPONÍVEIS PARA ESSA TAL FUNÇÃO(e quais são seus valores), sem ter 
+que analisar 
+você mesmo o código.
+
+
+Você pode até mesmo mudar os valores dos parâmetros aqui escritos: por exemplo, podemos mudar o valor do parâmetro/constante "enteredNumber",
+que antes era uma STRING/TEXTO de 10 ("10", em vermelho), para o 10 número integral (10 solto, em azul).
+
+
+Se fizermos isso, constataremos que a função agora é executada corretamente, e perceberemos imediatamente que o problema no nosso código não era
+a lógica da adição, e sim a lógica pela qual _____pegávamos o INPUT do USUÁRIO______ (pegávamos o input do usuário como string, e deveria ser pego como numeral. Consertamos isso por meio de parseInt).
+
+
+
+Além disso, você pode settar também um WATCHER aqui nessa função createAndWriteOutput.
+
+Ali, você pode adicionar uma expressão, por meio da qual você deseja observar certos VALORES. VocÊ pode apenas 
+colocar o nome do valor, como "enteredNumber" (se você fizer isso, agora você sempre verá o valor dessa variável à medida que ela vai mudando ao longo da execução das suas funções. )
+Você pode também colocar uma expressão mais complexa no watcher, como
+
+"enteredNumber + currentResult" ----------> agora, você sempre verá o resultado disso aqui ao longo da execução do seu código. No caso concreto,
+o watcher nos mostra que "enteredNumber + currentResult: 100510".
+
+Por isso essa feature do watcher pode ser muito boa para se dar conta de como as coisas mudaram/mudam durante a execução do seu código.
+
+
+É claro que tudo isso é apagado e perdido quando você recarrega o browser, ou quando a execução das funções acabou. Portanto essas expressões
+estão ali apenas temporariamente no código, para te ajudar a debuggar o negócio.
+
+
+OBS: limpamos os breakpoints quando clicamos de novo na linha afetada.
+
+
+ESSAS FORAM AS FUNCIONALIDADES PADRÕES DO DEBUGGER, QUE O PROFESSOR PRECISAVA NOS MOSTRAR. AGORA ELE QUER NOS MOSTRAR OUTROS BREAKPOINTS
+ANTES DE CONSERTAR O PROBLEMA EM QUESTÃO.
+
+
+
+
+O professor fala de CONDITIONAL BREAKPOINTS:
+
+
+
+-->digamos que você percebe que há um erro que "SÓ OCORRE" se são inputtados números maiores do que 100.
+
+
+-->Bem, é claro que nosso erro não acontece SOMENTE quando colocamos números maiores que 100, mas assumiremos que esse é o caso. Em casos como esse
+você faria assim no debugger: 
+
+1) clicar no NÚMERO da linha que você quer (no caso a linha em que a constante enteredNumber é definida) com o BOTÃO DIREITO.
+
+
+
+2) clicar em "add conditional breakpoint"
+
+
+
+3) escrever a expressão que você quer, como "apenas pausar aqui se getUserNumberInput é maior do que 99". 
+            -->isso fica =====      "getUserNumberInput() > 99".
+
+
+
+
+4) se fizermos o que dissemos em 3, o código apenas seria pausado naquele breakpoint CASO COLOCÁSSEMOS UM NÚMERO SUPERIOR À 99 NO
+INPUT FIELD E PRESSIONÁSSEMOS + (botão de +).
+
+
+
+5) Para testar, posso apenas digitar 100 no input field e apertar +, o negócio irá pausar imediatamente.
+
+
+
+Esses conditional breakpoints podem ser muito úteis.
+
+
+
+
+
+
+TAMBÉM MUITO ÚTIL É A FEATURE "EVENT LISTENER BREAKPOINTS", que fica bem lá embaixo.
+Eles pausam o código quando um certo evento acontece, pode ser qualquer evento. O professor usa o exemplo dos cliques.
+
+ex:
+
+1) Sabemos que há um erro no código, mas que não é um erro contido apenas na função add, mas em todas as funções (multiply, subtract, divide).
+
+
+2) Não queremos adicionar breakpoints em cada uma das funções, isso seria repetitivo e cansativo, nada produtivo.
+
+
+3) percebemos que o evento em comum em todos eles é o clique, o primeiro clique em algum botão para realizar uma operação.
+
+
+4) por isso, primeiro vamos até a caixa "Mouse" em event listener breakpoints, e a expandimos. Então vemos a opção "click". Marca-lá-emos.
+
+
+5) Agora, o código sempre irá pausar quando CLICARMOS em alguma função que tenha click como evento ativador/trigger.
+Ou seja, ele não vai pausar quando clicarmos em algum lugar aleatório do site, apenas pausará quando clicarmos em um dos 4 botões, pois os 4
+tem "click" como eventTrigger. O negócio vai pausar/parar na primeira linha da função que estiver gerenciando aquele click (no caso da função add, é a linha que tem getUserNumberInput(), que é a função que se utiliza de usrInput.value, que está ligada ao addBtn. )
+Ela pausará apenas nos locais onde estiverem definidos eventListeners, no caso os eventListeners para clicks.
+
+
+
+
+6) Agora ACHAMOS que encontramos o erro, então tentamos consertá-lo, apesar de não termos certeza absoluta do problema ser esse mesmo.
+é claro que podemos sempre voltar para o nosso código e mudá-lo lá, recaarregar a página e tentar de novo, mas você 
+também pode fazer isso por meio de alterações na tab SOURCE do chrome, ele também surte efeitos sobre a página ativa. Para testar, altere 
+o código na página, por meio da tab SOURCE, e então aperte Ctrl + S  para salvar as alterações. As alterações são salvas no browser,
+e não na máquina local/local filesystem.
+
+
+7) E é assim que trabalhamos com as chrome dev tools!
+
+
+
+
+
+****veremos outras das funções das dev tools depois, como a tab ELEMENTOS, que trata dos elementos do DOM/página HTML.
+Há também a tab performance e a tab memory, que veremos depois que aprendermos como optimizar o uso de memória e a performance 
+das nossas aplicações.
+
+
+
+
+
+
+
+
+Botões do dev tools resumidos:
+
+
+
+
+
+RESUME - continua a tocar o código até que ele chegue até o próximo breakpoint.
+
+
+STEP OVER FUNCTION CALL -> pula para a próxima função, o que basicamente significa que você pula para a próxima linha de código, sem rodar a linha em que você estava antes do pulo.
+                **você também pode step over para DENTRO de uma function call (step into a function call.). Isso seria legal aqui, pois 
+                nós estamos chamando uma função(a função getUserNumberInput();).
+
+
+STEP INTO FUNCTION CALL -> faz aquilo ali que mencionamos: no caso concreto, o professor pula para dentro da função getUserNumberInput, que já
+estava dentro da função ADD.     Quando pulamos para DENTRO de uma function call (como getUserNumberInput();), nós imediatamente
+pulamos para a parte do código onde aqueles comandos/function body da função    está definido.
+
+
+
+
+
+
+
+
+pulamos linhas por meio de "step over next function", "step INTO next function"  OU "STEP"
+
+
+a diferença entre elas é simples: "step over next function" simplesmente vai até o call da outra função, ele não entra propriamente nela, apenas pula ela e pega o resultado da função e o apresenta/faz display do seu resultado  na mesma linha.
+Já o STEP faz algo mais completo, vai até o call da outra função e ENTRA DENTRO DELA. Você deve usar as três, dependendo da situação que você
+tem em mãos. O STEP é uma combinação do step OVER next line e o step INTO NEXT FUNCTION.
+
+
+
+

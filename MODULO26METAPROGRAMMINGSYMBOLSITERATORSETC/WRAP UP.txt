@@ -1,0 +1,45 @@
+
+
+
+
+
+HÁ MAIS COISAS SOBRE ESSAS FEATURES...
+
+
+MAS 
+
+ELAS SÃO BEM 'NICHE'... --> tem seus use-cases, mas esses use-cases SÃO BEM AVANÇADOS...
+
+
+
+
+
+
+
+
+
+---> são features QUE INTERFEREM COM O DESENVOLVIMENTO DE CÓDIGO, MAS NÃO OS 'END-USERS' em geral....
+
+
+
+
+
+
+---> controlam como o código se COMPORTA...
+
+
+
+
+---> podemos deixar nossos objetos 'LOOPÁVEIS' com o 'Symbol.iterator' E GENERATORS E ITERATORS...
+
+
+
+---> SYMBOLS ---> TE DEIXAM TER PROPRIEDADES EM OBJETOS QUE NÃO SÃO TÃO FÁCEIS DE SEREM ACESSADAS, E 
+NÃO TÃO FÁCEIS DE SEREM ALTERADAS POIS PRECISAM DO 
+
+EXATO SÍMBOLO QUE UTILIZAM PARA QUE POSSAM SER REFERENCIADAS...
+
+
+
+
+----> com esses básicos do 'meta-programming', você está pronto para virar um EXPERT DA LINGUAGEM JAVASCRIPT.

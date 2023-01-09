@@ -1,0 +1,185 @@
+Antes de realmente começarmos a trabalhar com quaisquer elementos HTML, devemos dar uma olhada naqueles objetos 
+"document" e "window".
+
+
+
+
+
+Para isso, criamos um novo index.html com um head, body e corpo básicos. É uma shell vazia, com um app.js 
+vazio importado no seu interior.
+
+
+
+Se você abrir aquele documento html e então abrir o dev tools console, ali vocÊ pode 
+simplesmente escrever "document".
+
+
+"document", se você testar lá, te dá ACESSO AO OBJETO "DOCUMENT". É a página html inteira, 
+compreendida pela tag html.
+
+
+Por default, você verá essa estranha representação de algo que se parece com 
+código html. Essa é uma pequena feature do chrome dev tools.
+
+
+#document é, NA VERDADE, um OBJETO JAVASCRIPT, mas como esse objeto está LIGADO 
+AO DOCUMENTO HTML CARREGADO, ele te dá essa representação DIRETA, em que você pode até mesmo 
+SELECIONAR DIFERENTES PARTES SE VOCÊ PASSAR O MOUSE POR CIMA DELAS.
+
+Mas para dar uma olhada/tomar um gostinho por um OBJETO JAVASCRIPT DE VERDADE (GET A FEEL FOR), 
+você pode digitar "console.dir" no console do chrome. "console.dir(document);"
+
+--> você pode usar "console.dir" sempre que "console.log()" te der esse output bizarro 
+de "document" nos dev tools.
+
+
+
+Se você digita esse "console.dir", você ganha acesso AO VERDADEIRO OBJETO JAVASCRIPT 
+DE "DOCUMENT", COM TODAS AS PROPRIEDADES QUE ESTÃO DENTRO DELE.
+
+HÁ MUITAS PROPRIEDADES DENTRO DELE. Muitas delas nunca importarão a você, mas, por exemplo, 
+a propriedade "BODY"---> se você expor (clicar na seta) a propriedade body, ela te 
+dá acesso a um OBJETO TOTALMENTE DIFERENTE, QUE NO FINAL DAS CONTAS REFLETE O BODY 
+DO SEU DOCUMENTO E TUDO QUE ESTÁ LIGADO (Attached) A ELE. Ele também nos permitirá ganhar acesso 
+A TODO CONTEÚDO HTML RENDERIZADO DENTRO DELE, OU SEJA, NO CORPO DO DOCUMENTO.
+
+
+Há outras propriedades que você pode estudar, como por exemplo "documentElement", QUE É BASICAMENTE __TODO __
+SEU ___ CONTEÚDO HTML____.
+
+
+
+
+Portanto, o body te dá acesso a tudo que foi renderizado naquela parte body (entre as tags <body>), 
+JÁ HTML SEGURA TUDO QUE FOI RENDERIZADO OU SETTADO PARA TODO SEU CÓDIGO HTML QUE FOI RENDERIZADO. 
+Por isso que documentElement é importante, ele te dá acesso a todos elementos html da página.
+
+
+Também temos outras propriedades importantes, como "head", que nos dá acesso àquilo que está 
+dentro de <head>, tudo que foi renderizado como parte dessa <head>.
+
+
+<body> e <head> juntos formam + ou - o código html em sua integralidade.
+
+
+
+Há um monte de coisas interessantes dentro do objeto document, e vamos trabalhar com bastante delas.
+
+
+Mas há muitas delas que você nunca realmente vai utilizar.
+
+
+Document é um dos objetos TOPMOST importantes que são disponibilizados a você pelo browser para que vocÊ 
+interaja com o seu documento html carregado.
+
+
+
+
+Agora limpamos o console e outputtamos "window", aqui. console.dir(window). Na verdade, não precisamos 
+do console.dir. Podemos apenas digitar "window", que o console nos mostrará o objeto window.
+
+
+
+WINDOW É O TOPMOST OBJETO VERDADEIRO, É O REAL DEAL. ELE TE DÁ ACESSO A TODOS OS APIS ESSENCIAIS (CORE APIS) que 
+o browser quer expor a nós.
+
+
+Por exemplo, em window você também vai achar a função "alert", que já utilizamos um monte de vezes ao longo do curso para 
+atirar algum alerta.
+
+
+
+A coisa importante aqui é que com window, você, por default, se no seu javascript você está rodando... se você está escrevendo código javascript, você 
+POR DEFAULT TEM ACESSO A TUDO QUE ESTÁ EM "WINDOW". Essa é a razão de você poder escrever
+funções "built-in" como 'alert();' soltas no documento .JS e elas funcionarem mesmo assim, mesmo sem você ter feito a sua definição prévia, E 
+MESMO SEM VOCÊ ESCREVER O CALL COMPLETO DA FUNÇÃO.
+
+O professor explica:
+
+
+O correto seria "window.alert();", porque alert é um método de window... mas 
+você pode (e geralmente escreve) "alert()";.
+
+
+MASSSSSS... BROWSERS SEMPRE PARSEAM SEU CÓDIGO JAVASCRIPT DE MODO QUE "window." sempre é adicionado automaticamente 
+ao início de cada expressão, cada linha de código que você digita no javascript.
+
+
+ex:
+
+
+alert('cu');
+
+é lido como:
+
+window.alert('cu');
+
+---------------------------------------------------
+
+
+OU SEJA, .window sempre é adicionado na frente de uma função se O JAVASCRIPT NÃO 
+CONSEGUE ENCONTRAR A FUNÇÃO EM LUGAR NENHUM.
+
+
+Portanto, o browser sempre procura no objeto window se você está tentando 
+chamar/acessar alguma coisa que não foi definida anteriormente no código.
+
+
+Isso é bem ótimo.
+
+
+
+O objeto window, portanto, é um objeto global muito importante que te dá acesso a todos esses 
+browser APIs como "alert" e outras coisas que não vimos ainda. 
+
+E..... WINDOW TAMBÉM TE DÁ ACESSO A "DOCUMENT", o outro objeto importante.
+
+"document", que fica dentro de window, é o document que o professor fez o output no console por meio de 
+console.dir.
+
+
+Mas se você digitar algo como "document" solto no arquivo app.js, o browser automaticamente VAI PROCURAR ESSE 
+"DOCUMENT" dentro de window, e vai encontrá-lo, porque ele está lá. É por isso 
+que pudemos utilizar "console.dir(document)" no console das devtools, porque 
+essa function call foi lida como:
+
+console.dir(window.document);
+
+
+
+Você poderia usar window.document, MAS VOCÊ NÃO PRECISA. é o mesmo caso de alert.
+
+
+Há outras features interessantes aqui, que servem para armazenar dados no browser. 
+HÁ, TAMBÉM, UM MONTE DE EVENTOS QUE SÃO EXCLUSIVOS à "window", entretanto. São eventos que 
+são acionados quando certas coisas acontecem na janela, e esses eventos "on alguma coisa"... , a propósito, 
+são alternativas a usar addEventListeners ---> veremos isso mais tarde no curso, no módulo "eventos".
+
+
+Há um monte de coisas interessantes aqui, como "outerHeight" e "outerWidth". Elas te dão certas dimensões sobre 
+a janela em que seu aplicativo está rodando. Também sempre tenha em mente que "window" não te dá, de fato, acesso À "janela de verdade", mas 
+apenas À TAB na qual o seu script está rodando; ou seja, você não será capaz de usar window para interagir com uma webpage totalmente 
+diferente, interagir com um script/webpage rodando em uma tab totalmente diferente. Isso não é possível porque traria 
+GRANDES RISCOS DE SEGURANÇA se vocÊ pudesse começar a ler informação de uma tab adjacente na sua webpage. Isso não é 
+algo que você gostaria de fazer, porque vocÊ poderia agarrar informações importantes das outras tabs. 
+
+
+É por isso que, a despeito de se chamar "window", o objeto window só relaciona-se com a tab em que seu script está rodando, 
+e não com as outras tabs que você tem abertas.
+
+
+
+Esses são o window e o document, portanto. Trabalharemos mais com eles no futuro. Usaremos eles para definir melhor 
+o tamanho da webpage e assim por diante.
+
+
+2 global objects importantes.
+
+
+Document é uma parte de window, e você pode acessar window POR MEIO DE DOCUMENT, justamente porque document faz parte de window.
+
+
+
+Esses objetos vao nos ajudar a interagir com a webpage, com o conteudo html carregado. 
+
+Agora devemos ver mais sobre o DOM e entender o método que o browser usa para interpretar o código html.

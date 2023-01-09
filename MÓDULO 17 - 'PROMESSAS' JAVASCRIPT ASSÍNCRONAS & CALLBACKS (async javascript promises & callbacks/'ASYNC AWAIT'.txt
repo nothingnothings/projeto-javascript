@@ -1,0 +1,1794 @@
+
+
+
+Certo.
+
+Promises são 
+
+
+
+UM CONCEITO MUITO IMPORTANTE EM JAVASCRIPT.
+
+
+
+
+
+Vemos muito elas em javascript moderno.
+
+
+
+
+
+
+
+http requests os utilizam, e muitos outros projetos.
+
+
+
+
+Async code usa MUITO as promises.
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+Promises são muito boas, 
+
+
+e nós utilizamos a sintaxe do 
+
+
+
+'.then()' 
+
+
+e 
+
+
+'.catch()'
+
+um monte.
+
+
+
+
+PROFESSOR ACHA QUE É UMA SINTAXE MUITO SIMPLES DE LER.
+
+
+
+
+É SIMPLES IDENTIFICAR QUE AS ETAPAS '.then()' sempre 
+
+
+executam-se uma atrás da outra, 
+
+
+
+
+e ao mesmo tempo 
+
+
+deixa claro 
+
+que, por exemplo,
+
+
+
+
+getPosition() 
+
+
+é executado 'neck to neck' com 
+
+
+as funções 'setTimer()' 
+
+e 
+
+'console.log('Getting position');
+
+
+
+
+ex (representação do que foi dito):
+
+
+
+
+
+
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000);
+      //console.log(posData);
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+  setTimer(1000).then(() => {
+    console.log('Timer done!');
+
+  })
+
+  console.log('Getting position...');
+
+
+}
+
+
+----------------------------------------------
+
+
+
+
+
+
+
+
+Basicamente, javascript/nós não temos que 
+
+esperar 
+
+
+as etapas de '.then()' colocadas debaixo 
+
+de getPosition  TERMINAREM
+
+
+
+antes de começarmos a executar esses códigos que estão mais abaixo (o timer de 'setTimer' e o console.log daquela string de getting position.)
+
+
+----------------------------------------
+
+
+
+
+
+
+Muito bom ter promises; nos ajudam a trabalhar melhor com async code, facilitam nosso trabalho.
+
+
+
+
+---------------------------------------------
+
+
+
+Professor decide comentar para fora do código o timer e 
+
+o console.log...
+
+
+
+
+
+ex:
+
+
+
+
+
+function trackUserHandler() {
+
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000);
+      //console.log(posData);
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+}
+
+-------------------------------------
+
+
+
+
+
+
+Agora, a única coisa que fazemos em trackUserHandler
+
+
+
+é PEGAR A POSIÇÃO DO USUÁRIO E 
+
+OUTPUTTAR POTENCIAIS ERROS... com o '.catch()'.
+
+
+
+
+Ou seja, 
+nós temos um 
+
+
+.then block (o then block final)
+ 
+
+ QUE OU:
+
+
+
+ pega 'on we go...' do erro,
+
+ ou 
+
+
+ 'Done!' DO 'setTimer', COMO 
+
+ PRIMEIRO ARGUMENTO, 
+
+ e a positionData do usuário/undefined(que vem do .catch) COMO 
+
+ SEGUNDO PARÂMETRO.
+
+
+
+ -------------------------------
+
+
+
+ É evidente, diz o professor, que você vai querer 
+
+
+ um error HANDLING DIFERENTE NESSE ÚLTIMO 'then()'...
+
+
+
+ Você vai querer que esse 'then()' reaja basicamente 
+
+ dependendo da situação, dependendo se 
+
+ O TIMER EXPIROU, ou se vocÊ obteve um erro ANTES DISSO 
+
+ na execução do seu código....
+
+
+
+
+ E TUDO ISSO DEPENDE, É CLARO, DOS DADOS/data que você 
+
+ retornou nas etapas anteriores (no primeiro then block e no '.catch()'.)
+
+
+
+
+
+ MAS, POR ENQUANTO, DIGAMOS QUE ESSA É A APPROACH QUE NÓS TEMOS...
+
+
+
+ portanto, se o professor recarregar a página e 
+
+
+ clicar allow,
+
+
+
+vamos ganhar aquele output esperado de 
+
+'Done! (setTimer)'
+
+'Position {...}' (output de userLocation).
+
+
+
+---------------------------------------
+
+
+
+ISSO TUDO JÁ VIMOS.
+
+
+
+
+
+Certo.
+
+
+Não há nada de errado em usar esse código dessa maneira,
+
+nada de errado com essa configuração de then/catch blocks, diz o professor....
+
+
+
+MAS O JAVASCRIPT MODERNO 
+
+
+TAMBÉM TEM UMA SINTAXE ALTERNATIVA PARA ESSE FORMATO....
+
+
+
+A QUAL, e isso é bem importante de memorizar, 
+
+AINDA UTILIZA PROMISES... 
+
+
+
+_________AINDA UTILIZA PROMISES______, 
+
+
+mas te DEIXA OMITIR O '.THEN()' e 
+
+'.catch()' METHODS...
+
+
+
+
+E ESSA OMISSÃO DEIXA VOCÊ ESCREVER SEU CÓDIGO 
+
+DE MODO QUE ELE FIQUE __MAIS PARECIDO___ COM 
+
+
+SYNCHRONOUS code... (em aparência).
+
+
+
+
+SYNC CODE ----> é o código normal que você escreve por toda parte, o código que NÃO UTILIZA PROMISES...
+
+
+
+
+
+---------------------------------
+
+
+O nome dessa feature/sintaxe é 
+
+
+
+'ASYNC AWAIT'...
+
+
+
+
+MAS O QUE É ISSO?
+
+
+
+
+
+Você pode usar async await ___EM FUNÇÕES___,
+
+
+E __SOMENTE___ EM FUNÇÕES...
+
+
+
+Você habilita o async await por meio da 
+
+
+inserção da keyword 'async' NA FRENTE 
+
+DA KEYWORD 'FUNCTION'...
+
+(isso é o formato para DECLARAÇÕES, E NÃO EXPRESSÕES.)
+
+
+
+
+ex:
+
+
+async function trackUserHandler() {
+
+}
+
+
+
+---------------------------------------
+
+
+
+
+
+
+JÁ PARA FUNÇÕES CRIADAS COM UMA SINTAXE DE ARROW FUNCTION,
+
+VOCÊ DEVERÁ COLOCAR a keyword 'async' ANTES DO SLOT DO PARÂMETRO/PARÂMETROS...
+
+(ou seja, NA FRENTE DOS SEUS NOMES DE FUNÇÃO, MAS NO LADO 
+DIREITO DO SINAL DE '='.)
+
+
+(É assim que você o escreve em EXPRESSÕES)
+
+ex:
+
+
+
+
+const setTimer = async duration => {
+    ...
+}
+
+
+
+--------------------------------------
+
+
+
+Certo.
+
+
+com 'async' adicionado em 
+
+
+trackUserHandler, A FUNÇÃO 
+
+
+___MUDA INTERNAMENTE_____.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000);
+      //console.log(posData);
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+}
+
+
+
+
+-----------------------------------
+
+
+
+
+A função muda internamente, de forma invisível.
+
+
+
+com 'async' na função,
+
+A FUNÇÃO 
+
+VAI SEMPRE 
+
+
+
+___AUTOMATICAMENTE RETORNAR UMA 'PROMISE'...___
+
+
+
+
+OBSERVE: o professor NUNCA ESCREVEU 'return' dentro dessa função  (apenas o escreveu DENTRO DAS NESTED FUNCTIONS, MAS NÃO NA PRINCIPAL, não em 'trackUserHandler' em si...)
+
+'trackUserHandler' com o async, E MESMO ASSIM O IDE nos diz 
+
+que essa função vai retornar uma promise...
+
+
+
+
+Se retirarmos o 'async' da frente da 'function' keyword,
+
+veremos que agora o IDE nos mostra que 
+
+essa função retornará 'void' (o que é o correto, é o padrão, BTW).
+
+
+
+
+---------------------------
+
+
+
+
+E MEU 'IDE' está correto.
+
+
+
+
+Por meio da adição de 'async' nessa função,
+
+eu mudo o comportamento dela.
+
+
+
+POR MEIO DE 'ASYNC', A FUNÇÃO INTEIRA/O FUNCTION BODY INTEIRO 
+
+DA FUNÇÃO ACABA 
+
+
+ENVOLTO EM UMA ___GRANDE 'PROMISE'____.
+
+
+
+
+
+
+RESUMINDO:
+
+
+
+
+Essa keyword async faz 
+
+
+o wrapping visto em:
+
+
+
+----------------------------------------------
+
+
+const getPosition = options => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+------------------------------------------
+
+
+Ela faz o wrap com 'new Promise' e tals
+
+
+DE FORMA ____________AUTOMÁTICA___________, por trás das cenas,
+
+
+
+E AÍ ELA WRAPPA TODO ESSE CÓDIGO no interior da função 'trackUserHandler' 
+
+E ENTÃO TRATA ESSA FUNÇÃO COMO AQUELA  'FUNÇÃO INICIALIZADORA' QUE VOCÊ 
+
+PASSA AO 
+
+
+CONSTRUCTOR DE 'promise'....
+
+
+
+EX:
+
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000);
+      //console.log(posData);
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+}
+
+
+
+--------------------------------
+
+
+
+Ou seja, com 'async', isso acontece:
+
+
+
+
+
+const promise = new Promise((resolve, reject) => {
+    let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000);
+      //console.log(posData);
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+})
+
+
+
+------------------------------
+
+
+
+UM EFEITO DESSA MUDANÇA, DIZ O PROFESSOR, É QUE 
+
+VOCÊ PODERIA/PODE 
+
+
+CHAMAR, agora,
+ 
+
+ '.then()' 
+
+
+
+ DENTRO DO LUGAR EM 
+
+ QUE 'trackUserHandler' É EXECUTADo....
+
+
+
+
+ esse lugar, como sabemos, é o addEventListener EM 'BUTTON'...
+
+
+
+
+-------------------------------------------------------
+
+
+ ex:
+
+
+ button.addEventListener('click', trackUserHandler);
+
+
+
+------------------------------------------------
+
+
+
+Professor explica que AQUI O BROWSER EXECUTA O 'trackUserHandler' 
+
+PARA NÓS AUTOMATICAMENTE,
+
+E QUE O BROWSER, É CLARO, 
+
+NÃO VAI AUTOMATICAMENTE ADICIONAR 
+
+um 'then block' a esse trackUserHandler em addEventListener...
+
+
+
+também explica que ele, o professor, também não quer executar nada 
+
+
+em 'trackUserHandler'...
+
+
+
+ELE EXPLICA APENAS QUE ISSO É UMA DAS COISAS QUE VOCÊ PODERIA FAZER, é uma 
+
+opção...
+
+
+
+-----------------------------------------
+
+
+
+
+
+A coisa interessante aqui, explica o professor, é que, dentro 
+
+dessa PROMESSA INVISÍVEL, você TEM ACESSO A ___OUTRA KEYWORD___.
+
+
+
+
+É a keyword 
+
+
+
+'await'...
+
+
+
+
+
+NÓS SEMPRE ADICIONAMOS 'AWAIT' NA FRENTE DE QUALQUER 'PROMISE' dentro da função 
+
+
+em que colocamos o 'async'....
+
+
+
+
+CERTO.
+
+
+'getPosition', em trackUserHandler, explica o professor, 
+
+RETORNA UMA PROMESSA, POR ISSO PODEMOS UTILIZAR 'await' nessa função...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  await getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000);
+     
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+}
+
+
+
+
+--------------------------------------
+
+
+
+MAS OQ DIABOS 'await' faz se o colocarmos na frente de uma promessa?
+
+
+
+BEM
+
+
+----> ELA BASICAMENTE ___ESPERA___ PELO 'resolve' DA PROMISE EM QUE ESTÁ ACOPLADA,
+
+
+
+espera tanto pelo RESOLVE como pelo FAIL dessa promise...
+
+
+
+E A PRÓXIMA LINHA, SUBSEQUENTE À essa função com 'await', SÓ SERÁ EXECUTADA 
+
+DEPOIS QUE ESSA PROMISE FOR 
+
+RESOLVIDA/REJEITADA.
+
+
+
+(Obs: professor agora faz uma maluquice com o código e reestrutura tudo.).
+
+
+
+Os DADOS QUE TALVEZ SEJAM 'resolvidos'/obtidos (ou seja, a 'positionData' EXTRAÍDA 
+
+PELA PROMESSA QUE ESTÁ/É RETORNADA POR 'getPosition'...) SERÃO 
+
+ENTÃO RETORNADOS por aquela promessa em 'getPosition'....
+
+
+
+
+
+
+
+
+CÓDIGO DE getPosition (função arrow que TEM A PROMESSA UTILIZADA NESSE AWAIT):
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+---------------------------------
+
+
+
+
+REPRESENTAÇÃO DE TODO CÓDIGO PERTINENTE:
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  await getPosition()
+  .then  /////////////ESSA LINHA, POR EXEMPLO, SÓ SERÁ EXECUTADA DEPOIS DA PROMESSA RETORNADA POR 'getPosition()' TERMINAR...
+    (posData => { 
+      positionData = posData;
+      return setTimer(2000);
+     
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+}
+
+
+
+---------------------------------------------
+
+
+
+
+
+Certo.
+
+
+O professor muda a disposição do código, 
+
+ele armazena
+
+a positionData (os dados da positionData) EXTRAÍDA DA promise de 
+'getPosition'  EM 
+
+
+UMA CONSTANTE chamada de 'posData'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  const posData = await getPosition();  /////////ELE ARMAZENA OS DADOS RETORNADOS PELA PROMISE de 'getPosition' EM UMA CONSTANTE CHAMADA DE 'posData'...
+  .then  
+    (posData => { 
+      positionData = posData;
+      return setTimer(2000);
+     
+    }
+  )
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+}
+
+
+-----------------------------------------
+
+
+
+Certo.
+
+Mas as mudanças ainda não acabaram.
+
+
+
+O professor então 
+
+remove o then Block logo abaixo desse 'await',
+
+
+aquele 
+
+
+'.then(posData => {
+    positionData = posData;
+    return setTimer(2000);
+})'
+
+
+
+----------------------------------------------------------------
+
+
+
+EX:
+
+
+
+
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  const posData = await getPosition();  /////////ELE ARMAZENA OS DADOS RETORNADOS PELA PROMISE de 'getPosition' EM UMA CONSTANTE CHAMADA DE 'posData'...
+
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+}
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+Certo, tudo bem.
+
+Mas, você deve estar se perguntando, 
+
+e quanto 
+
+À 'setTimer(2000)', o setTimer que estava dentro daquele 
+
+.then() block, o QUE FAZEMOS QUANTO A ELE?
+
+
+pq se omitirmos essas linhas do then block,
+
+
+aparentemente perdemos os dados do setTimer... (o console.log de 'Done' e o timer em si, definido com 'setTimeout'...).
+
+
+
+
+PROFESSOR EXPLICA QUE DEVEMOS SIMPLESMENTE 
+
+
+CHAMAR 
+
+
+'setTimer(2000)' 
+
+
+NA PRÓXIMA LINHA, LOGO ABAIXO DE 
+
+'await getPosition'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  const posData = await getPosition(); 
+        setTimer(2000); /////////////CHAMAMOS ELE AQUI, PORTANTO.
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+}
+
+
+
+-----------------------------------------------
+
+
+
+
+OU seja, com essa configuração de código,
+
+
+nós/JAVASCRIPT 
+
+
+
+
+ESPERAMOS A promise de 'getPosition' ser 'resolved'
+
+PARA ENTÃO INICIAR O TIMER de 'setTimer'...
+
+
+O TIMER DE 'setTimer' 
+
+
+APENAS INICIA QUANDO UM VALOR É RETORNADO e armazenado (em 'posData')
+
+pela promise executada na linha 
+
+
+
+'const posData = await getPosition();'....
+
+
+
+
+
+
+
+o resultado/return do valor de 'getPosition' é armazenado 
+
+
+na constante 
+
+'posData'.
+
+
+
+
+
+DEPOIS DISSO, TEMOS O TIMER, É CLARO, O TIMER DE 'setTimer'.....
+
+
+
+Professor explica que podemos armazenar os dados do timer 
+
+em uma constante 
+
+
+de nome 'timerData'...
+
+
+Ele também coloca 'await' nessa promise de 'setTimer(2000)',
+
+para que a próxima linha SÓ SEJA EXECUTADA 
+
+___APÓS____O TIMER TER ACABADO...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+    .catch(error => {
+      console.log(error);
+      return 'on we go...';
+    })
+    .then(data => {
+      console.log(data, positionData);
+    })
+}
+
+
+--------------------------------------------------
+
+
+
+
+Professor explica que, com isso, estamos bem.
+
+
+Ele também explica que NÃO PRECISAMOS ARMAZENAR OS DADOS SE NÃO 
+
+ESTIVERMOS INTERESSADOS NISSO...
+
+
+Mas aqui ele quer armazenar os tais dados...
+
+----------------------------------
+
+
+
+
+Agora, no código, 
+
+nós 
+
+esperamos a execução/resolução da promise de 'getPosition' E ENTÃO 
+
+a mesma coisa, mas de '
+
+setTimer'...
+
+
+
+
+CERTO.
+
+
+MAS TEMOS, AGORA, QUE OMITIR O CÓDIGO DE '.catch()', 
+
+pois ele não é compatível com a sintaxe 'async'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+}
+
+
+
+
+
+
+
+-------------------------------------
+
+
+
+
+POR FIM, PROFESSOR TAMBÉM REMOVE/OMITE O ÚLTIMO '.then()' block,
+
+
+pois ele também é incompatível.
+
+
+Ele apenas pega o console.log dentro do 'then()' block 
+
+e o reutiliza nessa nova função 'async'/promise bizarra de 'trackUserHandler'....
+
+
+
+
+
+ex:
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+  return promise;
+};
+
+
+
+
+
+async function trackUserHandler() {
+
+
+  let positionData;
+
+
+  const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+    console.log(timerData, posData); ///EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+POR FIM, O PROFESSOR SE LIVRA DAQUELA VARIÁVEL 
+
+'let positionData', pq o código foi todo reestruturado.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const getPosition = (options) => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+    reject(error);
+  }, options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+  return promise;
+};
+
+
+
+
+
+async function trackUserHandler() {
+
+
+  
+
+
+  const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+    console.log(timerData, posData); ///EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+----------------------------------------
+
+
+
+
+CERTO.
+
+
+
+POR ENQUANTO, PERDEMOS O 'ERROR HANDLING' com '.catch()'...
+
+
+MAS FORA ISSO,
+
+esse código está MUITO MAIS CONCISO.
+
+
+
+ESSA É UMA MANEIRA MUITO MAIS EFETIVA DE ESCREVER OS THEN BLOCKS QUE TINHAMOS 
+
+ANTES...
+
+
+
+
+
+Se salvarmos e recarregarmos a página, receberemos o mesmo output de antes,
+
+
+
+o output de 'Done!' com o objeto 'Position'...
+
+
+
+-----------------------------------------
+
+
+
+
+
+Tirando a exclusão do error handling, esse código que escrevemos 
+
+
+PARECE MUITO MELHOR.
+
+
+
+
+
+Mas o que 
+
+diabos esse código 
+
+
+FAZ, NA VERDADE?
+
+
+
+
+
+Por acaso esse código não quebra TUDO QUE SABÍAMOS ACERCA DE JAVASCRIPT?
+
+
+Não quebra aquelas regras que o javascript é 'non blocking' e tudo o mais?
+
+
+PQ AQUI NÓS ___CLARAMENTE___ ESTAMOS BLOQUEANDO A EXECUÇÃO POR MEIO DE 
+
+
+'await'..., não?
+
+
+
+
+
+-----> BEM, PODE PARECER QUE PARAMOS A EXECUÇÃO..
+
+MAS NÃO PARAMOS.
+
+E ESSA É A COISA QUE PODE SER PERIGOSA COM OS 'ASYNC' e os 'await'...
+
+
+PODE PARECER QUE ESTAMOS MUDANDO A MANEIRA PELA QUAL O JAVASCRIPT FUNCIONA....
+
+
+
+QUE, DE REPENTE, NÓS ESPERAMOS O 'ASYNC CODE' TERMINAR, E QUE BLOQUEAMOS A EXECUÇÃO 
+
+DOS SCRIPTS ATÉ QUE ISSO ACONTEÇA...
+
+
+
+
+
+MAS ISSO, NA VERDADE, FELIZMENTE, NÃO É O QUE ESTÁ ACONTECENDO....
+
+
+
+
+
+
+
+Em vez disso, como o professor mencionou anteriormente,
+
+'async' (a keyword) faz com que TODO O CONTEÚDO DENTRO 
+
+
+DE 'trackUserHandler' SEJA ENVOLTO por UMA  GRANDE 'PROMISE'.....
+
+
+
+AÍ, ela (a keyword) vai em frente e SEMPRE QUE colocamos 'await', ou seja, 
+
+ESPERAMOS Alguma outra promise com 'await' DENTRO DESSA 
+
+GRANDE PROMISE, criada por meio de 'async', DAR 'resolve',
+
+
+ELA, NO FINAL DAS CONTAS, APENAS RETORNA essa promise 
+
+interna como PARTE DAQUELA GRANDE PROMISE QUE FOI CRIADA PARA NÓS...
+
+
+E então adiciona um '.THEN() block' INVISÍVEL .....
+
+DENTRO DESSE THEN BLOCK invisível, o 'async' vai então 
+
+PEGAR O RESULTADO DESSA PROMISE (promise interna, em que colocamos 'await') 
+
+E ARMAZENÁ-LO dentro dessa variável 'posData', A QUAL É DISPONÍVEL 
+
+____NAQUELA GRANDE 'PROMISE OVERALL' de trackUserHandler...
+
+
+--------------------
+
+
+
+
+
+No final das contas, portanto, explica o professor, 
+
+
+ele 
+
+
+REPLICA 
+esse 'then block' que havíamos no 'trackUserHandler':
+
+
+'.then(posData => {
+  positionData = posData;
+  return setTimer(2000);
+})'
+
+
+POR TRÁS DAS CENAS.
+
+
+
+------------------------------------
+
+
+
+E o mesmo para a promise de 'setTimer', que está na segunda linha.
+
+
+--------------------------------
+
+
+
+
+Ou seja, o código não é bloqueado de verdade...
+
+
+
+O que podemos dizer é que esse código todo 
+
+
+(
+
+const posData = await getPosition();
+const timerDATA = await setTimer();
+console.log(timerData, posData);
+
+
+)
+
+
+
+É SIMPLESMENTE TRANSFORMADO POR TRÁS DAS CENAS...
+
+
+
+
+ELE É TRANSFORMADO EM UMA VERSÃO DE CÓDIGO QUE ___AINDA USA___ THEN BLOCKS;
+
+É A API ___NORMAL___ de promises; 
+
+
+O OBJETO NORMAL DE PROMISES, com o MÉTODO '.THEN()' normal,
+
+APENAS TRANSFORMADO POR TRÁS DAS CENAS...
+
+
+
+É TRANSFORMADO POR TRÁS DAS CENAS PARA QUE NÓS, COMO DESENVOLVEDORES, SEJAMOS 
+
+CAPAZES DE ESCREVER CÓDIGO MAIS CURTO.....
+
+
+
+o 'overhead' dos then blocks, portanto, é feito PELO JAVASCRIPT EM SI,
+
+COM ESSA FORMA DE SINTAXE.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ISSO É IMPORTANTE DE ENTENDER:
+
+
+
+async/await NÃO MUDA A FORMA COMO O JAVASCRIPT FUNCIONA, ELE SÓ FAZ COM QUE O CÓDIGO
+
+FIQUE COM UM 'LOOK' DIFERENTE.
+
+
+
+
+PARECE QUE ESTAMOS ESPERANDO (e estamos mesmo, dentro dessa função 'trackUserHandler'), 
+
+MAS ESTAMOS ESPERANDO APENAS DENTRO DESSA FUNÇÃO, pq nós temos 
+
+UM PUNHADO DE 'THEN' METHODS chainados um ao outro aqui...
+
+
+
+
+
+PORTANTO PODEMOS TER O BENEFÍCIO DE TER CÓDIGO MAIS LEGÍVEL SEM OS DOWNSIDES 
+
+
+de then blocks e  sintaxes clássicas de callback functions.
+
+
+
+
+
+
+O QUE VOCÊ TEM QUE SABER É QUE NÃO HÁ NENHUMA MÁGICA;
+
+
+AINDA TEMOS OS .THEN RODANDO NO BACKGROUND.
+----------------------------------------------

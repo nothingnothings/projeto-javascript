@@ -1,0 +1,630 @@
+
+
+
+
+
+
+
+
+FALANDO DE 'scrolling', nós podemos não apenas descobrir QUÃO LONGE O USUÁRIO 
+
+SCROLLOU a página da web/dentro de uma caixa, MAS TAMBÉM 
+
+PODEMOS 
+
+
+___aTIVAMENTE___ SCROLLAR O USUÁRIO PARA ALGUM LUGAR DA PÁGINA....
+
+
+
+Um bom exemplo seria o momento em que o professor 
+
+
+
+ADICIONA 'Buy groceries' na lista 'finished projects' (por meio do botão 'Finish'.).
+
+
+
+
+
+O BUY GROCERIES FICA ADICIONADO LÁ EMBAIXO NAQUELA LISTA, mas é evidente que ele fica 
+
+
+ADICIONADO LÁÁÁÁÁÁ EMBAIXO, tão embaixo que nós só conseguimos ver a parte de cima do item...
+
+
+Talvez nós queiramos SCROLLAR DENTRO DESSA CAIXA ('scroll in this box') EM QUE NÓS ADICIONAMOS 
+UM ELEMENTO... ou seja, SCROLLAR A CAIXA PARA QUE O ELEMENTO QUE RECÉM FOI ADICIONADO FIQUE 
+
+VISÍVEL AO USUÁRIO...
+
+
+
+
+E VOCÊ PODE FAZÊ-LO. VOCÊ PODE CONTROLAR ATIVAMENTE O SCROLLING POR MEIO DE JAVASCRIPT... ('actively control scrolling through javascript')
+
+
+
+
+
+
+
+
+
+O professor vai mostrar como isso funciona nas DEVTOOLS.
+
+
+--------------------------------------------------
+
+
+
+PROFESSOR VAI LÁ E SELECIONA 
+
+
+A 'ul' da 'section' de id 'finished-projects'....
+
+
+
+
+Se nós agora expandirmos os estilos da 
+
+
+UNORDERED LIST, veremos que 
+
+
+NOS ESTILOS o professor 'cappou' (capped) O HEIGHT em um valor
+
+de '20rem'...
+
+
+Também percebemos que ele definiu o overflow como 'scroll', o que faz com que 
+
+ESSA CAIXA SEJA 'scrollável' (o tamanho máximo dessa caixa deve ser uns 40rem, o fato do height 
+estar definido como 20 faz com que exista uma scrollbar nessa list/section.) 
+
+
+
+
+---------> O professor fez com que essa section fosse menor para que tivesse um scroll, para que não vissemos 
+
+a coluna (projectItem) QUE NÃO CONSEGUE SER ENCAIXADA NA UNORDERED LIST...
+
+-------------------------------
+
+
+
+Portanto, a unorderedList é scrollable.
+
+
+
+O professor usa a mandinga do '$0' para selecionar essa ul rapidamente...
+
+
+
+---------------------------------------
+
+
+
+dentro da ul, professor aponta, há um MONTE DE MÉTODOS QUE PODEMOS CHAMAR....
+
+
+
+ex: '.scroll'.
+
+
+
+
+
+
+POR EXEMPLO, 
+
+
+
+'scrollTo' (scroll to.) ------------>
+
+'scroll to' RECEBE 2 PARÂMETROS, 2 COORDENADAS, X E Y, com as quais você pode definir O QUANTO VOCÊ QUER SCROLLAR PARA A ESQUERDA/DIREITA/CIMA/BAIXO.... 
+
+
+COMO aqui nós 
+
+__NÃO PODEMOS SCROLLAR 'left to right'/'right to left', ESSE PRIMEIRO PARÂMETRO __NÃO NOS INTERESSA__....
+
+
+Mas o segundo é exatamente o que queremos. 
+
+
+por isso 
+
+
+vamos lá 
+
+
+na nossa unorderedList 
+
+
+e colocamos 
+
+
+
+'ul.scrollTo(0, alguma coisa );'
+
+
+
+
+SE O PROFESSOR DEFINIR '0' nesse segundo parâmetro, não veremos scroll algum sobre essa UL...
+
+
+
+SE ELE DISSER '50', no entanto, VEREMOS QUE A CAIXA DE 'FINISHED PROJECTS' VAI SCROLLAR ATÉ A POSIÇÃO 
+
+'50' do scrollbar (ou seja, o negócio vai scrollar levemente, 50px, para baixo...).
+
+
+
+
+-----------------------------------------------------------
+
+
+
+Se você definir esse parâmetro como um valor bem alto, como '500000', você verá que a barra simplesmente 
+
+irá até o máximo possível e então parará.
+
+
+
+
+PROFESSOR EXPLICA QUE NÃO ESTAMOS LIMITADOS A SCROLLAR ATÉ VALORES ABSOLUTOS,
+
+TAMBÉM PODEMOS SCROLLAR ____RELATIVAMENTE_____....
+
+
+
+Para scrollar RELATIVAMENTE à alguma coisa de nossa página, devemos utilizar o método 
+
+
+'scrollBy'...
+
+
+
+
+SCROLLBY.
+
+
+
+
+ex:
+
+
+
+ul.scrollBy(x, y);
+
+
+
+-------------------------
+
+
+
+COM SCROLLBY, eu digo ao javascript POR QUANTOS PIXELS EU VOU QUERER SCROLLAR PARA BAIXO/LADOS...
+
+
+
+Ou seja, se eu digitar simplesmente 
+
+
+
+'ul.scrollBy(0, 50);',  
+
+
+TEREI O MESMO EFEITO DE 'scrollTo', A UL VAI SCROLLAR 50PX para baixo....
+
+
+
+
+
+
+
+
+MAS VEREMOS UMA DIFERENÇA SE O PROFESSOR REPETIR ESSE COMANDO DE NOVO (ou seja, se ele executar 'ul.scrollBy(0, 50);' MAIS UMA VEZ).
+
+
+
+Ou seja, se o professor ESTIVER EM '50px' (na posição 50px da scrollbar) E ELE ENTÃO 
+
+
+CHAMAR scrollBy DE NOVO, ELE VAI SCROLLAR MAIS 50PX PARA BAIXO..... (é diferente, portanto, de scrollTo, que NÃO PRODUZIRIA NENHUMA MUDANÇA COM OUTRO '0, 50', ficaria no mesmo lugar.)
+
+
+
+
+
+Ou seja, esse código é BOM PARA SCROLLS GRADUAIS de scrollbars da página...
+
+
+
+
+
+
+
+PODEMOS, ESSENCIALMENTE, OPTAR POR 
+
+
+1) scrollar até uma posiçãO ESPECÍFICA, em pixels.
+
+
+
+2) SCROLLAR ___POR UMA CERTA QUANTIDADE DE PIXELS, gradualmente.
+
+
+
+
+
+-------------------------------------
+
+
+
+Combinadas essas informações com o fato DE QUE VOCÊ É CAPAZ DE CONSEGUIR 
+
+AS COORDENADAS DE QUALQUER ELEMENTO NA TELA, você poderia, é claro, TAMBÉM 
+
+UTILIZAR ESSES SCROLLS PARA ENTÃO DIZER AO JAVASCRIPT PARA SCROLLAR ATÉ UM ELEMENTO 
+
+ESPECIFICO (para fazer isso, bastaria apenas pegar as coordenadas do tal elemento na página...)---->
+
+
+-----> Para fazer isso, basta pegar as coordenadas do tal elemento e ENTÃO SCROLLAR ATÉ ELE POR MEIO 
+
+DA PASSAGEM DESSAS COORDENADAS COMO PARÂMETROS...
+
+
+
+
+----------------------------
+
+
+
+ENTRETANTO, 
+SE VOCÊ QUER FAZER COM QUE UM ELEMENTO ESPECÍFICO FIQUE VISÍVEL POR MEIO DE SCROLLING, HÁ 
+
+UMA MANEIRA AINDA MAIS FÁCIL DE FAZER ISSO:
+
+
+
+
+
+
+essa maneira pede que vocÊ VÁ ATÉ O TAL ELEMENTO, por exemplo 
+o 
+
+
+'projectItem' que adicionamos EM FINISHEDPROJECTSLIST.... (a segunda lista)....
+
+
+
+
+
+O código dessa adição fica no método 'addProject()', dentro da classe 
+
+
+
+'ProjectList'... 
+
+
+
+
+-----------------------------
+
+
+
+Dentro desse método, devemos assegurar que quando esse elemento (project) FOR MOVIDO, FAÇAMOS COM QUE 
+
+ELE SEJA 'SCROLLADO ATÉ A VISÃO DO USUÁRIO' ('scrolled into view').
+
+
+
+
+--------------------------------
+
+
+
+
+PARA FAZER COM QUE ISSO ACONTEÇA, 
+
+
+Devemos ir até o LUGAR EM QUE O PROFESSOR MOVE ESSE ELEMENTO (ou seja, 
+
+
+dentro do método estático 'moveElement', dentro da classe 'DOMHelper') E ENTÃO, 
+
+NESSE ELEMENTO ('element's) QUE VOCê QUER TRAZER à VISÃO DO USUÁRIO, você deve chamar 
+
+
+'.scrollIntoView'  
+
+
+-----------> ESSE É UM MÉTODO ____MUITO ÚTIL____.
+
+element.scrollIntoView();
+----------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+class DOMHelper {
+    
+    
+    
+    
+    static clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+        element.replaceWith(clonedElement);
+        return clonedElement;
+    }
+    
+    
+    
+    
+    static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+        destinationElement.append(element);
+        element.scrollIntoView();
+    }
+}
+
+
+
+
+------------------------------------------------
+
+
+
+E ISSO REALMENTE FUNCIONA!
+
+
+
+BRILHANTE.
+
+
+
+
+'scrollIntoView' FAZ EXATAMENTE O QUE O NOME SUGERE: faz com que 
+
+o elemento/item apareça para o usuário na página...
+
+
+Os items são scrollados automaticamente À visão do usuário, agora.
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+UMA COISA QUE VOCÊ PODE TER PERCEBIDO, AQUI, É QUE 
+O
+'scrolling' ATÉ AGORA SEMPRE FOI UM SCROLL 
+
+'TRAVADO', 'pulado', (jumping).... 
+
+
+
+Ou seja, não temos animação para esse scroll...
+
+
+
+PODEMOS CONSERTAR ISSO.
+
+
+
+podemos colocar animações nesse scroll EM ALGUNS BROWSERS...
+
+
+CHROME E FIREFOX SUPORTAM ESSA FEATURE. 
+
+
+
+Você pode, sim, definir como o scrolling será efetuado.
+
+
+
+
+Para fazê-lo, você deve PASSAR UM OBJETO COMO ARGUMENTO DE 'scrollIntoView'...
+
+
+
+
+ex:
+
+
+
+element.scrollIntoView({...});
+
+
+-------------------------------
+
+
+
+
+
+DENTRO DESSE OBJETO, VOCÊ PODE DEFINIR 
+
+
+O COMPORTAMENTO.... 
+
+
+um exemplo de comportamento bom é 'smooth'...
+
+
+
+
+ex:
+
+
+
+element.scrollIntoView({behavior: 'smooth'});
+
+
+
+
+-------------------------------
+BEHAVIORS DISPONÍVEIS:
+
+1) auto ---> é o default; SIMPLESMENTE FAZ UM 'PULO' até o item/elemento...
+
+2) instant 
+
+3) smooth ----> te dá uma pequena animação. Nem sempre funciona. No meu Chrome, não funciona.
+
+
+
+-----------------------------
+
+
+
+
+
+
+SAFARI E INTERNET EXPLORER NÃO SUPORTAM O 'behavior: smooth'.
+
+
+
+
+
+
+Nos browsers em que esse código não funciona, ele simplesmente não terá efeito.
+
+
+
+-------------------------------
+
+
+POR FIM, OUTRO DETALHE:
+
+
+
+VOCÊ TAMBÉM 
+
+TEM ESSE 
+
+
+
+NEGÓCIO DE 
+
+
+'behavior' ( um objeto com '{behavior: xxx}' )
+
+
+
+
+EM 
+
+
+'scrollTo()' e 'scrollBy()'.....
+
+
+ 
+
+ NELES, VOCÊ PODE 
+
+
+ OU 
+
+
+
+ PASSAR O PAR DE COORDENADAS (x, y) OU, 
+
+
+
+ ALTERNATIVAMENTE, PASSAR UM 
+
+
+ OBJETO QUE DEFINIRÁ 
+
+
+ 'top' e 'left'....
+
+
+
+
+
+ TOP ----------> QUANTO VOCÊ VAI QUERER SCROLLAR EM RELAÇÃO AO TOPO DA TELA/TOPO DO ITEM...
+
+
+LEFT ----> QUANTO VOCÊ VAI QUERER SCROLLAR EM RELAÇÃO À ESQUERDA DO ITEM/PÁGINA....
+
+
+
+
+ex:
+
+
+
+
+ul.scrollTo({top: 50, left: 20})
+
+
+
+
+---------------------------------
+
+
+
+
+DEFINIDOS ESSES 2 NEGÓCIOS, TOP E LEFT, VOCÊ PODE DEFINIR 
+O BEHAVIOR, TAMBÉM...
+
+
+Aqui, o professor o define como sendo 'smooth'.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+ul.scrollTo({top: 50, left: 20, behavior: 'smooth'})
+
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+SCROLLBY, conforme mencionamos, TAMBÉM ACEITA 'behavior: xxx'.
+
+
+
+------------------------------------------------
+
+
+
+
+
+É ASSIM QUE VOCÊ PODE SCROLLAR E CONTROLAR SCROLLS POR DENTRO DO JAVASCRIPT...
+
+
+É uma feature que pode ser útil para fazer com que os usuários vejam o conteúdo que VOCÊ 
+
+
+QUER QUE ELES VEJAM...

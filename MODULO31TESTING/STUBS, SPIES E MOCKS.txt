@@ -1,0 +1,34 @@
+I have put together a GitHub repo as an example of how to use Stubs, Spies and Mocks for JavaScript tests. This demo project shows how you would use a popular mocking library called SinonJS (Pronounced “sigh-non”) to Mock a simple in-memory store.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Stubs
+Replace calls to databases or network requests. Stubbing (replaces) a function.
+
+Pros:
+
+Replace calls to db
+Replace network requests with this
+Force an error to test error handling
+
+
+
+
+Spies
+Spy on functions and see when or if they are called.
+
+Pros:
+
+Check if a method has been called with certain variables
+Check if callbacks have been called, and how many times

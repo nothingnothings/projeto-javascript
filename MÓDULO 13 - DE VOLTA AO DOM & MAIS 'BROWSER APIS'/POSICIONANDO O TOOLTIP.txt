@@ -1,0 +1,1444 @@
+
+
+
+
+DEVEMOS VOLTAR AO PROJETO DOS activeprojects e finishedprojects.
+
+
+
+
+
+
+
+
+LÁ, EU QUERO POSICIONAR MEU TOOLTIP LOGO ABAIXO DE CADA PROJECTITEM.
+
+
+
+NÃO QUERO QUE O TOOLTIP SEJA RENDERIZADO AO FINAL DA PÁGINA, PORTANTO.
+
+
+
+-------------------------------------------------------
+
+
+
+
+Para fazer isso, precisamos do javascript, precisamos do arquivo app.js
+
+
+
+
+
+-------------------------------------------------
+
+
+
+DEVEMOS TRABALHAR COM O POSICIONAMENTO, COM ALGUMAS DAS PROPRIEDADES QUE VIMOS ATÉ AGORA.
+
+
+
+
+
+
+
+
+
+
+DEVEMOS ENTRAR NO LOCAL DO CÓDIGO EM QUE CRIAMOS O TOOLTIP...
+
+
+(dentro da classe 'tooltip').
+
+
+
+
+DENTRO DO MÉTODO 'create()'.
+
+
+É ali que podemos configurar o tooltip e posicioná-lo.
+
+-----------------------
+
+
+PARA POSICIONAR O TOOLTIP, TAMBÉM PRECISAMOS SABER EM QUE LUGAR 
+
+O ELEMENTO 
+
+'HOST' (hostElement), ou seja, o ELEMENTO QUE É RESPONSÁVEL PELA EXIBIÇÃO DO TOOLTIP, 
+
+
+se encontra....
+
+-------------------------------
+
+
+
+No final das contas, DEVEMOS ENCONTRAR ONDE ESTÁ O PROJECTITEM (que é o negócio em que está inserido o botão de ''mostrar tooltip''.)...
+
+
+
+
+
+Para isso, no tooltip, naquele local em que o criamos, no constructor de tooltip, 
+
+
+
+POSSO FAZER COM QUE O CONSTRUCTOR ESPERE MAIS 1 ARGUMENTO....
+
+
+
+Faço com que ele espere o 'hostElementId'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip extends Component {
+
+
+
+
+    constructor(closeNotifierFunction, text, hostElementId) {
+        super();
+        //super('active-projects, true); EXEMPLO DA FLEXIBILIDADE DA CLASSE GENÉRICA 'component' ----> por flexibilidade, queremos expressar o caráter de reutilização dessa classe, que pode ser utilizada para posicionar elementos diversos em distintas partes da página (dentro-em cima de um container, embaixo-fora, etc etc, tudo por meio da ternary expression e do parâmetro passado ao super/constructor da classe base 'Component'...)
+        this.closeNotifier = closeNotifierFunction;
+        this.text = text;
+        this.create();
+
+    }
+
+    closeTooltip = () => {      ////DE NOVO, QUEREMOS O COMPORTAMENTO LEGAL DE 'this' dessa 'method fields synthax', proporcionada pelo efeito das arrow functions.
+        this.detach();
+        this.closeNotifier();
+    }
+
+
+    
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        //tooltipElement.textContent = 'DUMMY!';/// Código antigo, com o DUMMY. Foi substituído pela versão que utiliza 'EXTRA-DATA-INFO' (datasets, estudo dos datasets...), e com 'text', que é o parâmetro repassado ao constructor da classe Tooltip...
+        tooltipElement.textContent = this.text;
+        //tooltipElement.addEventListener('click', this.dettach);
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PROFESSOR FAZ ISSO PARA QUE ELE CONSIGA PASSAR 'hostElementId' 
+
+
+AO CONSTRUCTOR DO 'COMPONENT', POR MEIO DA PASSAGEM DESSE ARGUMENTO A 'SUPER()'....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Tooltip extends Component {
+
+
+
+
+    constructor(closeNotifierFunction, text, hostElementId) {
+        super(hostElementId);
+        this.closeNotifier = closeNotifierFunction;
+        this.text = text;
+        this.create();
+
+    }
+
+    closeTooltip = () => {      ////DE NOVO, QUEREMOS O COMPORTAMENTO LEGAL DE 'this' dessa 'method fields synthax', proporcionada pelo efeito das arrow functions.
+        this.detach();
+        this.closeNotifier();
+    }
+
+
+    
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        //tooltipElement.textContent = 'DUMMY!';/// Código antigo, com o DUMMY. Foi substituído pela versão que utiliza 'EXTRA-DATA-INFO' (datasets, estudo dos datasets...), e com 'text', que é o parâmetro repassado ao constructor da classe Tooltip...
+        tooltipElement.textContent = this.text;
+        //tooltipElement.addEventListener('click', this.dettach);
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+-----------------------------------
+
+
+
+
+O professor faz isso pq NA NOSSA CLASSE BASE 'COMPONENT' o constructor 
+
+espera 2 argumentos, sendo o primeiro deles 'hostElementId'....
+
+
+
+ex:
+
+
+
+class Component {
+
+    constructor(hostElementId, insertBefore = false) {
+        ...
+    }
+}
+
+
+
+
+-----------------------------------------------
+
+
+
+
+Esse hostElementId é ENTÃO UTILIZADO PARA 
+
+
+SELECIONAR UM ELEMENTO NA PÁGINA COM 
+
+
+AQUELE ID (E ESSE ELEMENTO DA PÁGINA SERÁ O 
+
+LUGAR ONDE SERÁ INSERIDO O TOOLTIP/ProjectItem...)
+
+
+
+
+
+Esse elemento, lembrando, é armazenado 
+
+
+em uma propriedade 'hostElement'
+
+por meio de 
+
+
+'this.hostElement' ('this.hostElement = document.getElementById(hostElementId)')...
+
+
+
+-------------------------------------
+
+
+
+ISSO, ESSA SELEÇÃO DESSE LUGAR E ARMAZENAMENTO EM UMA 
+
+PROPRIEDADE DE NOME 'hostElementId' É FEITA DENTRO DA CLASSE BASE; FAZEMOS 
+
+
+ISSO DENTRO DA CLASSE BASE PARA QUE NÓS POSSAMOS UTILIZAR 'hostElementId', essa propriedade, 
+
+NAS OUTRAS SUBCLASSES que herdam suas características.
+
+
+
+-----------------------------
+
+
+
+
+Ou seja, podemos acessar QUALQUER PROPRIEDADE QUE TEMOS 
+
+EM UMA CLASSE BASE em qualquer uma das subclasses 
+
+dessa classe base, pois A CLASSE BASE É UM PROTOTYPE DAS MESMAS.
+
+
+
+(objetos que usam esse prototype podem usar as propriedades 
+
+dele...)
+
+
+-------------------------
+
+
+
+
+É POR ISSO QUE EM 'TOOLTIP' (que extende, sim, a classe Component) PASSAMOS 
+
+ESSE 
+
+hostElementId AO 
+
+CONSTRUCTOR DA CLASSE base 'component'...
+
+
+
+
+Quando passamos elementHostId como parâmetro de 'component', por meio de 'super(hostElementId) em Tooltip', 
+
+
+
+GANHAMOS ACESSO à ESSA PROPRIEDADE 'hostElementId' (que está na classe base, por meio de 'this.hostElementId'...).
+
+
+
+--------------------------
+
+
+
+
+E o que podemos fazer com isso?
+
+
+
+
+
+Bem, ali em 'create()' em que nós criamos O NOSSO 
+
+TOOLTIPELEMENT, dentro de 'Tooltip',
+
+
+antes de nós adicionarmos o addEventListener a ele, 
+
+
+PODEMOS ADICIONAR UM CONSOLE.LOG de 'this.hostElement.getBoundingClientRect()'
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        tooltipElement.textContent = this.text;
+        console.log(this.hostElement.getBoundingClientRect());
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;
+}
+
+
+
+----------------------------
+
+
+
+
+
+O PROFESSOR DIZ QUE APENAS DEVEMOS FAZER ISSO PARA VER SE 
+
+TUDO O QUE FIZEMOS FUNCIONA, para ver se aquela propriedade especial 'getBoundingClientRect()' REALMENTE 
+
+CONSEGUE NOS DAR INFORMAÇÕES ACERCA DO POSICIONAMENTO DESSE 'hostElement'...
+
+
+-------------------------------------------------------
+
+
+PARA TESTARMOS ISSO, PRECISAMOS ASSEGURAR QUE NÓS REALMENTE RECEBEMOS UM 
+
+
+'hostElementId' NO CONSTRUCTOR de 'tooltip', precisamos que esse argumento REALMENTE 
+
+SEJA PASSADO PELO chamado dessa classe 'tooltip'... (pq até o presente momento, nós estamos esperando esse 'hostElementId', mas não estamos o recebendo....)
+
+
+
+
+
+POR ISSO DEVEMOS IR ATÉ O 
+
+
+'showMoreInfoHandler()', que é o método que segura UM CHAMADO DE TOOLTIP...
+
+
+
+ali nós temos 
+
+
+
+um chamado de tooltip com 
+
+
+
+os parÂmetros 
+
+
+
+'this.hasActiveTooltip = false' 
+
+
+e 
+
+
+'tooltipText'.
+
+
+
+
+DEVEMOS ADICIONAR MAIS UM PARÂMETRO, E ESSE PARÂMETRO SERÁ O 
+
+
+
+_______iD___________ DESSE PROJECT ITEM, QUE SERÁ EXPRESSADO PELA ESCRITA 
+
+
+'this.id'.  (que é a propriedade ID que segura o valor do ID DESSE PROJECTITEM...)
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        console.log(projectElement.dataset);
+        const tooltipText = projectElement.dataset.extraInfo;
+        const tooltip = new Tooltip(() => {  //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+            this.hasActiveTooltip = false;
+        }, tooltipText,
+        this.id
+        ); 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+
+------------------------------------
+
+
+
+
+
+Fazemos tudo isso, recarregamos a página e vemos o resultado.
+
+
+
+Apertamos em 'more info' e o console.log é executado.
+
+
+
+
+Nos é retornado um objeto com 
+
+
+AS COORDENADAS DO PROJETO NA NOSSA PÁGINA WEB...
+
+
+
+
+GANHAMOS AS COORDENADAS DESSE 'DOM NODE DO PROJETO'...
+
+
+Também recebemos O SEU TAMANHO, seu height e width....
+
+
+
+
+O TOOLTIP TAMBÉM É CRIADO AQUI EM 'create()', dentro do ProjectItem, 
+
+
+e é criado COM BASE NA LÓGICA QUE TEMOS EM 'Component'... (aquela lógica que agora 
+
+faz com que seja utilizado o HOSTELEMENT  PARA QUE SEJA INSERIDO O NOSSO 
+
+TOOLTIP DENTRO DESSE PROJECTITEM...)
+
+
+---------------------------------
+
+
+
+
+
+
+
+AS MUDANÇAS NO CÓDIGO AGORA FIZERAM COM QUE O TOOLTIP CONSEGUISSE SER 
+
+EXIBIDO LOGO ABAIXO DE CADA OBJETO.... (tudo devido À comunicação que foi construída entre 'TOOLTIP', 'Component' e 'ProjectItem'...)
+
+Apesar de não ser exatamente RUIM, essa posição atual do tooltip 
+
+NÃO É O LUGAR EXATO EM QUE O PROFESSOR QUER ESSE TOOLTIP...
+
+
+
+
+
+E ainda que isso não tenha uma aparência tão ruim assim, devemos 
+
+FAZER COM QUE O TOOLTIP QUE É ABERTO ABAIXO DE CADA PROJETO posicione-se de maneira 
+melhor.
+
+
+
+O professor diz que também não está ideal pq ele NÃO QUER QUE O 'PROJECT' em si, 
+o ELEMENTO PROJECT (a janelinha do project) AUMENTE QUANDO FOR 
+
+ADICIONADO UM TOOLTIP ABAIXO DOS BOTÕES...
+
+
+
+
+Mas professor diz que mais tarde veremos isso, que agora devemos NOS FOCAR NAS COORDENADAS...
+
+
+
+
+Bem, naquele objeto 'DOMRect' que nos foi retornado, podemos ver que PARA A ESQUERDA TEMOS 
+
+63 PIXELS (ou qualquer outro valor), e para o topo, 161.
+
+
+
+
+OS VALORES EXATOS DEFINIDOS ALI OBVIAMENTE NÃO SÃO VALORES QUE O PROFESSOR DEFINIU MANUALMENTE NO 
+ARQUIVO CSS...
+
+
+
+Em vez disso, diz ele, isso DEPENDE DA FORMA COMO O BROWSER RENDERIZA ESSA PÁGINA 
+
+
+DE CIMA PARA BAIXO.......
+
+
+
+
+Isso também pode mudar dependendo de CONFIGURAÇÕES ESPECIFICAS A DETERMINADOS SISTEMAS (system-specific settings). ---->
+
+-------> UM EXEMPLO CLÁSSICO DISSO É ___FONT-SIZE____, pq o professor está 
+
+USANDO REM aqui para definir os tamanhos.....
+
+
+E, portanto, esses são os VALORES CALCULADOS pelo javascript/browser, QUE NO FINAL DAS CONTAS SÃO 
+
+
+EXATAMENTE OS OBJETOS NOS QUAIS EU TENHO INTERESSE NO MOMENTO......
+
+
+Tenho interesse porque EU QUERO TER A POSIÇÃO ATUAL QUE TENHO NA TELA PARA ESSE OBJETO PARA QUE 
+
+EU POSSA POSICIONAR MELHOR O TOOLTIP...
+--------------------------------------------
+
+
+
+De volta ao script, podemos POSICIONAR ESSE TOOLTIP criado dentro do método 'create()' em TOOLTIP...
+
+
+
+Podemos posicionar esse tooltip a PARTIR DE ALGUMAS INFORMAÇÕES EXTRAÍDAS 
+
+
+DO getBoundingClientRect...
+
+
+OU, PARA PRATICAR COM OUTRAS PROPRIEDADES QUE O PROFESSOR NOS MOSTROU, PODERÍAMOS 
+UTILIZAR ALGUMAS INFORMAÇÕES DESSAS TAIS PROPRIEDADES....
+
+
+
+Ex: o professor está interessado em uma 
+
+
+constante chamada 
+
+
+de 
+
+
+
+'hostElementPosLeft' ('position left').
+
+
+
+
+--------------------------------
+
+
+
+ex:
+
+
+''const hostElPosLeft = ...''
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+o professor pode ACESSAR ESSA PROPRIEDADE/INFORMAÇÃO POR MEIO DO MÉTODO 'offsetLeft', QUE VIMOS ANTERIORMENTE, EM OUTRA CLASSE.
+
+
+
+ex:
+
+
+
+const hostElPosLeft = this.hostElement.offsetLeft; //////////// 'hostElement.offsetleft' ------> NOS MOSTRA A POISÇÃO DO ELEMENTO EM RELAÇÃO AO INÍCIO DE SISTEMA DE COORDENADAS DA PÁGINA. (em relação AO PONTO MAIS ESQUERDO DE UM DETERMINADO ELEMENTO/OBJETO...)
+
+
+
+
+
+Eu também vou querer o 'host element position top' (hostElPosTop), E ISSO PODE SER 
+
+OBTIDO por meio do código 
+
+
+'const hostElPosTop = this.hostElement.offsetTop;'
+
+
+
+
+
+
+REPRESENTAÇÃO NO CÓDIGO:
+
+
+
+
+
+
+
+
+create() {
+
+
+    const tooltipElement = document.createElement('div');
+    tooltipElement.className = 'card';
+    tooltipElement.textContent = this.text;
+
+
+    const hostElposLeft = this.hostElement.offsetLeft;
+    const hostElPosTop = this.hostElement.offsetTop;
+
+}
+
+
+
+------------------------------
+
+
+
+
+COM ISSO, AGORA SABEREI AS COORDENADAS X E Y do meu elemento...
+
+
+ou seja, o topleft corner do 'hostElements', por assim dizer, a coordenada que 
+o topLeft corner tem em relação à 'origem' da página (que fica lá em cima, na esquerda.)....
+
+
+
+
+
+EU TAMBÉM PRECISO DA HEIGHT, porque eu vou querer POSICIONAR O TOOLTIP AO FINAL DO 
+ELEMENTO 'projectItem'... (bem em baixo) E NÃO NO TOPLEFT CORNER.... (que é obtido pelo 'hostElement.offsetLeft'...)
+
+
+Portanto, posso conseguir 
+
+
+
+meu 
+
+'host element height' (hostElHeight') POR MEIO DO 
+
+
+CÓDIGO 
+
+
+'const hostElHeight = this.hostElement.clientHeight' ----> ISSO NOS DARÁ 
+
+A ALTURA VERDADEIRA DO ____CONTEÚDO...____
+
+
+
+CASO O PROFESSOR UTILIZASSE '.offsetHeight', 
+
+ELE CONSEGUIRIA A ALTURA VERDADEIRA DO CONTEÚDO + QUAISQUER BORDERS/SCROLLBARS enfiadas nesse conteúdo...
+
+
+
+MAS COMO AQUI EU ___NÃO TENHO____ BORDERS, tanto faz qual 
+dos dois eu usar, posso usar tanto offsetHeight quanto clientHeight...
+
+
+
+-----------------------------------------------
+
+
+
+
+COM ESSA INFORMAÇÃO, PODEMOS COMEÇAR A TENTAR POSICIONAR NOSSO TOOLTIP.
+
+
+Para isso, devemos CALCULAR UMA POSIÇÃO 
+
+X E UMA POSIÇÃO Y PARA O TOOLTIP....
+
+
+
+ex:
+
+
+
+const x =
+
+
+const y = 
+
+
+
+
+
+---------------------------------
+
+
+Professor diz que o x PODE SER 'hostElPosLeft' mais 20px.
+
+(OBS::: OS VALORES NUMERAIS AQUI SEMPRE SERÃO EM PIXELS.)
+
+
+
+ex:
+
+
+
+const x = hostElPosLeft + 20;
+
+
+
+
+
+-----------------------------------
+
+
+JÁ PARA A COORDENADA Y, O PROFESSOR VAI QUERER 
+
+O VALOR DO 'host element position top' ( a posição DA BORDA DO TOPO NO SISTEMA DE COORDENADAS, POR ASSIM DIZER ) + hostElHeight
+
+
+ex:
+
+
+const y = hostElPosTop + hostElHeight;
+
+        (posição da borda superior
+        do meu elemento em relação ao sistema de coordenadas, por assim dizer. )
+
+
+-------------------------------------
+
+
+
+IMPORTANTE!!!
+
+
+quando o professor adiciona ALGUMA COISA A ESSA POSIÇÃO DA BORDA SUPERIOR DO ELEMENTO EM RELAÇÃO AO SISTEMA DE COORDENADAS, 
+
+como meu sistema de coordenadas COMEÇA NO CANTO SUPERIOR ESQUERDO, essa adição de 'hostElHeight' ACABA FAZENDO 
+
+COM QUE OS ELEMENTOS SEJAM 'EMPURRADOS' MAIS PARA BAIXO... ('push elements further down'...).
+
+
+
+
+Portanto, se eu tiver MEU MOUSE EM CIMA DE UMA 
+
+
+COORDENADA TAL (digamos em cima do topo do project 'Finish the course') 
+
+E EU ENTÃO ADICIONAR 100PX a essa coordenada, renderizando um ELEMENTO 
+
+NESSA NOVA POSIÇÃO, ele será renderizado 100 PIXELS ABAIXO DAQUELE PONTO ESPECÍFICO...
+
+isso ocorre pq o sistema de coordenadas FUNCIONA 
+
+
+DO TOPO-ESQUERDA PARA BAIXO-DIREITA...
+
+
+
+------------------------------------------
+
+
+
+
+Ou seja, agora o código do professor faz sentido...
+
+
+
+hostElPosLeft É A POSIÇÃO INICIAL DO PROJECTITEM....   o 'X' SERÁ A POSIÇÃO DO TOOLTIP, que terá uma coordenada x, um valor da coordenada X, equivalente AO VALOR DO PROJECT ITEM + 20 (20 unidades de pixel para baixo do projectItem...)
+
+
+
+
+MESMA COISA PARA a constante 
+
+
+'Y'. 
+
+
+O VALOR DA CONSTANTE Y 
+
+
+SERÁ de 
+
+
+'valor inicial da coordenada Y do projectItem' (hostElPosTop) MAIS O TAMANHO DO PROJECTITEM EM SI (hostElHeight). Fazemos isso para espaçar o tooltip para longe do projectItem.
+
+
+
+
+
+
+MAS AÍ O PROFESSOR VAI LÁ E DECIDE REDUZIR EM 10PX esse valor da const y....
+
+
+
+ex:
+
+
+
+const y = hostElPosTop + hostElHeight - 10;
+
+
+
+--------------------------------
+
+
+Ele faz isso para que o tooltip não vá para baixo tanto assim, 
+que não vá para a baixo no valor da height inteira, 
+
+e sim 'height do elemento - 10'.
+
+----------------------------------------------
+
+
+
+AGORA O PROFESSOR DIZ QUE DEVEMOS TENTAR UTILIZAR ESSAS COORDENADAS 
+
+PARA RENDERIZAR O TOOLTIP...
+
+
+AGORA, EXPLICA O PROFESSOR, PARA POSICIONAR UM 
+
+
+ELEMENTO, você não FAZ ISSO 
+
+
+POR MEIO DE ALGO SIMPLES COMO 
+
+
+acessar tooltipElement e então definir, sei lá, 'offsetTop' como igual a um determinado valor....
+
+
+
+ex( do que você não deve fazer/não pode fazer):
+
+
+
+'tooltipElement.offsetTop = valor qualquer;'
+
+
+
+
+
+NÃO, NÃO É ISSO QUE VOCÊ DEVE FAZER.
+
+
+
+-----------------------------
+
+
+
+TODOS ESSAS TOP E LEFT, BOTTOM E RIGHT COORDINATES 
+
+SÃO VALORES ___READ ONLY____. Como são valores read only, você 
+
+NÃO PODE ALTERÁ-LOS POR MEIO DO JAVASCRIPT.
+
+
+
+CASO VOCê QUEIRA ASSIGNAR UM ___NOVO VALOR___ A ESSAS COORDENADAS,
+
+
+VOCÊ VAI FAZER ISSO COM ______CSS_____, E NÃO COM JAVASCRIPT.... 
+
+
+
+ENTRETANTO, COMO VOCÊ DEVE SE LEMBRAR, O JAVASCRIPT ___CONSEGUE INTERAGIR____ COM 
+O CSS DE UMA PÁGINA....
+
+
+
+É por isso que aqui nós podemos acessar 
+
+
+'.style' (a propriedade 'style' do elemento, DO TOOLTIP) E ENTÃO 
+
+
+DEFINIR 
+
+
+'.style.left = x'.....
+
+
+
+
+
+EX:
+
+
+
+
+
+const hostElPosLeft = this.hostElement.offsetLeft;
+        const hostElPosTop = this.hostElement.offsetTop;
+        const hostElHeight = this.hostElement.clientHeight;
+
+        const x = hostElPosLeft + 20;
+
+        const y = hostElPosTop + hostElHeight - 10;
+    
+
+
+        tooltipElement.style.left = x;///////EIS AQUI O CÓDIGO EM QUESTÃO. PODEMOS ALTERAR O CSS DE UMA PÁGINA POR MEIO DO JAVASCRIPT, ALTERAR AS COORDENADAS DE UM ELEMENTO POR MEIO DE MALANDRAGEM JAVASCRIPT.
+
+
+
+-------------------------
+
+
+
+E AGORA, DEVEMOS APRENDER ALGO IMPORTANTE.
+
+
+ALGO ___MUITO IMPORTANTE___.
+
+
+
+Estamos falando aqui de UM ERRO COMUM.
+
+
+Se vocÊ está assignando um estilo (e nós PRECISAMOS FAZER ISSO AQUI, BASTA LER A EXPLICAÇÃO LOGO ACIMA; NÃO HÁ COMO ALTERAR AS COORDENADAS DE UM ITEM/ELEMENTO SEM UTILIZAR INTERAÇÕES COM CSS),
+NÃO É SUFICIENTE APENAS DEFINIR AS COORDENADAS COMO ALGUM NÚMERO IDIOTA (que é o que, no final das contas, nós fizemos aqui, em 'x' e 'y'...), VOCÊ 
+
+
+DEVE ESCREVER ESSE VALOR DA COORDENADA COMO SE VOCÊ ESTIVESSE ESCREVENDO CÓDIGO CSS...
+
+
+-----> OU SEJA, SE VOCÊ ESTÁ TRABALHANDO COM ___PIXELS____ NO SEU DOCUMENTO CSS, 
+        VOCÊ VAI TER QUE ADICIONAR UMA STRING de 'px' NA DEFINIÇÃO DESSE ESTILO NO JAVASCRIPT.... (e se você estiver utilizando REM, VOCÊ VAI TER DE ADICIONAR UMA STRING COM 'rem' no seu javascript...)
+
+
+
+ex:
+
+
+
+código CSS --->   'li {
+    margin: 1px 0px;
+}
+
+
+
+ALTERAÇÃO JAVASCRIPT:
+
+
+
+
+tooltipElement.style.left = x + 'px';
+
+
+
+
+
+------------------------------------------
+
+
+
+
+OU SEJA, DEVEMOS PENSAR NO VALOR (definido à direita do '=') COMO UMA STRING, COMO UMA 
+
+STRING PARECIDA COM O CÓDIGO CSS (e no código css, o documento não funciona sem 'px' e 'rem').
+
+
+
+é por isso que precisamos do "+  'px' "  
+
+ou 
+
+"+ 'rem' ".
+
+
+
+
+FAZEMOS A MESMA COISA COM O 'tooltipElement.style.top', que 
+
+definimos como sendo "y + 'px' ".
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const hostElPosLeft = this.hostElement.offsetLeft;
+        const hostElPosTop = this.hostElement.offsetTop;
+        const hostElHeight = this.hostElement.clientHeight;
+
+        const x = hostElPosLeft + 20;
+
+        const y = hostElPosTop + hostElHeight - 10;
+        
+        tooltipElement.style.left = x + 'px';
+        tooltipElement.style.top = y + 'px';
+
+
+------------------------------------------------------
+
+
+
+
+SE NÓS FIZERMOS ISSO TUDO E ENTÃO SALVARMOS E RECARREGARMOS A PÁGINA, apertando em 
+
+'more info' VEREMOS NENHUMA DIFERENÇA....
+
+
+
+
+-------------------------------
+
+
+
+A RAZÃO PARA O FRACASSO, PARA A FALTA DE MUDANÇA NA PÁGINA, 
+é que 
+
+nós podemos definir
+
+
+'left' e 'top', MAS DEVIDO À MANEIRA COMO CSS FUNCIONA, VOCÊ 
+
+NÃO PODE ALTERAR ESSES VALORES MAGICAMENTE COM JAVASCRIPT... (o que é uma coisa boa).
+
+
+
+
+
+VOCÊ, além disso, PRIMEIRO DE TUDO, PRECISA DEFINIR UM OUTRO ESTILO 
+
+NO 'TOOLTIPELEMENT'...
+
+
+
+VOCÊ PRECISA DEFINIR O 'POSITION STYLE' COMO ABSOLUTE....
+
+
+ex:
+
+
+
+'tooltipElement.style.position = 'absolute';'
+
+
+
+
+---------------------------------------------
+
+
+COM ISSO, E SOMENTE COM ISSO, VOCê PODERÁ ENTÃO ALTERAR A POSIÇÃO DO ELEMENTO 
+
+DE ACORDO COM O SISTEMA ABSOLUTO DE COORDENADAS NA  TELA...
+
+
+CASO CONTRÁRIO, O POSICIONAMENTO DOS ELEMENTOS/ITEMS SEMPRE SERÁ RELATIVO 
+
+AO DOCUMENT FLOW.... É assim QUE O BROWSER E O CSS FUNCIONAM...
+
+
+(o padrão é 'position: relative'. RELATIVO AO DOCUMENTFLOW, EM OUTRAS PALAVRAS....)
+
+Portanto agora, por meio da definição da posição como sendo 'absolute', PODEMOS FAZER AS MUDANÇAS 
+
+FUNCIONAREM...
+
+
+
+-------------------------------------------
+
+
+
+
+SE AGORA RECARREGARMOS  A PÁGINA, VEREMOS QUE O TOOLTIP ESTARÁ POR CIMA DOS OUTROS ELEMENTOS...
+
+
+
+
+Também percebe-se que as caixas dos tooltips estão bugadas. O tooltip do segundo projectItem aparece LÁÁÁ embaixo, e o outro aparece fora da página.
+
+
+
+
+
+Temos que CONSERTAR ISSO...
+
+
+
+
+mUITOS COMPORTAMENTOS INDESEJADOS, QUE DEVEM SER CONSERTADOS.
+
+
+
+Mas qual pode ser a razão do tooltip ficar posicionado todo errado?
+
+
+
+----------> Bem, se observarmos a página mais de perto e scrollarmos O 'activeprojectList' um pouco 
+
+mais para baixo, PERCEBEMOS QUE O SEGUNDO TOOLTIP (tooltip do segundo projectItem) ESTÁ NUMA 
+
+POSIÇÃO SIMILAR AO TOOLTIP DO PRIMEIRO PROJECTITEM, com a distinção de que ele está posicionado 
+
+levando em conta A POSIÇÃO DO ELEMENTO 'scrollado'...
+
+
+
+
+O problema, portanto, tem relação COM A SCROLL DISTANCE...
+
+
+A scroll DISTANCE NÃO É LEVADA EM CONSIDERAÇÃO AQUI, no trecho em que calculamos 
+
+a 'topmost' (hostElPosTop) e 'leftmost' (hostElPosLeft) positions.....
+
+
+
+E É REALMENTE ISSO QUE ESTÁ ACONTECENDO...
+
+
+
+
+
+QUANDO NÓS CONSEGUIMOS AS COORDENADAS de 'element', ESSAS COORDENADAS 
+
+___IGNORAM___ o fato do elemento TER SIDO SCROLLADO PARA BAIXO OU NÃO... (ignoram a scroll bar POR INTEIRO, o que leva a problemas de posicionamento, como vimos logo acima. O fato dos projectItem naturalmente ignorarem a scrollbar no cálculo da altura em que deve ser posicionado o tooltip faz com que o elemento tooltip 'teoricamente' apareça no lugar correto, logo abaixo do projectItem, mas como os conteúdos NÃO OCUPAM SEU ESPAÇO TOTAL DEVIDO À CAIXA TER UM 'SCROLL', O TOOLTIP FICA POSICIONADO NO LUGAR ERRADO.... )
+
+
+
+AGORA, PARA INCLUIR ESSA 'INFORMAÇÃO DO SCROLLING', basta que descubramos 
+
+
+QUÃO LONGE NÓS SCROLLAMOS O CONTEÚDO DENTRO DESSAS LISTAS... (dentro dessas caixas...).
+
+
+
+E É CLARO QUE É POSSÍVEL ENCONTRAR ESSA INFORMAÇÃO....
+
+
+O professor já nos mostrou como funciona:
+
+
+Devemos escrever 
+
+
+'const parentElementScrolling', e então alcançar/definir o valor de 
+
+
+
+'this.hostElement.parentElement' ... --------->
+
+
+
+('parentElement' É UMA PROPRIEDADE DE TODOS OS OBJETOS EM JAVASCRIPT, ELA FAZ COM QUE O 
+PARENT DE UM DETERMINADO OBJETO SEJA SELECIONADO... aqui o utilizamos PORQUE QUEREMOS 
+
+A LISTA INTEIRA DESSE PROJECTITEM, E NÃO O PROJECTITEM EM SI(o projectItem em si é aqui, nesse trecho do código, 
+chamado de 'hostElement' PQ É NELE QUE SERÁ INSERIDO O TOOLTIP... mas como queremos selecionar A CAIXA 
+
+INTEIRA DE PROJETOS, DEVEMOS UTILIZAR '.parentElement', essa propriedade bem útil....)).
+
+
+
+
+
+
+digitamos
+
+
+'this.hostElement.parentElement' E ENTÃO COLOCAMOS A PROPRIEDADE 'scrollTop' (VOCê DEVE SE LEMBRAR: isso TE MOSTRA QUÃO LONGE VOCÊ SCROLLOU EM UM DETERMINADO CONTAINER...).
+
+
+
+
+
+RESULTADO/REPRESENTAÇÃO DESSE CÓDIGO:
+
+
+
+
+'const parentElementScrolling = this.hostElement.parentElement.scrollTop;'
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+REPRESENTAÇÃO DESSE CÓDIGO EM 'create()':
+
+
+
+
+
+
+
+
+
+
+
+
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        
+        tooltipElement.textContent = this.text;
+        console.log(this.hostElement.getBoundingClientRect());
+
+
+        const hostElPosLeft = this.hostElement.offsetLeft;
+        const hostElPosTop = this.hostElement.offsetTop;
+        const hostElHeight = this.hostElement.clientHeight;
+        const parentElementScrolling = this.hostElement.parentElement.scrollTop;
+
+
+        const x = hostElPosLeft + 20;
+        const y = hostElPosTop + hostElHeight - 10; 
+
+        tooltipElement.style.position = 'absolute';
+        tooltipElement.style.left = x + 'px'; 
+        tooltipElement.style.top = y +'px';
+       
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;  
+
+
+}
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+'scrollTop' NOS CONFERE A INFORMAÇÃO DE QUÃO LONGE NOS SCROLLAMOS 
+
+EM UM CONTAINER EM DETERMINADO MOMENTO....
+
+
+
+
+e, no final das contas, ESSE 
+
+'parentElementScrolling' É ALGO QUE 
+
+DEVEMOS SUBTRAIR DE NOSSO CÁLCULO 
+
+DE HEIGHT, LOGO ABAIXO, em 'x'...
+
+
+
+Resultado:
+
+
+const x = hostElPosLeft + 10;
+
+const y = hostElPosTop + hostElHeight - parentElementScrolling - 10;
+
+
+
+--------------------------------------------
+
+
+
+FAZEMOS ISSO, SUBTRAÍMOS ESSE 'parentElementScrolling' PARA QUE 
+
+
+O TOOLTIP 'mova-se para cima um pouquinho'..., para que ELE NÃO SEJA 
+
+POSICIONADO NA POSIÇÃO ORIGINAL (nas coordenadas originais) DAQUELE ELEMENTO...,
+
+e sim na POSIÇÃO DE VERDADE, QUE É AJUSTADA PELA QUANTIDADE DE SCROLLING QUE 
+
+NÓS FIZEMOS, basicamente.
+
+
+Com isso, o tooltip agora sempre é apresentado logo abaixo do projectItem, mas NÃO TÃO PARA BAIXO, como era apresentado anteriormente...
+
+
+-----------------------------
+
+
+ ENTRETANTO, ESSE TOOLTIP NÃO ESTÁ COM A PROPRIEDADE 'sticky'... e isso fede, pq os elementos 
+
+ não ficam abaixo de cada tooltip quando scrollamos....
+
+
+
+ PROFESSOR DIZ QUE O USO DE 'sticky' aqui é um pouco mais avançado, teríamos que 
+
+ DEFINIR EVENTLISTENERS para escutar o evento de 'scroll' (scrolling) E AJUSTAR 
+
+ OS TOOLTIPS DE ACORDO....
+
+
+
+ O professor vai nos mostrar como esses eventos e o listening a eles funciona no MÓDULO DE EVENTOS, 
+
+ EM QUE APRENDEREMOS MAIS SOBRE EVENTLISTENERS....
+
+
+ -----------------------------------
+
+
+
+Mas isso não é o foco aqui. O bom é que agora 
+
+
+nós somos capazes de posicionar elementos corretamente COM A AJUDA DAS COORDENADAS, 
+
+WIDTH E O SCROLLING QUE ESTAMOS RECEBENDO por meio de '.scrollTop'....

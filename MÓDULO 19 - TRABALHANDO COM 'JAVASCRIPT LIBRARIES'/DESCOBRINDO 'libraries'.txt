@@ -1,0 +1,298 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+CLARO, VENDO OS EXEMPLOS  DE JQUERY E LODASH, 
+
+
+surge a pergunta:
+
+
+
+
+
+
+COMO EU consigo saber QUAIS LIBRARIES 
+
+
+EXISTEM?
+
+
+
+
+
+BEM, NÃO EXISTE UM JEITO 'CERTO' DE SABER ISSO.
+
+
+
+
+NÃO EXISTE UMA PÁGINA QUE LISTA TODAS AS LIBRARIES...
+
+
+
+
+
+
+
+
+
+
+HÁ UMA PÁGINA, 
+
+
+
+NPM (naughty praying mantis),
+
+
+
+
+QUE É BASICAMENTE UM REPOSITÓRIO 
+
+
+DE PACKAGES JAVASCRIPT....
+
+
+
+
+MAS NÃO É UMA PÁGINA QUE 
+
+
+
+VOCê VAI ENTRAR E FICAR PROCURANDO THIRD PARTY LIBRARIES...
+
+
+
+
+É mais um 'lookup resource' 
+
+EM CASOS EM QUE 
+
+VOCê JÁ CONHECE UMA 
+
+DETERMINADA 
+
+LIBRARY, COMO 
+
+
+'lodash'..., 
+
+
+E em casos em que você quer conseguir mais informações sobre essa third party library.
+
+
+
+
+
+TAMBÉM É ÚTIL SE VOCÊ QUER INCLUIR UMA LIBRARY EM UM PROJETO JAVASCRIPT MAIS COMPLEXO, O QUAL 
+
+VOCê VAI GERENCIAR DE FORMA DIFERENTE...
+
+VEREMOS ISSO NO MÓDULO DE 
+
+'TOOLING'...
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+NÃO É UMA PAGINA EM QUE VOCÊ PROCURA NOVAS E INTERESSANTE LIBRARIES...
+
+
+
+
+
+
+
+BASICAMENTE, O QUE VOCÊ FAZ É:
+
+
+
+
+você tem um problema que vocÊ não consegue resolver--- >
+
+
+você vai ao google 
+
+
+e digita 
+
+'send http request'....
+
+
+
+------------------------> SE VOCÊ PROCURAR UM POUCO NO GOOGLE,
+
+
+VOCÊ VAI 
+
+AO STACKOVERFLOW 
+
+
+
+e talvez consegue algumas ideias sobre como enviar um request...
+
+
+
+por exemplo, 
+
+
+JQUERY é mencionado...
+
+
+
+BEM.
+
+
+JQUERY não existe só para te ajudar a 
+
+trabalhar com o DOM; também há 
+
+funções como send http request...
+
+
+
+
+
+MAS AÍ VOCê PODE CONTINUAR A PROCURA 
+
+
+
+E ENTÃO ENCONTRAR OUTRA LIBRARY,
+
+
+
+como a library 
+
+'AXIOS'...
+
+
+---------------------------------
+
+
+
+
+
+E AXIOS, DE FATO, É UMA LIBRARY 
+
+___MUITO POPULAR___ QUE É USADA PARA 
+
+ENVIAR HTTP REQUESTS....
+
+
+
+
+-------------------------------
+
+
+
+
+
+A PRÓXIMA ETAPA SERIA PROCURAR POR 
+
+
+'AXIOS JS'...
+
+
+
+
+
+AÍ você encontra o GITHUB do 'axios js'...
+
+
+
+
+github é um SITE EM QUE CÓDIGOS 'OPEN SOURCE' podem ser gerenciados...
+
+
+
+É onde outras pessoas podem compartilhar seus códigos 
+
+
+e trabalhar juntas...
+
+
+
+
+
+
+
+TODAS AS LIBRARIES TEM UM 
+
+'GITHUB REPOSITORY', 
+
+em que você pode 
+
+OLHAR O CODE DESSES PROJETOS, SE VOCÊ QUISER...
+
+
+
+
+
+
+MAIS IMPORTANTE:
+
+
+
+Iniciantes podem procurar RESOURCES na starting page:
+
+
+
+
+
+a starting page de axios te diz como INSTALAR O AXIOS, o que ele faz e 
+
+outras informações...
+
+
+
+
+AXIOS TE DÁ UM LINK CDN....
+
+
+
+
+
+----------------------------------------
+
+
+
+
+E É ASSIM QUE AS COISAS FUNCIONAM QUANDO QUEREMOS UMA THIRD PARTY LIBRARY...
+
+
+não há uma 'página única' onde você encontrará tudo,
+
+
+MAS É ASSIM QUE AS COISAS FUNCIONAM EM PROGRAMAÇÃO.
+
+
+
+
+--> GOOGLE 
+
+
+--> LEITURA
+
+
+--> GITHUB
+
+--> stackoverflow
+
+------------------------------------------------------------
+
+
+

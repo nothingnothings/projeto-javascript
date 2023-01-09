@@ -1,0 +1,513 @@
+Agora que demos uma olhada em funções dentro de funções, devemos voltar um pouco para o addEventListener 
+do projeto 5.
+
+
+
+
+
+
+Lá, estamos passando UMA FUNÇÃO COMO ARGUMENTO. É o segundo parâmetro da função/método "addEventListener".
+
+
+Representação:
+
+
+
+
+
+
+startGameBtn.addEventListener('click', () => {
+    if (gameIsRunning) {
+        return;
+    }
+    gameIsRunning = true;
+    console.log('Game is starting...');
+    const playerChoice = getPlayerChoice();
+    console.log(playerChoice);
+    const computerChoice = getComputerChoice();
+   // const winner = getWinner(computerChoice, playerChoice);
+   let winner;
+   if(playerChoice) {
+       winner = getWinner(computerChoice, playerChoice);
+   } else {
+       winner = getWinner(computerChoice, playerChoice);
+   }
+    console.log(`Computer played ${computerChoice}`)
+    console.log(winner);                          /*ex de parâmetro default*/
+    let message = `You picked ${playerChoice || DEFAULT_USER_CHOICE}, the machine has picked ${computerChoice}, therefore you `; //VARIÁVEL CRIADA PARA SER A MENSAGEM.
+    if (winner === RESULT_DRAW) {  //if block criado para outputtar espécie específica de mensagem, no caso de empate.
+            message += 'had a DRAW.'; }
+            else if (winner === RESULT_PLAYER_WINS) {
+                message += 'WON.'; }
+                    else {
+                        message += 'LOST.';
+            }
+            alert(message);
+            gameIsRunning = false; //variável "gameIsRunning" é aqui definida como false para QUE SEJA POSSÍVEL JOGAR DE NOVO SEM RECARREGAR A PÁGINA. O nome aqui faz sentido, pois realmente o jogo não está mais rodando.
+});
+
+
+
+
+
+
+
+O professor passou ali, como argumento, uma FUNÇÃO ANÔNIMA, a qual ele criou ali mesmo.
+
+
+
+Ele já mencionou ao início desse módulo: o que estamos efetivamente fazendo aqui é A PASSAGEM DE UM POINTER DIRECIONADO à UMA FUNÇÃO, À OUTRA FUNÇÃO. ("a pointer to a function, to another function").
+Estamos passando um pointer porque, como FOI EXPLICADO, FUNÇÕES SÃO BASICAMENTE OBJETOS, E OBJETOS SÃO ARMAZENADOS NO HEAP, 
+NA MEMÓRIA DE LONGO TERMO, ALÉM DE SEREM CONSIDERADOS VALORES ____REFERENCIAIS____.
+
+
+
+
+Essa função anônima é tratada como UM PARÂMETRO DA FUNÇÃO ADDEVENTLISTENER. 
+ESSE É UM PADRÃO QUE VOCÊ VERÁ MUITO NO JAVASCRIPT.
+
+Você pode também construir seus próprios parâmetros, para suas próprias funções, mas ESPECIALMENTE 
+BUILT-IN FUNCTIONS (e isso é importante, decore isso) VÃO QUASE SEMPRE TER ESSE COMPORTAMENTO QUE EXIGE 
+QUE VOCê PROVIDENCIE A ELES FUNÇÕES QUE OS COMPLEMENTEM... é um comportamento TÍPICO, quase todas as 
+built-in functions que fazem algo que é "event based" ou que demoram um pouco mais ("takes a bit longer").
+
+Isso porque esse padrão é chamado de "CALLBACK FUNCTION". o addEventListener é uma delas, uma callback function.
+
+
+No final das contas, o que você está fazendo aqui é a criação de uma função, tanto no lugar em que você quer chamá-la (como o professor fez 
+com essa função anônima; definiu no mesmo lugar que queria a chamar) quanto nas hipóteses em que você quer chamar uma função que foi armazenada 
+previamente em uma constante/variável, NÃO IMPORTA... o que importa é que você PASSA APENAS UM POINTER/POINTEIRO/APONTADOR à ESSA TAL FUNÇÃO ANÔNIMA/FUNÇÃO DEFINIDA EM UMA CONSTANTE     AO "ADDEVENTLISTENER" (ou qualquer outra função built-in, na verdade).
+
+
+
+
+O professor diz que nós, na verdade, nunca chamamos uma função por nossa própria conta. É o browser que chamará a função, por meio dessa função 
+built-in "addEventListener", que no final das contas é o verdadeiro responsável por chamar  a função.
+
+
+
+
+
+addEventListener é chamadA de "callback function", PORTANTO, PORQUE É CHAMADA ____PARA NÓS____.... POR 
+____ALGUMA OUTRA COISA____. É A OUTRA COISA QUE ACABA CHAMANDO ESSA PORCARIA, E NÃO NÓS. NÓS APENAS QUEREMOS QUE ELA SEJA CHAMADA, 
+ELA É CHAMADA ___PARA NÓS___, MAS NÓS NÃO CONSEGUIMOS A CHAMAR NATURALMENTE, PRECISAMOS DESSA OUTRA COISA, QUE É O BROWSER E OS ELEMENTOS HTML DA PÁGINA. Nós 
+não podemos controlar exatamente quando a tal função é chamada. Dependemos do browser para isso. 
+
+
+Elas apenas são "chamadas de volta a nós" ("CALLED BACK TO US"), é chamada para nós em algum ponto do futuro.
+
+Para events, esse É O PADRÃO ESSENCIAL ("CORE PATTERN"), porque você simplesmente não pode executar essas funções por conta própria, 
+você não tem como saber quando o "click" ocorrerá, você apenas quer dar ao browser a função (ou o pointer à uma função) PARA QUE ELA SEJA 
+EXECUTADA PARA NÓS (for us).
+
+
+É por isso que, nesse caso do addEventListener, você passa uma função COMO UM ARGUMENTO PARA OUTRA FUNÇÃO; PORQUE O BROWSER 
+PRECISA DESSA FUNÇÃO EXTRA (a função addEventListener, nesse caso, que escuta por clicks na página) PARA FAZER O SEU TRABALHO (o trabalho da máquina e o nosso trabalho, que não conseguimos fazer sozinhos).
+
+
+
+
+VOCÊ PODE CONSTRUIR SUA PRÓPRIA FUNÇÃO QUE ACEITA UMA FUNÇÃO COMO ARGUMENTO...
+
+
+
+a título de exemplo, podemos utilizar "sumUp".
+
+
+
+ex:
+
+
+
+
+const sumUp = (a, b, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    return sum;
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+
+DIGAMOS QUE a função "sumUp", aqui, não deve retornar o sum no final de seu código, mas sim EXECUTAR UMA FUNÇÃO QUE PASSAMOS À ELA, QUE ENTÃO PEGA
+"sum" COMO UM ARGUMENTO. Para tal fim, o professor substitui "a, b" por UM NOVO PARÂMETRO, e esse parâmetro pode ter o nome que você quiser.
+Você geralmente vê nomes como "cb" (callback), mas você pode dar o nome que você quiser. O professor, nesse exemplo, dá a ele o nome de 
+"resultHandler". Ele quer deixar bem claro que isso será um tipo de função que fará algo com o resultado do cálculo inteiro 
+de "sumUp".
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    return sum;
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+UMA VEZ QUE ESSA ALTERAÇÃO FOI CONCLUÍDA, O PROFESSOR DECIDE REMOVER TAMBÉM AQUELE "return sum" que fica ao final do código.
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+
+ELE ENTÃO INSERE O PARÂMETRO DE "resultHandler" no lugar de "return sum"; como resultHandler será uma função, ele pode executá-la
+como uma função por meio do acréscimo de parênteses ao seu lado.
+
+
+
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler();
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+
+
+Professor quer que resultHandler seja uma função para que ele possa executá-la como tal.
+Agora, ele decide passar "sum" como argumento dessa função.
+
+
+
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum);
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+
+PROFESSOR DIZ QUE AGORA É O NOSSO TRABALHO ASSEGURAR QUE QUANDO NÓS CHAMAMOS a função "sumUp", nós consigamos providenciar 
+essa função "resultHandler()". resultHandler() tem como estar como 1o parâmetro dos nossos function calls futuros, senão nos será 
+dado um erro de sintaxe. Como essa função sumUp teve seu primeiro parâmetro definido como sendo essa função, devemos 
+providenciá-la nas vezes que a chamarmos. 
+
+
+
+Para concretizar esse intuito, o professor cria uma nova função global, a função 
+"showResult".
+
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = () => {
+
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+Dentro de showResult, o professor quer usar a função "alert()" para mostrar o resultado, o resultado obtido após serem adicionados todos os números.
+
+
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = () => {
+    alert('The result after adding all numbers together is: ' + );
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+
+COMO O PROFESSOR ESPERA RECEBER O RESULTADO ALI, EM SHOWRESULT, ELE COLOCA COMO PARÂMETRO dessa função A CONSTANTE "result".
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + );
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+
+
+COMO ELE USOU "RESULT" COMO ARGUMENTO, ele também pode utilizá-lo naquela concatenação de strings do 
+alert.
+
+
+
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+console.log(sumUp(showResult, 1, 5, 'fdsa', -3, 6, 10));
+
+
+---------------------------------------------------------
+
+
+
+O professor diz que PODE ESPERAR QUE RECEBERÁ O "result" como um argumento aqui PORQUE "showResult" será a função QUE ELE VAI PASSAR COMO PRIMEIRO 
+ARGUMENTO DE "sumUp", e consequentemente será também aquilo que será usado como "resultHandler".
+
+"sum", então, que é passado a resultHandler SERÁ, NO FINAL DAS CONTAS, o argumento que ele irá receber em 
+"showResult", porque showResult é agora a coisa que nós vamos passar como PRIMEIRO ARGUMENTO... (result = sum, basicamente).
+
+ex: 
+
+
+console.log(sumUp(showResult, 1, 5, 'fdsa', -3, 6, 10)); ---------> colocamos "showResult" aqui sem o (), porque não 
+queremos executá-lo aqui, mas sim queremos DAR à "sumUp" A CHANCE DE EXECUTÁ-LO PARA NÓS. O que está em "sumUp" é, essencialmente, UM 
+POINTER À UMA FUNÇÃO NO CÓDIGO, À FUNÇÃO "showResult", que ela vai querer executar.
+Como a função que será executada em sumUp é "showResult", "SUM" no final das contas SERÁ O VALOR para "RESULT" (result, o parâmetro de showResult).
+É por isso que "sum" irá aparecer no nosso alerta, porque ele foi referenciado pelas funções, foi referenciado por aquela função showResult que está 
+sendo chamada por aquela outra função, a função "sumUp".
+
+
+Recarregamos a página e aí vemos o resultado:
+
+recebemos um alerta com "The result after adding all numbers is 19.".
+
+O professor ainda recebe mensagens no console.log, a mensagem "undefined". Isso é porque sumUp não RETORNA MAIS NADA 
+AGORA, NO PRESENTE. POR ISSO A MENSAGEM RETORNADA PELO CONSOLE É "undefined". O professor resolve esse pequeno detalhe por meio 
+da eliminação do console.log.
+
+
+ex:
+
+
+
+const sumUp = (resultHandler, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    resultHandler(sum);
+};
+
+
+const showResult = (result) => {
+    alert('The result after adding all numbers together is: ' + result);
+};
+
+
+sumUp(showResult, 1, 5, 'fdsa', -3, 6, 10));
+
+
+
+
+Essa, portanto, é uma CALLBACK FUNCTION, e o procedimento que deve ser realizado para que criemos a nossa própria callback function.
+
+
+Bem, essa é a maneira que você pode usar para construí-la por sua própria conta, mas 
+NA MAIOR PARTE DOS CASOS VOCÊ NÃO PRECISARÁ DISSO, NÃO PRECISARÁ CONSTRUÍ-LAS POR CONTA PRÓPRIA.
+
+É claro que aqui não há nada de errado com apenas retornar "sum" em sumUp e aí utilizar esse sum naquele lugar em que você 
+CHAMOU sumUp, .... MAS AO LONGO DE SUA CARREIRA COMO WEBDEVELOPER E JAVASCRIPT DEVELOPER, VOCÊ TAMBÉM ENCONTRARÁ CASOS 
+EM QUE VOCÊ VAI QUERER ESCREVER FUNÇÕES QUE, NA VERDADE, PEGAM UMA FUNÇÃO CALLBACK E ENTÃO FAZEM ALGO COM ELA. ADEMAIS, um monte 
+de funções built-in do javascript SUPORTAM ESSE PADRÃO, especialmente todos os eventListeners.
+
+Tudo que relaciona-se com ações que ocorrem de maneiras imprevisíveis ou que tomam muito tempo usam essas callback functions.
+
+Por isso é legal que vocÊ entenda o que acontece nos bastidores, por trás das cenas, quando você 
+usa essas funções internas como "eventListeners". 
+
+
+O padrão que usamos em addEventListener é exatamente o padrão que estamos usando agora, lá no addEventListener, o professor está passando uma 
+função anônima, mas como você aprendeu, criar uma função anônima é essencialmente a mesma coisa que apontar À uma função já criada e nomeada, como essa 
+"showResult".

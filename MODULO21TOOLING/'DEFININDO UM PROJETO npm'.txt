@@ -1,0 +1,162 @@
+
+
+ANTES DE SETTARMOS 'webpack' ou qualquer outra coisa, 
+
+
+
+
+DEVEMOS COMEÇAR COM O 'LINTING'... (ESLint).
+
+
+
+
+
+
+
+
+
+
+
+SE VOCÊ ESTIVER USANDO VISUAL STUDIO CODE, a maneira mais fácil de implementar o linting é 
+
+INSTALAR CERTA EXTENSÃO....
+
+
+
+
+VÁ EM EXTENSÕES E BAIXE-O.
+
+
+
+
+COM ESLint instalado, você pode voltar ao explorer view 
+
+
+
+PARA USAR O ESLINT,
+
+
+você deve 
+
+
+apertar 
+
+'ctrl + shift + p'....
+
+ISSO VAI ABRIR 
+
+
+UM __COMMAND MENU___ no VISUAL STUDIO CODE....
+
+
+
+Ali, você pode digitar ESLint para habilitar o ESLint...
+
+
+
+
+Nós temos, então, que instalar o ESLint 
+
+
+
+por meio de 
+
+
+
+um código no terminal....
+
+
+
+o código 
+
+é 
+
+
+npm install -g eslint  (isso vai instalar o ESLint globalmente na nossa máquina... )
+
+
+
+
+-------------------------------------
+
+
+Professor diz que quer instalar esse pacote EXCLUSIVAMENTE NESSE PROJETo, sem instalar 
+
+globalmente na máquina....
+
+
+Aí ele vai lá e nos mostra como instalar pacotes em projetos específicos..
+
+
+
+
+---> Para fazer isso, primeiramente precisamos de UMA 'NPM CONFIGURATION FILE'...
+
+
+Esse arquivo vai basicamente dizer ao NPM que  
+ESSE PROJETO DEVERÁ 
+
+
+SER GERENCIADO PELO 'npm', e também que ele deverá gerenciar nossas diferentes 
+dependencies, 
+
+nossas diferentes 'packages' que queremos instalar nesse projeto....
+
+
+Para isso, você precisa do NODE.JS instalado.
+
+
+
+Feito isso, você deve digitar 'npm init' no terminal do seu projeto... (no IDE).
+
+
+
+
+o npm init vai perguntar um monte de coisas 
+
+ele pede a você qual nome a package deverá ter...
+
+
+
+
+todas as coisas não interessam...
+
+coloque default em tudo.
+
+
+FEITO TUDO ISSO, VOCÊ TERÁ UM ARQUIVO 'package.json' no folder do seu projeto...
+
+
+
+
+ESSE ARQUIVO 'package.json' VOCÊ NÃO DEVE DELETAR.
+
+
+
+
+Se você abri-lo, vocÊ verá algo como um objeto, cheio de propriedades e valores/dados.
+
+
+
+
+
+O MAIS IMPORTANTE AQUI É QUE, COM ISSO, ESSE PROJETO __PODE SER___ ADMINISTRADO___ POR 
+
+
+'NPM'...
+
+
+Isso significa que AGORA PODEMOS INSTALAR 'PACKAGES' ESPECÍFICAS A ESSE DETERMINADO PROJETo
+
+COM 'NPM'...
+
+
+
+
+--------------------------------------
+
+
+agora você pode habilitar o LINT, professor nos mostrará na próxima aula.
+
+
+

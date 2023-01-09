@@ -1,0 +1,836 @@
+
+
+
+
+JÁ TRABALHAMOS COM TEMPLATE LITERALS ANTES...
+
+
+
+
+A ideia é/era que você pode ter uma certa variável/expressão 
+
+QUE PRODUZ UM RESULTADO
+
+
+__QUE É CAPAZ DE SER OUTPUTTADO EM UMA STRING_____.
+
+
+
+
+
+E aí você tem um TEMPLATE LITERAL (uma string com template literal, formada por 
+back ticks) em que vocÊ tem UM VALOR DINÂMICO, ONDE ESSA VARIÁVEL É INSERIDA.
+
+
+
+
+ex:
+
+
+
+
+const name = 'Max';
+
+
+
+
+`My name is ${name}`;
+
+
+
+
+
+
+----------------> ISSO PODE SER MUITO MELHOR DO QUE CONCATENAR STRINGS COM '+' E COM ASPAS, um procedimento que é uma merda com strings mais longas.
+
+
+
+
+
+VOCÊ INJETA QUALQUER EXPRESSÃO JAVASCRIPT VÁLIDA, QUALQUER EXPRESSÃO QUE RENDE UM 
+
+VALOR QUE PODE SER OUTPUTTADO como uma string...
+
+
+
+
+
+Aqui nós nos referimos à constante 'name', MAS NÓS PODERÍAMOS TAMBÉM 
+
+CHAMAR UMA FUNÇÃO DENTRO DESSE '${}', UMA FUNÇÃO NOMEADA..., como 
+
+'getName()', ou qualquer coisa do gênero...
+
+
+
+A ÚNICA LIMITAÇÃO AQUI É 
+
+QUE ESSE NEGÓCIO QUE VOCÊ ENFIA NO MEIO DO '${}' DEVE OBRIGATORIAMENTE SER UMA EXPRESSÃO...
+
+
+
+você não pode, por exemplo, tentar enfiar um 'if statement' DENTRO DESSE '${}'...
+
+
+MAS TUDO ISSO NÓS JÁ SABÍAMOS.
+
+Essa é a sintaxe template literal, e ela pode ser muito útil.
+
+
+------------------------------
+
+
+
+
+MAS VOCÊ PODE FAZER MAIS COISAS ÚTEIS COM ELA DO QUE ESSE SIMPLES OUTPUT DE STRINGS...
+
+
+
+
+
+
+VOCÊ PODE, TAMBÉM, CRIAR OS CHAMADOS 'TAGGED TEMPLATES'...
+
+
+
+
+Um 'tagged template' É, NO FINAL DAS CONTAS, UMA FUNÇÃO QUE 
+
+TRABALHA EM CONJUNTO COM UM TEMPLATE LITERAL (works together with a template literal).
+
+
+
+
+
+Tudo começa com a criação de uma função... uma função 
+
+regular que ESPERA 3 ARGUMENTOS...  (expects 3 arguments)...
+
+
+
+(professor já nos explicará a necessidade de 3 argumentos).
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+function productDescription() {
+
+}
+
+
+
+
+---------------------------------
+
+
+
+PROFESSOR NOMEIA PRIMEIRO ARGUMENTO COMO 'strings', segundo como 
+
+'productName' e o terceiro como 'productPrice'...
+
+
+no body, ele simplesmente retornará 
+
+'This is a product!'
+
+
+
+
+ex:
+
+
+
+function productDescription(strings, productName, productPrice) {
+    return 'This is a product!';
+}
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+Agora podemos usar essa função e criar uma constante, uma constante chamada de 
+
+'productOutput'....
+
+
+DENTRO DELA, NÓS CHAMAREMOS 'productDescription', mas nós não chamaremos essa função 
+
+normalmente, tipo assim:
+
+
+
+'const productOutput = productDescription();'.....
+
+
+
+
+NÃO, EM VEZ DISSO NÓS FAZEMOS ALGO QUE PODE PARECER SUPER ESTRANHO EM UM PRIMEIRO MOMENTO:
+
+
+
+
+Nós adicionamos uma 
+
+
+template literal (``, os backticks) LOGO 
+
+
+APÓS O CHAMADO DE 
+
+
+'productDescription', logo após o NOME DA FUNÇÃO que foi chamada/será chamada....
+
+
+
+
+
+
+ex:
+
+
+
+const productOutput = productDescription``;
+
+
+
+--------------------------------
+
+
+
+
+
+NÃO DEVE HAVER PARÊNTESES EM LUGAR ALGUM, NESSA EXPRESSÃO...
+
+
+nós não passamos `` como parâmetro à função 'productDescription', 
+
+
+
+O QUE NÓS TEMOS É O NOSSO FUNCTION NAME E DEPOIS DISSO 
+uns 
+
+backticks..
+
+
+
+
+
+ESSA É UMA SINTAXE A QUAL NÓS NÃO VIMOS ATÉ AGORA....
+
+
+
+
+
+
+Por trás das cenas, o javascript vai chamar essa função 
+
+'productDescription' E ENTÃO + OU - (kindof) PASSAR 
+
+
+ESSE TEMPLATE LITERAL (esse ``) PARA DENTRO DELA, 
+
+MAS NÃO DESSA FORMA, COMO essa string única (``), 
+
+E SIM DIVIDIR ESSE TEMPLATE LITERAL 
+
+EM __TRÊS___, 3 ARGUMENTOS, E ENTÃO PASSAR ELES PARA DENTRO 
+
+DA FUNÇÃO 
+
+'productDescription'...
+
+
+
+
+A quantidade de argumentos que esse chamado irá mandar DEPENDERÁ, NA VERDADE, 
+
+DO SEU TEMPLATE LITERAL (``)...
+
+
+
+Professor formula um exemplo em que 
+
+
+ele passa um template literal de 
+
+
+
+
+'const productOutput = productDescription`This product (${})`;
+
+
+
+
+
+ELE EXPLICA QUE OS PARÊNTESES que estão envolvendo o '${}' são parte da string também, que 
+
+não são anotações especiais...
+
+
+
+CERTO.
+
+
+ELE DIZ QUE DENTRO DA INJEÇÃO DINÂMICA '${}' 
+
+ELE VAI COLOCAR 
+
+
+
+UMA CONSTANTE CHAMADA DE 'prodName',
+
+que criará agora...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+function productDescription(strings, productName, productPrice) {
+    return 'This is a product!';
+}
+
+
+
+const prodName = 'Javascript Course'
+
+
+
+
+const productOutput = productDescription`This product (${prodName})`;
+
+
+
+----------------------------------------
+
+
+
+AÍ ELE COMPLEMENTA ESSE 'productOutput', 
+
+colocando um 'prodPrice' também...
+
+
+
+
+'const productOutput = productDescription`This product (${prodName} is ${prodPrice})`;'
+
+
+
+
+-----------------------------------------
+
+
+ex:
+
+
+
+
+
+
+
+function productDescription(strings, productName, productPrice) {
+    return 'This is a product!';
+}
+
+
+
+const prodName = 'Javascript Course'
+
+const prodPrice = 29.99;
+
+
+const productOutput = productDescription`This product (${prodName} is ${prodPrice})`;
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+NO FINAL DAS CONTAS, 
+
+
+O QUE INSERIMOS ALI É UM TEMPLATE NORMAL (é igualzinho a um template normal, a única 
+diferença é o function Name de 'productDescription' na frente dele...)....
+
+
+
+É UM TEMPLATE LITERAL EM QUE INJETAMOS/interpolamos 2 pedaços de informação 
+
+
+para dentro da nossa, antes normal, string...
+
+
+
+
+
+A COISA ESTRANHA AQUI É AQUELE FUNCTION NAME NA FRENTE DE ESSE TEMPLATE...
+
+
+
+
+
+O PROFESSOR NOS DISSE QUE O JAVASCRIPT CHAMARIA ESSA FUNÇÃO PARA NÓS/POR NÓS 
+
+e passaria esse template para dentro dessa função, 
+
+
+passaria esse template não como um único argumento, 
+
+mas sim COMO TRÊS ARGUMENTOS...
+
+
+
+
+E ISSO COMEÇARÁ A FAZER MAIS SENTIDO SE 
+
+
+FIZERMOS O OUTPUT 
+
+
+DE 'productOutput' por meio de console.log...
+
+
+
+e então observarmos o resultado....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function productDescription(strings, productName, productPrice) {
+    return 'This is a product!';
+}
+
+
+
+const prodName = 'Javascript Course'
+
+const prodPrice = 29.99;
+
+
+const productOutput = productDescription`This product (${prodName} is ${prodPrice})`;
+console.log(productOutput);
+
+
+--------------------------------------
+
+
+
+SE SALVARMOS E RECARREGARMOS A PÁGINA, VEREMOS O OUTPUT 
+
+
+
+de 
+
+
+'This is a product!'
+
+
+
+....O QUE RECEBEMOS AQUI, PORTANTO, É NA VERDADE O QUE 
+
+
+A FUNÇÃO 
+
+
+'productDescription' RETORNA/NOS RETORNOU, E NÃO O RESULTADO 
+
+DA FUNÇÃO 
+
+'productOutput'...
+
+
+--------------------------------------
+
+
+
+O que parece ter acontecido, diz o professor, é que essa função 
+
+
+'productDescription' foi chamada e que 
+
+o resultado dessa função FOI ARMAZENADO 
+
+
+NESSA CONSTANTE 'productOutput'...
+
+
+
+
+Certo.
+
+
+Devemos ver o que aconteceu dentro dessa função e O QUE DIABOS RECEBEMOS COMO ARGUMENTOS AQUI...
+
+
+
+
+Para isso, podemos fazer o console.log de 'strings' 
+
+DENTRO Do body da função 'productDescription'...
+
+
+
+ex:
+
+
+
+
+
+
+function productDescription(strings, productName, productPrice) {
+    
+    console.log(strings);
+    return 'This is a product!';
+}
+
+
+
+const prodName = 'Javascript Course'
+
+const prodPrice = 29.99;
+
+
+const productOutput = productDescription`This product (${prodName} is ${prodPrice})`;
+console.log(productOutput);
+
+
+
+
+---------------------------------------
+
+
+EX:
+
+
+
+
+app.js:3 (3) ["This product (", " is ", ")", raw: Array(3)]
+app.js:15 This is a product!
+
+
+
+
+
+ISSO É O QUE O CONSOLE NOS OUTPUTTA...
+
+
+O professor então também coloca o console.log de 
+
+'productName' e de 'productPrice'...
+
+
+
+ex:
+
+
+
+function productDescription(strings, productName, productPrice) {
+    
+    console.log(strings);
+    console.log(productName);
+    console.log(productPrice);
+    return 'This is a product!';
+}
+
+
+
+const prodName = 'Javascript Course'
+
+const prodPrice = 29.99;
+
+
+const productOutput = productDescription`This product (${prodName} is ${prodPrice})`;
+console.log(productOutput);
+
+
+
+
+----------------
+
+
+
+PEGAR PARTE QUE FICOU NO PEN DRIVE
+
+
+
+
+
+-----------------
+
+
+
+----> ESTAMOS RECEBENDO UM ARRAY DE STRINGS, 3 ELEMENTOS 'STRING'..., PARA O PRIMEIRO PARÂMETRO.
+
+
+--> PARTES DINÂMICAS/SEGMENTOS INJETADOS VÃO NOS OUTROS PARÂMETROS.
+
+
+
+
+
+O QUE ESSA SINTAXE ESPECIAL FAZ É CHAMAR ESSA FUNÇÃO 'productDescription' e sempre 
+
+fazer o primeiro PARÂMETRO SER UM ARRAY DE STRINGS DO SEU TEMPLATE LITERAL...
+
+
+
+JÁ OS SEUS SEGMENTOS DINÂMICOS SÃO PASSADOS COMO PARÂMETROS ADICIONAIS NA SUA FUNÇÃO, 
+NA ORDEM EM QUE APARECEM NO TEMPLATE LITERAL....
+
+
+por isso esse output específico....
+
+
+
+
+A QUESTÃO É:
+
+
+
+PQ USAR ISSO?
+
+
+
+EM QUE SITUAÇÃO TAGGED TEMPLATES PODERIAM SER ÚTEIS?
+
+
+SÃO UTEIS EM OCASIÕES EM QUE VOCÊ CONVENIENTEMENTE QUER CRIAR UM OUTPUT; pode esse OUTPUT ser uma string 
+
+OU ALGO COMPLETAMENTE DIFERENTE...
+
+VOCÊ QUER CRIAR ESSE OUTPUT COM BASE EM ALGUM INPUT DE STRINGS...
+
+
+
+
+por exemplo, você poderia estar usando o template literal para receber algum input aqui (algum input text) nesse 
+
+
+'productDescription' E ENTÃO CONVERTER ESSE TEXTO/STRING EM UM TEXTO 
+TOTALMENTE DIFERENTE, um texto em que você substitui ALGUNS VALORES....
+
+
+
+
+Por exemplo, aqui poderíamos checar 
+
+
+'if productPrice É MAIOR DO QUE 20,
+
+
+vamos querer definir uma variável (que criarei agora na função 'productDescription', BTW),
+
+'priceCategory', como sendo 
+
+'cheap'...
+
+
+E SE O PREÇO FOR MAIOR DO QUE 20, VOU QUERER DEFINIR A PRICE CATEGORY COMO SENDO 'fair'...
+
+
+
+
+ex:
+
+
+
+function productDescription(strings, productName, productPrice) {
+    
+    console.log(strings);
+    console.log(productName);
+    console.log(productPrice);
+
+    let priceCategory = 'cheap';
+    if(productPrice > 20) {
+        priceCategory = 'fair';
+    }
+
+
+
+
+    return 'This is a product!';
+}
+
+
+------------------------------------
+
+
+
+AGORA PODERÍAMOS ALTERAR O 'RETURN' LÁ DE BAIXO PARA RETORNAR O NOSSO OUTPUT, O OUTPUT 
+
+DE NOSSA STRING....
+
+
+podemos outputtar essa string POR MEIO DA CONSTRUÇÃO DE UM TEMPLATE LITERAL...
+
+
+(injetaríamos O PRIMEIRO SEGMENTO DAS STRINGS, de indexador '[0]', junto do productName INALTERADO e junto do segundo segmento de nossas strings...
+
+Por fim, injetaríamos também o PRICECATEGORY e a último dos segmentos das strings....
+
+
+ex:
+
+
+
+'return `${strings[0]}${productName}${strings[1]}${productPrice}${strings[2]};'
+
+
+
+
+RESULTADO:
+
+
+
+function productDescription(strings, productName, productPrice) {
+    
+    console.log(strings);
+    console.log(productName);
+    console.log(productPrice);
+
+    let priceCategory = 'cheap';
+    if(productPrice > 20) {
+        priceCategory = 'fair';
+    }
+
+
+
+
+    return `${strings[0]}${productName}${strings[1]}${productPrice}${strings[2]};`
+}
+
+
+
+
+------------------------------
+
+
+
+
+POR MEIO DESSE CÓDIGO RETORNADO, ESTAMOS OUTPUTTANDO UMA STRING ___TOTALMENTE DINÂMICA____...
+
+
+
+OU SEJA,  UMA STRING DINAMICAMENTE GENERADA em que NÓS TROCAMOS UM VALOR 
+
+(prodPrice) COM ALGUMA LÓGICA JÁ INCLUÍDA NA FUNÇÃO 'productDescription'...
+
+
+
+-------------------------
+
+
+
+
+
+E ESPECIALMENTE SE VOCÊ TIVESSE UMA LÓGICA 
+MAIS COMPLEXA  PARA CONVERTER/encodar  um preço numérico (como 29.99) EM UMA CATEGORIA (como estamos fazendo aqui, com 'cheaply priced'), 
+
+
+SUA VIDA FICA MUITO MAIS FÁCIL COM O USO DESSA TAGGED TEMPLATE function (você não precisaria 
+
+usar uma ternary expression em 'This product (${prodName}) is ...' , por exemplo, a qual TOMARIA 
+
+MUITO ESPAÇO E QUE RAPIDAMENTE PODERIA FICAR ILEGÍVEL/difícil de ler... )....
+
+
+
+
+Portanto, essa é uma das situações em que o uso de um tagged template pode te levar À ECONOMIA DE TEMPO E A UM CÓDIGO MELHOR...
+isso pq você pode RODAR SUA LÓGICA MAIS COMPLEXA NO INTERIOR DA FUNÇÃO QUE VOCê QUER 
+
+
+E ENTÃO SIMPLESMENTE FAZER O OUTPUT DA STRING da função lá embaixo, no final (em 'return `${strings[0]}${productName}${strings[1]}${productPrice}${strings[2]};`)
+
+).
+
+
+
+
+
+E É ASSIM QUE PODEMOS TRABALHAR COM ESSES 'TAGGED TEMPLATES'...
+
+
+
+
+É PODEMOS FAZER MUITAS COISAS COM ELES:
+
+
+
+
+é claro que não somos forçados a retornar uma strnig no final dessa função 
+
+'productDescription'... poderíamos, por exemplo, RETORNAR 
+
+UM OBJETO COM O 
+
+'name' (que é 'productName') e o 'price' (que é 'productPrice'...)
+
+
+
+ex:
+
+
+
+
+
+
+function productDescription(strings, productName, productPrice) {
+    
+    console.log(strings);
+    console.log(productName);
+    console.log(productPrice);
+
+    let priceCategory = 'cheap';
+    if(productPrice > 20) {
+        priceCategory = 'fair';
+    }
+
+
+
+
+    return {name: productName, price: productPrice}
+}
+
+
+
+VOCê PODE FAZER ISSO PQ VOCÊ NÃO É FORÇADO A RETORNAR UMA STRING 
+
+
+com os tagged templates...

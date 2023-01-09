@@ -1,0 +1,442 @@
+MAIS INFORMAÇÕES SOBRE ARRAYS.
+
+
+
+
+
+
+
+
+AGORA DEVEMOS VER MAIS FEATURES INTERESSANTES DE JAVASCRIPT RELACIONADAS A ARRAYS.
+
+
+
+
+
+Para ser mais preciso, devemos dar uma olhada em DUAS FEATURES DE SINTAXE que nos 
+ajudarão a trabalhar com arrays.
+
+
+
+
+
+
+A primeira delas é uma feature que o professor já introduziu brevemente, mas 
+não explicou direito.
+
+É A FEATURE DO "SPREAD OPERATOR" (...).
+
+
+
+
+
+O spread operator é um operador que, no final das contas, PUXA PARA FORA todos 
+os elementos de um determinado array e então os entrega a você como UMA 
+LISTA STANDALONE DE ELEMENTOS.
+
+
+Portanto, se o professor, por exemplo, escrevesse essa expressão:
+
+
+const nameFragments = ['Max', 'Schwarz'];
+
+"...nameFragments" ---> ELE ESTARIA PUXANDO TODOS OS ELEMENTOS DESSE ARRAY PARA FORA.
+                        MASSSSSS, DIZ O PROFESSOR, UTILIZAR ESSE OPERADOR DESSA MANEIRA NÃO É ALGO QUE É SUPORTADO PELO JAVASCRIPT.
+                        Por que? Bem, porque o professor está puxando para fora todos os elementos desse array e essencialmente não está fazendo nada com eles.
+
+                        Além disso, ele não pode escrever esta expressão aqui, também:
+
+
+                        const elements = ...nameFragments;
+
+
+
+                        -----> Por que não?
+
+
+
+
+                        Porque se ele escrevesse essa expressão, ela seria lida pela máquina como isso aqui, basicamente:
+
+                        ex:
+
+
+                        const elements = 'Max', 'Schwarz'; // -----------> E ESSA SINTAXE NÃO É SUPORTADA PELO JAVASCRIPT. NÃO É SUPORTADA PORQUE NÃO É UM ARRAY, É UMA DEFINIÇÃO ESCROTA DE VALORES EM SEQUÊNCIA.
+
+
+
+                        -----> exemplo de sintaxe suportada ===    const elements = ['Max, 'Schwarz'];
+                        -----> exemplo de sintaxe NÃO SUPORTADA ===      const elements = 'Max', 'Schwarz';  //(strings soltas sem sentido algum).
+
+                        
+                        -------------------------------------
+
+
+                        OU SEJA, SE LERMOS A EXPLICAÇÃO ACIMA, ENTENDEREMOS QUE o operador SPREAD (...) faz APENAS 
+                        A RETIRADA/PUXADA PARA FORA DOS ELEMENTOS DO ARRAY. Ele não os inclui em um novo array automaticamente, 
+                        não faz nada disso.
+
+                        O local onde você utiliza esses spread operators é distinto...
+
+
+                        Onde você os utiliza?
+
+
+                        Bem, vocÊ os utiliza nos casos em que você quer COPIAR UM ARRAY.
+
+
+
+                        ex:
+
+
+                        const nameFragments = ['Max', 'Schwarz'];
+
+                        const copiedNameFragments = [...nameFragments];
+
+
+                -----------> ESSE É UM EXEMPLO DO SPREAD OPERATOR SENDO USADO DE FORMA ADEQUADA.
+                            ELE FAZ COM QUE OS ELEMENTOS DE DENTRO DO ARRAY DE "nameFragments" ('Max' e 'Schwarz') SEJAM 
+                            COPIADOS/EXTRAÍDOS DE DENTRO E INSERIDOS DENTRO DESSE ARRAY NOVO QUE COLOCAMOS AO REDOR 
+                            DE SEU CHAMADO ([...nameFragments]).
+
+                            Isso é algo bem diferente de fazer a chamada daquela primeira constante 
+                            dentro desse array.
+
+                            Veja só a representação:
+
+
+                            ex:
+
+                                --------------------------------
+                                     const nameFragments = ['Max', 'Schwarz'];
+
+                        const copiedNameFragments = [...nameFragments]; //  ------->  VAI VIRAR "['Max', 'Schwarz'];, uma cópia independente do array da primeira constante.
+
+                        -----------------------------------
+
+                            ex de como daria ERRADO se não utilizássemos o spread operator:
+
+                            -------------------------------------------------------------
+                            
+                            const nameFragments = ['Max', 'Schwarz'];
+
+                            const copiedNameFragments = [nameFragments];  //----------> VAI VIRAR "[['Max', 'Schwarz']];" , UM ARRAY DENTRO DE OUTRO ARRAY, ALGO QUE CERTAMENTE NÃO QUEREMOS.
+
+                            -------------------------------------------------------------
+
+
+
+
+
+
+
+const copiedNameFragments = [...nameFragments]; 
+
+                            -----------> O OPERADOR "SPREAD" é como OS OPERADORES "rest", que você viu 
+                                        no módulo de funções, mas SIMPLESMENTE UTILIZADO EM UM LOCAL DIFERENTE (em arrays).
+
+
+                                        REST OPERATOR = "..."  ---> São utilizados para definir um número infinito de argumentos/parâmetros para as funções javascript.
+
+
+
+No módulo das funções, utilizamos os (...), o rest operator, DENTRO DA LISTA DE ARGUMENTOS 
+DE UMA DETERMINADA FUNÇÃO. Aqui, estamos usando o SPREAD operator (irmão do rest operator) EM 
+UM LUGAR EM QUE PRECISO DE _____MÚLTIPLOS___ ELEMENTOS (por exemplo, como quando inicializamos um array.)
+
+
+copiedNameFragments, aqui, é UM NOVO ARRAY, PORQUE CRIAMOS UM NOVO ARRAY COM AQUELAS [] (square brackets). É 
+um novo array COM OS VALORES DO ANTIGO ARRAY. 
+
+A consequência é que agora, se eu logar "nameFragments" e depois 
+"copiedNameFragments" no console, eu VOU PERCEBER QUE TENHO 
+O MESMO ARRAY AQUI (é o mesmo array em questão de valores, é claro, MAS NA VERDADE 
+NÃO É O MESMO ARRAY, O MESMO OBJETO-ARRAY.)
+
+Mas se formos até nameFragments e então EMPURRARMOS um valor para dentro dela com .push(), 
+veremos que a mudança não será refletida em "copiedNameFragments". São independentes.
+
+O segundo array é realmente um array completamente novo, independente.
+
+Essa é uma das vantagens. Mas você não usa o spread operator apenas para copiar 
+coisas, há mais vantagens em seu uso.
+
+
+Se voltarmos aos nossos "prices", podemos observar que aquilo lá 
+era um ARRAY DE NÚMEROS.
+
+ex:
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+-----------------------------------
+
+Professor diz que você também tem algumas funcionalidades em javascript, por exemplo 
+no objeto global MATH, que daremos uma olhada no futuro, no módulo de NÚMEROS, em que você 
+tem O MÉTODO "min()". O MIN METHOD recebe um punhado de argumentos. Ele não 
+exige/aceita um array... em vez disso, ele recebe VALORES.
+
+
+ex:
+
+console.log(Math.min(1, 5, -3));
+
+
+-----------------------------------
+
+Passados esses números à função min(), ela vai nos retornar  O MENOR DESSES VALORES.
+Nesse caso específico, a função console.log vai nos retornar "-3", que é o número com valor mais inferior.
+
+
+AGORA, SE VOCÊ QUISESSE FAZER O MESMO COM O ARRAY DE PRICES, encontrar o menor valor 
+dentre aqueles 4 números, VOCê TERIA UM PROBLEMA, NORMALMENTE.
+
+
+Mas que problema?
+
+O problema é que AQUILO, OS PRICES, É UM ARRAY. É um array, e  NÃO UMA LISTA DE VALORES, lista de parâmetros/argumentos, por assim dizer.
+
+
+Portanto, se simplesmente passarmos prices como argumento, AS COISAS NÃO VÃO DAR CERTO.
+
+
+
+ex:
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+console.log(Math.min(prices)); //------------> CONSOLE.LOG VAI RETORNAR, PARTINDO DA FUNÇÃO MIN(), O VALOR DE NaN (not a number), PORQUE 
+                                                de fato nós passamos um ARRAY, e não um número. Como um array não é um número, o método do objeto global "Math" NÃO FUNCIONA.
+
+
+                                                Como podemos resolver essa questão?
+
+                                                SIMPLES, USANDO O SPREAD OPERATOR.
+
+                                                ex:
+
+
+                                                console.log(Math.min(...prices)); 
+
+
+                                                ------------------------> O SPREAD OPERATOR VAI FAZER COM QUE OS ELEMENTOS DO ARRAY PRICES SEJAM EJETADOS E COLOCADOS 
+                                                                            DENTRO DOS SLOTS DOS ARGUMENTOS DA FUNÇÃO "min()". É um movimento quase que mágico, realmente. 
+                                                                            O spread operator vai criar uma lista de elementos separados por vírgulas dentro do slot dos parâmetros dessa função.
+                                                                            Com isso, a função min() vai funcionar perfeitamente.
+
+
+ 
+                                                                            O spread operator te ajuda a tirar elementos de listas de arrays e utilizá-los em funções que precisam 
+                                                                            desses elementos como argumentos standalone, e não como arrays inteiriços.
+
+HÁ OUTRO DETALHE IMPORTANTE QUANTO AO SPREAD (...) operator:
+
+
+
+É um detalhe sobre a cópia de arrays com seu uso. Quando 
+você copia um array com a ajuda do (...), de fato o 
+array copiado não é afetado quando você altera o array original.
+
+
+MAS..... UM ERRO COMUM QUE AS PESSOAS FAZEM É ACHAR QUE 
+COPIAMOS UM ARRAY DE ___OBJETOS____.
+
+
+Para demonstrar esse engano, devemos criar uma nova constante aqui, chamada de "persons".
+Será uma constante que segurará um array cheio de objetos ({};)
+
+ex:
+
+
+
+const persons = [{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];
+
+
+
+---------------------------------------------------------
+
+
+AGORA DIGAMOS QUE QUEREMOS COPIAR ESSE ARRAY DE objetos...
+
+
+
+ex:
+
+
+
+
+
+const persons = [{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];
+
+
+
+const copiedPersons = [...persons]; //Supostamente, essa seria a expressão necessária para isso, certo? (e é!)
+
+
+console.log(copiedPersons); //---> logamos essa cópia de array para ver se a cópia saiu certa.....  
+                            //---> Bem, pelo que podemos perceber, parece que a cópia saiu certinha, com os mesmos objetos e display do array...
+                            //----> PORÉMMMMM, PROFESSOR VAI EM FRENTE E NOS MOSTRA: 
+                            // Se ele fizer ".push" de um elemento (um objeto, por exemplo) para DENTRO DO ARRAY DA PRIMEIRA CONSTANTE,
+                            // VEREMOS exatamente aquilo que ele disse antes: elementos adicionados ao primeiro array, independente do segundo array-cópia, não são copiados no segundo array (array copiado com a ajuda do Spread Operator).
+
+                            //O ERRO COMUM, AQUI, É PENSAR QUE OS OBJETOS QUE SÃO PUXADOS PARA DENTRO DO ARRAY (QUE TAMBÉM SÃO REFERENCE VALUES), POR SEREM REFERENCE VALUES, SERIAM COPIADOS TAMBÉM NO SEGUNDO ARRAY, NO ARRAY copiedPersons.
+                            // ___NÃO É ISSO QUE ACONTECE, NÃO.___ ----> estamos copiando os ELEMENTOS DO ARRAY, o que significa que estamos copiando OS __ENDEREÇOS____ DESSES OBJETOS, no final das contas. Ou seja, embora nós tenhamos 
+                            um array novinho em folha em "copiedPersons", ___OS OBJETOS NO ARRAY NOVO AINDA SÃO OS OBJETOS ANTIGOS, POIS VOCÊ 
+                            AINDA ESTÁ TRABALHANDO COM VALORES REFERENCIAIS. NUNCA SE ESQUEÇA DISSO: VALORES REFERENCIAIS, CASO SEJAM MUDADOS, REFLETEM 
+                            EM TODAS AS PARTES DO CÓDIGO.
+
+Exemplo disso:
+
+
+ex:
+
+
+const persons = [{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];
+
+
+
+const copiedPersons = [...persons]; 
+
+
+(isso vai alterar o primeiro objeto do array da const "persons")
+persons[0].name = "Jesus";
+
+
+
+console.log(copiedPersons) //-----> ISSO VAI NOS RETORNAR:
+
+
+                                                0: {name: "Jesus", age: 30} // ------> OU SEJA, A MUDANÇA NO ARRAY ORIGINÁRIO REPERCUTE NAS CÓPIAS, GRAÇAS ÀS CARACTERÍSTICAS DE OBJETOS/VALORES REFERENCIAIS NO JAVASCRIPT. VOCÊ DEVE TER MUITO CUIDADO COM ISSO.
+                                                1: {name: 'Manuel", age: 31}
+
+
+
+
+
+
+
+No final das contas, esse array de "persons"  ([{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];), É UM 
+ARRAY ____CHEIO _____DE______ENDEREÇOS. Endereços aos lugares na memória em que esses objetos estão armazenados.
+Quando você copia esse array, você copia OS ENDEREÇOS desses objetos.
+
+
+Isso não é um bug ou qualquer coisa do gênero, isso é o COMPORTAMENTO NORMAL DO JAVASCRIPT.
+Se você quisesse evitar esse comportamento, você teria que COPIAR TODOS OS OBJETOS PARA 
+DENTRO DE COPIEDPERSONS, ESSENCIALMENTE (copiar os objetos em si, e não seus endereços, que é aquilo que estamos fazendo no momento).
+
+O PROFESSOR DIZ QUE VOCê CONSEGUE REALIZAR A CÓPIA DOS OBJETOS EM SI DE DENTRO DESSE ARRAY ___POR MEIO DO USO___
+DO____ MÉTODO ____ "MAP();", por exemplo.
+
+
+ex:
+
+
+
+const persons = [{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];
+
+
+const copiedPersons = [...persons.map()]; //-------> EM "persons", APLICAMOS O MÉTODO "map()" para CRIAR UM ARRAY NOVINHO EM FOLHA... o método map() é sempre aplicado ANTES do SPREAD OPERATOR (...); O que o spread vai fazer aqui é TIRAR PARA FORA TODOS OS ELEMENTOS/OBJETOS QUE ESTÃO INSERIDOS DENTRO DESSE ARRAY-CÓPIA CRIADO COM "map()" E JOGÁLOS PARA DENTRO DO ARRAY Da const "copiedPersons".
+                                    
+                                    (essa função "map()" não está completa, falta ainda a função interna que 
+                                    servirá de parâmetro.)
+
+
+
+
+
+
+REsumo: (o primeiro e segundo passos ocorrem em ordem, já o terceiro é apenas um adendo, feito por mim...)
+
+
+1º ---> .map() realiza uma cópia do array de "persons". Cópia independente. Cópia = [{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];
+
+
+2º ---> ... (spread operator) FAZ COM QUE OS OBJETOS DE DENTRO DESSE ARRAY-CÓPIA SEJAM "EJETADOS" 1 nível para cima, ou seja, para fora do array-cópia criado por map() e para dentro do array de "copiedPersons".
+
+
+3º -->  Professor deve ainda INSERIR A FUNÇÃO INTERNA/auxiliar/parâmetro da função "map()":
+
+
+A função interna ficará assim:
+
+
+[.map(person => ({}))];
+
+
+                (essa const "person" é o parâmetro singular daquela função interna que servirá de parâmetro para o método/função externa map()... 
+                  O dever dessa const local 'person' é entrar em cada elemento daquele array originário, alterá-lo com aquilo que está no "function body" da função interna da função de map() e ENTÃO COPIÁ-LO, TRANSPÔ-LO em um array novinnho em folha.     )
+
+
+
+
+OBS: os curly braces ("{}") aqui não servem para marcar o function body, MAS SIM PARA MARCAR QUE O OBJETO QUE ELE VAI QUERER ALTERAR/CRIAR AQUI É UM OBJETO.
+    Para que isso seja lido como um objeto pelo javascript, o professor diz que ainda devemos envolver esse {} em um par de parênteses adicional.
+    Os "wrapping parenthesis" desse objeto {} ESTARÃO ALI PARA INDICAR QUE ESSE TRECHO 
+    SERÁ O "SINGLE EXPRESSION FUNCTION BODY". Ou seja, essa é aquela sintaxe que não precisa 
+    de um comando "return"; o comando return está implícito aqui (até porque não temos curly braces de function 
+    body, e sim apenas curly braces indicadores de objeto.)
+
+
+    Aqui, portanto, o professor quer retornar um OBJETO ( "{}" ) NOVINHO EM FOLHA, um 
+    objeto em que "name" é igual a "person.name" e "age" é igual a "age: persons.age"...
+    EM OUTRAS PALAVRAS, UMA CÓPIA EXATA DE PERSONS, mas com os OBJETOS EM SI TAMBÉM COPIADOS (não é 
+    como a cópia "simples" de um array com objetos mediante uso do spread operator, pois o spread operator 
+    copia os endereços; aqui, copiamos os OBJETOS EM SI.)
+
+
+
+    A função interna, PREENCHIDA, ficará assim:
+
+
+
+ex:
+
+
+
+    [.map(person => ({ name: person.name, age: person.age }))
+    ];
+
+    -----------------------------------------------------
+
+
+
+    CÓDIGO INTEIRO DESSA "CÓPIA DE ARRAY COM SEUS OBJETOS EM SI COPIADOS TAMBÉM":
+
+
+
+    const persons = [{name: 'Max', age: 30}, {name: 'Manuel', age: 31}];
+
+
+    const copiedPersons = [
+        ...persons.map(person => ({ name: person.name, age: person.age }))
+    ];
+
+
+
+
+
+Com isso, o professor MAPPEOU todos os objetos do array original, CONVERTEU TODOS ELES 
+EM OBJETOS NOVOS EM UM NOVO ARRAY, INDEPENDENTE AO PRIMEIRO.
+
+
+
+Professor diz para APENAS COPIAR (com aqueles métodos especiais) AQUILO QUE VOCÊ PLANEJA MUDAR NO FUTURO, NO SEU CÓDIGO.
+Apenas copie aquelas coisas que vocÊ não quer que sejam alteradas mediante mudanças no array originário.
+Coisas que você realmente quer que permaneçam independentes do restante do código.
+
+
+
+O spread, portanto, é um negócio DIFÍCIL DE USAR, mas que é muito útil para copiar, para distribuir 
+elementos para dentro dos argumentos de um outro método... (é um método auxiliar a outros métodos, essencialmente).
+
+E, quando você for copiar, tenha em mente aquilo que o professor explicou sobre 
+"nested" reference values, sobre o fato de que cópias 
+de objetos feitas sem aquele procedimento esquisito logo acima sempre acabarão
+com CÓPIAS DO ENDEREÇO DO OBJETO ORIGINÁRIO (ou seja, não serão, de fato, cópias, e sim 
+apenas cópias fajutas do endereço do objeto originário. Mudanças feitas nesse objeto originário 
+ACABARÃO ALTERANDO O VALOR DESSE OBJETO NOS ARRAYS COPIADOS.)

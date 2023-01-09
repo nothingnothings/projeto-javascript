@@ -1,0 +1,98 @@
+Antes de trabalharmos no aplicativo, devemos nos certificar de que entendemos o significado de "Objeto".
+
+
+
+
+
+
+podemos criar um objeto e armazená-lo em uma variável/const. Ambos são permitidos.
+
+
+                        {} = object literal notation.
+
+
+Dentro da object literal notation, você pode ter KEY-VALUE PAIRS...
+
+O professor já explicou: propriedades SÃO KEY-VALUE PAIRS QUE ARMAZENAM ALGUNS VALORES ESTÁTICOS (OU ALGUNS VALORES REFERENCIAIS, COMO ARRAYS... ).
+
+
+BEM.... se você armazenar UMA FUNÇÃO ___COMO  se fosse UM VALOR____ EM ALGUMA KEY DE UM OBJETO, NÓS 
+CHAMAREMOS ESSA FUNÇÃO DE "mÉTODO". É isso que é um método, uma função no interior de um objeto, vinculada a um name.
+
+
+TANTO PROPRIEDADES COMO MÉTODOS SÃO CRIADOS POR MEIO DA ESCOLHA DO NOME DE UMA KEY, um ":' e, por fim, 
+o VALOR.
+
+IMPORTANTE!!!! ---> Dentro do objeto, você não tem nada como "const/let". Você apenas tem o nome 
+da sua key na esquerda, e então um valor/método correspondente, à esquerda.
+Aqui, por exemplo, temos "name" (nome escolhido) e então o valor da string de 'Max'.
+
+Array é um objeto... pode ser armazenado dentro de um objeto, e isso prova que 
+podemos ter objetos dentro de objetos.
+
+Professor também adiciona um MÉTODO aqui, com a keyname de "greet" e o valor (método) de function () {
+     alert('Hi there!');
+}
+
+ex:
+
+
+
+
+
+const person = {
+    name: 'Max';
+    age: 30,
+    hobbies: ['Sports', 'Cooking'],
+    greet: function() {
+        alert('Hi there!');
+    }
+
+    
+};
+
+
+
+
+
+
+-----------------------------------
+
+
+
+Professor explica que com isso, CRIAMOS "UMA PERSON" (um objeto 'person', vinculado a constante de nome 'person'), 
+COM A QUAL PODEMOS INTERAGIR POR MEIO DA NOTAÇÃO DOT (.).
+
+
+
+ex:
+
+
+
+
+const person = {
+    name: 'Max';
+    age: 30,
+    hobbies: ['Sports', 'Cooking'],
+    greet: function() {
+        alert('Hi there!');
+    }
+
+    
+};
+
+
+
+person.greet(); //POR MEIO DO (.) TEMOS ACESSO A TODOS OS MÉTODOS E PROPRIEDADES QUE ESTÃO ARMAZENADOS NESSE OBJETO. Se recarregarmos a página, veremos que o alert de "hi there" aparece na página normalmente.
+
+
+
+
+ISSO NÃO É NADA DE NOVO.
+
+
+Mas agora o professor vai nos mostrar algumas novas sobre as propriedades... COMO ADICIONAR 
+PROPRIEDADES DINAMICAMENTE ___APÓS_____ UM OBJETO TER SIDO CRIADO. 
+
+Como deletar propriedades.... (dinamicamente e não dinamicamente) e QUAIS RESTRIÇÕES 
+E FLEXIBILIDADES VOCÊ TEM EM RELAÇÃO A ESCOLHA DE NOME DE KEY-VALUE PAIRS E quanto ao acesso às propriedades.

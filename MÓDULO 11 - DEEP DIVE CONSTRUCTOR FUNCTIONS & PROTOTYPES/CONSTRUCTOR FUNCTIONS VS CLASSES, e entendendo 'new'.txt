@@ -1,0 +1,482 @@
+Agora devemos entender o que acontece 
+
+
+por trás das cenas com uma CONSTRUCTOR FUNCTION...
+
+
+
+
+
+ex:
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+const person = new Person();
+person.greet();
+
+
+
+
+---------------------------
+
+
+
+
+
+Professor aponta que É CLARO QUE NÓS NÃO PODEMOS ESPERAR que essa 
+função retorne um objeto por si mesma, sem o auxílio 
+
+da keyword 'new' em um novo chamado... Não podemos esperar isso TAMBÉM 
+
+PORQUE NÃO HÁ NENHUMA 'return' KEYWORD dentro dessa função...
+
+
+
+ESSA CONSTRUCTOR FUNCTION ___SÓ___ retorna um objeto 
+
+
+se nós utilizarmos a keyword 'new'...
+
+--------------------------------------
+
+
+
+
+
+Se nós tentássemos chamar essa função __SEM___ a palavra 'new', 
+
+
+ou seja, assim:
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+const person = Person(); ////////////
+person.greet();
+
+
+-------------------------------
+
+
+
+
+VOCê VERÁ que o console do devtools NOS DARÁ UM ERRO. 
+
+
+'Uncaught TypeError: Cannot read property 'greet' of undefined.'
+
+
+----------------------------------------
+
+
+
+Isso acontecerá porque 'person.greet();' NÃO CONSEGUIRÁ 
+
+executar um método 'greet()' dentro de um objeto 'person', POIS 
+ESSE OBJETO 
+
+'person' NÃO EXISTIRÁ.... (ele só existe se nós chamarmos 
+
+aquela constructor function com a ajuda de 'new'...)...
+
+
+
+Esse objeto 'person' não existirá; a única coisa que acontecerá pela 
+execução das últimas 2 linhas é que 
+
+A FUNÇÃO 'Person' SERÁ EXECUTADA... mas essa função NÃO TEM RETURN,
+não retorna nada... e por isso nada muda, não retorna valor algum..... (e o fato de nenhum valor ser retornado faz com que a const 'person' SEGURE UM VALOR DE PORRA NENHUMA, o que por sua vez faz com que o chamado de 'person.greet();' não dê em nada, pois essa const está undefined.)
+
+
+
+----------------------------------
+
+
+
+É por isso que chamar a função 'Person' como uma função normal 
+
+ex:
+
+'const person = Person();' 
+
+
+NÃO FUNCIONARÁ.
+
+
+
+
+---------------------------
+
+
+O fato de essa função começar com UMA LETRA MAIÚSCULA não muda coisa alguma;
+
+é apenas uma convenção, não muda nada. Não vai mudar as coisas 'magicamente' no javascript.
+
+(vocÊ ainda deve seguir essa convenção.)
+
+
+
+
+DE FATO, é a keyword 'new' que importa... 
+
+
+
+------------------------------
+
+
+
+O QUE A KEYWORD 'new' FAZ POR TRÁS DAS CENAS (importante!!! ---> a keyword TAMBÉM FAZ ISSO PARA ___CLASSES____.)
+
+É  
+
+
+A EXECUÇÃO DE UMA FUNÇÃO Como 
+
+'Person'...
+
+
+Mas além de executar essa função, 
+
+dentro dessa função a keyword 'new' vai lá 
+
+e DEFINE 
+
+
+'this = objetoQueSeráCriadoPeloNew'...
+
+
+
+Mas como esse objetoQueSeráCriadoPeloNew é inicialmente vazio, 
+
+essa keyword vai colocar como 
+
+'this = {};'
+
+
+
+
+ex (representação do que ocorre nos bastidores de 'new'):
+
+
+
+
+
+function Person() {
+    this = {};
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+---------------------------------------
+
+
+
+
+
+FEITO ISSO, o 'new' então ADICIONA TODAS ESSAS PROPRIEDADES PARA 
+ESSE OBJETO vazio.... e então faz o return de 'this'. 'return this;'
+
+
+
+(e o 'THIS' RETORNADO É ESSE OBJETO QUE ESTAVA VAZIO E FOI PREENCHIDO 
+POR TODAS AS PROPRIEDADES DENTRO DE NOSSA CONSTRUCTOR FUNCTION/classe.)
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function Person() {
+    this = {   this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');};
+ 
+    return this;
+    
+    }
+}
+}
+
+
+----------------------------------------
+
+
+
+
+É EFETIVAMENTE ISSO QUE ESTÁ ACONTECENDO AQUI...
+
+
+É isso que a keyword 'new' faz por trás das cenas 
+
+QUANDO VOCÊ CHAMA UMA FUNÇÃO com 'new'...
+
+
+
+
+E esse é um cenário/feature especial PROVIDENCIADO PELO 
+JAVASCRIPT QUANDO VOCÊ UTILIZA uma __constructor function___.
+
+
+--------------------------------------
+
+
+
+Agora que entendemos um pouco sobre como constructor functions funcionam, 
+
+
+e aprendemos que a keyword 'NEW' IMPORTA MUITO,
+
+
+devemos entender COMO 
+
+ESSA constructor function 'Person' 
+
+
+
+ESTÁ RELACIONADA com uma classe 'Person', com as mesmas propriedades...
+
+
+
+
+-------------------------------------------------
+
+
+
+
+NO FINAL DAS CONTAS, EXPLICA O PROFESSOR, ESSA CLasse person (ou qualquer classe, nao importa) É 
+
+APENAS ____'SYNTHATICAL SUGAR'_____..., SYNTHATICAL SUGAR para as CONSTRUCTOR FUNCTIONS...
+
+
+
+
+
+É açucar sintático porque DEFINIR BLUEPRINTS por meio de 
+
+sintaxe 
+
+
+como 'function Person() {
+    ...
+}
+'
+
+
+
+PODE SER UM PROCESSO MEIO ENTRUNCADO... (cumbersome and confusing...).
+
+
+
+
+
+
+
+Pode ser confuso para alguém que lê porque é bizarro que uma FUNÇÃO 
+ESCRITA COMO UMA FUNÇÃO NORMAL SE COMPORTE DE MANEIRA DIFERENTE 
+
+por simplesmente adicionarmos 'new'....
+
+
+
+Além disso, se você vem de uma linguagem de programação diferente, o uso 
+
+de CLASSES pode ser já natural a você, e essas constructor functions 
+
+podem parecer meio bizarras aos seus olhos.
+
+
+
+
+
+É POR ISSO QUE CLASSES FORAM INTRODUZIDAS: para nos garantir uma maneira 
+mais fácil de escrever essas definições de blueprint...
+
+
+
+------------------------------
+
+
+
+
+BEm, mas isso não é tudo.
+
+
+Por trás das cenas, classes fazem MAIS DO QUE APENAS definir 
+
+essas constructor functions...
+
+
+Elas também nos ajudam com aquilo que 
+
+CHAMAMOS DE 'prototypes', UM CONCEITO 
+
+QUE VEREMOS NESSE MÓDULO...
+
+
+
+Mas, geralmente, 
+
+essa classe 
+
+
+'Person' (com sua sintaxe específica) 
+
+
+
+CRIA ALGO BEM SIMILAR 
+
+À 
+
+
+FUNÇÃo
+
+Person() {} que mostramos logo acima...
+
+
+
+
+------------------------------------------
+
+
+
+
+
+A CONSTRUCTOR FUNCTION que temos ____DENTRO____ de nossas 
+
+classes essencialmente nos PERMITE DEFINIR 
+
+
+___O BODY DA CLASSE____ (ou seja, todas as INSTRUÇÕES que deverão/devem 
+ser executadas quando um objeto for criado com base na 
+blueprint... )  DENTRO DE UMA CLASSE...
+
+
+
+
+---> constructor function de dentro de uma classe NOS PERMITE DEFINIR O BODY DE UMA CLASSE... dentro dessa mesma classe...
+
+
+
+ 
+
+ Porque, em uma constructor function como:
+
+
+ '
+
+function Person() {
+    this = {   this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');};
+ 
+    return this;
+    
+    }
+}
+}
+
+', 
+
+
+É ÓBVIO QUE SEMPRE QUE NÓS CRIAMOS UM NOVO OBJETO baseado nessa 
+
+constructor function, TODO O CÓDIGO ESCRITO NAQUELA FUNÇÃO construtora
+É EXECUTADO... ---------> Isso, portanto, é ÓTIMO PARA 
+INICIALIZAr funções, definir funções, alcançar servers, etc etc.
+
+
+
+
+-------> JÁ EM CLASSES, você não tem um lugar como esse...  bem, QUASE, não tem...
+VOCÊ TEM AQUELA CONSTRUCTOR FUNCTION, AQUELE MÉTODO ESPECIAL 'constructor(){}' DENTRO 
+DA CLASSE, é um método EM QUE TUDO QUE É COLOCADO NELE É EXECUTADO QUANDO UM OBJETO (baseado na classe correspondente)
+É CRIADO... -------> já vimos isso: tudo que é colocado no método 'constructor' na nossa classe É A MESMA 
+
+COISA QUE IRIA DENTRO DESSA CONSTRUCTOR FUNCTION 'Person'... 
+
+
+ex:
+
+
+
+
+class Person {
+
+
+    constructor() {
+         this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+    }
+}
+
+
+
+É A MESMA COISA QUE:
+
+
+
+
+function Person() {
+
+  this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+}
+
+
+
+-------------------------------------------
+
+
+
+
+ENTRETANTO, OS MÉTODOS CRIADOS dentro de classes....
+(como 'greet()' DENTRO DA CLASSE 'person') SÃO, NA VERDADE, 
+
+TRATADOS DE MANEIRA UM POUCO DIFERENTE PELO JAVASCRIPT...
+(não é o mesmo tratamento dado a métodos definidos em constructor functions..)
+
+
+
+ISSO É ALGO QUE DEVEMOS TER EM MENTE. O professor logo explicará essa diferença, assim que aprendermos sobre PROTOTYPES.

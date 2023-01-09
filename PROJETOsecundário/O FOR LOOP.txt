@@ -1,0 +1,257 @@
+Um ótimo lugar para trabalhar com os loops é o FINAL DO NOSSO APLICATIVO MONSTER KILLER.
+
+
+Estamos falando da nossa função "printLogHandler()".
+
+
+function printLogHandler() {
+    console.log(battleLog);
+}
+
+No momento, nós printamos o array inteiro em uma grande lista (pleonasmo).
+
+
+
+
+O que significa que nós recebemos um output meio ruim, que 
+mostra apenas o número do turno, o que não ficará super legível se passarmos a trabalhar com
+loops.
+
+
+Com loops, podemos melhorar esse código, porque agora nós podemos, por exemplo, 
+LOOP THROUGH ALL THE ENTRIES ON THE BATTLELOG e outputtar alguma coisa melhor lá.
+Mas começaremos com outro loop, do tipo normal, do tipo FOR LOOP.
+O professor diz normal porque esse é o tipo mais antigo de loop, e também porque 
+essa é uma sintaxe encontrada em basicamente qualquer linguagem de programação.
+O mesmo não é aplicado a for-of e for-in, não são tão usados em outras linguagens, 
+mas o for loop e while loop são encontrados em quase todas.
+
+
+Criamos o for loop e adicionamos 3 partes, progressivamente. Primeira parte é a da inicializaç~´ao,
+inicializamos as coisas para o LOOP. Você pode rodar um monte de códigos diferentes 
+aqui, basicamente qualquer expressão, qualquer coisa que não seja um IF STATEMENT ou 
+OUTRO LOOP pode ser executada aqui. Você pode até mesmo chamar uma função aqui, mas o que 
+você tipicamente faz aqui é INICIALIZAR UMA VARIÁVEL. Você poderia inicializar múltiplas 
+variáveis, mas na maior parte dos casos de loop, vocÊ só precisará de uma.
+É a tal de "helper variable", aquela que você muda a cada iteração para executar código.
+O professor vai usar aqui o clássico exemplo da variável i, inicial de "iterator".
+Ele inicializa-a como 0, e vai fazer ela ir adicionando 1 a cada iteração.
+BTW---> AQUI SEMPRE DEVEMOS CRIAR UMA VARIÁVEL COM O USO DE LET, PORQUE DEVE SER UMA 
+VARIÁVEL, JÁ QUE ELA IRÁ MUDAR A CADA LOOP ITERATION. POR ISSO NÃO USAMOS CONSTANTES.
+Depois disso, você adiciona a EXIT CONDITION. Usamos aqui o exemplo do slide de loops, visto 
+anteriormente. i < 3. O código continuará rodando até que i seja igual a 3.
+
+DEPOIS DA CONDITION, VOCÊ BOTA A 3A PARTE, QUE É O CÓDIGO QUE SERÁ RODADO ____APÓS____
+CADA LOOP ITERATION. GERALMENTE COLOCAMOS UM INCREMENT (++) NA HELPER VARIABLE.
+
+
+Importante = A 3a parte dos LOOPS pode ser OMITIDA. Podemos apenas settar a inicialização
+das variáveis, a condição e o LOOP BODY.
+
+
+Professor nos mostra algo divertido:
+
+
+
+Na verdade, vocÊ pode omitir TODOS OS STATEMENTS DENTRO DOS PARÊNTESES, OS 3.
+Mas, caso você fizesse isso, você ficaria com um LOOP INFINITO. Porém, você ainda precisa 
+das semi-colons (;).
+
+Ficaria assim, nesse exemplo:
+
+
+function printLogHandler() {
+    for (;;) {
+        loop body; (exemplo)
+    }
+}
+
+
+
+IMPORTANTE = Loops que rodam infinitamente são uma coisa com a qual você deve ter cuidado,
+pois eles podem CRASHAR SEU BROWSER, JÁ QUE ENCHEM A MEMÓRIA E ROUBAM TODOS OS RECURSOS PARA 
+SI. Mas a opção está aqui, e em alguns casos você pode ter que utilizá-la.
+
+
+
+
+
+
+
+
+OBS---> A EXIT CONDITION É AVALIADA SEMPRE ----ANTES---- DE CADA LOOP ITERATION.
+
+function printLogHandler() {
+    for (let i = 0; i < 3;);
+    console.log(battleLog);
+}
+
+
+
+
+O professor então adiciona a terceira parte do for loop, que ele define como
+i++. Isso significa que, a cada loop, i vai aumentar por 1 número, uma unidade.
+Isso sempre acontecerá AO FINAL de cada loop. 
+
+
+
+
+
+function printLogHandler() {
+    for (let i = 0; i < 3; i++)
+    console.log(battleLog);
+}
+
+
+
+Professor diz que, ali, vocÊ sempre pode 
+colocar algo diferente, como "i + 2", "i - 3", etc. Você não é obrigado a incrementar, 
+mas esse é o uso mais comum desse 3o espaço. Comum= um counter que você incrementa por 1 
+a cada iteração, afetado por uma X condition. Você pode, é claro, também usar 
+valores dinâmicos, como por exemplo "battleLog" no lugar de 3. Para fazer isso, 
+professor diz que deve ser usada uma função, no caso a função "LENGTH", que é chamada 
+por .length.
+
+
+
+
+function printLogHandler() {
+    for (let i = 0; i < battleLog.length; i++)
+    console.log(battleLog);
+}
+
+
+
+
+a "length" property/função é disponível POR PADRÃO em arrays. Ela te dá o número de items/
+quantidade de items no array. Essa é, na verdade, uma maneira bem comum de 
+ir por todos items do array (going through all items in the array)... é uma alternativa 
+ao uso de for-of loop, para trabalhos em que você não quer utilizá-lo.
+
+O FOR-OF LOOP É MAIS CURTO, MAS TEM PIOR COMPATIBILIDADE COM BROWSERS VELHOS. A propriedade 
+length é boa para essas hipóteses, casos de compatibilidade com browsers velhos.
+Essa alternativa deriva a length dinamicamente e então vai por todos os elements do array por meio 
+de um loop que continua rodando ENQUANTO VOCê AINDA TEM ITEMS NO ARRAY.
+
+Desconsiderando essa sidenote, refazemos o hardcode de < 3 no código.
+Dentro do espaço do loop body, colocamos a função console.log('----------------');
+Por meio dela, printaremos TRÊS LINHAS DESSES - LÁ NO CONSOLE, ISSO PORQUE DEFINIMOS QUE 
+O CÓDIGO RODARÁ ATÉ O 3o LOOP. Então, salvamos esse código e verificamos o resultado.
+
+
+O resultado no dev tools do chrome é um (3) ---------------------.
+
+ Nós não vemos 3 linhas porque as dev tools do browser AUTOMATICAMENTE combinam  
+ OUTPUTS SIMILARES EM APENAS UM ÚNICO OUTPUT, mas você pode ver o 3 ali. O que isso significa é que 
+ o browser teria printado a linha 3x, ele só fundiu as 3x em uma só para salvar um pouco de espaço. Mas ele ainda printou 3x.
+
+
+
+ Mas por que ele rodou 3, se a condição era i < 3?
+
+ Bem simples:
+
+
+
+ primeiro loop --> 0  
+
+
+ segundo loop ---> 1
+
+ terceiro loop --> 2
+
+
+ quarto loop ----> 3 (para função, pois i passa a ser igual a 3, i = 3; o que não é i < 3.)
+
+
+
+ Como o professor disse anteriormente, você pode configurar esse for loop de muitas e muitas formas.
+
+
+ Ex: você poderia fazer um for loop assim:
+
+ "for(let i = 10; i > 0; i--) {
+
+ }
+
+
+ --> o que esse formato de for loop faria é: a variável começa como 10 e vai descendo (i--), 
+ até chegar em 0. quando chega a 0, o loop para. A função rodaria, portanto, 10x.
+
+
+ "for(let i = 10; i > 0; i--) {
+console.log(i);
+ }
+
+
+---> SE COLOCARMOS UM CONSOLE LOG COM ESSA VARIÁVEL INPUTTADA NO CONSOLE, TEREMOS UM BACKWARD COUNTER, 
+NO CONSOLE SERÁ MOSTRADO ESSE NÚMERO EM CONTAGEM REGRESSIVA: 10,9,8,7,6,5... Nós não 
+veremos 0 aqui no dev tools console porque NOSSA EXIT CONDITION FOI DEFINIDA DE MODO QUE 
+O LOOP CESSA QUANDO I FOR IGUAL A 0. 
+
+
+O tipo de for loop varia de acordo com o tipo de aplicativo que você quer.
+
+
+O tipo mais comum ainda é o for loop, for loop com exit condition HARDCODEADA ou DINÂMICA.
+
+
+hardcodeada ---> i < 3;
+
+
+exit condition dinâmica ----> i < battleLog.length;  (bem comum ter um array length aqui como exit condition).
+
+
+
+
+Teoricamente, combinar condições também é possível em for loops.
+
+
+Você também pode ajustar i--, i++, de qualquer forma que você quiser.
+
+VocÊ também não é obrigado a mudar o i por meio da terceira parte da fórmula do for loop (i++ ou i--), 
+você pode também alterá-lo DENTRO DO LOOP BODY...
+ex:
+
+
+for(let i = 10; i > 0;) {
+    i--;
+    console.log(i);
+}
+
+
+Você geralmente usa um formato assim quando VOCÊ QUER AJUSTAR "i" antes de 
+fazer algo com ele (isso porque geralmente aquela terceira parte do for loop é executada sempre AO COMEÇO DE 
+UM NOVO LOOP, O QUE PODE SER INDESEJADO DEPENDENDO DO QUE VOCÊ QUER. VOCÊ TALVEZ QUEIRA QUE O NEGÓCIO SEJA ALTERADO UM POUCO DEPOIS
+, TALVEZ DEPOIS DE SER EXECUTADA UMA CERTA FUNÇÃO, OU SEJA, DEPOIS DAS FUNÇÕES 
+DEFINIDAS NO LOOP BODY. EX:
+ )
+
+
+
+ for(let i = 10; i > 0;) {
+    console.log(i);
+    i--;
+}
+
+---------------------------------
+
+
+Ex concreto no dev tools:
+
+
+
+for(let i = 10; i > 0;) {
+    i--;
+    console.log(i);
+}
+
+
+
+---> nesse exemplo, printamos de 9 até 0, não há 10. Isso é porque agora 
+NÓS DECRIMENTAMOS I ANTES DE PRINTAR O CONSOLE.LOG
+
+
+
+
+Agora, veremos o FOR OF LOOP.

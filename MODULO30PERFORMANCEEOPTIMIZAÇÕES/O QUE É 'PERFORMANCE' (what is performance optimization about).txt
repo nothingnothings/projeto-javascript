@@ -1,0 +1,323 @@
+
+
+
+
+--->O QUE É PERFORMANCE?
+
+
+
+
+
+
+
+--> performance no CONTEXTO DO WEBSITE QUE VISITAMOS...
+
+
+
+
+
+
+--> 'performance' PODE SIGNIFICAR MUITAS COISAS, MUITAS ESPÉCIES DE PERFORMANCE...
+
+
+
+
+
+
+
+----> PODEMOS __SPLITTAR__ esse termo....
+
+
+
+
+
+
+--> performance ----> pode ser o STARTUP TIME de um website..... 
+
+
+
+---> pode ser também o RUNTIME PERFORMANCE do aplicativo/website....
+
+
+
+
+
+
+
+
+STARTUP TIME         X             RUNTIME PERFORMANCE 
+
+
+
+
+São 2 coisas diferentes.....
+
+
+
+MAS ATUAM EM CONJUNTO; AMBOS IMPORTAM.
+
+
+
+
+
+
+STARTUP TIME ---> quanto tempo demora para que ''APAREÇA ALGO NA TELA'' .... e ''quanto tempo demora até que um usuário seja capaz de INTERAGIR COM ESSA PÁGINA..?''
+
+
+
+
+
+---> todos nós sabemos como é chato entrar em uma página que é lenta, demora pra carregar, etc... ou páginas que PARECEM TER CARREGADO, MAS QUE NÃO CARREGARAM, E QUE QUANDO VOCÊ PRESSIONA ALGO, UM BOTÃO, NADA ACONTECE...
+
+
+
+
+------> por isso o STARTUP TIME É IMPORTANTE, pode aborrecer o usuário....
+
+
+
+-----------------------------------------------------
+
+
+
+
+---> MAS ENTÃO NÓS TEMOS O  'RUNTIME PERFORMance'... --> nosso webapp deve ser 
+
+CAPAZ DE TER UMA 'SMOOTH PERFORMANCE' e de EVITAR certos bugs.... ('how smooth does the application run (are there freezes or lag?) )
+
+
+
+
+
+
+------->  É CLARO QUE NÃO GOSTAMOS DE VISITAR PÁGINAS EM QUE TENTAMOS, POR EXEMPLO, ENFIAR TEXTO NUMA 
+CAIXA DE TEXTO.... uma caixa de texto que DEMORA 1 ANO PARA PEGAR NOSSO INPUT... (input lag)...
+
+
+
+
+
+
+
+WEBAPPS e websites COM ___MUITAS ANIMAÇÕES__ podem acabar 
+
+em um estado/state em que TEMOS __TANTAS ANIMAÇÕES__ que o negócio fica com 
+
+
+VISUAL LAG... ---> visual JANK ---> as animações não tocam/play de forma SMOOTH ou coisa do gênero... 
+
+
+
+ex: uma animação que está sendo executada __NOS IMPEDE__ DE FAZER QUALQUER OUTRA COISA NA PÁGINA... ('How smooth 
+do animations play, is there any 'visual lag'?)
+
+
+
+
+
+----> ou, é claro, podemos/é possível que tenhamos um SITE COM CERTOS __MEMORY LEAKS__, memory leaks 
+
+QUE VÃO SE ACUMULANDO COM O TEMPO... ('memory leaks which add up over time')....  ('Are there any memory leaks, is the page getting slower over time...?')
+
+
+
+
+
+----> ALGUMA PARTE DO CÓDIGO PODE SER BUGADA/ESTAR BUGADA, E OCUPAR CADA VEZ MAIS MEMÓRIA CADA VEZ QUE ELE RODA....
+A memória pode eventualmente ACABAR... isso fará com que o site SE DESLIGUE no aparelho do usuário.... (queremos evitar isso)
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+TEMOS QUE ENTENDER QUE PERFORMANCE NÃO É APENAS UM ASPECTO DO JAVASCRIPT, 
+
+ 
+é também influenciado PELO CÓDIGO CSS E HTML... --------> SE VOCê 
+
+TEM SELETORES MUITO COMPLEXOS DE CSS, 
+
+ISSO FAZ COM QUE O BROWSER DEMORE MAIS TEMPO PARA APLICAR UM ESTILO NA PÁGINA...
+
+
+
+
+-------> SE VOCÊ TEM MT CÓDIGO HTML DESNECESSÁRIO, VOCÊ ACABARÁ TENDO MAIS CÓDIGO 
+HTML QUE PRECISA SER BAIXADO INICIALMENTE, O QUE DEIXARÁ SEU STARTUP TIME MAIS LENTO....
+
+
+
+
+
+----> MAS É CLARO QUE O JAVASCRIPT ___ É UM ___ "MAJOR FACTOR" ___...
+
+
+
+
+----> JAVASCRIPT INFLUENCIA PRINCIPALMENTE O ___RUNTIME PERFORMANCE___.... mas se você 
+
+TEM QUE BAIXAR MUITO CÓDIGO JAVASCRIPT ___iNICIALMENTE__, para que as features funcionem, ISSO TAMBÉM 
+
+VAI AFETAR O STARTUP TIME DE FORMA NEGATIVA...
+
+
+
+
+
+
+---> OUTRO FATOR É ___A VELOCIDADE DO SERVIDOR EM QUE VOCÊ ESTÁ HOSTEANDO O SEU SITE__.... também 
+
+a configuração DO SERVIDOR... tudo isso pode impactar a experiência dos usuários...
+
+
+
+
+
+----> EX: SE VOCÊ TEM UM SERVIDOR QUE RESIDE NOS ESTADOS UNIDOS E SEUS USUÁRIOS SÃO DO BRASIL,
+ 
+ SIMPLESMENTE VAI DEMORAR MAIS TEMPO PARA CONSEGUIR DADOS DO SERVIDOR... (isso é uma questão 
+ 
+ de milisegundos, mas quanto maior o seu aplicativo, maior o delay para os seus usuarios... ) 
+
+
+
+
+
+
+ ----> se você alcança muitos usuários, vocÊ tem que pensar nesses aspectos de optimização 
+ da performance...
+
+
+
+
+
+ ----> PROFESSOR VAI FOCAR NA OPTIMIZAÇÃO DA PERFORMANCE ___dO JAVASCRIPT____, 
+
+
+ MAS ELE NOS APONTA QUE ESSES OUTROS FATORES TAMBÉM PODEM CONTRIBUIR PARA PÉSSIMAS USER 
+ EXPERIENCES...
+
+
+
+
+ --------------------------------------
+
+
+
+
+
+ ---> QUANDO FALAMOS SOBRE JAVASCRIPT PERFORMANCE, O QUE DIABOS 
+
+ INFLUENCIA NOSSA PERFORMANCE??
+
+
+
+
+
+
+
+ --> de novo, quando falamos sobre JAVASCRIPT EXECUTION, 
+
+ temos 2 diferentes 'áreas' da performance....
+
+
+
+ TEMOS 
+
+
+ O STARTUP TIME 
+
+
+ e  
+
+
+ a 
+
+
+
+ RUNTIME PERFORMANCE...
+
+
+
+
+ ----------------------------------
+
+
+
+
+ STARTUP TIME ---> quão rápido o script é baixado/carregado E EXECUTADO...
+
+
+
+ RUNTIME PERFORMANCE --->  AQUI, O QUE IMPORTA É O ___tRABALHO QUE O NOSSO CÓDIGO PRECISA FAZER__, 
+ E COM QUANTA RAPIDEZ E EFICIÊNCIA 
+ ELE CONSEGUE FAZER ESSE TRABALHO ('how much work does the script do?').....
+
+É IMPORTANTE TAMBÉM A VELOCIDADE DE INTERAÇÃO DESSE SEU SCRIPT COM SUA "OUTRA PÁGINA".... ---> ex:
+quando você trabalha com o DOM, por exemplo; ou seja, quando você ADICIONA E REMOVE ELEMENTOS HTML 
+por meio do javascript.... isso pode TER UM EFEITO NEGATIVO NA PERFORMANCE OVERALL DO SEU APLICATIVO... (isso 
+se você estiver fazendo isso de uma forma 'POOR'... ---> e o professor vai voltar a isso nesse 
+módulo, vai nos ensinar o que é uma maneira BOA de fazer isso.....)
+
+
+
+
+
+
+-------> É CLARO QUE NÓS TAMBÉM TEMOS A QUESTÃO DA __MEMÓRIA__... VOCÊ SEMPRE VAI 
+QUERER EVITAR MEMORY LEAKS... vocÊ não vai querer que seu aplicativo fique mais lento AO 
+LONGO DO TEMPO.... menos ainda que o BROWSER FECHE SEU APLICATIVO AUTOMATICAMENTE, por falta de memória....
+
+
+
+
+
+
+
+
+--------> É IMPORTANTE ENTENDER QUE APESAR DO PROFESSOR FALAR DO DOM E DO BROWSER, 
+o javascript não roda apenas no browser, 
+
+
+ELE TAMBÉM RODA NO SERVIDOR (servidor, serverside, node.js)  -------------> NO NODE.JS,
+
+
+O CÓDIGO DO SERVIDOR JÁ ESTÁ NO SERVIDOR, POR ISSO O 'STARTUP TIME' NÃO EXISTE... -------> 
+O CÓDIGO JÁ ESTÁ NO SERVIDOR E É EXECUTADO IMEDIATAMENTE...
+
+
+
+
+
+
+
+---> o código que está no nosso servidor é lido e executado muito rapidamente...
+
+
+
+
+
+
+-->RESUMO ---> 'STARTUP TIME' --> NÃO É IMPORTANTE NO NODE.JS
+
+
+
+
+
+------> MAS O 'RUNTIME PERFORMANCE' ---> É IMPORTANTE EM TODOS OS AMBIENTES QUE RODAM JAVASCRIPT, 
+TANTO OS SERVIDORES COMO OS BROWSERS....
+
+
+
+
+
+
+----> É EVIDENTE, NO ENTANTO, QUE CERTOS PROBLEMAS DE RUNTIME PERFORMANCE OCORREM SOMENTE NO 
+BROWSER, como 'dom interaction'... ---> MAS 
+
+HÁ OUTRAS PARTES/COISAS DO JAVASCRIPT QUE SE APLICAM TANTO AO BROWSER COMO AO SERVERSIDE JAVASCRIPT.... (certos problemas que ocorrem em ambos os ambientes.)

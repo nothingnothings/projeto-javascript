@@ -1,0 +1,49 @@
+Enfim, acabamos com esse módulo.
+
+
+
+
+
+
+
+
+Foi um módulo grande, com muitas informações sobre diferentes maneiras de criar arrays, 
+manipular arrays, acessar arrays....
+
+
+
+métodos de arrays, transformar arrays...
+
+
+
+
+
+Splice() ----> método conveniente para manipular um array....
+
+
+
+(...) ----> spread operator.
+
+
+
+
+Array DESTRUCTURING.
+
+
+
+
+
+SETS E MAPS -----> podem ser consideradas features nicho do javascript, mas que todo desenvolvedor deveria conhecer. Podem ajudar com o consumo de memória.
+
+
+
+
+
+
+
+
+ARRAY METHODS ---> COISAS MAIS IMPORTANTES. Veremos elas em muitos módulos desse curso.
+
+
+
+ARRAYS são uma data strucutre CRUCIAL.

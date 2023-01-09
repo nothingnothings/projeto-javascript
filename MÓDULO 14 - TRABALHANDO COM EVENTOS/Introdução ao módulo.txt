@@ -1,0 +1,114 @@
+
+
+
+
+
+
+
+
+COMO PARTE DESSE CURSO, NÓS JÁ TRABALHAMOS COM 'eventos' antes...
+
+
+
+
+
+
+EX: o evento 'click', que SEMPRE UTILIZAMOS EM addEventListeners... (o evento 'clique' é um evento que fazemos 'listen to' EM BOTÕES...)
+
+
+
+
+
+
+
+MAS HÁ OUTROS EVENTOS QUE PODEMOS 'listen to'...
+
+
+
+
+
+EVENTS, EM GERAL, SÃO ALGO  MUITO IMPORTANTE EM JAVASCRIPT...
+
+
+
+SÃO IMPORTANTES PARA O __JAVASCRIPT____ EM GERAL____, E NÃO SÓ 
+
+PARA O JAVASCRIPT DE BROWSERS/SITES...
+
+
+------------------------
+
+
+ENTRETANTO, NESTE MÓDULO O PROFESSOR AINDA FOCARÁ MAIS NA PARTE 
+
+'BROWSER-SIDE' do javascript....
+
+
+---------------------------
+
+
+
+Aprenderemos sobre COMO PODEMOS 'listen to' A EVENTOS...
+
+
+
+
+também aprenderemos sobre COMO PODEMOS 'listen to' eventos EM NODE.JS ....
+
+
+
+
+O professor vai nos mostrar quais eventos podemos utilizar, quais eventos podemos 
+
+'listen to'...
+
+
+
+
+Vai nos mostrar QUAIS DADOS PODEMOS CONSEGUIR POR MEIO DE EVENTOS, E COMO 
+
+PODEMOS TRABALHAR COM ESSES DADOS...
+
+
+
+Também como CONTROLAR O __COMPORTAMENTO___ DE EVENTOS...
+
+
+
+
+Nós acabaremos esse módulo revisitando  O NOSSO trabalho de 'projects', aquele 
+
+trabalho em que TROCAMOS PROJETOS entre 2 LISTAS...
+
+
+
+
+
+NÓS IMPLEMENTAREMOS 'DRAG & DROP' naquele projeto...
+-------------------------------
+
+
+
+
+
+RESUMO DESTE MÓDULO:
+
+
+
+
+
+1) A closer look at events ------> O QUE SÃO, COMO FUNCIONAM, QUE DADOS RENDEM A NÓS... também veremos COMO PODEMOS CONTROLAR O SEU COMPORTAMENTO, especificamente como podemos CONTROLAR ___AQUILO__ QUE ELES FAZEM___....
+
+
+
+
+
+2) Event propagation ----> veremos O QUE EVENTOS FAZEM, E COMO 'SE PROPAGAM'... (veremos o significado de 'Event propagation'.).
+
+
+
+
+3) Example: Drag & Drop ---> veremos um exemplo prático excelente, o 'DRAG AND DROP', que é utilizado em MUITOS APLICATIVOS.
+                        -----> o Drag & Drop é alimentado por EVENTOS QUE SÃO BUILT-IN, são do  browser (expostos pelo browser).
+
+----------------------------------

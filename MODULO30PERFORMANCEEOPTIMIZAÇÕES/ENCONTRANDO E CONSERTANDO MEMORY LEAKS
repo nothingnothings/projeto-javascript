@@ -1,0 +1,59 @@
+
+
+
+
+
+
+
+
+
+---> devemos explorar MEMORY LEAKS...
+
+
+
+
+--> para isso, temos a aba 'memory' do google chrome dev tools...
+
+
+
+
+---> professor colocou um link para a documentação do google devtools ---> essa documentação nos explica sobre essa aba...
+
+
+
+
+
+
+----> UMA DAS COISAS MAIS ÚTEIS que você pode fazer nessa aba 
+
+é clicar em 
+
+
+'take heap snapshot' 
+
+PARA TIRAR UMA FOTO 
+
+
+
+do 'heap' atual...
+
+
+
+
+Depois que você tirou essa foto, você 
+
+
+pode realizar alguma operação na sua página...
+
+ex: 
+
+DELETAR UM 'TAPETE'...
+
+
+---> depois de deletar esse tapete, 
+
+VOCÊ TIRA __OUTRA HEAP SNAPSHOT__ ---> isso te deixa então COMPARAR AS 
+
+2 snapshots, a snapshot 
+
+ANTES e a snapshot DEPOIS da operação.

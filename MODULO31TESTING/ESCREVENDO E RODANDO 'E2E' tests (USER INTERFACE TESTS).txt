@@ -1,0 +1,1573 @@
+
+
+
+
+
+--> AGORA QUE VIMOS UNIT TESTS E INTEGRATION TESTS,
+
+
+
+DEVEMOS 
+
+
+VER 
+
+E2E tests/ user interface tests....
+
+
+
+
+
+
+---> para conseguirmos executar essa espécie de testes, 
+
+
+eu preciso QUITAR MEU PROCESSO ATUAL e então o instalar....
+
+
+
+instalar o 
+
+
+'PUPPETEER' ----> é uma versão HEADLESS do chrome...
+
+
+
+
+instalamos com 
+
+
+'npm install --save-dev puppeteer'...
+
+
+
+
+
+--> É UM BROWSER QUE PODEMOS USAR PARA INTERAGIR COM O DOM E ASSIM POR DIANTE, 
+
+podemos até rodar uma versão''' COM A HEAD ''' (ou seja, com a parte visual)....
+
+
+
+---> mas a parte importante É QUE PODEMOS DEFINIR AS ETAPAS QUE DEVERÃO 
+
+SER EXECUTADAS DENTRO DAQUELE BROWSER --> isso nos possibilita AUTOMATIZAR 
+
+CERTOS PROCESSOS NA NOSSA PÁGINA E ENTÃO __tESTAR___ OS RESULTADOS ___ DESSES PROCESSOS,
+
+TAMBÉM.
+
+
+
+
+
+
+---> o download demora um pouco ---> pq ele demora todo o CODE BASE do chrome ---> ele 
+precisa de todo codebase do chrome para poder simular suas funções....
+
+
+
+
+
+
+----> PARA USAR O PUPPETEER, 
+
+o professor 
+
+
+vai até 
+
+
+
+o 'util.test.js' 
+
+
+E ENTÃO IMPORTA O PUPPETEER (sempre devemos fazer isso)
+
+
+
+
+O código 
+
+
+é 
+
+
+
+'const puppeteer = require('puppeteer');
+
+
+
+
+
+
+
+
+
+----------------------------
+
+
+CERTO.
+
+
+Feito esse import, agora já 
+
+podemos escrever os nossos testes...
+
+
+
+
+
+---> professor começa com 
+
+
+
+'test()'....
+
+
+
+---------------------
+
+
+
+
+ELE COLOCA COMO PRIMEIRO PARÂMETRO A STRING 
+
+
+'should click around' ---> é isso que esse teste deverá fazer/o processo que ele deverá realizar....
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+test('should click around', );
+
+
+
+-------------------------------
+
+
+
+
+PROFESSOR PASSA O MESMO NEGÓCIO DE ANTES, O SEGUNDO PARÂMETRO FUNÇÃO ANÔNIMA...
+
+
+
+ex:
+
+
+
+
+test('should click around', () => {
+
+} );
+
+
+
+-------------------------------
+
+
+
+DENTRO DESSA FUNÇÃO, O PROFESSOR VAI QUERER USAR O PUPPETEER.... --> ok, 
+
+
+mas como podemos usá-lo?
+
+
+
+
+----> primeiramente DEVEMOS DEFINIR __UM BROWSER__..
+
+
+
+(ex: 'const browser = xxx')....
+
+
+---> para definir esse browser, devemos armazenar um valor de 
+
+'puppeteer.launch()'   ----> isso vai CRIAR um browser do puppeteer...
+
+
+
+
+
+ex:
+
+
+
+test('should click around', () => {
+    const browser = puppeteer.launch();
+} );
+
+
+
+
+--------------------------------------
+
+
+Certo...
+
+
+isso vai lançar um BROWSER com algumas opções que o professor poderá 
+
+definir...  ESSAS OPÇÕES DEVEM SER DEFINIDAS DENTRO DO OBJETO ({}) que fica 
+
+dentro do PARÂMETRO DE 'launch'....
+
+
+
+POR EXEMPLO:
+
+
+'headless: true/false' ---->  se você coloca 'true', você rodará o browser SEM A INTERFACE...
+----> se você coloca 'false', o browser rodará COM A SUA INTERFACE...
+
+
+
+
+ex:
+
+
+
+
+
+
+test('should click around', () => {
+    const browser = puppeteer.launch(
+        {
+            headless: false
+        }
+    );
+} );
+
+
+
+
+
+EX:
+
+
+
+test('should click around', () => {
+    const browser = puppeteer.launch(
+        {
+            headless: false
+        }
+    );
+   
+} );
+
+
+-----------------------------------
+
+
+
+
+----> Você pode ver todas as coisas nos docs do puppeteer... ---> 
+
+
+O professor vai colocar 
+
+'slowMo: xxx' 
+
+aqui...
+
+
+Isso vai basicamente deixar TODAS AS OPERAÇÕES AUTOMATIZADAS 
+
+mais __lentas___ ---> isso nos dá uma chance de 
+
+ver o QUE REALMENTE ESTÁ ACONTECENDO...
+
+
+
+--> o 'slowMo' sempre exige um NÚMERO...
+
+
+Professor define um valor de '80'....
+
+
+
+----> professor também define um 
+
+'args' aqui, que é uma propriedade com 
+
+UM VALOR 
+
+DE ARRAY...
+
+
+dentro desse array o professor pode definir coisas como 
+
+
+'--window-size'... ----------------> ISSO VAI LANÇAR O BROWSER EM UM TAMANHO DE JANELA, essencialmente...
+
+
+
+
+
+ex:
+
+
+
+
+test('should click around', () => {
+    const browser = puppeteer.launch(
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size']
+        }
+    );
+   
+} );
+
+
+
+
+----------------------------------
+
+
+
+
+'args' ----> FAZ O BROWSER RODAR COM ESSES ARGUMENTOS APLICADOS....
+
+
+
+----> '--window-size' ----> PERMITE QUE O PROFESSOR DEFINIA UMA 
+
+
+'width' e uma 'height'....
+
+Ele pode definir isso como '1920,1080', por exemplo... ---> isso é ÓTIMO PARA 
+
+TESTAR SE CERTAS 'RESPONSIVE FEATURES' estão funcionando da maneira 
+
+que você quer....
+
+
+ex:
+
+
+
+
+
+
+test('should click around', () => {
+    const browser = puppeteer.launch(
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   
+} );
+
+
+
+------------------------------------
+
+
+
+Isso vai criar um browser....
+
+
+
+
+NA VERDADE, 
+
+
+'.launch()' 
+
+
+VAI RETORNAR ___UMA PROMISE__...
+
+
+
+Como esse negócio vai retornar uma PROMISe, 
+
+nós podemos usra 
+
+
+'async/await' NESSA FUNÇÃO ANÔNIMA... (ou '.then()' blocks...)
+
+
+
+ex:
+
+
+
+
+
+
+
+
+test('should click around', async () => { ////////EIS O CÓDIGO EM QUESTÃO.
+    const browser = puppeteer.launch(
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   
+} );
+
+
+
+
+---------------------------------
+
+
+
+FEITO ISSO, 
+
+
+PODEMOS/DEVEMOS 
+
+colocar 
+
+
+
+'await' do lado do 'puppeteer.launch()', pois vamos querer 
+
+____ESPERAR___ pelo seu launch....
+
+
+
+ex:
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( ///////EIS O CÓDIGO EM QUESTÃO.
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   
+} );
+
+
+-----------------------------------------
+
+
+
+A ALTERNATIVA SERIA USAR '.then()' e '.catch()' blocks, 
+
+
+mas async/await é a mesma coisa...
+
+
+---------------------------
+
+
+Certo...
+
+
+então aqui eu estou 
+
+
+'AWAITING' o 'puppeteer.launch()' 
+
+
+E ENTÃO ARMAZENANDO O RESULTADO NA 
+
+CONSTANTE/objeto 
+
+
+'browser'...
+
+
+
+
+--> COMO PRÓXIMO PASSO, o professor explica que ele pode/deve criar um objeto/constante
+
+'page'
+
+
+
+---> ex: 'const page = xxx'...
+
+
+
+-----> no VALOR dessa constante, o professor coloca um AWAIT de 
+
+
+'browser.newPage()' ---> ou seja, o objeto 'browser' (que é 'puppeteer.launch()') TEM UM MÉTODO 
+
+QUE CRIA UMA NOVA PÁGINA...
+
+
+Ex:
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( ///////EIS O CÓDIGO EM QUESTÃO.
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+} );
+
+
+
+
+-------------------------------
+
+
+CERTO... MAS ISSO ___SÓ VAI CRIAR UMA NOVA ABA____/start do browser....
+
+
+AINDA PRECISAMOS DIZER AO BROWSER __QUAL PÁGINA ELE DEVERÁ CARREGAR....
+
+
+
+
+para isso, 
+
+ele vai usar 
+
+o método 
+
+
+'goto()'...
+
+
+O professor coloca A NOSSA URL/URL DELE ALI..., dentro do parâmetro de 'goto()'....
+
+
+
+ELE TAMBÉM COLOCA 
+
+'await' nesse 'goTo' ----> ISSO É IMPORTANTE: TODAS ESSAS COISAS QUE USAM/ESTÃO RELACIONADAS 
+COM AÇÕES A SEREM REALIZADAS NO BROWSER 
+
+___SÃO PROMISE-BASED____, O QUE SIGNIFICA QUE PRECISAM 
+
+DE 'await' PARA FUNCIONAREM... ---> isso
+
+
+SIGNIFICA QUE 
+
+ELAS DEMORAM TEMPO PARA SEREM EXECUTADAS/REALIZADAS... ---> você deve SEMPRE AGUARDAR ('AWAIT') cada ETAPA...
+
+
+
+
+ex:
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+} );
+
+
+
+
+------------------------------------
+
+
+
+ISSO DEVE ABRIR UMA NOVA PÁGINA E ENTÃO CARREGAR NOSSA PÁGINA...
+
+
+
+
+--> ABRE UMA PÁGINA NO 'CHROMIUM' ---> é basicamente o chrome, 
+
+a funcionalidade core do chrome... ---> 'this is controlled by test software'...
+
+
+
+
+VOLTAMOS AO NOSSO CÓDIGO, QUEREMOS ADICIONAR ALGUMA LÓGICA AO NOSSO TESTING...
+
+
+
+--> não queremos apenas abrir nossa página...
+
+também queremos 
+
+INPUTTAR ALGO nos input fields...
+
+
+
+
+
+
+O professor vai querer inserir algo 
+
+no 
+
+field 
+
+de 'document.querySelector('input#name');'
+
+e no 
+
+
+de 'age', também...
+
+
+É por isso que 
+
+
+ele vai colocar 
+
+um novo 
+
+'await', em uma nova ETAPA....
+
+
+
+ex:
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await  //EIS O CÓDIGO EM QUESTÃO.
+}
+
+ );
+
+
+
+
+--------------------------------
+
+
+
+
+será 
+
+uma step em que 
+
+o professor 
+
+vai fazer AWAIT da página que ele navegou, da página do app dele...
+
+
+
+nesse objeto 'page', o professor vai querer chamar o método 
+
+'CLICK()'....
+
+
+
+esse método CLICK() aceita um parâmetro...
+
+
+o parâmetro é A COISA EM QUE VAMOS QUERER CLICAR/QUE O SOFTWARE DE TESTE 
+CLIQUE..
+
+
+o professor 
+
+
+vai colocar 
+
+
+'input#name', que é 
+
+
+o __SELECTOR___ DO ITEM EM QUE ESSE 'click' deverá acontecer.... (esse é o parâmetro do click, 
+
+o SELECTOR do item em que vamos querer que ocorra o click...)
+
+
+ex:
+
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+});
+
+
+
+ ------------------------------------------------------
+
+
+ DEPOIS QUE O PROFESSOR CLICOU ALI, 
+
+ É ÓBVIO QUE ELE VAI QUERER __dIGITAr__...
+
+
+
+ E é por isso que ele vai querer chamar 
+
+ o método 'type()' que reside 
+
+ nessa 'page'...  ---------->>>> OBS: VOCÊ ENCONTRA TODOS OS COMANDOS NOS DOCS DO PUPPETEER....
+
+
+
+
+'await page.type();'
+
+
+
+
+------------------------------------
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type();  
+});
+
+
+
+---------------------------------
+
+
+
+Com esses comandos, você pode realmente mandar no headless browser, fazer ele realizar 
+
+
+testes específicos...
+
+----------------------------
+
+
+Certo.... e o professor vai querer DIGITAR, digitar NESSE MESMO 
+
+INPUT de 'input#name'... ------> ELE EXPLICA QUE 
+
+____O HEADLESS BROWSER ___ NA VERDADE NÃO PRECISARIA CLICAR 
+
+NESSE NEGÓCIO, mas que o professor quer digitar esse código/forçar o 
+headless browser A CLICAR NESSE INPUT field __PARA SIMULAR___ AS AÇÕES 
+
+DE UM USUÁRIO NA NOSSA PÁGINA... ------> 
+
+
+
+1o PARÂMETRO É O LOCAL EM QUE SERÁ DIGITADA A MENSAGEM/NÚMERO/WHATEVER...
+
+
+
+2o parâmetro é a mensagem/número/whatever...
+
+ex:
+
+
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', '');  
+});
+
+
+
+
+
+
+------------------------------
+
+
+
+Certo... o segundo parâmetro SERÁ A COISA QUE VOCÊ DESEJA QUE O PUPPETEER
+insira naquele campo....
+
+
+
+Professor coloca 'Anna'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+
+});
+
+
+
+
+---------------------------------
+
+
+
+
+Depois disso, o professor REPETIRÁ ESSAS ETAPAS,
+ 
+ mas dessa vez com o input field de 'age'...
+
+
+
+ ex:
+
+
+
+
+ 
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+
+});
+
+
+
+--------------------------------
+
+
+SALVAMOS ISSO E RECARREGAMOS...
+
+
+AGORA PODEMOS OBSERVAR QUE UMA NOVA JANELA É ABERTA, UMA 
+
+
+NOVA JANELA EM QUE ESSAS INFORMAÇÕES SÃO INPUTTADAS 
+
+AUTOMATICAMENTE, pela máquina (e em slowMo...)
+
+
+
+
+
+COM ISSO, AGORA PODEMOS 
+
+
+ESCREVER UMA NOVA ETAPA...
+
+
+
+Nessa nova etapa, vamos fazer um 'click' no botão 
+
+
+
+de '#btnAddUser'... (seletor do botão...)
+
+
+
+ex:
+
+
+
+ 
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( ////////////////EIS O CÓDIGO EM QUESTÃO.
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+   await page.click('#btnAddUser');
+
+});
+
+
+
+-------------------------------------
+
+
+
+Professor explica que agora temos um FULL FLOW SETUP... --> 
+
+
+mas agora, surgiu um problema: às vezes o jest buga, ele não 
+
+executa todos os passos que pedimos ---> bem estranho...
+
+
+
+
+professor também explica que NOSSO BOTÃO NÃO ESTÁ SENDO CLICADO NO FINAL (mas ele está... coisa bizarra).
+
+
+
+
+----> nosso botão está sendo clicado, explica o professor, MAS NENHUM ITEM ESTÁ SENDO 
+
+ADICIONADO À PÁGINA... ---------> professor diz que 
+
+
+'escrever esse texto', no final das contas, NÃO 
+
+
+FOI A PIOR DAS IDEIAS... ----> pq parece 
+
+QUE ALGO 
+
+
+FOI QUEBRADO/ESTÁ QUEBRADO...
+
+
+
+
+
+---> PROFESSOR ABRE O 'DEVTOOLS' DO CHROME...
+
+----> professor aponta que, DE FATO, algo estava 
+
+missing/quebrado no nosso código....
+
+
+era a função 'validateInput()'... ---> ELA NÃO ESTAVA SENDO 
+
+ENCONTRADA...
+
+
+
+
+----> código de 'validateInput()' em 'util.js'...:
+
+
+
+
+const validateInput = (text, notEmpty, isNumber) => {
+    //Validate user input with two pre-defined rules 
+    if (!text) {
+        return false;
+    }
+    if (notEmpty && text.trim().length === 0) {
+        return false;
+    } 
+    if (isNumber && +text === NaN) {
+        return false;
+    }
+    return true;
+};
+
+
+
+
+
+
+-----> código de validateInput em 'util.js'
+
+
+
+ex:
+
+
+
+
+
+exports.checkAndGenerate = (name, age) => {
+    if (
+        !validateInput(name, true, false) ||
+        !validateInput(age, false, true)
+    ) {
+        return false;
+    }
+    return generateText(name, age); 
+};
+
+
+--------------------------------
+
+
+
+O PROBLEMA, AQUI, É QUE NÓS 
+
+
+___NUNCA RECOMPILAMOS O NOSSO CÓDIGO____... 
+
+(nós não havíamos recompilado nosso código)... --> 
+
+o recompile do nosso código É ALGO FEITO POR WEBPACK,
+
+NÃO É DE RESPONSABILIDADE 
+
+
+DE 
+'jest'... --->  PQ O CÓDIGO QUE 
+
+É USADO NO BROWSER É 'PACKED WITH WEBPACK'...
+
+
+
+
+professor recompila o código com 'webpack'... (npm 'start')...
+
+
+
+
+
+SE REEXECUTARMOS O CÓDIGO,
+
+
+o jest vai executar o mesmo teste de antes, de novo.
+
+
+
+------------------------------
+
+
+
+Certo... é assim que usamos o jest NO MODO 'GRAPHICAL USER INTERFACE' (GUI).
+
+
+
+------------------------------
+
+
+
+É evidente que podemos 
+
+AUTOMATIZAR ESSE PROCESSO AINDA MAIS....
+
+
+podemos fazer isso se decidirmos CHECAR OS RESULTADOS 
+
+
+DESSES INPUTS/CLICKS EM BOTÃO ___PROGRAMATICAMENTE__... ---> se 
+
+
+codarmos os 'expects' nós 
+
+
+
+VAMOS CONSEGUIR VER SE OBTEMOS OS 'EXPECTED OUTCOMES'...
+
+
+O que o professor/nós podeoms 
+
+
+fazer é colocar OUTRA ETAPA (outro 'await' em page).....
+
+
+Nessa etapa, podemos CHECAR PELA 
+
+
+EXISTÊNCIA de um 
+
+'LIST ITEM' 
+
+(o list item criado 
+
+pelo código de 
+
+'const element = createElement('li', outputText, 'user-item');              /////OBS: esse é aquele método ESPECÍFICO que o professor criou.... (ou seja, não é 'document.createElement()'...)
+userList.appendChild(element);'
+
+
+)
+
+
+
+----> POSSO CHECAR PELA EXISTÊNCIA DE UM 'LIST ITEM' COM a classe 
+
+'user-item' ADICIONADA A ELE...
+
+
+
+
+
+---> é por isso que no test de 'jest', o 'util.test.js', 
+
+
+
+O PROFESSOR PODE DIGITAR 
+
+
+'await page....'
+
+
+
+
+'page.$eval' ---------------->
+
+
+
+.$eval ----> você usa isso PARA GANHAR ACESSO A UM ELEMENTO....
+
+
+
+Nesse caso, o professor vai querer o acesso ao PRIMEIRO 
+
+
+ELEMENTO 
+
+'.user-item' (elemento com essa classe, classe de 'user-item') QUE 
+
+FOR ENCONTRADO NO CÓDIGO...
+
+
+
+
+EX:
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( 
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+   await page.click('#btnAddUser');
+   await page.$eval('.user-item', ); ///EIS O CÓDIGO EM QUESTÃO.
+});
+
+
+---------------------------------------------------------
+
+
+
+
+
+Certo.... mas o '.$eval' SEMPRE 
+
+EXIGE UM SEGUNDO PARÂMETRO, UM SEGUNDO PARÂMETRO 
+
+QUE É ___A COISA/PROCESSO___ QUE VOU QUERER 
+
+
+FAZER COM ESSE ITEM QUE FOI SELECIONADO/ACESSADO COM 
+
+'.$eval'...
+
+
+
+
+é evidente que o professor VAI INSERIR UMA FUNÇÃO ANÔNIMA NESSE SLOT...
+
+
+
+Nessa função anônima, o professor 
+
+
+vai esperar/exigir um 
+
+'element' (el) como 
+
+INPUT....
+
+
+
+
+E AÍ ELE VAI QUERER RETORNAR, POR EXEMPLO, 
+
+
+o 'textContent' 
+
+desse elemento...
+
+
+
+ex:
+
+
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( 
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+   await page.click('#btnAddUser');
+   await page.$eval('.user-item', 
+   
+   
+   el => el.textContent ); ///EIS O CÓDIGO EM QUESTÃO.
+});
+
+
+
+
+--------------------------------
+
+
+
+
+ISSO BASICAMENTE SIGNIFICA, AGORA, QUE 
+
+O RESULTADO DA FUNÇÃO/PROMISE DE 
+
+   'await page.$eval('.user-item', el => el.textContent );'
+
+
+INTEIRA SERÁ BASICAMENTE 
+
+o return do valor dessa função 
+
+'el => el.textContent'....
+
+
+
+
+como isso aí é uma PROMISE (mesmo tendo um resultado 
+de 'el => el.textContent'),
+
+
+O PROFESSOR A ARMAZENA 
+
+
+EM UMA CONSTANTE.... 
+
+ele nomeia 
+
+
+essa constante como 
+
+'finalText'...
+
+
+ex:
+
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( 
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+   await page.click('#btnAddUser');
+   const finalText = await page.$eval('.user-item', el => el.textContent ); ///EIS O CÓDIGO EM QUESTÃO.
+});
+
+
+-------------------------------------------
+
+
+
+Ele coloca 'finalText' PQ ESSE TEXTO DAQUI será basicamente 
+
+O TEXTO FINAL, O TEXTO QUE EU OBTENHO DESSE 
+
+ELEMENTO '<li>' QUE FOI RECÉM CRIADO...
+
+
+
+
+
+munido dessa constante de nome 'finalText', 
+
+
+finalmente posso escrever um 
+
+
+'expect()' 
+
+QUE UTILIZA ESSA CONSTANTE...
+
+vou esperar (expect) 
+
+
+QUE ESSE 
+
+
+FINALTEXT 
+
+seja... ('toBe()')
+
+
+
+'Anna (28 years old)' ---------------> DE NOVO, ESTAREMOS CHECANDO 
+POR ESSE TEXTO ESPECÍFICO, MAS DESSA 
+
+VEZ ESTAREMOS/O PUPPETEER ESTARÁ ____USANDO 
+
+O FULL FLOW __ do/no browser...
+
+
+
+
+ex:
+
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( 
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+   await page.click('#btnAddUser');
+   const finalText = await page.$eval('.user-item', el => el.textContent ); 
+   expect(finalText).toBe('Anna (28 years old)'); ////////EIS O CÓDIGO EM QUESTÃO...
+});
+
+
+
+--------------------------------------
+
+
+ISSO NÃO É UM SIMPLES 'UNIT/INTEGRATION TEST'..., como os testes 
+que 
+
+temos acima; não, aqui se trata de UM E2E TEST, um USER INTERFACE TEST...
+
+
+
+
+É UM E2E TEST pq ele vai POR TODAS AS ETAPAS QUE NÓS FARÍAMOS MANUALMENTE, 
+
+
+com nossas próprias mãos...
+
+
+
+---> poderíamos CHECAR QUALQUER COISA 
+
+NESSE elemento 'el'...
+
+
+poderíamos CHECAR PELA 
+
+EXISTÊNCIA DA CLASSE '.user-item'
+
+em seu interior...
+
+-------------------------------------------
+
+
+--> obs: o jest 'FALHA' quando dá 'time-out' --> esse é um limite 
+
+definido pelo jest, para  assegurar que os tests não demorem mt tempo... -------> 
+
+PARA DAR BYPASS 
+
+NISSO, VOCÊ PODE USAR 
+
+
+________o TERCEIRO ARGUMENTO___ DA FUNÇÃO 
+
+
+'test()', que 
+
+
+DIZ QUANTOS MS ESSE TESTE PODERÁ DURAR, NO MÁXIMO (dando bypass no 
+
+SOFT LIMIT de 5000ms do jest...)
+
+
+Professor define como 10.000, para fim de exemplo.
+
+
+
+ex:
+
+
+
+
+
+
+test('should click around', async () => { 
+    const browser = await puppeteer.launch( 
+        {
+            headless: false,
+            slowMo: 80,
+            args: ['--window-size=1920, 1080']
+        }
+    )
+   const page = await browser.newPage();
+   await page.goto( 
+       'file:///C:/projeto/MODULO31TESTING/projeto31/index.html'
+   )
+   await page.click('input#name');
+   await page.type('input#name', 'Anna');  
+   await page.click('input#age');
+   await page.type('input#age', '28');  
+   await page.click('#btnAddUser');
+   const finalText = await page.$eval('.user-item', el => el.textContent ); 
+   expect(finalText).toBe('Anna (28 years old)'); 
+}, 10000);       /////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+---------------------------------------
+
+
+
+
+SE TIRARMOS OS ARGUMENTOS 
+
+DE 'headless' (headless: true) 
+
+
+, o 'slowMo' 
+
+e os 
+
+
+'args', NOSSO TEST FUNCIONARÁ BEM MAIS RÁPIDO, É CLARO... ---> essa é uma das vantagens do headless browser, a vantagem que você não PRECISA VER OBRIGATORIAMENTE AS ETAPAS (mas vocÊ pode, se quiser, você pode realizar seus testes tanto com interface como sem interface.)
+
+
+---

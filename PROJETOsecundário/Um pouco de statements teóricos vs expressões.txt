@@ -1,0 +1,85 @@
+Agora é hora de um pouco de teoria "por trás das cenas", sobre código javascript e sobre como as coisas são chamadas lá.
+
+
+
+
+
+
+
+STATEMENTS NÃO SÃO A MESMA COISA QUE EXPRESSIONS.
+
+
+
+
+
+statement        vs           EXPRESSION.
+
+
+
+
+
+
+ex: 
+
+mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+
+
+É UMA EXPRESSÃO. 
+
+
+Basicamente, em javascript uma expressão é  UMA COISA QUE ____RESULTA EM UM VALOR,______ QUE VOCÊ PODE ARMAZENAR EM ALGUMA CONSTANTE, VARIÁVEL, RETORNAR EM ALGUMA FUNÇÃO, ETC.
+
+
+
+***TODA EXPRESSÃO TAMBÉM É UM STATEMENT.
+
+ex:
+
+ 
+const maxDamage = mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+
+
+É UM STATEMENT, e uma expressão.
+
+
+
+
+porém, um IF statement puro é APENAS UM STATEMENT, E NÃO UMA EXPRESSÃO.
+Isso é porque VOCÊ NÃO PODE USÁ-LOS EM LUGARES QUE VOCÊ SÓ USARIA UM SIMPLES VALOR,
+como aprendemos com os casos anteriores. Você não pode fazer isso.
+
+
+
+Em vez disso, IF statements SÓ PODEM SER USADOS em casos como este:
+
+
+if (currentMonsterHealth <= 0 && currentPlayerHealth > 0)
+
+
+......
+
+
+
+você NÃO pode usar um if statement no LADO DIREITO do sinal de igual por exemplo, 
+você não pode inicializar uma constante/variável apenas por meio dele.
+
+
+Isso é um exemplo de statement que NÃO É UMA EXPRESSÃO.
+
+Você poderia decorar que 
+Uma expressão, em outras palavras, é algo que funciona se você colocar do lado direito 
+do sinal de igual, enquanto que um statement é algo que NÃO FUNCIONA se vocÊ tentar isso.
+
+
+Professor diz que essa distinção não é TÃÃÃO importante, mas que é legal você saber 
+o que ele está falando quando diz "expression" ou statement.
+
+
+
+A MAIOR PARTE DAS COISAS EM JAVASCRIPT SÃO EXPRESSÕES.
+
+Mas if statements são sempre statements.
+
+
+
+Veremos outros statements quando dermos uma olhada em loops, que TAMBÉM SÃO STATEMENTS.

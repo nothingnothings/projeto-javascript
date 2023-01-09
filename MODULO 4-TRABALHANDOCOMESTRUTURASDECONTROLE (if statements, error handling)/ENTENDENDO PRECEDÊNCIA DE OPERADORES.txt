@@ -1,0 +1,191 @@
+Até agora, vimos um monte de operadores diferentes que precisamos em diferentes situações no nosso cóigo.
+
+
+
+Operadores aritméticos para operações com números ou, no caso de operadores como 
++, com STRINGS, e também o assignment operator (=) e as shorthands para INCREMENTAR (++)
+e DECREMENTAR (--), e, por fim, as shorthands de += e -=, que reutilizam 
+variável do lado esquerdo no lado direito, acrescidos de um novo valor 
+(perform calculation and reassign result to variable).
+
++ = usado com concatenação.
+
+Essas foram as coisas que vimos. Em adição a elas, vimos também os 
+BOOLEAN OPERATORS.
+
+
+
+== equality operator, checa por equalidade a==b
+
+!== inequality operator, checa por inequalidade a!==b
+
+
+
+=== super equality operator, checa por equalidade de TIPOS E VALORES  a === b
+(preferir sobre ==)
+
+
+!== super inequality operator, checa por inequalidade de TIPOS E VALORES a!==b 
+
+
+> & <  checam por valores serem maiores/menores     a>b   a<b 
+
+
+>= e <=checam por valores serem maiores ou iguais /menores ou iguais  a>=b a<=b
+
+
+
+!   -----> checa se NÃO É VERDADEIRA a expressão      ex:   !a
+
+
+
+Porém, ainda temos outros operadores, o AND (&&) e o OR (||).
+
+Esses também são operadores.
+
+
+Como você deve ter percebido, NEM TODOS OS OOPERADORES PRODUZEM O MESMO RESULTADO. Alguns 
+operadores produzem BOOLEAN VALUES (true ou false), outros operadores produzem NÚMEROS OU STRINGS.
+
+
+Há mais coisas a se ver, mas algo que já é importante de entender é o conceito de 
+OPERATOR PRECEDENCE.
+
+
+Anexada a essa aula, vocÊ verá um link do MDN que fala sobre operator precedence. É um termo fancy para 
+descrever a forma como operadores funcionam, qual é a ordem em que eles são executados, que eles respeitam.
+
+
+A boa notícia é que com os operadores matemáticos, as regras normais de matemática (algebra) se aplicam.
+
+
+ex:
+
+
+3 + 2 * 5  --------->  O 2x5 é avaliado antes, e depois é somado 3 + 10.
+
+R= 13
+
+
+Você pode sobreescrever isso, bem como você faz em matemática, com parênteses.
+
+
+(3 + 2) * 5 = 25.
+
+Assim, alteramos a maneira como isso é analisado pelo javascript.
+
+
+Isso tudo está embutido no javascript, e funciona como esperamos.
+
+
+ENTRETANTO, com o AND e o OR, a questão é: qual operador toma preferência quando 
+conflitados?
+
+
+Esse artigo do MDN tem uma tabela que enumera a precedência de operadores.
+
+
+
+O operador que tem a maior preferência é o PARÊNTESES (o que é meio óbvio).
+Com o parênteses, você pode sobreescrever as regras normais de comportamento 
+do javascript, como fizemos ali com a álgebra. 
+
+
+parênteses --> tipo de operador = "grouping".
+
+
+Nessa tabela há muitos operadores que NÃO VIMOS AINDA.
+
+
+Veremos todos os importantes nas aulas seguintes
+
+
+Vemos ali o typeof, multiplication, exponentiation, division, addition, subtraction, decrement... etc, etc.
+
+
+
+Se scrollarmos para baixo, vemos que os boolean operators tem uma precedência MENOR do que os operadores algébricos (que criam valores e strings).
+
+
+O impacto disso no código é o de que, se você checar, por exemplo, se
+
+3 + 2 < 9 - 2    ,
+
+
+você receberá TRUE, porque o javascript primeiro faz os cálculos, primeiro
+lida com os operadores algébricos/que criam valores e strings, e só depois
+pensa nos boolean operators (> e < são boolean operators, a propósito).
+
+Isso tudo é + ou - senso comum. Javascript segue o senso comum.
+
+
+Mas é claro, há casos mais cabeludos.
+
+Digamos que você tem:
+
+
+
+5 == 5 && 3 < 6 || 10 > 20
+
+
+
+
+Em que ordem seria isso executado?
+
+Javascript checa == primeiro? ou &&? ou ||? ou >?
+
+
+É claro que isso importa, porque se mudarmos um pouco os números...
+
+
+5 == 5 && 3 > 6 || 10 > 5
+
+
+e agora?
+
+
+5 é igual a 5, claro, mas não é igual a 5 + 3 (E), que seria igual a 6, é claro (8 >6), 
+mas e o OR no final... confusão total.
+
+O professor diz: 
+
+
+
+5 == 5 && 3 > 6 
+
+
+Se lêssemos apenas esse trecho da expressão, receberíamos 
+um boolean de FALSE, porque 5 é igual a 5, sim, mas 3 não é menor que 6, 
+e utilizamos aqui um boolean operator de &&, que significa E, ou seja, a expressão 
+só seria tida como verdadeira aqui caso a primeira parte e a segunda fossem verdadeiras.
+Como 3 > 6 é falso, ele contamina o resto, e por isso o resultado sai FALSO.
+Porém, nessa fórmula total  5 == 5 && 3 > 6 || 10 > 5 que o professor colocou, 
+o resultado retornado é true. O fato do negócio ser retornado true já nos indica que 
+5 == 5 && 3 > 6 é avaliado ANTES, e depois é avaliado o 10 > 5.  Você deve fazer a lógica:
+
+
+5 == 5 && 3 > 6  -------------> Óbviamente falso, porque a segunda expressão é falsa.
+
+
+10 > 5  -------------- verdadeiro.
+
+
+
+como as duas expressões são unidas por meio do boolean operator || (OR), 
+
+    "falso"                  "verdadeiro"
+5 == 5 && 3 > 6     ||      10 > 5
+
+
+a expressão inteira é contaminada com o OR que está ali, que é lido por último.
+Como o OR cria condições alternativas (casos onde se apenas 1 for verdadeira, o conjunto todo é verdadeiro),
+o conjunto todo é lido como VERDADEIRO (true)/ retorna TRUE.
+
+O que o professor quer dizer aqui é que && (AND) tem uma maior precedência do que || (OR), 
+ele é executado ANTES do que OR.
+
+
+A lista é boa, mas na maior parte dos casos as coisas acontecerão como você espera que vão acontecer.
+
+
+

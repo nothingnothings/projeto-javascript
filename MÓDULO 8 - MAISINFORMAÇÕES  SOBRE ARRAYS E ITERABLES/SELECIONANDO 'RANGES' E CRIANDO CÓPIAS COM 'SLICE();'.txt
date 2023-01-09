@@ -1,0 +1,253 @@
+Entramos no mundo de métodos especiais dos arrays com SPLICE();.
+
+
+
+
+Bem, há muitos e muitos métodos que podemos utilizar com arrays.
+
+
+
+
+
+O professor adiciona um array novo em folha no nosso código. Ele coloca 
+um monte de números lá dentro, integers e floating points (decimais).
+
+
+
+ex:
+
+         
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+
+
+
+-----------------------------------
+
+
+Lembre-se: nós vimos splice, que é um método bem versátil que nos ajuda 
+a adicionar/remover/inserir elementos em um array (até mesmo é capaz de fazer swapping, 
+de elementos, se você o utilizar corretamente). 
+
+
+
+OUTRO MÉTODO QUE VOCÊ PODE USAR, QUE TEM UM NOME PARECIDO ("slice()"), MAS QUE FAZ 
+ALGO TOTALMENTE DIFERENTE, É 
+O 
+
+SLICE();.
+
+
+ex:
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+console.log(testResults.slice());
+
+
+--------------------------------------
+
+
+Professor faz o reload da página, e aponta que nós podemos perceber que a página 
+continua basicamente igual.
+
+
+
+A COISA INTERESSANTE QUE SLICE() FAZ É ____RETORNAR____UM___ARRAY___NOVINHO___EM FOLHA.
+
+
+Ou seja, slice() é uma maneira muito boa de COPIAR um array.
+
+
+
+VOcê se lembra? Arrays são basicamente objetos e, portanto, reference values. Por isso, 
+se você comparar um array x a outro array idêntico ao array x, o javascript vai nos retornar falsE (se não for exatamente o mesmo objeto).
+
+
+outro ex:
+
+
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+
+const storedResults = testResults;
+
+
+console.log(storedResults, testResults);  // ---> SE FIZERMOS ISSO, PERCEBEREMOS QUE OS 2 ARRAYS NA VERDADE SÃO APENAS UM SÓ, TODOS VALORES REFERENCIAIS AQUI APONTAM PARA O MESMO OBJETO ARRAY.
+
+
+-----------------------------------------
+
+
+
+Outro ex:
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+
+const storedResults = testResults;
+
+
+storedResults.push(5.91);
+
+console.log(testResults); //-----> O CONSOLE VAI NOS RETORNAR (7) [1, 5.3, 1.5, 10.99, -5, 10, 5.91];. VAI NOS RETORNAR ISSO PORQUE AS 2 VARIÁVEIS/CONSTANTES SEGURAM O MESMO VALOR REFERENCIAL, QUE APONTA PARA O MESMO OBJETO, AQUELE ARRAY DE 6 ITEMS. AO EMPURRAR UM ELEMENTO PARA DENTRO DO SUPOSTO ARRAY DE "storedResults", o array de testResults(que é o mesmo do outro) É AFETADO (pois, novamente, segura o mesmo array/o mesmo endereço referencial do array daquela outra constante/variável).
+
+------------------------------------
+
+
+
+
+Arrays são valores referenciais, o que armazenamos em "testResults" é apenas um endereço,
+se nós mudarmos aquele array, ele vai afetar as 2 constantes, pois as 2 ainda apontam 
+para o mesmo array. 
+
+
+
+
+
+
+----------------------------------------
+
+
+É POR ISSO QUE "SLICE();" pode nos ajudar:
+
+
+ELE NOS AJUDA PORQUE ELE ____RETORNA____ UM ARRAY____ NOVINHO ____ EM FOLHA, baseado 
+naquele array antigo.
+
+
+ex:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+const storedResults = testResults.slice();  //--> "testResults.slice()" vai criar uma CÓPIA EXATA de [1, 5.3, 1.5, 10.99, -5, 10], mas que É TOTALMENTE INDEPENDENTE DAQUELE ARRAY ANTIGO (isso não ocorre quando tentamos armazenar um array multiplas vezes, em varias constantes/variáveis; por isso a utilidade de slice();, ele nos permite fazer copias dos arrays sem vinculá-los a variáveis/constantes antigas.)
+
+
+------------> .slice(); vai nos retornar um array igual ao array de testResults, MAS INDEPENDENTE, DESVINCULADO DAQUELE (com um endereço/valor referencial distinto do endereço de testResults).
+                Isso é bem útil. 
+
+
+
+
+----------------------
+
+outro ex, com push:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+const storedResults = testResults.slice();
+
+
+
+
+testResults.push(5.91);
+
+    
+                                                                                        (storedResults)                     (testResults, que teve o número 5.91 empurrado para seu interior).
+console.log(storedResults, testResults); //-----------> CONSOLE.LOG VAI NOS MOSTRAR: "[1, 5.3, 1.5, 10.99, -5, 10]" e [1, 5.3, 1.5, 10.99, -5, 10, 5.91]  
+
+                                -------> COMO VOCÊ PODE VER, AGORA OS 2 ARRAYS ESTÃO DESVINCULADOS; ALTERAÇÕES FEITAS EM "TESTRESULTS" NÃO SE REFLETEM NO ARRAY DE storedResults (porque storedResults agora tem uma cópia independente daquele array inicial).
+
+
+-----------------------------------------------
+
+
+Esse é o primeiro uso de slice: copiar arrays.
+
+
+
+
+
+MAS SLICE() tem OUTRO USO IMPORTANTE:
+
+É usado para ___SELECIONAR____RANGES____ de um array.
+
+
+Professor explica que podemos selecionar 1 único element com os indexadores, e que já sabemos disso.
+ex:  testResults[0] ----> Vai selecionar "1"< que é o primeiro elemento do array.
+
+
+
+
+Mas e se eu tiver um caso em que eu quero SELECIONAR 2 ELEMENTOS AO MESMO TEMPO?
+
+
+
+Bem, aí devemos utilizar "SLICE();". Slice faz a seleção de "ranges" (alcances). 1-2. 2-5. etc.
+
+
+OBS: "SLICE()" normal, puro, sem argumentos, nos dará o array INTEIRO. É a primeira função de slice(), referenciada logo acima, a função que copia 
+
+
+ex:
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+testResults.slice(0, 2); // ----> se eu especificar "0, 2" aqui, eu vou estar dizendo para slice me DAR UM NOVO ARRAY, BASEADO NO PRIMEIRO ARRAY JÁ EXISTENTE, QUE COMEÇE NO 1o slot E QUE ACABE NO TERCEIRO... Professor explica bem: o slice, com esses argumentos, faz com que o primeiro número seja escolhido normal, mas o SEGUNDO ARGUMENTO, o ARGUMENTO "END", é o PONTO DE CORTE do array. Ou seja, o novo array não incluirá esse slot que você especificou aí. ([1, 5.3])
+
+-------------------------------------------------------------
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+testResults.slice(0, 2); //-----> vai nos dar um array de [1, 5.3];, baseado naquele array original de "testResults".
+
+
+
+testResults.slice(0, 1); //----> vai nos dar um array de [1];
+
+
+
+testResults.slice(0, 3); //----> vai nos dar um array de [1, 5.3, 1.5];
+
+
+
+
+------------> POR ISSO, O INDEXADOR/SEGUNDO ARGUMENTO/ARGUMENTO END  SEMPRE DEVERÁ SER 1 NÚMERO ACIMA DO ÚLTIMO ITEM QUE VOCÊ VAI QUERER DENTRO DESSA CÓPIA DO ARRAY ANTIGO.
+
+--------------------------------------------
+
+
+PROFESSOR EXPLICA QUE VOCÊ TAMBÉM PODE USAR ___NEGATIVE___INDEXES. ENTRETANTO, OS DOIS INDEXES DEVERÃO SER NEGATIVOS, VOCÊ NÃO PODE USAR 1 NEGATIVO E O OUTRO POSITIVO:
+
+
+
+ex:
+
+
+
+
+const storedResults = testResults.slice(-3, 2); //-----> ISSO NÃO FUNCIONA (um dos números é positivo).
+
+
+
+const storedResults = testResults.slice(-3, -1); // ISSO FUNCIONA. Vai selecionar PARTINDO DO ANTEPENÚLTIMO ITEM (-3) ATÉ O ÚLTIMO ITEM (-1). Porém, esse último item será cortado, pois o funcionamento do slice() continua o mesmo, O ESGUNDO ARGUMENTO É O PONTO ONDE ELE VAI ____cORTAR___ O ARRAY.
+
+                   [1, 5.3, 1.5, 10.99, -5, 10];
+                                [10.99, -5];  ---------> SERÁ O ARRAY COPIADO/REPRODUZIDO POR MEIO DE "SLICE();".
+                                (-3)  (-2)  (-1)
+                                            (ponto de corte do "slice()".)
+
+
+
+-----------------------------------------------------------
+
+Você também pode especificar _____UM_____ÚNICO___ INDEXADOR DENTRO DE SLICE, negativo ou positivo, não importa.
+
+
+ex:
+
+
+
+const storedResults = testResults.slice(2); // ----> ISSO FAZ COM QUE O ARRAY COMECE NESSE INDEX E ENTÃO SELECIONE TUDO PARTINDO DESSE ELEMENTO ATÉ O FINAL.
+                    ------> [1.5, 10.99, -5, 10]; ----> é isso que seria selecionado, nesse exemplo.

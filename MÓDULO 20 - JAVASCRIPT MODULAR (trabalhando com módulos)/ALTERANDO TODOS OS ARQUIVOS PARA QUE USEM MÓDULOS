@@ -1,0 +1,350 @@
+
+
+
+
+Claro que aquilo foi só o começo.
+
+
+
+
+
+
+
+DEVEMOS SOLUCIONAR TODAS AS OUTRAS DEPENDENCIES EM CADA ARQUIVO....
+
+
+
+
+Certo.
+
+
+
+
+Professor diz que 'Tooltip' não tem nenhuma outra dependency.
+
+
+
+
+
+
+
+
+MAS projectItem TEM 
+
+'tooltip' COMO DEPENDENCY...
+
+
+'const tooltip = new Tooltip'...
+
+
+---------------------------------------
+
+
+
+
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE ___PODEMOS TRABALHAR COM MÚLTIPLOS IMPORTS, COMO ESTAMOS FAZENDO AGORA ( com os imports de DOMHelper.js, Tooltip, projectItem, PROJECTLIST E app.js),
+
+
+
+
+MAS QUE 
+
+
+ELE QUER TROCAR PARA UM 'MODULE ONLY SETUP'...
+
+
+
+É por isso que ele vai lá 
+
+
+
+E COMENTA PARA FORA DO CÓDIGO 
+
+
+OS IMPORTS 
+
+
+
+de 'tooltip.js',
+
+
+'projectItem.js',
+
+
+
+'ProjectList.js'...
+
+
+
+
+
+DEIXA APENAS 
+
+
+'app.js' 
+
+
+
+ 
+
+ NOS IMPORTS DO HTML.............
+
+
+
+
+
+
+
+
+
+ ESSE 
+
+ 'app.js' SERÁ 
+
+ NOSSO 
+
+
+ 'ROOT ENTRY POINT' no código...
+
+
+
+
+  
+
+
+  É ÓBVIO QUE ISSO __QUEBRARÁ TUDO___...
+
+  ---------------------------------------
+
+
+
+
+
+  E é POR ISSO QUE AGORA DEVEMOS TRABALHAR TUDO 
+
+  do código na ótica desse approach de 'modules'....
+
+
+
+
+
+  Começamos DO COMEÇO, da base....
+
+
+
+
+
+
+
+  Começamos em 'app.js'..., pois esse arquivo é o nosso entry file, o arquivo que é carregado PRIMEIRO...
+
+
+
+
+
+
+  O que temos dentro dele?
+
+
+
+  De cara, uma dependência, 
+
+
+  'pROJECTLIST'...
+
+
+
+
+
+
+Devemos colocar o import de projectList, e é exatamente isso que fazemos, aqui...
+
+
+
+colocamos 'export' no projectList e então colocamos 'import', no app.js, desse arquivo....
+
+
+
+
+
+SE FIZERMOS ISSO, A LINHA 
+
+
+'const activeProjectsList = new ProjectList('active');' 
+
+e a linha subsequente 
+
+PASSAM A FUNCIONAR DNV.
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+SE SALVARMOS ISSO, VEREMOS O RECEBIMENTO DE UM NOVO 
+
+
+ERRO:
+
+
+
+
+'Uncaught ReferenceError: ProjectItem is not defined at 
+new ProjectList 
+
+at Function.init'
+
+
+
+
+
+
+
+
+ESSE ERRO INDICA QUE O ERRO ESTÁ EMANANDO DE 'projectList'...
+
+E ISSO FAZ SENTIDO, PENSE:
+
+
+
+nós estamos conseguindo enfiar o ProjectList DENTRO DO ARQUIVO 'app', 
+
+MAS NÃO ESTAMOS CONSEGUINDO ENFIAR o 'projectItem' (a classe) DENTRO 
+
+DO ARQUIVO PROJECTLIST... 
+
+
+
+
+
+
+
+POR ISSO DEVEMOS RESOLVER AS DEPENDENCIES DE 'PROJECTLIST'... (e também devemos colocar 'export' em ProjectItem...).
+
+
+--------------------------------------------------
+
+
+
+
+
+
+SE FIZERMOS ISSO, RECEBEREMOS UM DIFERENTE ERRO:
+
+
+'Uncaught ReferenceError: DOMHelper is not defined 
+
+
+
+at 
+
+ProjectItem.connectSwitchButton 
+
+at new ProjectItem
+
+at new ProjectList
+
+
+at Function.init...
+
+at app.js 
+
+
+
+
+'
+
+
+
+
+
+VAMOS ATÉ O 'ProjectItem' 
+
+
+
+e 'DOMHelper.js' 
+
+
+E ENTÃO ESCREVEMOS O CÓDIGO QUE EXPORTARÁ 
+
+'DOMHelper' 
+
+
+
+NO PROJECTITEm....
+
+
+
+
+
+
+OBS:::: É ÓBVIO QUE VOCÊ PODE TER UM EXPORT E UM IMPORT EM UM ARQUIVO ___Ao mesmo tempo___.
+
+
+-------------------------------------------
+
+
+
+
+EM PROJECTITEM também devemos importar O TOOLTIP, pois ele é necessário.
+
+
+
+
+
+
+AGORA NOS É MOSTRADO UM ERRO DIZENDO QUE 'DOMHelper' NÃO ESTÁ DEFINIDO 
+
+EM 'projectList'...
+
+
+isso significa QUE DEVEMOS IMPORTAR DOMHelper dentro dele, para ser usado...
+
+
+
+(E ISSO MOSTRA OUTRA VANTAGEM DE TER DIFRENTES ARQUIVOS PARA O SEU CÓDIGO, 
+
+
+O TROUBLESHOOT É BEM MAIS FÁCIL, pois os erros são mais simples de ler e não 
+
+é necessário tanto DEBUGGING por meio de breakpoints.)
+
+
+
+
+CONSERTAMOS/IMPORTAMOS E EXPORTAMOS AS COISAS NECESSÁRIAS 
+
+E ENTÃO CONSTATAMOS QUE NOSSO CÓDIGO AGORA ESTÁ FUNCIONANDO..
+
+
+HÁ MAIS COISAS QUE DEVEMOS SABER SOBRE MÓDULOS, 
+
+mas esse é o 'STARTING POINT'...
+
+
+É super importante entender esses conceitos...
+
+
+
+
+
+
+
+OS MÓDULOS NOS PERMITEM ESCREVER O CÓDIGO DE FORMA MAIS LEGÍVEL...
+
+
+
+
+e cada arquivo DEFINE AS SUAS DEPENDÊNCIAS POR CONTA PRÓPRIA,
+
+TUDO PARA QUE VOCê NÃO TENHA QUE FAZER 'MICROMANAGEMENT' de imports no index.html... 

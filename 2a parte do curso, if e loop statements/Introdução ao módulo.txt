@@ -1,0 +1,67 @@
+Agora que terminamos de examinar variáveis, operadores e todos básicos essenciais do javascript e de outras linguagens
+de programação, devemos dar uma olhada em outras features e blocos fundamentais para QUALQUER LINGUAGEM DE PROGRAMAÇÃO, não só
+javascript.
+
+O nome dessa coisa importante é CONTROL STRUCTURES.
+
+
+
+é um termo estranho.
+
+
+O que isso significa?
+
+
+Significa que, quando você está escrevendo código, você nem sempre quer executar o mesmo exato código de cima a baixo; às vezes, você
+tem alguma condição que deve ser atendida para que certa função seja executada, e o tal código pode executar uma outra função se a tal
+condição não for satisfeita (ou você precisa repetir alguma execução de código, e, em vez de escrever cada ciclo por sua conta própria,
+vocÊ pode usar umas features incorporadas ao próprio javascript para "run through" um code snippet
+múltiplas vezes até que uma certa condição seja satisfeita ou até que um certo dado/data é exaurido/exhausted.)
+
+
+
+Isso é exatamente o que daremos uma olhada nesse módulo.
+
+
+Para ser mais preciso, daremos uma olhada em CONDITIONAL STATEMENTS (if statements) E EXPRESSÕES (conditional expressions).
+
+
+
+Estudaremos, também, outro tópico muito importante e correlato ao assunto, que é a matéria dos VALORES BOOLEAN (booleans) e 
+OPERADORES BOOLEAN. (Boolean values and operators.)
+
+OS OPERADORES BOOLEAN TE AJUDAM A GERAR VALORES BOOLEAN, que são coisas bem importantes em If statements e expressões condicionais.
+
+
+Também estudaremos os LOOPS, estudaremos as diferentes formas de rodar o MESMO CÓDIGO COM DADOS DIFERENTES, múltiplas vezes, com a AJUDA dos
+muitos loops que estão disponíveis no JavaSCript.
+
+
+
+
+
+Por fim, depois dos loops, daremos uma olhada no HANDLING DE ERROS. Esse "lidar com erros" é diferente daquilo que você viu na seção de debugging,
+aqui o professor está falando de erros que você NÃO PODE EVITAR, que podem ainda assim ocorrer no seu programa à medida que ele é executado, e como você 
+pode então reagir a eles e as coisas que você pode fazer para falhar graciosamente, em vez de miseravelmente (talvez mostrar uma mensagem
+de erro ao usuário, ou até mesmo "fall back" e garantir que seu programa funciona ainda que um erro ocorreu.  )
+
+
+
+
+Essas são todas control structures MUITO IMPORTANTES, e por isso as veremos agora.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

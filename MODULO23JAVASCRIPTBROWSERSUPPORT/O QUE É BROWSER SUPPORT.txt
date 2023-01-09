@@ -1,0 +1,476 @@
+
+
+O que é browser support?
+
+
+
+
+
+
+
+
+
+
+
+
+----> Considere um aplicativo em que você está escrevendo algum código javascript....
+
+
+
+---> você quer usar a FETCH API(), 
+
+
+VOCÊ QUER ENVIAR UM HTTP REQUEST COM A FETCH API...
+
+
+
+
+
+--> vocÊ, como desenvolvedor, quer usar isso.... (porque é bom de usar, e é promise-based, mais fácil de usar do que XMLHttpRequest em muitos aspectos)....
+
+
+
+
+--> POR ALGUMA RAZÃO, VOCÊ NÃO QUER USAR AQUELA THIRD PARTY LIBRARY DO 'axios'...
+
+
+
+
+
+
+---> por isso vocÊ decide usar FETCH()...
+
+
+
+
+
+
+----> o problema que você encara quando escreve javascript no browser, é que VOCÊ NÃO 
+
+
+CONSEGUE CONTROLAR QUAL BROWSER OS SEUS USUÁRIOS UTILIZARÃO...
+
+
+Você não sabe se usarão internet explorer, edge, firefox, chrome, safari, opera, etc etc.
+
+
+
+
+Não sabe nem a versão que usarão...
+
+
+
+VocÊ pode testar o seu código em certo browser, 
+
+
+e você pode usar cutting edge browsers, 
+
+
+mas você não tem como saber qual browser seus usuários usarão,
+
+
+nem se usarão as versões de desktop/ios....
+
+(há algumas diferenças entre elas, features suportadas por uns que não são suportadas por outros.)
+
+
+
+---------------------------------------------
+
+
+
+
+FETCH ---> suportado por chrome desde 2015.
+
+
+
+
+
+FETCH ---> suportado desde 2015 pelo firefox 
+
+
+
+
+internet explorer ---> browser velho, NÃO SUPORTA FETCH. Ainda há pessoas que usam. O código de fetch atiraria (throw) UM ERRO, e crasharia.
+ 
+
+
+edge ----> baseado no chromium project, tem um core parecido com o chrome. Suporta fetch desde 2016
+
+
+
+safari ---> suporta fetch desde 2017.
+
+
+
+
+----------------------------------
+
+
+
+
+
+FETCH NAO VAI FUNCIONAR NO INTERNET EXPLORER...
+
+
+
+
+
+COMO DESENVOLVEDOR, É SUA RESPONSABILIDADE FAZER O CÓDIGO FUNCIONAR EM TODOS 
+
+OS BROWSERS OBJETIVADOS POR SEU APLICATIVO...
+
+
+
+
+------------------------
+
+
+
+
+
+OUTRA COISA DE SE TER EM MENTE É A DIFERENCIAÇÃO 
+
+
+
+ENTRE 
+
+
+'browser features (browser APIs)' E 'SINTAXE JAVASCRIPT'...
+
+
+
+
+
+
+ÀS VEZES ISSO NÃO IMPORTA, MAS àS VEZES IMPORTA.
+
+
+
+
+
+
+QUANDO FALAMOS SOBRE BROWSER FEATURES, FALAMOS SOBRE AS 'APIs' que um browser expõe....
+
+
+
+
+JÁ O JAVASCRIPT É 'ALL ABOUT' keywords, TODAS AS FUNCIONALIDADES 
+
+E FEATURES QUE ESTÃO 'BUILTIN' NA LINGUAGEM JAVASCRIPT....
+
+
+
+
+
+
+
+
+CLARO QUE OS DOIS ESTÃO MAIS OU MENOS RELACIONADOS, 
+
+mas NÃO SÃO A EXATA MESMA COISA...
+
+
+
+
+
+
+
+----> para as BROWSER FEATURES, É O BROWSER QUE DECIDE QUAIS 
+
+FEATURES ELE OFERECE...
+
+
+---> exemplo disso é a FETCH API, GEOLOCATION, DOM API.
+
+TODOS ESSS OBJETOS, FUNÇÕES E MÉTODOS que são EXPOSTOS PELO
+BROWSER EM JAVASCRIPT.....
+
+
+
+---> É CLARO QUE __TRABALHAMOS COM ESSAS FEATURES__, mas elas __NÃO FAZEM PARTE___ 
+da 'core javascript language'...
+
+
+
+
+---> EM VEZ DISSO, O BROWSER, COMO VOCÊ APRENDEU, PROVIDENCIA UMA 
+
+'PONTE' (bridge) A ESSAS FUNCIONALIDADES E EXPÕE APIs em javascript para 
+
+que VOCÊ POSSA CONVENIENTEMENTE UTILIZAR ESSAS FEATURES....
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+--> POR OUTRO LADO, QUANDO FALAMOS DE 'SINTAXE JAVASCRIPT', 
+
+O PROFESSOR ESTÁ QUERENDO DIZER PARTES E FEATURES QUE SÃO 'BUILTIN' na 
+
+javascript engine...
+
+
+LÁ, É A JAVASCRIPT ENGINE DO BROWSER QUE DEFINE __QUAL SINTAXE__ E QUAL VERSÃO 
+
+
+DA JAVASCRIPT LANGUAGE É SUPORTADA...
+
+
+
+
+
+-----> É possível que um browser possua uma ENGINE QUE SUPORTA ALGUMAS DAS 
+
+FEATURES DO JAVASCRIPT MODERNO, MAS NEM TODAS.... 
+
+
+
+----> no final das contas, SÃO OS DESENVOLVEDORES DA JAVASCRIPT ENGINE 
+
+QUE DECIDEM O QUE É OU NÃO SUPORTADO...
+
+
+---> FREQUENTEMENTE, ESSES DEVELOPERS SÃO PARTE DA 'BROWSER DEVELOPER TEAM',
+
+esses developers nem sempre fazem parte da mesma equipe.
+
+
+--------------------------------------------------
+
+
+
+
+EXEMPLOS DE SINTAXE JAVASCRIPT SERIAM COISAS 
+
+Como 
+
+'let, const, async/await e Promises'...
+
+
+
+
+TODAS ESSAS SÃO CORE FUNCTIONALITIES CONSTRUÍDAS DENTRO DO JAVASCRIPT (baked into).
+
+
+
+
+MAS PQ ISSO IMPORTA?
+
+
+
+
+porque browser features ___GERALMENTE__ SÃO IMPLEMENTADAS '''UMA DE CADA VEZ''''..
+
+(one feature at a time)...
+
+
+
+Pode haver uma NOVA FEATURE QUE ESTÁ CHEGANDO LENTAMENTE AO BROWSER...
+digamos que o time por trás do CHROME decide que querem implementá-la.
+
+
+
+
+ELES PODEM QUERER OFERECER ESSA NOVA FEATURE COMO PARTE DO CHROME...
+Outros browsers podem não implementar esse negócio de cara, OU NUNCA IMPLEMENTAR, se quiserem.
+
+
+
+
+SE isso acontecer, vocÊ só poderá usar essa feature no CHROME....
+
+
+Se seu aplicativo tiver essa feature, SÓ USUÁRIOS QUE ESTIVEREM USANDO O CHROME 
+
+VÃO PODER UTILIZÁ-LA.
+
+
+
+
+------------------------------------------------
+
+
+
+
+PARA A SINTAXE JAVASCRIPT, ocorre algo similar, MAS LÁ, AS FEATURES ÀS VEZES TAMBÉM SÃO, 
+
+àS VEZES, IMPLEMENTADAS INDIVIDUALMENTE, mas muitas vezes 
+
+ELAS VÊM EM 'chunks'...
+
+
+
+
+
+
+
+
+BROWSER FEATURES('browser APIs') ---------> IMPLEMENTED INDIVIDUALLY
+
+
+
+
+JAVASCRIPT SYNTAX --------> IMPLEMENTED INDIVIDUALLY OR IN CHUNKS (e.g. ES6).
+
+
+
+
+-------------------------------------
+
+
+
+
+Por exemplo, para o javascript há uma 
+
+VERSÃO ESPECIAL CHAMADA DE 'ECMASCRIPT 6' (ES6), 
+
+A QUAL INTRODUZIU UM MONTE DE MUDANÇAS, 
+
+INTRODUZIU 'LET', 'CONST', 'ARROW FUNCTIONS' E MUITO MAIS...
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+É EVIDENTE QUE TODAS ESSAS FEATURES DO ECMASCRIPT6 FORAM IMPLEMENTADAS 
+
+'ETAPA-POR-ETAPA' PELOS BROWSERS, MAS TODOS ELES TRABALHARAM NO SENTIDO 
+
+DE SUPORTAR ESSAS FEATURES EM ALGUM MOMENTO NO FUTURO... 
+
+
+
+
+------> ERA COMO UM GRANDE 'CHUNK DE FEATURES' que os browsers kindof 
+
+CONCORDARAM QUE IRIAM IMPLEMENTAR... (pois queriam implementar)...
+
+
+
+---> e essa é uma diferença que você deve ter em mente:
+
+geralmente é mais seguro confiar EM CERTAS SINTAXES DE JAVASCRIPT, sintaxes que 
+
+sempre estarão disponíveis/utilizáveis..... sempre é melhor confiar nessas 
+
+sintaxes (geralmente mais difíceis) DO QUE BROWSER APIs...
+
+
+
+___ESPECIALMENTE___ NOS CASOS DE APIs EXPERIMENTAIS, NOVAS...
+
+
+Se a API é muito experimental/nova, ela pode demorar bem mais até ser suportada pelos browsers...
+
+
+
+------------------------------------
+
+
+
+ADICIONALMENTE, para FEATURES DE SINTAXE JAVASCRIPT, você 
+descobrirá NESSE MÓDULO QUE 
+
+HÁ UMA MANEIRA DE ESCREVER CÓDIGO COM TODAS AS MAIS RECENTES FEATURES DE SINTAXE 
+
+
+E ENTÃO COMPILÁ-LO COMO CÓDIGO ANTIGO, COMO CÓDIGO QUE FUNCIONA EM BROWSERS MAIS VELHOS...
+
+
+------------------------------------------
+
+
+
+PARA "DOM APIs", ESSA POSSIBILIDADE DE 'CONVERSÃO EM UM CÓDIGO MAIS VELHO' não existe, não é possível....
+
+
+---> se um browser te dá A FUNCIONALIDADE DE PEGAR A USER LOCATION e outro browser NÃO O FAZ,
+
+NÃO HÁ UMA MANEIRA DE MAGICAMENTE FAZER ESSA FUNCIONALIDADE FUNCIONAR NO BROWSER QUE NÃO A OFERECE...
+
+
+--> essa é OUTRA GRANDE E IMPORTANTE DIFERENÇA, PORTANTO.
+----------------------------------------------------
+
+
+
+
+
+-----> o que você deve saber é que 
+
+
+NEM TODOS OS BROWSERS SUPORTAM TODAS AS FEATURES... e que 
+
+
+O BROWSER SUPPORT MUDA TODA HORA EM BROWSERS MODERNOS/'EVERGREEN BROWSERS'...
+
+
+BROWSERS MODERNOS = EVERGREEN BROWSERS....
+
+
+
+
+
+são chamados de 'evergreen browsers' porque ELES SÃO AUTOMATICAMENTE 
+
+UPDATADOS/ATUALIZADOS................
+
+
+
+
+
+
+
+SE SEUS USUÁRIOS ESTÃO USANDO O FIREFOx,
+
+ELES TIPICAMENTE ESTÃO UTILIZANDO A VERSÃO MAIS RECENTE, 
+ou uma das versões mais recentes...
+
+
+
+Eles estarão usando as versões mais recentes PORQUE O BROWSER SE ATUALIZA 
+
+AUTOMATICAMENTE, POR TRÁS DAS CENAS...
+
+
+
+
+
+Para os browsers mais velhos, chamados também de 'legacy browsers', ISSO NÃO ACONTECE:
+
+
+
+Pessoas que estão usando internet explorer 8 TEM/TERÍAM DE MANUALMENTE 
+
+MUDAR/instalar A VERSÃO NOVA....
+
+
+E se isso não acontece, esses usuários NUNCA CONSEGUIRÃO AS NOVAS FEATURES...
+
+
+
+
+
+
+ISSO É O BROWSER SUPPORT, E A  DIFERENÇA ENTRE 
+
+BROWSER APIs e SINTAXE JAVASCRIPT...
+
+
+
+
+Ok, mas COMO DESCOBRIMOS QUAIS FEATURES SÃO SUPORTADAS EM UM DETERMINADO BROWSER?
+
+

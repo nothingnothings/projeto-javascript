@@ -1,0 +1,1573 @@
+
+
+
+
+
+
+
+
+Vimos 'promise chaining' em ação, 
+
+
+E É DE FATO IMPORTANTE ENFATIZAR 
+
+
+AQUI QUE
+
+
+
+
+
+_____VOCÊ NÃO PRECISA RETORNAR UMA PROMISE 
+
+
+
+naquele lugar do código:
+
+
+
+
+
+
+function trackUserHandler() {
+    let positionData;
+    getPosition()
+    .then(posData => {
+        positionData = posData;
+        return setTimer(2000); ///////////////////////// VOCÊ NÃO PRECISA RETORNAR UMA PROMISE AQUI...
+    })
+}
+
+
+--------------------------------------
+
+
+
+
+
+
+Você não é obrigado a retornar uma promise dentro de um '.then block' dentro 
+
+de uma promise.....
+
+
+
+VOCÊ PODE RETORNAR QUALQUER TIPO DE DADO, que ele será AUTOMATICAMENTE 
+
+CONVERTIDO EM UMA PROMISE E __ENVOLTO___ em uma promise...
+
+
+ 
+
+
+ -------------------------------------
+
+
+
+
+
+ A IDEIA PRINCIPAL DE 'PROMISE CHAINING' é que você pode ter 
+
+
+ ETAPA APÓS ETAPA...
+
+
+
+
+
+A segunda/terceira etapa, por exemplo, 
+a etapa de
+
+
+
+'.then(data => {
+    console.log(data, positionData);
+})'
+
+
+
+
+SÓ SERÁ EXECUTADA DEPOIS QUE A PRIMEIRA ETAPA ('getPosition', a primeira promise)
+
+ACABAR E DEPOIS DA SEGUNDA ETAPA ('.then(posData => {
+    positionData = posData;
+    return setTimer(2000);
+}))
+
+ACABAR...
+
+
+
+Depois que a segunda etapa retornou qualquer coisa ali (no caso, retorna a promise de 'setTimer(2000)'),
+
+
+
+FINALMENTE ACABAMOS ENTRANDO NA TERCEIRA 
+
+
+ETAPA, que é 
+
+aquela de 
+
+
+
+
+
+'.then(data => {
+    console.log(data, positionData);
+})'
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+PROMISE CHAINING É UM CONCEITO MUITO PODEROSO...
+
+
+
+Mas é claro que as coisas 
+
+
+SEMPRE PODEM DAR ERRADo..
+
+
+
+
+------------------------------
+
+
+
+
+Por exemplo, quando nós estamos pegando a posição do usuário 
+
+por meio do 
+
+getCurrentPosition dentro da promise dentro do 'getPosition' (essa função auxiliadora),
+
+
+NÓS TEMOS 
+
+
+A SEGUNDA OPÇÃO, aquele callback de 'erro'... na versão 'promisifada' de getCurrentPosition...
+
+
+
+
+
+
+E SE TIVERMOS UM ERRO DESSES ACONTECENDO?
+
+
+
+
+Se, por exemplo, PERMISSÃO NÃO É CONCEDIDA PELO USUÁRIO?
+
+
+
+
+
+
+
+Bem, previamente, 
+
+nós 
+
+iríamos gerenciar nosso erro 
+
+
+dentro 
+
+
+
+dessa callback function de erro....
+
+
+
+
+
+ex:
+
+
+
+
+
+navigator.geolocation.getCurrentPosition(success => {...}, 
+
+error => {
+    console.log(error);
+}
+
+
+
+----------------------------------------
+
+
+
+
+MAS AGORA, COMO MUDAMOS TUDO E TRANSFERIMOS O CÓDIGO DE 'getCurrentPosition' PARA 
+
+DENTRO DE UMA PROMISE,
+
+
+
+eu vou querer agora PASSAR ESSE ERRO À NOSSA 'PROMISE CHAIN' para que 
+
+possamos administrá-lo, de alguma forma, lá perto dela....
+
+
+
+
+
+ISSO É FEITO, DIZ O PROFESSOR, COM O SEGUNDO ARGUMENTO 
+
+
+DAS PROMISES.... (aquele 'reject'....).
+
+
+
+É o segundo argumento DA 'FUNÇÃO-CONFIGURAÇÃO' (function body) DO 
+
+CONSTRUCTOR DAS PROMISES...
+
+
+ex:
+
+
+
+
+
+const typicalPromise = new Promise((resolve, reject) => {
+    ...
+})
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+EX DO NOSSO CÓDIGO:
+
+
+
+
+
+
+
+const getPosition = options => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {}, 
+  
+  
+  options);  
+
+  }); 
+return promise;  
+};
+
+
+
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+NÓS PODEMOS CHAMAR/executar
+
+'reject()' DENTRO DO 'function body' de 'error'....
+
+Ou seja, chamamos 'reject()' DENTRO DA 'ARROW CALLBACK' de 'error'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const getPosition = options => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+      reject();
+  }, 
+  
+  
+  options);  
+
+  }); 
+return promise;  
+};
+
+
+
+-----------------------------------------------
+
+
+
+
+
+Aí, por exemplo, podemos passar 
+
+o nosso 
+
+
+OBJETO 'error' COMO PARÂMETRO de 'reject()'...
+
+
+
+ex:
+
+
+
+
+
+
+const getPosition = options => {
+  const promise = new Promise((resolve, reject) => {
+
+       navigator.geolocation.getCurrentPosition(success => {
+           resolve(success);
+       }, 
+  error => {
+      reject(error);
+  }, 
+  
+  
+  options);  
+
+  }); 
+return promise;  
+};
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+Certo.
+
+
+
+O que 'reject' vai fazer é MARCAR A PROMISE COMO 'failed'...
+
+
+
+
+
+
+
+O professor mencionou que uma promise pode 
+
+
+ficar 
+
+''PENDING'' ou ''resolved'' OU ''FAILED'...
+
+
+
+---------------------------------------------
+
+
+
+
+A promise sempre fica 
+
+
+
+''pending'' enquanto espera para ser ''resolved''...
+
+
+
+
+
+Ele também disse que, uma vez que definimos uma função como ''resolved'',
+
+PODEMOS ___cOLOCÁ-LA DE VOLTA____ PARA ''''PENDING'''' POR meio DO 
+
+RETURN DE ALGO (pode ser um timer, ou uma longa execução de função, algo que demore um tempo)
+
+DENTRO DO_________ '.THEN BLOCK'...__________.
+
+
+
+
+EX:
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000); ///////////ISSO AQUI VAI FAZER COM QUE A PROMISE FIQUE COMO 'Pending' POR ALGUNS INSTANTES...
+    
+    }
+  )
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+
+--------------------------------
+
+
+
+
+MAS HÁ UM OUTRO 'STATE', o
+
+
+state 
+
+chamado de 
+
+
+
+
+
+''FAILED STATE''...
+
+
+
+
+
+O FAILED STATE É BASICAMENTE O CENÁRIO/SITUAÇÃO 
+
+
+
+EM QUE TEMOS UM ___ERRO___.
+
+
+
+
+
+
+Ou seja, a promise agora não está 'RESOLVED', NEM 'PENDING';
+
+
+ela está COM UM ___ERRO___.
+
+
+
+
+
+
+
+CERTO.
+
+
+
+
+Erros em promises NÃO SÃO ADMINISTRADOS COM 
+
+
+
+FUNÇÕES 'NORMAIS' que geralmente colocamos em '.then()s'...
+
+
+
+
+EM VEZ DISSO, QUANDO ESCREVEMOS ERROS/HIPÓTESES DE ERROS EM PROMISES,
+
+
+SEMPRE colocamos 
+
+
+UM 
+
+
+
+___SEGUNDO ARGUMENTO EM 'then()'...__________
+
+
+
+
+
+PQ O PRIMEIRO ARGUMENTO EM UM ''.THEN()'' 
+
+
+sempre é A CALLBACK FUNCTION QUE DEVE SER EXECUTADA 
+
+____CASO A  PROMISE _____ FIQUE ''RESOLVED'' (caso tudo dê certo, basicamente).
+
+
+
+
+
+-----------------------------------
+
+
+
+
+JÁ O SEGUNDO ARGUMENTO É A POTENCIAL 
+
+
+
+____''ERROR FUNCTION''___ que poderemos/podemos ter....
+
+
+
+
+
+
+Você poderia, por exemplo, simplesmente fazer o console.log do 
+
+objeto 'error', ou então enviar esse erro ao seu servidor/database, etc etc.
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000); 
+    
+    }, error => {
+        console.log(error);
+    }
+  )
+    .then(data => {
+      console.log(data, positionData);
+    })
+
+
+-------------------------------
+
+
+
+
+
+OU SEJA, 
+
+
+primeira função passada ao 
+
+'.then()' é o 
+
+
+
+'SUCCESS CASE'.
+
+
+
+Segunda função é 
+
+o 
+
+
+'FAILURE CASE'. ---> ocorre quando uma promise 
+
+
+NÃO É 'RESOLVED'... é quando a promise 'REJECTS'...
+
+
+
+
+
+
+
+
+-----------------------
+
+
+
+
+
+AGORA, PORTANTO, SE VOLTARMOS A NOSSA PÁGINA SALVADA E RECARREGADA 
+
+
+E CLICARMOS EM 'track me' e então 
+
+
+
+RECUSARMOS A PERMISSÃO de ver a localização,
+
+
+veremos 
+
+'PositionError {code: 1, message: "User denied Geo location"}'
+
+
+------------------------------
+
+
+Vemos esse erro, basicamente.
+
+
+
+Também recebemos o output 
+
+
+'undefined undefined', 
+
+
+
+que o professor diz que logo EXPLICARÁ A NÓS...
+
+
+
+Mas o que importa é que 
+
+
+
+O 
+
+
+'failure code' 
+
+
+
+ESTÁ SENDO EXECUTADO, aqui...
+
+
+
+--------------------
+
+
+
+
+MAS VOCÊ PODE ARGUMENTAR 
+
+
+
+QUE ESTAMOS, COM ISSO,  PERDENDO ALGUNS 
+
+
+
+DOS __BENEFÍCIOS____ QUE GANHAMOS 
+
+
+COM AS PROMISES...
+
+
+Estaríamos perdendo alguns dos benefícios 
+
+das promises quando temos um 
+
+
+
+SEGUNDO ARGUMENTO AQUI, uma segunda função, função de 'erro'...
+
+
+
+------------------------------
+
+
+
+Apesar de esse código do erro NÃO ESTAR 'NESTEADO' em outro 
+
+callback, 
+
+nós ainda acabamos tendo 
+
+MAIS CALLBACKS COLOCADOS 1 AO LADO DO OUTRO...
+
+
+
+ex:
+
+
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000); 
+    
+    }, error => {
+        console.log(error);
+    }
+  )
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+---------------------------------------
+
+
+
+
+
+E, APESAR DE SER PERFEITAMENTE ACEITÁVEL
+ 
+ UTILIZAR ESSa 'segunda hipótese'/segundo argumento 
+
+ de um '.then() block', 
+
+
+
+ VOCÊ TEM UMA ALTERNATIVA A ESSA FORMA DE FAZER AS COISAS...
+
+
+
+
+
+ Você tem OUTRO MÉTODO que vocÊ pode adicionar à sua 
+
+
+ 'promise chain', o método 
+
+
+
+ 'CATCH()'....
+
+
+
+
+
+ O MÉTODO 
+
+
+ '.catch()' PODE SER ADICIONADO EM UMA PROMISE, 
+
+ e você pode adicioná-lo EM QUALQUER LUGAR 
+
+
+ DA CHAIN....
+
+
+
+
+ ex:
+
+
+
+
+ você pode adicioná-lo LOGO DEPOIS 
+
+ DA função 'getPosition', dessa funçÃO QUE 
+
+ NOS RETORNA uma promise...
+
+
+
+
+ex:
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .catch();
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000); 
+    
+    }, error => {
+        console.log(error);
+    }
+  )
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+
+
+
+
+
+
+
+
+
+ VOCÊ PODE ADICIONÁ-LO EM QUALQUER LUGAR 
+
+ DEPOIS DESSA FUNÇÃO, TAMBÉM...
+
+
+
+
+
+
+ ___eNTRETANTO, A POSIÇÃO 
+ EXATA 
+
+
+ DESSE '.catch'
+
+
+
+ ____IMPORTA___, é importante....
+
+
+
+
+ ---------------------------------------
+
+
+
+
+DEVEMOS, POR EXEMPLO, ADICIONÁ-LO APÓS O PRIMEIRO 
+
+'.then() block'....
+
+
+
+ex:
+
+
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .catch();
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000); 
+    
+    }, error => {
+        console.log(error);
+    }
+  )
+
+  .catch();
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+------------------------------
+
+
+OU SEJA, 
+
+AGORA TEMOS 
+
+
+UM 
+
+'.CATCH()' entre 
+
+
+OS DOIS .THEN() BLOCKS...
+
+
+
+OBS: tudo isso ainda PERTENCE À MESMA 'PROMISE CHAIN'.
+------------------------------
+
+
+
+
+
+E DENTRO DE 
+
+'catch()' vocÊ poderá ter, agora, A SUA 
+
+FUNÇÃO DE ERRO.....
+
+
+
+ex:
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .catch();
+  .then
+    (posData => {
+      positionData = posData;
+      return setTimer(2000); 
+    
+    }, error => {
+        console.log(error);
+    }
+  )
+
+  .catch(error => {
+      console.log(error);
+  });
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+
+--------------------------------------------
+
+
+
+
+DEVEMOS TESTAR ESSE '.CATCH()' antes 
+
+
+
+de vermos como ele funciona...
+
+
+
+
+Testamos e ele funciona:
+
+
+
+ele outputta o mesmo 
+
+'PositionError' de antes....
+
+
+
+o console.log também nos printa, nesse caso, o 'undefined undefined'...
+
+
+
+-------------------------------
+
+
+
+
+MAS O QUE DIABOS FAZ 
+
+ESSE MÉTODO 
+
+
+
+'.catch()'?
+
+
+------------------------------
+
+
+
+CATCH, NA VERDADE, FAZ EXATAMENTE A MESMA COISA 
+
+
+QUE O SEGUNDO PARÂMETRO DE UM '.THEN() BLOCK' usado 
+
+para a hipótese de erro... (ele é a mesma coisa do código que vimos no início dessa lição, essencialmente).
+
+
+
+
+É APENAS UMA ALTERNATIVA ÀQUELA SINTAXE.
+
+
+
+
+Mas as 2 approaches, 
+
+
+a do segundo argumento e 
+
+a do 
+
+'.catch() block', 
+
+AMBAS FUNCIONAM DE MANEIRA QUE ACABAM 
+
+
+PEGANDO/RECEBENDO QUAISQUER ERROS,
+
+quaisquer 
+
+
+'rejections' PRODUZIDAS EM QUALQUER 
+
+
+LUGAR DA SUA 'PROMISE CHAIN' ___ ANTERIORMENTE___ 
+
+À ESCRITA DO 'catch()'/segunda função.
+
+
+
+
+
+
+
+Isso significa que 
+
+SE NÓS TIVÉSSEMOS MAIS '.THEN()' blocks 
+
+no nosso código,
+
+
+
+
+SE TIVÉSSEMOS UMA PROMISE CHAIN MAIS LONGA ,
+
+
+
+com múltiplos then blocks,
+ 
+
+
+ 
+ O QUE REALMENTE IMPORTARIA 
+
+ NO DISPLAY DOS ERROS 
+
+
+ É O POSICIONAMENTO DO '.CATCH()' em relação 
+
+ ao restante dos '.then()' blocks....
+
+
+
+ ex:
+
+.then()
+.then()
+.then()
+.then()
+
+
+ .catch()  ///---------> VAI CAPTURAR TODOS OS ERROS NA PROMISE CHAIN.
+
+
+-------------------------------
+
+
+ .then()
+ .then()
+ .then()
+
+
+ .catch() /////////////// ---> VAI CAPTURAR SOMENTE OS ERROS DE CIMA NA PROMISE CHAIn. Os de baixo são ignorados.
+
+
+
+  .then()
+ .then()
+ .then()
+
+
+
+ ---------------------------
+
+
+
+
+
+ se qualquer uma das promises FOR 'REJECTED'/reject,
+
+
+ a lógica 
+
+
+ DE '.CATCH()'/segundo argumento de um 
+ 'then block' executará e capturará 
+
+ os erros.
+
+
+
+ -----------------------------------------
+
+
+
+
+
+   
+DETALHE: 
+
+
+o '.catch() block' NÃO 
+
+
+CANCELA 
+
+
+A 'PROMISE CHAIN'....
+
+
+ELA CONTINUA RODANDO,
+
+
+A ÚNICA COISA QUE MUDA É QUE 
+
+
+O CÓDIGO VAI 
+
+
+'SKIPPAR' O trecho que foi tratado como 'reject/rejected'
+
+
+
+E ENTÃO RODAR A FUNÇÃO 
+
+
+DEFINIDA 
+
+NO 
+
+'.catch() block'...
+
+
+
+O RESTANTE DO CÓDIGO ABAIXO DO .CATCH() BLOCK,
+
+POR SUA VEZ,
+
+rodará NORMALMENTE, sem nada de diferente.
+
+
+
+ex:
+
+
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .catch(); /////////////ESSE CATCH SÓ VAI CAPTURAR OS ERROS/REJECTS DAS PROMISES QUE ESTÃO ACIMA DELE...
+  .then
+    (posData => { ////////////ESSA PARTE DO CÓDIGO, POR EXEMPLO, VAI SER MARCADA COMO 'REJECT/REJECTED', pois o usuário RECUSA O PEDIDO DE LOCALIZAÇÃO, NESSE EXEMPLO..
+      positionData = posData;
+      return setTimer(2000); 
+    
+    },
+  )
+
+  .catch(error => {      ////////////////ESSE 'CATCH' VAI CAPTURAR O ERRO/REJECTION DO PRIMEIRO THEN BLOCK, LOGO ACIMA A ELE; ENTRETANTO, ELE NÃO CANCELARÁ A EXECUÇÃO DO RESTANTE DO CÓDIGO, que continuará sendo executado como se nada tivesse acontecido. Restante da promise chain, abaixo dele, é executada normalmnete
+      console.log(error);
+  });
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+O 'catch' NÃO CANCELA A EXECUÇÃO DA PROMISE CHAIN....
+
+
+
+além disso, você ainda pode 
+
+
+RETORNAR ALGUMA COISA, algum valor, 
+
+DENTRO DA FUNÇÃO 
+
+
+DO 'catch'...
+
+
+como uma STRING OU UMA PROMISE, etc etc.
+
+
+
+
+ex:
+
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+  .catch(); 
+  .then
+    (posData => { 
+      positionData = posData;
+      return setTimer(2000); 
+    
+    },
+  )
+
+  .catch(error => {     
+      console.log(error);
+      return 'on we go...'; //////////EIS O CÓDIGO EM QUESTÃO.
+  });
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+
+----------------------------------------
+
+
+
+O professor mostra o exemplo da string 
+
+
+'on we go'... ----------> ISSO VAI SER EMBALADO/WRAPPED em uma promise (mesma coisa que ocorre com o método '.then()' envolvendo em uma promise a promise/string de 'setTimer(2000)', portanto).
+
+ 
+
+
+
+
+MAS O RESTANTE DA PROMISE CHAIN CONTINUARÁ A SER EXECUTADO...
+
+
+
+
+
+OBS:::: O POSICIONAMENTO DO 'CATCH BLOCK' ____IMPORTA____:
+
+
+
+
+se você quer 'kindof' CANCELAR a PROMISE CHAIN COM 
+
+O USO DO 'catch block', VOCÊ DEVE SEMPRE COLOCÁ-LO ___aO FINAL___
+
+DA PROMISE CHAIN, para que ele entenda que há todos aqueles '.then()' blocks 
+
+e promises em cima dele, para que ele possa afetar seu funcionamento efetivamente.
+
+Mas pq colocar ao final?
+
+
+
+Pq ------> quando uma promise é REJECTED/reject, o javascript faz com que o código 
+
+dessa promise/then block seja SKIPPADO; faz com que a execução PULE para o próximo 
+
+'.then()' block...
+
+
+Se todos os 'then blocks'/promises forem rejeitados,
+pula-se direto para o 
+
+'catch block', que então poderá, nessa hipótese,
+
+cancelar a execução com um 'return;' vazio, ou algo assim.
+
+
+
+SE VOCÊ COLOCASSE O CATCH BLOCK no meio das promises, a execução inteira 
+da promise chain não seria cancelada, pois TODOS OS .THEN BLOCKS ANTERIORES
+ 
+ SERIAM CANCELADOS, SIM, MAS OS POSTERIORES AO .CATCH BLOCK CONTINUARIAM A SER EXECUTADOS.
+
+
+
+ ---------------------------
+
+
+
+ex:
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+ 
+  .then
+    (posData => { 
+      positionData = posData;
+      return setTimer(2000); 
+    
+    },
+  )
+
+  .catch(error => {     
+      console.log(error);
+      return 'on we go...'; 
+  });
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+
+-----------------------------------
+
+
+Nesse exemplo de código do professor, o que acontece quando o usuário 
+
+REJEITA o pedido de localização É QUE 
+
+A PRIMEIRA PROMISE/THEN BLOCK É SKIPPADO,
+
+
+e ao skippar, o '.catch' REGISTRA ESSE ERRO DO USUÁRIO...
+
+registra o erro do usuário, console.logga o erro 
+
+E RETORNA O VALOR DA STRING 'on we go...'; (OBS: se você não retornar nada dentro de um catch, VOCÊ VAI RETORNAR 'UNDEFINED'... ---> E O RETURN de 'undefined' FAZ COM QUE 
+A PROMISE VOLTE A FICAR NO ESTADO 'PENDING'... ) ------> essa string 'on we go...' SERÁ MOSTRADA/OUTPUTTADA NO CONSOLE por causa do console.log de 'data' DIGITADO MAIS ABAIXO, NO OUTRO '.then()' block...
+
+
+
+
+
+ex (de caso em que não inserimos um return; ou seja, o erro/catch retornará 'undefined', por default):
+
+
+
+
+
+function trackUserHandler() {
+ 
+
+  let positionData;
+
+
+  getPosition()
+ 
+  .then
+    (posData => { 
+      positionData = posData;
+      return setTimer(2000); 
+    
+    },
+  )
+
+  .catch(error => {     
+      console.log(error);
+      //return 'on we go...';  //esse 'comment out' fará com que retornemos 'undefined' aqui.
+  });
+
+    .then(data => {
+      console.log(data, positionData);
+    })
+    setTimer(1000).then(() => {
+        console.log('Timer done!');
+    }) 
+
+
+
+
+--------------------------------------------
+
+
+
+
+------------------>>>> 'GRAÇAS' AO RETURN DE 
+
+
+'undefined' em '.catch()', 
+
+
+acabamos com um output de 
+
+
+'undefined undefined' 
+
+
+no console.log 
+
+
+de 
+
+'data' e positionData' no penúltimo '.then() block'...
+
+
+
+
+              undefined   undefined
+('console.log(data, positionData)')
+
+
+
+--------------------------------------
+
+
+
+
+
+-------------------------------------------
+
+
+SE VOCê não coloca return algum no 'catch block', 
+
+
+
+A PROMISE/VALOR RETORNADO Pelo catch block IMEDIATAMENTE 
+
+FICA DEFINIDO COMo 'pending'...
+
+
+o restante dos .then blocks POSTERIORES ao catch block que vocÊ inseriu 
+
+SERÃO 
+
+EXECUTADOS ASSIM QUE a 'pending promise' seja 'resolved' de novo...
+
+
+
+
+
+
+RESUMINDO:
+
+
+o catch block NÃO CANCELA A PROMESSA, ele deixa-a continuar, 
+
+apesar de alterar seus valores/funcionamento (aí depende do código que colocamos dentro dele).
+
+
+------------------------------------------------
+
+
+
+
+E essa transmissão de valores por meio do catch block (como vimos com a string 'on we go'... que é passada ao console.log de 'data')
+
+NÃO É UM BUG, 
+
+É UMA FEATURE -----> é muito útil, pois permite a você estruturar 
+
+SUA CHAIN DE MODO QUE CERTAS PARTES DELA POSSAM SER ___SKIPADDAS__ (caso isso seja necessário)
+
+SEM QUE ISSO NECESSARIAMENTE CRASHE A PROMISE CHAIN EM SUA INTEGRALIDADE (só pq uma parte 
+da promise chain falhou, não significa que o conjunto inteiro falhará/deixará de funcionar).
+
+
+
+
+
+OBS:::: SE VOCÊ QUISER QUE A PROMISE CHAIN 'CRASHE POR INTEIRO' (crash entirely),
+
+É EVIDENTE QUE VOCê PODE SIMPLESMENTE COLOCAR O CATCH BLOCK NO FINAL
+
+DA PROMISE CHAIN......
+
+
+
+
+
+
+OBS: você pode ter MÚLTIPLOS CATCH BLOCKS em uma promise chain...
+
+
+
+
+Essas features te dão muita flexibilidade e poder.
+
+------------------------------------------------
+
+
+
+
+

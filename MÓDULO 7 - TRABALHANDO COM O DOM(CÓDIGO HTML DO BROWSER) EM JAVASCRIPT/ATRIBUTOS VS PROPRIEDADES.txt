@@ -1,0 +1,302 @@
+QUando fala-se de manipular elementos, também é importante ENTENDER 
+A DISTINÇÃO ENTRE 
+
+
+
+
+
+ATRIBUTOS e PROPRIEDADES.
+
+
+
+
+
+Isso porque é fácil de confundir as duas coisas, ou nem mesmo ter ciência da diferença 
+entre as duas.
+
+
+
+
+
+Isso acontece porque ___FREQUENTEMENTE (mas não sempre)_____ ATRIBUTOS SÃO 
+MAPEADOS À PROPRIEDADES E A "LIVE SYNCHRONIZATION" é ESTABELECIDA (set up).
+
+
+
+
+O professor demonstrará o significado de live synchronization daqui a pouco.
+
+
+
+MAS ISSO DE QUE FALAMOS NÃO É SEMPRE AQUILO QUE OCORRE.
+
+
+
+
+
+Por exemplo, aqui nós temos um elemento input com um ID e uma classe CSS, e com um 
+valor de "Enter text...".
+
+
+
+ex:
+
+
+
+<input id="input-1" class="input-default" value="Enter-text...">
+
+
+
+
+E isso é interessante, porque nós temos 3 diferentes tipos de atributos que 
+se comportam de maneiras diferentes Quando se trata do objeto DOM que é criado e 
+como as propriedades daquele tal objeto são inicializadas.
+
+
+
+Essas 3 coisas são, portanto, atributos colocados no código HTML. (Attributes placed in HTML code, on element TAGS).
+
+
+
+
+Portanto, aquilo que você escreve no código HTML É CHAMADO DE "ATRIBUTO"/attribute,
+aquilo que você adiciona À uma HTML tag É UM ATRIBUTO DAQUELA TAG. 
+
+O que o browser faz com esses atributos é a criação de um objeto DOM baseado 
+NO NOME DA TAG (nesse caso, input. O browser cria um objeto DOM do tipo "Input", que é específico para 
+casos que exigem um input de um usuário) E A PRÉ-CONFIGURAÇÃO DESSE OBJETO E ALGUMAS DE SUAS 
+PROPRIEDADES, BASEANDO-SE NESSES ATRIBUTOS QUE VOCÊ DIGITOU.
+
+ex:
+
+input id='cu' type='number';
+
+
+---> aqui, ele cria um objeto do tipo "input", de id "cu", do tipo "number" (só aceita números). Ou seja, 
+ele criou um objeto que é influenciado pelos atributos que você escreveu dentro dessa tag, dessa tag inserida no código HTML.
+
+A coisa importante aqui é que atributo é aquela coisa no seu código html, no seu texto html, no final das contas.
+
+A PROPRIEDADE, POR OUTRO LADO, É ___UM VALOR___ ARMAZENADO NO OBJETO QUE É CRIADO 
+COM BASE NO SEU CÓDIGO HTML.
+
+
+OBJETOS EM JAVASCRIPT TÊM ____PROPRIEDADES___, INDEPENDENTEMENTE SE SÃO 
+OBJETOS DO DOM OU NÃO, ELES SEMPRE TEM PROPRIEDADES.
+
+
+
+Por isso, é claro que para objetos do DOM nós também temos propriedades, e essas 
+propriedades SIMPLESMENTE REFLETEM A CONFIGURAÇÃO, setup e posicionamento (etc) daquele 
+DOM NODE renderizado, daquele objeto dom. A ideia de atributos é que 
+você, se você está escrevendo um código HTML, você PODE providenciar 
+uma certa configuração default a esse objeto DOM a ser criado (to be created DOM object).
+
+
+Então isso é o que você faz com atributos, e como eles são convertidos/traduzidos à propriedades.
+
+
+
+Por exemplo, podemos observar que SE NÓS GANHARMOS ACESSO À ESSE ELEMENTO INPUT 
+E O ARMAZENARMOS EM UMA CONSTANTE, DIGAMOS A CONSTANTE "input", nós então podemos 
+ler o ID do input, mas nós também podemos ler o className e o valor que ele segura.
+As propriedades, como mencionado anteriormente, SÃO AUTOMATICAMENTE ADICIONADAS AOS 
+OBJETOS DOM QUE SÃO CRIADOS. Aqui é importante entender que NEM TODO ATRIBUTO tem um 
+mapping 1:1 (one to one) em relação às properties. 
+
+INPUT ID TEM, NO ENTANTO. temos um atributo ID e uma propriedade ID, as duas se correspondem, e 
+se nós mudarmos o valor do atributo, A PROPRIEDADE SE ATUALIZA (updates). Se mudarmos o 
+valor da propriedade, O ATRIBUTO SE ATUALIZA. HÁ UM LIVE SYNCHRONIZATION ENTRE O ATRIBUTO ID 
+E A PROPRIEDADE ID.
+
+ISSO É O LIVE-SYNC. 
+
+
+
+
+ex:
+
+
+
+const input = document.getElementById('input-1');
+
+
+
+
+
+JÁ INPUT CLASS É DIFERENTE:
+
+
+
+com input class, também temos live synchronization (se mudarmos a propriedade, o atributo vai mudar; se mudarmos 
+o atributo, a propriedade vai mudar...), 
+MAS OS NOMES NÃO SÃO IGUAIS. 
+
+
+class ---> className.  ====== NÃO É UM MAPPING 1:1 (ONE-TO-ONE). 
+
+
+
+id ----> id ===== É UM MAPPING 1:1 (ONE TO ONE), visto que têm o mesmo nome e um muda quando o outro muda.
+
+
+
+
+É claro que o browser faz esses processos todos automaticamente, mas é importante SABER 
+QUE O NOME DO ATTRIBUTE NÃO É SEMPRE IGUAL AO NOME DA PROPRIEDADE CORRESPONDENTE A ELE.
+
+
+
+
+Para "value" (input.value), nós temos ainda outro COMPORTAMENTO DIFERENTE. Com value, nós 
+temos um "Mapping one-to-one" (o atributo e a propriedade possuem o mesmo nome), MAS 
+É UM LIVESYNC "1 WAY" (1-way-live-sync). Ou seja, não há uma live synchronization 
+de verdade ocorrendo aqui... apenas há a live synchronization DE UM LADO. O que você tem aqui 
+é que se você mudar o input.value (o objeto do DOM, representado pela propriedade 
+javacsript "input.value"), ISSO NÃO SERÁ REFLTETIDO DE VOLTA NO ATRIBUTO (atributo = aquilo que foi digitado 
+na página html)... APENAS SE VOCÊ ALTERAR O ATRIBUTO, NESSE CASO, É QUE A PROPRIEDADE SERÁ ALTERADA.
+
+Isso faz sentido, porque você tem que ter em mente que, por exemplo, ESSE ELEMENTO INPUT ESTÁ LÁ 
+POR UM MOTIVO, ESSE MOTIVO SENDO O FIM DE SEGURAR ALGUM USER INPUT. Se você fizesse com que as alterações 
+do objeto do DOM (da propriedade) refletissem sempre no atributo, isso significaria essencialmente 
+que se você quisesse alguma hora reiniciar o input ao valor inicial (que o desenvolvedor responsável pelo código 
+html em algum momento armazenou dentro daquele atributo "value"), ISSO NÃO SERIA POSSÍVEL, porque 
+o valor original (valor original default) teria sido PERDIDO. POr isso que esse live 
+sync entre o atributo e a propriedade javascript, aqui nesse caso, apenas funciona de forma "ONE-WAY".
+
+É por isso que quando o usuário digita o seu user input, ele é armazenado dentro da propriedade 
+"value", MAS A PROPRIEDADE VALUE EM SI NÃO É REFLETIDA de volta ÀQUELE ATRIBUTO "value" DA PÁGINA HTML. 
+
+
+Devemos testar isso na prática. Para isso, o professor adiciona um elemento input dentro do nosso projeto desse módulo. Coloca dentro da página html.
+
+
+ex:
+
+
+  <input type="text" value="default text">
+
+
+  Agora temos um elemento input com o valor "default text" (texto dentro da caixa).
+
+
+
+  O professor abre o devtools e armazena uma referência à esse input type por meio de um querySelector.
+
+
+
+ex:
+
+
+
+ " const input = document.querySelector('input');" 
+
+
+ Usamos "input" como TAG SELECTOR, para selecionar aquele input.
+
+
+
+ Depois disso, podemos executar "console.dir(input);" para 
+ VER TODAS AS PROPRIEDADES DE "input".
+
+
+
+ Encontramos a propriedade "value (que lembrando, não é algo que podemos 
+ encontrar em todos elementos, alguns não têm isso.) : 'default text'   "
+
+
+
+
+ SE ALTERARMOS O VALOR POR MEIO DE 
+
+ "input.value = 'merda'; ", 
+
+
+NÓS VEREMOS QUE A PÁGINA VAI MUDAR: A MENSAGEM DENTRO DAQUELE INPUT VAI MUDAR... MASSSSS
+SE EXAMINARMOS OS ELEMENTOS DA PÁGINA NO DEVTOOLS, OS ELEMENTOS DA PÁGINA HTML, VEREMOS 
+QUE O VALOR AINDA CONTINUA COMO "default-text". Isso ocorre em decorrência daquele 
+comportamento que o professor explicou acima: Value é um live sync "ONE-WAY-ONLY". Ele não é um live sync 
+de verdade, ou seja, os valores que você altera nas propriedades NÃO SÃO REFLETIDOS NOS ATRIBUTOS DA PÁGINA HTML. 
+
+
+Se mudarmos o atributo, por outro lado, a propriedade javascript vai mudar de acordo. Por isso é one way.
+
+
+
+
+
+
+COMO O PROFESSOR MENCIONOU ANTERIORMENTE, PARA CSS CLASSES E IDs, O COMPORTAMENTO É DIFERENTE. HÁ 
+live sync entre os atributos e propriedades.
+
+ex:
+
+
+const h1 = document.getElementById('main-title');
+
+
+h1.id = 'new-id';
+
+
+"H1.ID" VAI MUDAR O ATRIBUTO, QUE VAI MUDAR A PROPRIEDADE JAVASCRIPT.
+
+
+
+
+
+
+
+IMPORTANTE!!!!! ----> SE VOCÊ QUISER MUDAR UM ATRIBUTO DA PÁGINA HTML, TAMBÉM 
+HÁ UM MÉTODO ESPECÍFICO PARA ISSO. É o método "setAttribute()". É UM MÉTODO QUE RECEBE 2 PARÂMETROS. setAttribute(x, y). O primeiro parâmetro 
+é O ___NOME DO ATRIBUTO que você quer escolher____. Nesse caso presente, utilizamos "value". O segundo argumento deve ser ___O VALOR QUE VOCÊ QUER ASSIGNAR A ESSE  ATRIBUTO.
+
+
+ex:
+
+
+input.setAttribute('value', 'some other text');
+
+
+
+Se fizermos isso e apertarmos enter, veremos o seguinte resultado na página:
+
+
+
+a UI NÃO SERÁ UPDATADA. ISSO É PORQUE MUDAR O VALOR DE "VALUE" NÃO VAI DAR 
+OVERWRITE EM QUAISQUER MUDANÇAS JÁ EXISTENTES QUE JÁ TENHAM SIDO FEITAS. Isso ocorre desse jeito 
+para que você não se livre do user input ACIDENTALMENTE. O valor que está 
+dentro da input box na interface da webpage não vai mudar com isso, MAS VOCÊ DE FAT  MUDA O ATRIBUTO 
+DA PÁGINA HTML, APESAR DE ISSO NÃO SER REFLETIDO NA PÁGINA CARREGADA (porque vocÊ já a alterou com execução 
+de código javascript, e ele não é overwriteado por uma mudança no nível da webpage após tudo já ter sido carregado).
+
+Essencialmente, o código html raiz é mudado, MAS COMO NÓS NÃO TEMOS LIVESYNC entre o atributo e 
+a propriedade value, isso não é refletido na UI, E TAMBÉM NÃO É REFLETIDO NO CÓDIGO JAVASCRIPT, 
+QUE CONTINUA COM A MENSAGEM ANTIGA "some other input the user might have entered".
+
+
+
+
+VALUE é, de fato (segundo o professor), uma das propriedades mais complexas com as quais você pode 
+trabalhar, devido à maneira como ela updata a si mesma de acordo com as circunstâncias exteriores a ela.
+Mas ainda assim, geralmente a conexão propriedade-atributo é relativamente straight-forward.
+ 
+Essas propriedades/atributos se comportam assim para que você não limpe um user input de forma acidental, e 
+para que as mudanças que você faz ao "value"/valor não sejam tão facilmente "dismissed", mas deixando 
+a possibilidade de você ainda ter aquele atributo por aí no código, para que você possa até mesmo 
+assignar um novo valor a ele, ou, é claro, se você quiser resetar o input value, você sempre pode 
+apenas definir 
+
+"input.value = input.getAttribute('value');"       ----> SIM, esse método aceita apenas UM ÚNICO ARGUMENTO (não é "setAttribute", mas sim "getAttribute").
+
+
+Esse comando específico faz você definir o valor da propriedade value do javascript como 
+O VALOR ORIGINAL DE VALUE. Isso essencialmente faz com que o conteúdo do atributo seja REINICIADO PARA 
+SEU VALOR ORIGINAL, DEFAULT. Era isso que o professor estava tentando explicar. É a razão daquele 
+comportamento "Não live sync" ser mantido; é para que você sempre tenha a opção de reiniciar 
+o conteúdo dos atributos para o default/valor original.
+
+
+
+
+setAttribute (muda um atributo, primeiro parâmetro é o atributo 
+que você quer selecionar, segundo parâmetro é o valor que você quer assignar a ele.) É DIFERENTE DE  "getAttribute" (só tem 1 único parâmetro, e pega o atributo de alguma coisa que você inserir como parâmetro).

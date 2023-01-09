@@ -1,0 +1,138 @@
+CONFIGURANDO O VISUAL E FEEL DO IDE:
+
+
+
+
+
+O editor está configurado para as necessidades do professor.
+
+
+
+
+Primeiro o theme, vocÊ pode mudar o que quiser.
+
+
+
+VOCê PODE SETTAR TAMBÉM O ICON THEME. O professor usou o material icon theme, no primeiro módulo.
+
+
+
+REMOVEMOS A ACTIVITY BAR DO IDE, PORQUE ELA ATRAPALHA. FIZEMOS ISSO POR MEIO DE VIEW-APPEARANCE- SHOW ACTIVITY BAR.
+
+
+
+
+-----------------------------------------------------------------
+USANDO ATALHOS:
+
+
+SHORCUTS ESSENCIAIS:
+
+
+
+
+
+SHORTCUTS DE SELEÇÃO SÃO IMPORTANTES, TAMBÉM.
+
+
+
+
+MELHOR SHORTCUT DE SELEÇÃO = Ctrl + D.
+
+Ctrl + D =  por exemplo, temos a palavra "variable".
+
+se eu selecionar a palavra variable e apertar Ctrl + D sobre ela, 
+eu vou selecionar a próxima ocorrência de variable no documento (experimente).
+
+Isso é muito útil para casos em que você quer renomear uma variável ou uma constante, já que você 
+seleciona todas as ocorrências daquele termo rapidamente e então pode mudá-los todos ao mesmo tempo.
+
+
+ outros comandos ÚTEIS: 
+
+
+ mover o código uma linha para CIMA =  Alt + uparrow
+
+
+ mover o código uma linha para BAIXO = Alt + downarrow.
+
+
+ Teste com essas linhas de texto abaixo
+
+
+
+
+ CIMA
+
+
+
+ BAIXO
+
+
+
+ESSE COMANDO DE MOVER CÓDIGO TAMBÉM É MUITO ÚTIL.
+
+
+
+
+
+----->VOCê TAMBÉM PODE MUDAR OS BOTÕES PARA OS SHORTCUTS EM 
+
+PREFERENCES->KEYBOARD SHORTCUTS.
+
+
+
+
+---> caso você queira procurar um shortcut pela letra a qual ele está assignado, utilize 
+essa fórmula no campo de search:
+
+
+cmd (letra/botão do teclado que vocÊ quer ver a quais atalhos está assignada.)
+
+
+ex:
+
+ctrl d.
+cmd d.
+
+space d. 
+
+
+Isso te dá muito poder para trocar tudo do jeito que você quer.
+
+
+A recomendação do professor é dar uma breve olhada nas opções que vocÊ tem no menu e 
+adquirir o hábito de pegar shortcuts enquanto vai criando seus códigos.
+
+
+
+
+
+
+
+OUTRO ATALHO ÚTIL/IMPORTANTE:
+
+
+
+Ctrl + space = abre a aba de sugestões de funções/propriedades/nomes para um determinado item.
+é outra feature recomendada pelo professor.
+
+
+
+
+
+/*e quando você chama uma função, como, digamos, createAndWriteOutput e então inputta (), por default você já recebe uma ajuda de parâmetros na direita,
+onde você vê todos os parâmetros e o valor que você precisa adicionar no primeiro parâmetro até mesmo é sublinhado pelo IDE, para que você saiba
+que, qualquer coisa que você escreva agora, ela será recebida nesse tal primeiro parâmetro de nome X (no caso, seria o parâmetro de nome "operator".
+Assim que você termina o primeiro parâmetro, já o segundo parâmetro é sublinhado na caixa de diálogo, para que fique bem claro qual espaço, qual parâmetro
+vocÊ está assignando a esse termo.*/
+
+createAndWriteOutput()
+
+
+
+/* Ctrl + shift + space = abre caixa de diálogo de triggerParameters (caso de cima).*/
+
+
+
+AINDA OUTRO ATALHO ÚTIL/IMPORTANTE = Ctrl + ;   -------------> ADICIONA UMA LINHA DE COMENTÁRIO NAQUELA PARTE DO CÓDIGO.

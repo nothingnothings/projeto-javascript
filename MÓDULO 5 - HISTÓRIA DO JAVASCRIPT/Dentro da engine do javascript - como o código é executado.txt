@@ -1,0 +1,84 @@
+Agora sabemos como o javascript lida com o nosso código, como 
+ele pega o código, e como ele o  interpreta e compila.
+
+
+MAS SE NÓS OLHARMOS MAIS DE PERTO, APLICARMOS UM ZOOM NA NOSSA EXECUÇÃO DE CÓDIGO, 
+COMO DIABOS ELA FUNCIONA?
+
+Não estamos inquerindo aqui sobre o método de compilação, análise, e sim o de execução.
+
+
+
+COMO É FEITA A EXECUÇÃO DA LÓGICA EM UM CÓDIGO JAVASCRIPT?
+
+
+
+
+Temos que examinar O INTERIOR DA JAVASCRIPT ENGINE.
+
+
+
+---> "é a coisa que executa o seu código"
+
+
+
+
+No final das contas, tudo se resume ao GERENCIAMENTO DE MEMÓRIA E GERENCIAMENTO DE 
+ETAPAS/PASSOS DA EXECUÇÃO.
+
+
+Para entender isso, temos 2 conceitos importantes:
+
+
+1) O HEAP
+
+
+
+
+2) O STACK
+
+
+
+Mas o que são esses conceitos? Qual é a ideia?
+
+
+
+HEAP === É NOSSA MEMÓRIA DE LONGO-TERMO. ELA TRATA DA ALOCAÇÃO DE MEMÓRIA. (O BROWSER)ARMAZENA DADOS NA MEMÓRIA DO 
+SEU SISTEMA E ADMINISTRA O ACESSO A ESSES DADOS. É O BROWSER QUE FAZ ESSA COISA COM O HEAP, 
+ESSE ARMAZENAMENTO DE DADOS A LONGO-TERMO. O BROWSER SE LIGA A MEMÓRIA DO NOSSO SISTEMA. É CLARO QUE 
+NOSSO SISTEMA OPERACIONAL TEM VOZ NESSE PROCESSO, TAMBÉM. O SISTEMA OPERACIONAL ALOCA MEMÓRIA À 
+APLICAÇÃO DO BROWSER, ESSA É A "BIG PICTURE", mas se nós aproximarmos a análise da figura do browser, 
+e examinarmos a engine detalhadamente, veremos que é de fato o browser que faz o armazenamento da memória, 
+dentro do tal de HEAP. Lá, os dados com os quais trabalhamos em nossos programas são armazenados...
+MEMÓRIA DE LONGO-TERMO.
+
+
+
+STACK === o stack É IMPORTANTE/VITAL PARA A EXECUÇÃO DO NOSSO CÓDIGO. É CLARO QUE A MEMÓRIA LONGO-TERMO É 
+IMPORTANTE TAMBÉM, MAS O STACK É VITAL PORQUE ELE TRATA DA MEMÓRIA CURTO-TERMO. ELA ADMINISTRA O 
+"FLOW" DO NOSSO PROGRAMA; ISSO SIGNIFICA QUE O STACK MANTÉM CONTROLE SOB QUAL FUNÇÃO ESTÁ 
+SENDO EXECUTADA NO PRESENTE... QUANDO EXECUTAMOS UMA NOVA FUNÇÃO, O STACK REGISTRA QUE A FUNÇÃO 
+ANTIGA PAROU DE SER EXECUTADA/NÃO ESTÁ SENDO EXECUTADA. ALÉM DISSO, SE UMA FUNÇÃO RETORNA/RETURNS, O STACK REGISTRA 
+A FUNÇÃO PARA QUAL OS DADOS RETORNADOS FORAM ENVIADOS.
+
+
+
+ISSO FICA MUITO MAIS CLARO SE EXAMINARMOS UM EXEMPLO:
+
+
+
+Terceiro projeto, bem simples, que mostra o funcionamento desses 2 conceitos.
+
+Veja-o.
+
+
+
+Temos uma página vazia, porque agora queremos dar uma olhada nas coisas por trás das cenas, por trás dos bastidores.
+
+
+Vamos usar o dev tools, o console, para entender o que acontece.
+
+Escrevemos um programa básico no app.js, para entender.
+
+
+

@@ -1,0 +1,684 @@
+
+
+
+CERTO.
+
+
+
+MAS E QUANTO AO 'DEBUGGING'?
+
+
+
+E se eu quiser debuggar meu código...?
+
+
+
+
+
+
+Bem, se você for até a aba SOURCES nos nossos devtools do chrome,
+
+
+você pode 
+
+
+
+CHECAR O NOSSO ARQUIVO 
+
+
+
+app.js COMPILADO...
+
+(que está em 'dist')...
+
+
+
+
+ESSE ARQUIVO APP.JS compilado (e todos arquivos compilados)
+
+SÃO ARQUIVOS QUE PODEM 
+
+
+SER BEM COMPLICADOS DE DEBUGGAR, NA VERDADE...
+
+
+
+
+
+É difícil/impossível debuggar o código ali PQ O CÓDIGO DO WEBPACK 
+
+
+ACABA SENDO MISTURADO AO SEU CÓDIGO...
+
+
+
+PROFESSOR DIZ QUE TAMBÉM DEVERÍAMOS TER UM FOLDER 
+
+
+'webpack' DO LADO 
+
+
+DO FOLDER 
+
+'localhost:8080'...
+
+
+
+
+(no caso, aqui NÃO TEMOS...)....
+
+
+
+
+
+Dentro dessse folder 'webpack', teríamos/temos um 
+
+
+folder 
+
+
+
+
+que é só um '.' (é um folder com nome de '.')......
+
+
+
+DENTRO 
+
+DESSA PASTA '.', 
+
+
+você PODE ENCONTRAR SUAS SOURCE FILES ORIGINAIS (na verdade, quase 100% originais, há uns códigos que sempre são um pouco alterados).
+
+
+
+
+
+
+MAS ESSES ARQUIVOS dentro do '.' TAMBÉM FORAM/SÃO TWEAKADOS PELO WEBPACK......
+
+
+
+São tweakados pelo webpack, 
+
+
+E O ARQUIVO 'app.js' que fica ali dentro estará ___VAZIO____.
+
+
+
+
+--------> ISSO SIGNIFICA QUE ESSES ARQUIVOS SÃO MELHORES PARA DEBUGGING, MAS QUE 
+
+AINDA NÃO SÃO IDEAIS. PARA CONSEGUIR UMA ___BOA EXPERIÊNCIA DE DEBUGGING___, 
+
+
+
+PRECISAMOS __vOLTAR___ ao 'webpack.config.js'...
+
+
+
+LÁ,
+
+
+DEVEMOS ADICIONAR UMA 
+
+ENTRADA/keyname 
+
+chamada de 
+
+
+'devtool'...
+
+
+
+
+Devemos colocar o valor desse negócio como sendo UMA STRING....
+
+
+É UMA STRING QUE DESCREVERÁ UMA DAS DEVELOPMENT TOOLS QUE NOS SÃO PROVIDENCIADAS----> 
+
+--------> essa string basicamente DIRÁ AO WEBPACK COMO DEVE SER LINKADO O ARQUIVO 'COMPILADO' COM 
+
+O CÓDIGO ANTIGO...
+
+
+
+Ou seja, quão bom é o seu código, visto de uma perspectiva de debugging... (?).
+
+
+
+
+
+NESSA STRING, VOCê PODE COLOCAR ___DIFERENTES NÍVEIS DE DETALHE (levels of detail), 
+
+
+
+E, MELHOR O LINKING ENTRE OS ARQUIVOS ORIGINÁRIOS E O COMPILADO, MAIS LENTO SERÁ 
+
+O PROCESSO DE 'BUILD'... (iniciado pelo devserver de webpack...) E MAIOR 
+
+O __OUTPUT___.....
+
+
+
+
+---> QUAL A IMPORTÂNCIA DISSO?
+
+
+
+
+
+Bem, na fase de 'development', VOCÊ QUER TER 
+
+__BOM___ 'LINKING'____ para UM BOM DEBUGGING...
+
+
+
+JÁ PARA A FASE DE '__PRODUCTION___', você quer MINIMIZAR/NÃO TER UM LINK TÃO BOM 
+ENTRE OS NEGÓCIOS, E UM OUTPUT MENOR, O MENOR OUTPUT POSSÍVEL, para que seja ACELERADO 
+
+O  PROCESSO DE __BUILD___.
+
+
+
+ex:
+
+
+
+
+
+
+
+module.exports = {
+
+
+    devServer: {
+        contentBase: './dist' 
+    },
+    devtool: ..., /////////////EIS O CÓDIGO EM QUESTÃO.
+
+    entry: './src/app.js',
+    
+    mode: 'development',
+   
+
+    node: {
+        
+    },
+    output: {
+        filename: 'app.js', 
+        path: path.resolve(__dirname, 'dist')
+        //, publicPath: 'assets/scripts'
+  
+    },
+    resolve: {
+        extensions: ['.js']
+    }
+    
+
+  
+
+  
+};
+
+
+
+
+
+MAS QUAIS OPÇÕES NÓS TEMOS?
+
+
+
+--------------------------------------
+
+
+
+Professor entra no site do webpack e clica em 'guides'...
+
+
+aí ele entra na seção 'development'...
+
+
+
+EM DEVELOPMENT, VEMOS UM NEGÓCIO QUE NOS EXPLICA O PROCESSO DE __USAR SOURCE MAPS___.
+
+
+
+(ainda não sabemos o que são source maps)....
+
+
+
+
+
+Aí, o professor vai lá e clica em 'different options'...
+
+
+
+NESSA PÁGINA, É POSSÍVEL VER OS DIFERENTES 'DEVTOOLS'...
+
+Você pode usar 
+
+
+a planilha para ver QUAL CÓDIGO/tool FUNCIONA MELHOR PARA VOCÊ ...
+
+
+
+
+O PROFESSOR VAI LÁ 
+
+
+E ESCOLHE 
+
+
+
+'cheap-module-eval-source-map'...
+
+
+
+
+
+ELE COPIA ESSE VALOR/STRING no slot do devtool...
+
+
+
+ex:
+
+
+
+
+
+
+
+module.exports = {
+
+
+    devServer: {
+        contentBase: './dist' 
+    },
+    devtool: 'cheap-module-eval-source-map'
+
+    entry: './src/app.js',
+    
+    mode: 'development',
+   
+
+    node: {
+        
+    },
+    output: {
+        filename: 'app.js', 
+        path: path.resolve(__dirname, 'dist')
+        //, publicPath: 'assets/scripts'
+  
+    },
+    resolve: {
+        extensions: ['.js']
+    }
+    
+
+  
+
+  
+};
+
+
+--------------------------------------
+
+
+
+FEITO ISSO, PRECISAMOS ___REINICIAR___ O NOSSO processo 'build:dev'  (ou seja, 
+
+O NOSSO SERVIDOR, BASICAMENTE).
+
+
+
+
+
+ENTRETANTO, RECEBEMOS UM ERRO...
+
+
+
+Esse erro surgiu no terminal  QUANDO COLOCAMOS O VALOR DE 'DEVTOOL' como sendo 
+
+'cheap-module-eval-source-map'....
+
+
+
+
+
+
+Invalid configuration object. Webpack has been initialized using a configuration object that does not match the 
+API schema.
+ - configuration.devtool should match pattern "^(inline-|hidden-|eval-)?(nosources-)?(cheap-(module-)?)?source-map$".
+   BREAKING CHANGE since webpack 5: The devtool option is more strict.
+   Please strictly follow the order of the keywords in the pattern.
+
+
+
+
+
+
+
+
+
+
+
+
+CERTO, ISSO __NÃO ESTÁ FUNCIONANDO___.
+
+
+
+Não conseguimos usar sourcemaps com a ajuda do devtool...
+
+
+
+
+----------------------------------
+
+
+cheap-eval-source-map
+Loading code generated by Webpack is now removed. You see the output of your loaders/transpilers.
+
+“Pretty fast” builds, “fast” rebuilds.
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+CONSEGUIMOS FAZER A PORCARIA FUNCIONAR... (estou irritado com a falta de documentação do webpack).
+
+
+
+
+
+O problema era a ORDEM dos TERMOS na definição do valor daquele key-value pair...
+
+
+
+O ERRO ERA:
+
+
+
+"
+Invalid configuration object. Webpack has been initialized using a configuration object that does not match the 
+API schema.
+ - configuration.devtool should match pattern "^(inline-|hidden-|eval-)?(nosources-)?(cheap-(module-)?)?source-map$".
+   BREAKING CHANGE since webpack 5: The devtool option is more strict.
+   Please strictly follow the order of the keywords in the pattern."
+
+
+
+
+
+   Resumindo:
+
+
+
+
+   estávamos usando 
+
+' devtool: cheap-module-eval-source-map'.... 
+
+
+
+
+MAS ESSE CÓDIGO NÃO FUNCIONA, É UM CÓDIGO VELHO QUE SÓ FUNCIONA 
+
+NA VERSÃO DO PROFESSOR... O webpack já está na versão 5, e a versão 
+
+5 SUPORTA UMA ORDEM DIFERENTE.
+
+
+
+Ordem correta:
+
+
+
+   "devtool: 'eval-cheap-module-source-map'."
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+CONSERTADO O ERRO, NOSSO SERVIDOR RODOU DE NOVO, SEM PROBLEMAS.
+
+
+
+
+
+
+CERTO.
+
+
+
+
+
+COM ISSO, MAIS BIZARRICES SURGIRAM NA NOSSA PÁGINA.
+
+
+
+
+
+Agora, se inspecionarmos a página, abrirmos as devtools 
+
+
+
+e formos até a aba 
+
+'sources', 
+
+
+VEREMOS QUE 
+
+
+2 'FOLDERS' NOVOS FORAM CRIADOS:
+
+
+
+'webpack-internal' 
+
+
+
+e 
+
+
+'learn-webpack'...
+
+
+---------------------
+
+
+
+
+RESUMINDO, TEMOS AGORA 3 
+
+FOLDERS de arquivos .js SENDO USADOS NA NOSSA PÁGINA: 
+
+
+"localhost:8080"
+
+
+
+"learn-webpack"
+
+
+
+
+"webpack-internal"....
+
+
+
+----------------------------
+
+
+
+
+'webpack-internal' e 'learn-webpack' POSSUEM, AMBOS, 
+
+
+UM FOLDER de nome 
+
+
+'.', com 
+
+outros 
+
+
+folders, 'node_modules' e 'src', EM SEU INTERIOR.
+
+
+
+
+------------------------------------
+
+
+Certo...
+
+
+
+MAS NÓS ___aINDA NÃO TEMOS___ aquele folder 'webpack' que o professor tinha mencionado... 
+
+
+(somente temos webpack-internal e 'learn-webpack')...
+
+
+
+
+Professor diz que agora, dentro do folder webpack, dentro do 
+
+folder '.', dentro do 'src', você pode 
+
+encontrar 
+
+um arquivo 
+
+
+chamado 
+
+'app.js?1112'....
+
+
+ESSE É O NOSSO CÓDIGO ORIGINAL, DIZ O PROFESSOR.
+
+
+------------------------------------
+
+
+
+BEM, NA VERDADE, PODEMOS, SIM, ENCONTRAR ESSES ARQUIVOS QUE O PROFESSOR MENCIONOU...
+
+
+
+TODOS ELES PODEM SER ENCONTRADOS 
+
+
+NA PASTA 
+
+
+'learn-webpack', em 'src'.....
+
+
+SÃO EXATAMENTE OS MESMOS ARQUIVOS QUE ELE HAVIA MENCIONADO:
+
+
+um 'app.js?1112' 
+
+
+e os OUTROS 
+
+arquivos js, 
+
+como 
+
+'ProjectItem.js', 'ProjectList.js', etc etc.
+
+
+
+
+
+
+---------> ou seja, podemos encontrar nosso CÓDIGO ORIGINAL aqui...
+
+
+e podemos COLOCAR BREAKPOINTS NESSES CÓDIGOS...
+
+
+
+E os breakpoints, de fato, funcionarão normalmente...
+
+
+
+ISSO SIGNIFICA QUE AGORA TEMOS UM SETUP GENIAL PARA DESENVOLVIMENTO E DEBUGGING DE CÓDIGO...
+
+
+
+Agora nós conseguimos 
+
+
+
+
+1) BUNDLAR O NOSSO CÓDIGO 
+
+
+2) Ver as mudanças no código refletidas instantaneamente em uma página web 
+
+
+
+3) TRABALHAR O CÓDIGO EM 'MÓDULOS', cada um então adicionado ao bundle de todos os códigos...
+
+
+
+4) DEBUGGAR O CÓDIGO NORMALMENTE, com breakpoints, com a ajuda do 'devtool' e dos 'source-maps'...
+
+
+
+
+
+ISSO NOS DÁ UMA 
+
+
+
+DEVELOPMENT EXPERIENCE ___MELHORADA____.
+
+
+
+Nós também adicionamos LINTING, é claro, que 
+
+nos ajuda a regular nosso código e A CRIAR NOSSO PRÓPRIO ESTILO DE PROGRAMAÇÃO/código.
+
+
+
+
+
+------------------------------------
+
+
+
+O QUE FALTA AQUI, NO ENTANTO, É QUE TENHAMOS UMA 'PRODUCTION WORKFLOW', em que 
+
+
+optimizaríamos o nosso código E 
+
+
+'CUSPIRÍAMOS PARA FORA' A MENOR 
+
+QUANTIDADE DE 
+
+CÓDIGO/CODE BASE possível...
+
+------------------------------
+
+
+Faremos isso agora.

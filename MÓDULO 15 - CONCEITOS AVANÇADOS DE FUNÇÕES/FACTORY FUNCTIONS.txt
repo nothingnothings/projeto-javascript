@@ -1,0 +1,753 @@
+AGORA QUE SABEMOS A DEFINIÇÃO 
+
+
+
+
+DE 
+
+
+
+PURE FUNCTIONS 
+
+
+E  
+
+
+
+IMPURE FUNCTIONS, 
+
+devemos  MERGULHAR NO ASSUNTO DE 
+
+
+
+'FACTORY FUNCTIONS'...
+
+
+
+
+
+
+Factory functions possuem quase nenhuma relação com pure functions, MAS ELAS AINDA SÃO 
+
+UM TÓPICO IMPORTANTE.
+
+
+
+------------------------------
+
+
+
+A IDEIA POR TRÁS DE 'FACTORY FUNCTIONS' É QUE VOCÊ _____
+
+
+TEM UMA FUNÇÃO___ QUE PRODUZ ________ OUTRA FUNÇÃO_____.....
+
+
+(por isso 'factory functions', SÃO FUNÇÕES QUE AGEM COMO 'FÁBRICAS DE FUNÇÕES'...)
+
+
+
+
+
+ISSO PODE SOAR ESTRANHO, MAS TUDO FAZ SENTIDO SE OLHARMOS UM EXEMPLO...
+
+
+
+DIGAMOS QUE ESTAMOS CONSTRUINDO UM APLICATVO WEB...
+
+
+algum software de CONTABILIDADE, em que, COMO PARTE DO SOFTWARE, NÓS PRECISAMOS MOSTRAR 
+
+___VÁRIOS VALORES DE TAXAs___...
+
+
+
+E, é claro, como nós já sabemos, NÓS TEMOS DIFERENTES TAXAS DE ACORDO COM o montante com o qual 
+
+estamos trabalhando.... 
+
+
+
+
+PARA NOSSA RECEITA (rendimento), POR EXEMPLO, TALVEZ PRECISEMOS DE UM VALOR 
+
+
+
+'addedTax'; para o nosso LUCRO ANTES DA TAXA, TALVEZ PRECISEMOS DE UM VALOR 
+
+'incomeTax'(receita)/'corporateTax'....
+
+
+
+
+
+CERTO.
+
+BEM, O CÁLCULO DA TAXA (comum entre os 3) TIPICAMENTE É SEMPRE O MESMO...
+
+
+
+----------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+temos uma função, 'calculateTax()'.....
+
+
+
+
+
+SE TIVÉSSEMOS ESSA FUNÇÃO, PROVAVELMENTE TERÍAMOS UMA FUNÇÃO 
+
+QUE RECEBE/RECEBERIA UM PARÂMETRO 'TAX' (ou seja, UMA TAXA, DE VERDADE MSM) como 
+
+
+TAXRATE..... ESSA FUNÇÃO TAMBÉM RECEBERIA UM 'AMOUNT' COMO PRIMEIRO PARÂMETRO....
+
+
+
+
+ex (representação):
+
+
+
+
+function calculateTax(amount, tax) {
+    ....
+}
+
+
+-----------------------------------
+
+
+
+
+
+COMO RESULTADO (return) DESSA FUNÇÃO, NÓS SIMPLESMENTE RETORNARÍAMOS 
+
+o valor de 
+
+
+
+'amount * tax '...
+
+
+
+
+ex:
+
+
+
+
+
+function calculateTax(amount, tax) {
+    return amount * tax;
+}
+
+
+
+
+----------------------------------------------------
+
+
+
+
+
+ESSA SERIA, PORTANTO, UMA FUNÇÃO QUE CALCULARIA UMA TAXA de um determinado produto...  (por isso o seu nome, 'calculateTax()'...).
+
+
+
+
+É CLARO QUE ESSA É UMA FUNÇÃO 'TRIVIAL', MAS VOCÊ já deve ter pegado a ideia....
+
+
+
+
+AGORA O PROBLEMA É 
+Se nós tivermos 
+                                                        (value of added amount).....
+                
+ o 'valor da taxa adicionada', que o professor chamará de 'vatAmount'..
+
+
+CHAMARÍAMOS ESSA FUNÇÃO E 
+COLOCARÍAMOS O VALOR DO PRIMEIRO PARÂMETRO COMO SENDO '100' (que é a quantia do determinado produto, o primeiro parâmetro) 
+
+E DE 
+
+'0.19' (que é a quantia do parâmetrO 'TAX', em calculateTax )
+
+
+
+
+ex:
+
+
+
+
+
+function calculateTax(amount, tax) {
+    return amount * tax;
+}
+
+
+
+
+const vatAmount = calculateTax(100, 0.19);
+
+
+------------------------------------------------
+
+
+
+
+PARA NOSSA 'INCOMETAX' trick  (taxa obitida), NÓS TALVEZ PRECISEMOS CHAMAR 'calculateText' COM OS VALORES 
+
+ 
+DE (100, 0.19  COM OS VALORES DE 100 e 0.25....
+
+
+
+ex:
+
+
+
+
+function calculateTax(amount, tax) {
+    return amount * tax;
+}
+
+
+
+
+const vatAmount = calculateTax(100, 0.19);
+const incomeTax = calculateTax(100, 0.25);
+
+
+
+
+
+
+
+
+
+
+DE NOVO, O PROFESSOR RESSALTA QUE É ACEITÁVEL VOCÊ FAZER ASSIm; por ser uma função trivial, DEFINITIVAMENTE 
+
+                                                    PARECE SER RAZOÁVEL/ACEITÁVEL 
+                                                    VOCÊ A CHAMAR 
+
+                                                    POR MEIO DE 
+
+                                                    'const xxxx = calculateTax(x, y);'
+
+
+
+
+
+
+MAS E SE VOCÊ PRECISASSE DO VALOR 'vatAmount'/'incomeTax' EM DIFERENTES PARTES DO SEU SOFTWARE....?
+
+
+
+
+
+Bem, se você tivesse essa necessidade, VOCÊ TERIA DE CHAMAR ESSAS FUNÇÕES COM ESSES 
+
+'TAX RATES' (0.19, 0.25) nas diferentes partes do software, nas partes que você desejasse....
+
+
+
+
+
+
+
+
+
+
+
+É NESSES CASOS QUE UMA FACTORY FUNCTION PODE SER ÚTIL...
+
+
+
+
+VOCÊ CRIARIA UMA OUTRA FUNÇÃO,  a qual você poderia chamar de 
+
+'createTaxCalculator' (O PROFESSOR AQUI QUER DEIXAR BEM CLARO QUE ESSA FUNÇÃO 
+                        NOS RETORNARÁ ALGO QUE ENTÃO FARÁ OUTRA COISA PARA NÓS...)
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function createTaxCalculator() {
+
+}
+
+
+
+
+
+
+
+
+
+function calculateTax(amount, tax) {
+    return amount * tax;
+}
+
+
+
+
+const vatAmount = calculateTax(100, 0.19);
+const incomeTax = calculateTax(100, 0.25);
+
+
+
+
+
+
+
+
+------------------------------------
+
+
+
+
+DENTRO DESSA FUNÇÃO 'createTaxCalculator', CRIAREMOS UMA NOVA FUNÇÃO (como o professor mencionou no início desta aula)...
+
+
+
+............COMO APRENDEMOS MUITAS AULAS ATRÁS, NÓS ___PODEMOS__ TER FUNÇÕES DENTRO DE FUNÇÕES, 
+
+por isso podemos MOVER AQUELA FUNÇÃO 
+
+'calculateTax' PARA DENTRO DA FUNÇÃO 
+
+
+'createTaxCalculator()'....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function createTaxCalculator() {
+            function calculateTax(amount, tax) {
+                 return amount * tax;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+const vatAmount = calculateTax(100, 0.19);
+const incomeTax = calculateTax(100, 0.25);
+
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+AGORA, PORTANTO, NÓS TEMOS A FUNÇÃO calculateTax DENTRO DA FUNÇÃO 
+
+'createTaxCalculator'...
+
+
+
+A COISA INTERESSANTE, AQUI, É QUE 
+
+A FUNÇÃO 'createTaxCalculator' PODERIA ACEITAR UM PARÂMETRO 
+
+'TAX'....
+
+FEITO ISSO, PODERÍAMOS REMOVER O PARÂMETRO 'TAX' DE DENTRO DA FUNÇÃO INTERNA 'calculateTax'...
+
+
+PODERÍAMOS REMOVER ESSE PARÂMETRO DEVIDO ÀQUELE FENÓMENO DO 'INTERNAL SCOPE' que o professor nos explicou mtas 
+aulas atrás...
+
+
+----> UMA FUNÇÃO DENTRO DE UMA FUNÇÃO PODE ACESSAR TUDO AQUILO QUE É/ESTÁ DISPONÍVEL 
+
+DO LADO DE FORA DE SI MESMA.... (na função externa, outer function.) ---------> É POR ISSO QUE O PARÂMETRO 'TAX', O QUAL 
+
+TEMOS DEFINIDO NA OUTER FUNCTION de 'createTaxCalculator', PODE SER TAMBÉM UTILIZADO NA FUNÇÃO INTERNA, na função 'calculateTax()'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+function createTaxCalculator(tax) {
+            function calculateTax(amount) {
+                 return amount * tax;
+}
+}
+
+
+
+
+--------------------------------------
+
+
+
+PORTANTO, AGORA TEMOS NOSSA FUNÇÃO QUE FAZ O CÁLCULO DA TAXA DEFINIDA COMO PARTE INTEGRANTE 
+
+
+DAQUELA OUTER FUNCTION, da função 'createTaxCalculator'....
+
+
+
+
+AGORA ALI, EM createTaxCalculator, naquela FUNÇÃO EXTERNA, podemos retornar o valor de 'calculateTax'....
+
+
+
+
+
+ex:
+
+
+
+
+
+function createTaxCalculator(tax) {
+            function calculateTax(amount) {
+                 return amount * tax;
+}
+return calculateTax;
+}
+
+
+
+-----------------------------------------------
+
+
+
+
+Esse return de 'calculateTax' NÃO VAI NOS RETORNAR O RESULTADO 
+
+DA FUNÇÃO 'calculateTax', MAS SIM UM ___PONTEIRO____ (um pointer/endereço) à ESSA FUNÇÃO...
+
+
+
+
+Mas e qual a vantagem nisso?
+
+
+
+
+
+Bem, agora nós RETORNAMOS UMA FUNÇÃO QUE ESPERA UM 'AMOUNT' como um input/parâmetro, 
+
+MAS QUE NÃO PRECISA DE UMA 'TAX PERCENTAGE' como input/parâmetro....
+
+
+
+
+
+O QUE PODEMOS FAZER AGORA, PORTANTO, É CRIAR UM
+
+
+
+'calculateVatAmount', UMA FUNÇÃO que FARÁ O CÁLCULO do 'added tax value'....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+function createTaxCalculator(tax) {
+            function calculateTax(amount) {
+                 return amount * tax;
+}
+return calculateTax;
+}
+
+
+
+
+const calculateVatAmount;
+
+
+
+----------------------------------------
+
+
+MAS ESSE NEGÓCIO SERÁ SIMPLESMENTE UMA ___cALL____ PARA 
+
+
+'createTaxCalculator'...... uma call em que PASSAREMOS A 'vat percentage' (A PORCENTAGEM DA TAXA).... (0.19).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+function createTaxCalculator(tax) {
+            function calculateTax(amount) {
+                 return amount * tax;
+}
+return calculateTax;
+}
+
+
+
+
+const calculateVatAmount = createTaxCalculator(0.19);
+
+
+
+-------------------------------------
+
+
+NÓS TAMBÉM TEREMOS O NOSSO 'CalculateIncomeTaxAmount', que fará a mesma call, mas dessa vez com o valor de 0.25 em taxas.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function createTaxCalculator(tax) {
+            function calculateTax(amount) {
+                 return amount * tax;
+}
+return calculateTax;
+}
+
+
+
+
+const calculateVatAmount = createTaxCalculator(0.19);
+const CalculateIncomeTaxAmount = createTaxCalculator(0.25);
+
+
+-----------------------------------------------------
+
+
+
+O QUE ARMAZENAMOS NESSAS CONSTANTES, PORTANTO, SÃO 2 FUNÇÕES.....
+
+
+
+A PRIMEIRA CONSTANTE SEGURA a INNER FUNCTION DE 'calculateTax' ( ou seja, o código 'function calculateTax(amount) {
+                                                                                        return amount * tax;
+}), CONFIGURADA PARA O VALOR DE 
+            '0.19'....
+
+    
+
+    A SEGUNDA CONSTANTE TAMBÉM SEGURA A INNER FUNCTION 'calculateTax', MAS DESSA VEZ 
+
+    CONFIGURADA PARA UMA DIFERENTE PORCENTAGEM...
+
+
+
+
+    COM ISSO, COM ESSA COMBINAÇÃO DE CÓDIGO, ACABEI CHAMANDO A OUTERFUNCTION 'createTaxCalculator' 2 VEZES,
+    mas rodei as duas vezes COM DIFERENTES ARGUMENTOS PARA A 'TAX'...
+
+    JÁ A FUNÇÃO INTERNA É RECRIADA 2 VEZES, UMA VEZ PARA CADA EXECUÇÃO DE SEU CÓDIGO... (uma para o valor de 0.19, outra para o de 0.25 )...
+
+
+
+E NAS 2 VEZES ESSA FUNÇÃO INTERNA 'LOCKA' a porcentagem, a 'tax' OFERECIDA PELA OUTER FUNCTION (taxa que DIFERE, é diferente entre as 2 execuções).
+
+
+
+
+
+
+
+
+
+RESUMINDO...:
+
+
+
+A função que retornamos no final de 'createTaxCalculator', com 'return calculateTax' É UMA FUNÇÃO 
+
+____PRÉ CONFIGURADA___ com VALORES/UM VALOR 
+
+'LOCKEDIN' DE   'TAX' ...................
+
+
+
+
+
+Se o professor então fizer o console.log de 'calculateVatAmount' PARA O VALOR DE 100, 
+
+
+ELE NÃO PRECISARÁ ADICIONAR O SEGUNDO PARÂMETRO NESSE CONSOLE.LOG, ele não precisará do parâmetro DA TAXA/'tax', POIS 
+
+
+ESSE VALOR JÁ ESTARÁ PRÉ-CONFIGURADO EM 
+
+
+'calculateVatAmount'... (LEMBRE-SE: 'const calculateVatAmount = createTaxCalculator(0.19);)...
+
+
+
+MESMA COISA PARA 'CalculateIncomeTaxAmount', ELE APENAS PRECISA COLOCAR '200', que será inserido NO PARÂMETRO 'AMOUNT'; o segundo 
+
+
+parâmetro não é necessário, pois já está pre-configurado nas consts de 'calculateVatAmount' e 'CalculateIncomeTaxAmount'....
+
+
+
+
+
+
+ex:
+
+
+
+
+function createTaxCalculator(tax) {
+            function calculateTax(amount) {
+                 return amount * tax;
+}
+return calculateTax;
+}
+
+
+
+
+const calculateVatAmount = createTaxCalculator(0.19);
+const CalculateIncomeTaxAmount = createTaxCalculator(0.25);
+
+
+
+console.log(calculateVatAmount(100));
+console.log(CalculateIncomeTaxAmount(200));
+
+
+
+------------------------------------
+
+
+
+
+GRAÇAS àS FACTORY FUNCTIONS, O PROFESSOR NÃO PRECISA AQUI READICIONAR O VALOR DAS TAX PERCENTAGES 
+
+REPETIDAS VEZES, tudo pq ele PRECONFIGUROU ESSES VALORES ANTECIPADAMENTE em 
+'const calculateVatAmount = createTaxCalculator(0.19);'
+
+
+E 
+
+'const CalculateIncomeTaxAmount = createTaxCalculator(0.25);'
+
+
+
+ELE APENAS PRECISA PASSAR OS VALORES DOS AMOUNTS COMO PARÂMETRO DE 'calculateVatAmount'/'CalculateIncomeTaxAmount' NO CONSOLE.LOG; NÃO PRECISA MAIS PASSAR a 'tax' todas as vezes que quiser rodar esses códigos.
+
+
+
+
+
+
+
+ESSA É A IDEIA POR TRÁS DE FACTORY FUNCTIONS:
+
+
+
+
+Se você tem uma certa função a qual você quer CHAMAR MÚLTIPLAS VEZES EM DIFERENTES PARTES DO SEU CÓDIGO ( e se ELA PUDER SER ___PRÉ-CONFIGURADA__ DE UMA CERTA MANEIRA ESPECÍFICA),
+
+
+VOCÊ PODE FAZER ISSO, COLOCAR 1 FUNÇÃO DENTRO DA OUTRA, SUPRIMIR UM/VÁRIOS PARÂMETROS DA FUNÇÃO INTERNA E COLOCÁ-LO/COLOCÁ-LOS 
+NA FUNÇÃO EXTERNA, CONFIGURAR UMAS CONSTS COM VALORES PRÉ-DEFINIDOS 
+
+E ENTÃO SER FELIZ.... (não precisará ficar repetindo o segundo parâmetro 1 milhão de vezes)....
+
+
+(OBS:::: isso só funciona se VOCÊ TEM ABSOLUTA CERTEZA QUE O ARGUMENTO QUE VOCÊ QUER 'ESCANTEAR'/pré-programar 
+
+É ABSOLUTAMENTE PREVISÍVEL; ou seja, que vocÊ sabe que terá de reescrever múltiplas vezes a mesma coisa...)
+
+
+
+
+FACTORY FUNCTIONS PODEM SER CONVENIENTES E TE SALVAR TEMPO E CÓDIGO...

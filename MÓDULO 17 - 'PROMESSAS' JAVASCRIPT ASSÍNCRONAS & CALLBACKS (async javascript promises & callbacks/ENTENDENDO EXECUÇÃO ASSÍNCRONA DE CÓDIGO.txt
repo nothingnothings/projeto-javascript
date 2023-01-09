@@ -1,0 +1,647 @@
+
+
+
+
+
+MAS O CONCEITO QUE O PROFESSOR EXPLICOU NA ÚLTIMA LIÇÃO PODE TER 
+UMA DESVANTAGEM PESADA....
+
+
+
+
+
+
+E SE TIVERMOS CERTAS OPERAÇÕES QUE DEMORAM UM POUCO MAIS, que certamente demoram um pouco mais.
+
+
+
+
+
+
+digamos que temos o seguinte código:
+
+
+
+
+
+console.log();
+
+
+
+setTimeout();
+
+
+
+
+moreCode();
+
+
+
+
+
+---------------------------
+
+
+
+Ou seja, temos um statement 'console.log', 
+
+mas aí 
+
+definimos um setTimeout() (ou seja, UM TIMER)
+
+
+e então 
+
+
+EXECUTAMOS AINDA MAIS CÓDIGO ('moreCode()').
+
+
+
+
+
+
+ESQUEMA:
+
+
+
+
+
+
+console.log()            setTimeout()           moreCode()
+
+
+
+--------------------------------------------------
+
+
+
+
+O problema é que o 'setTimeout' (o timer) pode 
+
+demorar 
+
+2s, 5s, 10s ou até 100 milissegundos....
+
+
+
+MAS ATÉ MESMO 100 milissegundos AINDA É 
+
+UMA DURAÇÃO...
+
+
+UMA DURAÇÃO QUE PROVAVELMENTE NÃO GOSTARÍAMOS DE ESPERAR...
+
+
+
+
+NÃO GOSTARÍAMOS DE ESPERAR... PQ ESSA OPERAÇÃO EM GERAL (a 'setTimeout') PODERIA FAZER 
+
+COM QUE NOSSO CÓDIGO DEMORASSE MAIS TEMPO PARA SER EXECUTADO EM SUA INTEGRALIDADE,
+
+BLOQUEANDO NOSSA EXECUÇÃO DE CÓDIGO E PREVENINDO OUTRAS FUNÇÕES/CÓDIGOS 
+
+DE SEREM EXECUTADOS ATÉ QUE SEU TIMER ACABE.
+
+
+
+
+ESQUEMA:
+
+
+
+
+
+
+console.log()            setTimeout()           moreCode()
+
+                                ^
+                                |
+                                |
+                                |
+                        ------------------
+                    THIS OPERATION COULD TAKE A BIT LONGER (wait until timer is expired). BAD.
+                        ---------------------
+
+
+-------------
+
+
+
+
+
+NÃO GOSTARÍAMOS DE ESPERAR... PQ ESSA OPERAÇÃO EM GERAL (a 'setTimeout') PODERIA FAZER 
+
+COM QUE NOSSO CÓDIGO DEMORASSE MAIS TEMPO PARA SER EXECUTADO EM SUA INTEGRALIDADE,
+
+BLOQUEANDO NOSSA EXECUÇÃO DE CÓDIGO E PREVENINDO OUTRAS FUNÇÕES/CÓDIGOS 
+
+DE SEREM EXECUTADOS ATÉ QUE SEU TIMER ACABE.
+
+
+----> PELO MENOS ESSE SERIA O CASO SE 
+
+O JAVASCRIPT TRATAR/TRATASSE ISSO DA MESMA MANEIRA QUE TRATA TODOS OS 
+
+OUTROS CODE BLOCKS... 
+
+
+
+
+------------------------------------------
+
+
+
+É EVIDENTE QUE PARA ILUSTRAR O PROBLEMA, NÃO TEMOS APENAS TIMERS, 
+
+nosso exemplo poderia ser uns 
+
+HTTP REQUESTS que você está enviando, 
+
+em que vocÊ talvez estivesse esperando uma resposta ou algo do gênero...
+
+
+
+(Other examples: Http requests (waiting for response), getting user location, ...).
+
+
+
+VEREMOS ISSO DOS HTTP REQUESTS NO PRÓXIMO MÓDULO.
+
+
+
+VOCÊ TAMBÉM PODERIA ESTAR PEGANDO A LOCATION DO USER,
+
+que é algo que o professor nos mostrou no módulo sobre 'navigation', mais cedo no curso.
+
+
+
+-------------------------------------------------------------
+
+
+
+
+NÓS SIMPLESMENTE TEMOS CERTAS OPERAÇÕES ___qUE NÃO PODEM ____ SER TERMINADAS 
+
+IMEDIATAMENTE____.
+
+
+
+Essas certas operações não são apenas TIMERS, em que nós, desenvolvedores, 
+definimos quanto tempo um certo negócio deve tomar, 
+E SIM TODAS AS OPERAÇÕES como 'http Requests' 
+e o get de user location, 
+
+coisas que SIMPLESMENTE DEMORAM UM POUCO MAIS PARA SEREM EXECUTADAS/renderem resultados.
+
+
+
+
+
+E, tipicamente, VOCÊ NÃO VAI QUERER/NÃO QUER QUE O SEU SCRIPT INTEIRO FIQUE 
+
+BLOQUEADO ATÉ QUE ESSAS OPERAÇÕES TERMINEM, pois 
+
+
+O BLOCK DO SEU SCRIPT NÃO SIGNIFICA APENAS QUE SUA PRÓXIMA LINHA 
+
+NÃO SERÁ EXECUTADA IMEDIATAMENTE, mas também que 
+
+____NENHUM OUTRO CÓDIGO ___ PODE SER EXECUTADO!
+
+
+
+Isso pode ser um PROBLEMAO.
+
+
+
+Exemplo: imagine que você tem um EVENTLISTENER para fazer listen 
+
+
+de um CLICK EM UM BUTTON...  aí, essa handler function acoplada ao listener que 
+
+DEVERÁ SER TRIGGADA NO INSTANTE EM QUE O BOTÃO É CLICADO TAMBÉM 
+
+___SERÁ BLOQUEADA___ ATÉ QUE O TIMER EXPIRE/até que o http request termine de ser enviado.
+
+
+
+VOCÊ ESTARIA, ESSENCIALMENTE, BLOQUEANDO 
+
+SUA PÁGINA INTEIRA COM ESSAS OPERAÇÕES 'MAIS VAGAROSAS' (com essas operações que são mais demoradas).
+
+
+------------------------------
+
+E ISSO, TIPICAMENTE, NÃO É ALGO QUE VOCÊ 
+
+QUER.
+
+
+A operação 'moreCode()', nesse exemplo,
+
+não deveria ter que AGUARDAR A EXECUÇÃO DE 'setTimeout()', função mais demorada do que 'moreCode()', PARA 
+
+SER EXECUTADA... (imagine, por ex, que 'moreCode()' é A HANDLER FUNCTION ACOPLADA A UM LISTENER, conforme vimos mais acima.)
+
+
+ex:
+
+
+
+
+console.log()            setTimeout()           moreCode()
+                              ^
+                              |                      ^
+                              |                     |
+                              |                      |
+                              |                      THIS OPERATION SHOULDN'T NEED TO WAIT 
+                              |                      FOR THE PREVIOUS ONE TO FINISH.
+                              |
+
+
+ THIS OPERATION COULD TAKE A BIT LONGER (wait until timer is expired). BAD.
+
+
+
+ --------------------------------------------------------
+
+
+
+
+
+ Felizmente o javascript e os browsers POSSUEM UMA SOLUÇÃO PARA ESSE PROBLEMA:
+
+
+
+
+
+ A SOLUÇÃO É 
+
+
+ O 'ASYNCHRONOUS CODE EXECUTION'...
+
+
+
+
+
+
+ Devemos usar o exemplo do timer, MAS O QUE VEREMOS SOBRE 'async code execution' TAMBÉM 
+
+
+ SE APLICA A 'HTTP REQUESTS'...
+
+
+
+
+
+ CERTO.
+
+
+
+ SE TIVERMOS OPERAÇÕES QUE TIPICAMENTE DEMORAM MAIS, 
+
+ podemos, na verdade, FAZER 'OFFLOAD'(desembarcá-las) DELAS NO BROWSER...
+
+
+
+
+ O QUE NÓS FAZEMOS, BASICAMENTE, É ENTREGAR ESSA OPERAÇÃO NAS MÃOS DO BROWSER......
+
+
+
+ Quando dizemos 'setTimeout()', nós simplesmente dizemos AO BROWSER PARA 
+
+ DEFINIR UM TIMER.... mas com async code execution, NÓS 
+
+ DEIXAMOS O BROWSER REALIZAR ESSA TAREFA; 
+
+
+SE FIZERMOS ISSO, O NOSSO CÓDIGO QUE NÃO É 'setTimeout' PODE ENTÃO RODAR DIRETO
+
+(
+
+console.log()          moreCode()
+                        -----------------------------------    setTimeout() 
+                                                                        ^
+                        ---= 'execução do setTimeout()'.                |--------- THIS OPERATION IS HANDED OFF TO THE BROWSER, WHICH USES MULTIPLE THREADS.
+
+),
+
+
+PORQUE AGORA O BROWSER/JAVASCRIPT É CAPAZ, NA VERDADE, DE 
+
+USAR 
+
+
+____MÚLTIPLAS THREADS_____:
+
+
+UMA THREAD PARA O JAVASCRIPT,
+
+
+E OUTRA PARA OUTRA TAREFA, POR EXEMPLO...
+
+
+
+
+
+
+
+PORTANTO, ESSE _____tIMER______ PODE____ SER GERENCIADO/ADMINISTRADO NO BROWSER EM SI,
+
+SEPARADO DE NOSSO CÓDIGO DE JAVASCRIPT QUE ESTÁ EM EXECUÇÃO/SENDO EXECUTADO... (browser faz isso justamente para evitar que nosso runtime dos códigos javascript não seja bloqueado)
+
+ISSO SIGNIFICA QUE NOSSO CÓDIGO JAVASCRIPT ___ ACABA DEIXANDO DE SER BLOQUEADO____, 
+
+o browser sendo encarregado de gerenciar o timer...
+
+
+
+
+A MESMA COISA OCORRE PARA HTTP REQUESTS (sempre é feito pelo usuário, o http request), 
+
+em que nós 
+
+ESPERAMOS POR UMA RESPOSTA, ou 
+para 
+
+o recebimento/get DO USER LOCATION DE UM USUÁRIO..., em que nós esperamos por uma localização...
+
+
+
+O BROWSER GERENCIA ESSAS TAREFAS, administra elas em multiplas threads, e, portanto, 
+
+nosso código javascript não fica bloqueado.
+
+
+-----------------------------------
+
+
+
+
+
+
+ENTRETANTO, O BROWSER PRECISA DE UMA MANEIRA DE SE COMUNICAR DE VOLTA AO NOSSO CÓDIGO JAVASCRIPT...
+
+
+
+Para isso, NÓS TIPICAMENTE/FREQUENTEMENTE USAMOS 
+
+___CALLBACK FUNCTIONS___.
+
+
+
+
+-------------------------------
+
+
+
+
+A ideia aqui é que, por exemplo em 'setTimeout()', 
+NÓS PASSAMOS 
+
+UMA CALLBACK FUNCTION como primeiro argumento (aprendemos isso há mt tempo)...
+
+
+
+E ESSA CALLBACK FUNCTION __É PRECISAMENTE A FUNÇÃO___ QUE O BROWSER 
+
+DEVERÁ CHAMAR ASSIM QUE SUA OPERAÇÃO DEDICADA ESTIVER ACABADA.....
+
+
+
+A callback function EXISTE PARA QUE O BROWSER POSSA 'kindof'   "regredir" ("step back") 
+
+PARA DENTRO DO NOSSO CÓDIGO E ENTÃO EXECUTAR ALGO LÁ DENTRO, dentro do código javascript....
+
+
+ASSIM QUE ELE EXECUTAR ESSE 'algo' dentro do nosso script,
+
+o nosso código continua a rodar normalmente...
+
+
+Essa é a teoria por trás das callback functions e do async code execution.
+
+
+--------------------------
+
+
+
+SE VOCÊ QUER DAR UMA OLHADA EM COMO ISSO FUNCIONA, você 
+
+pode ver o exemplo do professor,
+
+
+o código:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+------------------------------------
+
+
+
+NESSE EXEMPLO, O PROFESSOR TEM UM EVENTLISTENER, e isso é basicamente 
+
+
+UMA COISA SIMILAR àQUILO QUE ELE ESTAVA FALANDO...
+
+
+
+
+Se nós tivéssemos um 'ongoing listener' (um listener que TRANCASSE O CÓDIGO INTEIRO ATÉ QUE FOSSE EXECUTADO),
+
+ELE
+
+________bLOQUEARIA____ toda a execução DO RESTO DO NOSSO SCRIPT, POIS ELE 
+
+
+
+FICARIA 
+
+
+perguntando:
+
+
+'o usuário já apertou nesse botão?' 
+
+
+'o usuário já apertou nesse botão?'
+
+
+um milhao de vezes...
+
+
+Até que ele recebesse um 'sim', ele não 
+
+deixaria o resto do código rodar...
+
+
+ISSO SERIA PÉSSIMO!!
+
+
+
+Você não quer que o seu código funcione assim...
+
+
+
+EM VEZ DISSO, QUANDO ADICIONAMOS UM EVENTLISTENER EM NOSSO CÓDIGO,
+
+ NÓS TAMBÉM 
+ ACABAMOS 
+
+ FAZENDO O 'HANDING OFF' DESSA TASK AQUI ao browser, o qual 
+
+ GERENCIARÁ ESSES LISTENERS POR TRÁS DAS CENAS, para que nossa EXECUÇÃO 
+
+
+ DE SCRIPT (do documento script, das outras linhas nesse documento) POSSA 
+
+ CONTINUAR....
+
+
+
+-----------------------
+
+
+
+Mas então, nós temos essa função 'trackUserHandler', 
+
+
+que passamos como segundo parâmetro desse eventListener..., 
+
+
+a QUAL EFETIVAMENTE 
+
+
+É A TAL DA 'CALLBACK' FUNCTION, A FUNÇÃO 
+
+____ QUE O BROWSER DEVERÁ CHAMAR ____ UMA VEZ QUE ___ TENHA TERMINADO 
+
+DE ADMINISTRAR/GERENCIAR OS EVENTLISTENERS/TIMERS/HTTP REQUESTS, etc....
+
+
+
+
+
+Nesse caso concreto, o browser deverá chamar/executar essa função não quando o addEventListener é adicionado (pq isso acontece já no início do runtime), 
+
+MAS SIM  NO MOMENTO EM QUE O EVENTO 'CLICK' ocorre....
+
+
+essa mecânica existe PARA QUE O BROWSER SEMPRE POSSA 'STEP BACK INTO' nA NOSSA  
+
+EXECUÇÃO DE SCRIPT e para  que possa executar essa função 
+
+'trackUserHandler' UMA VEZ QUE UM 'CLICK' aconteça...
+
+
+
+----------------------------------
+
+
+
+O professor coloca no function body de 'trackUserHandler' a expressão 
+
+'console.log('Clicked!')' PARA MOSTRAR QUE O BOTÃO FOI CLICADO..
+
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+    console.log('Clicked');
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+------------------------------------------------
+
+
+
+
+Como vocÊ já aprendeu nesse curso, 
+
+esse 
+
+'console.log' de 'Clicked' SÓ SERÁ EXECUTADO NO MOMENTO EM QUE UM CLICK OCORRER...
+
+
+O Q REALMENTE ACONTECE POR TRÁS DAS CENAS, E ISSO É NOVO, é que 
+
+QUANDO escrevemos a linha '.addEventListener('click', trackUserHandler)', 
+
+NÓS MANDAMOS O BROWSER DEFINIR UM EVENTLISTENER COMO ESSE... e, aí, em javascript
+ESTAMOS ACABADOS ('done with it') COM ESSA PARTE DO CÓDIGO; OU SEJA, O RESTANTE CABE AO BROWSER, 
+
+A TAREFA DE ADMINISTRAR O EVENTO CLICK E ENTÃO EXECUTAR A 'CALLBACK FUNCTION' quando o click ocorre,
+
+cabe AO BROWSER, e somente ao browser.
+
+
+Nós apenas dizemos, anteriormente ao evento click, QUAL FUNÇÃO O JAVASCRIPT DEVERÁ 
+
+EXECUTAR ASSIM QUE O EVENTO CLICK OCORRER.
+
+--------------------------------------------------
+
+
+
+Se recarregarmos a página, veremos 'Clicked' quando clicarmos no botão...
+
+
+
+Certo, isso não é novidade; novidade é a mágica por trás das que o javascript 
+faz, e como tudo isso funciona.
+
+
+
+
+E É EXATAMENTE ASSIM QUE O JAVASCRIPT FUNCIONA:
+
+
+
+TUDO NO NOSSO CÓDIGO QUE É EXECUTADO INSTANTANEAMENTE É REALMENTE EXECUTADO 
+INSTANTANEAMENTE, pois códigos/linhas de código sempre impedem o resto do código de ser 
+
+executado, o resto do script de ser executado.
+
+É O BROWSER QUE NOS AJUDA COM AS TAREFAS QUE DEMORAM UM POUCO MAIS PARA SEREM 
+CUMPRIDAS, AS TAREFAS QUE VÃO DEMORAR E QUE NÃO PODEM ACABAR BLOQUEANDO SUA 
+
+'THREAD PRINCIPAL'...

@@ -1,0 +1,330 @@
+Nós havíamos selecionado um elemento no dom, e também múltiplos elementos.
+
+
+
+Agora, nós queremos manipulá-los.
+
+
+
+
+Nós não fizemos isso muitas vezes até agora.
+
+
+
+
+
+Fizemos algumas vezes, como quando no monster killer nós mudamos 
+a barra de vida que era renderizada na tela... MAS ISSO É ALGO QUE 
+VOCÊ TIPICAMENTE QUER FAZER UM MONTE EM APLICATIVOS QUE UTILIZEM MUITO 
+CÓDIGO JAVASCRIPT, APLICATIVOS EM QUE VOCÊ QUER PROVIDENCIAR AQUELA USER EXPERIENCE 
+BOA AO USUÁRIO, uma experiência em que você muda as coisas na UI renderizada na webpage SEM 
+A NECESSIDADE DE RECARREGAR A PÁGINA/CARREGAR UMA NOVA PÁGINA com novo código html.
+
+
+Em vez disso, você quer mudar o conteúdo que já está na página html carregada diante de você.
+Isso é mais rápido e providencia uma experiência mais "smooth".
+
+
+
+Digamos que temos um parágrafo aqui, com algum texto, uma classe e um id.
+
+
+
+ex:
+
+
+<p id="welcome-text" class="text-default">Welcome!</p>
+
+
+
+
+Digamos que selecionamos isso, por exemplo, por meio de 
+"getElementById()".
+
+
+
+ex:
+
+
+document.getElementById('welcome-text');
+
+
+
+
+
+
+Então, armazenamos esse seletor em uma constante:
+
+
+ex:
+
+
+
+const p = document.getElementById('welcome-text');
+
+
+
+
+
+
+Mas e agora, o que podemos fazer com isso?
+
+
+
+Bem, por exemplo, podemos LER O SEU "TEXT CONTENT", no caso "Welcome!". 
+Fazemos isso por meio da PROPRIEDADE "textContent", exposta pelo elemento 
+selecionado por aquele seletor "document.getElementById('welcome-text');".
+
+
+ex:
+
+
+p.textContent;  -----> ESSA FUNÇÃO (.textContent) Vai LER O CONTEÚDO DE 
+TEXTO DESSE ELEMENTO que foi selecionado e armazenado na constante "p".
+
+
+-----------------------------------------------
+
+
+também podemos ler o ID, por meio de 
+
+
+"p.id;"   ----> ISSO VAI RETORNAR "welcome-text", que é o ID daquilo que foi 
+selecionado e armazenado na constante "p".
+
+
+
+-----------------------------------------------
+
+
+O MESMO ocorre para "className", que faz com que a classe desse elemento selecionado 
+pelo seletor e armazenado na constante p seja lida.
+
+
+ex:
+
+  (importante: utilizamos "className" aqui, e não apenas "class".)
+"p.className;" ---> isso nos retorna "text-default".
+
+
+
+
+
+É ASSIM, PORTANTO, QUE PODEMOS LER DADOS DE DENTRO DESSES ELEMENTOS/SELETORES DE ELEMENTOS, algo que 
+iremos fazer um monte.
+
+
+Você nem sempre MUDA IMEDIATAMENTE AS COISAS, às vezes você apenas quer 
+descobrir em que estado atual está esse elemento?, que css class ele tem?
+
+
+
+
+Mas você também pode mudar isso por meio de, por exemplo, assignar um novo 
+valor a um className. 
+
+ex:
+
+
+"p.className = 'new-class-ass' "   ---------> isso fará a classe do negócio realmente mudar. A mudança será refletida no DOM, renderizado pelo browser. A mudança será, é claro, refletida/updatada na USER INTERFACE. Tudo isso é automático, feito pelo browser.
+----------------------------------------------------------
+
+CUIDADO: nem todas as propriedades de um certo elemento são ESCREVÍVEIS (writable), 
+mas UM MONTE DELAS É. 
+
+
+
+
+isso fará a classe do negócio realmente mudar. A mudança será refletida no DOM, renderizado pelo browser. A mudança será, é claro, refletida/updatada na USER INTERFACE. Tudo isso é automático, feito pelo browser.
+
+
+
+Devemos dar uma olhada específica nisso.
+
+
+
+De volta aos dev tools da página do "dive into the dom", 
+
+DIGAMOS QUE NO HEADER, no h1 element do header, o professor quer MUDAR A COR 
+DO TEXTO E A COR DO BACKGROUND. Ele também quer alterar o texto que é mostrado ali.
+
+
+
+O professor primeiramente cria uma constante com o elemento h1.
+
+
+
+ex:
+
+
+
+const h1 = document.querySelector('h1'); ----> professor diz que quis mudar um pouco as coisas aqui; poderíamos ter usado getElementById, porque esse header tem uma id de 'main-title'.
+
+
+agora, o elemento h1 está armazenado na constante h1.
+
+
+
+Podemos, por exemplo, colocar ".textContent" e fazer com que o console nos leia 
+o conteúdo que está dentro desse elemento.
+
+
+ex:
+
+h1.textContent ---> "dive into the DOM!"
+
+
+
+ex:
+
+
+
+h1.className ---> "" (empty string).
+
+
+
+
+MAS DIGAMOS QUE QUEREMOS MUDAR O TEXTO DESSE H1 ELEMENT.
+
+
+PARA ISSO, PODEMOS SIMPLESMENTE DIGITAR:
+
+
+
+"h1.textContent = 'New text';"
+
+
+ISSO VAI MUDAR O TEXTO QUE ESTÁ RENDERIZADO NA PÁGINA.
+
+
+O que isso faz, por trás das cenas, é REMOVER O TEXT NODE ANTIGO (nossa nova mensagem ainda não estava no código. O que o javascript fez foi CRIAR UM NOVO TEXT NODE, QUE 
+SUBSTITUIU AQUELE TEXT NODE ANTIGO). 
+
+
+Podemos também assignar uma nova classe CSS a esse elemento, por meio do 
+
+".className = xxx".
+
+
+
+
+
+ex:
+
+
+
+"h1.className = 'title';
+
+
+
+
+
+Se fizermos isso e formos de volta até a aba elements do devtools, veremos que 
+nossa nova classe estabelecida para esse elemento estará lá no objeto html renderizado pela página.
+
+
+
+Podemos mudar o estilo por aqui, também.
+
+
+A propriedade "style" te dá acesso a um objeto GIGANTE com TODAS AS PROPRIEDADES CSS.
+
+
+
+ex:
+
+
+h1.style.color = 'white';
+
+
+
+ex:
+
+
+h1.style.backgroundColor = 'red';
+
+
+
+IMPORTANTE ---> "background-color" NÃO FUNCIONA, DEVEMOS USAR CAMELCASE ----> "backgroundColor".
+
+
+
+
+se digitarmos ele solto
+
+ex:
+
+
+h1.style.backgroundColor
+
+
+--------------------------
+
+
+ele só nos dirá qual cor q está usada para o background. (se não há cor alguma, ele nos retorna uma empty string).
+
+
+
+
+MAS COMO DIABOS VOU SABER QUAIS PROPRIEDADES QUE HÁ DENTRO DE UM OBJETO PARA EU UTILIZAR?
+
+
+Simples, por meio de console.dir.
+
+
+ex:
+
+ 
+
+console.dir(h1);
+
+
+
+
+Isso é algo que o professor recomenda que nós façamos, porque há 
+algumas coisas muito úteis.
+
+
+Você pode brincar com essas propriedades; ao recarregar a página, quaisquer alterações 
+vão sumir.
+
+
+Claro que se vocÊ quiser uma documentação mais oficial, você pode achar o MDN com explicações 
+detalhadas sobre cada elemento.
+
+A coisa mais importante aqui é o 
+
+"DOM INTERFACE", que nos mostra a espécie de objeto que é criada automaticamente para 
+aquele determinado elemento.
+
+
+O professor vai nos mostrar a relação entre esses tipos diferentes de elemento mais tarde, quando 
+aprendermos mais sobre objetos.
+
+O importante aqui é a lista de propriedades que cada objeto tem, e os métodos disponíveis a ele.
+
+
+O que você pode ver aqui é que headingElement não possui nenhuma propriedade/método específico.
+
+Em vez disso, o HTML ELEMENT, que é quase como uma espécie de 
+elemento/object type na qual o headingElement é baseado, é nesse 
+que você vai querer dar uma olhada.
+
+Ali você vai encontrar uma lista mais extensa das propriedades disponíveis.
+
+
+Nessa página, há "bandeirinhas" em cada propriedade. Essa bandeirinha indica 
+se aquela propriedade é "READONLY" ou não.
+
+
+O console.dir é uma alternativa mais fácil e simples À essa documentação, mas 
+não tão completa.
+
+
+IMPORTANTE === TUDO QUE VOCÊ MUDA EM JAVASCRIPT SERÁ PERDIDO QUANDO VOCÊ RECARREGAR A PÁGINA.
+
+ISSO É PORQUE TODAS AS ALTERAÇÕES QUE VOCÊ FAZ EM JAVASCRIPT SÓ É ARMAZENADO NA MEMÓRIA DO BROWSER, 
+ELE NÃO AFETA OS ARQUIVOS SUBJACENTES À WEBPAGE, que geralmente estão 
+guardados em algum server da internet. Suas mudanças do javascript são perdidas quando você recarrega porque, ao recarregar, 
+vocÊ essencialmente reinicia seu aplicativo javascript; isso limpa o aplicativo (aplicação) atual 
+da memória, e então inícia uma nova aplicação, novinha em folha.

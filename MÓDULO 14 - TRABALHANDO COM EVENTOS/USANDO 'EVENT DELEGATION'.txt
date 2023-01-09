@@ -1,0 +1,921 @@
+Com 'EVENT PROPAGATION', podemos fazer algumas coisas bem interessantes....
+
+
+
+
+
+
+
+ESPECIFICAMENTE, VOCê PODE IMPLEMENTAR UM PADRÃO ('a pattern') QUE É TAMBÉM 
+
+CHAMADO DE 
+
+
+'EVENT DELEGATION'...
+
+
+
+
+O professor nos mostrará um exemplo:
+
+
+
+
+Digamos que em 'events.html' TEMOS UMA <UL> (ou quaisquer outros tipos de dados CONTIDOS EM UMA LISTA, coisas nas quais esse 'event delegation' tipicamente É USADO)...
+
+
+COM VÁRIOS ELEMENTOS <LI>... (list elements).
+
+
+
+
+ex:
+
+
+
+
+<ul> 
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+    <li>Item 4</li>
+    <li>Item 5</li>
+
+
+
+---------------------------------------------
+
+
+
+O PROFESSOR ENTÃO ADICIONA RAPIDAMENTE ALGUNS ESTILOS A ESSES LIST ELEMENTS para que POSSAMOS ver a divisão entre as listas um pouco....
+
+
+Ele coloca, por meio da estilização, um padding de 1rem; e uma border de 1px solid #ccc;
+
+
+
+ex:
+
+
+
+li {
+
+    padding: 1rem;
+    border: 1px solid #ccc;
+}
+
+
+
+
+
+JÁ A <UL> vai ganhar um estilo de 'list-style: none;' ------> isso remove os BULLET POINTS.
+
+
+--------------------------------------------
+
+
+
+SE RECARREGARMOS A PÁGINA, VEREMOS UMA LISTA DE ITEMS LÁ NA PARTE INFERIOR DA MESMA.
+
+
+
+
+
+AGORA, QUEREMOS QUE O USUÁRIO SEJA CAPAZ DE CLICAR NESSES ITEMS, E QUE ELES SE TORNEM 
+
+VERMELHOS AO SEREM CLICADOS...
+
+
+
+Se os items já estão vermelhos, vamos querer QUE A COR DELES SEJA REMOVIDA AO SEREM CLICADOS....
+
+
+
+
+Para isso, vamos até o events.js e, é claro, 
+
+
+
+AGORA TEMOS 2 APPROACHES DIFERENTES, 2 soluções diferentes:
+
+
+
+
+
+
+A PRIMEIRA DELAS É NÓS SELECIONARMOS TODOS OS LIST ITEMS E ADICIONAR MÚLTIPLOS EVENTLISTENERS 
+
+para que consigamos pegar todos os list items aqui exibidos.
+
+
+Faríamos essa seleção por meio do querySelectorAll...
+
+
+
+então utilizaríamos o 'listItems.forEach' para IR POR DENTRO DESSES LIST ITEMS EXECUTAR UM CÓDIGO DENTRO DE CADA LIST ITEM...
+
+(Professor explica que também poderíamos usar um for of loop, se quiséssemos.)
+
+
+ em cada listItem eu vou querer ADICIONAR UM EVENTLISTENER...
+
+
+
+
+
+
+ex:
+
+
+
+
+const listItems = document.querySelectorAll('li');
+
+
+
+listItems.forEach(
+    listItem => {
+        listItem.addEventListener('click', () => {
+            listItem.
+        })
+    }
+);
+
+
+
+------------------------------------------------------------
+
+
+
+ADICIONAMOS UM EVENTLISTENER PARA O CLICK EVENT....
+
+
+como segundo parâmetro, teríamos UMA FUNÇÃO QUE 
+
+ PEGARIA O OBJETO 'EVENT'... como parâmetro....
+
+
+ E então, dentro dessa arrow function anônima, escrevemos 
+
+
+
+ 'event.target'....
+
+
+
+
+ 'event.target.classList' (ESCREVEMOS 'classList' pq o 
+    
+    O 'TARGET' DE 'EVENT' É UM ELEMENTO DOM... por ser um 
+    
+    elemento DOM, ele tem a propriedade 'classList' disponível.
+    
+    ISSO FUNCIONA, AINDA QUE O NOSSO IDE não nos esclareça isso.
+    )
+
+
+-------------> feito isso, o professor simplesmente usa o método 
+
+'toggle' PARA DAR TOGGLE NA CLASSE DE NOME 'highlight' DEFINIDA NO ARQUIVO CSS de events...
+
+
+
+
+ex:
+
+
+
+
+'event.target.classList.toggle('highlight');'
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const listItems = document.querySelectorAll('li');
+
+
+
+listItems.forEach(
+    listItem => {
+        listItem.addEventListener('click', event => {
+            event.target.classList.toggle('highlight');
+        })
+    }
+);
+
+
+
+
+
+------------------------------
+
+
+definimos uma classe 
+
+
+'.highlight' no nosso documento css, para que esse código funcione.
+
+
+
+
+Essa classe '.highlight' sofrerá toggle, será adicionada e removida aos list items sempre que clicarmos 
+
+na superfície das 'li'....
+
+
+
+----------------------------------
+
+
+
+O negócio não funcionou  por bastante tempo, mas consegui fazer funcionar.
+
+Tive de comentar para fora do código as linhas 
+
+
+'const boundFn = buttonClickHandler.bind(this);' 
+
+
+e 
+
+'form.addEventListener('submit', event => {
+    event.preventDefault();
+    console.log(event);
+})
+
+
+
+
+---------------------------------------------
+
+
+
+
+------------> esse código funciona, agora. DEFINIMOS A CLASSE HIGHLIGHT; AGORA TEMOS 
+
+MÚLTIPLOS CLICKLISTENERS EM DIVERSOS elementos <li> (graças ao 'forEach' em conjunto com o 
+
+event.target.classList.toggle...)
+
+
+------------------------------------
+
+
+
+A FUNÇÃO DE TOGGLE ESTÁ FUNCIONANDO, PORTANTO...
+
+
+
+
+MAS O APPROACH QUE O PROFESSOR UTILIZOU POSSUI UM BOCADO DE DESVANTAGENS:
+
+
+
+
+
+1) é meio incômodo/chato ter que adicionar MÚLTIPLOS EVENTLISTENERS 
+
+dessa forma, com o 'forEach'...
+
+
+
+2) OUTRO PROBLEMA É O CONSUMO DE MEMÓRIA:
+
+com esse approach, temos MUITOS EVENTLISTENERS ADICIONADOS NO NOSSO CÓDIGO...
+
+
+---------------------------------------
+
+
+
+
+
+
+MAS QUAL SERIA A ALTERNATIVA?
+
+
+
+
+
+O professor nos explica:
+
+
+
+
+
+A alternativa USA ESSE 'PADRÃO DE DELEGAÇÃO' ('delegate pattern'), 
+
+
+é o 'DELEGATE APPROACH '
+
+---------------------------------
+
+
+
+Com ele, em vez de nós ADICIONARMOS MÚLTIPLOS EVENTLISTENERS, um em cada listItem, 
+
+NÓS NOS APROVEITAMOS DA 'EVENT PROPAGATION' (o 'bubbling up' dos eventos) PARA ESPALHAR OS EVENTLISTENERS PELOS ELEMENTOS DA PÁGINA...
+
+
+
+PARA ISSO, DIZ O PROFESSOR, DEVEMOS GANHAR ACESSO À LISTA INTEIRA DE LIST ITEMS...
+
+
+
+
+
+ex:
+
+
+
+
+const list = document.querySelector('ul');
+
+
+
+-------------------------------------
+
+
+
+Feito isso, agora podemos registrar um EVENTLISTENER naquela lista (na lista inteira msm)....s
+
+
+
+FAÇO O 'LISTEN TO' A UM CLICKEVENT na lista inteira, JÁ QUE, COMO OS EVENTOS FAZEM 
+
+'BUBBLE UP', NÓS PODEMOS, AFINAL DE CONTAS, FAZER 'LISTEN TO' na lista que segura os 
+
+elementos menores (os '<li>'), POIS O EVENTO 'MOUSECLICK' QUE ACONTECERÁ 
+
+NELES CERTAMENTE IRÁ SE PROPAGAR ATÉ O ELEMENTO '<UL>' (à lista, em outras palavras)...
+
+
+Podemos fazer 'listen to' do evento 'click' na LISTA EM SI, pois é assim que os eventos 
+
+em javascript se comportam.... o clique no 'list item' IRÁ SE PROPAGAR à LISTA INTEIRA que está 
+o segurando...
+
+
+(esse é comportamento DA MAIORIA dos eventos em javascript.)
+
+
+
+
+
+
+
+
+Então, escrevemos:
+
+
+
+
+
+ex:
+
+
+
+
+const list = document.querySelector('ul');
+
+
+
+
+list.addEventListener('click', 
+
+
+
+
+)
+
+
+
+------------------------------------------
+
+
+
+
+O PROFESSOR ENTÃO COPIA A LÓGICA usada no approach anterior, de usar 'event.target.classList.toggle('highlight')', E A INSERE NESSE ADDEVENTLISTENER DE 'list'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const list = document.querySelector('ul');
+
+
+
+
+list.addEventListener('click', 
+                        
+               event =>  {
+                   event.target.classList.toggle('highlight');
+               }
+
+
+)
+
+------------------------------
+
+
+
+ESSA LINHA DE CÓDIGO AINDA FUNCIONA EM 'LIST' pq eu 
+
+_________AINDA VOU QUERER USAR_____ O 'EVENT TARGET' E 
+
+
+AINDA VOU QUERER FAZER O TOGGLE DE '.highlight'....
+
+
+
+E ISSO, BTW, É OUTRA DAS VANTAGENS DE 'EVENT.TARGET', DIZ O PROFESSOR:
+
+
+
+______________AINDA QUE MEU LISTENER ESTEJA REGISTRADO NA 'LIST' EM SI, O EVENT.TARGET 
+            SE REFERIRÁ AO TARGET DE VERDADE (ou seja, ao LIST ITEM em que o click event ocorreu...), 
+            AO TARGET EM QUE O USUÁRIO REALMENTE CLICOU...
+
+            *****NESSE EXEMPLO, O TARGET EM QUE O USUÁRIO REALMENTE CLICA É O 'LIST ITEM'...
+
+
+
+----------------------------------
+
+
+
+CERTO. A FUNÇÃO TOGGLE AGORA ESTÁ FUNCIONANDO; ESTÁ FUNCIONANDO 
+
+
+E ESTÁ UTILIZANDO ESSE 'EVENT DELEGATION' QUE O PROFESSOR NOS EXPLICOU.
+
+
+
+
+
+-----> AGORA SE EU SALVAR ISSO E RECARREGAR A PÁGINA, RECEBEREI O MESMO COMPORTAMENTO DE ANTES, MAS AGORA COM CÓDIGO 
+
+MAIS ELEGANTE E EFETIVO. MAIS ELEGANTE E EFETIVO PQ AGORA USAREI APENAS 1 EVENTLISTENER (apenas 1 eventlistener e O MESMO RESULTADO.)...
+
+
+
+QUANDO TIRAMOS VANTAGEM DO EVENT PROPAGATION, PODEMOS FAZER ISSO, ESSE TRUQUE DE UTILIZAR APENAS 1 EVENTLISTENER NO LUGAR DE MUITOS, em casos como este...
+
+COM O EVENT PROPAGATION E ESSE 'EVENT DELEGATION', ACABAMOS PASSANDO 
+
+UM EVENTLISTENER AO PRÓXIMO ELEMENTO 'MAIS ALTO DO QUE O ELEMENTO ATUAL' (que, nesse caso, é A LISTA EM SI, que é o elemento mais alto DO QUE TODOS OS OUTROS ITEMS '<LI>'.).
+
+
+
+ESSE É O TAL DO 'EVENT DELEGATION PATTERN...'
+
+
+---------------------------------
+
+
+MAS ESSE EVENT DELEGATION PATTERN PODE SE TORNAR 
+
+
+________PROBLEMÁTICO_____ SE NÓS TIVERMOS UMA ESTRUTURA MAIS COMPLEXA DE 
+
+ELEMENTOS...
+
+
+
+
+
+
+ex: digamos que nossos list items não são simples como 
+
+
+'<ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    ....
+    </ul>' 
+
+
+
+
+
+
+DIGAMOS QUE, POR EXEMPLO, TEMOS UMA TAG <H2> DENTRO DE 
+
+
+<LI>....
+
+
+
+ex:
+
+
+
+<ul>
+    <li><h2>Item 1</h2></li>
+    <li><h2>Item 2</h2></li>
+    <li><h2>Item 3</h2></li>
+    <li><h2>Item 4</h2></li>
+    </ul>
+
+
+
+
+-----------------------------------
+
+
+
+TAMBÉM COLOCAMOS UM PARÁGRAFO LOGO ABAIXO DESSES <h2>.....
+
+
+
+ex:
+
+
+<ul>
+    <li><h2>Item 1</h2>
+    <p>Paragraph</p>
+        </li>
+    <li><h2>Item 2</h2>
+       <p>Paragraph</p>
+       </li>
+    <li><h2>Item 3</h2>
+       <p>Paragraph</p>
+       </li>
+    <li><h2>Item 4</h2>
+       <p>Paragraph</p>
+       </li>
+    </ul>
+
+
+-----------------------------------
+
+
+
+AGORA, SE RECARREGARMOS A PÁGINA, PERCEBEREMOS QUE SURGIRÁ 
+
+UM PROBLEMA NO CÓDIGO:
+
+
+
+
+SE EU AGORA CLICAR EM algum dos TITLES DOS ITEMS, o 
+
+TITLE VAI FICAR VERMELHO, MAS O RESTANTE DO CONTEÚDO (ou seja, o PARAGRAPH, os elementos <p> que não são wrapped pelo '<h2>'),
+
+NÃO.
+
+
+MAS O NEGÓCIO FICA MUITO PIOR: 
+
+SE EU CLICAR EM ALGUM OUTRO LUGAR DO ITEM, COMO O MEIO, O PARAGRAPH E O <H2> DE UM 
+
+LIST ITEM SERÃO SUBLINHADOS EM CONJUNTO... (o que leva À inconsistências em nosso código...)
+
+
+
+Ou seja, noss código está bugado, às vezes UM LIST ITEM INTEIRO TEM SEU FUNDO ALTERADO PARA VERMELHO, 
+
+àS VEZES APENAS O SEU <h2>....
+
+
+
+
+
+RESUMO:
+
+
+agora, como nós estamos NOS REFERINDO à 'event target', SURGE UM PROBLEMA... (o problema tem relação com o event Target)...
+
+
+
+
+NÓS TEMOS UM PROBLEMA, AQUI, PQ EVENT TARGET(
+
+'list.addEventListener('click', event => {
+    event.target.classList.toggle('highlight');
+})
+
+
+)
+              É, NA VERDADE ('is actually'), O ELEMENTO 
+
+DOM EM QUE CLICAMOS...... e o ELEMENTO DOM EM QUE CLICAMOS É SEMPRE 
+
+O ELEMENTO MAIS BAIXO ('lowest') POSSÍVEL NA CADEIA DO DOM...
+
+
+
+Ou seja, nesse exemplo, OU ESSE ELEMENTO mais baixo É A TAG <H2> (elemento mais baixo), 
+
+OU É O LIST ITEM INTEIRO (quando clicamos FORA DA H2 TAG, pois aí não 
+há outros elementos mais baixos...)....
+
+ELEMENTO MAIS BAIXO PODE SER TAMBÉM 'paragraph' (<p>, pois <p> TAMBÉM 
+
+ESTÁ NO 'MENOR NÍVEL POSSÍVEL' de elementos, nesse exemplo), OU QUALQUER OUTRA COISA 
+
+QUE TEMOS ALI DENTRO...
+
+
+
+
+
+
+
+EM RESUMO, apenas o 'coloring' e o uso de EVENT TARGET não 
+
+está nos ajudando, aqui... 
+
+
+
+
+
+PARA SOLUCIONAR PROBLEMAS COMO ESTE, TEMOS OUTRA PROPRIEDADE DISPONÍVEL, 
+
+E ESSA PROPRIEDADE CHAMA-SE 'event.currentTarget();'
+
+
+
+
+
+PARA MOSTRAR SEU FUNCIONAMENTO, O PROFESSOR FAZ O CONSOLE.LOG 
+
+
+DESSA PROPRIEDADE DENTRO DO ADDEVENTLISTENER de 'list'...
+
+
+
+
+ex:
+
+
+
+
+
+list.addEventListener('click', event => {
+    console.log(event.currentTarget);
+    event.target.classList.toggle('highlight');
+})
+
+
+
+----------------------------------------
+
+
+'currentTarget' É _____DIFERENTE____ DE 'event.target'.......
+
+
+
+Se salvarmos esse código e então recarregarmos a página, veremos que 
+
+AO SEREM CLICADOS OS ELEMENTOS '<h2>' Dos list items, NOS É OUTPUTTADO 
+
+
+'<UL></UL>' no console.... 
+
+Isso quer dizer, explica o professor, que 'UNORDEREDLIST' É O CURRENT TARGET,
+
+A UNORDEREDLIST INTEIRA...
+
+
+
+
+Isso ocorre pq CURRENTTARGET, ao contrário de target, NÃO É 
+
+O ELEMENTO EM SI EM QUE VOCê CLICOU ('not the actual element on which you clicked'), 
+
+E SIM O ELEMENTO EM QUE VOCê _______ADICIONOU_____ O LISTENER....
+
+
+
+
+
+ou seja, 
+
+
+'currentTarget' NAQUELE CONSOLE.LOG SEMPRE IRÁ SE REFERIR 
+
+AO ELEMENTO 'list', POIS FOI NELE QUE NÓS DEFINIMOS O NOSSO EVENTLISTENER DE 'CLICKS'...
+
+-------------------------------------------------
+
+
+
+Isso (ESSE FENÔMENO DO EVENT DELEGATION, event delegation pattern) às vezes pode ser útil para nós, MAS AQUI NÃO É...
+
+
+
+
+
+O ELEMENTO QUE TEM SUAS CARACTERÍSTICAS ALTERADAS ____aINDA NÃO_____ É O ELEMENTO EM QUE CLICAMOS (a '<li>'...).....
+
+
+Não é o elemento do qual precisamos PQ NÃO É O LIST ITEM; É APENAS UMA LISTA EM SI, O QUE 
+
+NÃO É AQUILO QUE QUEREMOS...
+
+
+
+
+----------------------------------
+
+
+BEM, NÓS PODEMOS USAR UMA COMBINAÇÃO DE EVENT.TARGET E DOM TRAVERSAl (mostrado a nós antes, no módulo do DOM) PARA 
+
+GANHAR ACESSO AO LIST ITEM...
+
+
+
+
+
+O que sabemos até agora, sobre event.target?
+
+
+ex:
+
+
+
+
+list.addEventListener('click', event => {
+    console.log(event.currentTarget);
+    event.target.classList.toggle('highlight');
+})
+
+
+
+-------------------------------------
+
+
+BEM, NÓS SABEMOS QUE 'EVENT.TARGET' EXISTE DENTRO DE NOSSA LIST...
+
+
+
+------> Se olharmos a nossa list, DEFINITVAMENTE PODEMOS CONSTATAR QUE 
+
+ELE DEVE ESTAR DENTRO DESSE 'LIST ITEM'...
+
+
+
+PQ ISSO? pq nós sabemos que dentro da <UL> NÓS TEMOS APENAS PEQUENAS <li> (cada li contendo 2 elementos, 1 <h2> e 1 <p>)
+
+
+
+----------> NÓS SABEMOS QUE O EVENT.TARGET ESTÁ DENTRO DE UM LIST-ITEM...
+
+
+
+
+PORTANTO, O EVENT.TARGET ESTÁ  ____OU_____ DENTRO DA TAG <H2>,
+
+
+OU DENTRO DO <P>, OU DENTRO DA PRÓPRIA <LI>.... (o list-item em si....).
+
+
+
+
+
+PARA RESOLVERMOS ISSO, PODEMOS USAR UM MÉTODO ESPECÍFICO QUE PODE NOS AJUDAR.
+
+
+
+
+Para fazê-lo, devemos 
+
+escrever 
+
+
+
+
+'event.target' (QUE, AFINAL DE CONTAS, REALMENTE ESTÁ EM ALGUM OBJETO DOM DENTRO DE NOSSA <ul>, dentro de nossa LISTA), 
+
+
+
+
+'event.target.closest();' ----------> UTILIZAMOS AQUI, PORTANTO, O MÉTODO 
+
+
+'closest();'     Element.closest() retorna o ancestral mais próximo, em relação ao elemento atual, que possui o seletor fornecido como parâmetro. No caso de o elemento atual possuir o seletor, o mesmo é retornado. 
+                         Caso não exista um ancestral o método retorna null.
+
+
+
+
+
+'CLOSEST()' EXISTE EM TODOS OS OBJETOS DOM, E ELE _____FAZ O TRAVERSE ____ 'UPWARDS' (ele viaja PARA CIMA), NA 
+DIREÇÃO DOS ANCESTRAIS NA NOSSA ÁRVORE DE ELEMENTOS...
+
+
+Por meio dele, podemos selecionar o ELEMENTO MAIS PRÓXIMO COM UM DETERMINADO CSS SELECTOR 
+que vocÊ PASSA A ELE...
+
+
+(podemos passar um #id, uma .classe OU UMA TAG) -------> aqui, nesse exemplo, estou procurando pela <LI> MAIS PRÓXIMA...
+
+
+
+
+ex:
+
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li');
+})
+
+
+----------------------------------------
+
+
+
+A PARTE 'LEGAL' DE 'closest()' É QUE ESSE MÉTODO ____INCLUI____ ,TAMBÉM, O ELEMENTO DENTRO DO QUAL VOCÊ O CHAMOU, 
+
+NA SELEÇÃO...
+
+
+
+Ou seja, SE NÓS CLICARMOS NO LIST ITEM EM SI, ISSO TAMBÉM NOS DARÁ O LIST ITEM EM SI.... (o <li>)...
+
+SE CLICARMOS EM ALGUMA <H2> TAG DENTRO DO LIST ITEM, O 'event.target.closest('li');' VAI NOS 
+
+DAR O ANCESTRAL MAIS PRÓXIMO QUE TENHA ESSA TAG LIST ITEM NAS SUAS DEFINIÇÕES... (que, NESSE CASO, SERÁ O LIST ITEM 'ANCESTRAL' QUE ESTARÁ SEGURANDO ESSA <H2> TAG/ <P> TAG...).
+
+
+
+RESUMINDO:
+
+
+
+1) 'event.target' -------> SELECIONA a) <H2>  b) <P>  c) <li> (o list item em si).
+
+
+
+
+2) '.closest(li)' ---------> parte de 'event.target' para ENCONTRAR O ELEMENTO/ITEM MAIS PRÓXIMO COM a tag 'LI' em suas definições... tal item será, obrigatoriamente, O LIST ITEM QUE ESTARÁ SEGURANDO ALGUM DAQUELES 3 ITEMS QUE ESTÃO LOGO ACIMA: h2, p ou o list item em si.
+
+
+
+
+-----------------------------------------------------------------------------
+
+
+CERTO. SELECIONAMOS ESSES ELEMENTOS <LI> por meio desse negócio, e agora o eventlistener vai responder corretamente às partes da página em que clicarmos.
+
+
+MAS E O CÓDIGO DE 'TOGGLE' da cor 'highlight', EM QUE LUGAR DEVERÁ SER ADICIONADO?
+
+
+
+
+Professor nos mostra
+
+que devemos chamar o toggle dessa classe highlight EM CIMA DOS LIST ITEMS QUE FORAM SELECIONADOS 
+
+COM AQUELA LINHA DE CÓDIGO...
+
+
+ex:
+
+
+
+
+
+
+
+list.addEventListener('click', event => {
+    event.target.closest('li').classList.toggle('highlight'); ///////EIS AQUI O CÓDIGO EM QUESTÃO.
+})
+
+
+
+-----------------------------
+
+
+
+AGORA A PÁGINA FUNCIONARÁ; NÃO IMPORTA EM QUE LUGAR EU CLIQUE, EU SEMPRE 
+
+
+VEREI A LISTA TODA SENDO COLORIDA pelo meu click...
+
+
+
+-------> ESSE É O EVENT DELEGATION PATTERN PERFEITO, POIS AGORA NÓS DELEGAMOS O NOSSO EVENTO E AINDA 
+
+ASSEGURAMOS QUE TRABALHAMOS COM O ELEMENTO CORRETO, tudo graças À combinação útil entre 
+
+'event.target' E 'DOM TRAVERSAL'...

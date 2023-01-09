@@ -1,0 +1,239 @@
+
+
+
+
+ANTES DE CONTINUARMOS TRABALHANDO COM WIDTH E HEIGHT, 
+
+
+
+
+
+precisamos ver uma lição extra acerca do 
+
+
+
+MDN...
+
+
+
+
+MDN e a página acerca de 'Elements'.. e 'HTMLElement'...
+
+
+
+
+
+----------------------------------------------------
+
+
+
+AGORA QUE SABEMOS COMO PROTOTYPES E INHERITANCE FUNCIONA,
+
+
+
+ESSA FOTO QUE HÁ NA PÁGINA 'HTMLElement' 
+
+
+FAZ MUITO MAIS SENTIDO:
+
+
+
+
+
+-----------------------------             ------            --------            ------------
+ EVENT TARGET               |  <---------| Node | <------- |  Element| <-----  | HTMLElement |
+-----------------------------             -------           ---------           ------------
+ (prototype)                         (prototype)             (prototype)
+
+
+
+'The HTMLElement interface represents any HTML element. Some elements directly implement this 
+interface, while others implement it via an interface that inherits it.'
+
+
+
+-----------------------------------
+
+
+
+
+JAVASCRIPT (ou esse API de DOM exposto pelo Browser EM JAVASCRIPT) SIMPLESMENTE 
+
+TAMBÉM FUNCIONA COM ___MÚLTIPLAS___ CONSTRUCTOR FUNCTIONS ( ou com múltiplas classes, dá no mesmo...).
+
+
+
+
+E ESSE É O ESQUEMA QUE MOSTRA A RELAÇÃO ENTRE ELAS...
+
+
+
+
+
+
+O jeito de ler esse esquema é:
+
+
+
+TODO ELEMENTO HTML ESTÁ HERDANDO SUAS CARACTERÍSTICAS BASICAMENTE DE UM ELEMENTO (ou seja, todo HTMLElement tem um prototype 'element'...)....
+
+TODO 'element prototype' TEM UM 'NODE PROTOTYPE', que por sua vez tem um 'EVENT TARGET PROTOTYPE'.
+
+
+-------------------------------------------
+
+
+
+E TUDO ISSO FAZ SENTIDO, pq se você lembrar o que aprendemos mais cedo,
+
+
+
+O professor explicou que ELEMENTOS SÃO APENAS UM TIPO ESPECÍFICO DE 
+
+
+
+''NODES''.... ----------> POR ISSO FAZ SENTIDO QUE OS ELEMENTOS TENHAM UM PROTOTYPE chamado de 'NODE' (um 'node prototype'...)....
+
+
+
+
+
+Mas oq o professor não falou é que os NODES ('node prototypes') TRAZEM SEUS PRÓPRIOS MÉTODOS E PROPRIEDADES, também (como 'eventTarget'...)
+
+
+
+
+
+
+
+
+
+ -------              -----------------------------             ------            --------            ------------
+ OBJETO | <---------  |    EVENT TARGET            |  <---------| Node | <------- |  Element| <-----  | HTMLElement |
+--------              -----------------------------             -------           ---------           ------------
+(GLOBAL)
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+E você ainda tem TIPOS MAIS ESPECÍFICOS do que apenas 
+
+
+'HTMLElement'...
+
+
+
+PQ VOCÊ TEM TIPOS ESPECÍFICOS DE HTMLElements....
+
+
+Se você visualizar a parte mais inferior do artigo acerca de HTMLElement,
+
+
+
+você ENCONTRA AS VERSÕES MAIS ESPECIALIZADAS DE HTMLElements...
+
+
+
+E há __MUITAS____ Delas...
+
+
+
+
+há, por exemplo, 
+
+
+
+o 
+
+'HTMLInputElement',
+
+
+
+
+
+
+ -------                        -----------------------------             ------            --------            ------------
+ OBJETO (global) | <---------  |    EVENT TARGET            |  <---------| Node | <------- |  Element| <-----  | HTMLElement | <-----
+--------                        -----------------------------             -------           ---------           ------------        |
+                                                                                                                                    |
+                                                                                                             -----------------      |
+                                                                                                            |HTMLInputElement| ------
+                                                                                                            -----------------
+
+
+
+
+
+
+
+
+
+A COISA ESPECÍFICA AQUI É QUE 'HTMLInputElement' TEM ___TODAS____ AS PROPRIEDADES (ou, melhor, tem ACESSO A TODAS AS PROPRIEDADES) 
+
+do 'HTMLElement'... (por o ter como prototype.... INHERITANCE.)..... 
+
+
+TAMBÉM 
+
+
+TEM ACESSO A TODAS AS PROPRIEDADES DE 'Element', de 'Node' e de 'eventTarget', POR SER HERDEIRO DE TODOS ELES....
+
+
+
+--------------------------------------------------
+
+
+MAS HTMLInputElement TAMBÉM ADICIONA AS SUAS PRÓPRIAS PROPRIEDADES E MÉTODOS...
+
+PROPRIEDADES E MÉTODOS AOS QUAIS APENAS UM INPUTELEMENT TEM ACESSO.
+
+
+
+ex: a propriedade 'labels'... ---------> É UMA PROPRIEDADE à QUAL OUTROS HTMLElements NÃO TEM ACESSO.
+
+
+
+------------------------------------------------
+
+
+BEM, MAS E COMO PODEMOS CRIAR UM TAL HTMLInputElement...?
+
+
+Professor diz que nós NÃO TEMOS QUE CRIAR ESSES OBJETOS/INSTÂNCIAS...
+
+
+
+
+Em vez disso, quando nós selecionamos um ELEMENTO DE INPUT HTML do DOM por meio de um seletor qualquer, 
+
+NÓS AUTOMATICAMENTE JÁ RECEBEMOS um objeto desses, desse tipo E COM TODAS ESSAS PROPRIEDADES e métodos (inclusive 'label'...).
+
+
+
+
+
+
+
+E GRAÇAS A MANEIRA PELA QUAL PROTOTYPES DE DENTRO DA 'PROTOTYPE CHAIN' FUNCIONAM,
+
+ NÓS ENTÃO TEMOS ACESSO A TUDO de 'HTMLElement', de 'Element', de 'Node' e de 'EventTarget'... (e de 'Object', do OBJETO GLOBAL)
+
+
+
+
+
+ --------------------------
+
+
+
+ ISSO TUDO AGORA FAZ MAIS SENTIDO, POIS ESTUDAMOS UM BOCADO DE OOP (object oriented programming) e prototypes.
+
+
+
+
+ ------------------------------------

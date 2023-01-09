@@ -1,0 +1,2122 @@
+
+
+
+
+
+
+
+
+
+
+
+PARA MERGULHARMOS MAIS FUNDO NO ASSUNTO DE 'PROMISES',
+
+
+
+
+
+
+DEVEMOS 
+
+
+
+FAZER UM 
+
+
+
+'PROMISEFY' de 
+
+
+
+'getCurrentPosition'...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+----------------------------------
+
+
+
+PARA ISSO, O PROFESSOR ADICIONA UMA NOVA FUNÇÃO,
+
+DE NOME 'getPosition()'...
+
+
+
+
+ELE COLOCA UMA EXPECTATIVA DE ARGUMENTO DE 
+
+'options'...
+
+
+
+Usa um formato de ARROW FUNCTION para a função.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+--------------------------------------------------
+
+
+
+
+
+DENTRO DESSA FUNÇÃO NOVA, colocaremos 
+
+
+'navigator.geolocation.getCurrentPosition();'
+
+
+
+
+ex:
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    navigator.geolocation.getCurrentPosition();
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+
+Ou seja, agora nós FAZEMOS O CHAMADO DE 
+
+
+
+'getCurrentPosition' DENTRO 
+
+
+DE 'getPosition', 
+
+dentro dessa nova função....
+
+
+
+
+
+CERTO. MAS PARA CONSEGUIR 
+
+o return 
+
+
+de 'getCurrentPosition' (ou seja, a localização do usuário), 
+
+
+NÓS PRECISAMOS 
+
+
+PASSAR AQUELES CALLBACKS (não há como evitar isso, 'no way around that'.) 
+
+-------> NÃO EXISTE UMA VERSÃO 
+
+
+'PROMISE' de 'getCurrentPosition()'....
+
+
+
+
+-------------------------------------
+
+
+
+Certo.
+
+
+Por isso aqui eu vou ter os negócios padrão:
+
+
+vou ter meu callback de SUCCESS,
+
+
+meu callback de ERROR...
+
+
+E MINHAS OPÇÕES, as opções que EU PODEREI ESTAR RECEBENDO/RECEBEREI NESSA FUNÇÃO,
+ 
+ por meio do argumento-expectativa 'options'....
+
+
+
+ ex:
+
+
+
+
+
+ const getPosition = (options) => {
+    navigator.geolocation.getCurrentPosition(success => {}, 
+    error => {}, options);
+};
+
+
+---------------------------------------
+
+
+
+EX:
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    navigator.geolocation.getCurrentPosition(success => {}, 
+    error => {}, options);
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+
+DE NOVO, A IDEIA AQUI É QUE NÓS 
+
+FAÇAMOS 
+
+'wrap' dessa função/método callback 
+
+
+'getCurrentPosition' COM 
+
+UMA 
+
+PROMISE... (promisify). 
+
+
+
+Para isso,
+
+
+criamos uma constante 
+
+
+'promise' BEM NO INÍCIO DO BODY 
+
+de 'getPosition', antes 
+
+
+de 'navigator.geolocation.getCurrentPosition();'
+
+
+
+
+Aí nós criamos e armazenamos uma promise nessa constante 
+por meio do call de 'new Promise();'
+
+
+
+
+-----------------------------------------------
+
+
+
+
+'const promise = new Promise();
+
+
+
+
+----------------------------
+
+
+
+Como aprendemos anteriormente, PROMISES 
+
+ACEITAM/EXIGEM UMA FUNÇÃO COMO ARGUMENTO....
+
+
+
+E essa função interna, por sua vez, aceita 
+
+
+DUAS FUNÇÕES COMO ARGUMENTO, 
+
+UMA FUNÇÃO 'resolve' e outra 'reject', ambas 
+
+passadas automaticamente pelo javascript.
+
+
+
+----------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {});  ///////EIS O CÓDIGO EM QUESTÃO.
+    navigator.geolocation.getCurrentPosition(success => {}, 
+    error => {}, options);
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+E AGORA, ALI DENTRO, DENTRO DA PROMESSA ('promise') QUE 
+
+EU QUERO FAZER/CRIAR, DENTRO DO BODY DA FUNÇÃO INTERNA DA PROMESSA,
+
+
+
+EU INSIRO A CALL DE 'navigator.geolocation.getCurrentPosition(success => {}, error => {}, options);'
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {}, 
+    error => {}, options);  ///RECÉM INSERIDA.
+
+    }); 
+   
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+---------------------------------
+
+
+
+
+POR FIM, O PROFESSOR RETORNA 
+
+
+A 'PROMISE' como valor no final dessa função 
+
+'getPosition'...
+
+
+
+----------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {}, 
+    error => {}, options);  ///RECÉM INSERIDA.
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+        /*
+        setTimeout(() => {
+        console.log(posData);
+      }, 2000);
+        */
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+------------------------------------------
+
+
+
+
+
+CERTO.
+
+AGORA ____QUASE____ TENHO UMA 'promise' de 'getCurrentPosition'....
+
+
+
+
+
+falta chamar 'resolve()' dentro do body do 'success' navigator.geolocation.getCurrentPosition()
+de 'getPosition'...
+
+
+
+
+
+PROFESSOR TAMBÉM DECIDE 
+
+chamar 
+
+'resolve()' com um parâmetro 
+
+
+passado de 'success'... ---------> ISSO FARÁ COM QUE O OBJETO 'success', EXTRAÍDO DE 'getCurrentPosition', SEJA MOSTRADO AQUI.
+                                    
+                                    Com isso, sempre que fizermos 'listen to' À 'PROMISE', receberemos esses dados, dados sobre a posição do usuário....
+
+                                
+
+
+
+JÁ O 'ERROR' devemos ver mais tarde.....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  navigator.geolocation.getCurrentPosition(
+    (posData) => {
+  
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+AGORA FINALMENTE TEMOS UMA 
+
+
+'PROMISIFIED VERSION' de 
+
+
+'getCurrentPosition'...
+
+
+
+
+PORTANTO, LÁ EMBAIXO EM NOSSO CÓDIGO, PODEMOS SUBSTITUIR O velho call da callbackfunction 
+
+'navigator.geolocation.getCurrentPosition' POR 
+
+
+'getPosition'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  getPosition(
+    (posData) => {
+  
+
+        setTimer(2000).then(data => {
+            console.log(data, posData);
+        });
+   
+   
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+
+  setTimeout(() => {
+    console.log('Timer done!');
+  }, 0);
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+--------------------------------
+
+
+
+
+Certo.
+
+
+
+Mas agora precisamos TIRAR AQUELAS 2 CALLBACK FUNCTIONS 
+
+
+('posData => {...}' 
+
+e 
+
+'error => {...}').....
+
+
+
+PODEMOS CORTÁ-LAS, PARA 
+
+ENTÃO PODERMOS 
+
+
+CHAMAR 
+
+'.then()' AQUI.....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  getPosition().then(); ////////EIS O CÓDIGO EM QUESTÃO.
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+BEM.
+
+MAS NÓS NÃO ACABAMOS
+
+
+PRECISAMOS PASSAR OS PARÂMETROS DE 'then' que serão 
+
+
+REPASSADOS COMO ARGUMENTOS de 'navigator.geolocation.getPosition(success => {...} , error => {...})'
+
+NA PROMISE 
+
+
+DE 
+
+'getPosition'...
+
+
+
+O primeiro argumento será o de ''success'', que será 
+
+um console.log de 
+
+'posData'...
+
+
+
+ex:
+
+
+
+'getPosition().then(posData => {
+    console.log(posData);
+});
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  getPosition().then(posData => {
+      console.log(posData);
+  }); 
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+SALVAMOS O CÓDIGO, RECARREGAMOS A PÁGINA E CLICAMOS NO BOTÃO.
+
+
+
+EVEntualmente o console 
+
+nos outputtta 
+
+um objeto 
+
+
+com a nossa 'Position'..., resultado do getCurrentPosition em 'getPosition'....
+
+
+
+ex:
+
+
+
+
+
+Position {coords: Coordinates, timestamp: 1568623144468}
+
+
+
+
+----------------------------------------------------------
+
+
+
+OU SEJA, NOSSO CÓDIGO FUNCIONA COMO ANTES, MAS DESSA 
+
+VEZ ELE FUNCIONA WRAPPEADO em uma promessa ('promise').
+
+
+
+
+---------------------------------------
+
+
+
+
+E AGORA PODEMOS VER O PODER DAS PROMISES 
+
+
+QUANDO COMBINAMOS 'getPosition' COM 
+
+
+'setTimer'....
+
+
+------------------------------------
+
+
+Anteriormente, o professor 
+
+settava o timer dentro 
+
+de 
+
+trackUserHandler....
+
+
+
+ele diz que ele ainda pode fazer isso,
+
+
+tipo assim:
+
+
+
+
+
+function trackUserhandler() {
+    getPosition().then(posData => {
+        setTimer(2000).then(data => {  ///////TIMER SETTADO DENTRO DE 'getPosition'.... usado como exemplo.
+
+            console.log(posData);
+        })
+    })
+}
+
+
+
+
+
+
+ENTRETANTO, COMO VOCê PODE PERCEBER, NÓS AINDA TEREMOS ALGUM 
+
+GRAU DE 'NESTING' DENTRO DESSE CÓDIGO...
+
+
+
+Ainda temos nesting, mesmo com 'THEN()', com essa escrita.
+
+
+
+
+Professor explica que essa seria a maneira NÃO TÃO INTELIGENTE 
+
+DE ESCREVER ESSE CÓDIGO, sintaxe não tão inteligente.
+
+
+
+
+A MANEIRA MAIS INTELIGENTE (E MELHOR) é aquela 
+
+
+que se aproveita de um conceito chamado 
+
+
+CHAINING.......
+
+
+
+
+CERTO.
+
+
+
+em 
+
+'getPosition().then(posData => {...})' 
+
+
+O PROFESSOR CONSEGUE 
+
+
+A 'POSITION DATA' de seu computador... 
+
+ELE CONSEGUE A SUA POSITION DATA 
+
+
+POR MEIO DAQUELA 'promise' 
+
+em 'getPosition'....
+
+
+
+------------------------------------
+
+
+
+
+AGORA ELE VAI QUERER SETTAR UM __TIMER___ dentro desse 'getPosition',
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  getPosition().then(posData => {
+      setTimer(); //////////////EIS O CÓDIGO EM QUESTÃO.
+  }); 
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+---------------------------------------
+
+
+
+
+
+Certo, ele definiu um timer....
+
+
+
+e o que exatamente 
+
+
+'setTimer'
+
+FAZ?
+
+
+
+ELE ----> CRIA UMA NOVA PROMISE e a retorna... (return promise;)......
+
+
+
+
+
+
+
+PROFESSOR DIZ QUE O QUE PODEMOS FAZER AQUI É ALGO MEIO MALUCO:
+
+
+
+podemos fazer 
+
+RETURN_ ____ DE 
+'setTimer()' 
+
+DENTRO DESSE '.then() call' DE 
+
+GETPosition....
+
+
+ex:
+
+
+
+function trackUserHandler() {
+    getPosition().then(posData => {
+        return setTimer(); ////////EIS O CÓDIGO EM QUESTÃO.
+    })
+}
+
+
+
+----------------------------------------------
+
+
+
+
+OU SEJA, O PROFESSOR FAZ O RETURN DO VALOR dessa função 'setTimer' que 
+ele passou ao 'then call'...
+
+
+
+
+O que acontece aqui, basicamente, é que A PROMISE 'EM GERAL' (the overall promise) 
+
+QUE ESTÁ SENDO CRIADA nesse lugar por meio da passagem da função 
+
+
+interna à '.then()'   (OU SEJA, a função 'posData => {return setTimer();}' em si)
+
+
+
+BASICAMENTE  AGORA É 
+
+'set backada', É ____IMPEDIDA_____ de ser 'resolved', deixa 
+
+de ser 'resolved' para ficar 'PENDING'...
+
+
+------------------------------
+
+
+
+                |------> FICAR 'RESOLVED'
+                |
+                |
+                |
+PROMISES PODEM -------> FICAR 'PENDING'
+                |
+                |
+                |
+                |
+                ------> ter/retornar 'ERRORS'....
+
+----------------------------------------------
+
+
+
+
+A FUNÇÃO ESTAVA 'RESOLVED' uma vez que nós conseguíamos a posição 
+
+por meio de 
+
+'getPosition().then(posData => {
+    console.log(posData);
+})'   ,
+
+
+
+
+MAS AGORA ESTAMOS RETORNANDO ALGO 
+
+___DO LADO DE DENTRO DESSA FUNÇÃO___; ou seja, 
+
+nós colocamos a função interna em geral/promise em geral 
+
+COMO ESTANDO DE VOLTA AO ESTADO DE 'pending', em que 
+
+
+ESPERARÁ A PROMESSA 
+
+
+'setTimer()'   (porque essa função também está atrelada À uma promise), 
+
+
+
+A QUAL RETORNAMOS AQUI para 'resolve()'....
+
+
+
+
+
+
+E EU POSSO, PORTANTO, ADICIONAR UM NOVO '.then()' BLOCK 
+
+DEPOIS DESSE PRIMEIRO....
+
+
+(e você tipicamente escreve '.then()' em múltiplas linhas:
+
+.then();
+
+
+.then();
+
+
+
+.then();
+
+
+
+ETC).
+
+
+------------------------
+
+
+E AÍ, DENTRO DESSE NOVO IF BLOCK, O PROFESSOR VAI PEGAR A DATA/DADOS 
+
+
+DAQUELA 'inner Promise' (a promise criada por meio de 'setTimer();', retornada por meio de 
+'return' ) -----------> ISSO QUER DIZER 
+
+QUE O PROFESSOR OBTERÁ OS DADOS 
+
+DO TIMER... (do timer de 'setTimer').  Ele coloca esses dados em um console.log
+
+
+
+
+-----------
+
+
+
+EX:
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+  //console.log('Clicked');
+
+  getPosition().then(posData => {    ///função interna em geral/promise em geral fica SUSPENSA/pending.
+      return setTimer(); 
+  })
+  .then(data => {   ////NOVO 'THEN BLOCK()', depois do primeiro. Estão todos conectados ao 'getPosition()', mas DE UMA MANEIRA MAIS LEGÍVEL.
+    console.log(data);
+  })        
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+---------------------------------------------
+
+
+
+
+SE O PROFESSOR TAMBÉM PRECISASSE DOS DADOS DA POSITION ('position data'),
+
+
+ELE PODERIA/PODE ARMAZENÁ-LO EM UMA VARIÁVEL ___EXTERIOR____  à essa chain...
+
+
+
+
+Ele simplesmente a inicializa; inicializa-a para que possa 
+
+UTILIZÁ-LA mais embaixo em um dos '.then blocks', em que 
+
+ELE ARMAZENA OS DADOS DE 'posData' no seu interior...
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+
+    let positionData;
+
+  //console.log('Clicked');
+
+  getPosition().then(posData => {  
+      positionData = posData;   
+      return setTimer(); 
+  })
+  .then(data => {   
+    console.log(data);
+  })        
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+------------------------------------
+
+
+
+
+
+POR FIM, ELE DIZ QUE VAI QUERER TAMBÉM acessar 
+
+'positionData', a qual é definida no LADO DE FORA DE TODAS ESSAS FUNÇÕES,
+ 
+ lá embaixo, no último '.then() block',
+
+ dentro do console.log();
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+ 
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+
+    let positionData;
+
+  //console.log('Clicked');
+
+  getPosition().then(posData => {  
+      positionData = posData;   
+      return setTimer(); 
+  })
+  .then(data => {   
+    console.log(data, positionData);
+  })        
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+---------------------------------------------------
+
+
+
+
+COM ISSO, AGORA NÓS TEMOS ALGO QUE É CHAMADO 
+
+DE 
+
+
+'promise chaining'...
+
+
+
+
+NÓS TEMOS MÚLTIPLAS 
+
+
+'''''ETAPAS''''' nessa 
+
+
+promise no interior de 
+
+'getPosition',
+
+
+EM QUE NÓS ESPERAMOS PELA 
+
+PRIMEIRA PROMESSA (promessa definida no interior de 'setTimer')
+
+PARA ENTÃO RETORNAR ALGO NOVO AQUI (esse algo novo nem precisa/precisava ser uma 
+promise, como tivemos com 'setTimer();'.... professor explica que, caso 
+
+fosse uma string, por exemplo, ESSA STRING AUTOMATICAMENTE SERIA 
+
+ENVOLVIDA EM UMA PROMISE...)....
+
+
+CERTO.
+
+
+NÓS VAMOS ESPERAR POR ESSA SEGUNDA PROMISE (por 'setTimer()' em si) 
+
+
+TERMINAR (se esse return não fosse de uma promise, esse processo seria instantâneo.... se você retorna uma promise, você em vez disso tem que ESPERAR ATÉ QUE ELA TERMINE ),
+
+
+
+
+Nesse caso o return da promessa não é instantâneo, pois ela tem um timer...
+
+
+COMO ela tem um timer, temos de esperar o timer expirar.
+
+
+
+Por 'setTimer' ter um TEMPO como O SEU ARGUMENTO ESPERADO 
+
+NO SLOT DO PARÂMETRO, o professor é obrigado a passar uma quantidade de ms aqui em 'setTimer'....
+
+
+
+ELE COLOCA 2000.
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+
+    let positionData;
+
+  //console.log('Clicked');
+
+  getPosition().then(posData => {  
+      positionData = posData;   
+      return setTimer(2000); 
+  })
+  .then(data => {   
+    console.log(data, positionData);
+  })        
+  
+
+  setTimer(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+--------------------------------
+
+
+
+
+ASSIM QUE A PROMESSA DE 
+'return setTimer(2000)' TERMINAR,
+
+NÓS PASSAREMOS
+
+
+
+AO PRÓXIMO '.then()' step,
+
+
+O QUAL EXECUTAREMOS (executaremos o seu console.log)
+
+
+___COM OS DADOS ____ DAQUELA 
+
+
+promise que FOI RETORNADA ('return setTimer();')....
+
+
+(ou, como o professor mencionou, você pode simplesmente 
+
+retornar dados SEM SER NA FORMA DE STRING, 
+
+como 
+
+
+'return 'setTimer(2000)', uma string; SE VOCÊ FIZER ISSO, 
+
+ESSES DADOS SERÃO AUTOMATICAMENTE ENVOLTOS EM UMA PROMISE..., uma promise 
+
+que será resolvida instantaneamente.).....
+
+
+
+
+
+
+Certo.
+
+
+
+E, nesse caso da string, se você colocasse uma string em vez de uma promise a ser retornada, a 
+
+'data' que está nesse último 
+
+
+.then block    (
+
+
+    '.then(data => {
+        console.log(data, positionData);
+    }' )
+)
+
+
+SERÁ 
+
+OS DADOS 
+
+RETORNADOS 
+
+em 
+
+'return setTimer(2000)'...
+
+
+
+
+
+----------------------------------
+
+
+
+
+ENTRETANTO, AQUI O PROFESSOR ESTÁ PASSANDO de volta o 
+
+VALOR DAQUELA FUNÇÃO que é uma promise (
+    o then block que tem o return da promise de 'setTimer();'
+)....
+
+
+NÓS ESPERAMOS A PROMISE definida 
+
+
+
+dentro de 
+
+'setTimer' 
+
+
+SER RESOLIVDA/TERMINAR para então 
+
+irmos até o próximo (e último) .then block...
+
+
+
+-----------------------------
+
+
+
+ESSA É A PROMISE CHAINING, 
+
+E É AQUILO QUE TE AJUDA A ESCAPAR 
+
+DO 'CALLBACK HELL'...
+
+
+
+
+
+PQ AGORA NÓS 
+
+TEMOS 
+
+
+'ETAPA POR ETAPA', 
+
+em vez de 
+
+
+ETAPA DENTRO DE ETAPA...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+const output = document.querySelector('p');
+
+
+const getPosition = (options) => {
+    const promise = new Promise((resolve, reject) => {
+
+         navigator.geolocation.getCurrentPosition(success => {
+             resolve(success);
+         }, 
+    error => {}, options);  
+
+    }); 
+ return promise;  
+};
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Done!');
+    }, duration);
+  });
+};
+
+function trackUserHandler() {
+
+    let positionData;
+
+  //console.log('Clicked');
+
+  getPosition()
+  .then(posData => {  
+      positionData = posData;   
+      return setTimer(2000); 
+  })
+  .then(data => {   
+    console.log(data, positionData);
+  })      
+
+
+  setTimer(1000).then(() => {
+    console.log('Timer done!');
+  });
+  console.log('Getting position...');
+}
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+Ajeitamos um pouco o código, 
+
+e aí tudo funciona.
+
+
+
+
+Console 
+
+nos outputta 
+
+
+
+
+'Getting position...
+
+
+Timer done!
+
+
+Done! > GeoLocationPosition {coords: GeoLocationCoordinates, timestamp: 1611246821898}.
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A promise in JavaScript is similar to a promise in real life. When we make a promise in real life, it is a guarantee that we are going to do something in the future. Because promises can only be made for the future.
+
+A promise has 2 possible outcomes: it will either be kept when the time comes, or it won’t.
+
+This is also the same for promises in JavaScript. When we define a promise in JavaScript, it will be resolved when the time comes, or it will get rejected.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+First of all, a Promise is an object. There are 3 states of the Promise object:
+
+Pending: Initial State, before the Promise succeeds or fails
+Resolved: Completed Promise
+Rejected: Failed Promise
+
+
+
+
+
+
+
+
+
+
+
+
+For example, when we request data from the server by using a Promise, it will be in pending mode until we receive our data.
+
+If we achieve to get the information from the server, the Promise will be resolved successfully. But if we don’t get the information, then the Promise will be in the rejected state.
+
+Additionally, if there are multiple requests, then after the first Promise is resolved (or rejected), a new process will start to which we can attach it directly by a method called chaining.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What is the difference between Callbacks and Promises?
+The main difference between Callback Functions and Promises is that we attach a callback to a Promise rather than passing it. So we still use callback functions with Promises, but in a different way (chaining).
+
+This is one of the greatest advantages of using Promises, but why?
+
+
+
+
+
+
+-------------------------------------
+
+
+
+Finally, there will be a condition. If the condition is met, the Promise will be resolved, otherwise it will be rejected:
+
+const myPromise = new Promise((resolve, reject) => {  
+    let condition;  
+    
+    if(condition is met) {    
+        resolve('Promise is resolved successfully.');  
+    } else {    
+        reject('Promise is rejected');  
+    }
+});
+
+
+
+
+
+
+
+
+
+then( ) for resolved Promises:
+If you revisit the picture at the beginning of this post, you'll see that there are 2 cases: One for resolved promises and one for rejected. If the Promise gets resolved (success case), then something will happen next (depends on what we do with the successful Promise).

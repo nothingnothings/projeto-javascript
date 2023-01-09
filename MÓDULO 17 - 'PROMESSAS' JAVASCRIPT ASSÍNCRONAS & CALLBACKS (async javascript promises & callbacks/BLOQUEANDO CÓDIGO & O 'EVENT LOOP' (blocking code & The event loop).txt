@@ -1,0 +1,1073 @@
+
+
+
+
+
+
+ENTÃO AGORA TEMOS UMA IDEIA BÁSICA DO QUE O BROWSER COM AS OPERAÇÕES 
+
+
+QUE DEMORAM UM POUCO MAIS DE TEMPO.
+
+
+
+
+
+Agora devemos ver algo interessante com o nosso código exemplo.
+
+
+
+
+EX:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+    console.log('Clicked');
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+----------------------------------
+
+
+
+
+DEVEMOS ADICIONAR UM FOR LOOP NO NOSSO CÓDIGO.
+
+
+
+
+UM FOR LOOP NORMAL, EM QUE COMEÇAMOS COM 
+
+'i = 0' ,  MAS QUE A EXIT CONDITION É ABSURDAMENTE ALTA... ('i < 10000000')  (100 milhoes).
+
+
+E em que nós incrementamos 'i' por 1... (i++)
+
+
+
+
+
+
+Também adicionamos uma variável chamada de 'result', 
+que começa com 0...
+
+
+
+essa variável sofrerá alterações no for loop,
+
+
+RECEBERÁ '+i' a cada iteração.
+
+
+
+DEPOIS DISSO, NÓS FAZEMOS O CONSOLE.LOG de 
+
+'result'...
+------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+    console.log('Clicked');
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+let result = 0;
+
+
+for (let i = 0; i < 1000000000; i++) {
+    result += i;
+}
+
+
+console.log(result);
+
+
+
+---------------------------
+
+
+SALVAMOS E RECARREGAMOS.
+
+
+
+
+VOCÊ PODE TER PERCEBIDO QUE O 'CONSOLE.LOG' DE 'RESULT' 
+
+DEMOROU UM BOM TEMPO ATÉ SER EXECUTADO....
+
+
+
+
+Aí você deve se lembrar do módulo de números, em que descobrimos que o javascript 
+
+não lida bem com números muito grandes...
+
+
+
+Professor aponta que 'result' fica cada vez maior, junto com 'i', que também fica maior, fazendo 
+
+com que o número cresca até 100 milhoes... esse é o conteúdo do nosso código.
+
+
+
+O INTERESSANTE É QUE O CÓDIGO DEMOROU UM BOM TEMPO ATÉ CONSEGUIR PRINTAR AQUELE RESULTADo...
+
+
+
+
+
+AGORA, O PROFESSOR DIZ QUE DEVEMOS TENTAR CLICAR NO BOTÃO 'track me' ANTES DO 
+
+RESULTADO DO CONSOLE.LOG SER OUTPUTTADO NO CONSOLE...
+
+
+
+Certo, nós apertamos.
+
+
+O que você perceberá é que 
+
+
+'clicked' apenas aparece DEPOIS QUE O RESULTADO (o output daquele número imenso, produzido pelo for loop)
+
+É MOSTRADO NO CONSOLE.
+
+
+
+Portanto, se eu recarregar o código e fuzilar esse botão de 'track me', NADA 
+
+IRÁ ACONTECER; NADA IRÁ ACONTECER ATÉ QUE AQUELE CONSOLE LOG do for loop imenso tenha 
+
+terminado...
+
+
+--> todos eventos 'click' SERÃO SOMENTE PROCESSADOS ___APÓS___ O LOOP TER TERMINADO____.
+
+
+---> É AQUI QUE NÓS VEMOS O 'SINGLE THREADING' EM AÇÃO:
+
+
+Nós temos este eventListener de 'button', o qual passamos ('hand off to the browser') ao 
+
+BROWSER (isso sempre acontece).... em razão dessa 'confiança' ao browser, ESSE EVENTLISTENER 
+
+ACABA DEIXANDO DE BLOQUEAR O RESTO DO CÓDIGO, ele não trava coisa alguma.
+
+
+JÁ ESSE FOR LOOP, NÃO. ESSE FOR LOOP ACABA TRAVANDO TODO O NOSSO CÓDIGO, pq ele NÃO É 
+
+'CONFIADO' ao browser como os eventListeners o são...
+
+
+
+
+NÃO EXISTE MANEIRA DE FAZER 'HAND OFF' DE FOR LOOPS AOS BROWSERS...
+
+
+
+
+O LOOP EXECUTA, E A EXECUÇÃO DO CÓDIGO JAVASCRIPT É BLOQUEADA ATÉ QUE 
+
+ESSE LOOP TENHA TERMINADO SUA OPERAÇÃO...
+
+pq vocÊ SÓ PODE __EXECUTAR 1 ÚNICA OPERAÇÃO POR VEZ____ EM JAVASCRIPT.
+
+
+
+Também interessante/importante é que essa tarefa que foi 'handed off' AO BROWSER SÓ 
+
+___CONSEGUE SER EXECUTADA____ APÓS O FOR LOOP TER CONCLUÍDO SUA OPERAÇÃO....
+
+
+
+
+
+Mas isso faz sentido se você pensar sobre isso:
+
+
+
+O professor mencionou antes que VOCê SÓ PODE EXECUTAR UMA ÚNICA COISA
+
+EM JAVASCRIPT EM UM DETERMINADO MOMENTO, e, enquanto o loop está rodando, 
+
+É EXATAMENTE O LOOP ESSA ÚNICA COISA....
+
+
+
+
+SE nós clicarmos enquanto o loop está rodando, o browser reconhece esse click, claro, 
+
+E ELE ____SABE ____ QUE DEVERIA CHAMAR ESSA FUNÇÃO 'trackUserHandler'....
+
+
+MAS ELE NÃO VAI FAZER COISA ALGUMA, POIS O LOOP AINDA NÃO TERMINOU...
+
+
+
+
+
+Essa função 'trackUserHandler', então, é 'kindof' DECORADA/memorized pelo javascript; 
+
+O JAVASCRIPT RECONHECE QUE ELE DEVERÁ EXECUTÁ-LA, mas ele só o fará ___APÓS___ O LOOP 
+
+TER ACABADO.
+
+
+
+
+
+
+E ISSO É MUITO IMPORTANTE DE ENTENDER:
+
+
+É exatamente assim que o javascript funciona, 
+
+ele funciona com async code e SYNCHRONOUS code.
+
+
+
+------------------------------------
+
+
+
+
+O que o javascript faz, na verdade, é usar um conceito chamado de 
+
+'event loop'....
+
+
+----------------------------
+
+
+
+
+EVENT LOOP:
+
+
+
+
+
+lembramos daquele slide antigo que o professor nos mostrou, da alocação de dados e o 
+
+
+'STACK' e o 'HEAP'...
+
+
+
+Lá, ele mencionou brevemente o event loop....
+
+
+
+
+ELE MENCIONOU QUE O EVENT LOOP SE TORNARIA IMPORTANTE 
+
+MAIS TARDE.
+
+
+
+Bem, agora é 'MAIS TARDE'. 
+
+
+
+---------------------------------------
+
+
+
+Devemos dar uma olhada em como o 'event loop' funciona...
+
+
+
+
+
+O QUE É O EVENT LOOP?
+
+
+
+
+
+
+O EVENT LOOP, NO FINAL DAS CONTAS, NOS AJUDA A LIDAR COM OS ASYNC CODES, VOCÊ PODERIA DIZER...
+
+
+
+
+
+
+Ele nos ajuda a lidar com CALLBACK FUNCTIONS, as quais tipicamente são usadas em CENÁRIOS 
+
+QUE ENVOLVEM 'ASYNC CODE'...
+
+
+
+
+
+
+DEVEMOS IMAGINAR UM CENÁRIO COMO ESTE:
+
+
+
+
+
+temos o seguinte código:
+
+
+
+
+
+---------------------------------------
+
+
+
+
+const greet = () => {
+    console.log('Hi');
+};
+
+
+
+
+const showAlert = () => {
+    alert('Danger');
+};
+
+
+
+
+setTimeout(showAlert, 2000);
+
+
+
+greet();
+
+
+
+
+
+---------------------------------
+                                |
+'CODE'.
+                                |
+                                |
+----------------------------------
+
+
+
+
+
+
+---------------------------------------------------
+
+
+
+
+
+E AÍ NÓS TEMOS O NOSSO STACK:
+
+
+
+
+---> NESSE CÓDIGO LOGO ACIMA, NÓS ESTAMOS DEFININDO 2 FUNÇÕES... depois definimos um timer, 
+
+quando esse timer de 2 segundos acaba, nós chamamos 'alert' (showAlert)..., que é essa segunda função 
+
+que definimos mais acima.
+
+
+Assim que o timer termina, nós também chamamos 'greet()' aqui... 
+
+
+
+--------------------------------------------------
+
+
+
+CERTO.
+
+QUANDO ESSE CÓDIGO É EXECUTADO, O STACK, QUE É PARTE DA ENGINE JAVASCRIPT QUE ESTUDAMOS HÁ MT TEMPO,
+
+VAI FAZER ALGUMAS COISAS....
+
+
+
+Você tem que entender que ALGUMAS COISAS SÃO DE RESPONSABILIDADE DO 'STACK', enquanto que 
+
+outras SÃO DE RESPONSABILIDADE DO 
+
+__bROWSER___.
+
+
+É a relação 
+
+''                                  ''
+STACK (javascript engine)      VS        (BROWSER) APIs
+                                                 ^
+                                                 |
+                                                 |
+                            
+                                                DOM API 
+
+                                                 ...
+
+                                            navigator.geolocation
+
+                                                    ...
+
+                                                 setTimeout
+
+
+
+
+-----------------------------------------------------------------
+
+
+É importante destacar que 
+ O BROWSER BASICAMENTE NOS DÁ UMA 'BRIDGE', uma bridge em que NÓS PODEMOS 
+
+CONVERSAR COM ALGUNS BROWSER APIs (que ficam dentro do browser) POR MEIO 
+
+DO INTERIOR DO NOSSO CÓDIGO JAVASCRIPT... ('from inside of our javascript code').
+
+
+
+Conversamos com os browser apis por dentro de nosso código javascript para fazer coisas como 
+
+
+o ''OFFLOAD'' DE CERTAS TAREFAS....
+
+
+
+----------------------------
+
+
+Digamos que o nosso código é então executado....
+
+
+
+
+
+AS FUNÇÕES GREET E SHOWALERT são criadas na memória do javascript (no 'HEAP').
+
+
+
+
+
+AÍ, A PRIMEIRA FUNÇÃO QUE É CHAMADA NO CÓDIGO, NA VERDADE, É FUNÇÃO 'BUILTIN' DE INTERVALOS 
+
+DO JAVASCRIPT, a 'setTimeout()'...
+
+
+
+
+Ela fica lá embaixo em nosso stack...
+
+
+
+
+
+
+
+setTimeout 1)
+
+
+
+
+
+
+
+---> 'setTimeout' faz uma coisa bem importante:
+
+
+ELE ALCANÇA ('reaches out') O BROWSER, pq 
+
+ELE É, NA VERDADE, UMA BROWSER API Disponibilizada no javascript... (o 'setTimeout', no caso),
+
+E ENTÃO DEFINE/SETTA O TIMER QUE FICARÁ RODANDO NO 'BACKGROUND' DO/NO BROWSER...
+
+
+Ou seja, o BROWSER ADMINISTRA ESSE TIMER.... (como já sabíamos.).
+
+
+
+
+Certo.
+
+
+AÍ, em javascript (no nosso código/CODE), ESSA FUNÇÃO 
+
+'setTimeout()' ACABOU SUA TAREFA; ESTÁ REALMENTE ACABADA, e passa-se à próxima tarefa. Nenhuma outra 
+execução de código é bloqueada.
+
+
+
+
+A PRÓXIMA COISA QUE OCORRE ___NÃO É A EXECUÇÃO DE 'showAlert' (tenha em mente que 
+o timer DEMORA 2 SEGUNDOS, NESSE EXEMPLO.), MAS 
+
+SIM, em vez disso, O JAVASCRIPT NÃO ESPERA PELO TIMER E NÃO EXECUTA O setTimeout....
+
+NÃO, O QUE ELE VAI EXECUTAR É O FUCKING 
+
+
+'greet()'....
+
+
+------------------------
+
+
+
+
+OU SEJA, O MÉTODO 'GREET()' (e não 'showAlert', aquela função que está vinculada/
+atrelada ao timer) É ENTÃO ADICIONADO AO NOSSO STACK... 'GREET()' É EXECUTADO!!!
+
+
+ex:
+
+
+
+
+greet();
+STACK
+
+
+
+------------------------
+
+
+
+Ou seja, no mesmo instante/1 ms depois de setTimeout ser LIDO pela javascript engine 
+
+e essa função do TIMER SER 'OFFLOADADA' ao browser, GREET() é executado!!
+
+
+
+Se examinarmos o body de 'greet()', veremos um 'console.log()'.
+
+Certo, esse console.log TAMBÉM É ADICIONADO AO STACK...
+
+o console.log também é executado...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+console.log();
+greet();
+STACK
+
+
+
+--------------------------
+
+
+
+COM ISSO, BASICAMENTE ESTAMOS TERMINADOS COM O CÓDIGO DE 'CODE' (da aba code)...
+
+
+O QUE RESTA, BASICAMENTE, É O CÓDIGO/FUNÇÃO DO TIMER (browser API), QUE ESTÁ SENDO ADMINISTRADO PELO/NO BROWSER.
+
+
+
+
+
+
+PASSADO CERTO TEMPO, O TIMER ACABA. PASSAM-SE 2 SEGUNDOS....
+
+
+E isso ocorre, diz o professor, ENQUANTO O NOSSO 'CONSOLE.LOG()' contido em 'greet()' 
+
+É EXECUTADO...
+
+
+
+É CLARO QUE ESSE CÓDIGO (console.log) É EXECUTADO TRI RÁPIDO, ELE NÃO TOMA TEMPO COMO 
+
+UM LONGO 'IF LOOP', como o loop que escrevemos mais cedo, MAS MESMO ASSIM, 
+
+
+ESSE CONSOLE.LOG ainda toma alguns milissegundos, ainda que sejam poucos.
+
+
+
+
+E AGORA, DIGAMOS QUE ENQUANTO ESTAMOS EXECUTANDO 'CONSOLE.LOG', o timer 
+
+ACABE. 
+
+
+
+AGORA PRECISAMOS DE ALGUMA MANEIRA PARA DIZER À JAVASCRIPT ENGINE/código javascript que 
+
+A FUNÇÃO 'showAlert', A QUAL FOI REGISTRADA COMO UM 
+
+
+_________cALLBACK______ PARA O TIMER (setTimeout), DEVERÁ SER EXECUTADA...
+
+
+
+
+PARA ISSO, EXPLICA O PROFESSOR, UMA 'MESSAGE QUEUE' É UTILIZADA....
+
+
+
+Message queues SÃO PROVIDENCIADAS PELO BROWSER!! ----> e também 
+
+
+estão VINCULADAS/LIGADAS AO JAVASCRIPT, POR ASSIM DIZER.
+
+
+
+
+CERTO.
+
+
+AGORA NESSE 'MESSAGE QUEUE', O PROFESSOR 
+
+____REGISTRA QUAISQUER CÓDIGOS/CÓDIGO _____ QUE DEVERÃO SER EXECUTADOS UMA 
+
+VEZ QUE NÓS TENHAMOS 'tempo' para eles...
+
+
+
+Nesse caso, o código que deverá ser executado é o CÓDIGO DO TIMER..., o código 
+
+da função 'showAlert' DENTRO DO TIMER....
+
+
+
+ENTÃO AQUI, BASICAMENTE, A FUNÇÃO CALLBACK 'showAlert', por assim dizer, É 
+
+REGISTRADA COMO UMA FUNÇÃO 'por fazer' ('to do task').....
+
+Ou seja, ela será/é uma função QUE SERÁ EXECUTADA ___ASSIM QUE O JAVASCRIPT TIVER __ TEMPO 
+
+PARA ISSO.../para ela...
+
+
+
+--------------------------------------
+
+
+Certo. Mais uns instantes se passam: o timer REALMENTE ACABOU (não existe mais no browser, naquela aba 'browser APIs'),
+
+E AGORA ESSA FUNÇÃO CALLBACK DE 'showAlert' ESTÁ REGISTRADA NA 
+
+'message queue'...
+
+
+
+OBS::::: VOCÊ DEVE ENTENDER QUE 'showAlert()' NÃO É EXECUTADA NESSE EXATO MOMENTO. ELA APENAS 
+        ESTÁ REGISTRADA COMO UMA FUNÇÃO 'por fazer' ('to do task')...
+
+        AS ÚNICAS COISAS QUE SÃO EXECUTADAS, NESSE MOMENTO, NO JAVASCRIPT, SÃO 
+        'GREET()' e console.log()', nessa ordem, no nosso stack.
+
+
+-------------------------------------------
+
+
+
+CERTO.
+
+COM ISSO, AGORA DIGAMOS QUE A EXECUÇÃO DE 'console.log()' e 'greeT()' (nessa ordem eles saem do stack, sentido inferior-superior. Tudo é empurrado 'para cima'.) TENHA ACABADO NO JAVASCRIPT...
+
+
+
+
+AGORA DIGAMOS QUE TUDO ACABOU, TODAS ESSAS EXECUÇÕES DO JAVASCRIPT NO 'STACK' ACABARAM, e o stack 
+
+está vazio de novo.
+
+
+
+AGORA NÓS PRECISAMOS PEGAR ESSA 'MENSAGEM'/showAlert 'to do' (a fazer) E ENFIÁ-LA 
+
+NO NOSSO CALL STACK...
+
+
+
+Nós sabemos que 'showAlert' É UMA FUNÇÃO EM JAVASCRIPT, E QUE 
+
+AGORA ELA DEVE SER EXECUTADA...
+
+
+
+
+Para isso, para essa execução, diz o professor, NÓS USAMOS 
+
+O ____eVENT LOOP____...
+
+
+
+
+O EVENTLOOP, ASSIM COMO O 'message queue', É 
+
+'BUILTIN' no browser....
+
+
+E A MAIOR PARTE DOS AMBIENTES JAVASCRIPT, por exemplo também o 'node.js', 
+
+TEM ESSE CONCEITO DE TER UM 'EVENT LOOP'...
+
+
+
+
+
+É importante entender que o event loop não faz somente parte da 
+
+ENGINE DO JAVASCRIPT, MAS TAMBÉM 
+
+DO 'HOST ENVIRONMENT DO JAVASCRIPT'.... ( OU SEJA, DA 'COISA' QUE USA ESSA JAVASCRIPT ENGINE...).
+
+
+------------------------------------------------
+
+
+
+
+
+PORTANTO, O EVENT LOOP É PARTE DO BROWSER, E 
+
+O TRABALHO DO EVENT LOOP, no final das contas, é 
+
+SINCRONIZAR O CALL STACK NA ENGINE JAVASCRIPT ____ COM NOSSAS ____
+
+
+'MENSAGENS EM ESPERA' (waiting messages, mensagens/código no 'message queue').
+
+
+-----------------------------------------------
+
+
+
+NO FINAL DAS CONTAS, O QUE O EVENT LOOP FAZ É BASICAMENTE RODAR 
+
+TODO O TEMPO, SEMPRE ESTÁ SENDO EXECUTADO....
+
+
+O que ele faz é CHECAR SE O CALL STACK ESTÁ VAZIO... CHECAR SE O CALL STACK 
+ESTÁ VAZIO E SE NÓS TEMOS 'pending' 'TO DOs' (coisas 'a fazer' ainda por FAZER)...
+
+
+
+E SE O STACK ESTÁ VAZIO, O EVENT LOOP É EXECUTADO, ASSIM POR SE DIZER, E ENTÃO EMPURRA QUAISQUER 
+ 
+'WAITING MESSAGES'/to do functions  PARA DENTRO 
+
+DO CALL STACK!!!!
+
+
+
+Ou seja, O EVENT LOOP, NESSE EXEMPLO, IRÁ EMPURRAR 
+
+o 
+
+'showAlert()' PARA DENTRO DO CALL STACK.....
+
+
+
+----------------------------------
+
+
+
+RESUMINDO:
+
+
+o event loop espera até que o call stack esteja vazio; uma vez que esteja vazio, 
+
+ele empurra/joga as 'waiting messages' (AS CALLBACK FUNCTIONS/WAITING MESSAGES que 
+registramos ANTERIORMENTE) para dentro do callstack;
+
+
+É ELE QUE FAZ AS CALLBACK FUNCTIONS SEREM EFETIVAMENTE EXECUTADAS.
+
+
+São então executadas no nosso call stack...
+
+
+
+OU SEJA, O MESSAGE QUEUE É ENTÃO ESVAZIADO e agora 
+
+a função 'showAlert()' VAI RODAR NO NOSSO CÓDIGO JAVASCRIPT....
+
+
+
+
+
+showAlert() é executada, aí o seu alert 'BUILTIN' de 'alert()' É 
+
+EXECUTADO TAMBÉM, PRIMEIRO.
+
+
+
+ex:
+
+
+alert()
+showAlert()
+STACK
+
+
+-------------------------------------------
+
+
+
+
+DEPOIS DESSAS 2 FUNÇÕES ACABAREM SUAS EXECUÇÕES, O CALL STACK FICA VAZIO DE NOVO.
+
+
+
+
+É ISSO QUE O BROWSER FAZ POR TRÁS DAS CENAS COM O EVENT LOOP, COM O NOSSO CÓDIGO E 
+
+ESSAS CALLBACK FUNCTIONS QUE PASSAMOS AOS NOSSOS BROWSER APIs....
+
+
+E isso é tipicamente aquilo que observamos em OPERAÇÕES 'async'...
+
+
+
+---------------------------------------
+
+
+Se dermos uma olhada  de novo naquele código exemplo:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+    console.log('Clicked');
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+let result = 0;
+
+
+for (let i = 0; i < 1000000000; i++) {
+    result += i;
+}
+
+
+console.log(result);
+
+
+
+
+
+-------------------------------------
+
+
+
+
+O que fazemos aqui, com addEventListener, É PASSAR 
+
+('hand off') ALGUMA COISA AO BROWSER, ESTAMOS PASSANDO 
+
+ESSE CLICKLISTENER, no caso,  e então estamos dizendo a ele 
+
+QUE 'trackUserHandler' É A FUNÇÃO QUE DEVERÁ SER EXECUTADA 
+
+NO MOMENTO EM QUE UM CLIQUE OCORRER NO ELEMENTO 'button'...
+
+
+
+aí nós continuamos no nosso código javascript e então temos 
+
+ESSA TAREFA COMPRIDA, a tarefa do FOR LOOP GIGANTE...
+
+
+ESSE FOR LOOP GIGANTE VAI BASICAMENTE OCUPAR O NOSSO CALL STACK....
+
+
+
+Esse for loop não faz parte de uma função no nosso código;
+
+está rodando essencialmente EM UMA FUNÇÃO ANÕNIMA, EM UMA 
+
+GIGANTE FUNÇÃO ANÔNIMA QUE FAZ 'WRAP UP' EM TODO O CÓDIGO, por assim dizer. 
+
+
+
+
+
+
+
+Certo.
+
+
+o for loop é executado, então, E AÍ O CALL STACK FICA NA NOSSA JAVASCRIPT ENGINE...
+
+
+
+Nosso callstack, PORTANTO, DEIXA DE ESTAR VAZIO.
+ELE ESTÁ COM UMA FUNÇÃO GIGANTE de 'for loop', Que 
+está embananando tudo.
+
+
+COMO TEMOS ESSA FUNÇÃO PESADA SENDO EXECUTADA, 
+
+o eventloop não consegue dizer 'bah, o callstack está vazio, vou 
+executar algumas funções 'to do' (a fazer). 
+
+É POR CAUSA DISSO QUE O EVENTLISTENER (e o botão, consequentemente)
+
+DEIXA DE FUNCIONAR ATÉ QUE ACABE A EXECUÇÃO DO FOR LOOP;
+
+
+o for loop está lá no stack, atrapalhando tudo e IMPEDINDO 
+
+A EXECUÇÃO DE CALLBACK FUNCTIONS COMO 'trackUserHandler', contida dentro 
+
+do addEventListener....
+
+
+
+
+
+A função 'trackUserHandler' É JOGADA NO 'MESSAGE QUEUE' MAS NÃO 
+
+CONSEGUE SER EXECUTADA, POIS O EVENT LOOP PERCEBE QUE 
+
+NÓS AINDA TEMOS TRABALHO A FAZER, A EXECUÇÃO DE FOR LOOP 
+
+AINDA NÃO ACABOU NO CALL STACK...
+
+
+
+É POR ISSO QUE O EVENTLOOP ESPERA ATÉ QUE  O CALLSTACK 
+
+FIQUE VAZIO para executar essa callback function....
+
+
+E ISSO SÓ ACONTECERÁ QUANDO O FOR LOOP TER ACABADO E QUANDO 
+
+O CONSOLE.LOG DE result (console.log(result)) TER 
+
+SIDO EXECUTADO e outputtado o resultado no console.
+
+
+
+
+
+
+É POR ISSO QUE NÓS SOMENTE VEMOS 'clicked' (resultado do click no botão que contém o eventListener) mostrado no console 
+
+DEPOIS DO FOR LOOP E DO CONSOLE.LOG terem sido executados, 
+
+por causa da MANEIRA PELA QUAL O BROWSER ADMINISTRA TUDO ISSO.
+
+
+
+
+E ISSO SÃO INFORMAÇÕES ESSENCIAIS:
+
+
+
+VOCÊ PRECISA SABER O QUE DIABOS O JAVASCRIPT FAZ POR TRÁS DAS CENAS 
+PARA ENTENDER PQ NÓS ESCREVEMOS 
+
+NOSSO CÓDIGO DE CERTAS MANEIRAS...
+
+
+
+Tbm para entender coisas como:
+
+
+
+O CÓDIGO FOR LOOP DO EXEMPLO É EXECUTADO ___ANTES ___  do código de 'trackUserHandler'...
+
+
+pq ainda QUE VOCê TENHA REGISTRADO 'trackUserHandler' ANTES NAS LINHAS DE CÓDIGO, 
+
+esse 'trackUserHandler' AINDA É UMA TAREFA 'ASYNC' (async task)...
+
+
+
+como ela é uma tarefa async, você tipicamente ESPERA POR ELA ACONTECER, mas 
+
+VOCê NUNCA VAI QUERER QUE ESSA ESPERA ACABE ___tRAVANDO TODO O RESTO DO SEU CÓDIGO JAVASCRIPT___ (que é o que acontece com nosso 
+for loop nesse exemplo; BTW --> NUNCA ESCREVA SEU FOR LOOP ASSIM, JOGADO NO MEIO DO CÓDIGO.)
+
+
+
+
+
+VOcê quase nunca terá for loops longos como esse rodando no seu código, pois eles podem 
+
+BLOQUEAR SUA EXECUÇÃO DE CÓDIGO JAVASCRIPT.
+
+
+
+
+
+JÁ ESSAS OPERAÇÕES QUE SÃO RECONHECIDAMENTE LONGAS POR TODOS (ATÉ PELO BROWSER), COMO 
+
+eventListeners, geolocation, http requests, etc, OPERAÇÕES QUE VOCÊ NÃO SABE COM QUAL FREQUÊNCIA 
+
+E QUAL TIMING ACONTECERÃO,  essas sempre serão 'HANDED OFF' AO BROWSER, para que o seu código 
+
+
+JAVASCRIPT NUNCA SEJA BLOQUEADO.
+
+---------------------------------------------

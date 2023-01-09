@@ -1,0 +1,97 @@
+ERROR HANDLING:
+
+
+
+
+
+
+
+Após todos os if statements e loops malucos, o professor quer terminar o módulo nos 
+mostrando ERROR HANDLING.
+
+
+ERROR HANDLING é outra forma de control structure de que você vai precisar 
+no seu código javascript para CONSTRUIR CÓDIGO QUE RODA EM CIRCUNSTÂNCIAS 
+DIFERENTES E MAIS DIFÍCEIS. CONDIÇÕES PRECÁRIAS.
+
+
+
+O que o professor quer dizer é que em aplicações javascript é impossível 
+evitar todos os tipos de erro, alguns tipos de erro sempre passam. É algo fora 
+do seu controle como desenvolvedor.
+
+
+Erros de lógica, principalmente.
+
+
+
+Não falamos aqui de bugs, ou erros de sintaxe. Isso pode ser 
+resolvido com um simples debugging.
+
+
+
+Estamos falando de erros/problemas que nÃO PODEMOS ELIMINAR.
+
+
+
+
+
+
+TIPOS MAIS COMUNS:
+
+
+
+
+Erros de input de usuário =
+
+
+ex: usuário inputta texto como 'hi' em vez de um número.
+---> você pode restringir as opções que o usuário tem 
+de inputtar coisas lá, mas é impossível tirar a opção de inputtar merda 
+errada por inteiro.
+
+
+
+
+ERROS DE REDE === 
+
+ex: servidor está offline.
+
+---> você não pode deixar de levar em conta a hipótese do servidor estar offline.
+
+
+
+Outros problemas.
+
+
+
+
+
+--------------------------------
+
+Para tentar evitar "tragédias", você deve 
+estabelecer "throw and catch" errors, para que você falhe graciosamente 
+e consiga se recuperar, caso isso seja possível.
+
+
+falhar graciosamente = ex: pelo menos mostrar ao usuário uma mensagem de 
+erro relatando oq ocorreu.
+
+ex2, melhor cenário possível = escrever um código de fallback, para 
+casos em que o pior aconteça. Se recuperar automaticamente, sem nem 
+mesmo mostrar uma mensagem de erro ao usuário.
+
+-----------------------------------------
+
+
+
+
+A melhor forma de tentar remediar esses erros/problemas é por meio do comando 
+
+try {...} catch(error) {...};
+
+
+É OUTRA CONTROL STRUCTURE QUE O JAVASCRIPT EXPÕE A NÓS, 
+QUE NOS PERMITE "TENTAR" UM CÓDIGO QUE PROVAVELMENTE/POSSIVELMENTE VAI FALHAR, E ENTÃO
+"CAPTURAR" POTENCIAIS ERROS JOGADOS NAQUELE CÓDIGO, PARA QUE POSSAMOS FAZER ALGO 
+COM ESSES TAIS ERROS, QUANDO ELES OCORREREM.

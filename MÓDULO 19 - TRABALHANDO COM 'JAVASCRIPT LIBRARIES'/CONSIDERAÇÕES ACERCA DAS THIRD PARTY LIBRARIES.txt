@@ -1,0 +1,346 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LIBRARIES PODEM SER BEM ÚTEIS...
+
+
+
+
+
+LODASH É MUITO ÚTIL,
+
+
+axios é muito útil.
+
+
+
+
+
+
+
+
+MAS HÁ UMAS COISAS QUE VOCÊ TEM QUE TER EM MENTE QUANDO FOR TRABALHAR COM LIBRARIES:
+
+
+
+
+
+
+----->1) tenha em mente que LODASH, se vocÊ o adicionar NU E CRU no seu código, 
+
+POSSUI MUITAS funcionalidades
+
+QUE VOCê 
+
+
+___NUNCA USARÁ____...
+
+
+
+
+
+
+
+NESSE NOSSO EXEMPLO, NÓS APENAS USAMOS A FEATURE 
+
+
+Da 'difference' e nada mais...
+
+
+
+ENTRETANTO, O RESTO DO CÓDIGO FOI BAIXADO MESMO ASSIM....
+
+
+
+
+
+ISSO SIGNIFICA QUE USUÁRIOS DE NOSSOS APLICATIVOS VAO BAIXAR 
+
+TODO AQUELE CÓDIGO INÚTIL, código que nem mesmo é utilizado em nosso aplicativo.
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+PODEMOS VER O EFEITO SE RECARREGARMOS A NOSSA PÁGINA...
+
+
+
+
+lodash ---> 24kb ----> não é mt, mas ainda É MAIS DO QUE NOSSOS OUTROS ARQUIVOS...
+
+
+
+
+
+
+----> isso pode parecer pouco, MAS COM INTERNET RUIM,
+
+esses valores podem ser horríveis para o seu site...
+
+
+
+
+
+
+
+
+
+------> PORÉM, VÁRIAS LIBRARIES TE DÃO A OPÇÃO 
+
+
+DE BAIXAR VERSÕES 'MENORES' de suas libraries, 
+
+
+com menor tamanho....
+
+
+
+
+ex: 
+
+lodash te dá uma core build, que é bem menor...
+
+
+
+
+---------------------------------
+
+
+
+
+EM OUTROS SETUPS MAIS AVANÇADOS DE PROJETOS, QUE VEREMOS MAIS TARDE NO CURSO,
+
+VOCê TERÁ OUTRAS CAPACIDADES,
+
+
+COMO USAR APENAS PARTES DE UMA LIBRARY E DESCARTAR 
+
+as partes das quais você não precisa...
+
+
+
+
+
+ESSE 'SETUP DE PROJETO' NÃO É CAPZ DE FAZER ISSO (esse nosso exemplo), 
+
+
+MAS NÓS VEREMOS EXEMPLOS DISSO MAIS TARDE,
+
+NO MÓDULO 
+
+DE 'tooling'...
+
+
+
+-------------------------------------
+
+
+
+RESUMINDO: VOCÊ PODE MITIGAR ESSE PROBLEMA, MAS VOCê DEVE TÊ-LO EM MENTE, pois nem todas as libraries te dão a opção de pegar builds mais leves, sem tantas features...
+
+
+-----------------------------------------
+
+
+
+
+
+
+ALÉM DISSO, VOCÊ DEVE SE ASSEGURAR QUE VOCÊ ESTÁ TRABALHANDO COM LIBRARIES 
+
+
+QUE SÃO SEGURAS E BEM MANTIDAS....
+
+
+
+
+ex:
+
+
+
+AXIOS ----> é open source ---> qualquer um pode colaborar e expandir esse código.
+
+
+
+
+--------------------------------------------------------------
+
+
+
+
+
+Quando você tenta editar um código no github, é óbvio que o código que você escreve será 
+
+ANTES VALIDADO E EXAMINADO ANTES DE SER FUNDIDO na database que já está no site...
+
+
+
+POR ISSO VOCÊ NÃO PODE ''HACKEAR'' O CÓDIGO ORIGINAL E ESTRAGAR TODO O PROGRESSO.
+
+
+
+
+
+Em vez disso, open source GERALMENTE MELHORA A QUALIDADE DO CÓDIGO E A SEGURANÇA, 
+
+pois mais pessoas estarão OLHANDO O CÓDIGO E TRABALHANDO SOBRE ELE...
+
+
+
+
+
+
+
+
+
+----> OPEN-SOURCE = BOM.
+
+
+
+MAS TAMBÉM 
+
+A LIBRARY FICA MELHOR AINDA QUANDO VOCÊ SABE QUE ELA É 
+
+ATIVAMENTE 'MAINTAINED'... (sofre manutenção regularmente).
+
+
+
+
+
+SE ELA É MAINTAINED, ISSO SIGNIFICA QUE SE HÁ BUGS, ELES SÃO 
+
+CORRIGIDOS RAPIDAMENTE.... (e bugs podem ser mt ruins, eles podem acabar com a segurança do seu aplicativo...).
+
+
+
+UM INDICADOR DE 'MAINTENANCE' DE Um código no github, 
+
+
+se realmente ela está sendo 
+
+gerenciada, 
+
+
+
+É o 'last commit'... (última edição).
+
+
+
+
+SE O LAST COMMIT FOI HÁ 2 ANOS, 
+
+isso significa que O CÓDIGO 
+
+NÃO É MAIS GERENCIADO POR NINGUÉM...
+
+
+
+
+2 dias, um mes ------> 'pretty active', good.
+
+
+
+
+
+TAMBÉM É BOM CHECAR AS 'RELEASES' desse código...
+
+
+
+
+
+se as releases forem de 1-2 vezes ao ano,
+
+
+isso significa que o projeto está sendo gerenciado e ainda tem atenção.
+
+
+
+
+
+
+
+
+
+
+VOCÊ TAMBÉM PODE CHECAR AS 'issues'...
+
+
+
+
+TODOS OS PACOTES QUE SÃO POPULARES GERALMENTE POSSUEM UM MONTE DE 'issues'...
+
+
+
+
+vocÊ pode ver isso para ver se EXISTEM ALGUNS GRANDES PROBLEMAS...
+
+
+
+---------------------------------------------------
+
+
+
+
+
+
+
+VOCÊ TAMBÉM PODE VER A POPULARIDADE DE UMA PACKAGE POR MEIO DAS 
+
+'stars' no projeto...
+
+
+
+
+
+É ISSO QUE VOCÊ DEVE CONSIDERAR NA ESCOLHA DE UMA PACKAGE...
+
+
+
+
+Você não quer ADICIONAR UMA PACKAGE QUE VAI ENFIAR UM BURACO DE SEGURANÇA NA SUA PÁGINA....
+
+
+
+
+
+
+ALÉM DISSO, ainda que esse projeto/package não seja inseguro, 
+
+
+SE O PROJETO TIVER BUGS, bugs que não estão sendo consertados,
+
+
+
+SEU APLICATIVO PODE QUEBRAR... 
+
+
+
+E seu aplicativo QUEBRAR e essa package da qual você depende NÃO ESTIVER 
+
+mais SENDO MANTIDA, 
+
+isso significa que seu aplicativo vai ficar quebrado 
+
+e você terá de buscar uma alternativa por conta própria.
+
+
+
+Essas são as considerações...

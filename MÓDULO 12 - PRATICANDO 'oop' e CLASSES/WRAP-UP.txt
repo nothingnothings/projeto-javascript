@@ -1,0 +1,82 @@
+
+
+
+
+
+
+
+
+ACABAMOS com o módulo DE PRÁTICA....
+
+
+
+
+Aprendemos um pouco mais sobre classes 
+
+
+e sobre o OOP (object oriented approach),
+
+
+
+
+
+Pegamos mais um pouco do 'feel' de como 
+
+
+estruturar um aplicativo a partir do OOP.
+
+
+
+
+Trabalhamos com o DOM, movemos elementos por aí,
+
+vimos mais coisas sobre eventListeners...
+
+
+
+
+
+TAMBÉM VIMOS UMA NOVIDADE: 
+
+
+
+o 'callback pattern' ---> APRENDEMOS SOBRE ISSO 
+
+
+
+
+ANTES, mas agora vimos isso em prática, 
+
+
+
+vimos essa prática, que 
+
+
+
+pede que nós passamos funções A outras INSTÂNCIAS/FUNÇÕES, para que 
+
+
+dentro dessas instâncias/funções essas funções-argumentos pudessem 
+
+ser chamadas a partir 
+
+de certos eventos....
+
+
+
+--------------------
+
+
+
+
+Construímos o pequeno aplicativo que troca elementos de uma instância 
+
+
+de lista para outra....
+
+
+--------------------------
+
+
+
+ESSE APLICATIVO SERÁ ÚTIL NO PRÓXIMO MÓDULO...

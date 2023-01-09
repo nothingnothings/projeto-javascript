@@ -1,0 +1,207 @@
+Vejamos um pouco mais sobre o DOM.
+
+
+
+
+
+Considere esse código html:
+
+
+
+<html>
+    <head>
+        <title>The DOM</title>
+    </head>
+    <body>
+        <header>
+        <h1>Dive into the DOM</h1>
+        </header>
+    <main>
+        <p>There's a lot to it!</p>
+    </main>
+    </body>
+</html>
+
+
+
+
+Esse é um código html válido que, no final das contas, renderiza uma webpage muito simples. Só o doctype está 
+faltando, mas isso não importa. Um monte de tags q são entendidas pelo browser e renderizadas na tela.
+
+O que o browser faz é renderizar os pixels, mas ele também "parseia" o código HTML e cria uma REPRESENTAÇÃO EM 
+OBJETO DELE. Isso porque, por trás das cenas, o browser NÃO TRABALHA COM TEXTO... e texto é o documento html, na verdade. ELE 
+TRABALHA APENAS COM ESSES OBJETOS/REPRESENTAÇÕES EM FORMA DE OBJETOS, QUE SÃO ARMAZENADOS NA SUA MEMÓRIA.
+
+Na memória, por exemplo, a tag html é TRADUZIDA PARA UM HTML """NODE"""". É assim que é chamado, "node". E HTML seria 
+aquilo que entendemos por "ELEMENT NODE"... porque no final das contas, isso é um node. Esses objetos do arquivo html são simplesmente 
+chamados de nodes. Nodes representam elementos html, tags html. Element nodes. 
+
+
+
+tags html ===> elementos html ====> nodes (element nodes).
+
+
+
+Esses Element nodes são criados para TODOS OS ELEMENTOS HTML.
+
+
+
+Element nodes do exemplo do professor: 
+
+html, head, title, body, header, h1, main e paragraph.
+
+
+
+
+
+
+Você também pode ver que o professor também já está criando uma espécie de estrutura aqui:
+
+
+
+
+HTML 
+
+    HEAD 
+
+
+        TITLE 
+
+
+    BODY 
+
+
+        HEADER 
+
+
+
+                H1 
+
+
+
+
+-----> esses element nodes estão indentados em diferentes níveis. Por que isso? A razão para isso é a de que no final das contas, o browser 
+cria UMA ÁRVORE DE ELEMENTOS, ou uma ÁRVORE DE NODES (node tree). Nessa árvore de nodes, o element node "HTML" é o node mais "topmost", o mais 
+superficial e alcançável. Ele tem a head e o body como "child nodes"... 
+
+Já a head tem o title  como um child node, e o body  tem o header como child node. E o header tem o h1 como child node.
+
+
+No final das contas, a relação que você vê no código html acima é REFLETIDO NOS "OBJETOS REPRESENTATIVOS" CRIADOS PELO BROWSER.
+
+
+O browser, portanto, "Keeps track (acompanha)" as relações pai-filho que você tem entre diferentes elementos HTML...
+ele acompanha essas relações JUSTAMENTE POR MEIO DA CRIAÇÃO DESSA "NODE TREE", ESSA ÁRVORE DE NODES.
+
+
+
+A coisa importante de entender aqui é que não só tags html são carregadas e criadas como objetos, MAS TAMBÉM TODO 
+ TEXTO QUE VOCÊ TEM NO ARQUIVO. Os textos são criados como "text nodes" (chamamo-nos assim)... e isso pode parecer estranho, 
+ mas ESSAS SÃO AS PARTES DO DOCUMENTO DAS QUAIS ESTAMOS FALANDO:        (estamos falando daquele mini espaço em branco antes da tag head, que é considerado, sim, como texto pelo browser, e é utilizado para criar um objeto representativo desse espaço).
+  |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>  "|___"   SIM, isso é um "TEXT NODE".
+  |
+   <html>
+  []<head>
+        <title>The DOM</title>
+    </head>
+    <body>
+        <header>
+        <h1>Dive into the DOM</h1>
+        </header>
+    <main>
+        <p>There's a lot to it!</p>
+    </main>
+    </body>
+</html>
+
+
+O espaço em branco na frente da tag head, representado por [], é realmente transformado em UM NODE no browser. Um text node.
+Os text nodes SÃO PARTE da árvore de nodes carregada. Temos muitos espaços nesse texto, espaços para os line breaks, e todos 
+eles são transformados em text nodes pelo browser. 
+
+
+Tipicamente, você não vê esses espaços na tela, porque devido À maneira que o "styling" funciona e assim por diante, a maior 
+parte dos espaços brancos do documento html não é renderizada. CONTUDO, esses espaços brancos ainda são parte daquela "ÁRVORE DOM", "NODE TREE" que 
+o professor mencionou. São parte do DOM.
+
+
+
+O TEXTO NORMAL ("dive into the DOM", "There's a lot to it!") TAMBÉM FAZ PARTE DO DOM, e também tem objetos "text nodes" criados 
+para os representar.
+
+
+
+ 
+2 tipos de nodes, portanto: element nodes (para todos os elementos html que você tem )  e  text nodes().
+
+
+MAS O CONTEÚDO DENTRO DOS ELEMENTOS (element nodes) que você tem PODE SER TEXTO... SE ELE FOR TEXTO, 
+ELE SERÁ TRATADO COMO "TEXT NODE" (tipo diferente de objeto, com diferentes propriedades e métodos).
+
+
+
+Temos nesse excerto html, 6 TEXT NODES (4 indentações e 2 textos "de verdade") e 8 ELEMENT NODES.
+
+
+
+
+
+Para ter uma maior ideia de como o arquivo html é lido e convertido em nodes pelo browser, o professor 
+sugere que olhemos os códigos html numa webpage de verdade.
+
+
+Abrimos, portanto, o index.html desse módulo no chrome.
+
+
+Lá, temos em "elements" todos os elementos da página html de forma legível a seres humanos. Vemos as tags 
+de cada elemento, mas NÃO VEMOS OS VERDADEIROS NOMES, OS NOMES DOS OBJETOS.
+
+
+VocÊ pode interagir com esses elementos da página. Professor mostra algumas coisas que já sabemos, como 
+o fato de se passarmos o mouse por cima de um elemento na direita, o chrome já seleciona a parte da página 
+correspondente na esquerda.
+
+
+Na direita dos coisos selecionados temos "== $0". Mas o que é isso? Essa é uma feature conveniente 
+dada pelo browser. É usado como atalho, e funciona assim: 
+
+
+1) Com esc, você abre o console inferior no devtools.
+
+
+
+2) se você tiver o mouse em cima daquela coisa que você quer selecionar, e você quiser 
+copiá-la para o console, você pode simplesmente digitar  "$0", que o elemento sobre o qual você tem o mouse 
+será automaticamente copiado.
+
+
+
+
+Mas por que isso? PORQUE $0 SEMPRE TE DÁ ACESSO AO ÚLTIMO ELEMENTO QUE VOCÊ SELECIONOU NA TAB "ELEMENTOS".
+Essa não é uma feature do javascript, é apenas uma feature do devtools para deixar a seleção de elementos mais fácil para você.
+É uma feature de conveniência.
+
+
+
+Por exemplo, se vocÊ digitar "console.dir($0)", VOCÊ PRINTARÁ TODAS AS PROPRIEDADES DAQUELE ELEMENTO HTML/OBJETO DO ELEMENTO HTML E 
+TODAS AS SUAS PROPRIEDADES.
+
+
+Por exemplo, você pode scrollar até a propriedade "textContent", que, no final das contas, SEGURA O CONTEÚDO 
+DO TEXTO QUE AQUELE ELEMENTO TEM. (nesse caso, ele segura "Dive into the DOM!")
+
+"textContent" é UMA PROPRIEDADE que mostra o texto.
+
+
+
+Falando de text nodes, um negócio que você não vê no chrome dev tools é OS TEXT NODES. É claro que você 
+vê o texto "verdadeiro", o "dive into the dom!",  MAS OS ESPAÇOS EM BRANCO (whitespace) NÃO SÃO MOSTRADOS COMO 
+NODES SEPARADOS NESSA TELA de elementos. Ainda assim, é importante você entender que esses TEXT NODES EXISTEM, e que 
+veremos mais sobre eles ao longo do curso (quando realizarmos o query programático de elementos 
+de dentro do nosso código javascript).
+
+h1 é um dom node....
+
+
+O que o professor quer fazer agora é nos mostrar COMO PODEMOS FAZER O QUERY DESSES ELEMENT NODES DE DENTRO DO CÓDIGO JAVASCRIPT, para que 
+possamos trabalhar com o dom e com esses nodes DE DENTRO DO JAVASCRIPT.

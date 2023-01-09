@@ -1,0 +1,183 @@
+
+
+Como fazer isso, como deixar o player escolher o valor de vida inicial dos personagens?
+
+
+
+Para isso, javascript/o browser tem uma função incorporada muito legal, que vocÊ pode usar.
+
+
+é a PROMPT function.
+
+
+
+prompt();
+
+
+
+
+ela funciona similarmente ao alert, visto que ela também mostra uma mensagem de diálogo...
+mostra uma janela de diálogo, mas uma janela de diálogo onde o usuário pode inserir algo.
+
+
+
+Primeiramente, colocamos um texto que será apresentado ao usuário, como por exemplo:
+
+
+Você primeiramente coloca a mensagem, e logo depois da mensagem, uma string ('100'), que será o valor inicial.
+
+
+prompt('Maximum life for you and the monster:', '100');
+
+Colocamos essa função prompt lá no início do código, logo após as constantes.
+
+agora se você salvar isso e recarregar, você verá que a página te apresenta um prompt já na entrada.
+
+
+Nesse prompt, você pode inserir um valor.
+
+
+Se você apertar ok, nada acontece no momento, porque nós ainda não estamos fazendo nada com aquele valor inputtado.
+
+A prompt function na verdade RETORNA O VALOR QUE O USUÁRIO INPUTTOU.
+
+por isso o professor já vai lá e adiciona uma constante, cujo valor definido é o do prompt, do valor retornado pelo prompt (valor definido pelo usuário).
+
+
+EX:
+
+
+const enteredValue = prompt('Maximum life for you and the monster.', '100');
+
+
+
+
+
+Entretanto, esse valor inputtado será uma string, e não um número, ISSO É IMPORTANTE, VIMOS ISSO NAS ÚLTIMAS AULAS.
+
+O professor quer ter um número aqui para poder realizar os cálculos no código corretamente, e não que o código comece a concatenar strings ou coisa do gênero.
+
+
+Ele quer um número ali, e por isso nós devemos converter prompt para um número.
+
+Já aprendemos como isso funciona, usamos parseInt:
+
+
+EX:
+
+parseInt(prompt('Maximum life for you and the monster.', '100'));
+
+
+vocÊ pode fazer desse jeito mesmo, OU, para fins de legibilidade, fazer essa alteração em chosenMaxLife, 
+assim:
+
+let chosenMaxLife = parseInt(enteredValue);
+
+
+essa última opção é melhor; o código ficaria:
+
+
+-----------------------------------------------------------------------------
+const enteredValue = prompt('Maximum life for you and the monster.', '100');
+
+
+let chosenMaxLife = parseInt(enteredValue);
+
+
+----------------------------------------------------------------
+
+Nesse caso, a constante enteredValue é forwardada ali embaixo, em chosenMaxLife. Se fizermos isso, os valores definidos pelo usuário 
+serão convertidos em números naquele lugar ali embaixo.
+
+
+
+
+
+PORÉM, HÁ UM PROBLEMA: O JOGADOR PODE INPUTTAR QUALQUER TIPO DE LIXO NESSE INPUT FIELD, COMO UMA STRING, QUE NÃO É CONVERTIDA PARA UM NÚMERO E QUEBRA TODO O CÓDIGO.
+Para evitar casos como esse, adicionamos um IF CHECK (podemos adicionar if checks diretamente no código, não precisam ser adicionados dentro de funções.)
+
+"se chosenMaxLife não for um número válido, ..."
+
+
+
+Para checar se chosenMaxLife não é um número válido, você pode usar outra função incorporada ao Javascript, que é a 
+
+função "isNaN()" ("is not a number" function.).
+
+FUNÇÃO MUITO ÚTIL PARA CASOS COMO ESSE.
+
+
+
+
+ex:
+
+
+
+if(isNaN(chosenMaxLife)) {}
+
+
+isNaN checa se o valor é NaN, not a number.
+
+
+
+aqui nessa condição if(xxxx), a chosenMaxLife 
+afetada por 
+parseInt resultará em um NaN (not a number) se o usuário digitar alguma bosta de letra no 
+input field. Isso incidirá na execução do código colocado em {}.
+
+
+
+caso o usuário tenha tentado ser engraçadinho, colocamos o valor da vida como o default, o valor de 100.
+
+
+if(isNaN(chosenMaxLife)) {
+    chosenMaxLife = 100;
+    alert('Fuck You');
+}
+
+
+o professor também quer deixar a vida como DEFAULT em casos em QUE O USUÁRIO DEIXOU O VALOR COMO 0, OU NEGATIVO.
+
+Para isso, usamos o operador OR, para definir o caso alternativo de rodar o default. E aí colocamos <=0.
+
+
+
+if(isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+    chosenMaxLife = 100;
+    alert('Fuck You');
+}
+
+
+IMPORTANTE: 
+
+Javascript, nesse caso, lê primeiro if(isNaN(ChosenMaxLife)), e SÓ DEPOIS (chosenMaxLife <= 0).
+
+
+
+
+isso é porque o || tem precedência inferior em relação à ().
+
+
+O que isso quer dizer é que, se o if(isNaN(chosenMaxLife)) é verdadeiro, o código nem mesmo examina o chosenMaxLife <= 0, por causa do ||.
+
+com ||, basta que uma condição seja verdadeira para que todo o conjunto o seja.
+
+
+Se tivéssemos and (&&) no lugar de OR, o código sempre buscaria pelos dois, e ambos teriam que retornar true para 
+fazer ser aplicado o function body.
+
+
+
+Agora, com esses códigos adicionados, conferimos ao usuário uma chance de ele mesmo inicializar esses valores aqui. 
+
+
+
+Se eu inspecionar as barras de vida com o dev tools, verei que os valores no html foram afetados.
+Agora o max da barra de vida é 40, se eu inputtei 40 no input field.
+
+
+
+Agora veremos o que fazer com o SHOW LOG button.
+
+
+Mas a lógica básica do jogo está implementada.

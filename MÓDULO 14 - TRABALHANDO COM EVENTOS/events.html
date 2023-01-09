@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, intial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <title>Events!</title>
+    <link rel="stylesheet" href="assets/styles/events.css" />
+    <script src="assets/scripts/events.js" defer></script>
+  </head>
+  <body>
+    <div>
+      <h2>Events in Javascript</h2>
+      <button>Click me</button>
+      <button>Click me, too!</button>
+      <!-- <button onclick="alert('You clicked on the button');">Click me</button>  -->
+      <!-- VERSÃO 'ANTIGA', OBSOLETA, DE IMPLEMENTAR UMA RELAÇÃO EVENTOS-ELEMENTOS NO NOSSO CÓDIGO...-->
+    </div>
+    <form action="">
+      <label for="title">Title</label>
+      <input type="text" id="title" />
+      <button type="submit">Submit</button>
+    </form>
+     <ul>
+      <li>Item 1</li>  <!-- OBS::::: O 'EVENT DELEGATION PATTERN' SÓ FUNCIONA COM ESSE TIPO DE ELEMENTOS LI/ETC, SE VOCê USAR ALGUMA DISPOSIÇÃO MAIS COMPLEXA DE LIST ITEMS, COM PARAGRAPHS E ETC, o event delegation pattern NÃO FUNCIONARÁ CORRETAMENTE.-->
+      <li>Item 2</li>
+      <li>Item 3</li>
+      <li>Item 4</li>
+      <li>Item 5</li>
+
+      <!--        EXEMPLO DE COMPOSIÇÃO COMPLEXA DE LIST ITEMS, QUE É INCOMPATÍVEL (a princípio) COM O EVENT DELEGATION PATTERN.
+<ul>
+    <li><h2>Item 1</h2>
+    <p>Paragraph</p>
+        </li>
+    <li><h2>Item 2</h2>
+       <p>Paragraph</p>
+       </li>
+    <li><h2>Item 3</h2>
+       <p>Paragraph</p>
+       </li>
+    <li><h2>Item 4</h2>
+       <p>Paragraph</p>
+       </li>
+    </ul>
+
+
+
+      -->
+    </ul>
+    <section id="long-one"></section>
+  </body> 

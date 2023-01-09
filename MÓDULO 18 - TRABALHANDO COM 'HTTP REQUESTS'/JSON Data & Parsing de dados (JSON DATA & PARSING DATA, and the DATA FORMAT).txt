@@ -1,0 +1,1603 @@
+
+
+
+
+
+CERTO.
+
+
+
+
+
+O formato da data/dados 
+
+
+É MUITO IMPORTANTE.
+
+
+
+
+
+VOCÊ TROCA DADOS ENTRE O SEU CLIENTSIDE E O SERVERSIDE 
+
+EM UM CERTO FORMATO......
+
+
+E, TECNICAMENTE, NÃO EXISTEM RESTRIÇÕES nessa troca:
+
+
+
+VocÊ pode mandar 'PLAIN TEXT', vocÊ pode mandar 
+
+'HTMLMarkup'(HTML), você pode mandar 
+
+
+XML Markup, 
+
+ARQUIVOS CSV........
+
+
+
+OU, como você tipicamente o faz,
+
+
+VOCÊ USA ESSE FORMATO DE DADOS QUE É CHAMADO 
+
+DE '.json'...
+
+
+-----------------------------------------
+
+
+
+
+
+VOCê 
+
+
+PODE VER UM EXEMPLO DE ARQUIVO JSON SE VOCÊ CLICAR NA ABA 'response' 
+
+NESSE NOSSO PROJETO QUE TEM esse método 'GET' enviado a URL do jsonplaceholder...
+
+
+Se você clicar em 
+
+'response', você verá 
+
+a RAW RESPONSe....
+
+
+
+O json é bem assim, essa é sua aparência...
+
+
+
+
+------------------------------------------------
+
+
+
+
+JSON = Javascript Object Notation.
+
+
+
+
+É chamado assim pq AS ANOTAÇÕES JSON REALMENTE 
+
+
+SE PARECEM COM OBJETOS JAVASCRIPT... objetos javascript 
+
+EM UM ARRAY....
+
+
+
+
+ex:
+
+
+
+
+[
+  {
+    "userId": 10,
+    "id": 98,
+    "title": "laboriosam dolor voluptates",
+    "body": "doloremque ex facilis sit sint culpa\nsoluta assumenda eligendi non ut eius\nsequi ducimus vel quasi\nveritatis est dolores"
+  },
+  {
+    "userId": 10,
+    "id": 99,
+    "title": "temporibus sit alias delectus eligendi possimus magni",
+    "body": "quo deleniti praesentium dicta non quod\naut est molestias\nmolestias et officia quis nihil\nitaque dolorem quia"
+  },
+  {
+    "userId": 10,
+    "id": 100,
+    "title": "at nam consequatur ea labore ea harum",
+    "body": "cupiditate quo est a modi nesciunt soluta\nipsa voluptas error itaque dicta in\nautem qui minus magnam et distinctio eum\naccusamus ratione error aut"
+  }
+]
+
+
+
+
+-------------------------------------------------
+
+
+
+-------> JSON é derivado DE DATA TYPES DE JAVASCRIPT... (de ARRAYS e OBJETOS em javascript, para ser mais preciso).
+
+
+
+
+
+AS ANOTAÇÕES DE JSON SÃO QUASE A MESMA COISA QUE OBJETOS/ARRAYS no javascript, 
+
+
+
+MAS HÁ UM PUNHADO DE DIFERENÇAS ENTRE OS 2...
+
+
+
+EM JSON,
+
+
+
+VOCÊ ___SÓ PODE ARMAZENAR DADOS___;
+
+
+
+ISSO SIGNIFICA QUE VOCÊ NÃO PODE TER MÉTODOS 
+
+nos seus arquivos JSON...
+
+você NÃO PODE ENVIAR __FUNÇÕES___ a um servidor...
+
+
+
+-----------------------------------------
+
+
+ALÉM DISSO, SEUS NOMES DE PROPRIEDADE 
+
+
+____SEMPRE TÊM DE ESTAR____ ENVOLTOS (wrapped) 
+
+EM 'DOUBLE QUOTES'... (" ").... 
+
+
+OU SEJA,
+ 
+
+ VOCê NÃO PODE USAR 
+
+
+ ' '.
+
+
+
+
+NOMES DE PROPRIEDADE TÊM DE ESTAR ENVOLTAS EM DOUBLE QUOTES, SEMPRE.
+
+
+
+ex:
+
+
+
+
+
+  {
+    "userId": 10,
+    "id": 98,
+    "title": "laboriosam dolor voluptates",
+    "body": "doloremque ex facilis sit sint culpa\nsoluta assumenda eligendi non ut eius\nsequi ducimus vel quasi\nveritatis est dolores"
+  },
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+isso quer dizer que 
+
+userId, por exemplo,
+
+SEM DOUBLE QUOTES NÃO SERIA PERMITIDO.
+
+
+'userId' também não é permitido, você deve usar DOUBLE QUOTES.
+
+
+
+
+-------------------------------------------------
+
+
+
+Certo.
+
+
+Quanto aos valores, vocÊ pode usar 
+
+
+NÚMEROS, BOOLEANS, STRINGS, OUTROS OBJETOS 
+
+OU ARRAYS....
+
+
+TUDO ISSO É SUPORTADO.
+
+
+
+'null' TAMBÉM É SUPORTADO.
+
+--------------------------------------------------------------------
+
+
+
+E É BASICAMENTE ISSO, ESSE É O TÓPICO DOS 'JSON' files...
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+E É ASSIM COMO OS DADOS JSON SE PARECEM, com essas longas listas de objetos....
+
+
+
+
+OBS:
+
+
+VOCÊ SEMPRE PODE TER OBJETOS 'nesteados' dentro dessas listas,
+
+arrays nesteados, etc etc.
+
+
+
+
+
+TUDO ISSO É PERMITIDO, 
+
+
+
+E É ASSIM QUE OS DADOS SÃO TRANSFERIDOS ENTRE O CLIENTSIDE 
+
+E O SERVERSIDE....
+-----------------------------------------------------------
+
+
+
+
+Aqui, no nosso projeto, recebemos dados 
+
+NESSE FORMATO '.JSON'...
+
+
+
+
+AGORA SERIA LEGAL SE PUDÉSSEMOS __PARSEAR__ essa response da página 
+
+'/posts' PARA QUE CONSIGAMOS 
+
+
+OUTPUTTAR ESSES DADOS NA nossa PÁGINA...
+
+
+----------------------------------------------------
+
+
+PARA ISSO,
+
+
+o professor pergunta:
+
+
+
+como podemos pegar a response daquela página 
+
+e outputtar na nossa, quando enviamos um request...?
+
+
+------------------------------------------------
+
+
+
+PROFESSOR DIZ QUE NÓS/O CÓDIGO DEVE ESPERAR PELO 
+
+'LOAD EVENT' (evento 'load') QUE 
+
+É ATIVADO AUTOMATICAMENTE QUANDO OS DADOS/DATA são carregados, ou seja,  quando O REQUEST É COMPLETADO....
+
+
+
+
+NÓS FAZEMOS ISSO POR MEIO 
+
+
+DO SETUP de um 
+
+eventListener, 
+
+basicamente...
+
+
+
+
+
+
+ENTRETANTO, 
+
+'xhr' (esse objeto 'XMLHttpRequest', na verdade) 
+
+NEM SEMPRE SUPORTA 'addEVENTLISTENER'.... 
+
+
+BROWSERS MAIS VELHOS ___NÃO SUPORTAM___ addEVENTLISTENER 
+
+sobre 'XMLHttpRequest'...
+
+
+INTERNET EXPLORER, POR EXEMPLO, NÃO SUPORTA ESSE FEATURE NEM UM POUCO...
+
+
+
+
+
+PORTANTO, A MANEIRA MAIS COMUM DE FAZER 'listen to' a esse loading ENVOLVE
+
+
+ASSIGNAR UMA FUNÇÃO 
+
+
+ao 
+
+
+'EVENT HANDLER', ao 
+
+
+'xhr.onload'....
+
+
+
+
+ISSO, ESSE 'XHR.ONLOAD', É UMA PROPRIEDADE....
+
+('em carregamento', 'quando carregado', 'on load')
+
+
+A ESSA PROPRIEDADE VOCÊ ASSIGNA UMA FUNÇÃO,
+
+
+E VOCÊ VIU ESSA SINTAXE NO MÓDULO DE 'eventos',
+
+EM QUE O PROFESSOR NOS MOSTROU que essa sintaxe é UMA 
+
+ALTERNATIVA A 'ADICIONAR' EVENTLISTENERS.....
+
+
+
+
+AQUI, POR EXEMPLO, DEVEMOS UTILIZAR ESSA SINTAXE PQ 
+
+'addEventListener'  __NÃO ___ É AMPLAMENTE SUPORTADO 
+
+PELOS BROWSERS, quando tratamos de objetos 'XMLHttpRequest'...
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = 
+
+
+xhr.send();
+
+
+
+
+
+-----------------------------------------------
+
+
+
+CERTO, MAS QUAL É ESSA SINTAXE?
+
+
+
+
+Bem, professor diz que essa sintaxe é uma 
+
+
+em que 
+
+VOCÊ 
+
+CONECTA UMA FUNÇÃO 
+
+a esse 'onload'....
+
+
+
+
+PROFESSOR DIZ QUE PODEMOS USAR QUALQUER SINTAXE DE FUNÇÃO QUE DESEJARMOS;
+
+
+AQUI ELE USA UMA FUNCTION EXPRESSION, mas vocÊ poderia usar arrow functions...
+
+
+
+
+
+
+
+ESSA FUNÇÃO ASSIGNADA AO 'ONLOAD' 
+
+___VAI____ ADMINISTRAR/LIDAR COM 
+
+'INCOMING RESPONSES'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = function() {
+
+}
+
+
+xhr.send();
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+ENTRETANTO, DIZ O PROFESSOR, NÓS NÃO RECEBEMOS 
+
+'response' COMO UM ARGUMENTO NESSA FUNÇÃO, NÃO...(ou seja, você não precisa digitar 'response' dentro dos parâmetros/argumentos/slot dos parâmetros.)....
+
+
+
+EM VEZ DISSO, NÓS VAMOS ___EXTRAIR___ A RESPONSE por meio 
+
+DO USO DA 'chave'( 'KEY') 
+
+'response' DENTRO DE 'xhr'... (dentro do objeto XMLHttpRequest, na verdade).
+
+
+
+PARA MOSTRAR ESSA KEY E ESSA RESPONSE, O PROFESSOR FAZ O CONSOLE LOG DE '.response'...
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = function() {
+  console.log(xhr.response); ////////////////EIS AQUI O CÓDIGO EM QUESTÃO.
+}
+
+
+xhr.send();
+
+
+
+
+----------------------------
+
+
+
+
+AGORA, POR MEIO DESSE CÓDIGO, O CONSOLE.LOG VAI NOS OUTPUTTAR 
+
+
+A 'JSON DATA' contida naquela página 
+
+
+'https://jsonplaceholder.typicode.com/posts'.....
+
+
+
+
+----------------------------------
+
+
+
+
+PROFESSOR DIZ QUE O NEGÓCIO PARECE BOM, PORQUE 
+
+É UMA API BEM RÁPIDA...
+
+
+
+ESSE É A JSON DATA OUTPUTTADA PELO SERVIDOR...
+
+
+
+E isso é importante:
+
+
+
+Esses objetos todos que compõem esse json data NÃO SÃO 
+
+PARTE DE 'UM ARRAY NATIVO DO JAVASCRIPT', não;
+
+
+
+SÃO JSON DATA....
+
+
+
+
+
+SE VOCÊ TENTASSE/TENTAR ARMAZENAR ESSE 'JSON DATA' em uma constante, 
+
+
+como 'listOfPosts',
+
+
+VOCê NÃO SERIA CAPAZ, POR EXEMPLO, DE FAZER O 'PUSH' DE UM ELEMENTO/OBJETO
+
+PARA DENTRO DO ARRAY DESSE JSOn..
+ 
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;
+  listOfPosts.push({propriedade: 'valor'});
+}
+
+
+xhr.send();
+
+
+
+
+
+
+---------------------------------------------------
+
+
+
+
+
+SE VOCÊ SALVAR O CÓDIGO E RECARREGAR A PÁGINA, VOCÊ VERÁ QUE RECEBERÁ 
+
+UM ___ERRO_____.
+
+
+
+ESSE ERRO ACONTECE PQ 'xhr.response' TE DÁ 
+
+
+___JSON DATA__, e ___NÃO UM ARRAY____ (E ESSE MÉTODO 'push' SO´FUNCIONA COM ARRAYS, POR EXEMPLO).
+
+
+
+
+
+-----------------------------------------------
+
+
+PARA QUE CONSIGAMOS USAR ESSE JSON DATA 
+
+como um array, 
+
+
+
+VOCÊ TEM DE CONVERTER O JSON DATA EM 
+
+'JAVASCRIPT TYPES'...
+
+
+CONVERTER O JSON DATA EM ARRAYS/OBJETOS...
+
+
+
+
+E O JAVASCRIPT TEM UM HELPER 'BUILTIN' QUE TE AJUDA A FAZER ESSAS CONVERSÕES....
+
+
+
+
+É A CONSTRUCTOR FUNCTION/CLASSE 'JSON', a qual 
+
+TÊM ALGUNS MÉTODOS 'HELPER' ESTATICOS....
+
+
+alguns deles 
+
+são 
+
+
+'PARSE'
+
+
+
+e 
+
+
+"STRINGIFY' (são os mais importantes).
+
+
+
+STRINGIFY CONVERTE 
+
+
+DADOS JAVASCRIPT (como objetos e arrays ) 
+
+EM DADOS
+
+'JSON'...
+
+
+
+----------------------------
+
+
+
+JÁ 'parse' (.parse) TE AJUDA 
+
+
+A CONVERTER 
+
+DADOS 'JSON' DE VOLTA A 
+
+
+'DADOS JAVASCRIPT'...
+
+-------------------------
+
+
+Aqui, portanto, podemos parsear (.parse)
+
+
+a 'xhr.response'...
+
+
+
+
+o professor então faz o console.log desses dados/desse 
+
+'listOfPosts', que será a 'xhr.response()' PARSEADA...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.onload = function() {
+  const listOfPosts = JSON.parse(xhr.response); ///EIS AQUI O CÓDIGO EM QUESTÃO.
+  console.log(listOfPosts);
+}
+
+
+xhr.send();
+
+
+
+
+-----------------------------------
+
+
+
+CERTO. SE SALVARMOS E RECARREGARMOS A PÁGINA, 
+
+
+VEREMOS UM OUTPUT DE ___DADOS JAVASCRIPT__ NO CONSOLE,
+
+SERÃO OS DADOS JSON QUE FORAM CONVERTIDOS EM DADOS JAVASCRIPT, 
+
+NO CASO um enorme array de objetos...
+
+
+
+
+ex:
+
+
+
+
+>Array(100)
+
+
+>0: {userId: 1, id: 1, title: "sunta suoaoajsogjo  asjuoijugoi jo'}
+
+
+
+
+-------------------------------------------------------------------------------------
+
+
+
+
+AGORA, PORTANTO, TEMOS UM ARRAY JAVASCRIPT COM O QUAL PODEMOS TRABALHAR.....
+
+
+Se você expandir um dos objetos no array, você perceberá que OS 
+DOUBLE QUOTES 
+
+QUE ANTES ESTAVAM FAZENDO 'WRAP' DOS NOMES DE PROPRIEDADES 
+
+AGORA SUMIRAM... (isso significa que os dados JSON realmente foram convertidos em
+                  dados javascript.)
+
+
+
+ex:
+
+
+
+0:
+
+body: "quia et soaausogfoa izxoqpiw opi ip' 
+id: 1
+title: "sunt aut facere arpeipsi gapowjpq'
+userId: 1
+__proto__: Object
+
+-------------------------------------------------------------
+
+
+
+
+AGORA ESSES DADOS TODOS VIRARAM DADOS JAVASCRIPT COM OS QUAIS PODEMOS TRABALHAR.
+
+
+
+
+
+
+
+OBS::::
+
+
+VOCê PODE FAZER O PARSE (ou seja, a conversão) de dados 
+
+JSON MANUALMENTE, por meio dessa maneira que o professor nos mostrou, com a ajuda 
+do HELPER OBJECT/constructor function de 'JSON' 
+
+(
+
+  com o 
+
+  'JSON.parse(xhr.response)'
+),
+
+
+
+
+MAS HÁ UMA PEQUENA CONVENIÊNCIA/FEATURE BUILTIN no OBJETO 'XMLHttpRequest' QUE 
+
+
+FAZ A MESMA COISA MAS DE FORMA MAIS FÁCIL.........
+
+
+
+
+PROFESSOR EXPLICA QUE SE VOCÊ 
+
+definir 
+
+
+'.responseType' do XMLHttpRequest como 'json' (e deve ser exatamente esse termo),
+
+ESSES DADOS 'JSON' que estão vindo do servidor ('incoming') VÃO 
+
+SER AUTOMATICAMENTE PARSEADOS (transformados em dados javascript) PARA NÓS....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; ///////EIS O CÓDIGO EM QUESTÃO. FAZ EXATAMENTE A MESMA COISA QUE AQUELE CÓDIGO QUE VIMOS ANTES (o que usa o helper object 'JSON'), MAS SÓ SE UTILIZA DO OBJETO 'XMLHttpRequest', sem recorrer ao objeto 'JSON'...
+
+
+
+xhr.onload = function() {
+
+}
+
+
+xhr.send();
+
+
+
+-------------------------------------------------
+
+
+
+
+E SE VOCê ESCOLHER ESSE APPROACH, vocÊ pode fazer o STORE DOS DADOS JSON
+
+EM JAVASCRIPT __________SEM ter de CONVERTÊ-LOS COM 'parse' antes___....(pq já terão sido convertidos 
+automaticamente por aquele método 'responseType = xxx')...
+
+isso significa que o professor pode simplesmente 
+
+escrever 
+
+'const listOfPosts = xhr.response;' PARA ARMAZENAR A RESPOSTA DO SERVIDOR, que já virá 
+no formato correto (formato javascript).
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; 
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;   //response do servidor armazenada 'sem converter com parse' (na verdade convertemos, mas convertemos por meio daquele 'trick' com 'responseType = 'json'....)
+  console.log(listOfPosts)
+}
+
+
+xhr.send();
+
+
+
+
+----------------------------------------------
+
+
+
+
+AGORA, SE O PROFESSOR RECARREGAR O CÓDIGO, ele terá o exato mesmo resultado de 
+
+antes, mas com uma sintaxe mais conveniente.
+
+
+
+
+'.responseType', portanto, nos ajuda a pré-configurar a forma como vamos receber responses vindas do 
+servidor...
+
+
+
+
+
+AINDA ASSIM, É BOM __CONHECER__ AQUELE 'OBJETO HELPER' 'JSON' pq
+
+FREQUENTEMENTE NÓS PRECISAREMOS DELE (nem sempre, mas com frequência).
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+CERTO.
+
+
+AGORA QUE TEMOS ESSA LISTA DE POSTS, 
+
+como 
+
+
+podemos escrever nosso código de modo que ESSA LISTA APAREÇA NA PÁGINA (apareça no INDEX.HTML)...?
+
+
+
+
+
+
+
+BEM, PARA ISSO, EXPLICA O PROFESSOR, 
+
+TEMOS AQUELA 
+
+'unordered list' NO NOSSO INDEX HTML,
+
+de classe 'posts'...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+const listElement = document.querySelector('.posts');
+
+
+
+
+
+----------------------------------------------
+
+
+QUERO OUTPUTTAR MEUS POSTS BEM AÍ, NESSA LISTA...
+
+
+
+Eu também tenho um 'template' no index.html, o qual 
+
+segura UMA LISTA QUE EU VOU QUERER 
+
+UTILIZAR PARA OUTPUTTAR 
+
+CADA 'list item'/posts....
+
+
+--------------------------------------
+
+
+
+Também vamos lá e conseguimos acesso ao template por meio do id de 
+'single-post'...
+
+
+
+
+ex:
+
+
+
+const postTemplate = document.getElementById('single-post');
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+CERTO.
+
+
+AGORA NÓS VAMOS QUERER ADICIONAR UM BOCADO DE 
+
+POSTS (representado por 'postTemplate') para 
+
+essa lista de posts (representada por 'listElement')....
+
+
+
+
+VAMOS QUERER CONVERTER __TODOOOOS___ os posts 
+
+
+daquele response de json convertido do API em 
+
+
+POSTS na nossa página, posts naquela lista...
+
+
+
+
+
+
+
+PARA FAZER ISSO, O PROFESSOR EXPLICA QUE NÓS PODEMOS 
+
+
+ESCREVER UM 
+
+
+__LOOP___ por dentro de nossa lista de posts... ('listOfPosts')....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; 
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;   //response do servidor armazenada 'sem converter com parse' (na verdade convertemos, mas convertemos por meio daquele 'trick' com 'responseType = 'json'....)
+  console.log(listOfPosts)
+}
+
+
+xhr.send();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for (const post of listOfPosts) {
+
+}
+
+
+----------------------------------------------
+
+
+
+
+ENTRETANTO, PROFESSOR DIZ QUE AGORA TEREMOS 
+
+_____UM PROBLEMA___.....
+
+
+
+
+Podemos, afinal de contas, realmente LOOPAR por dentro de nossa 
+
+'listOfPosts'???
+
+
+
+
+__________NÃO PODEMOS_______.
+
+
+
+NÃO PODEMOS PQ ESSE 'listOfPosts', 
+
+
+ESSA CONSTANTE, SÓ 
+
+___ESTÁ DISPONÍVEL___ DENTRO DA FUNÇÃO em 'xhr.onload', 
+
+SENDO 
+
+INDISPONÍVEL PARA USO no contexto global/na função ANÔNIMA global...
+
+ 
+
+
+
+
+Professor explica que 
+
+esse armazenamento ocorre 
+
+QUANDO A RESPONSE (do servidor) REALMENTE JÁ VEIO AO NOSSO CÓDIGO, 
+
+e isso OCORRE ___ASSINCRONAMENTE____ (ocorre assincronamente DEVIDO 
+
+AO MÉTODO '.onload' em 'xhr', QUE SERVE BASICAMENTE COMO UM EVENTLISTENER,
+UM LISTENER DO EVENTO 'CARREGAMENTO'... ESSE MÉTODO, EM OUTRAS PALAVRAS, 
+APENAS ARMAZENA OS DADOS '.JSON' DENTRO DA CONSTANTE 'listOfPosts' QUANDO 
+A RESPONSE DO SERVIDOR REALMENTE FOR CARREGADA POR INTEIRO, por isso o nome do método, 
+'.onload'...).....
+
+
+
+ISSO OCORRE ASSINCRONAMENTE, E COMO NÓS APRENDEMOS, JAVASCRIPT 
+
+____NÃO VAI BLOQUEAR A EXECUÇÃO DE CÓDIGo___ quando tratamos de 
+
+código assíncrono.... 
+
+
+as linhas mais abaixo (
+  'xhr.send() 
+
+  e 
+
+
+  const listElement = document.querySelector('.posts');
+  const ....
+  
+  for (loop)...
+)
+
+CONTINUARÃO SENDO EXECUTADAS.
+
+
+
+
+ESSAS LINHAS QUE vêm logo depois 
+
+SÃO EXECUTADAS MESMO ASSIM, e pode acontecer 
+
+o problema de O CÓDIGO DO LOOP 
+
+
+SER EXECUTADO ___ANTES___ QUE a lista 
+(listOfPosts) tenha 
+
+sido efetivamente carregada....
+
+
+
+
+
+É POR ISSO, EXPLICA O PROFESSOR, QUE DEVEMOS 
+
+
+ESCREVER ___eSSA LÓGICA DE LOOP___ 
+
+
+
+_____DENTRO DA FUNÇÃO____ ATRIBUÍDA__ a '.onload'...
+
+
+
+
+FAZEMOS ISSO PQ DENTRO DESSA FUNÇÃO É O ÚNICO LUGAR QUE TEMOS 
+
+A GARANTIA DE QUE OS POSTS/A lista de posts 
+
+ESTÁ DISPONÍVEL... (e que o loop só executará depois que a lista for carregada).
+
+
+
+
+OBS::: O restante das constantes (selecionadas pelos querySelectorS) simplesmente 
+
+ficam para fora, ficam soltas no contexto global, como normalmente se vê.
+
+
+
+ex:
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+const postTemplate = document.getElementById('single-post');
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; 
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;   
+  
+  for(const post of listOfPosts) {
+   
+  }
+  
+  
+  console.log(listOfPosts)
+}
+
+
+xhr.send();
+
+
+
+
+
+
+
+-------------------------------------
+
+
+
+
+
+
+E AGORA, O PROFESSOR LOOPARÁ POR DENTRO DOS POSTS 
+
+
+com 'for (const post of listOfPosts)' DENTRO DESSA FUNÇÃO ANÔNIMA...
+
+
+
+agora o objetivo É REPLICAR O TEMPLATE para cada post 
+
+E ENTÃO ADICIONÁ-LO 
+
+
+
+ao 'listElement' com '.push'...
+
+
+
+
+Para isso, explica o professor, podemos ganhar acesso ao 
+
+nosso 'postEl' (post element) COM A AJUDA 
+
+De 
+
+'document.importNode();'
+
+
+
+E aí nós vamos querer importar o 'postTemplate'... mais especificamente 
+
+'postTemplate.content'....
+
+
+
+E também passamos 'true' como SEGUNDO ARGUMENTO, para que o negócio 
+
+seja um 'DEEP CLONE'...
+
+
+
+
+Além disso, explica o professor, vamos querer também 
+
+meter um querySelector nesse postTemplate para 
+
+CONSEGUIR SELECIONAR a 
+
+'<H2> TAG'  e aí então  definir 
+
+
+o '.textcontent' desse h2 como sendo 
+
+igual a 'post.title.toUpperCase' (ISSO FARÁ COM QUE CADA ELEMENTO 'POST' tenha 
+no espaço 'h2' O TITLE que ELES TÊM láááá nos dados JSON...., e tudo em MAIÚSCULO)
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+const postTemplate = document.getElementById('single-post');
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; 
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;   
+  
+  for(const post of listOfPosts) {
+   const postEl = document.importNode(postTemplate.content, true);
+   postEl.querySelector('h2').textContent = post.title.toUpperCase();
+  }
+  
+  
+  console.log(listOfPosts)
+}
+
+
+xhr.send();
+
+
+
+----------------------------------------------
+
+
+
+
+
+POR FIM, O PROFESSOR TAMBÉM VAI QUERER SELECIONAR A TAG <P> do template 
+com query selector, 
+
+e aí definir o textContent desse '<p>' COMO SENDO 
+
+o 'body' dos 'post' de JSON'....
+
+
+
+-------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+const postTemplate = document.getElementById('single-post');
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; 
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;   
+  
+  for(const post of listOfPosts) {
+   const postEl = document.importNode(postTemplate.content, true);
+   postEl.querySelector('h2').textContent = post.title.toUpperCase();
+   postEl.querySelector('p').textContent = post.body;
+  }
+  
+  
+  console.log(listOfPosts)
+}
+
+
+xhr.send();
+
+
+
+-----------------------------------
+
+
+
+POR FIM, O PROFESSOR FAZ UM .append  de 'postEl' 
+(ou seja, adiciona 'postEl') 
+
+AO 'listElement' (a nossa lista de posts...).
+
+
+ex:
+
+
+
+
+
+
+
+
+const listElement = document.querySelector('.posts');
+const postTemplate = document.getElementById('single-post');
+
+
+
+
+
+const xhr = new XMLHttpRequest();
+
+
+
+xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+xhr.responseType = 'json'; 
+
+
+
+xhr.onload = function() {
+  const listOfPosts = xhr.response;   
+  
+  for(const post of listOfPosts) {
+   const postEl = document.importNode(postTemplate.content, true);
+   postEl.querySelector('h2').textContent = post.title.toUpperCase();
+   postEl.querySelector('p').textContent = post.body;
+   listElement.append(postEl);
+  }
+  
+  
+  console.log(listOfPosts)
+}
+
+
+xhr.send();
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+CERTO.
+
+
+AGORA TEMOS UMA PÁGINA QUE MOSTRA A LISTA DE POSTS 
+
+
+que temos na página 
+
+
+'jsonplaceholder/posts'....
+
+
+
+
+
+
+É ASSIM QUE PODEMOS, PORTANTO, UTILIZAR OS 
+
+DADOS OS QUAIS FIZEMOS 'FETCH' E OUTPUTTÁ-LOS 
+
+__NÃO APENAS NO JAVASCRIPT____, MAS TAMBÉM 
+
+NA TELA DO USUÁRIO...

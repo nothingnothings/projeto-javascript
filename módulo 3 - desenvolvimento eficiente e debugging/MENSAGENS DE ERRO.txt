@@ -1,0 +1,11 @@
+Comecemos com mensagens de erro que você pode evitar. Simples erros de sintaxe. EX: esquecemos de fechar um curly brace ou square bracket.
+
+
+Nisso, o IDE já nos ajuda.
+
+
+
+O visual studio code marca na direita, com um quadrado vermelho, a parte errada do código.
+
+
+

@@ -1,0 +1,609 @@
+
+
+
+
+
+
+
+
+Devemos, portanto, adicionar um eventlistener ao código.
+
+
+
+
+Primeiro argumento do eventlistener é sempre UMA STRING 
+
+_____UMA STRING COM ____ O NOME___ DO EVENTO___ QUE VOCÊ QUER___... 
+
+
+
+
+
+Esse nome é basicamente o mesmo nome que temos 
+
+
+nas PROPRIEDADES DOS EVENTOS, MAS SEM 
+ 
+
+
+ o 'on' NO INÍCIO...
+
+
+
+ ex:
+
+
+
+button.onclick ------------> SE QUEREMOS um addeventlistener com esse evento, simplesmente removemos o 'on' do início...
+
+
+---> vira, portanto, '.addEventListener('click', ...);'
+
+
+---> outro exemplo: 
+
+
+button.ondblclick ---> vira '.addEventListener('dblclick', ...);'
+
+
+
+
+button.oncontextmenu ----> vira '.addEventListener('contextmenu', ...);
+
+
+
+
+----------------------------------------------
+
+
+O IDE NOS COMPLETA AUTOMATICAMENTE OS MUITOS EVENTOS QUE PODEMOS TER NESSES ELEMENTOS..
+
+
+----------------------------------
+
+
+
+Enfim, o professor completa 
+
+
+o nosso eventlistener com um CLICK, o padrão...
+
+
+
+
+
+ex:
+
+
+
+
+button.addEventListener('click', ...);
+
+
+
+
+-------> SEGUNDO ARGUMENTO É A FUNÇÃO QUE DEVERÁ SER EXECUTADA QUANDO O CLICK ACONTECER.
+
+
+
+O professor coloca como segundo parâmetro o 'buttonClickHandler'...
+
+
+
+
+ex:
+
+
+const buttonClickHandler = () => {
+    alert('Button was clicked!');
+};
+
+
+
+
+button.addEventListener('click', buttonClickHandler);
+
+
+(aqui nós sempre apontamos assim: 'buttonClickHandler'; ou seja, nunca O EXECUTAMOS, nunca escrevemos assim: 'buttonClickHandler()'.)
+
+
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+
+Agora temos o addEventListener, e um botão que funciona...
+
+
+
+
+
+COMO O PROFESSOR MENCIONOU ANTERIORMENTE, podemos também REMOVER ESSE ADDEVENTLISTENER, se assim o desejarmos.
+
+
+
+ex:
+
+
+button.removeEventListener('click');
+
+
+
+
+
+
+-----------------------------
+
+
+Professor decide definir UM TIMER... (com 'setTimeout()'.... lembre-se: setTimeout requer 2 argumentos, o primeiro argumento é a função a ser executada, e o segundo argumento é O TIMER ATÉ QUE A FUNÇÃO DO PRIMEIRO ARGUMENTO SER EXECUTADA.).
+
+
+Professor define 2 segundos como timer para executar o PRIMEIRO argumento, e o primeiro argumento ele define como 
+
+sendo ESSE 'removeEventListener' de 'button'....
+
+
+
+ex:
+
+
+
+
+
+
+button.addEventListener('click', buttonClickHandler);
+
+
+
+setTimeOut( 
+    () => {
+        button.removeEventListener('click');
+    }, 2000
+);
+
+
+
+
+------------------------------
+
+
+
+MAS AINDA NÃO ACABAMOS AQUI:
+
+
+
+Para remover um eventListener, você deve ESPECIFICAR O EVENTO que será o trigger
+
+para remover aquele eventListener... 
+
+
+
+MAS VOCÊ TAMBÉM TEM QUE COLOCAR UM SEGUNDO ARGUMENTO, QUE É A FUNÇÃO QUE VOCê REGISTROU COMO UM EVENTLISTENER...
+
+Aqui, nessa parte, é SUPER IMPORTANTE QUE ESSE ARGUMENTO SEJA O EXATO MESMO 'objeto-função' que foi executado POR MEIO 
+
+DO 'addeventlistener' anterior....
+
+
+
+
+ex:
+
+
+
+button.addEventListener('click', buttonClickHandler);
+
+
+
+setTimeOut( 
+    () => {
+        button.removeEventListener('click', buttonClickHandler);
+    }, 2000
+);
+
+
+---------------------------------------------------------
+
+
+
+--->MAS VOCÊ TAMBÉM TEM QUE COLOCAR UM SEGUNDO ARGUMENTO, QUE É A FUNÇÃO QUE VOCê REGISTROU COMO UM EVENTLISTENER...
+
+Aqui, nessa parte, é SUPER IMPORTANTE QUE ESSE ARGUMENTO SEJA O EXATO MESMO 'objeto-função' que foi executado POR MEIO 
+
+DO 'addeventlistener' anterior....
+
+
+
+O PROFESSOR NOS MOSTRARÁ ALGUNS DOS 'pitfalls' que vocÊ pode enfrentar 
+
+com 'removeEventListener' daqui a pouco....
+
+
+
+
+OBS::: agora o nosso código está funcionando como queremos ---> o botão funciona até que 2 segundos tenham passado; passados 2 segundos, o botão não funciona mais (devido ao funcionamento de 'setTimeout' com 'removeEventListener'...).
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+E 'removeEventListener' É UMA FEATURE MUITO FORTE....
+ 
+ VOCÊ PODE UTILIZÁ-LA PARA SE LIVRAR DE EVENTLISTENERS...
+
+
+
+
+Ou seja, você não apenas pode adicionar MAIS DE 1 ÚNICO EVENTLISTENER A UM MESMO ELEMENTO, mas também 
+pode 
+
+REMOVER QUALQUER UM DELES SE VOCÊ QUISER/PRECISAR.
+
+
+-------------------------------------------------- 
+
+
+
+PITFALLS de 'removeEventListener'....:
+
+
+
+
+São coisas que podem passar despercebidas...
+
+
+
+São coisas que novatos às vezes esquecem.
+
+
+
+
+
+
+PQ COMO O PROFESSOR MENCIONOU, VOCÊ ____REMOVE___ UM EVENTLISTENER; vocÊ não 
+
+o faz com algum ID que é retornado por 'eventListener' (o qual você poderia passar 
+
+a 'removeEventListener'), e sim POR MEIO DA ESPECIFICAÇÃO
+ 
+DO EXATO MESMO 'LISTENING SETUP' que você tem para o ADDEVENTLISTENER (o addEventListener que é o par desse 'removeEventListener', é claro). 
+
+
+
+OU SEJA, VOCÊ É OBRIGADO A TER: 
+
+
+1) O MESMO NOME DE EVENTO (ex: 'click')
+
+
+
+2) A MESMA FUNÇÃO (ex: 'buttonClickHandler')
+
+
+
+------------------------------------
+
+
+
+
+
+EVENTNAME IGUAL ---> isso é algo simples de se entender....
+
+
+
+
+MESMA FUNÇÃO -----> JÁ ISSO PODE SER ALGO BEM TRICKY...
+
+
+
+
+
+
+Mesma função ----> aqui nesse exemplo o negócio é simples, temos uma função básica....
+
+MAS HÁ CASOS EM QUE VOCÊ PASSA UMA 'ANONYMOUS FUNCTION' a eventListeners....
+
+
+Você até poderia pensar que ANONYMOUS FUNCTIONS TAMBÉM FUNCIONAM COM ADD/REMOVEEVENLISTENERS...
+
+
+
+ex(de coisa que NÃO FUNCIONA):
+
+
+
+
+
+
+
+button.addEventListener('click', 
+() => {
+    console.log('Clicked!');                ----> function object 1
+});
+
+
+
+setTimeout( 
+    () => {
+        button.removeEventListener('click', () => {
+            console.log('Clicked!');       -----> function object 2
+        });
+    }, 
+    2000
+);
+
+
+------------------------------------------
+
+
+
+Podemos pensar: 'bem, essas 2 funções são iguais, né, essa combinação add/remove entre essas 2 funções deve funcionar...'
+
+
+
+ERRADO.
+NÃO FUNCIONA.
+
+
+SE EU SALVAR E RECARREGAR A PÁGINA,
+
+
+
+eu posso clicar no botão 1 milhão de vezes, que o eventListener ____NUNCA SERÁ REMOVIDO___. Os 2 segundos passam, e o negócio continua sendo clicável.
+
+
+
+
+
+A RAZÃO PARA ESSE PROBLEMA SIMPLESMENTE É QUE 
+
+
+
+essa primeira função, a anônima que está em 'addEventListener', PARECE-SE com a segunda função, 
+
+MAS ___TECNICAMENTE___ ELA NÃO É O MESMO 'OBJETO-FUNÇÃO' da segunda função...(que tem o mesmo código.)
+
+
+
+São 2 objetos TOTALMENTE DIFERENTES.
+
+
+---------------------------------------------------------------------------------
+
+
+
+Como aprendemos nos moódulos de VALORES REFERENCIAIS, se nós fossemos comparar 
+
+essas 2 funções, uma com a outra, veríamos que AS 2 SÃO OBJETOS COMPLETAMENTE DIFERENTES,
+
+SÃO ARMAZENADAS EM LUGARES DIFERENTES NA MEMÓRIA DO JAVASCRIPT...
+
+
+
+
+ex:
+
+  () => {
+        button.removeEventListener('click', () => {
+            console.log('Clicked!');      
+        });
+    }  ===   () => {
+        button.removeEventListener('click', () => {
+            console.log('Clicked!');       -----> function object 2
+        });
+    }
+
+
+------------> ISSO RENDERIA 'FALSE'.
+
+
+
+
+
+------------------------------------------
+
+
+
+Em razão disso, devemos nos assegurar QUE ESSA FUNÇÃO SEJA ARMAZENADA 
+
+
+__________EM UMA CONSTANTE_____, pq a constante SEGURARÁ O ____ENDEREÇO____ DESSA 
+
+
+'OBJETO-FUNÇÃO' (objeto de função); fazemos isso PARA QUE NOS ADD/REMOVE eventListeners 
+
+POSSAMOS APENAS REFERENCIAR O NOME DESSA OBJETO-FUNÇÃO, para que tudo funcione adequadamente (ou seja, NÃO PODEMOS USAR ANONYMOUS FUNCTIONS COM 'removeEventListener'...)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const buttonClickHandler = () => {
+    alert('Button was clicked');
+}
+
+
+
+
+button.addEventListener('click', buttonClickHandler);
+
+
+
+setTimeout( 
+    () => {
+        button.removeEventListener('click', buttonClickHandler);
+    }, 
+    2000
+);
+
+
+
+
+
+----> ISSO, PORTANTO, FUNCIONA: temos a mesma função nos 2 lugares, pq os 2 lugares estão referenciando a mesma função, o mesmo endereço de função armazenado na const 'buttonClickHandler'...
+----------------------------------------------
+
+
+
+
+
+------------------------------------------
+
+
+
+
+UM PITFALL PARECIDO COM ESSE ocorre se você bindar 'THIS' em uma função usada em um addEventListener....
+
+
+
+
+ex:
+
+
+
+button.addEventListener('click', buttonClickHandler.bind(this));
+
+
+--------------------------------------
+
+
+
+SE VOCÊ FIZER O BIND DE 'THIS' nessa função passada ao addeventlistener,  ou se VOCê 
+
+PASSAR ALGUNS PARÂMETROS À ESSA FUNÇÃO QUANDO ELA É EXECUTADA (algo que também fizemos ao longo do curso...)
+
+
+
+
+EX:
+
+
+
+
+
+button.addEventListener('click', buttonClickHandler.bind(this));
+
+
+
+setTimeout( 
+    () => {
+        button.removeEventListener('click', buttonClickHandler.bind(this));
+    }, 
+    2000
+);
+
+
+----------------------------------------
+
+
+
+DE NOVO, VOCÊ PODE PENSAR QUE ESSAS 2 REFERÊNCIAS a 'buttonClickHandler.bind(this)' SÃO 
+
+REFERÊNCIAS A UM MESMO 'OBJETO-FUNÇÃO'.... 
+
+
+MAS NÃO, NÃO SÃO.
+
+
+
+NÃO SÃO SIMILARES....
+
+
+'bind()' É UM MÉTODO ___QUE CRIA UM NOVO OBJETO-FUNÇÃO___....
+
+
+Portanto, a função produzida com por meio do 'bind()' de 'this 'no 'addeventlistener' É DIFERENTE 
+
+
+DA FUNÇÃO PRODUZIDA com  o 'bind()' de 'this' NO REMOVEEVENtLISTENER.... (pois nesse removeEventListener, nós criamos outro function object...).
+
+
+
+
+ISSO, PORTANTO, NÃO VAI FUNCIONAR.
+
+
+
+Se você quiser BINDAR 'this' OU QUAISQUER OUTROS ARGUMENTOS QUE DEVEM SER PASSADOS 
+
+A ESSA FUNÇÃO ATIVADA PELO EVENTLISTENER, QUE DEPOIS SERÃO REMOVIDAS POR UM 'REMOVEEVENtLISTENER', você 
+
+SERÁ ___OBRIGADO____ A ARMAZENAR A 'BOUND FUNCTION' (a função 'bindeada') EM UMA NOVA CONSTANTE, 
+
+COMO NESSE EXEMPLO:
+
+
+
+ex:
+
+
+
+const boundFn = buttonClickHandler.bind(this);
+
+
+
+------------------------------------------
+
+
+
+VOCê DEVE FAZER ISSO PARA QUE NÓS TENHAMOS UM 'ENDEREÇO' DO 'OBJETO-FUNÇÃO' ARMAZENADO NESSA CONSTANTE....
+
+PARA QUE PODEMOS PASSAR ISSO COMO 2o argumento do add/remove eventlisteners...
+
+
+
+eX:
+
+
+
+
+const boundFn = buttonClickHandler.bind(this);
+
+
+
+button.addEventListener('click', boundFn);
+
+
+
+setTimeout( 
+    () => {
+        button.removeEventListener('click', boundFn);
+    }, 
+    2000
+);
+
+
+--------------------------------------
+
+
+ISSO FUNCIONA. O OUTRO APPROACH, ANTERIOR, NÃO FUNCIONA.
+
+
+
+
+-----------------------
+
+
+
+
+
+Vimos, portanto, ADD E REMOVE EVENTLISTENERS.... vimos também 
+
+alguns dos PITFALLS acerca deles, pitfalls que você pode contornar com os truques mostrados acima.
+
+

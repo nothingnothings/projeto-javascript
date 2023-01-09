@@ -1,0 +1,111 @@
+Com isso, acabamos com a seção de 'objetos'.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O PRÓXIMO MÓDULO TAMBÉM SERÁ SOBRE OBJETOS; SERÁ SOBRE AS DIFERENTES 
+MANEIRAS DE CRIAR OBJETOS e sobre 
+tópicos mais avançados relacionados a objetos.
+
+
+
+
+
+
+
+Você viu que você pode utilizá-los para muito mais do que apenas para 
+'data storage'.
+
+
+
+
+OS CONCEITOS QUE VOCÊ VIU ATÉ AGORA SÃO SUPER IMPORTANTES, porque 
+você trabalhará com objetos exatamente dessa maneira...
+
+
+
+
+
+O QUE VOCÊ APRENDERÁ NO PRÓXIMO MÓDULO NÃO VAI TORNAR SEUS CONHECIMENTOS DESSE MÓDULO 
+OBSOLETOS.
+
+
+
+Em vez disso, esse novo conhecimento vai se empilhar sobre o antigo, e te dará 
+novas ferramentas para trabalhos diferentes.
+
+
+
+
+
+SABER ESSA SINTAXE, SABER COMO OBJETOS FUNCIONAM, saber sobre 
+'this' e seu comportamento...; 
+
+saber sobre arrow functions e 'this', 
+
+BIND(),
+
+CALL(),
+
+APPLY()...
+
+
+
+Saber tudo isso, 
+
+saber sobre 
+
+OBJECT DESTRUCTURING, 
+
+SOBRE O SPREAD OPERATOR  (...) 
+
+
+e a relação entre MÉTODOS E PROPRIEDADES,
+
+
+sobre o que eles fazem em objetos....
+
+
+
+TUDO ISSO É SUPER IMPORTANTE.
+
+
+
+ISSO TUDO É O BREAD AND BUTTER do javascript.
+
+
+Os próximos módulos vão adicionar pedaços de informação muito úteis que 
+te permitirão escrever aplicativos ainda mais potentes.
+
+
+Aplicativos mais potentes COM AINDA MAIS CÓDIGO REUTILIZÁVEL e com 
+features muito legais, relacionadas a objetos.
+
+
+
+
+MAS VOCÊ PRECISA ENTENDER ESSES CONCEITOS BÁSICOS PARA ENTENDER OS PRÓXIMOS MÓDULOS.
+
+
+
+
+
+
+
+
+
+
+
+More on the this keyword (MDN): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this

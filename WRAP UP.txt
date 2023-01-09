@@ -1,0 +1,48 @@
+aprendemos sobre variáveis e constantes,
+
+diferença entre declarar uma constante/uma variável
+e inicializar por meio do = operator;
+
+
+aprendemos sobre operadores como = e +, ., /
+
+e increment e decrement operators.
+
+
+
+aprendemos sobre funções, que permitem que vocÊ execute códigos que são executados múltiplas vezes quando voce os chama no código, 
+ou sempre quando algo é clicado, ou quando algum evento ocorre na página.
+
+
+aprendemos sobre como armazenar dados em geral, como passar dados em funções, como trabalhar com parâmetros que vocÊ recebe em funções,
+como escrever código adequadamente, como usar a sintaxe correta, como trabalhar com números e strings, como trabalhar com objets e
+arrays, que são listas de dados;
+
+aprendemos como executar os scripts de forma adequada, tudo para providenciar a melhor experiência ao seu usuário.
+
+
+Essas são as bases.
+
+
+Você deve entender todas elas.
+
+
+
+The following resources may be helpful.
+
+Please keep in mind that this course is structured differently and builds up
+ knowledge step by step - the linked articles don't necessarily do that and
+  hence can easily be overwhelming. So going through them is optional and neither
+   required nor necessarily recommended at this point of time:
+
+MDN => JavaScript Basics: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+
+MDN => Variables: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Variables
+
+MDN => Operators: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Math
+
+MDN => Functions: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions
+
+MDN => Arrays: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Arrays
+
+MDN => Objects: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics

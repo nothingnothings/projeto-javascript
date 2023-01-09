@@ -1,0 +1,254 @@
+Devemos ver OUTRAS MANEIRAS de selecionar elementos que não usamos muito até agora.
+
+
+São métodos para selecionar múltiplos elementos.
+
+
+
+Digamos que quero selecionar TODOS OS LIST ITEMS. Para isso, crio uma constante chamada "allLis".
+
+
+
+
+ex:
+
+                                        (parâmetro aqui é o elemento/tag do elemento que quero selecionar).
+
+const allLis = document.querySelectorAll('li');
+
+
+
+ISSO VAI SELECIONAR TODOS OS ELEMENTOS NO NOSSO DOCUMENTO INTEIRO COM a tag "li".
+
+
+
+
+"li", portanto, aparece como uma nodeList com 3 elementos no Devtools console.
+
+
+
+Se você quiser trabalhar com algum desses elementos, você vai ter que usar "allLis" E ENTÃO 
+ACESSÁ-LOS POR MEIO DO INDEXADOR DE CADA UM ([0,1,2,3]).
+
+ a
+ex:
+
+
+
+
+const allLis = document.querySelectorall('li');
+
+
+allLis[0]; ----> isso vai selecionar o primeiro elemento.
+
+
+------------------------------------------------------------
+
+
+É CLARO, VOCÊ TAMBÉM PODE USAR UM LOOP AQUI PARA SELECIONAR TODOS OS ELEMENTOS. Abrimos 
+app.js justamente para fazer isso.
+
+
+
+
+ex:
+
+const listItemElements = document.querySelectorAll('li');     //COM ISSO, PROCURAMOS E SELECIONAMOS TODOS OS ELEMENTOS com a tag <li> E OS ADICIONAMOS À ESSA CONSTANTE.
+
+
+--------------------------------------------------------------
+
+
+
+Se quisermos FAZER ALGO COM ESSES ITEMS, podemos passar por dentro de todos 
+eles com a ajuda de FOR OF LOOP.
+
+
+                                                professor nomeia constante do for of loop de "listItemEl" para deixar bem claro que estamos trabalhando com ELEMENTOS aqui.
+                                                No loop body, ele coloca o código console.dir(listItemEl), que nos dará todos os elementos dos items <li> dentro de ul.
+
+for (const listItemEl of listItemElements) {
+    console.dir(listItemEl);
+}
+
+
+
+-------------------------------------------------------------------------
+
+
+
+SE FIZERMOS ISSO, veremos no console do dev tools os seguintes nodes:
+
+
+
+li 
+
+
+li.list-item 
+
+
+
+li.list-item
+
+
+
+
+Podemos expandir cada um deles e ver suas propriedades/métodos.
+
+
+
+------------------------------------------------------------------
+
+
+UMA ALTERNATIVA A ESSE PROCESSO (mas essa é a maneira mais moderna, essa maneira que o professor 
+nos ensinou acima), é:
+
+
+                        (criar uma constante listItemElements e então SELECIONÁ-LAS POR MEIO DE "document.getElementsByTagName();" )
+                        (depois disso, rodar o loop normalmente, para que ele passe por dentro daquela constante lá específica do for of loop).
+
+
+
+const listItemElements = document.getElementsByTagName('li');
+
+
+for (const listItemEl of listItemElements) {
+    console.dir(listItemEl);
+}
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+Enfim, recarregamos a página, os 2 métodos dão o mesmo resultado. 
+
+Uma diferença pequena, que o professor já mencionou anteriormente, é que 
+O SEGUNDO MÉTODO TE DÁ UMA _____LISTA____VIVA_____, que reflete as mudanças 
+nos elementos selecionados. JÁ O PRIMEIRO MÉTODO, MÉTODO DO QUERYSELECTORALL, TE DÁ 
+UMA ___lISTA_____MORTA____, QUE REFLETE APENAS O ESTADO INICIAL DESSES ELEMENTOS, E NÃO O ATUAL.
+
+
+O professor não quer dizer MUDANÇAS NOS ELEMENTOS EM SI MESMOS (ou seja, 
+se eu mudar o text content de um dos list items, essa mudança 
+VAI SER REFLETIDA NOS objetos dos DOIS MÉTODOS, NO MÉTODO DEAD E NO MÉTODO LIVE LIST. Isso 
+ocorre devido àquilo que aprendemos sobre valores referenciais. Os objetos DOM 
+em si mesmos, devido ao fato de serem reference values, VÃO REFLETIR MUDANÇAS 
+FEITAS A ELES. não A única 
+diferença É A LISTA EM SI; O NÚMERO DE ITEMS NO ARRAY VAI MUDAR, quando você 
+adiciona/remove elementos, SE VOCÊ OPTAR 
+PELO MÉTODO LIVE LIST (document.getElementsByName), e NÃO VAI MUDAR SE VOCÊ 
+OPTAR PELO MÉTODO DEAD LIST (document.querySelectorAll), porque esse método 
+do querySelectorAll apenas TIRA UMA FOTO DO ESTADO INICIAL da lista )
+
+
+
+
+
+
+
+
+Os objetos DOM 
+em si mesmos, devido ao fato de serem reference values, VÃO REFLETIR MUDANÇAS 
+FEITAS A ELES. ----------------------> ISSO É IMPORTANTE DE SE SABER!!!!
+
+
+
+Agora devemos resumir o que aprendemos até agora:
+
+
+
+podemos, por exemplo, SELECIONAR O ELEMENTO H1 e armazená-lo em uma constante 
+de mesmo nome por meio de "document.getElementById".
+
+
+ex:
+
+
+
+const h1 = document.getElementById('main-title');
+ 
+
+
+
+-----------------------------------------------------
+
+Então podemos usar essa constante que o segura para mudar o seu text content:
+
+
+
+const h1 = document.getElementById('main-title');
+
+
+h1.textContent = 'Super Coisa';
+
+h1.style.color = 'green';
+
+
+h1.style.backgroundColor = 'black';
+
+
+-------------------------------------------------------------
+
+Agora o mesmo exemplo, mas com um list item. O último list item. O professor aqui 
+deseja mudar o texto para ser "O TEXTO QUE JÁ EXISTE + nova string". 
+
+
+
+const li = document.querySelector('li:last-of-type');
+
+li.textContent = li.textContent + '(Changed!)';
+
+
+SE RECARREGARMOS ISSO, VEREMOS QUE A PÁGINA VAI MUDAR TAMBÉM.
+
+
+ficará:
+
+
+item 1
+item 2
+item 3 (Changed!) 
+
+
+
+
+
+
+Outra coisa importante e boa, e fácil de esquecer:
+
+VOCÊ TAMBÉM PODE GANHAR ACESSO A CERTOS ELEMENTOS COMO O BODY DO DOCUMENTO
+(DOCUMENT.BODY) por meio  de document.body, e por aí vai.
+
+
+ex:
+
+
+
+const body = document.body;
+
+
+
+console.dir(body); //ISSO VAI MOSTRAR TODAS AS PROPRIEDADES DE BODY.
+
+
+---------------------------------------------------
+
+
+PODEMOS, ENTÃO, RODAR QUERYMETHODS DENTRO DESSE BODY (podemos usar todos, menos 
+"getElementById". Mas os outros "getXbyY" sempre estão disponíveis). (isso é verdade não só apenas para o elemento body, mas para todos os elementos da página.)
+
+Você faz isso para "dive deeper" dentro dessas partes específicas do DOM e selecionar elementos filhos.
+
+ex:
+
+
+
+body.querySelector();
+
+
+
+body.spellcheck = 'false';

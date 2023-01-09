@@ -1,0 +1,215 @@
+CONTINUANDO...
+
+
+
+Com var, você pode fazer outras coisas estranhas:
+
+
+
+
+VocÊ pode re-declarar a mesma variável NA MESMA SCOPE, quando você já a declarou antes.
+
+
+
+
+ex:
+
+
+
+var userName = 'Max';
+
+var userName = 'Manuel';
+
+
+
+ISSO FUNCIONA COM VAR. O VALOR QUE SERÁ MOSTRADO É MANUEL, PORQUE ESSE É 
+O VALOR DA VARIÁVEL APÓS ELA SER REDECLARADA.
+ 
+
+
+
+
+
+
+ex:
+
+
+
+
+let userName = 'Max';
+
+
+let userName = 'Manuel';
+
+
+
+ISSO NÃO FUNCIONA COM LET E CONST.
+
+
+
+
+
+
+
+Como o professor mencionou antes, reassignar um valor À uma variável é algo 
+comum e totalmente aceitável em javascript, é algo que você faz normalmente. 
+
+
+JÁ REDECLARAR UM VALOR É ALGO QUE VOCÊ ---NUNCA--- TEM QUE FAZER, pois isso é algo que 
+você deve evitar. Por isso que let/const não deixa você fazer isso.
+
+
+Há outras coisas interessantes em JavaScript.
+
+
+
+
+
+Você pode, por exemplo, criar uma variável SEM NENHUMA 
+KEYWORD.
+
+ex:
+
+
+
+userName = 'Max';
+
+console.log(userName);
+
+
+Se você salvar o arquivo e recarregar a página, você verá que MAX SERÁ PRINTADO NO CONSOLE.
+
+Isso pode parecer estranho, afinal eu não usei nem var, nem let e nem const aqui.
+
+
+
+Na verdade, isso é um comportamento DEFAULT do javascript. É o comportamento misericordioso do javascript: 
+ele vê que você esqueceu uma keyword aqui e ADICIONA 
+UM "VAR" INVISÍVEL À ESSA DECLARAÇÃO.
+
+
+Isso é algo que vocÊ poderia fazer em seu código, mas que você DEVE EVITAR.
+
+Você deve evitar coisas assim, porque isso somente faz seus scripts ficarem ruins.
+
+Pessoas que lerão seu código talvez pensem que você declarou essa variável mais cedo no arquivo, 
+e talvez ela procurem minutos/horas por algo que NÃO EXISTE. Nunca encontrarão, porque não existe, 
+você definiu o negócio, na hora, lá embaixo, mas eles não sabem porque não encontraram nenhuma keyword 
+para definir a tal variável. Elas podem até mesmo pensar que a variável foi definida em OUTRO SCRIPT/DOCUMENTO QUE VOCÊ IMPORTOU 
+ANTES DESSE SCRIPT. O uso dessa mecânica do javascript, portanto, apenas traz confusão e não deve ser utilizada.
+
+
+PARA DESABILITAR ESSE COMPORTAMENTO, JAVASCRIPT TEM UM MODO ESPECIAL QUE VOCÊ 
+PODE LIGAR OU DESLIGAR, e seu nome é O "STRICT MODE".
+
+Ele foi introduzido com o ES5, e ainda que a sintaxe moderna de javascript (que estamos aprendendo nesse curso),
+já proíba algumas das coisas que são desabilitadas por meio do strict mode, 
+talvez ainda valha a pena ativá-lo. 
+
+
+Mas isso é uma opção, o professor deixa a escolha a nós.
+
+
+
+Ele tipicamente NÃO LIGA O STRICT MODE durante o nosso curso, porque ele 
+evita esses comportamentos estranhos do javascript e nós não escreveremos tal código, 
+mas se você quer ser SUPER SAFE, você sempre pode ligá-lo em um arquivo, ou então 
+somente dentro de uma função específica. 
+Para fazer isso, basta que você adicione uma STRING NO INÍCIO DO ARQUIVO/FUNÇÃO em que 
+você quer que o strict mode seja ativado.
+
+
+Essa tal de string NÃO É UMA STRING QUE É ARMAZENADA EM ALGUMA VARIÁVEL; É APENAS 
+UMA STRING DUMPADA NO SCRIPT, uma string de "use strict";
+
+
+ex:
+
+
+
+
+
+"use strict";
+
+const ATTACK_VALUE = 10;
+const STRONG_ATTACK_VALUE = 17;
+const MONSTER_ATTACK_VALUE = 14;
+const HEAL_VALUE = 20;
+const MODE_ATTACK = 'ATTACK';
+
+
+
+
+
+
+ISSO PODE PARECER ESTRANHO, MAS OS BROWSERS ENTENDEM, eles pegam isso e agora eles sabem que você 
+quer ligar o strict mode para esse script ou para essa função.
+Ele ativa somente para o script em que foi colocado, não ativa em TODOS OS SCRIPTS no folder, você 
+precisa adicioná-lo manualmente em cada um deles, nesse caso.
+
+
+STRICT MODE ---> desabilita alguns
+
+
+HÁ UM LINK NO CURSO QUE MOSTRA TODOS OS COMPORTAMENTOS DESABILITADOS PELO STRICT MODE.
+
+
+
+Se recarregarmos aquele código anterior com o strict mode ligado, dessa vez receberemos um código de erro:
+
+
+
+"userName not defined".
+
+
+
+É bom que recebamos esse erro, porque você não quer permitir esse comportamento 
+de não colocar let/const.
+
+
+
+
+
+OUTRA FEATURE QUE É DESABILITADA = a feature de atribuir valores a "reserved names".
+
+
+O que são reserved names? São nomes reservados pelo próprio javascript para o código interno da engine.
+
+
+EX: 'undefined', 'NaN', etc.
+
+
+
+
+ex de atribuição de valores a reserved names:
+
+
+
+
+var undefined =  5;          //usar undefined como um NOME DE VARIÁVEL, prática ruim.
+
+
+
+Isso é permitido com VAR, o que é ruim. Mas isso é DESABILITADO com let/const E COM 
+O STRICT MODE (o strict mode desabilita até a opção de fazer isso com var.).
+
+
+Se salvarmos e recarregarmos o código com strict mode definido, recebemos o erro:
+
+
+
+"Uncaught TypeError: Cannot assign to read only property 'undefined' of object 
+'#<Window>'."
+
+
+
+Usar o strict mode é uma opção, mas NESSE CURSO VOCÊ JÁ APRENDERÁ PADRÕES CORRETOS 
+DE SINTAXE QUE NÃO SE UTILIZAM DESSES COMPORTAMENTOS RUINS. Let e const já proibem 
+muitos desses comportamentos indesejados.
+
+
+
+Se você não usar let e const, é possível escrever código bem ruim de javascript.
+
+
+Misericordioso não é sinônimo de bom, em programação.

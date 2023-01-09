@@ -1,0 +1,118 @@
+O professor quer falar sobre arrow functions, bem rápido.
+
+
+
+
+
+
+Aqui podemos ver porque são tão úteis.
+
+
+
+
+
+Com arrow functions, vocÊ pode reduzir o seguinte código UM MONTE:
+
+
+
+
+
+ex:
+
+
+
+
+const filteredArray = prices.filter((price, index, prices) => {
+    return price > 6;
+});
+
+console.log(filteredArray);
+
+
+
+
+
+---------------------------------
+
+
+Professor diz que esse código já está curto! Ele definitvamente seria muito maior se nós estivéssemos utilizando 
+a keyword function e outras firulas, MAS COM ARROW FUNCTIONS, OS EXEMPLOS que o professor mostrou, como 
+
+
+
+"const filteredArray = prices.filter((price, index, prices) => {...} )", 
+
+
+UM EXEMPLO ONDE O PROFESSOR APENAS USA "price" de verdade, os outros dois ele ignora, nem usa nesse 
+caso. Se você estivesse usando FUNÇÕES com a sintaxe NORMAL (com a keyword "function"), você seria 
+forçado a colocar esse segundo e terceiro argumentos.
+
+
+ENTRETANTO, COM ARROW FUNCTIONS (e essa é uma boa vantagem), VOCÊ NÃO PRECISA 
+COLOCAR O SEGUNDO E TERCEIRO ARGUMENTOS; ELA FUNCIONA COM APENAS 1 ARGUMENTO, NESSES CASOS.
+
+ex:
+
+
+"const filteredArray = prices.filter((price) => {...} )" -----------> FUNCIONA IGUAL. Não dá problema de sintaxe.
+                                                                        Na verdade, você não precisa nem mesmo de (price), vocÊ pode colocar ele solto, POIS ARROW FUNCTIONS PERMITEM ESSA SINTAXE COM APENAS 1 ARGUMENTO SEM ().
+
+ex:
+
+
+"const filteredArray = prices.filter(price => {
+    return price > 6;
+} );"
+
+
+
+
+-----------------------------------------------------
+
+
+ALÉM DISSO, COMO NÓS TEMOS APENAS 1 EXPRESSÃO DENTRO DO FUNCTION BODY 
+DA ARROW FUNCTION, ____PODEMOS___ ATÉ MESMO____ SUPRIMIR OS CURLY BRACES ( "{}"  )
+
+ex:
+
+
+
+"const filteredArray = prices.filter(price => 
+    return price > 6;
+ );"
+
+
+ ------------------------------------------------
+
+ 
+
+ Porém, se quisermos utilizar a forma sintática que não tem os curly braces, devemos 
+ também REMOVER OS RETURN STATEMENTS, POIS ELES SERÃO INÚTEIS (serão inúteis porque 
+ o return statement já é implícito nesse formato das arrow functions). Devemos também 
+ tirar a semi-colon (;) que estava ali, pois ela é desnecessária (; servem para enumerar expressões, mas como aqui só temos 1 única expressão, essa marcação se torna inútil.)
+
+
+
+
+ ex:
+
+
+
+
+
+ "const filteredArray = prices.filter(price => price > 6);"
+ 
+
+
+ --------------------------------
+
+
+ Com esse formato, o resultado dessa expressão no function body 
+ SERÁ RETORNADO AUTOMATICAMENTE.
+
+ Professor comenta sobre o quão pequeno é esse código, que 
+ as arrow functions realmente reduzem muito o tamanho das expressões.
+
+
+ É por isso que arrow functions são tão boas com os métodos de arrays, 
+ porque podemos simplificá-los um monte.

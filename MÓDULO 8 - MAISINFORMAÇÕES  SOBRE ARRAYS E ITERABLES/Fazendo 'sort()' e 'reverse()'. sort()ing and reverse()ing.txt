@@ -1,0 +1,314 @@
+HÁ DUAS OUTRAS MANEIRAS de transformar um array. Digamos que em vez de pegarmos os nossos "taxAdjustedPrices" por meio
+do método "map()", ou seja, alterarmos e criarmos uma cópia do array de prices, nós já estejamos contentes 
+com sua forma inicial.
+
+Estamos contentes, mas queremos que OS PREÇOS FIQUEM EM ORDEM. NÃO GOSTAMOS QUE OS NEGÓCIOS FIQUEM BAGUNÇADOS, FORA DE ORDEM.
+
+
+
+
+ex:
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+
+------------------------------
+
+
+
+Para tal, vocÊ tem outro método que você pode chamar.... é o método "sort();".
+
+vamos utilizá-lo em uma nova constante que criaremos agora, chamada de "sortedPrices".
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const sortedPrices = prices.sort();
+
+
+--------------------------------------------------------------
+
+
+
+"sort" vai ORGANIZAR O ARRAY. 
+
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const sortedPrices = prices.sort();
+
+
+console.log(sortedPrices);  //------> VAI NOS RETORNAR (4) [10.99, 3.99, 5.99, 6.59];
+
+
+
+
+
+
+
+--------> Problema: negócio não parece bem organizado... está organizado, mas meio mal.
+
+
+Resposta para o enigma: "Sort", por padrão, CONVERTE TUDO EM UMA STRING E DEPOIS DISSO SIMPLESMENTE ORGANIZA OS ITEMS em uma lógica de string...
+nessa lógica de string, por exemplo, 1 < 3 (por isso que 10.99 acaba sendo menor que 3.99).
+
+EXPLICAÇÃO: PARA STRINGS, APENAS O PRIMEIRO CARACTERE É COMPARADO, POR PADRÃO, ENTRE ELEMENTOS (é como se fosse a primeira letra de um nome, basicamente. Como o sort considera tudo como uma string, isso faz sentido).
+
+
+ex:
+10.99 < 3.99 (  '1' < '3').
+
+
+Tá, ok, entendi.... MAS NÃO É ISSO QUE QUEREMOS AQUI. QUEREMOS QUE ELE REALMENTE 
+ORGANIZE O NEGÓCIO POR MEIO DE ORDEM CRESCENTE, SEM TRATAR TUDO COMO STRINGS.
+
+--------------------------------------
+
+A boa notícia é que você pode PASSAR SUA PRÓPRIA FUNÇÃO PARA SORT (outro método que necessida de outra função, semelhante à map, find() e findIndex().), 
+UMA FUNÇÃO QUE DEVERÁ TER 2 NÚMEROS COMO ARGUMENTO. É uma função de comparação, essencialmente.
+O professor diz que nós podemos nomear esses parâmetros como "a" e "b", mas que o nome é totalmente de nossa escolha.
+
+
+
+ex:
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+
+const sortedPrices = prices.sort((a, b) => {
+
+});
+
+
+
+
+
+
+
+console.log(sortedPrices);
+
+
+
+
+
+
+
+
+
+O que essa função interna de "sort" faz é EXECUTAR ESSAS FUNÇÕES (as funções do 
+function body) EM PARES DE ELEMENTOS NO ARRAY ESCOLHIDO. E esse método sempre te dá esses 2 
+elementos os quais ele está comparando... com esses 2 elementos que ele te dá,  você deve retornar, para 
+aquele par que ele está comparando, se "a > b", "a < b" ou "a = b". Feito isso, 
+sort vai então trocar de lugar os pares de acordo com a condição que você colocou... trocados 
+os lugares, ele vai então ir em frente e examinar o outro par, e assim por diante até o final do array.
+
+Devemos ver isso em prática, para clarear as coisas.
+
+
+O professor diz que devemos inserir um if check dentro do function body de prices.sort, porque 
+vamos ter que retonar um de três possíveis valores (a > b, a < b, a = b).
+
+Se a > b, o método deverá retornar, nesse caso, O NÚMERO 1. 
+
+
+ELSE IF, a === b, o método sort deverá retornar 0.
+
+
+ELSE (última hipótese possível, para casos de a < b), 
+deverá retornar "-1".
+
+
+
+
+ex:
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+                             (10.99) (5.99)
+const sortedPrices = prices.sort((a, b) => {
+    if (a > b) {
+        return 1;
+    } else if (a === b) {
+        return 0;
+    } else {
+        return -1;
+    }
+});
+
+
+
+
+
+
+
+console.log(sortedPrices);
+
+
+
+
+-----------------------------------------
+
+
+Agora é só pensar na execução dessa função, pensar na passagem dos binômios de elementos do array....
+
+
+
+const [10.99, 5.99, 3.99, 6.59];
+
+10. 99 > 5.99  (fato) -------> RETORNA "1" (o número).
+
+(trocou de lugar com 5.99)
+10.99                      > 3.99 (fato) -------> RETORNA OUTRO "1"( o número).
+
+10.99 > 6.59 (fato) -----> retorna  outro "1" (o número).
+
+(10.99 acaba no final do array, basicamente).
+
+
+
+(Ai começa o mesmo processo de novo, mas agora com 5.99, que é agora o primeiro elemento do array).
+
+
+5.99 > 3.99 --------> retorna 1 ...
+
+5.99 < 6.59 -----> retorna -1   (-1 faz com que sort não troque os elementos de lugar. Faz com que "a" fique no slot anterior a "b".).
+
+
+
+
+
+Esses valores 1, 0 e -1 são sempre definidos em "sort". É um jeito da máquina decidir 
+entre 3 outcomes, o de substituir os elementos (1), que troca o lugar de a pelo lugar de b; (-1), que deixa 
+a no lugar que está, anterior a b; e, por fim, (0), que deixa os 2 items adjacentes 1 ao outro.
+
+
+
+------------------------------------------
+
+Se recarregarmos a página, veremos que esse método realmente reorganizou aquele array de forma crescente.
+
+Essa lógica que usamos aqui é a lógica de NÚMEROS.
+
+É claro que a lógica que você tem na parte do function body desse método é totalmente 
+livre, podemos colocar o que quisermos. A função que passamos ali depende 
+do tipo de dados que temos no nosso array que estamos tentando organizar.
+
+Para números, essa comparação de "a > b", "a < b" e "a === b"  faz sentido, mas 
+pessoas podem fazer o check de qualquer coisa que quiserem 
+dentro dessa função, estabelecer sorts absurdos.
+
+
+
+--------------------------------------------
+
+
+HÁ OUTRO MÉTODO, RELACIONADO A "sort", que é o método "REVERSE();".
+
+
+
+ex:
+
+
+
+
+console.log(sortedPrices.reverse());
+
+
+
+
+
+------------------------------------------------
+
+
+
+Reverse faz exatamente aquilo que diz na embalagem: ele reverte a ordem do array da constante em que 
+vocÊ o chamou... REVERSE NÃO ACEITA ARGUMENTO ALGUM, ELE SIMPLESMENTE REVERTE O ARRAY, NÃO FAZ MAIS NADA.
+É usado para criar arrays em ordem decrescente. 
+Você primeiro cria uma organização/ordem com "sort()", para depois inverter a ordem com "reverse();", se assim o desejar.
+
+
+
+1) fazer a lógica de sorting 
+
+
+2) inverter a lógica de sorting.
+
+
+------------------------------------
+
+
+PORÉMMMMMMMM professor diz que fazer um call extra de "reverse" é extremamente desnecessário. SE você 
+quiser uma lista/array em ordem decrescente, basta que você inverta a lógica de sort();
+
+
+ex:
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+                             (10.99) (5.99)
+const sortedPrices = prices.sort((a, b) => {
+    if (a > b) {
+        return 1;
+    } else if (a === b) {
+        return 0;
+    } else {
+        return -1;
+    }
+});
+
+
+
+VIRARIA:
+
+
+
+
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+
+                             (10.99) (5.99)
+const sortedPrices = prices.sort((a, b) => {
+    if (a > b) {
+        return -1; //TROCOU
+    } else if (a === b) {
+        return 0;
+    } else {
+        return 1; //TROCOU
+    }
+});
+
+
+
+----> esse formato de sort() vai fazer a mesma coisa que o chamado extra de reverse(), mas vai te salvar precioso código para tal.
+
+
+
+
+
+MAS REVERSE() AINDA É ÚTIL: HÁ CASOS EM QUE VOCÊ JÁ TEM O ARRAY CERTINHO E QUE VOCÊ ENTÃO PRECISA UTILIZAR ELE INVERTIDO APENAS 1 ÚNICA VEZ. Nessas situações, inverse() pode ser bem útil.
+
+
+
+

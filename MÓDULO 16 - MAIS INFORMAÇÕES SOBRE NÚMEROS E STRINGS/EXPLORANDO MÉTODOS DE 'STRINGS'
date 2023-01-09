@@ -1,0 +1,168 @@
+CHEGA DE NÚMEROS.
+
+
+DEVEMOS VER MAIS SOBRE STRINGS...
+
+
+
+
+
+
+
+O professor quer nos LEMBRAR DE ALGO QUE JÁ VIMOS...
+
+
+
+
+STRINGS PODEM SER CRIADAS DE 3 FORMAS
+
+
+
+
+'' 
+
+
+""
+
+
+
+e 
+
+
+
+`` (backticks) -----------> NOS DEIXA UTILIZAR A TEMPLATE LITERAL NOTATION, QUE NOS PERMITE INJETAR VALORES DINAMICAMENTE POR MEIO DE '${1}'
+
+
+----------------------------------------
+
+
+
+E EM TODAS AS STRINGS, NÃO INTERESSA A MANEIRA PELA QUAL FORAM CRIADAS, SEMPRE 
+
+TERÃO PROPRIEDADES E MÉTODOS ESPECÍFICOS A ELAS....
+
+
+
+ex:
+
+
+''.length;     ------------> NOS DIZ QUANTOS CARACTERES UMA DETERMINADA STRING POSSUI...
+
+
+
+
+
+'hello'.toUpperCase ----> TRANSFORMA TODAS AS LETRAS EM MAIÚSCULAS.
+
+
+--------------------------------
+
+
+
+
+
+
+HÁ VÁRIOS OUTROS MÉTODOS, ALGUNS PARA COMBINAR STRINGS, EXTRAIR SUB-STRINGS...
+
+
+
+há também um método para CHECAR SE UMA STRING COMEÇA COM DETERMINADA LETRA/sequência...
+
+
+
+
+EX:
+
+
+'hello'.startsWith('he'); ----------> RETORNA 'true'...
+
+
+-----------------------------------
+
+
+
+
+
+UM BOM LUGAR PARA APRENDER SOBRE OS DIFERENTES MÉTODOS É O MDN...
+
+
+
+
+
+
+
+String.prototype.charAt()
+Retorna o caractere (exatamente uma unidade de código UTF-16) no índice especificado.
+String.prototype.charCodeAt()
+Retorna um número que é o valor da unidade de código UTF-16 em dado índice.
+String.prototype.codePointAt()
+Retorna um número inteiro não negativo Number que é o valor de posição de código da posição de código inicial em dado índice.
+String.prototype.concat() ----> IMPORTANTE.
+Combina o texto de duas strings e retorna uma nova string.
+
+
+
+
+String.prototype.includes()
+ Determina se uma string deve ser encontrada dentro de outra string.
+
+
+
+
+ String.prototype.endsWith()
+Determina se uma string termina com os caracteres de outra string.
+
+
+
+
+String.prototype.padEnd()
+Empacota a string atual desde o final com uma string dada para criar uma nova string de um dado comprimento.
+String.prototype.padStart()
+Empacota a string atual desde o início com uma string dada para criar uma nova string de um dado comprimento.
+
+
+
+
+
+String.prototype.padEnd()
+Empacota a string atual desde o final com uma string dada para criar uma nova string de um dado comprimento.
+String.prototype.padStart()
+Empacota a string atual desde o início com uma string dada para criar uma nova string de um dado comprimento.
+
+
+
+
+String.prototype.trim()
+Retira o espaço em branco desde o início e o fim da string. Parte do padrão ECMAScript 5.
+
+
+
+
+---------------------------------------
+
+
+
+
+OS MÉTODOS DOS PROTOTYPES DE STRING ESTÃO, SIM, ATRELADOS A CADA STRING QUE NÓS CRIAMOS (como todos os outros prototypes são aos seus objetos...).
+
+
+
+
+------------------------------------------
+
+
+
+ESSA É A PARTE MENOS INTERESSANTE DE STRINGS....
+
+
+
+
+A PARTE MAIS INTERESSANTE DE STRINGS É AQUILO QUE PODEMOS FAZER COM 
+
+
+___TEMPLATE LITERALS___ EM SEU INTERIOR...
+
+
+
+
+Só vimos muito pouca coisa até agora sobre isso.

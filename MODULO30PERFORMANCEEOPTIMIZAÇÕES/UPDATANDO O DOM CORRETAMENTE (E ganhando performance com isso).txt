@@ -1,0 +1,1745 @@
+
+
+
+
+
+
+
+
+---> NÓS POTENCIALMENTE MELHORAMOS NOSSO STARTUPTIME...
+
+
+
+
+
+
+---> AGORA DEVEMOS MELHORAR NOSSO 'RUNTIME PERFORMANCE'...
+
+
+
+
+
+-----> PARA TAL, o professor vai até a aba de 'performance' no devtools 
+
+do chrome....
+
+
+
+
+---> ELE ENTÃO HABILITA 'cpu throttling' em 6x...
+
+
+
+
+--> ELE ENTÃO CAPTURA UMA SNAPSHOT de quando nós DELETAMOS UM PRODUTO NESSA NOSSA PÁGINA...
+
+
+
+
+---> o professor então zooma na parte INTERESSANTE dessa gravação, na aba do 
+
+
+
+'OVERVIEW'...
+
+
+Nós vemos, na aba 'network', os ongoing network requests...
+
+
+
+Nós vemos 2 extra network requests,
+
+
+que são os DOIS CHUNKS que foram baixados de 'product-management.js'....
+
+
+
+
+Fechamos isso tudo e então damos uma olhada 
+
+na MAIN THREAD lá embaixo....
+
+
+
+olhamos a main thread pq ESSA É A PARTE MAIS INTERESSANTE/IMPORTANTE do devtools...
+
+
+
+----> No main thread, o que vemos é que 
+
+
+NÓS TIVEMOS UM __CLIQUE__ em um botão... ('event:click')...
+
+
+
+NESSE CLICK, é possível perceber que temos um PEQUENO AVISO/alerta do google chrome...
+
+é aquele triangulozinho vermelho no canto do evento...
+
+
+
+--> ELE DIZ QUE esse processo tomou ''cerca de 80ms'', o que NÃO É BOM....
+
+
+
+-------> Nós temos então, abaixo desse click, A FUNCTION CALL........
+
+
+
+
+Na direita desse stack, mais à frente no runtime, 
+
+temos outro 
+
+
+STACK, outra execução, que foi executada 
+
+COM BASE NOS BUNDLES EXTRAS QUE NÓS ADICIONAMOS AO NOSSO CÓDIGO...
+
+
+
+---> aqui, nesse 'function call', apesar de nós NÃO CONSEGUIRMOS 
+
+VER OS FUNCTION NAMES, infelizmente, 
+
+
+
+é POSSÍVEL VER que essa function call 
+
+VEM DA LINHA '10' em shop.js, que é A LINHA EM QUE 
+
+ESTÁ A FUNÇÃO 
+ 
+
+'deleteProduct'...  ---> isso faz sentido, pois essa é a linha que deve ser triggada 
+
+ao ser pressionado o botão de delete....
+
+
+
+Depois do restante do código ser baixado, MAIS CHUNKS FORAM EXECUTADOS 
+
+
+naquele trecho 
+
+'evaluate script', a partir de nossas 'extra chunk files'....
+
+
+
+
+------------------------------
+
+
+
+Professor diz:
+
+
+"para ser bem honesto, nós não conseguiremos reduzir grande coisa desse 
+
+tempo do handler... esse handler de 'event: click' vai ser desse tamanho mesmo, 
+não é fácil reduzir seu tamanho..." ---> não vamos poder reduzir 
+
+esse eventListener PQ ESSA __FUNCTION CALL__ que está 
+
+sendo executada a partir desse 'event:click' JÁ NÃO 
+ 
+OCUPA MUITO ESPAÇO NO NOSSO RUNTIME... ('really isnt taking that long...") ---> 
+
+essa função já não é lerda, ela é normal/até rápida; TODO O CÓDIGO 
+
+QUE ESTÁ SENDO EXECUTADO AQUI, as 2 colunas de código,
+
+ ESTÃO ____SENDO EXECUTADOs__ 'fairly fast'...
+
+
+
+
+
+ Professor aponta que o SCRIPT DA 2A coluna inteira 
+
+ TOMA basicamente 42 milissegundos, O QUE é __OK___...
+
+
+
+
+
+ MAS, NA VERDADE, no nosso script ainda temos 
+
+ UM problema/algumas coisas A RESOLVER E MELHORAR...
+
+
+
+
+ ----->  PARA MOSTRAR ESSES PROBLEMAS, O PROFESSOR DIZ QUE ELE ATÉ VAI 
+
+ DESABILITAR O THROTTLING (aquela coisa de deixar a execução da página mais lenta...) ---> 
+
+ Professor vai desabilitar o throttling PQ ELE NÃO PRECISA DO THROTTLING para nos mostrar 
+ esses problemas.
+
+
+
+
+ DE NOVO, devemos ir até o devtools...
+
+
+
+ abrimos a aba 'rendering', que fica LÁ EMBAIXO...
+
+
+
+
+ ----------------------------------
+
+
+
+
+ NESSA ABA DO 'RENDERING', devemos marcar a CHECKBOX/opção de 
+
+
+ 'paint flashing'.... ---> isso vai nos deixar ver QUAL PROBLEMA NÓS TEMOS NESSA PÁGINA...
+
+
+
+
+
+
+ ---> Se agora recarregarmos, veremos que TUDO BRILHA VERDE QUANDO coisas são 'RE-RENDERIZADAs'....
+
+
+
+
+
+
+
+ A coisa interessante é que se o professor DELETAR __o ÚLTIMO ITEM___ da lista de products, 
+
+
+ A LISTA INTEIRA VAI BRILHAr... ----> isso é algo que já vimos antes... é um problema 
+
+
+ que já exploramos anteriormente.. --> podemos ver isso 
+
+ na aba 
+
+
+ 'Elements' ---> quando deleto 1 único item, a UL __inteira___ flasha.... ---> 
+
+
+
+ ISSO SIGNIFICA QUE A LISTA INTEIRA ESTÁ SENDO RE-RENDERIZADA sempre que nós deletamos 1 único item...
+
+
+
+
+
+ ----> MESMO que seja o ÚLTIMO/primeiro item, esse delete faz com que A LISTA INTEIRA SEJA RE-RENDERIZADA 
+
+
+
+ ------> e não há razão para as coisas acontecerem dessa forma... não traz vantagem nenhuma; na verdade,
+  ATÉ DEIXA NOSSA PÁGINA MAIS _LENTA_...
+
+
+
+
+
+  ---> essa coisa de RE-RENDERIZAR __Toda a lista___ quando ocorre alguma alteração nos items 
+
+
+  FAZ MAIS SENTIDO QUANDO ADICIONAMOS UM ___NOVO ITEM___, pq quando nós adicionamos um 
+
+  NOVO ITEM, nós na verdade o adicionamos AO INÍCIO da lista.... ----------> E QUANDO ISSO 
+
+  ACONTECE, É ÓBVIO QUE O JAVASCRIPT/browser TEM QUE FAZER A MÃO DE ___'SHIFT ALL ITEMS TO THE BACK'.... 
+
+
+---> certo, na hipótese de ADIÇÕES de items à lista, é até desculpável o RE-RENDERING OCORRER...
+
+---> MAS PQ DIABOS A LISTA DEVERIA RE-RENDERIZAr sempre que 1 único item é DELETADO (E não adicionado)?
+
+
+
+
+
+-------------> BEM, NÓS PODEMOS 
+
+
+
+VER A RESPOSTA PARA ESSA PERGUNTA SE NÓS DERMOS UMA OLHADA NO ARQUIVO DE 
+
+'rendering.js'.. no folder de 'optimized'...
+
+
+
+
+
+em 
+
+
+'rendering.js', 
+
+NÓS VEMOS 
+
+
+'renderProducts', que é a função RESPONSÁVEL 
+
+
+POR FAZER O ___DISPLAY___ dos produtos NA TELA... 
+
+
+
+
+-------> quando 'renderProducts' é executado,
+
+
+
+ELE SEMPRE ___LIMPA____ todos os elementos DOM existentes naquela 
+productList (ul), NO MOMENTO (ela limpa por meio do 
+
+código de "productListEl.innerHTML = '' ") )......
+
+
+
+
+DEPOIS QUE 
+
+
+
+ESSA FUNÇÃO APAGA O 'innerHTML' da LISTA... (e o 'innerHTML' é essencialmente 
+
+OS ITEMS... ),  ELA VAI LÁ 
+
+
+E CRIA 
+
+
+
+
+UM MONTE DE DOM NODES...
+
+
+
+ex:
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    ...
+
+    const newListEl = document.createElement('li');
+    const prodListEl = document.createElement('li');
+    const prodPriceEl = document.createElement('p2"');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+}
+
+
+
+.....................
+
+
+CRIA ESSE MONTE DE DOM NODES E ENTÃO OS 
+
+
+ADICIONA ___PARA CADA ___ PRODUTO QUE TIVERMOS...
+
+
+
+
+
+-----> OU SEJA: ela adiciona esses dom nodes A QUATRO PRODUTOS, INICIALMENTE...
+
+SE tivéssemos 100 PRODUTOS, ela faria o mesmo para 100 PRODUTOS.... --------> 
+
+
+
+por isso, ESSE ___NÕA É UM CÓDIGO BOM____... Nós nunca vamos 
+
+
+querer construir uma página dessa forma...
+
+
+
+
+--> FAZER RE-RENDER DE TUDO, para cada pequena MUDANÇA, É __HORRÍVEL__, UMA MERDA...
+
+
+
+
+
+
+----> imagine que você tem uma lista com 100 ITEMS... Aí vocÊ/o usuário
+
+vai lá e deleta TUDO NA TELA  ------> SE O USUÁRIO FIZER ISSO, 
+
+
+A TELA INTEIRA/LISTA INTEIRA DEVERÁ 
+
+SER RE-RENDERIZADA, mesmo que não tenha sobrado, de verdade, nenhum item 
+
+em seu interior (usuário deletou tudo --> vai ter que esperar a mesma quantidade 
+de tempo que 1 pessoa gastou deletando 1 único item..
+
+
+
+
+
+---> re-renderizar toda uma lista POR CAUSA DE 1 PEQUENA MUDANÇA/PEQUENAS MUDANÇAS = lixo... Sempre 
+
+devemos evitar essa situação. ---> se seus usuários 
+
+tiverem uns aparelhos 1 pouquinho mais lentos, ELES PROVAVELMENTE 
+
+
+VÃO SENTIR ESSA DEMORA/LERDEZA, a lerdeza DO RE-RENDERING.... (péssima user 
+experience) ---> eles provavelmente 
+
+VÃO SENTIR E VÃO NOTAR A DIFERENÇA.... ---> vão notar a diferença pq 
+
+O ACESSO 
+
+
+Ao DOM, EM JAVASCRIPT, é geralmentE bem ___PERFORMANCE INTENSIVE____... ---> e o acesso 
+
+ao dom, com erros como esse, pode ACUMULAR LERDEZA, bem, mas bem facilmente. 
+
+
+
+
+--------------------------------------------------
+
+
+
+É POR ISSO QUE DEVEMOS 
+
+_______MELHORAR____ a função 'renderProducts', fazer com que ELA 
+
+___NÃO FAÇA O RE-RENDER __ DA LISTA de 'products' EM SUA INTEGRALIDADE 
+
+SEMPRE QUE EXISTIR/OCORRER UMA PEQUENINA MUDANÇA....
+
+
+
+
+
+
+---> E, PARA MELHORAR ESSA PÁGINA, PARA RESOLVER ESSE PROBLEMA, O PROFESSOR VAI 
+
+ADICIONAR UMA NOVA FUNÇÃO EM 
+
+
+'rendering.js'... ----> 
+
+
+
+
+SERÁ UMA FUNÇÃO CHAMADA DE 
+
+
+'updateProducts'...
+
+
+
+E SERÁ UMA FUNÇÃO EXPORTADA PARA OUTRAS FUNÇÕES... (definida em 'rendering.js', e exportada para 
+outros arquivos....)
+
+
+
+
+---->  ex:
+
+
+
+
+'export function updateProducts() {}
+'
+
+
+
+
+
+----------------------------------------
+
+
+
+ESSA FUNÇÃO FARÁ COM QUE NOSSO CÓDIGO SEJA 'UM POUCO MAIS CAREFUL' nas situações 
+
+
+EM QUE 
+
+ADICIONAMOS/REMOVEMOS ITEMS...
+
+
+
+
+
+--> CONTUDO, NÓS AINDA PRECISAREMOS DE 'renderProducts' PARA RENDERIZAR 
+
+
+A LISTA INTEIRA... vamos precisar dessa função de 'renderProducts' PAR a
+___FAZER O PRIMEIRO RENDER DA LISTA___, CRIAR ELA NA SUA FORMA 'INICIAL' na nossa página...
+
+
+
+
+
+----> certo, diz o professor, mas DEFINITIVAMENTE EU/NÓS NÃO VAMOS QUERER CHAMAR 
+
+
+'renderProducts()' SEMPRE QUE NÓS 
+
+ADICIONAMOS/ADICIONAREMOS   OU REMOVEMOS/REMOVEREMOS UM ITEM....
+
+
+
+
+---------------------------
+
+
+
+ISSO SIGNIFICA QUE O PROFESSOR VAI DEIXAR 'renderProducts()" do jeito que 
+
+ela está, 
+
+
+
+MAS que em
+ 
+
+ 'updateProducts()', essa outra função, ele vai adicionar código 
+
+
+ que NÓS VAMOS/PODEMOS USAR QUANDO NÓS 
+
+
+ ADICIONAMOS/REMOVEMOS UM ITEM...... 
+
+
+ é por isso que  
+
+
+ em 
+
+
+ 'updateProducts()' ele vai 
+
+
+
+colocar um parâmetro de 'product', POIS ELE ESPERARÁ 
+
+RECEBER/GANHAR A PRODUCT DATA que foi adicionada/removida 
+como 
+
+primeiro argumento........ 
+
+
+
+Professor também coloca um 'prodId' (productId) --> pois no caso em que estamos 
+
+DELETANDO ALGUMA COISA, precisamos do ID desse product para que então consigamos 
+
+o deletar corretamente....
+
+
+
+---------------------------------------------------
+
+
+
+EX(representação):
+
+
+
+export function updateProducts(product, prodId) {
+
+}
+
+
+
+
+------------------------------------------------------
+
+
+
+
+O PROFESSOR TAMBÉM VAI QUERER como parâmetro
+
+
+aquela
+
+
+'deleteProductFn' (a função DELETEPRODUCT...) --> ele quer isso pq 
+SE 
+
+NÓS ADICIONARMOS UM NOVO 'PRODUCT', o professor/nós AINDA VAMOS PRECISAR 
+
+
+___RENDERIZAR___ um botão que aponta À essa função...
+
+
+Por fim, ele também vai querer 
+
+
+UM ÚLTIMO ARGUMENTO, 'isAdding', QUE NOS DIZ SE ESTAMOS 
+
+CHAMANDO 'updateProducts' PQ 
+
+ESTAMOS __ADICIONANDO__ UM NOVO PRODUTO OU __ SE É PQ NÓS 
+
+ESTAMOS ___DELETANDO UM QUE JÁ EXISTE____.... ---> pq aí eu vou poder 
+
+usar esse argumento com 
+
+
+UM IF STATEMENT/ if check....   (ex: ' if (isAdding) {}')
+
+
+
+
+
+
+
+EX(REPRESENTAÇÃO DESSE CÓDIGO IMENSO):
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    }
+}
+
+
+
+
+-----------------------------
+
+
+
+
+"Se nós estivermos adding..." (if 'isAdding' === true...),
+
+NÓS VAMOS 
+
+ESSENCIALMENTE QUERER CRIAR 
+
+___UM 
+
+NOVO ___ 'product' de novo....
+
+
+
+vamos querer CRIAR um produto novo e fazer APPEND dele na nossa list...
+
+CASO CONTRÁRIO, vamos 
+
+
+querer rodar o código relativo à TAREFA DE __DELETAR___ um elemento/item da lista....
+
+
+
+
+
+
+Professor diz que devemos começar com o removing/deleting... (com o else case, esencialmente)....
+
+
+
+ex:
+
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    } else {
+
+    }
+}
+
+
+
+--------------------------------------
+
+
+
+
+O PROFESSOR VAI criar uma constante 
+
+
+'productEl', que vai NOS DAR ACESSO 
+
+AO ELEMENTO 
+
+'product'...
+
+
+ex:
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    } else {
+        const productElement = 
+    }
+}
+
+
+
+--------------------------------------
+
+
+
+
+AÍ ELE VAI USAR 
+
+
+'document.getElementById'....
+
+
+
+E ENTÃO VAI PASSAR 'prodId' como parâmetro desse seletor....
+
+
+ex:
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    } else {
+        const productEl = document.getElementById(prodId);
+    }
+}
+
+
+
+--------------------------------------------------------------------
+
+
+
+----> o professor passa 'prodId' PQ QUANDO NÓS RENDERIZARMOS UM PRODUCT NO FUTURO,
+ 
+ ele vai querer/VAI querer adicionar O attributo 'ID'  NO DOM NODE 
+
+
+ QUE FOR RENDERIZADO (no item/dom node que for renderizado)....
+
+
+ Esse id será utilizado aqui, POIS NÓS APONTAREMOS A ELE COM ESSA REFERÊNCIA 
+
+ DE 'document.getElementById(prodId)'...
+
+
+
+ -----------------------------------------------
+
+
+
+
+
+
+ Professor dá uma breve olhada no código de 'rendering.js'...
+
+
+
+
+ Em 'export function renderProducts(products, deleteProductFn) {
+     const newListEl = document.createElement('li');
+
+    ...
+
+
+ }'
+
+
+
+PROFESSOR DIZ QUE 
+
+esse 
+
+
+'new list element' ('newListEl') , que 
+
+é o nosso NOVO PRODUCT ITEM aqui, 
+
+
+
+ELE DIZ QUE ESSE 'newListEl' DEVERÁ 
+
+
+RECEBER, na verdade, 
+
+
+UMA PROPRIEDADE 'id' DEFINIDA EM SEU INTERIOR...
+
+
+
+
+O valor 
+
+da propriedade 'id' 
+
+DEFINIDA 
+
+dentro desse elemento 
+
+
+SERÁ DE 
+
+
+
+'product.id'..
+
+
+
+ex:
+
+
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  const productListEl = document.getElementById('product-list');
+  productListEl.innerHTML = '';
+  products.forEach(product => {
+    const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = produdct.id;  ////////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, product.id)
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+    productListEl.appendChild(newListEl);
+  });
+}
+
+
+
+----------------------------------------------
+
+
+
+
+
+O valor 
+
+da propriedade 'id' 
+
+DEFINIDA 
+
+dentro desse elemento 
+
+
+SERÁ DE 
+
+
+
+'product.id'..
+
+
+
+
+
+(OU SEJA, SERÁ IGUAL AO 'ID' do projeto que estaremos 
+
+RENDERIZANDO...) ---> fazemos isso para QUE 
+
+
+__tODO ELEMENTO DO DOM ___ tenha um attribute 'Id', 
+
+
+que é o atributo do 'product'... nós podemos 
+
+
+ENTÃO USAR ESSE ELEMENTo que tem esse id 
+
+
+
+QUANDO NÓS QUEREMOS deletá-lo... (nós identificamos e DELETAMOS esse elemento/product 
+a partir desse id....)
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+
+O código de 'updateProducts()' até agora ESTÁ ASSIM:
+
+
+
+
+ex:
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    } else {
+        const productEl = document.getElementById(prodId);
+        
+    }
+}
+
+
+
+------------------------------------------------------
+
+
+
+
+PROFESSOR DIZ QUE PODEMOS 
+
+usar 
+
+
+'.remove()' em 'productEl' para 
+
+
+REMOVÊ-Lo;
+
+
+
+
+MAS QUE 
+
+É MELHOR 
+
+
+
+USAR AQUELA ALTERNATIVA COM MELHOR BROWSER SUPPORT, QUE É 
+
+
+
+AQUELE APPROACH que 
+
+faz 'reach out' 
+
+
+até o PARENT ELEMENT  
+
+
+
+E ENTÃO CHAMAR 
+
+
+
+'.removeChild' 
+
+em 
+
+'productEl'.... (alternativa com melhor browser support).
+
+
+
+
+EX (alternativa com código mais moderno):
+
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    } else {
+        const productEl = document.getElementById(prodId); 
+        productEl.remove(); /////////EIS O CÓDIGO EM QUESTÃO. NÃO FUNCIONA EM TODOS OS BROWSERS.
+    }
+}
+
+
+
+
+--------------------------------------------
+
+
+
+
+EX( alternativa com código com melhor browser support):
+
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+    if(isAdding) {
+
+    } else {
+        const productEl = document.getElementById(prodId);
+        productEl.parentElement.removeChild(productEl);
+    }
+}
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+-------> CERTO, ESSA ERA A PARTE DA DELEÇÃO...
+
+
+
+
+
+--> AGORA, o professor diz que devemos colocar/inserir 
+
+
+'updateProducts'
+
+
+EM NOSSO CÓDIGO NAS PARTES EM QUE VAMOS QUERER 
+
+
+DELETAR os products....
+
+
+
+--------------------------------
+
+
+
+
+E o lugar em nosso código onde queremos deletar coisas é em 
+
+
+'product-management'...
+
+
+
+Professor 
+
+
+explica que 
+
+
+naquela função 
+
+
+'deleteProduct'
+
+
+ELE NÃO VAI MAIS 
+
+
+
+QUERER 
+
+
+
+
+chamar 
+
+
+
+'renderProducts(products, deleteProduct)'....
+
+
+
+
+Não, esse código agora é a versão UNOPTIMIZED...
+
+
+
+
+Em vez de chamar 
+
+
+'renderProducts()', 
+
+
+AGORA VAMOS 
+
+
+CHAMAR 
+
+
+'updateProducts()'... (essa nova função que criamos em 'rendering.js'...)
+
+
+
+-----------------------------------------------------
+
+
+
+É POR ISSO 
+
+
+QUE O PROFESSOR FAZ UM NOVO IMPORT 
+
+nesse 
+arquivo de 
+
+
+
+'product-management.js'....
+
+
+
+Ele faz um 
+
+
+import 
+
+
+de 
+
+'updateProducts' láááá do arquivo do 'rendering.js'...
+
+
+ex:
+
+
+
+
+
+import { renderProducts, updateProducts } from './rendering';
+
+
+
+
+----------------------------------------------------
+
+
+
+
+FEITO ISSO, 
+
+ele remove 
+
+o call de 
+
+
+'renderProducts' da função de 'deleteProduct()'...
+
+
+
+--------------------------------------------------
+
+
+Ele coloca 
+
+
+'updateProducts()' no lugar de 'renderProducts()', na função 'deleteProduct()'...
+
+
+
+
+Ele chama 
+
+'updateProducts()' 
+
+
+e passa como parâmetro:
+
+
+
+1) UM POINTER AO PRODUTO QUE O PROFESSOR VAI QUERER UPDATAR...
+
+
+
+
+2) UM POINTER AO ID DESSE PRODUTO 
+
+
+
+3) UM POINTER A função 'delete function' (deleteFunctioFn), ou seja, à FUNÇÃO 'deleteProduct()' em si...
+
+
+
+
+4) UM VALOR PARA 'isAdding', que nesse caso, nessa hipótese do 'delete', será de ___FALSE__ (pois não estaremos adicionando coisa alguma, e sim REMOVENDO)..
+
+
+
+
+
+---------------------------------------------------
+
+
+
+
+BEM, MAS TEMOS UM PROBLEMA... 
+
+
+nós não temos acesso AO PRODUTO QUE É AFETADO pelo 'deleteProduct' na 
+
+FUNÇÃO 'deleteProduct' em si...
+
+
+
+Professor também explica que o código de 'deleteProduct', 
+
+
+
+esse código aqui:
+
+
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        }
+    }
+    products = updatedProducts;
+    updateProducts();
+}
+
+
+
+---------------------------------------
+
+
+
+
+ESSE CÓDIGO AÍ TAMBÉM AINDA NÃO ESTÁ 'ÓPTIMO'...
+
+
+
+
+----> mas nós podemos optimizá-lo mais tarde... por enquanto ,
+
+
+
+O professor simplesmente adicionará uma pequena variável, 
+
+'deletedProduct'... (sem ser inicializada).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct; ////eis a variável em questão...
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        }
+    }
+    products = updatedProducts;
+    updateProducts();
+}
+
+
+-----------------------------------------
+
+
+
+
+Aí naquele loop em que 
+
+ele vai por dentro de todos os products no array, 
+
+
+O PROFESSOR 
+
+VAI CHECAR ('if check')
+
+
+
+
+'' se o product pelo qual eu estou procuranDO 
+
+NÃO TEM O ID DO PRODUCT QUE FOI DELETADO, isso significa que eu vou 
+
+querer MANTER ESSE PRODUCT (add), porque é por isso que eu quis adicioná-lo 
+ao 'updatedProducts', àquele array de products, o array o qual setto/settei 
+depois como meu NOVO 'products array', por meio do código de 'products = updatedProducts'....''''
+
+
+
+
+AGORA, SE os IDs derem 'match' ( ou seja, se 'prod.id !== prodId' for FALSE, se eles FOREM IGUAIS) ,
+
+
+
+EU SABEREI/O CÓDIGO SABERÁ ___QUE ESSE É O 'product' QUE FOI, SIM, DELETADO...
+
+
+
+
+Se isso acontecer, diz o professor, vou querer setar 
+
+
+a variável 
+
+
+'deletedProduct' 
+
+COMO SENDO 
+
+IGUAL 
+
+à 'prod'...
+
+
+
+
+
+EX(representação):
+
+
+
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        } else {
+            deletedProduct = prod; ////////EIS O CÓDIGO EM QUESTÃO.
+        }
+    }
+    products = updatedProducts;
+    updateProducts();
+}
+
+
+
+------------------------------------
+
+
+
+
+
+Certo...
+
+
+LEMBRE-SE: 
+
+
+
+se o ELSE CASE for executado, as linhas do 'if()' iniciais NÃO 
+
+SÃO EXECUTADAS (o código 'updatedProducts.push(prod)' NÃO É EXECUTADO...)
+
+
+
+
+Apenas o ELSE é executado, se aquela condição inicial retornar 'false'...
+
+
+
+
+
+E se o else é executado, 'deleteProduct', aquela variável, é definida 
+
+COMO 
+
+'prod'...
+
+
+
+
+
+
+
+OK...
+
+
+
+o professor, por fim, faz forward de 
+
+'deletedProduct' como primeiro parâmetro 
+
+da chamada da função de 'updateProducts' que havíamos definido 
+
+anteriormente....
+
+
+
+ex:
+
+
+
+
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        } else {
+            deletedProduct = prod; 
+        }
+    }
+    products = updatedProducts;
+    updateProducts(deletedProduct);
+}
+
+
+
+----------------------------------
+
+
+
+ELE TAMBÉM 
+
+PASSA 
+
+
+'prodId', 
+
+QUE 
+
+
+É O ARGUMENTO/PARÂMETRO 
+
+
+recebido
+ 
+
+ por 
+
+ 'deleteProduct()' (essa função msm...)....
+
+
+ Ele passa 
+
+
+ 'prodId' 
+
+
+ PQ ELE VAI QUERER FORWARDAR 
+
+ ESSE ID... (será o identificador 
+ 
+ 
+ do elemento que está sendo/SERÁ deletado...)
+
+
+
+
+
+ Ex:
+
+
+
+
+
+
+ 
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        } else {
+            deletedProduct = prod; 
+        }
+    }
+    products = updatedProducts;
+    updateProducts(deletedProduct, prodId); ////EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+
+
+
+
+
+
+
+------------------------------------------
+
+
+
+
+Depois, como terceiro parâmetro de 'updateProducts()', o professor 
+
+PASSA A 
+
+
+FUNÇÃO 
+
+'deleteProduct' EM SI....
+
+
+
+ex:
+
+
+
+ 
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        } else {
+            deletedProduct = prod; 
+        }
+    }
+    products = updatedProducts;
+    updateProducts(deletedProduct, prodId, deleteProduct); ////EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+
+----------------------------------------------
+
+
+
+
+(Depois ele explica a necessidade desse 'deleteProduct' como parâmetro...)
+
+
+
+
+
+
+--> Entretanto, a parte de 'updateProducts' da função 
+
+
+'updateProducts' NEM USARÁ ESSA FUNÇÃO; a função 
+
+
+'deleteProduct' SÓ SERÁ USADA NO TRECHO 
+
+
+de __DELEÇÃO___ contido em 'updateProducts'...
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+POR FIM, PROFESSOR DIZ QUE É IMPORTANTE QUE DEFINAMOS O 4º parâmetro/argumento como 
+
+
+
+'false', PQ ESSE QUARTO parâmetro é o parâmetro de 
+
+'isAdding', que é usado para 
+
+
+DIVIDIR a função 'updateProducts' em seus procedimentos: procedimento de 
+
+__dELETE___ ('isAdding = false') e  ADD ('isAdding = true')....
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+REPRESENTAÇÃO(ex):
+
+
+
+
+
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    let deletedProduct;
+    for (const prod of products) {
+        if (prod.id !== prodId) {
+            updatedProducts.push(prod);
+        } else {
+            deletedProduct = prod; 
+        }
+    }
+    products = updatedProducts;
+    updateProducts(deletedProduct, prodId, deleteProduct, false); ////EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+--------------------------------
+
+
+
+
+
+
+COM ISSO, agora quando a função 
+
+
+'deleteProduct'  É/FOR EXECUTADA, 
+
+
+a função 
+
+
+'updateProducts()' DEVERÁ  ''ACTUALLY''
+
+
+EXECUTAR TAMBÉM....
+
+
+
+E o execute dessa função 'updateProducts()' DEVERÁ 
+
+
+FAZER COM QUE 
+
+NOSSA LISTA DE PRODUCTS atualize 
+
+DE UMA MANEIRA QUE NÃO FAZ 
+
+COM QUE ____A LISTA INTEIRA ___ TENHA 
+
+DE SE 'RE-RENDERIZAR'...
+
+
+----------------------------------------
+
+
+
+
+O professor testa esse código:
+
+
+
+Ele recarrega nossa página executada com o webpack.....
+
+
+
+
+
+ELE APONTA QUE OS ___iDS___ 
+
+dos items
+
+
+
+ ESTÃO SENDO ADICIONADOS.... (e os IDS estão sendo adicionados como 
+ 
+ ___DATAS____.... o professor fez isso 
+ 
+ por meio do código de 
+ 
+
+ '  id: new Date().toString(),'....
+
+
+ 
+ 
+ ')
+
+
+
+
+
+ ------------------------------
+
+
+
+
+ O PROFESSOR DELETA UM DOS LIST ITEMS COMO TESTE...
+
+
+
+
+
+ Na aba 'devtools', percebemos 
+
+ QUE 
+
+
+ ___A LIST FLASHOU, mas O RESTO DOS ITEMS NÃO...____ ---> ISSO 
+
+ É BOM, SIGNIFICA QUE 
+
+ O RESTO DOS LIST ITEMS, que 
+ não foram deletados, NÃO FORAM ___RE-RENDERIZADOS___.... eles não foram tocados...
+
+
+ A ÚNICA COISA QUE FOI TOCADA FOI A LIST... ----------> E ESSE APPROACH 
+
+
+
+ __É MUITO MAIS EFICIENTE__ E OPTIMIZADO Do que o que tínhamos antes....
+
+
+
+
+
+ ----> professor sugere que pausemos o vídeo e que tentemos fazer 
+
+
+ com que a funcionalidade de ADICIONAR ITEMS 
+ não 
+
+ re-renderize toda a nossa list...

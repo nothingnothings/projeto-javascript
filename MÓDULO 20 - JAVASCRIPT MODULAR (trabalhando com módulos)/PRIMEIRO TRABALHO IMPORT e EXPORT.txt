@@ -1,0 +1,701 @@
+AGORA DEVEMOS TRABALHAR COM ESSE NOSSO 'SERVIDOR'...
+
+
+
+
+
+
+
+
+
+
+NÓS TROCAMOS O TIPO DO 'APP.JS' para ser do tipo 'módulo' (type="module").
+
+
+
+
+
+
+
+
+
+AGORA DEVEMOS TENTAR USAR AQUELE COMPONENTE EXPORTADO 'Component'...
+
+
+
+
+NÓS O UTILIZAMOS POR MEIO DO 
+
+
+___IMPORT___ em algum lugar de nosso código/nossos códigos...
+
+
+
+
+>>>>O MERO EXPORT DE UMA CLASSE NÃO A TORNA DISPONÍVEL GLOBALMENTE POR SI SÓ...
+
+
+
+
+
+
+>>>>>>>ISSO APENAS SIGNIFICA QUE AGORA PODEMOS IMPORTAR A 'COISA EXPORTADA'....
+
+
+
+
+>>>>>>>>>>E VOCê PODE EXPORTAR NÃO SÓ CLASSES, MAS TAMBÉM FUNÇÕES, VARIÁVEIS, CONSTANTES, ETC ETC...
+
+
+
+
+
+>>>>>>>>>>> para poder USAR ESSA COISA EXPORTADA EM OUTRO ARQUIVO,
+
+devemos seguir um certo método....
+
+
+
+
+
+
+
+
+O professor usa de exemplo 
+
+
+
+O ARQUIVO 
+
+
+'Tooltip.js', que tem em seu código a linha 
+
+
+'class Tooltip extends Component {
+
+}
+'
+
+
+
+----------> PARA CONSEGUIRMOS IMPORTAR ALGUMA COISA NESSE ARQUIVO (queremos importar o 'component' exportado...),
+
+
+DEVEMOS UTILIZAR O COMANDO 'import'...
+
+
+
+
+
+TAMBÉM PRECISAMOS DA KEYWORD 'from'...
+
+
+
+
+Escrevemos 'import +  o lugar onde está o arquivo que quero importar'.
+
+
+
+
+
+ex:
+
+
+
+import from 
+
+
+
+
+class Tooltip extends Component {...};
+
+
+
+
+------------------------------------------
+
+
+
+
+
+DEPOIS DISSO, VOCÊ COLOCA QUOTES E ENTÃO O ENDEREÇO DAQUILO QUE VOCÊ VAI QUERER importar...
+
+
+
+
+É UM 'RELATIVE PATH'...
+
+
+
+
+
+um relative path SEMPRE COMEÇA COM um '.' (um ponto)....
+
+
+
+
+se você coloca '/' depois do ponto, isso significa que VOCÊ VAI QUERER 
+
+PROCURAR O ARQUIVO NO MESMO FOLDER EM QUE VOCê/ESSE ARQUIVO NO QUAL VOCÊ ESTÁ ESCREVENDO ESTÁ...
+
+
+'..' (ponto + ponto) -------> SIGNIFICA QUE VOCÊ QUER IR 'UP ONE FOLDER'....
+
+
+'/' SEM O PONTO pode ser usado quando você QUER ESCOLHER AS COISAS DIRETO DA ROOT...
+
+
+
+
+AQUI, NESSE EXEMPLO, O PROFESSOR QUER IMPORTAR A CLASSE 'Component' QUE ESTÁ EM 'Component.js'...
+
+
+
+para isso,
+
+
+ele escreve 
+
+
+
+ex:
+
+
+
+
+import from './Component';
+
+
+
+-----------------------------------------------
+
+
+
+
+
+PROFESSOR APONTA UM PROBLEMA:
+
+
+
+
+o IDE está apontando um problema...
+
+
+PQ isso?
+
+
+
+Pq geralmente você pode EXPORTAR MAIS DE 1 ÚNICA COISA DE SEUS ARQUIVOS...
+
+
+
+
+em 'Component.js' EU TENHO APENAS UMA ÚNICA COISA (a classe 'Component'), DE FATO; porém, 
+
+isso NÃO É UMA LIMITAÇÃO TÉCNICA, pois podemos adicionar bem mais coisas a esse arquivo...
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+ISSO QUER DIZER QUE quando 
+
+usamos 
+
+o comando 'import from xxxxx' ,
+
+
+DEVEMOS ESPECIFICAR
+
+
+_________EXATAMENTE_____ AQUILO QUE VAMOS QUERER 
+
+IMPORTAR daquele arquivo selecionado...
+
+
+
+
+Para isso, diz o professor, devemos ir no espaço entre 'import' e 'from' 
+
+e adicionar CURLY BRACES ('{}').
+
+
+Isso removerá o ERRO.
+
+
+Entretanto, entre os curly braces VOCÊ DEVE DIGITAR 
+
+O ___NOME___, o nome exato DAQUILO QUE VOCÊ 
+
+VAI QUERER IMPORTAR....
+
+
+
+
+ex:
+
+
+
+
+
+import { Component } from './Component';          /////////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+
+
+class Tooltip extends Component {
+
+
+
+
+    constructor(closeNotifierFunction, text, hostElementId) {
+        super(hostElementId);
+        //super('active-projects, true); EXEMPLO DA FLEXIBILIDADE DA CLASSE GENÉRICA 'component' ----> por flexibilidade, queremos expressar o caráter de reutilização dessa classe, que pode ser utilizada para posicionar elementos diversos em distintas partes da página (dentro-em cima de um container, embaixo-fora, etc etc, tudo por meio da ternary expression e do parâmetro passado ao super/constructor da classe base 'Component'...)
+        this.closeNotifier = closeNotifierFunction;
+        this.text = text;
+        this.create();
+
+    }
+
+    closeTooltip = () => {      ////DE NOVO, QUEREMOS O COMPORTAMENTO LEGAL DE 'this' dessa 'method fields synthax', proporcionada pelo efeito das arrow functions.
+        this.detach();
+        this.closeNotifier();
+    }
+
+
+    
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        const tooltipTemplate = document.getElementById('tooltip');
+        //tooltipElement.textContent = 'DUMMY!';/// Código antigo, com o DUMMY. Foi substituído pela versão que utiliza 'EXTRA-DATA-INFO' (datasets, estudo dos datasets...), e com 'text', que é o parâmetro repassado ao constructor da classe Tooltip...
+        tooltipElement.textContent = this.text;
+        console.log(this.hostElement.getBoundingClientRect());
+
+        /*tooltipElement.innerHTML = `
+        <h2>More Info</h2>
+        <p>${this.text}</p>
+        `;*/
+
+
+
+        const hostElPosLeft = this.hostElement.offsetLeft;
+        const hostElPosTop = this.hostElement.offsetTop;
+        const hostElHeight = this.hostElement.clientHeight;  //NÃO LEVA EM CONTA OS SCROLLBARS E BORDERS...
+        const parentElementScrolling = this.hostElement.parentElement.scrollTop;
+
+
+        const x = hostElPosLeft + 20;
+
+        const y = hostElPosTop + hostElHeight - parentElementScrolling - 10; 
+
+        tooltipElement.style.position = 'absolute';
+        tooltipElement.style.left = x + 'px'; ////// "+ 'px'" REALMENTE É NECESSÁRIO.... SEM ELE, ESSA ALTERAÇÃO DE ESTILO CSS NÃO FUNCIONA.
+        tooltipElement.style.top = y +'px';
+        //tooltipElement.addEventListener('click', this.dettach);
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;  
+
+
+}
+
+
+
+
+}
+
+
+
+
+----------------------------------------------
+
+
+
+
+PROFESSOR TAMBÉM NOS DÁ UMA DICA:
+
+
+
+Se você estiver com um IDE,  se 
+
+
+você apertar 'Ctrl + espaço', 
+
+
+ELE TE DARÁ 
+
+
+AS OPÇÕES DE 'AUTO-COMPLETION' desse campo, do campo das curly braces 
+(nesse exemplo nosso, ele nos mostrará 'Component', que é a classe que vamos querer importar em Tooltip.js).
+
+
+
+
+
+
+AGORA SIM ESTAMOS IMPORTANDO 'Component' para dentro de Tooltip.js
+
+--------------------------------------
+
+
+
+
+
+ISSO É BOM, REALMENTE.
+
+
+
+MAS O QUE NÃO É TÃO BOM É O FATO DE QUE NOSSO APLICATIVO 
+
+________aINDA NÃO FUNCIONARÁ DE FORMA CORRETA SE EU RECARREGAR...____ 
+
+
+
+Mas pq isso acontece?
+
+
+
+
+Simples, é pq NÓS AINDA 
+
+
+ESTAMOS FAZENDO O CARREGAMENTO DO ARQUIVO 'Tooltip.js' 
+
+
+DE DENTRO DO INDEX.HTML... (
+    <script src="scripts/App/Tooltip.js defer></script>
+),
+
+
+
+OU SEJA, AINDA ESTAMOS O CARREGANDO POR MEIO DE UM IMPORT TRADICIONAL...
+
+
+
+
+
+
+
+
+Para consertar isso, devemos escrever 'type="module"' 
+
+nesse import, para que 
+
+ELE POSSA UTILIZAR FEATURES DE MÓDULO,
+
+que são a EXPORT e IMPORT keywords...
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+    <title>Project Board</title>
+    <link rel="stylesheet" href="styles/app.css"/>
+    <script src="app.js" defer></script>
+    <script src="scripts/Utility/DOMHelper.js" defer></script>
+    <script src="scripts/App/Component.js" defer></script>
+    <script src="scripts/App/Tooltip.js" defer type="module"></script>
+    <script src="scripts/App/ProjectItem.js" defer></script>
+    <script src="scripts/App/ProjectList.js" defer></script>
+    <script src="scripts/App/app.js" defer type="module"></script>
+  </head>
+
+  <body>
+    <template id="tooltip">
+      <h2>More Info</h2>
+      <p></p>
+    </template>
+    <header id="main-header">
+      <h1>Project Planner</h1>
+    </header>
+    <section id="active-projects">
+      <header>
+        <h2>Active Projects</h2>
+      </header>
+      <ul>
+        <li
+          id="p1"
+          data-extra-info="Got lifetime access, but would be nice to finish it soon"
+          class="card"
+          draggable="true"
+        >
+          <h2>Finish the Course</h2>
+          <p>Finish the course within the next two weeks.</p>
+          <button class="alt">More Info</button>
+          <button>Finish</button>
+        </li>
+        <li
+          id="p2"
+          data-extra-info="Not really a business topic, but still important"
+          class="card"
+          draggable="true"
+        >
+          <h2>Buy groceries</h2>
+          <p>Don't forget to pick up groceries today</p>
+          <button class="alt">More Info</button>
+          <button>Finish</button>
+        </li>
+      </ul>
+    </section>
+    <section id="finished-projects">
+      <header>
+        <h2>Finished Projects</h2>
+      </header>
+      <ul>
+        <li
+          draggable="true"
+          id="p3"
+          data-extra-info="Super important conference! Fictional, but still!"
+          class="card"
+        >
+          <h2>Book Hotel</h2>
+          <p>
+            Academind conference takes place in December, don't forget to book
+            hotel.
+          </p>
+          <button class="alt">More Info</button>
+          <button>Activate</button>
+        </li>
+      </ul>
+    </section>
+    <footer>
+     <!-- <button id="start-analytics-btn">Start Analytics</button> -->
+     <button id="stop-analytics-btn">Stop Analytics</button>
+    
+    </footer>
+  </body>
+</html>
+
+
+--------------------------------------------------
+
+
+
+
+
+
+SE FIZERMOS ISSO E RECARREGARMOS, ESSE ERRO SUMIRÁ...
+
+
+
+
+
+MAS AINDA RECEBEMOS UM ERRO, O ERRO DE QUE 'Component NÃO FOI ENCONTRADO'...
+
+
+
+ex:
+
+
+
+
+GET http://localhost:5000/scripts/App/Component 
+net::ERR_ABORTED 404 (Not Found).
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+
+A RAZÃO PARA ISSO É QUE ESQUECEMOS DE ADICIONAR A EXTENSÃO '.js' em 'Component', naquele 
+
+
+'import {} from' no arquivo TOOLTIP...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+import { Component } from './Component.js';          /////////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+
+
+class Tooltip extends Component {
+
+
+
+
+    constructor(closeNotifierFunction, text, hostElementId) {
+        super(hostElementId);
+        //super('active-projects, true); EXEMPLO DA FLEXIBILIDADE DA CLASSE GENÉRICA 'component' ----> por flexibilidade, queremos expressar o caráter de reutilização dessa classe, que pode ser utilizada para posicionar elementos diversos em distintas partes da página (dentro-em cima de um container, embaixo-fora, etc etc, tudo por meio da ternary expression e do parâmetro passado ao super/constructor da classe base 'Component'...)
+        this.closeNotifier = closeNotifierFunction;
+        this.text = text;
+        this.create();
+
+    }
+
+    closeTooltip = () => {      ////DE NOVO, QUEREMOS O COMPORTAMENTO LEGAL DE 'this' dessa 'method fields synthax', proporcionada pelo efeito das arrow functions.
+        this.detach();
+        this.closeNotifier();
+    }
+
+
+    
+
+    create() {
+
+        const tooltipElement = document.createElement('div');
+        tooltipElement.className = 'card';
+        const tooltipTemplate = document.getElementById('tooltip');
+        //tooltipElement.textContent = 'DUMMY!';/// Código antigo, com o DUMMY. Foi substituído pela versão que utiliza 'EXTRA-DATA-INFO' (datasets, estudo dos datasets...), e com 'text', que é o parâmetro repassado ao constructor da classe Tooltip...
+        tooltipElement.textContent = this.text;
+        console.log(this.hostElement.getBoundingClientRect());
+
+        /*tooltipElement.innerHTML = `
+        <h2>More Info</h2>
+        <p>${this.text}</p>
+        `;*/
+
+
+
+        const hostElPosLeft = this.hostElement.offsetLeft;
+        const hostElPosTop = this.hostElement.offsetTop;
+        const hostElHeight = this.hostElement.clientHeight;  //NÃO LEVA EM CONTA OS SCROLLBARS E BORDERS...
+        const parentElementScrolling = this.hostElement.parentElement.scrollTop;
+
+
+        const x = hostElPosLeft + 20;
+
+        const y = hostElPosTop + hostElHeight - parentElementScrolling - 10; 
+
+        tooltipElement.style.position = 'absolute';
+        tooltipElement.style.left = x + 'px'; ////// "+ 'px'" REALMENTE É NECESSÁRIO.... SEM ELE, ESSA ALTERAÇÃO DE ESTILO CSS NÃO FUNCIONA.
+        tooltipElement.style.top = y +'px';
+        //tooltipElement.addEventListener('click', this.dettach);
+        tooltipElement.addEventListener('click', this.closeTooltip);
+        this.element = tooltipElement;  
+
+
+}
+
+
+
+
+}
+
+
+----------------------------------------------
+
+
+
+
+
+
+
+VOCÊ SEMPRE TEM QUE ADICIONAR ESSA EXTENSÃO....
+
+
+
+
+
+
+OBS::: ALGUMAS PESSOAS GOSTAM DE NOMEAR OS ARQUIVOS 
+
+
+QUE SÃO APENAS IMPORTADOS 
+
+
+como 
+
+
+'.mjs'... 
+
+
+
+
+
+'M' ---> significaria 'MODULE' js....
+
+
+
+
+
+MAS ISSO É TOTALMENTE OPCIONAL...
+
+
+
+--------------------------------------
+
+
+
+
+
+SE EU RECARREGAR, VEREI QUE MEU CÓDIGO ESTARÁ FUNCIONANDO NORMAL, MAS AGORA 
+
+COM A AJUDA DE MÓDULOS PARA ___EXPRESSAR___ ESSA RELAÇÃO ENTRE 
+
+
+'COMPONENT' e 'TOOLTIP'....
+
+
+
+
+E ISSO MELHORA O NOSSO APLICATIVO PQ 
+
+
+
+AGORA FICA SUPER SIMPLES VER QUAIS DEPENDÊNCIAS (dependencies) TEMOS 
+
+EM CADA ARQUIVO...
+
+
+
+ALÉM DISSO, MAIS IMPORTANTE É O FATO DE QUE AGORA 
+
+
+___________NÃO TEMOS MAIS____ QUE NOS IMPORTAR EM ORDENAR CORRETAMENTE 
+
+OS IMPORTS NO HTML, pois agora OS IMPORTS SEMPRE ESTARÃO 
+
+'''DIRETAMENTE'''' NOS NOSSOS ARQUIVOS JAVASCRIPT....

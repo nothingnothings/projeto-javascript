@@ -1,0 +1,1928 @@
+
+
+
+
+Há esse conceito em javascript chamado de 'PROTOTYPES'.
+
+
+
+
+
+É ___MUITO IMPORTANTE___ para o desenvolvimento de código javascript.
+
+
+
+
+
+
+É um código que está no javascript há MUITO TEMPO.
+
+
+
+
+
+JAVASCRIPT É UMA LINGUAGEM 'prototype-based'...
+
+
+
+
+É UMA LINGUAGEM QUE USA "PROTOTYPICAL INHERITANCE..."
+
+
+
+
+
+
+
+PROTOTYPICAL INHERITANCE ----> é um termo esquisito.
+
+
+
+
+
+O que significa? ------------>  Professor explica que 
+
+a sintaxe de CLASSES, no final das contas, É APENAS 
+
+___AÇÚCAR SINTÁTICO___ (synthatic sugar).
+
+
+
+
+É AÇÚCAR SINTÁTICO PARA AS CONSTRUCTOR FUNCTIONS.... e TAMBÉM PARA O TRABALHO COM PROTOTYPES...
+
+
+
+
+Mas pq isso? Pq esse açúcar sintático para prototypes...?
+
+
+
+
+
+É PQ TRABALHAR COM PROTOTYPES PODE SER ___CONFUSO____.
+
+
+
+
+CLasses tornam esse trabalho mais FÁCIL, mas ainda é 
+importante saber o que os prototypes fazem...
+
+
+
+
+
+
+
+CONSTRUCTOR FUNCTIONS E PROTOTYPES ------->  SÃO AQUILO QUE 'powers' OS OBJETOS JAVASCRIPT. (Constructor Functions & Prototypes power Javascript Objects).
+
+
+
+
+
+
+
+MAS O QUE SÃO PROTOTYPES?
+
+
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+Considere, primeiramente, essa CONSTRUCTOR FUNCTION:
+
+
+
+
+
+
+
+'function Person() {...}' --------->
+
+
+-------------> Como qualquer CONSTRUCTOR FUNCTION, pode ser CHAMADA 
+por meio 
+
+
+do emprego da palavra-chave 'new'...
+
+
+
+Professor explica que o equivalente à essa função construtora SERIA UMA CLASSE, que ficaria 'class Person {...}'.
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+DENTRO DESSA FUNÇÃO EXEMPLO, construiríamos uma 'person', um OBJETO CONCRETO criado a partir 
+
+
+DO CHAMADO Da função construtora 'Person' + palavra chave 'new'...
+
+
+
+
+-----------------------------------------
+
+
+
+BEM, ESSE OBJETO 'Person' QUE CRÍAMOS COM BASE NAQUELA BLUEPRINT (constructor function/class) TERÁ/TEM 
+TODAS AS PROPRIEDADES E MÉTODOS 
+
+DEFINIDOS DENTRO DAQUELA CONSTRUCTOR FUNCTION...
+
+
+
+------------------------------------------------------
+
+
+
+
+Voltando ao exemplo do 'Person' que escrevemos no nosso 'index.html', 
+
+
+QUANDO NÓS CRIAMOS um objeto 'person' baseando-nos na constructor function de 'Person'...
+
+
+
+
+ex:
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = max;
+    this.greet = function() {
+        console.log(
+            'Hi, I am' + this.name + ' and I am ' + this.age + ' years old.'
+        );
+    };
+}
+
+
+const p = new Person();
+
+
+-----------------------------
+
+
+
+
+ESSE OBJETO 'p' TERÁ, por exemplo, uma 
+
+
+propriedade 'age', uma propriedade 'name' E UMA 'GREET' property, QUE SEGURA/SEGURARÁ UMA FUNÇÃO... (e essa properdade será considerada/chamada método, justamente por isso).
+
+
+
+TUDO ISSO ESTÁ DEFINIDO ALI, dentro da constructor function...
+
+
+
+----------------------------------
+
+
+
+CERTO. Nós aprendemos aquela ideia/noção de SERMOS 
+
+CAPAZES DE FAZER COM QUE UMA CLASSE CONSEGUISSE HERDAR CARACTERÍSTICAS de outra classe...
+
+
+Professor diz que É ÓBVIO QUE ISSO É POSSÍVEL COM NOSSAS CONSTRUCTOR FUNCTIONS também...
+
+
+
+
+
+A fim de que seja possível O COMPARTILHAMENTO DE FUNCIONALIDADES (para providenciar métodos/propriedades 
+que são/estarão DISPONÍVEIS EM TODOS OBJETOS BASEADOS NESSA CLASSE/CONSTRUCTOR FUNCTION ) -----------> providenciar essas coisas a subclasses/subconstructor functions (esse termo não existe, na verdade).
+
+
+
+------------------------------------------------
+
+
+
+
+EM 'non class based javascript' (e também em class-based javascript, MAS LÁ ESSE PROCEDIMENTO OCORRE por trás das cenas__ ), 
+
+
+ESSA IDEIA DE INHERITANCE é IMPLEMENTADA POR MEIO DO 
+
+CONCEITO DE 'PROTOTYPES'...
+
+
+
+--------------------------------------
+
+
+PROTOTYPES
+
+-------------------------
+
+
+
+
+TODA CONSTRUCTOR FUNCTION QUE VOCê CONSTRÓI tem UMA PROPRIEDADE 
+
+ESPECIAL 'prototype', A QUAL NÃO É ADICIONADA AOS OBJETOS QUE VOCÊ 
+
+CRIA COM BASE NELA (porque essa propriedade 'prototype' NÃO É ADICIONADA AOS FUNCTION 
+BODIES DESSES OBJETOS...), e SIM AO _____"oBJETO DA FUNÇÃO CONSTRUTORA"... (porque, como você deve se lembrar, FUNÇÕES SÃO OBJETOS; portanto, a constructor function É UM OBJETO, e o prototype é uma PROPRIEDADE QUE FICA NO SEU BODY.)
+
+
+
+
+
+
+PROTOTYPE sempre está DENTRO DE NOSSAS CONSTRUCTOR FUNCTIONS, é o seu 
+
+COMPORTAMENTO DEFAULT.
+
+
+
+
+
+
+------> TAMBÉM PODEMOS ____EDITAR___ ESSE PROTOTYPE. É algo que faremos...
+
+
+a propriedade 'prototype' É AUTOMATICAMENTE ASSIGNADA COMO 
+
+'PROTOTYPE' AO OBJETO QUE VOCÊ CRIOU/CRIA COM BASE NA CONSTRUCTOR FUNCTION ('instantiate').
+
+
+
+('Constructor PROTOTYPE is assigned to instance upon creation'...)
+
+
+
+-----------------------------------
+
+
+
+
+ENTRETANTO, um 'prototype', EM SI MESMO, É UM OBJETO...
+
+
+
+
+
+Eles (os prototypes) SÃO OBJETOS, E TODO OBJETO TEM UM PROTOTYPE (um objeto 'prototype'...)
+
+
+--------------------------------------
+
+
+
+
+CERTO. MAS QUAL É A IDEIA POR TRÁS DE UM 'PROTOTYPE'?
+
+
+
+
+POR QUE TODO OBJETO TEM, OBRIGATORIAMENTE, UM 'prototype'?
+
+
+
+
+-----> PROFESSOR EXPLICA QUE É A MANEIRA PELA QUAL 
+
+
+O JAVASCRIPT COMPARTILHA CÓDIGO, no final das contas.
+
+
+
+Você pode pensar em 'objetos prototype' COMO 
+
+OBJETOS 'FALLBACK'.....
+
+
+Ou seja, objetos em que o javascript dá uma olhadinha QUANDO/SE 
+
+ELE ESTÁ PROCURANDO POR ALGUMA PROPRIEDADE/MÉTODO o qual ele não consegue encontrar 
+no objeto em que ele começou a procurar...
+
+
+
+----------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+Digamos que temos um objeto 
+
+'person'...
+
+
+
+
+essa person tem uma propriedade de 'name' e um método de 'greet(){...}'
+
+
+
+ex:
+
+
+
+
+-------
+person|
+      |
+------|
+name  |
+      |
+      |
+greet |
+______|
+
+
+
+-----------------------------------------------
+
+
+
+
+AGORA DIGAMOS QUE VOCê TEM UM CÓDIGO QUE chama 
+
+'person.sayHello();'
+
+
+
+ex:
+
+
+
+
+
+
+
+-------
+person|
+      |
+------|
+name  |
+      |
+      |
+greet |
+______|
+
+
+
+person.sayHello();
+
+
+
+-----------------------------
+
+
+
+
+CLARAMENTE NÃO HÁ NENHUM método 'sayHello' DENTRO Do objeto 
+
+'person', certo...?
+
+
+
+
+---->>>> professor diz que NORMALMENTE, esperamos que isso vá FALHAr. que esse chamado 
+
+FALHE. Professor admite que ELE __PODERÁ FALHAR____; poderá falhar SE O NOSSO 
+
+PROTOTYPE (ou o 'prototype DO PROTOTYPE', diz ele) TAMBÉM NÃO TIVER UM 
+
+MÉTODO 
+
+
+'sayHello();'...
+
+
+PORQUE É EXATAMENTE ISSO QUE O JAVASCRIPT IRÁ FAZER: 
+
+
+Ele não FALHARÁ IMEDIATAMENTE; 
+
+
+em vez disso, como disse o professor, TODO OBJETO EM JAVASCRIPT TEM 
+
+UM ___PROTOTYPE____....  E UM 'prototype' É BASICAMENTE 
+
+
+
+UM "OBJETO CONECTADO", QUE É UTILIZADO COMO um 'FALLBACK OBJECT'...
+
+
+
+
+
+
+
+Aqui, nesse exemplo, portanto, temos um 
+
+
+PROTOTYPe  ('person's prototype')....
+
+
+
+
+Um prototype, como explicou o professor, É APENAS OUTRO OBJETO...
+
+
+
+
+
+
+(E ESSE OBJETO 'prototype' TAMBÉM TERÁ SEU PRÓPRIO OBJETO 'prototype'....)  ------> professor nos explicará mais sobre a CHAIN de 'prototypes' mais tarde...
+
+
+
+
+------------------------------------------
+
+
+
+
+
+'person's prototype' É O PROTOTYPE CONECTADO ao objeto 'person'....
+
+
+
+esse prototype, diz o professor, PODE TER um método 'sayHello();'...
+
+
+
+Se o javascript tentar ACESSAR UM CERTO MÉTODO/PROPRIEDADE e __NÃO___
+
+
+
+ENCONTRÁ-LO em um objeto, ELE 
+
+VAI ___AUTOMATICAMENTE____ PROCURAR dentro do PROTOTYPE 
+desse 
+
+OBJETO a propriedade requerida.....................
+
+
+
+SE ELE __NÃO ENCONTRA__ A PROPRIEDADE REQUERIDA DENTRO 
+
+DAQUELE 'prototype',  O JAVASCRIPT 
+
+CONTINUA PROCURANDO DENTRO DE PROTOTYPES DE PROTOTYPES  DE PROTOTYPES, etc etc... (até chegar 
+
+ao final da CHAIN... e se ela chega até o final da CHAIN E NÃO ENCONTRA NADA, 
+
+ELA RETORNA 'undefined' para propriedades; PARA MÉTODOS, faz 'THROW' de  UM ___ERRO___. )
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+PROTOTYPES, portanto, são, no final das contas, APENAS OBJETOS CONECTADOS 
+
+QUE ATUAM COMO 'fallback objects' de objects já existentes no código.
+
+
+
+------------------------------
+
+
+
+
+ISSO PODE SOAR CONFUSO.
+
+
+
+---------------------
+
+
+O professor nos dará um exemplo:
+
+
+
+
+Se ele fizer o console.log de 'p.toString();'.....
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+const p = new Person();
+p.greet();
+
+
+
+console.log(p.toString());
+
+
+-------------------------------------------
+
+
+
+SE ELE FIZER ISSO, 
+
+
+VOCÊ PERCEBERÁ QUE 
+
+ESSA LINHA DE CÓDIGO do 'console.log()' NÃO NOS DARÁ 
+
+UM ERRO.... 
+
+
+
+ESSE CÓDIGO FUNCIONARÁ, MAS O CONSOLE NOS RETORNARÁ 
+
+ALGO ESTRANHO...
+
+
+
+'[Object Object]'
+
+
+
+
+
+
+----------> PROFESSOR APONTA QUE O EXATO 
+
+OUTPUT desse 'console.log(...)' NÃO IMPORTA, a 
+
+coisa importante aqui é QUE NÓS NÃO 
+
+
+RECEBEMOS UM ERRO em razão daquele código estranho...  
+
+
+
+
+.........
+
+
+Se o professor chamar 
+
+
+'console.log(p.toStr() );'  (CÓDIGO QUE O PROFESSOR ___sABE__ QUE NÃO EXISTE, afinal o método 'toStr' não existe...)
+
+
+E ENTÃO RECARREGAR A PÁGINA, 
+
+
+ELE RECEBERÁ 
+
+___UM ERRO____.
+
+
+
+erro:
+
+
+'Uncaught TypeError: p.toStr is not a function'.
+
+
+
+----------------------------------
+
+
+
+
+MAS ENTÃO, PQ DIABOS 
+
+'toString();' FUNCIONA, 
+
+E 'toStr', não?
+
+
+
+-----------------------------
+
+
+
+
+A razão, diz o professor, é que HÁ UMA ESPÉCIE 
+
+
+DE OBJETO BASE INVISÍVEL... (invisible base object) QUE 
+
+É UTILIZADO COMO BASE PARA O NOSSO OBJETO 'p'. (on which our object is based).
+
+
+
+CLARO QUE ESSE OBJETO BASE INVISÍVEL 
+
+
+É BASEADO NAQUELA CONSTRUCTOR FUNCTION de 'Person', MAS 
+
+
+ESSA CONSTRUCTOR FUNCTION não adiciona/não adicionava 
+
+um método de 'toString' (que foi o resultado 
+de nosso console.log de 'toString'...)
+
+
+
+--------> PORTANTO, NOSSA CONSTRUCTOR FUNCTION, de alguma maneira, PARECE 
+ESTAR APONTANDO 
+
+À OUTRA CLASSE BASE, À OUTRO FUNÇÃO CONSTRUTORA BASE, uma 
+
+função construtora/classe base QUE TAMBÉM 
+
+É + ou - chamada, ou que TAMBÉM 
+
+FAZ ALGO que + ou - basicamente ADICIONA
+
+O MÉTODO 'toString' AO NOSSO OBJETO 'p'... ('kind of' adds.)
+
+
+
+
+(esse objeto base invisível ADICIONOU 'toString' ao objeto 
+
+'p' MESMO NÓS NÃO TENDO escrito esse método/função/objeto...)
+
+
+
+
+----------------------------------
+
+
+BEM, DE FATO, diz o professor, 'toString' NÃO É ADICIONADO 
+
+AO OBJETo....
+
+
+
+Podemos testar isso pelo console.log do objeto inteiro...
+
+
+
+ex:
+
+
+
+
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+const p = new Person();
+p.greet();
+
+
+
+console.log(p.toString());
+
+console.log(p);
+
+
+---------------------------
+
+
+
+SE fizermos o console.log desse objeto inteiro, veremos 
+
+
+que TUDO QUE HÁ LÁ 
+
+
+DENTRO 
+
+
+
+
+É 'age', 'greet' e 'name'.
+
+
+
+ISSO, essas 3 coisas..................
+
+
+
+
+
+
+
+ENTRETANTO, NÃO TEMOS SOMENTE ESSAS 3 COISAS.....
+
+
+
+
+TEMOS TAMBÉM a ___MISTERIOSA____ propriedade/objeto '__proto__:'
+
+
+
+
+
+
+ESSE É O OBJETO 'prototype'. A PROPRIEDADE PROTOTYPE.
+
+
+
+-----------------------------------------------
+
+
+
+
+
+__proto__ É UMA PROPRIEDADE ESPECIAL, e é por isso que 
+
+tem esse nome estranho...
+
+
+-------------------------------------
+
+
+
+
+Não é uma propriedade que vocÊ deve realmente usar 
+
+
+para assignar um valor (embora isso funcione, caso você tente), 
+
+
+ISSO REALMENTE NÃO É RECOMENDADO.
+
+
+
+
+
+MAS O QUE ESSA PROPRIEDADE FAZ É NOS MOSTRAR aquilo 
+
+que é chamado de 'prototype' DO OBJETO.... (objeto 'Person', nesse caso).
+
+
+
+
+
+E VOCÊ PODE PENSAR O PROTOTYPE + ou - 
+
+COMO SE ELE FOSSE 
+
+A 'CLASSE BASE'...
+
+
+
+
+Ou seja, UM OBJETO CONECTADO/RELACIONADO, AO QUAL PODEMOS 
+
+
+ALCANÇAR/PEDIR PROPRIEDADES E MÉTODOS QUE ESTAMOS TENTANDO 
+
+ACESSAR QUE ___não existem____ no objeto em si.
+
+
+
+
+----------------------------------
+
+
+
+Por exemplo, com o 'toString'...
+
+
+Se nós não encontrarmos o método 
+
+'toString' DENTRO DO OBJETO 
+
+
+'Person' em si (o que claramente é o caso, nesse exemplo), 
+
+
+
+O JAVASCRIPT VAI IR ATÉ O PROTOTYPE (ao '__proto__: Object')
+
+
+E OLHAR DENTRO DELE....
+
+
+
+--------------------------
+
+
+Se nós expandirmos o 
+
+'__proto__' no devTools e olharmos dentro 
+
+dele,
+
+
+
+NÃO VEMOS COISA ALGUMA.
+
+
+Vemos apenas 
+
+
+'constructor: f person();' ----------> ISSO É OUTRO OBJETO; UM OBJETO QUE SEGURA UM 'CONSTRUCTOR METHOD'... ------> 'f' é uma função, portanto é um CONSTRUCTOR METHOD.
+
+
+e 
+
+
+'__proto__: Object'........
+
+
+
+
+------> OU SEJA, PERCEBEMOS QUE ESSE PROTOTYPE 
+
+de 'Person' SEGURA OUTRO PROTOTYPE...
+
+
+
+----> DENTRO DESSE 
+
+
+___PROTOTYPE___ DO ___PROTOTYPE____,
+
+
+
+vemos um bilhao de propriedades/métodos.
+
+
+
+É NESSE LUGAR QUE O JAVASCRIPT PROCURA QUANDO NÃO ENCONTRA 
+
+ALGO NO SEU 'OBJETO normal'..
+
+
+
+
+nesse 'proto do proto' 
+
+NÓS TEMOS UM 
+
+OBJETO MAIS 'COMPLEXO'....
+
+
+
+
+
+Dentro desse proto do proto, observamos, por exemplo, 
+
+
+o método 'toString' E MAIS ALGUNS MÉTODOS....
+
+
+
+----------------------------------
+
+
+
+Na verdade, diz o professor, 
+
+esse prototype do prototype 
+
+É O 
+
+
+'PROTOTYPE __BASE___'....  (base prototype)...
+
+
+
+
+Esse objeto grandão, cheio de propriedades, é na verdade 
+
+UM __OBJETO__ BASE...
+
+
+
+TODO OBJETO QUE VOCÊ CRIA É BASEADO, NO FINAL DAS CONTAS,
+
+nesse 
+
+prototype BASE que vocÊ encontra no FINAL DA 
+
+'PROTOTYPE CHAIN'...
+
+
+----------------------------------
+
+
+
+
+
+THE PROTOTYPE CHAIN.
+
+
+
+-------------------------
+
+
+
+O conceito da PROTOTYPE CHAIN é muito importante, 
+
+e por isso o professor quer mergulhar nisso de novo.
+
+
+
+
+
+A IDEIA É QUE QUANDO VOCÊ CONSTRÓI UM 
+
+
+BLUEPRINT com uma 'constructor function'/classe (que, no final das contas, é apenas um açúcar que UTILIZA CONSTRUCTOR FUNCTIONS e prototypes por trás das cenas...) 
+
+E ENTÃO CONSTRÓI UM OBJETO COM BASE NELE, VOCÊ 
+
+PODE ENTÃO chamar um método EM CIMA DAQUELE OBJETO (ou daquele objeto, etc etc).
+
+
+
+
+ex:
+
+
+
+
+function Person() {...}/ class Person {...}
+
+
+const p = new Person();
+
+
+p.breathe();
+
+
+
+--------------------------------
+
+
+
+
+AGORA DIGAMOS QUE ESTAMOS CHAMANDO ESSE MÉTODO em 'person'...
+
+
+
+
+E DIGAMOS QUE A CONSTRUCTOR FUNCTION/CLASS não tenha um método 'breathe();'...
+
+
+
+
+
+O QUE JAVASCRIPT ENTÃO FAZ É, primeiramente, 
+
+
+
+
+
+
+1) Checar, quando nós chamamos 'breathe();', SE ESSE MÉTODO FAZ PARTE 
+
+DA ___CLASSE EM SI____. 
+
+(Defined in 'Person' itself (i.e. set up in blueprint?))
+
+
+
+Afinal, por acaso ela foi definida no próprio blueprint?
+
+Porque, como nós aprendemos, QUANDO VOCê INSTANCIA UM 
+OBJETO COM BASE EM UM BLUEPRINT, O OBJETO TEM TUDO AQUILO QUE FOI 
+
+DEFINIDO NAQUELE BLUEPRINT...
+
+
+--->'breathe();' NÃO FAZ PARTE DA 'Person' blueprint em si mesma...
+
+
+
+
+2) checar se o método FAZ PARTE DO OBJETO CRIADO A PARTIR DA BLUEPRINT...
+
+
+
+
+Se sim, o MÉTODO É ENTÃO ___eXECUTADO___.
+
+
+
+
+SE Não, O JAVASCRIPT ENTÃO PROCURA NO PROTOTYPE......
+
+
+ex: 'p__proto__.breathe()' ------------>       E ISSO É ALGO QUE PODEMOS 
+
+DECORAR:
+
+
+o negócio se chama 'prototype'.... É BASICAMENTE 
+
+UMA 'CLASSE BASE'...
+
+
+Uma classe base do objeto 'person', nesse exemplo...
+
+
+
+HÁ UMA CONEXÃO, QUE É AUTOMATICAMENTE DEFINIDA, E TODO OBJETO QUE 
+
+VOCÊ CRIA, por default, vem com um prototype/tem um prototype 
+
+(eles vem com esse prototype MESMO QUE VOCÊ NÃO TENHA DEFINIDO INHERITANCE ALGUMA NA 
+SUA CONSTRUCTOR FUNCTION/CLASSE)
+
+
+
+
+
+
+Certo. O prototype então é checado pelo javascript.
+
+
+
+
+3) CHECA SE O PROTOTYPE TEM UM método 'breathe();'...
+
+
+
+Sim ---> acabamos por aqui, esse método é executado.
+
+
+
+Não ---> VAMOS AO PROTOTYPE DO PROTOTYPE (p.__proto__.__proto__.breathe()) ------> OU SEJA, VAMOS à BASE CLASS DA BASE CLASS DA BASE CLASS DO NOSSO OBJETO....
+
+
+
+
+O javascript vai checar o método 'breathe()' lá....
+
+
+Ele vai fazer isso até CHEGAR AO FIM da chain de prototypes...
+
+
+
+O ÚLTIMO PROTOTYPE QUE É CHECADO 
+
+É ESSE PROTOTYPE 
+
+
+DESSA 'coisa' ESPECIAL 'OBJECT'... (que o professor nos mostrou antes).
+
+
+
+-----------------------------
+
+
+Para entender melhor essa coisa do prototype,
+
+
+O professor volta para o dev console.
+
+
+
+--------------------------------------
+
+
+
+Professor diz que, no código, aparentemente há aquela 
+
+
+coisa 
+
+
+'object prototype' que ESTÁ CONECTADA..
+
+
+Ele diz para ignorarmos isso, por enquanto...
+
+
+
+
+
+Em vez disso, devemos simplesmente fazer o 
+output 
+
+
+de 'p.__proto__'
+                                        2 underscores ==== TAMBÉM É CHAMADO DE 'dunder', para 'double underscore'.
+
+
+
+(p + underscoreunderscore)
+
+
+
+
+ex:
+
+
+console.log(p.__proto__);
+
+
+
+
+-----------------------------
+
+
+
+
+
+SE FIZERMOS ISSO E RECARREGARMOS A PÁGINA, 
+
+receberemos 
+
+
+
+o seguinte objeto:
+
+
+
+
+
+
+'{constructor: f}' 
+
+
+
+, 
+
+
+que terá 
+
+
+a propriedade/método 
+
+
+
+'constructor: f Person() ' 
+
+
+
+
+e A PROPRIEDADE/OBJETO 
+
+
+'__proto__: Object'...
+
+
+
+
+
+---------> esse 'Object' que vemos nessa propriedade 'prototype'  É 
+
+O 'OBJETO DEFAULT' QUE TODA 
+
+CONSTRUCTOR FUNCTION CUSTOMIZADA ASSIGNA a um objeto baseado nele....
+
+
+-----------------------------------------------
+
+
+
+o professor quer nos mostrar COMO NÓS PODEMOS fazer 'tweaks' nesse prototype...
+
+
+
+
+
+
+
+TODA CONSTRUCTOR FUNCTION (ou QUALQUER FUNÇÃO, EM GERAL), aqui, ou seja, 
+
+'
+
+
+
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+'
+
+
+-------------------------------
+
+
+
+qualquer função construtora/função em geral
+
+
+É ARMAZENADA COMO UM OBJETO, em javascript...
+
+
+
+
+No final das contas, uma FUNÇÃO É APENAS UM OBJETO...
+
+
+
+
+Portanto, como em qualquer outro objeto, VOCÊ PODE 
+
+ASSIGNAR PROPRIEDADES por meio do 
+
+USO DO NOME daquele objeto (nesse caso, o nome 
+do objeto seria a FUNÇÃO 'PERSON', a função construtora...)....
+
+
+
+O professor diz que pode provar isso, por meio do console.dir da constructor function 'Person'...
+
+
+ex:
+
+
+
+
+
+
+function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+
+console.dir(Person);
+
+
+--------------------------------------------
+
+
+
+Ele faz isso e recarrega a página.
+
+
+
+O console do devtools 
+
+
+nos retorna:
+
+
+
+
+
+'f Person() 
+    arguments: null 
+    caller: null
+    length: 0 
+    name: "Person"
+
+    >Prototype: {constructor: f}
+    >__proto__: f()
+    [[FunctionLocation]]: app.js:15
+    [[Scopes]]: Scopes[2]
+
+    '
+
+------------------------------
+
+
+
+-----> VOCê Vê:
+
+
+Esse negócio inteiro é O OBJETO DA FUNÇÃO 'Person'....
+
+
+Ele tem um formato esquisito, mas você pode perceber que ele tem UM 
+
+PUNHADO DE PROPRIEDADES, uma 
+
+propriedade chamada de 'arguments'   (The function.arguments property
+ refers to an an array-like object corresponding 
+ to the arguments passed to a function), 
+
+
+ uma propriedade 'NAME' ('Person')....
+
+
+
+
+ Tem, também, uma propriedade '__proto__'....
+
+
+
+E, POR FIM, UMA PROPRIEDADE CHAMADA 'prototype'... ----->  É UMA 
+
+PROPRIEDADE QUE NOSSO OUTRO OBJETO ('{constructor: f}') NÃO 
+TEM....
+
+
+
+-----------------------------------
+
+
+
+
+Isso pode ser um pouco confuso....
+
+
+
+ter 'prototype' e '__proto__' (que também é um prototype) DENTRO 
+
+DE UM MESMO OBJETO...
+
+
+-----------------------------------
+
+
+...RESUMINDO:
+
+
+__proto__ -----> É UM OBJETO QUE ESTÁ PRESENTE EM TODO E QUALQUER OBJETO EM JAVASCRIPT, NÃO IMPORTA A MANEIRA PELA QUAL O TAL OBJETO FOI/É CRIADO... -----> não importa se esse objeto é uma função-objeto, ou um objeto-função que usamos como CONSTRUCTOR FUNCTION, ou um objeto que vocÊ constrói com a 'object literal notation', ou um objeto que você constrói com a ajuda de uma constructor function.... TODOS ELES TERÃO ESSE '__proto__'. (arrays também).
+                    TODAS ESSAS COISAS EM JAVASCRIPT TERÃO __proto__  PORQUE ELE ___NOS MOSTRA___ O PROTOTYPE QUE ESTÁ CONECTADO A ESSE OBJETO que você criou/foi criado no código.
+
+                        É ELE QUE NOS MOSTRA O 'backup object' ao qual o objeto criado originalmente está conectado, vocÊ poderia dizer.
+
+
+
+
+
+
+'prototype' ----> soa similar à '__proto__', MAS FAZ 
+                    ALGO TOTALMENTE DIFERENTE...
+
+                
+                Essa propriedade 'prototype' ___NÃO ___EXISTE___ EM TODOS OS 
+
+                OBJETOS....
+
+
+                ---> ELA ___SOMENTE___ EXISTE EM OBJETOS-FUNÇÃO. (function objects).
+
+
+
+                ---> Só existe em objetos-função PORQUE JAVASCRIPT É UMA 
+
+                'PROTOTYPE-BASED' language.... como ela é isso aí, 
+                nós UTILIZAMOS 
+
+                CONSTRUCTOR FUNCTIONS PARA CONSTRUIR OBJETOS... 
+
+                e SEJA O QUE FOR QUE VOCÊ DEFINE em 'prototype' (nessa propriedade 'prototype'), ESSA 
+                COISA SERÁ DEFINIDA COMO ___UM PROTOTYPE___ (como um '__proto__') PARA/A QUALQUER OBJETO 
+                QUE É CONSTRUÍDO COM BASE NESSA CONSTRUCTOR FUNCTION...
+
+
+                E, portanto, nós realmente PODEMOS OBSERVAR 
+
+                QUE AQUILO QUE está definido 
+
+                em 'prototype' é  
+
+                UM OBJETO COM 
+
+                UM CONSTRUCTOR METHOD ('constructor: f Person()') E, É CLARO, 
+
+                a propriedade '__proto__'.
+
+
+
+                Então, em resumo, ESSE '__proto__' de dentro de 'prototype' É 
+
+                O EXATO MESMO OBJETO QUE ESTAMOS LOGGANDO MAIS EMBAIXO NO CÓDIGO... (console.log(p.__proto__);)
+
+
+
+                --------------------------------------
+
+
+                Ou seja, 
+
+                '{constructor: f}', visto no console, É 
+
+                O EXATO MESMO OBJETO de 
+
+                f person() > prototype (porque 'prototype' também segura 'constructor' e '__proto__'.)
+
+
+                É EXATAMENTE A MESMA COISA, E ISSO É VERDADE.
+
+
+                ---------------------------------------
+
+
+
+            ISSO É VERDADE:
+
+
+            Se nós compararmos nosso objeto 'Person' (e o que está definido como prototype, como '__proto__' desse Person) 
+
+            À  
+
+            'Person.prototype'...
+
+
+
+            DARÁ TRUE.
+
+
+
+            ex:
+
+
+
+
+
+    
+
+
+    function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+
+console.dir(Person);
+
+
+
+const p = new Person();
+p.greet();
+
+console.log(p.__proto__ === Person.prototype); 
+
+
+--------------------------------------------
+
+
+
+
+O CONSOLE NOS RETORNARÁ 'true'...
+
+
+PORTANTO, ESSES 2 OBJETOS SÃO EXATAMENTE OS MESMOS (NÃO SÃO CÓPIAS, E SIM 
+
+__EXATAMENTE___ O MESMO OBJETO__ NA MEMÓRIA....)
+
+
+---------------------------
+
+
+
+Mas isso NÃO QUER DIZER QUE NOSSO OBJETO 'constructor function' 
+
+E ESSE OBJETO 'Person/p' (criado a partir da constructor function) 
+
+TENHAM O MESMO '___FALLBACK____ OBJECT_____'...
+
+-----> ELES NÃO TÊM, NA VERDADE.
+
+
+Eles não tem o mesmo objeto de fallback PORQUE ESSE OBJETO 
+ESTÁ ARMAZENADO NA 
+
+PROPRIEDADE 
+
+
+'__proto__'...............
+
+
+
+
+'prototype', por sua vez, NÃO É AQUILO QUE 
+
+'Person', aquilo que o function object 'Person' TENTARIA 
+
+ALCANÇAR SE TENTÁSSEMOS CHAMAR ALGO COMO 'toString' em seu interior.
+
+
+
+('toString' NÃO EXISTE NO OBJETO 'Person' em si, por isso essa propriedade 
+é buscada em '__PROTO__'.)
+
+
+
+Não é para isso, para ser alcançado em caso de inexistência de alguma 
+propriedade/método no objeto 'normal', QUE 'prototype' EXISTE...
+
+
+
+
+Essa função cabe, diz o professor, ao '__PROTO__'.
+
+É o '__proto__' que soluciona esses problemas de inexistência.
+
+
+É ele que é utilizado como VALOR FALLBACK para o 
+
+objeto 'constructor function'... (?)
+
+
+----------------------------------------------
+
+
+
+
+EM VEZ DISSO, DIZ O PROFESSOR (e ele diz que sabe que é confuso, mas infelizmente esses são os nomes das propriedades),
+
+
+
+A PROPRIEDADE 'prototype' do OBJETO 
+
+DE NOSSA 
+FUNÇÃO CONSTRUTORA
+
+(ou seja, de 
+
+'function Person() {...}' ) 
+
+
+PODE SER UTILIZADA PARA 
+
+__ASSIGNAR__  _____UM OBJETO_____, UM OBJETO___ QUE ENTÃO SERÁ __ ASSIGNADO COMO 
+                                        UM PROTOTYPE....
+
+
+
+Será assignado como um PROTOTYPE; assignado como prototype === SER 
+
+ASSIGNADO COMO UM FALLBACK VALUE a quaisquer objetos que você 
+
+construir COM BASE NAQUELA CONSTRUCTOR FUNCTION...
+
+
+
+
+----------------------------------------------
+
+
+
+
+Aqui, no nosso exemplo do projeto, podemos, por exemplo,
+
+
+DEFINIR 
+
+o prototype de 'Person' como sendo 
+
+UM NOVO OBJETO com um  método 
+
+de 'printAge'
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+    function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+
+Person.prototype = { ////EIS O CÓDIGO EM QUESTÃO.
+
+    printAge() {
+        console.log(this.age);
+    }
+}
+
+
+
+
+
+
+
+
+
+console.dir(Person);
+
+
+
+const p = new Person();
+p.greet();
+
+
+
+
+
+
+
+
+
+console.log(p.__proto__ === Person.prototype); 
+
+
+
+
+----------------------------------
+
+
+
+Portanto, agora o que o professor fez com essa definição 
+
+de '.prototype = {...}' É DEFINIR UM PROTOTYPE 
+
+DE EXATAMENTE ESSE OBJETO (com o métood 'printAge') PARA 
+
+TODOS OS OBJETOS QUE FOREM CRIADOS COM BASE NAQUELA 
+
+CONSTRUCTOR FUNCTION 
+
+DE 'Person();'
+
+
+----------------------------
+
+
+
+O resultado disso é que se ele for lá e console.loggar 
+
+
+'p.__proto__', 
+
+
+
+ELE VERÁ 
+
+
+'{printAge: f}' COMO O VALOR 
+
+
+DO NOVO 'PROTOTYPE' DOS OBJETOS 'Person'....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+    function Person () {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+    }
+
+}
+
+
+
+Person.prototype = {
+
+    printAge() {
+        console.log(this.age);
+    }
+}
+
+
+
+
+
+
+
+
+
+console.dir(Person);
+
+
+
+const p = new Person();
+p.greet();
+
+
+console.log(p.__proto__);////////EIS O CONSOLE.LOG.
+
+
+------------------------------------------------
+
+
+
+
+Ele vê, portanto, 
+
+
+o objeto 
+
+
+'{printAge: f}' definido como o prototype de Person.
+
+
+
+
+
+
+
+
+Em consequência disso, podemos, por exemplo, 
+
+
+CHAMAR 
+
+
+'p.printAge()'  ---------------> PODEMOS 
+
+CHAMAR ESSE MÉTODO/FUNÇÃO DENTRO 
+
+
+DO OBJETO 'p', MAS NÃO PORQUE 
+
+TEMOS UM MÉTODO COM ESSE NOME DEFINIDO DIRETAMENTE 
+
+NA CONSTRUCTOR FUNCTION, E SIM PORQUE ELE FOI DEFINIDO 
+
+DENTRO DO ___FALLBACK___ OBJECT em 'prototype'...
+
+
+--------------------------
+
+
+E TUDO ISSO FUNCIONA!
+
+
+se o professor salvar e recarregar a página com esse chamado, ele verá 
+
+que a função 
+
+
+'printAge()' funcionará normalmente.
+
+
+o número '30' SERÁ MOSTRADO NO CONSOLE DO DEVTOOLS.
+
+
+
+
+Professor diz que isso também é importante:
+
+
+
+A KEYWORD 'this' DENTRO DOS 'prototypes':
+
+
+
+
+(
+
+
+Person.prototype = {
+    printAge() {
+        console.log(this.age);/////////
+    }
+}
+
+
+)
+
+
+
+
+SEMPRE SE REFERE AO OBJETO EM QUE VOCê CHAMOU O MÉTODO... (nesse caso, 'Person'...)...
+
+
+e isso faz sentido, pois já aprendemos que é assim que funciona... (o alvo do 'this' é sempre aquilo que acabou chamando a função/método.)
+
+
+
+
+
+ISSO TAMBÉM É ALGO QUE APRENDEMOS NO ÚLTIMO MÓDULO, QUANDO ESTUDAMOS 'inheritance'...------>
+
+
+
+
+--------> TUDO AQUILO QUE É DEFINIDO na 'classe base', se você 
+
+então chamar 'this' EM ALGUM MÉTODO DA CLASSE BASE,
+
+Se vocÊ chamar esse método EM UM OBJETO QUE É BASEADO 
+
+EM ALGUMA SUBCLASSE, ESSE 'this' NA CLASSE BASE 
+
+SEMPRE IRÁ SE REFERIR AO OBJETO CONCRETO NO QUAL VOCÊ 
+
+O CHAMOU, e não à classe base em si...
+
+
+
+
+
+
+
+
+E, com prototypes, aqui, é a mesma coisa. 
+
+
+é equivalente àquilo que 
+
+
+
+CLASS e Extends fazem para nós;
+QUANDO CRIAMOS 
+
+UMA CLASSE QUE EXTENDE ALGUMA COISA, você, no final das contas, 
+
+INFORMA O JAVASCRIPT QUE VOCê QUER DEFINIR 
+
+
+o 'prototype' COMO SENDO UM NOVO OBJETO... (ou adicionar 
+
+uns novos métodos e propriedades àquele prototype, para ser mais preciso.)
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+OU SEJA, O QUE O PROFESSOR ESTÁ 
+
+FAZENDO MANUALMENTE AQUI, POR MEIO DE 
+
+
+
+'Person.prototype = {...}',  O JAVASCRIPT 
+
+
+FAZ PARA NÓS QUANDO 
+
+
+NÓS UTILIZAMOS 
+
+'extends' NAS NOSSAS CLASSES...
+
+
+
+ex:
+
+'class Person extends Base {    ///////////'Base' teria os detalhes acerca da função 'printAge', que não existe em 'Person' nativamente.
+    ...
+}'

@@ -1,0 +1,1970 @@
+
+
+
+Agora que o 'ShoppingCart' faz o extend 
+
+da classe 'Component'... (inheritance) 
+
+e reutiliza sua lógica, PODEMOS 
+
+FAZER A MESMA COISA com as outras 
+
+classes, também....
+
+
+
+
+
+
+ex:
+
+
+
+
+class ProductItem extends Component {
+
+}
+
+
+
+
+-------------------------
+
+
+
+
+Depois disso, de novo, a linha 
+
+de código 'const prodEl = document.createElement('li');' 
+
+tornou-se INÚTIL em função do método createRootElement
+
+criado na classe 'Component'... Podemos usar uma expressão alternativa para a definição dessa constante 'prodEl'...
+
+
+Por isso podemos removê-la (e remover 'return prodEl', também.)
+
+
+ex:
+
+
+ISSO:
+
+
+
+class ProductItem extends Component {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+       
+        App.addProductToCart(this.product);
+    }
+
+
+
+
+    render() {
+
+        const prodEl = document.createElement('li');   ///CÓDIGO QUE SERÁ ALTERADO.
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+        return prodEl;  /////CÓDIGO QUE SERÁ REMOVIDO.
+    }
+}
+
+
+
+
+
+
+
+
+VIRA ISSO:
+
+
+
+
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+       
+        App.addProductToCart(this.product);
+    }
+
+
+
+
+    render() {
+
+        const prodEl = this.createRootElement('li', 'product-item');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+     
+    }
+}
+
+
+
+
+----------------------------------------
+
+
+
+
+OU SEJA, aqui em render PODEMOS GANHAR ACESSO ao 'product element' (do documento html) POR  
+
+MEIO DA CHAMADA DE 'this.createRootElement()';..........  (this vai se referir à classe 'ProductItem', mas essa classe já terá o createRootElement, que foi compartilhado pela classe 'Component'... )
+
+
+
+Dentro desse call de 'createRootElement', passamos 
+
+
+os parâmetros de 'li' (o tipo de elemento que queremos criar) e 'product-item' (o nome da classe que queremos definir para esse elemento...). 
+
+AMBOS OS PARÂMETROS foram definidos lá na definição 
+
+
+de createRootElement, na classe Component....
+
+
+
+
+
+
+
+Não preciso de nenhum attribute aqui (terceiro parâmetro do método createRootElement), 
+
+é a mesma situação do 'cart element'...
+
+
+
+Já a linha 
+
+'prodEl.className = 'product-item' ' não é mais 
+
+necessária, em razão do método createRootElement...
+
+
+
+ex:
+
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+       
+        App.addProductToCart(this.product);
+    }
+
+
+
+
+    render() {
+
+        const prodEl = this.createRootElement('li', 'product-item');
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+     
+    }
+}
+
+
+
+-------------------------------------
+
+
+
+
+
+Entretanto, 'prodEl.innerHTML' deve ficar, definitivamente.
+
+DEVE FICAR PORQUE É, NA VERDADE, ___A PRÓPRIA LÓGICA__.
+Essa é a lógica que deve permanecer 
+nesse render method, é ela que faz 
+a renderização 'per se' do render method...
+
+
+
+
+
+Após isso, eu quero ganhar acesso 
+
+ao BOTÃO ('addCartButton') e ao 'addEventListener', 
+
+MAS o 'return prodEl' pode ir embora....
+
+
+
+Em vez de necessitarmos desse 'return prodEl', 
+
+
+
+o elemento criado SERÁ HOOKADO (will be hooked) NO 
+
+DOM por meio da lógica de 
+
+'createRootElement'.... (o append de 'rootElement', ao final do body desse método, junto do return de 'rootElement'...)
+
+
+
+E nós apenas temos que nos certificar que chamemos O CONSTRUCTOR 
+
+DE 'Component' E QUE CONSIGAMOS FAZER O FORWARD DO ID do nosso elemento 
+no nosso DOM ONDE NÓS REALMENTE QUEREMOS ADICIONAR AQUELE DETERMINADO OBJETO... (o objeto 'prodEl'...)
+
+
+
+
+
+É óbvio que esse determinado objeto NÃO É 'app', não é o id daquela div onde está o nosso projeto...
+(porque agora, com prodEl, estamos TRABALHANDO COM 
+
+APENAS 1 ÚNICO ITEM, E NÃO COM O CONJUNTO...)
+
+
+É 1 único item, que deverá ser parte da nossa PRODUCTLIST...
+
+
+
+
+Inicialmente, algumas aulas atrás, era na classe 'ProductList', 
+
+em seu render(), em que 
+eu FAZIA 
+
+O APPEND DO 'prodEl' (product element - elemento único; antigamente era retornado pela função 
+render de productItem; posteriormente era adicionado 
+à 'productList' por meio de 'prodList.append(prodEl)') À MINHA PRODUCTLIST... ('prodList.append(prodEl)')...
+
+
+
+MAS AGORA, COMO o render() de ProductItem JÁ NÃO NOS RETORNA 
+'prodEl' ('const prodEl = productItem.render();' JÁ NÃO FUNCIONA/NÃO
+ É UTILIZADO/REFERENCIADO NO NOSSO CÓDIGO) (e nós poderíamos ainda fazer return desse prodEl, mas o 
+ professor quer usar o approach do compartilhamento de propriedades/métodos por meio de inheritance...), 
+
+ELE NÃO criará o elemento 
+
+'prodEl' dentro do render de productList por meio de 'productItem.render()'.....
+
+
+
+Não, ele REMOVERÁ o 'const prodEl' do início do dessa linha de código:
+
+
+
+
+
+
+ex:
+
+
+
+ISSO:
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor() {}
+
+
+
+
+      render() {
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod);
+        const prodEl = productItem.render(); //////CÓDIGO A SER ALTERADO/REMOVIDo
+        prodList.append(prodEl); ///CÓDIGO A SER REMOVIDO
+        console.log(productItem);
+    }
+  
+    return prodList;
+}
+}
+
+
+
+
+
+
+VIRA ISSO:
+
+
+
+
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor() {}
+
+
+
+
+      render() {
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod);
+        productItem.render(); ////CÓDIGO ALTERADO.
+        console.log(productItem);
+    }
+  
+    return prodList;
+}
+}
+
+
+
+------------------------------------------
+
+
+
+
+
+
+Ele remove aquilo. 
+
+Agora aqui, em vez de fazer aquilo que fazíamos antes, 
+agora quando nós 
+
+críamos 'ProductItem', por meio 
+
+
+de 'const productItem = new ProductItem(prod);',
+
+
+
+NÓS passamos UM PARÂMETRO ALÉM DE 'prod' a 'productItem'...
+
+
+
+EU TAMBÉM VOU QUERER PASSAR UM ID....
+
+UM id do elemento em que ESSE ITEM 
+
+DEVERÁ SER ADICIONADO....
+
+
+
+Esse ID, no final das contas, é UM 
+
+ID QUE DEVERÁ/DEVE ESTAR ASSIGNADO 
+
+À  'productList'.......
+
+(BTW ----> também teremos de mudar o render() de ProductList para utilizar a classe base 'Component'...)
+
+
+Por isso, por enquanto, eu vou 
+
+selecionar UMA  PROPRIEDADE DE prodList por meio 
+
+de 
+
+'ProdList.id'....
+
+
+(seleciono, assim a propriedade 'ID' do elemento prodList, que é aquela <ul> criada a partir de document.createElement('ul');)
+
+
+
+
+Vou selecionar essa propriedade e então 
+defini-la como 
+
+'prod-list' (pode ser qualquer outra porcaria de nome, mas esse serve).
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor() {}
+
+
+
+
+      render() {
+    const prodList = document.createElement('ul');
+    prodList.id = 'prod-list';   ///////CÓDIGO UTILIZADO PARA ALTERAR A PROPRIEDADE 'id' desse elemento <ul>...
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod);
+        productItem.render();
+        console.log(productItem);
+    }
+    
+    return prodList;
+}
+}
+
+
+
+
+---------------------
+
+
+
+
+
+Feito isso, vou querer então utilizar 
+
+
+esse ID que defini por meio de  'prodList.id = 'prod-list' 
+
+
+
+COMO SEGUNDO ARGUMENTO DE 'new ProductItem();'
+
+
+
+ex:
+
+
+
+
+class ProductList {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor() {}
+
+
+
+
+      render() {
+    const prodList = document.createElement('ul');
+    prodList.id = 'prod-list';   ///////CÓDIGO UTILIZADO PARA ALTERAR A PROPRIEDADE 'id' desse elemento <ul>...
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');  //////EIS O CÓDIGO EM QUESTÃO.
+        productItem.render();
+        console.log(productItem);
+    }
+    
+    return prodList;
+}
+}
+
+
+
+--------------------------
+
+
+
+Portanto, agora 
+
+'prod-list' é PASSADO COMO 
+SEGUNDO ARGUMENTO AO 
+
+CONSTRUCTOR DO 'productItem'...
+
+
+
+
+
+
+Agora, dentro do CONSTRUCTOR do 'productItem', 
+
+NÓS PRECISAMOS 
+
+__TRABALHAR___ COM ESSE SEGUNDO ARGUMENTO...
+
+
+por isso esse constructor DEVE SER ALTERADO...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class ProductItem extends Component {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+        
+        App.addProductToCart(this.product);
+    }
+
+
+
+
+    render() {
+
+     
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+        
+    }
+}
+
+
+
+
+---------------------------
+
+
+
+
+
+É por isso que vamos até 
+
+a lista de parâmetros desse constructor e 
+
+ADICIONAMOS UM SEGUNDO ARGUMENTO,
+
+
+que chamamos 
+
+de 
+
+'renderHookId'....
+
+
+
+
+Depois disso, podemos chamar 'super();' dentro 
+
+do constructor, para que então possamos 
+elencar propriedades após o seu chamado...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product, renderHookId) {
+        super();
+        this.product = product;
+    }
+
+
+    addToCart() {
+        
+        App.addProductToCart(this.product);
+    }
+
+
+
+
+    render() {
+
+     
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+        
+    }
+}
+
+
+
+----------------------------
+
+
+
+
+É UMA ÓTIMA/BOA CONVENÇÃO FAZER A CHAMADA 
+
+DO SUPER primeiro nos seus constructors; é bom 
+fazer isso (na verdade, é necessário), pois você certifica que suas 
+
+classes BASE ESTÃO TOTALMENTE INICIALIZADAS
+antes de você começar a trabalhar com sua subclasse...
+
+
+(As mentioned before: For any work that involves 'this', 
+it's not just a 'good convention', BUT REQUIRED TO 
+CALL SUPER() first!)
+
+
+
+
+
+
+Aqui, dentro de super, eu vou fazer o forward 
+
+de 'renderHookId' PARA QUE A CLASSE BASE 
+TAMBÉM TENHA ACESSO À ESSE ELEMENTO/PARÂMETRO...
+
+
+Faço isso PARA QUE a classe base TENHA 
+TUDO DE QUE PRECISA PARA FAZER COM QUE 
+
+'createRootElement' FUNCIONE...
+
+
+
+
+
+
+Se salvarmos e recarregarmos a página,
+
+
+
+receberemos UM ERRO....
+
+
+Professor diz que 
+
+
+esse erro pode ser um pouco DIFÍCIL DE DETECTAR,
+
+mas é importante 
+
+
+RECONHECER/ENTENDER DE ONDE QUE ELE VEM....
+
+
+
+
+Mas o que diabos poderia estar causando o seguinte erro:
+
+
+
+
+'Uncaught TypeError: Cannot read property 
+"append" of null 
+
+at ProductItem.createRootElement
+at ProductList.render
+at Shop.render
+at Function.init'
+
+
+
+
+
+
+
+BEM, NÓS ESTAMOS TENDO PROBLEMAS COM O APPEND DO 
+NOSSO ITEM na linha 
+
+
+'document.getElementById(this.hookId).append(rootElement);.....
+
+
+
+Portanto, nós ___provavelmente____ estamos com 
+
+um problema simples, um problema 
+
+em ENCONTRAR UM ELEMENTO COM AQUELE 
+ID (o id de 'this.hookId'...)....
+
+
+
+O problema de verdade é que, é claro, em ProductList EU 
+
+ASSIGNEI o id de 'prod-list' à propriedade 
+
+
+'id' de "prodList" (que é um elemento <ul> criado por document.createElement).
+
+
+ex:
+
+
+
+class ProductList {
+
+    render() {....
+        prodList.id = 'prod-list';
+        ....
+    }
+}
+
+
+
+Eu realmente tenho esse código, no presente...
+
+além de ter esse código, eu também 
+
+estou sempre PASSANDO ESSE MESMO ID ('prod-list') AO 
+
+PARÂMETRO DE 'new ProductItem'....
+
+
+
+ex:
+
+
+
+
+
+
+ex:
+
+
+
+class ProductList {
+
+    render() {....
+        prodList.id = 'prod-list';
+
+
+        for (const prod of this.products) {
+            const productItem = new ProductItem(prod, 'prod-list');
+        }
+        ....
+    }
+}
+
+
+
+-----------------------------
+
+
+
+
+ATé aí, tudo entendido. 
+
+Mas e o que acontece DEPOIS disso?
+
+
+
+Bem, nós realmente, nesse trecho de código, críamos 
+um objeto 'ProductItem'... Fazemos o forward 
+do nosso id (e de nosso tipo de tag desejado) a ele...
+
+Após tudo isso, nesse trecho de código, eu chamava/chamo 
+'productItem.render();'
+
+
+
+
+
+ex:
+
+
+
+
+
+class ProductList {
+
+    render() {....
+        prodList.id = 'prod-list';
+
+
+        for (const prod of this.products) {
+            const productItem = new ProductItem(prod, 'prod-list');
+            prodcutItem.render();
+        }
+        ....
+    }
+}
+
+
+
+-------------------------------------
+
+
+
+
+
+CERTO.... É essa a peça-chave, aqui.
+
+Quando eu chamo render() AQUI, DENTRO DESSE MÉTODO 
+
+RENDER() de productList, QUAL É A IMPLICAÇÃO DISSO?
+
+
+
+
+A implicação é que NA CLASSE 'productItem'/OBJETO PRODUCITEM,
+
+ESSE MÉTODO 'render();' É EXECUTADO....
+
+dentro desse método/no método, eu executo 
+
+'createRootElement'....  esse método 'createRootElement' 
+sempre me cria um LIST ITEM ('li') E ENTÃO TENTA 
+ADICIONÁ-LO AO __DOM___.
+
+
+
+eX:
+
+
+
+
+
+
+
+
+class ProductItem extends Component {
+    constructor(product) {
+        super();
+        this.product = product;
+    }
+
+
+    addToCart() {
+     
+        App.addProductToCart(this.product);
+    }
+
+
+
+
+    render() {
+        const prodEl = this.createRootElement('li','product-item');  ////os códigos mencionados mais acima.
+        prodEl.className = 'product-item';///////////
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+    }
+}
+
+
+----------------------------------------------
+
+
+
+
+
+
+
+
+""""'createRootElement'....  esse método 'createRootElement' 
+sempre me cria um LIST ITEM E ENTÃO TENTA 
+ADICIONÁ-LO AO __DOM___.  """""" ---------->  É PRECISAMENTE 
+ESSA PARTE QUE VAI SEMPRE FALHAR.
+
+
+
+VAI SEMPRE FALHAR porque, se nós dermos uma olhada 
+mais de perto em 'ProductList', percebemos 
+que, sim, nós realmente 
+
+HAVÍAMOS DEFINIDO  O 'id' EM PRODUCTLIST (prodlist)  ('prodList.id = 'prod-list';),
+
+MAS O PRODUCTLIST  ___EM SI____ NÃO HAVIA AINDA SIDO 
+ADICIONADO AO DOM... (hasn't been added to the DOM yet)
+
+
+
+...eu realmente retorno 'prodList' no final 
+do body de 'render()', MAS EU 
+
+ESTAVA RETORNANDO ESSE PRODLIST ___DEPOIS___ 
+DE TER PASSADO PELO LOOP.... (o for of loop...);
+
+ou seja, estava retornando PRODLIST ___DEPOIS___
+de tentar criar meus ProductItems e adicioná-los 
+ao DOM....(processo que eu fazia por meio de 'productItem.render();' )
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class ProductList {
+
+    render() {....
+        prodList.id = 'prod-list';
+
+
+        for (const prod of this.products) {
+            const productItem = new ProductItem(prod, 'prod-list');
+            prodcutItem.render();
+        }
+        ....
+    }
+}
+
+
+
+-------------------------------------
+
+
+
+
+
+(ou seja, a ordem das coisas está/estava completamente errada.)
+
+
+
+
+Ordem atual: 
+
+
+1) criação e tentativa de adição dos productItems a um elemento 'ul'...
+
+
+
+
+2) criação do elemento <ul> e subsequente adição À página.
+
+
+
+
+
+
+Ordem necessária:
+
+
+
+1) criação do elemento <ul> e subsequente adição À página.
+
+
+
+
+
+2) criação e tentativa de adição dos productItems a um elemento 'ul'...
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+OU SEJA, RESUMINDO.... :
+
+
+Até o 'return prodList' do render(); de ProductList, NADA 
+
+É/FOI ADICIONADO AO DOM... (durante o runtime)... E É ISSO QUE 
+ESTÁ CAUSANDO O PROBLEMA, POIS PRECISAMOS QUE ESSE MÉTODO 
+
+RENDER() de ProductList ADICIONE UM ELEMENTO ('ul') ao nosso 
+código...
+
+
+
+-------------------------------
+
+
+Ok, entendi. Mas e como faremos isso funcionar?
+
+
+
+
+Para fazer essa criação da productList funcionar, devemos 
+
+fazer já alguns ajustes à linha de código 
+
+'const prodList = document.createElement('ul');' 
+
+DENTRO DA PRODUCTLIST....
+
+
+
+
+Antes de mais nada, devemos primeiro FAZER COM QUE 
+
+A CLASSE 'productList' UTILIZE AS CARACTERÍSTICAS 
+DA CLASSE BASE 'Component'...
+
+
+
+
+ex:
+
+
+
+
+
+class ProductList extends Component {
+   
+        ....
+
+}
+
+
+------------------------------
+
+
+
+Isso feito, devemos alterar 'const prodList = document.createElement('ul');' ....
+
+
+
+
+Nesse lugar aí, nesse trecho do código em que eu crio 
+
+o product list ('prodlist'), EU VOU QUERER, EM VEZ DISSO, 
+
+UTILIZAR O CÓDIGO 
+
+
+'const prodList = this.createRootElement('ul', 'product-list');'
+
+
+
+ex:
+
+
+
+ISSO:
+
+
+
+class ProductList extends Component{
+
+
+
+      render() {
+          
+    const prodList = document.createElement('ul');   ////CÓDIGO A SER ALTERADO.
+    prodList.id = 'prod-list';
+    prodList.className = 'product-list'; /////// CÓDIGO A SER ALTERADO (na verdade, removido, deprecado).
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+
+    return prodList;
+      }
+      }
+
+
+
+
+VIRA ISSO:
+
+
+
+
+
+      render() {
+          
+    const prodList = this.createRootElement('ul', 'product-list');   ///CÓDIGO ALTERADO.
+    prodList.id = 'prod-list';
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+
+    return prodList;
+      }
+      }
+
+
+
+
+----------------------------------
+
+
+
+
+OU SEJA, NOS UTILIZAMOS DO 'createRootElement' presente 
+
+na classe base 'Component' PARA ENTÃO CRIAR ESSE ELEMENTO 
+'ul'.... (E também para definir sua classe de 'product-list', que é inserido no segundo parâmetro desse chamado...)
+
+
+
+
+-----------------------------------
+
+
+
+ENTRETANTO, NÃO PARAMOS POR AQUI:
+
+
+o professor VAI UTILIZAR NESSE TRECHO DO CÓDIGO UM 
+CHAMADO DE createRootElement QUE SE UTILIZA 
+
+DO TERCEIRO PARÂMETRO.... (parâmetro dos 'attributes, essencialmente).
+
+
+
+
+Ele vai utilizar aquele terceiro argumento, que é um 
+
+ARRAY DE ATTRIBUTOS  ([]) EM QUE ELE 
+
+VAI QUERER instanciar um 'new ElementAttribute()';.....  (ou seja, ELE ESTÁ INSTANCIANDO UMA CLASSE DENTRO DE UM ARRAY DENTRO DE UM MÉTODO DENTRO DE UMA CLASSE...) -----------> essa classe 'ElementAttribute' JÁ HAVIA SIDO DEFINIDA/CRIADA MAIS CEDO, é aquela classe bizarra que está láááá em cima no seu código.
+
+
+
+
+
+ex:
+
+
+
+
+ render() {
+          
+    const prodList = this.createRootElement('ul', 'product-list', [new ElementAttribute()]);   ///CÓDIGO ALTERADO.
+    prodList.id = 'prod-list';
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+
+    return prodList;
+      }
+      }
+
+
+
+
+
+------------------------------------
+
+
+
+
+Dentro dessa classe instanciada dentro do array, PODEMOS 
+
+PASSAR PARÂMETROS....
+
+
+
+são 2 argumentos:
+
+
+
+
+1o argumento ----> É O valor que é o NOME DO ATTRIBUTO (que foi definido em 'ElementAttribute' por meio da lógica de 'constructor (attrName, attrValue) {this.name = attrName;}' )
+                    O nome do attributo que passaremos será 'id'...
+                    Será 'id' para que, no final das contas, CONSIGAMOS 
+                    ADICIONAR/CRIAR a propriedade 'id' (de 'prodList.id = "prod-list" ' )
+                    DENTRO de 'createRootElement'...
+
+
+
+
+
+
+
+2o argumento ----> é o valor que É O VALOR DO ATTRIBUTE... ('constructor (attrName, attrValue) {this.value = attrValue;}')
+
+                    E O VALOR PARA O ATRIBUTO será de 
+                    'prod-list', por exemplo...
+
+
+
+
+
+
+
+
+RESULTADO:
+
+
+
+
+
+
+
+
+
+
+
+
+class ElementAttribute { 
+    constructor(attrName, attrValue) {
+        this.name = attrName;
+        this.value = attrValue;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+ render() {
+          
+    const prodList = this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);   ///CÓDIGO ALTERADO.
+    prodList.id = 'prod-list';
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+
+    return prodList;
+      }
+      }
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+TODO ESSE CÓDIGO QUE ALTERAMOS/ESCREVEMOS relativo aos ATTRIBUTES 
+
+
+está relacionado com o 2o IF CHECK ____de 'createRootElement'...
+
+
+(lembre-se: 'attributes' é o 3o parâmetro, que sempre será 
+um array em nosso código, por isso a menção à 'length' no IF CHECK...)
+
+
+
+Esse código de createRootElement ('rootElement.setAttribute(attr.name, attr.value)') vai fazer com que 
+
+AS PROPRIEDADES do objeto 'ElementAttribute' SEJAM DEFINIDAS 
+DENTRO DO ROOTELEMENT... (o que era o nosso objetivo, essencialmente, pois 
+queríamos que o productList, que é um dos rootElements, ficasse com uma 
+propriedade de Id no seu interior,)
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class ElementAttribute {
+    constructor(attrName, attrValue) {
+        this.name = attrName;
+        this.value = attrValue;
+    }
+}
+
+
+.....
+
+
+
+
+
+
+
+render() {
+          
+    const prodList = this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);   ///CÓDIGO ALTERADO.
+    prodList.id = 'prod-list';
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+
+    return prodList;
+      }
+      }
+
+
+
+
+.........
+
+
+
+
+
+
+
+createRootElement(tag, cssClasses, attributes) {
+
+   
+        if (attributes && attributes.length > 0) {
+            for(const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value);
+            }
+            
+        }
+        document.getElementById(this.hookId).append(rootElement);
+        return rootElement;
+    }
+
+
+---------------------------------
+
+
+
+rootElement, portanto, terá as propriedades
+
+
+
+
+"name: 'id',
+
+
+value: 'prod-list' "
+
+
+
+
+
+-----------------
+
+
+
+
+
+AGORA, o ' const prodList = this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]); '.
+
+VAI CRIAR UM ELEMENTO (e adicioná-lo) prodList DENTRO  
+DO CÓDIGO 
+
+DO MÉTODO RENDER() existente dentro da classe ProductList... (o que não estava ocorrendo antes, basicamente).
+
+
+
+Graças a isso, podemos nos LIVRAR DA LINHA "prodList.id = 'prod-list' ".....
+
+
+
+
+
+
+NÓS TAMBÉM NÃO PRECISAMOS MAIS DAQUELA LINHA 
+
+'return prodList'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+render() {
+          
+    const prodList = this.createRootElement('ul', 'product-list', [new ElementAttribute('id', 'prod-list')]);   ///CÓDIGO ALTERADO.
+
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+      }
+      
+
+
+
+--------------------------------------------------
+
+
+
+
+
+Como também não fazemos mais o return de 'prodList' (deletamos esse código agora), 
+
+NÓS NÃO PRECISAMOS 
+
+de 
+'const prodList', podemos remover esse trecho e o '=', 
+
+mantendo apenas o call do método 
+
+'createRootElement'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+render() {
+          
+    this.createRootElement('ul', 'product-list', 
+    [new ElementAttribute('id', 'prod-list')]);  
+
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { 
+        const productItem = new ProductItem(prod, 'prod-list');
+       
+        productItem.render();
+  
+    }
+      }
+      
+
+
+------------------------------------
+
+
+
+
+
+
+
+O que nós temos que fazer agora é NOS CERTIFICAR que no 
+
+constructor de PRODUCTLIST nós 
+
+CHAMEMOS o parent/base constructor 
+
+do COMPONENT (por meio de 'super', é claro...)
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor() {
+    super();
+}
+
+
+
+----------------------------
+
+
+
+
+DEVEMOS FAZER ISSO E, ENTÃO, DIZER A ESSE CONSTRUCTOR EM QUE 
+
+LOCAL ELE DEVE RENDERIZAR O PRODUCTLIST... 
+
+
+Que deverá ser o ELEMENTO COM O id de 'app'....
+
+("super('app')")
+
+
+
+
+Inicialmente o professor diz isso, MAS ELE MUDA DE IDEIA... :
+
+
+
+Ele diz que poderia ser o elemento com o id de 'app' , 
+
+
+MAS PARA SER UM POUCO MAIS FLEXÍVEL, ele diz 
+
+que devemos apenas aceitar o argumento 'renderHookId' no slot 
+dos parâmetros do constructor de productList, para então 
+
+fazer o FORWARD DISSO ao super()...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+        console.log('Called');
+    }
+
+}
+
+
+
+class ProductList extends Component {
+    products = [new Product ('A Pillow', 
+    'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+    'A short pillow', 
+    19.99
+    ),
+
+    new Product('A Carpet', 
+        'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+        'A small carpet',
+        89.99           
+      )];
+
+
+
+constructor(renderHookId) {
+    super(renderHookId);
+}
+
+
+
+-----------------------------
+
+
+
+Professor diz que devemos fazer isso para QUE NO LUGAR EM QUE 
+
+CRIAMOS O PRODUCTLIST (por meio de 'new ProductList'...)
+
+
+POSSAMOS DECIDIR  ___EM QUE LUGAR_____ VAMOS QUERER 
+
+RENDERIZAR A TAL LISTA (em vez de fazer isso no interior 
+de 'productList', algo que faria 
+
+seu código SER MAIS DIFÍCIL DE LER E ENTENDER...)
+
+
+
+
+
+
+------------------------------
+
+
+
+
+Agora, então, no lugar em que 
+eu uso 
+
+'productList' (que é o lugar em que 
+
+eu crio o 'Shop'... ) ('const productList = new ProductList();').... ---> isso faz uma ProductList ser instanciada/objeto ProductList ser criado...
+
+
+
+Eu tenho uma linha de código que 
+
+é 
+
+'const prodListEl = productList.render();' ----> essa linha de código está DEPRECADA, E DEVE SER ALTERADA:
+
+
+
+
+Deve ser alterada porque EU AGORA PRECISO CHAMAR O RENDER() DE 
+
+productList DIRETAMENTE nesse render() de Shop...
+
+
+
+
+ex:
+
+
+
+
+
+ISSO:
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        this.cart = new ShoppingCart('app');  
+        console.log(this);
+    
+        this.cart.render();
+        
+        const productList = new ProductList();
+        const prodListEl = productList.render(); ///////
+
+
+
+      
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+
+VIRA ISSO:
+
+
+
+
+
+
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        this.cart = new ShoppingCart('app');  
+        console.log(this);
+    
+        this.cart.render();
+        
+        const productList = new ProductList();
+        productList.render(); ///////
+
+
+
+      
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+
+------------------------------
+
+
+
+
+
+
+Professor diz que ele executa 'render();' de ProductList aqui 
+
+NO SECO porque ELE NÃO ESTÁ INTERESSADO EM RETORNAR O VALOR 
+DE 'prodListEl'... (como fazíamos antigamente, por meio de 'return prodListEl'...)
+
+
+
+
+
+PROFESSOR TAMBÉM TIRA O 'renderHook.append(prodListEl)', PORQUE 
+
+ELE TAMBÉM NÃO QUER MAIS FAZER O APPEND DE NADA EM LUGAR ALGUM...
+
+
+
+
+Ele também tira o 'const renderHook = document.getElementById('app')', 
+pois explica que não precisa mais ganhar acesso ao 'app' aqui....
+
+
+
+RESULTADO:
+
+
+
+
+
+
+
+class Shop {
+    render() {
+       
+        
+        this.cart = new ShoppingCart('app');  
+        console.log(this);
+    
+        this.cart.render();
+        
+        const productList = new ProductList();
+        productList.render(); ///////
+
+
+
+      
+      
+    }
+}
+
+
+
+
+------------------------------
+
+
+Em vez disso, em vez de utilizar os códigos acima mencionados, 
+
+EU FAÇO O FORWARD de 'app' no parâmetro de  'new ProductList'....
+
+
+
+
+
+ex:
+
+
+
+
+class Shop {
+    render() {
+       
+        
+        this.cart = new ShoppingCart('app');  
+        console.log(this);
+    
+        this.cart.render();
+        
+        const productList = new ProductList('app');
+        productList.render(); ///////
+
+
+
+      
+      
+    }
+}
+
+
+
+--------------------------------------
+
+
+
+COM ISSO, PRODUCTLIST SERÁ RENDERIZADA  
+
+____E____, então, ela SÓ TENTARÁ adicionar 
+productItem (s) ___DEPOIS____ de ela 
+
+ter renderizada a si mesma.... (por meio de 'this.createRootElement('ul', 'product-list'), etc etc, O CÓDIGO Do render() dentro de PRODUCTLIST...)....
+
+
+E, com isso, se nós salvarmos tudo e recarregarmos nossa página,
+
+
+VEREMOS QUE TUDO FUNCIONA DE NOVO....

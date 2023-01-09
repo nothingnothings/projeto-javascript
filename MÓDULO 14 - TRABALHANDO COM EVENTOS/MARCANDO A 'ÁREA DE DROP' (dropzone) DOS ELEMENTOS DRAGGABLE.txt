@@ -1,0 +1,867 @@
+
+
+PARA MARCAR ALGUMA COISA COMO UMA DROPZONE de elementos draggable (OU UM LUGAR 
+
+
+EM QUE VOCê PODE ____FINALIZAR____ UM 'EVENTO DRAG'...),
+
+
+
+
+VOCÊ PRECISA ADICIONAR UM EVENTLISTENER A ESSE LOCAL, UM EVENTLISTENER QUE 
+
+TENHA EM SEU CÓDIGO A LINHA (método)
+
+'preventDefault();'
+
+
+
+NÓS FAZEMOS ISSO, PORTANTO, NA NOSSA CLASSE 
+
+
+'PROJECTList'...
+
+
+PQ ISSO? pq quando eu ARRASTO UM ELEMENTO NA PÁGINA, eu sempre vou querer, nesse exemplo,
+
+DROPPÁ-LO EM ALGUMA DAS DUAS LISTAS....
+
+
+
+
+É POR ISSO QUE DEVEMOS IR ATÉ ESSAS LISTAS, FAZER 'LISTEN TO' a esse evento 
+
+E ____PREVENIR O DEFAULT (comportamento default do elemento; comportamento de rejeitar drops de elementos)
+
+DELE POR MEIO DE 'preventDefault();'
+
+
+
+
+
+O PROFESSOR VAI ATÉ A CLASSE PROJECTLIST E ADICIONA um método 
+
+chamado de 'connectDroppable()'...
+
+
+ELE TAMBÉM VAI DENTRO DO CONSTRUCTOR DE 'PROJECTLIST' E ADICIONA 
+
+'connectDroppable' COMO PROPRIEDADE DESSES OBJETOS PROJECTLIST...
+
+
+O PROFESSOR FAZ ESSA ADIÇÃO AO CONSTRUCTOR PARA QUE QUANDO NÓS 
+
+CRIEMOS UMA NOVA PROJECTLIST, NÓS, NO FINAL DAS CONTAS, consigamos 
+DEFINIR OS LISTENERS DO EVENTO 'DROPPABLE'...(que estão dentro do connectDroppable)....
+
+
+
+
+ex:
+
+class ProjectList {
+
+
+    projects = [];
+    
+    constructor(type) {
+
+
+
+
+        this.type = type;
+        
+        const prjItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of prjItems) {
+            this.projects.push(new ProjectItem(prjItem.id, this.switchProject.bind(this), this.type));
+        }
+        //console.log(projectItems);
+        console.log(this.projects);
+        this.connectDroppable();
+    }
+
+
+
+    setSwitchHandlerFunction(switchHandlerFunction) {
+        this.switchHandler = switchHandlerFunction;
+    }
+
+
+    addProject(project) {
+        //console.log(this);
+
+
+        this.projects.push(project); //////faz com que o projeto '''verdadeiro''', oculto e nos bastidores, seja adicionado à essa outra lista...
+        DOMHelper.moveElement(project.id, `#${this.type}-projects ul`); ////////faz com que o DOM NODE, o elemento '''aparente e falso'''', reflita as mudanças que ocorreram nos bastidores do javascript...
+        project.update(this.switchProject.bind(this), this.type); ///////FUNÇÃO ''IRMÃ'' DA VERSÃO VISTA NA PARTE QUE CRIA O PROJECTITEM, ou seja, naquele for of loop que contém o 'switchHandler' de 'this.switchProject.bind(this))'...
+    }           
+
+
+    switchProject(projectId) {
+    //const projectIndex = this.projects.findIndex(p => p.id === projectId);
+    this.switchHandler(this.projects.find(p => p.id === projectId));   ///EXEMPLO DE CALLBACK FUNCTION.
+    this.projects = this.projects.filter(p => p.id !== projectId);
+    //this.projects.splice(projectIndex, 1);
+    }
+
+
+
+
+
+    connectDroppable() {
+        ....
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+---------------------------------------
+
+
+
+PARA CONSEGUIR QUE O ELEMENTO COLOCADO SOBRE A 'DROPZONE' SEJA 
+DROPPÁVEL, devemos primeiramente GANHAR ACESSO ÀS LISTA DE PROJECTITEMS...
+
+
+
+Para isso, podemos simplesmente usar O MESMO SELETOR DE 
+
+'const prjItems = document.querySelectorAll(`${type}-projects li`);' , com a simples troca de 'li' POR 'UL'...
+
+
+
+EX:
+
+
+
+
+
+
+class ProjectList {
+
+
+    projects = [];
+    
+    constructor(type) {
+
+
+
+
+        this.type = type;
+        
+        const prjItems = document.querySelectorAll(`#${type}-projects li`);
+        for (const prjItem of prjItems) {
+            this.projects.push(new ProjectItem(prjItem.id, this.switchProject.bind(this), this.type));
+        }
+        //console.log(projectItems);
+        console.log(this.projects);
+        this.connectDroppable();
+    }
+
+
+
+    setSwitchHandlerFunction(switchHandlerFunction) {
+        this.switchHandler = switchHandlerFunction;
+    }
+
+
+    addProject(project) {
+        //console.log(this);
+
+
+        this.projects.push(project); //////faz com que o projeto '''verdadeiro''', oculto e nos bastidores, seja adicionado à essa outra lista...
+        DOMHelper.moveElement(project.id, `#${this.type}-projects ul`); ////////faz com que o DOM NODE, o elemento '''aparente e falso'''', reflita as mudanças que ocorreram nos bastidores do javascript...
+        project.update(this.switchProject.bind(this), this.type); ///////FUNÇÃO ''IRMÃ'' DA VERSÃO VISTA NA PARTE QUE CRIA O PROJECTITEM, ou seja, naquele for of loop que contém o 'switchHandler' de 'this.switchProject.bind(this))'...
+    }           
+
+
+    switchProject(projectId) {
+    //const projectIndex = this.projects.findIndex(p => p.id === projectId);
+    this.switchHandler(this.projects.find(p => p.id === projectId));   ///EXEMPLO DE CALLBACK FUNCTION.
+    this.projects = this.projects.filter(p => p.id !== projectId);
+    //this.projects.splice(projectIndex, 1);
+    }
+
+
+
+
+
+    connectDroppable() {
+        const list = document.querySelectorAll(`#${type}-projects ul');
+    }
+
+
+
+
+
+
+
+}
+
+
+--------------------------------
+
+
+
+ESSA CONST 'LIST', agora, NOS DÁ ACESSO AO OBJETO 'LIST ITEM' EM SI...
+
+
+ISSO NOS DÁ ACESSO NÃO A 'SECTION', que possui todos os nossos items 
+
+ e engloba o <ul>, e sim SOMENTE À LISTA INSERIDA DENTRO DESSA SECTION, 
+ POIS É ALI QUE OS PROJECTITEMS DEVERÃO SER LANÇADOS/ADICIONADOS...
+
+
+
+ AGORA, DENTRO DAQUELA 'LIST', DENTRO DA <UL> (projectList), 
+
+
+podemos ADICIONAR UM EVENTLISTENER.......
+
+
+FAZEMOS ISSO, ESSE COMANDO DE ADICIONAR UM EVENTLISTENER À <ul>, DENTRO 
+DO MÉTODO DE 'connectDroppable()'...
+
+
+ex:
+
+
+connectDroppable() {
+    const list = document.querySelectorAll(`#${type}-projects ul`);
+
+    list.addEventListener();
+}
+
+
+--------------------------------------
+
+
+
+O PROFESSOR DIZ QUE ele adicionará DOIS EVENTLISTENERS, um PARA 'DRAGENTER', em que 
+
+
+O PROFESSOR PRECISA DO OBJETO 'event' (o qual ele definirá como segundo parâmetro), com o qual ele FARÁ ALGUMA COISA;
+
+
+
+E OUTRO PARA 'DRAGOVER'....
+
+
+
+
+ex:
+
+
+
+
+
+connectDroppable() {
+    const list = document.querySelectorAll(`#${type}-projects ul);
+
+    list.addEventListener('dragenter', event => {
+
+    })
+
+       list.addEventListener('dragover', event => {
+        
+    })
+}
+
+
+-----------------------------------
+
+
+DE NOVO, A DIFERENÇA ENTRE 'DRAGENTER' E DRAGOVER, O comportAMento entre as duas É DIFERENTE.
+
+
+
+O COMPORTAMENTO É DIFERENTE EM RELAÇÃO AOS NESTED CHILD ELEMENTS...
+
+
+LEMBRE-SE: VOCÊ ___DEFINITIVAMENTE___ PRECISA DO DRAGOVER eventListener....
+
+já o 'dragenter' É OPCIONAL.
+
+
+
+----> VOCÊ 
+
+TAMBÉM É OBRIGADO A COLOCAR 
+
+'preventDefault()' dentro DO LISTENER DE 
+
+'dragover'/list....
+
+
+(JÁ PARA 'DRAGENTER', essa definição de 'preventDefault()' É OPCIONAL...)
+
+
+
+
+AINDA ASSIM, O PROFESSOR COLOCARÁ 'preventDefault' em ambos, só para garantir.
+
+
+PROFESSOR COLOCA O 'PREVENTDEFAULT'
+
+POR MEIO DO CÓDIGO 
+
+'event.preventDefault();'
+
+
+
+
+ex:
+
+
+
+
+connectDroppable() {
+    const list = document.querySelectorAll(`#${type}-projects ul);
+
+    event.addEventListener('dragenter', event => {
+        event.preventDefault();
+    })
+
+       event.addEventListener('dragover', event => {
+        event.preventDefault();
+    })
+}
+
+
+
+
+--------------------------------------
+
+
+
+COM ISSO, DIZ O PROFESSOR, NÓS DEVERÍAMOS SER CAPAZES DE DROPPAR 
+
+NOSSO ELEMENTO NESSA 'DROPZONE' de projectList...
+
+
+SE NÃO FIZÉSSEMOS ESSE 'preventDefault()', NÓS NÃO SERÍAMOS CAPAZES 
+
+DE DEIXAR O ELEMENTO NA DROPZONE...
+
+
+
+ENTRETANTO, ÀS VEZES VOCÊ NÃO VAI QUERER SEMPRE APENAS PREVENIR UM DEFAULT AQUI... na dropzone...
+
+
+
+TALVEZ VOCÊ QUEIRA também checar O TYPE do projectItem, por exemplo...
+
+
+
+VOCÊ FAZ ISSO POR MEIO DE um if check...
+
+
+
+VOCê CHECA SE O 'event.dataTransfer'...
+
+
+
+se o 'event.dataTransfer.types' (SE OS 'TYPES' Dessa propriedade 'DATATRANSFER')-------> ('TYPES' É UM ARRAY QUE EXISTE DENTRO DE 'dataTransfer'...)
+
+
+se o 'event.dataTransfer.types' É IGUAL A 'text/plain', 
+
+VOU QUERER EXECUTAR o 'preventDefault();' 
+
+
+(OU SEJA, COM ISSO NÓS ACABAMOS HIGIENIZANDO OS DROPPABLE ELEMENTS/
+VALIDANDO OS DROPPABLE ELEMENTS...)
+
+
+
+ex:
+
+
+
+
+  connectDroppable() {
+        const list = document.querySelectorAll(`#${type}-projects ul`);
+
+        list.addEventListener('dragenter', event => {  
+        if(event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault(); }
+        });
+
+        list.addEventListener('dragover', event => {     
+            event.preventDefault();
+        });
+    }
+
+
+-------------------------------------------
+
+
+ISSO SIGNIFICA QUE SE NÓS TENTARMOS FAZER DRAG DE QUALQUER OUTRA COISA POR CIMA Da projeclist (O QUE NÃO É POSSÍVEL NESSA PÁGINA, BTW, pois A ÚNICA COISA DEFINIDA COMO DRAGGABLE É os LISTS ITEMS...  Os list items, que vão DEFINIR ESSE DATA TYPE DE 'text/plain' QUANDO COMEÇARMOS A OS DRAGGAR. )...
+
+
+MAS SE VOCÊ TIVESSE MAIS DRAG AND DROP OPERATIONS NA SUA PÁGINA, como por exemplo
+
+o drag de links e etc, talvez seja necessário você adicionar um check extra para 
+
+assegurar que vocÊ apenas aceite CERTOS TIPOS DE DADOS NAS DROPZONES...
+
+
+
+SIDENOTE: O QUE VOCÊ ___NÃO PODE ____ ACESSAR AQUI NESSE IF CHECK, BTW, SÃO OS ___DADOS ___ CONCRETOS ____ QUE ESTÃO 
+                    ANEXADOS AO EVENTO.... (ou seja, você não pode acessar o ID ANEXADO a esse evento por meio de 
+                    
+                    'event.dataTransfer.setData('text/plain', this.id)', VOCÊ NÃO PODE ACESSAR ESSE ID ESPECIFICAMENTE; A ÚNICA COISA QUE VOCÊ 
+                    PODE CHECAR É O ___TIPO DE DADOS/DADO___ que está nesse evento.... em outras palavras, NÃO PODEMOS LER O __ID___ desse evento, por exemplo.)....
+
+
+AINDA ASSIM, SEREMOS CAPAZES DE PEGAR/GANHAR ACESSO A ESSES DADOS ANEXADOS NO EVENTO DRAGSTART 
+
+LÁÁÁÁÁ NO EVENTO DE DROP ('dragend') ('drop event')... E É ESSE O LUGAR 
+
+EM QUE FAREMOS, NO FINAL DAS CONTAS, O UPDATE DA UI....
+
+
+-----------------------------------------------------
+
+
+
+ANTES DE FAZERMOS ISSO, NO ENTANTO, EU TAMBÉM QUERO AJUSTAR MEU STYLING UM POUCO...
+
+
+Quero ajustá-lo um pouco PARA DAR AO USUÁRIO UM POUCO DE FEEDBACK VISUAL, um indicativo 
+
+DE QUE VOCÊ PODE FAZER O DROP DE ALGUMA COISA NAS LISTAS...
+
+
+
+PARA ISSO, O PROFESSOR VAI ATÉ o listener de 'dragenter'.... (pq ele quer que ASSIM QUE NÓS 
+PASSEMOS O MOUSE EM CIMA ('dragenter'), O INDICATIVO JÁ APAREÇA AO USUÁRIO...)....
+
+
+
+Dentro do código do segundo parâmetro desse listener,  o professor vai querer colocar 
+
+
+'list.parentElement'.... (OU SEJA, ELE VAI QUERER ___SELECIONAR A SECTION___, QUE É O ELEMENTO 'PARENT' DAS LISTS...)....
+
+
+A ESSE 
+
+'PARENTELEMENT' ele vai querer adicionar uma CLASSE, por meio de 'classList.add()'...
+
+
+
+'classList.add('droppable');'
+
+(OBS: ESSA CLASSE 'DROPPABLE' AINDA NÃO EXISTE, NÓS TEREMOS QUE ADICIONÁ-LA MANUALMENTE... para isso, vamos até o arquivo app.css e editamos uma classe chamada '.droppable'.)
+
+
+
+
+
+ex:
+
+
+
+
+  connectDroppable() {
+        const list = document.querySelectorAll(`#${type}-projects ul`);
+
+        list.addEventListener('dragenter', event => {  
+        if(event.dataTransfer.types[0] === 'text/plain') {
+            event.preventDefault(); }
+            list.parentElement.classList.add('droppable');
+        });
+
+        list.addEventListener('dragover', event => {     
+            event.preventDefault();
+        });
+    }
+
+
+-------------------------------------------
+
+
+
+
+ISSO DEVERÁ CHAMAR A ATENÇÃO DO USUÁRIO.
+
+
+
+AGORA TEMOS UMA COR PARA A SECTION (rosa-leve) QUANDO DRAGGAMOS O ELEMENTO...
+
+
+
+
+MAS QUANDO O PROFESSOR RECARREGA A PÁGINA, ELE RECEBE UM ERRO...
+
+
+
+
+'Uncaught ReferenceError: 
+
+type is not defined 
+
+
+at ProjectList.connectDroppable
+at new ProjectList
+at Function.init'
+
+
+------------------------
+
+
+É UM ERRO DE REFERENCIA. O PROFESSOR MUDA o 
+
+'const list = document.querySelectorAll(`#${type}-projects ul`);' 
+
+
+PARA 
+
+
+
+'const list = document.querySelectorAll(`#${this.type}-projects ul`);' 
+
+
+
+
+'this.type' e NÃO 'TYPE', pois 
+
+
+ESSE VALOR ESTÁ EM UMA PROPRIEDADE, e não em uma variável disponível em connectDroppable, explica o professor...
+
+
+
+ELE TAMBÉM PERCEBE QUE EM 
+
+CONST list devemos usar 
+
+
+QUERYSELECTOR, e não querySelectorAll...
+
+
+
+-----------------------------------
+
+
+
+
+
+CERTO.
+
+
+AGORA O FUNDO DE CADA LISTA É ILUMINADO DE ROSA QUANDO ARRASTAMOS UM ELEMENTO...
+
+
+ENTRETANTO, AINDA NÃO PODEMOS SOLTAR O ELEMENTO NAS LISTAS, ELE CONTINUA PRESO AO NOSSO MOUSE.
+
+
+
+
+OUTRO PROBLEMA: OS FUNDOS, AS SECTIONS, NUNCA DEIXAM DE FICAR ROSAS. Elas nunca são desmarcadas, até depois que terminamos o drag.
+
+ISSO É ALGO QUE MUDAREMOS DEPOIS.
+
+
+
+
+MAS PELO MENOS NOSSOS ESTILOS FORAM ALTERADOS, O QUE PROVA QUE O EVENTLISTENER 
+
+
+de 'list.addEventListener('dragenter')' FOI TRIGGADO....
+
+
+
+
+---------------------------------------
+
+
+
+
+
+Para ser mais preciso, o professor talvez queira UPDATAR O ESTILO NAQUELE 
+
+IF CHECK, porque esse if check é a ÚNICA CONDIÇÃO À QUAL ESTAMOS ATRELADOS PARA CONSEGUIR DROPPAR ALGUMA COISA NAS LISTAS...
+
+
+
+
+
+
+
+AGORA DEVEMOS ESCREVER UM CÓDIGO QUE FAÇA COM QUE O ESTILO ROSA DA SECTION SEJA REVERTIDO PARA O PADRÃO (BRANCO) NO INSTANTE 
+
+EM QUE O PROJECTITEM DRAGGABLE SAI DA ÁREA DA PROJECTLIST....
+
+
+
+PARA CONSEGUIRMOS UPDATAR ESSE STYLE ASSIM QUE O PROJECTITEM SAI Da projectlist box,
+
+PODEMOS ADICIONAR OUTRO EVENTLISTENER  à LIST, e esse é o eventListener 
+
+de 'dragleave'.... ESSE EVENTLISTENER ATIVARÁ SEMPRE QUE NÓS SAIRMOS DE UMA LISTA COM O NOSSO 
+
+ELEMENTO...
+
+
+MAS NÓS TEMOS UM COMPORTAMENTO MEIO TRICKY, AQUI.....
+
+
+
+
+
+MAS ANTES DISSO, DEVEMOS COMEÇAR APENAS COM A IMPLEMENTAÇÃO já esperada dessa parte do código...
+
+
+
+PARA FAZER COM QUE O ESTILO DA SECTION (a cor rosa) SUMA QUANDO TIRAMOS O ELEMENTO 'DRAGGABLE' DA ÁREA 
+
+DA LISTA, simplesmente devemos adicionar o código 
+
+
+
+'list.parentElement.classList.remove('droppable');' 
+
+
+AO addEventListener de 'dragleave'....
+
+
+ex:
+
+
+
+
+list.addEventListener('dragleave', event => {
+    list.parentElement.classList.remove('droppable');
+})
+
+
+
+
+-------------------------------------------
+
+
+A CLASSE 'DROPPABLE' (da cor rosa) É REMOVIDA 
+
+SEMPRE QUE ESSE EVENTO 'DRAGLEAVE' ocorre...
+
+
+
+Se recarregarmos a página e testarmos essa feature, veremos que o comportamento ainda não é ideal:
+
+
+Quando movemos o item/draggamos ele por dentro da lista, A SECTION JÁ É DESMARCADA (mesmo que ainda 
+
+não tenhamos tirado o elemento da lista, ou seja, ele continua sobre a lista...)...
+
+
+PQ ISSO ACONTECE?
+
+
+
+Bem simples, o comportamento está funcionando, mas está funcionando de forma indesejada:
+
+
+se eu colocar o draggable item sobre UM CHILD ELEMENT, O ESTILO 'rosa' (droppable) TAMBÉM 
+
+É REMOVIDO... Eu não quero isso, eu quero que O ESTILO ROSA FIQUE TAMBÉM NESSAS HIPÓTESES,
+
+NAS HIPÓTESES EM QUE O ELEMENTO DRAGGABLE ESTÁ SOBRE OS OUTROS CHILD ELEMENTS DE SECTION (ou seja, os outros projectItems)...
+
+
+
+
+O MESMO OCORRE NA OUTRA LIST; se eu passar o cursor com o elemento draggado POR CIMA DE OUTRA CHILD/PROJECTITEM, 
+
+o mesmo style remove ocorre...
+
+
+
+O BACKGROUND AINDA DEVE SER MARCADO, POIS AINDA ESTOU NA DROPZONE...
+
+
+
+(basicamente, a engine de javascript está considerando que NÓS SAIMOS DA LISTA QUANDO COLOCAMOS O ELEMENTO DRAGGABLE SOBRE UM ELEMENTO CHILD de 'section'..)
+
+
+
+PARA CONTORNAR ESSE PROBLEMA, O PROFESSOR DIZ QUE DEVEMOS ADICIONAR UM IF CHECK AQUI...
+
+
+ESSE IF CHECK será 
+
+
+'apenas remover aquela classe na hipótese de o evento 'dragleave' ter ativado PQ NÓS ___REALMENTE____ SAÍMOS EM DIREÇÃO 
+
+A ALGO QUE ___NÃO É___ UM CHILDELEMENT item... (que não seja um projectItem)..'
+
+
+PARA ISSO, PODEMOS 
+
+USAR 
+
+
+'event.relatedTarget'.... -----------> ESSA É UMA PROPRIEDADE QUE O PROFESSOR MENCIONOU MAIS CEDO NESTE MÓDULO...
+
+
+
+
+Esse 'relatedTarget' TAMBÉM EXISTE PARA 'dragleave'....
+
+
+Essa propriedade VAI APONTAR PARA O ELEMENTO AO QUAL NÓS MOVEMOS ALGUMA COISA (um item/elemento)...
+
+
+
+
+Portanto, quando nós SAÍMOS DA <uL> aqui E O CURSOR ESTÁ EM OUTRO LUGAR, o 'OUTRO LUGAR' será 
+
+o valor desse 'relatedTarget'...
+
+
+
+
+ex:
+
+
+
+
+list.addEventListener('dragleave', event => {
+    if(event.relatedTarget)
+    list.parentElement.classList.remove('droppable');
+})
+
+
+----------------------------------------------
+
+
+
+
+AGORA, PODEMOS CHECAR SE O 'relatedTarget' ESTÁ DENTRO DA LIST...
+
+
+
+CASO ELE ESTEJA DENTRO DA LIST, EU NÃO VOU QUERER REMOVER O ESTILO....
+
+
+
+Para selecionar essa parte, esse trecho 'DENTRO DA LIST' (que é composto pelos items '<li>'), 
+
+O PROFESSOR DIZ QUE PODEMOS UTILIZAR 'closest' EM CIMA DO 'relatedTarget'.... (meio confuso).
+
+
+------------------------------------------------------------------------------------------------
+O 'closest' VAI PROCURAR O ELEMENTO MAIS PRÓXIMO COM A TAG '<li>', que no caso é OS PROJECTITEMS...
+
+(OBS: ISSO NÃO FUNCIONOU. FOI UMA TENTATIVA DE CHUTE MINHA QUE FALHOU....)
+
+///////////////////
+ex:
+
+list.addEventListener('dragleave', event => {
+    if(event.relatedTarget.closest('li') {
+    list.parentElement.classList.remove('droppable');}
+})
+///////////////////////////////////
+
+
+-----------------------------------------------
+
+
+PROFESSOR DIZ QUE DEVEMOS USAR 'CLOSEST()' para selecionar A UNORDEREDLIST 
+
+MAIS PRÓXIMA, por meio daquele seletor (já 'batido') de  '`#${this.type}-projects ul`'
+
+
+ex:
+
+
+list.addEventListener('dragleave', event => {
+    if(event.relatedTarget.closest(`#${this.type}-projects ul`) {
+    list.parentElement.classList.remove('droppable');}
+})
+
+
+--------------------------------------------------------------------
+
+
+
+NÓS BASICAMENTE CHECAMOS SE O 'relatedTarget' TEM UM ANCESTRAL 
+
+QUE É essa 'list' referenciada pelo código '''`#${this.type}-projects ul`'''.
+
+
+
+(((((OBS::::: COMO ESTAMOS ACESSANDO ESSE 'THIS' DE DENTRO DE UMA HANDLER FUNCTION, DEVEMOS 
+NOS ASSEGURAR DE QUE ESTAMOS ESTAMOS USANDO __OU UMA ARROW FUNCTION___ OU USANDO/FAZENDO 
+
+BIND() DE 'THIS'...)))))...... 
+
+
+
+Pq isso?
+
+
+Pq se o relatedTarget TIVER ESSE ANCESTRAL (essa lista <ul>,) COMO ELEMENTO MAIS PRÓXIMO ('closest'), 
+
+SABEREMOS/A JAVASCRIPT ENGINE SABERÁ QUE O ELEMENTO DRAGGABLE AINDA ESTÁ NA LISTA... (e isso fará com que o código SEJA 
+EXECUTADO... ).... 
+
+SE O JAVASCRIPT PERCEBER QUE NÃO É POSSÍVEL ENCONTRAR UM DESSES ANCESTRAIS PARA O RELATEDTARGET, 
+ELE SABERÁ QUE ESTAMOS FORA DA LISTA...
+
+
+
+
+O professor vai querer checar, então, 'se o elemento ANCESTRAL MAIS PRÓXIMO DO ELEMENTO DRAGGABLE 
+
+NÃO FOR IGUAL A 'list'', VOU QUERER EXECUTAR O SEGUINTE CÓDIGo'...
+
+
+
+ex(REPRESENTAÇÃO DO QUE FOI DITO):
+
+
+
+
+if(event.relatedTarget.closest(`#${this.type}-projects ul`) !== list) {
+    ...
+}
+
+------------------------------------
+
+
+
+
+'se o elemento ANCESTRAL MAIS PRÓXIMO DO ELEMENTO DRAGGABLE 
+
+NÃO FOR IGUAL A 'list'', VOU QUERER EXECUTAR o 'REMOVE DROPPABLE'....
+
+
+CASO CONTRÁRIO, NÃO VOU QUERER FAZER NADA, POIS AINDA ESTAREI ____DENTRO DA LIST___, SEGURANDO O ITEM...
+
+
+(por isso não coloco 'else'/else if...)
+
+
+AGORA O COMPORTAMENTO AGORA DEVE SER O CORRETO.
+
+
+PODEMOS MOVER O ITEM DE LISTA PARA LISTA, E ONDE DEIXAMOS O ITEM, A LISTA (a 'section') SE COLORE DE ROSA...
+
+
+
+
+
+AGORA APENAS TEMOS QUE FAZER COM QUE O PROJECTITEM CONSIGA SER 'SOLTO' NA DROPZONE, NA OUTRA LISTA...
+(ou seja, que o item possa ser efetivamente MOVIDO...)
+
+

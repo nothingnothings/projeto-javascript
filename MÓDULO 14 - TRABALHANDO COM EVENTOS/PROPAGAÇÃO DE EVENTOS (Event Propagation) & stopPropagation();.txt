@@ -1,0 +1,762 @@
+
+
+
+Primeiramente, devemos nos assegurar de que ENTENDEMOS O QUE ESTÁ ACONTECENDO....
+
+
+
+
+
+
+
+O professor altera o código de 'events.js' para APENAS SELECIONAR O PRIMEIRO BOTÃO DA DIV....
+
+
+Ele faz isso por meio da substituição de 'querySelectorAll' por 'querySelector'...
+
+
+
+
+
+ex:
+
+
+
+const button = document.querySelector('button');
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+Depois disso, ele adiciona UM EVENTLISTENER A ELE da mesma forma que estávamos fazendo antes, com addEventListener....
+
+
+Ele coloca um evento click e então uma FUNÇÃO ANÔNIMA COMO SEGUNDO PARÂMETRO....
+
+
+
+
+Aí ele faz o console.log do event, coisa padrão...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+ const button = document.querySelector('button');
+
+
+
+
+
+button.addEventListener('click',
+() => {
+    event => {
+        console.log(event);
+    }
+})
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+MAS AÍ ELE DIZ QUE NÓS NÃO FAREMOS ISSO APENAS NO BOTÃO, AQUI.... não, nós 
+
+
+vamos conseguir acesso A div e então mexer nela....
+
+
+
+VAMOS ADICIONAR UM EVENTLISTENER A ESSA DIV....
+
+Professor também coloca um console.log para ser executado 
+
+no código desse eventListener...
+
+
+Para diferenciar essas 2 execuções de código (entre div e button), o professor também 
+
+
+faz o console log de 'CLICKED DIV' dentro desse addEventListener....
+
+
+Para o button, ele faz um console.log de 'CLICKED BUTTON'...
+
+
+
+ex:
+
+
+
+
+ const button = document.querySelector('button');
+
+
+
+
+
+button.addEventListener('click',
+() => {
+    event => {
+        console.log(event);
+    }
+})
+
+
+
+
+
+const div = document.querySelector('div');
+
+
+div.addEventListener('click', event => {
+    console.log('CLICKED DIV');
+    console.log(event);
+})
+
+
+-----------------------------
+
+
+
+
+AGORA, SE EU RECARREGAR A PÁGINA E CLICAR NO BOTÃO ONDE ESTÃO ENGATILHADOS OS EVENTLISTENERS, 
+
+
+VEREI QUE o devtools console me outputtará
+
+
+
+
+
+'CLICKED BUTTON'
+
+
+
+MouseEvent {isTrusted: true, screenX: -26, screenY: -1045, clientX: 235, clientY: 180, ...}
+
+
+'CLICKED DIV'
+
+
+
+MouseEvent {isTrusted: true, screenX: -26, screenY: -1045, clientX: 235, clientY: 180, ...}'
+
+
+
+
+
+
+------------------------------
+
+
+OU SEJA, OS 2 CÓDIGOS FORAM EXECUTADOS:
+
+
+Primeiramente o BUTTON, e depois a DIV....
+
+
+
+Conforme o professor nos explicou, aqui as coisas (os eventListeners) SÃO 
+
+EXECUTADOS DE DENTRO PARA FORA....
+
+
+(esse é o comportamento DEFAULT DO BROWSER, O DE REGISTRAR TODOS OS EVENTLISTENERS 
+
+NA ___BUBBLING PHASE___, o que significa que A CAPTURING PHASE, QUE RODA PRIMEIRO, É TOTALMENTE 
+
+___IGNORADA___.... ela é totalmente ignorada, mas DEPOIS, QUANDO O BROWSER CHECA 
+
+DE DENTRO PARA FORA por aquele elemento em que o evento ocorreu, ELE PRIMEIRAMENTE ENCONTRA 
+
+UM EVENTLISTENER NO ELEMENTO EM SI (button), e por isso ele é executado ANTES... mas depois 
+
+ele CHECA POR EVENTLISTENERS NOS ELEMENTOS QUE O ENVOLVEM (surrounding elements)... que nesse caso 
+
+é 'div'.... como nós definimos um eventListener em 'div', esse eventListener TAMBÉM É EXECUTADO...) ----------->
+---------->
+
+
+--------> DEPOIS DISSO, BTW, o browser vai também até o BODY e checa SE LÁ NÓS TÍNHAMOS DEFINIDO UM 
+
+CLICK LISTENER.... (mas nós não definimos, por isso nada é executado.).
+
+
+
+MAS O IMPORTANTE DE ENTENDER AQUI É QUE O JAVASCRIPT COMEÇA DO ELEMENTO ONDE O EVENTO OCORREU 
+
+PARA ENTÃO PERCORRER TODOS OS ANCESTRAIS, CHECANDO POR EVENTLISTENERS EM CADA UM DELES...
+
+
+Se há eventListeners neles, ele os executa.
+
+
+
+---------------------------------------------------
+
+
+
+
+CERTO.
+
+MAS NÓS PODERÍAMOS TROCAR PARA A 'CAPTURING PHASE' por meio da adição 
+
+
+DE UM ____tERCEIRO PARÂMETRO___ NOS NOSSOS EVENTLISTENERS...
+
+
+
+Na nossa div eventlistener, por exemplo, poderíamos definir um TERCEIRO PARÂMETRO....
+
+
+Esse terceiro parâmetro pode ser simplesmente 'true'.... (pq o padrão para esse parâmetro é FALSE, ou seja, ele normalmente NÃO EXISTE....)
+
+
+
+ex:
+
+
+
+div.addEventListener('click', event => {
+    console.log('CLICKED DIV');
+    console.log(event);
+    
+}, true)
+
+
+
+
+-----------------------
+
+
+
+POR QUE 'TRUE'? Porque se nós definirmos 'true' como terceiro argumento do eventListener,
+
+
+ESTAREMOS DIZENDO AO BROWSER QUE ESSE EVENTLISTENER DE 'div' DEVERÁ SER 
+PARTE 
+
+
+DA ___CAPTURING PHASE_____ (da phase antecedente à 'bubbling phase'...)....
+
+
+
+
+
+PROFESSOR EXPLICA QUE NÓS ___NÃO TEMOS QUE ____ ALTERAR___ TODOS OS EVENTLISTENERS___ PARA 
+
+SEREM EXECUTADOS NA CAPTURING PHASE (ou seja, o eventListener de 'button'),
+
+
+NÓS PODEMOS ADICIONAR APENAS ESSE EVENTLISTENER DE 'div'...
+
+
+
+
+AGORA, SE RECARREGARMOS A PÁGINA, VEREMOS QUE O EVENTLISTENER DE 
+'div' RODARÁ ___ANTES____ DO EVENTLISTENER DE 'button'.... (ou seja, AFASTAMOS O COMPORTAMENTO PADRÃO DA ENGINE DO JAVASCRIPT, AQUELE COMPORTAMENTO DE EXECUTAR OS EVENTLISTENERS NO SENTIDO INTERIOR-> EXTERIOR.)
+
+
+
+
+
+RECARREGADA A PÁGINA, VEMOS AGORA O OUTPUT 
+
+
+'CLICKED DIV'
+
+
+
+MousEvent {...}
+
+
+'CLICKED BUTTON'
+
+
+MouseEvent {...}
+
+
+
+
+
+OU SEJA, INVERTEU-SE A ORDEM DE EXECUÇÃO. O eventlistener de 'div' executou antes do de 'button'... ----> isso graças ao terceiro parâmetro do eventlistener, 
+
+QUE FEZ COM QUE O LISTENER DE DIV FOSSE ATIVADO/TRIGGERED NA __CAPTURING PHASE__ (que vem antes da bubbling phase, que é a fase em que o eventlistener de 'button' está sendo executado, porque não colocamos 'true' como terceiro parâmetro dele...)....
+
+
+
+
+
+---------------------------------
+
+
+ESSE TRUQUE PODE SER ÚTIL SE VOCÊ QUISER TROCAR A ORDEM DE ATIVAÇÃO/EXECUÇÃO DE EVENTLISTENERS NO SEU CÓDIGO...
+
+
+Situações EM QUE VOCÊ TEM EVENTLISTENERS NÃO SÓ NO ELEMENT EM SI, MAS TAMBÉM EM ANCESTRAIS DELE, 
+ancestrais cujos eventListeners VOCê VAI QUERER, NESSAS SITUAÇÕES ESPECÍFICAS, EXECUTAR/TRIGGAR PRIMEIRO...
+
+
+Essa é a importância do terceiro parâmetro do addEventListener...
+
+
+
+O professor remove esse terceiro parâmetro do código, pois não é algo que ele deseja, e já nos foi explicada a sua utilidade.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Certo. 
+
+    (this entire process)
+ESSE PROCESSO INTEIRO DE TER ___MÚLTIPLOS LISTENERS PARA UM MESMO EVENTO (pq o evento 
+NÃO É ATIVADO EXCLUSIVAMENTE NO ELEMENTO EM SI, mas também em outros ancestrais) É 
+
+CHAMADO DE 
+
+
+
+_________________PROPAGATION_____________. (propagação). 
+
+
+O significado desse termo é que O EVENTO SE PROPAGA PARA CIMA ('the event PROPAGATES UPWARDS, it propagates UP, 'BUBBLES UP')....
+
+
+
+
+Ou, na capture phase, ele + ou - VAI DO EXTERIOR -> INTERIOR..... mas 
+
+
+BASICAMENTE ESSE TERMO SIGNIFICA 
+
+
+QUE O EVENTO NÃO OCORRE SOMENTE NO ELEMENTO EM SI, MAS TAMBÉM EM TODOS 
+
+____ANCESTRAIS____ (ou, pelo menos, QUE PODEMOS FAZER ____LISTEN TO____ EM TODOS ANCESTRAIS (pois há alguns eventos QUE NÃO OCORREM EM TODOS OS ANCESTRAIS, PRESUMO, APESAR DE esses eventos poderem, sim, serem 'listened to' em todos ancestrais de um elemento em que ocorreram... ))
+
+
+
+
+
+O EVENTO OCORREU NESSE BUTTON 'click me', MAS ELE É ___LISTENABLE___ (ou seja, podemos fazer 'LISTEN TO' com addEventListeners) EM 
+
+TODOS ANCESTRAIS DESSE ELEMENTO.... podemos fazer isso PORQUE 
+
+OS EVENTOS SE PROPAGAM PARA CIMA ('propagates up'/propagates upwards/bubbles up). PODE 
+
+SER USADO EM QUALQUER LUGAR '''' __aCIMA___ ''' do elemento em que ocorreu/foi ativado... (ou seja, os elementos da página que encobrem esse elemento).
+
+
+
+
+MAS VOCÊ PODE, ENTRETANTO, PREVENIR ESSE COMPORTAMENTO.
+
+
+
+
+
+DIGAMOS QUE NÓS TEMOS UM EVENTLISTENER Na 'div'....
+
+mas nós queremos, nesse exemplo, apenas reagir a EVENTOS NA 'DIV', E NÃO A EVENTOS NO BOTÃO QUE ESTÁ NA DIV... (o botão que está inserido na div)...
+
+
+
+Isso poderia, hipoteticamente, ser um requisito em um aplicativo EM QUE 
+
+
+VOCê REALMENTE QUER ASSEGURAR QUE OS 'BUTTON CLICKS' NÃO TRIGGEM o 
+
+click listener da 'DIV' em si...
+
+
+-------------------------------
+
+
+Relembrando nosso código:
+
+
+
+
+
+div.addEventListener('click', event => {
+    console.log('CLICKED DIV');
+    console.log(event);
+})
+
+
+
+button.addEventListener('click', event => {
+    console.log('CLICKED BUTTON');
+    console.log(event);
+})
+
+
+--------------------------------------------
+
+
+
+
+PARA CERTIFICAR QUE O CLICK EVENT PARA O BOTÃO, POR EXEMPLO, NÃO SE PROPAGUE MAIS (não se PROPAGUE NA DIREÇÃO DOS CLICKLISTENERS DE 'div'), PODEMOS 
+
+CHAMAR 
+
+'event.stopPropagation' DENTRO DO addEventListener de 'button'...
+
+
+
+
+ex:
+
+
+
+
+
+div.addEventListener('click', event => {
+    console.log('CLICKED DIV');
+    console.log(event);
+})
+
+
+
+button.addEventListener('click', event => {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+})
+
+
+
+-----------------------------------------
+
+
+
+OBS:::: 'stopPropagation()' NÃO É O MESMO QUE 'preventDefault();'
+
+
+
+
+
+PREVENTDEFAULT -----------> PARA O COMPORTAMENTO DEFAULT DE UM DETERMINADO ELEMENTO EM RELAÇÃO A UM CERTO EVENTO EM UM ELEMENTO (para o comportamento padrão do BROWSER em relação a um certo evento.... )
+
+
+
+PARA UM 'ClickEvent' EM UM BOTÃO (button) NÓS NÃO TEMOS UM COMPORTAMENTO DEFAULT (ele não existe built-in no javascript), 
+
+POR ISSO O MÉTODO 'PREVENTDEFAULT()' é completamente inútil nesse exemplo...
+
+
+
+(JÁ PARA UM 'clickEvent' EM um LINK, POR EXEMPLO, TERÍAMOS UM COMPORTAMENTO PADRÃO... O comportamento padrão de um clickEvent em um link É DE ___SAIR____ DA PÁGINA ATUAL E IR ATÉ __ O DESTINO ___ APONTADO___ NAQUELE LINK__. )
+
+
+
+
+
+'stopPropagation()', POR OUTRO LADO, NÃO ALTERA EM NADA O COMPORTAMENTO DEFAULT DO NOSSO BROWSER/PÁGINA...
+
+    ___O COMPORTAMENTO DEFAULT___ AINDA É EXECUTADO NORMALMENTE.....
+
+
+    ou seja, para uma form, por exemplo, A FORM AINDA SERIA SUBMITTADA....
+
+
+MAS O QUE stopPropagation FAZ É __PARAR A PROPAGAÇÃO__ DAQUELE EVENTO NAQUELE ELEMENTO A OUTROS ELEMENTOS......
+
+
+
+Isso significa que QUAISQUER OUTROS LISTENERS (listeners PARA ESSE MESMO ___TIPO__ DE EVENTO) EM ELEMENTOS 
+
+___ANCESTRAIS___ DAQUELE ELEMENTO em que o evento foi triggado/escutado NÃO SERÃO TRIGGADOS POR ESSE EVENTO...
+
+
+
+------------------------------------------------------------
+
+
+
+
+COMO RESULTADO DE 'event.stopPropagation();' em 'button', portanto, VEREMOS QUE 
+
+O 'CLICKED DIV' NÃO SERÁ PRINTADO NO NOSSO CONSOLE QUANDO CLICARMOS NO BOTÃO....
+
+
+
+E, de fato, o console nos printará
+
+
+
+'CLICKED BUTTON' 
+
+
+
+>MouseEvent {...} '
+
+
+
+
+
+OU SEJA, NÃO SERÁ PRINTADO O CÓDIGO atrelado ao eventlistener da 'div', pois 
+
+ELA NÃO CONSEGUIU OUVIR O EVENTO 'CLICK' graças ao método de 'stopPropagation();' em BUTTON.
+
+
+
+
+------------------------------
+
+
+Se eu quiser ativar aquele CLICK LISTENER DA DIV, preciso clicar EM OUTRO LUGAR DA PÁGINA, tudo 
+
+graças ao stopPropagation();.
+
+-----------------------------
+
+
+Mas ainda não acabamos.
+
+
+
+HÁ TAMBÉM O MÉTODO 'stopImmediatePropagation();'
+
+
+
+
+
+ELE É ÚTIL EM HIPÓTESES EM QUE VOCÊ TEM MÚLTIPLOS EVENTLISTENERS em um 
+
+______MESMO ELEMENTO_____. 
+
+
+
+
+
+ex: situação em que temos MAIS DE 1 EVENT LISTENER EM 'button'....
+
+
+Por meio desse 'stopImmediatePropagation()', TODOS OS EVENTLISTENERS SUBSEQUENTES (eventListeners QUE ESTEJAM NO MESMO ELEMENTO, DENTRO DOS LIMITES DESSE ELEMENTo)
+a esse eventListener em que estivesse definido esse código _____DEIXARIAM DE EXECUTAR SEUS CÓDIGOS____, POIS 
+
+NÃO ESCUTARIAM O EVENTO...
+
+
+
+
+ex:
+
+
+
+
+
+button.addEventListener('click', event => {
+    console.log('haha, cancelei o outro eventListener, sou muito foda.')
+event.stopImmediatePropagation();})
+
+
+
+
+button.addEventListener('click', event => {
+    
+console.log('Não serei ativado se o primeiro eventListener for ativado')})
+
+
+
+---------------------------------------------------
+
+
+
+(é evidente que esse exemplo criado por você foi meio pointless, MAS ELE FUNCIONA...)
+
+
+
+-------------------------------
+
+
+Entretanto, com apenas 
+
+
+'stopPropagation();', TODOS OS EVENTLISTENERS DAQUELE ELEMENTO EM QUE ESSE MÉTODO 
+
+
+FOI INSERIDO SERIAM EXECUTADOS, e APENAS OS CLICK LISTENERS DOS ANCESTRAIS DESSE ELEMENTO 
+
+_______DEIXARIAM DE SER____ EXECUTADOS_______.
+
+
+ESSA É A DIFERENÇA ENTRE OS DOIS, 
+
+ENTRE 
+
+'stopPropagation()' E stopImmediatePropagation()..... 
+
+
+------------------------------------------
+
+
+
+
+E ASSIM COMO 'PREVENTDEFAULT()', stopPropagation e stopImmediatePropagation PODEM 
+
+SER FERRAMENTAS MUITO ÚTEIS PARA ASSEGURAR QUE VOCÊ POSSA GERENCIAR OS EVENTOS 
+
+NO SEU CÓDIGO DA EXATA MANEIRA QUE VOCÊ DESEJAR.
+
+--------------------------
+
+
+Aprendemos sobre 'stopPropagation();'.....
+
+
+
+ENTRETANTO, É IMPORTANTE ENTENDER QUE ___NEM TODOS EVENTOS ___ SE PROPAGAM....
+
+
+
+
+
+DE NOVO, O BOM-SENSO É O MELHOR POTO DE PARTIDA para saber SE UM DETERMINADO 
+
+EVENTO SE PROPAGA OU NÃO por nossa página....
+
+
+Para um 'click', faz mais sentido:   QUANDO NÓS CLICAMOS EM ALGUMA COISA, nós 
+
+podemos também querer 'listen to' a UM CLICK EM UM ELEMENTO 'PAI' (parent element).....
+
+
+
+
+PARA UM EVENTO 'HOVERING', fazer 'hover' sobre alguma coisa, essa propagação, esse 'listen to' a outros elementos 
+
+'ancestrais' daquele em que passamos o mouse em cima, isso FAZ MENOS SENTIDO...
+
+
+
+
+
+Se o professor substituir 'click' no addeventlistener do button e da 'div' POR 'mouseenter' e RECARREGAR A PÁGINA, 
+
+
+
+VEREMOS QUE OS BOTÕES nos mostrarão esse fenômeno:
+
+se eu passar o mouse por cima do botão 'click me', em 'button', O EVENTO ___NÃO SE PROPAGARÁ____
+
+PARA CIMA (OU SEJA, NA DIREÇÃO DA 'div' e da 'section'); ISSO OCORRE, DE NOVO, POR CAUSA DO COMPORTAMENTO 
+
+DESSE EVENTO 'mouseenter' (que é essencialmente o evento de 'hovering'...)....
+
+
+
+Ou seja, APENAS O HOVERLISTENER EM ____'BUTTON'_____ SERÁ DISPARADO POR ESSE EVENTO HOVER; o evento hover, portanto, 
+
+NÃO SE PROPAGARÁ NA DIREÇÃO DOS OUTROS EVENTLISTENERS, SETTADOS EM '<DIv>', '<section>', '<body>', etc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+RESUMO:
+
+
+
+
+
+'mouseenter' e 'MOUSEMOVE EVENTS' TIPICAMENTE __NÃO SE PROPAGAM____.
+
+
+
+
+
+
+SE VOCê NÃO TIVER CERTEZA ACERCA DA PROPAGAÇÃO DE UM CERTO ELEMENTO (bubbling up), VOCÊ SEMPRE 
+
+PODE PRINTAR O EVENT OBJECT DESSE EVENTO
+
+-------------------------------------
+(por meio de um código como:
+
+div.addEventListener('click', event => {
+    
+    console.log(event);
+})
+
+
+')
+
+------------------------
+
+E ENTÃO OLHAR DENTRO DELE.... pq dentro dele 
+
+
+você vai ENCONTRAR UMA PROPRIEDADE CHAMADA  
+
+
+'BUBBLES' ('tells you if it bubbles OR NOT').
+
+
+
+
+
+ex (de HOVER EVENTS):
+
+
+'bubbles: false';
+
+
+-------------------------------
+
+ESSA PROPRIEDADE BUBBLES NOS DIZ SE AQUELE TIPO DE EVENTO ___sE PROPAGA__ OU NÃO___.
+
+
+
+Se ele não se propaga, NÃO PRECISAMOS USAR O MÉTODO 'stopPropagation();' COM ELE (já não vai se propagar naturalmente).
+
+
+
+
+
+HÁ UM MONTE DE EVENTOS, COMO 
+
+
+DRAG EVENTS (que são usados PARA DRAG AND DROP), que 
+
+NÃO SE PROPAGAM PARA CIMA (dont propagate up), NÃO SE PROPAGAM PORQUE 
+
+ISSO TIPICAMENTE ACARRETARIA EM COMPORTAMENTOS INDESEJADOS NO NOSSO CÓDIGO/user experience.

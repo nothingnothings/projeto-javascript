@@ -1,0 +1,468 @@
+E se vocÊ quisesse criar um array, como você faria?
+
+
+
+Duh, eu usaria [].
+
+
+
+ex:
+
+
+
+const arr = [1];
+
+
+------------------------
+
+
+
+ENTRETANTO, O QUE NÓS NÃO SABÍAMOS É QUE HÁ VÁRIAS 
+MANEIRAS DE CRIAR UM ARRAY.
+
+
+
+ex:
+
+const arr = [1];
+
+const arr = ['Hi'];
+
+const arr = Array.of(1);
+
+=====================================
+
+
+const arr = Array(1);
+
+
+const arr = Array('Hi');
+
+
+const arr = Array.of('Hi');
+
+
+const arr = Array.from(1);
+
+=============================
+
+
+const arr = new Array(1);
+
+
+const arr = new Array('Hi');
+
+
+const arr = Array.from('Hi');
+
+-----------------------------------------------
+
+
+
+BEM, TODAS ESSAS LINHAS DE CÓDIGO NÃO SÃO MÉTODOS TOTALMENTE DIFERENTES, como vocÊ 
+pode ver, mas, na verdade, as maneiras pelas quais esses métodos criam arrays também 
+MUDAM DEPENDENDO DO TIPO (kind) DE DADOS (data) que você passa a eles (aos métodos).
+
+--------
+
+
+Agora veremos algumas maneiras de criar arrays, antes de trabalharmos com eles.
+
+
+
+Devemos verificar como cada método se comporta, e também 
+explicar sobre qual a situação adequada para cada um deles.
+
+
+
+Devemos escrever o projeto 9.
+
+
+
+Vamos até o app.js desse script, 
+onde nós podemos, é claro, criar um array 
+de NÚMEROS, por exemplo, com o uso dos [].
+
+ex: const numbers = [1, 2, 3, 4];
+
+O professor já nos explica algo importante:
+
+
+[ ] É O MODO MAIS COMUM DE CRIAR UM ARRAY, ALÉM DO MAIS RECOMENDADO.
+Não há nada de errado com ele.
+
+Apenas em casos MUITO, MAS MUITO RAROS vocÊ vai querer 
+criar um array com algum dos outros métodos.
+
+
+O professor faz o log desse array no console, por meio 
+de console.log(numbers);
+
+
+
+Isso tudo nós já sabemos. 
+
+
+Ao logar esse array no console, vemos a notação:
+
+
+(4) [1, 2, 3 , 4]
+
+------------> O PROFESSOR EXPLICA QUE "(4)" É O 'LENGTH' DESSE ARRAY. É 
+assim para todos os arrays.
+
+
+
+O professor então explica alguns dos outros métodos:
+
+
+
+ex:
+
+
+const moreNumbers = new Array();
+
+-------------------------------------
+
+IMPORTANTE!!!! ---> ESSE MODO DE CRIAR ARRAYS UTILIZA A KEYWORD
+"new" no início, seguido do termo "Array" (com maiúscula). 
+
+ESSA DEFINIÇÃO DE ARRAY UTILIZA AQUILO QUE CHAMAMOS DE "CONSTRUCTOR FUNCTION".
+É algo que aprenderemos no futuro, aprenderemos como construí-las, por conta própria.
+
+--------------------------------------------
+
+new Array, portanto, cria UM NOVO ARRAY.
+
+O professor vai em frente e CONSOLE.LOGGA o "moreNumbers" no devtools.
+Ele ressalta que ele ainda não colocou nenhum item dentro desse "new Array", 
+dentro desse "array constructor thing".
+
+Ele recarrega a página e vê no devtools a seguinte notação:
+
+ex:
+
+[];
+
+---------------------
+
+Ou seja, um array vazio foi criado aqui, COM UMA LENGTH DE 0.
+
+Ele explica que...
+
+new Array();  É A MESMA COISA QUE "[]".
+
+------------------------------------------------
+
+Ele dá outro exemplo, um exemplo em que nós colocamos 
+
+"const moreNumbers = new Array('Hi', 'Welcome!');"  //----> professor ressalta que, aqui, você pode colocar quantos parâmetros você quiser, que vocÊ está essencialmente chamando uma função aqui, por isso vocÊ pode colocar quantos parâmetros você deseja.
+
+
+Se recarregarmos a página, veremos 
+que no dev tools
+
+ganhamos a notação
+
+
+(2) ["Hi!", "Welcome!"];
+
+
+
+--------------------------------------------
+
+
+
+MAS AS COISAS FICAM ESTRANHAS SE NÓS TROCARMOS ESSES PARÂMETROS DE STRINGS POR __NÚMEROS__.
+
+ex:
+
+
+const moreNumbers = new Array(1, 5);
+
+
+------------> Professor explica que, se nós passarmos 
+2 números aqui, tudo ainda está ok. A notação no devtools sai igual.
+
+(2) [1, 5];
+
+--------------------------------------
+
+O COMPORTAMENTO ESTRANHO COMEÇA SE O PROFESSOR PASSAR APENAS 1 ÚNICO VALOR/ITEM,
+ COMO "5", por exemplo.
+
+ ex:
+
+
+const moreNumbers = new Array(5);
+
+
+-------------------------> Não interessa o número escolhido, basta que seja 
+apenas 1 único número naquele slot/parâmetro.---> Se fizermos isso, 
+ganhamos uma notação assim:
+
+
+(5) [empty x 5] 
+
+
+
+MUITO, MAS MUITO DIFERENTE DO QUE ESTÁVAMOS RECEBENDO. É um array com length de 5 
+que, na verdade, ESTÁ VAZIO. 
+
+MAS O QUE É ISSO?
+
+É, essencialmente, um ARRAY __Vazio___ ---> COM VALOR FIXO, COM UMA LENGTH FIXA.   <----
+
+
+
+
+O professor diz que nós raramente precisaremos disso, mas 
+essa é uma maneira estranha de criar um array e que pode ser útil.
+Essa "new way" de criar um array se vocÊ passa apenas 1 
+único parâmetro... esse único número será tratado como a length 
+desse array vazio que você criará.
+
+
+Essa é apenas uma peculiaridade que vocÊ deve ter em mente.
+
+
+
+Mas na grande maioria dos casos, você criará 
+arrays com [].
+
+Professor aponta que o [] é melhor também se considerarmos a performance. Consome 
+menos memória.
+
+
+
+OUTRA MANEIRA DE CRIAR UM ARRAY, O PROFESSOR EXPLICA, É POR MEIO DA OMISSÃO 
+DO "new" em "new Array".
+
+ex:
+
+const moreNumbers = Array(5);  ---->  (5) [empty x 5];
+
+--------------------------
+
+Se você fizer isso, essa linha de código ainda funcionará exatamente 
+como antes, como se você ainda tivesse deixado "new" ali.
+
+
+"new" é completamente descartável, portanto.
+
+
+-------------------------------------------------
+
+
+OUTRA MANEIRA DE CRIAR ARRAYS é com "Array.of()".
+
+
+ex:
+
+
+
+const yetMoreNumbers = Array.of();
+
+
+--------------------------------------------------------
+
+
+".of()" É UM MÉTODO ESPECIAL DISPONÍVEL NESSE OBJETO GLOBAL "Array".
+
+
+O professor explica que, assim como em "new Array", aqui vocÊ pode 
+passar valores/argumentos.
+
+ex:
+
+
+const yetMoreNumbers = Array.of(1, 2);
+console.log(yetMoreNumbers);
+
+--------------------------------------
+
+-> Veremos anotado no console o 
+array (2) [1, 2];
+
+
+
+-----------------------------------------
+
+
+
+
+O PROFESSOR RESSALVA QUE ESSE MÉTODO É RUIM: [] É BEM MAIS RAPIDO 
+DO QUE "Array.of()".
+
+
+Você pode se perguntar, então, a razão desse negócio existir.
+
+
+Professor explica que há CASOS RAROS, BEM NICHO, em que 
+você talvez precise de tais funções, porque você talvez precise 
+criar dinamicamente um ARRAY DE UM COMPRIMENTO ESPECÍFICO.
+
+Mas, no final das contas, o professor quer que nós tenhamos essas sintaxes em mente, 
+para uma hipótese em que encontremos code snippets com eles no futuro. 
+
+------------------------------------------
+
+
+
+Agora, devemos ver uma maneira ÚTIL e diferente de criar um array, é o método
+"Array.from();".
+
+
+ex:
+
+
+
+const moreNumbers = Array.from();
+
+
+--------------------------------
+
+
+
+Essa propriedade/método é ESPECIAL. Ela não aceita 
+múltiplos números, como esse ex:
+
+
+const moreNumbers = Array.from(1, 2);
+console.log(moreNumbers);
+
+
+--------------------> Se professor tentar console.loggar esse suposto "array de múltiplos números",
+RECEBERÁ UM ____ERRO____, pois não é permitido a nós 
+passar múltiplos argumentos à essa função.
+
+
+Em vez de múltiplos argumentos, essa função ACEITA UMA INTEGRAL (número inteiro) OU UM 
+ARRAYLIKE OBJECT, e essa é 
+a parte interessante:
+
+"Array.from()", no final das contas, TE PERMITE CONVERTER 
+UMA ___ITERABLE___ ou um ___ARRAYLIKE OBJECT___ (que não é um array) EM 
+UM ARRAY.
+
+
+Array.from() ---> É, ESSENCIALMENTE, UM _____CONVERSOR DE ARRAYLIKE OBJECTS/ ITERABLES EM 
+ARRAYS.
+
+
+
+Entra arraylike object/iterables, sai ARRAY, por meio dessa função.
+
+
+------------------------------------
+
+
+VOcê pode, o professor explica, usar um array como parâmetro aqui:
+
+
+ex:
+
+
+
+const moreNumbers = Array.from([1, 2, 3, 4]);
+
+--------------------------------------------
+
+
+Mas não faz sentido fazer isso, pois você não ganha nada, o negócio 
+vai entrar array e então sair array.
+
+
+Mais útil/interessante é você ter um arraylike object/iterable que você quer 
+converter em um array.
+
+
+exemplo clássico é UMA STRING.
+
+ex:
+
+
+const moreNumbers = Array.from('Hi!');
+console.log(moreNumbers);
+
+
+Se digitarmos isso e recarregarmos, veremos que AGORA NÓS 
+VEMOS ANOTADO NO CONSOLE UM ARRAY  EM QUE 
+A STRING "Hi!" É DIVIDIDA EM MÚLTIPLAS PARTES, em múltiplos caracteres separados que formam o todo.
+
+
+ex:
+
+
+
+const moreNumbers = Array.from('Hi!');
+console.log(moreNumbers); -------- resulta em ----------->  (3) ['H', 'i', '!'];
+
+
+-----------------------------------------------------------------
+
+
+Essa função pode SER ÚTIL NOS CASOS EM QUE VOCÊ TEM UMA STRING QUE VOCê QUER SEPARAR 
+EM CARACTERES INDIVIDUAIS... Array.from() faz isso facilmente, e também te dá um array com o qual você 
+pode trabalhar.
+
+
+
+Mais tarde nesse módulo, veremos o que podemos fazer com um array de verdade: É MUITA COISA.
+
+
+Esse método também é útil para casos em que você 
+tem UM MONTE DE ELEMENTOS NO DOM que vocÊ quer selecionar como UMA NODELIST ou 
+HTMLCollection... aí vocÊ vai querer fazer algo com esses nodes, algo que você SÓ 
+PODE FAZER COM UM ARRAY DE VERDADE.
+
+
+
+
+professor dá um exemplo:
+
+aqui tenho os listItems, obtidos por meio do seletor document.querySelectorAll('li'). 
+Esse comando vai me dar aquilo que é conhecido como uma "NODELIST".
+
+Se o professor fizer o console.log de listItems, ele verá que o negócio 
+será uma NODELIST, uma lista viva... NODELISTS SÃO 
+ARRAYLIKE OBJECTS, pois tem uma length e indexes. Também é uma ITERABLE, porque 
+podemos usar for of nela, MAS ELA __NÃO___ É UM ARRAY DE VERDADE. OS MÉTODOS 
+ESPECÍFICOS DOS ARRAYS NÃO FUNCIONAM NELA.
+
+Se quiséssemos usar um desses métodos nela, primeiro teríamos que convertê-la 
+em um array de verdade.
+
+
+
+ex:
+
+
+const listItems = document.querySelectorAll('li');
+
+const moreNumbers = Array.from(listItems);
+
+
+--------------> Isso converteria os listItems dos elementos Li, mudaria eles para 
+um formato de array, em vez de arraylike object/iterable.
+
+
+ex de listItems como array, mostrados no console:
+
+
+"(3) [li, li, li]" ----> ISSO É UM ARRAY. Podemos usar métodos muito úteis que são típicos dos arrays.
+
+--------------------------------
+
+
+NodeList(3) [li, li, li] ---> ISSO É UMA NODELIST, QUE É UM "ARRAYLIKE OBJECT".
+
+
+
+
+
+
+
+
+-----------> RESUMINDO: DEVEMOS USAR [] para criar arrays, 
+e usar Array.from() para converter arraylike objects em arrays de verdade.

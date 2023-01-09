@@ -1,0 +1,2100 @@
+
+
+
+
+TIVEMOS UMA INTRODUÇÃO AO TESTING...
+
+
+
+mas até agora só vimos códigos RELATIVAMENTE SIMPLES... (códigos 
+
+
+SÍNCRONOS, em que 
+
+NADA DE ESPECIAL ESTAVA ACONTECENDO...) --> códigos EM QUE 
+
+NENHUM 
+
+__sIDE EFFECT___ ocorria, estava envolvido... ---> SIDE EFFECTS 
+
+
+como 
+
+HTTP REQUESTS INDO PARA FORA ('going out') QUANDO UMA 
+
+FUNÇÃO É CHAMADA... -------->
+
+
+
+
+COISAS COMO ASYNC CODE podem 
+
+CAUSAR __PROBLEMAS___ quando você está 
+
+tentando RODAR TESTS.... --> pq seus tests 
+
+
+TAMBÉM VÃO TRIGGAR AQUELE CÓDIGO, 
+
+aquele código que talvez/provavelmente mandará o HTTP request,
+ 
+ ou que REALIZARÁ ALGO QUE FARÁ O TEST SER MAIS LONGO... esses códigos assíncronos
+
+ podem acabar HITTANDO ('hitting') uma 
+
+ API 'backEND', ou podem até mesmo ACABAR 
+
+ DISTORCENDO SEUS RESULTADOS...
+
+
+
+ -------------------------------
+
+
+
+
+ ---> o professor agora vai nos mostrar COMO NÓS PODEMOS 
+
+ FAZER NOSSO TESTE MAIS SIMPLES, COMO PODEMOS 
+
+ ESCREVER ELE PARA ELE SER MAIS SIMPLES E PARA ELE FOCAR NAS 
+
+ coisas 'core'... ----> ou seja, testar realmente apenas as coisas 
+
+ que importam para nós...
+
+
+
+
+ -----> PARA ISSO, DNV, o professor anexou um STARTING PROJECT...
+
+
+
+ ---> Se você inicializar o projeto por meio de um double click no 
+
+ index.html,
+
+
+ vocÊ 
+
+
+ verá 
+
+ UM BOTÃO 'get post title!' em uma página....
+
+
+ Se vocÊ clicar 
+
+ nesse botão, 
+
+
+ você verá um UPPERCASE text ser printado no console....
+
+
+
+
+ --------------------------
+
+
+
+ NOsso código é um código BEM SIMPLES....
+
+
+
+ SETUP SIMPLES USANDO WEBPACK...
+
+
+
+
+ --> o professor, em 'app.js'
+
+ ganha acesso 
+
+ A UM BOTÃO NO DOM... 
+
+
+
+
+ aí 
+
+
+ ele vai lá 
+
+ e adiciona um LISTENER 
+
+ a esse botão...
+
+
+ um listener 
+
+
+
+
+ que fica vinculado a 'printTitle()"
+
+
+ printTitle(), por sua vez, chama 
+
+
+ 'loadTitle()',
+
+
+
+
+ que é 
+
+ a função 
+
+
+
+ '
+const loadTitle = () => {
+  return fetchData().then((extractedData) => {
+    const title = extractedData.title;
+    const transformedTitle = title.toUpperCase();
+    return transformedTitle;
+  });
+};
+'
+
+----------------------------------------
+
+
+
+
+
+NESSA FUNÇÃO, 
+
+
+o professor faz 'reach out' 
+
+À 
+
+'fetchData()',
+
+
+
+
+QUE É UMA FUNÇÃO PROVIDENCIADA POR UM DIFERENTE ARQUIVO (e importada por meio da SINTAXE DO 'NODE.JS'... e essa função é uma função TIRADA DO 'axios' da third party library do 'axios'...)
+
+
+
+
+
+
+Essa funçaõ
+ 
+
+
+ 'fetchData()' 
+
+
+ vai sempre RETORNAR UM 
+
+ OBJETO DATA/PROMISE com um objeto 'data'...
+
+
+
+ esse objeto 'data' será 
+
+
+ aquele parâmetro de 
+
+ 'extractedData' 
+
+ QUE SERÁ ENTÃO 
+
+ USADO 
+
+ naquele 
+
+ código de 
+
+
+
+ 'const title = extractedData.title' (esse código vai EXTRAIR O 'TITLE' de extractedData...), 
+
+ etc etc....
+
+
+
+
+já o código 
+
+
+'title.toUpperCase()' 
+
+VAI TRANSFORMAR TODO ESSE 'TITLE' em uppercase...
+
+
+POR FIM, 
+
+
+é feito o return 
+
+de 'transformedTitle',
+
+
+e a função 'loadTitle' 
+
+termina sua execução....
+
+
+---------------------------
+
+
+
+CERTO....
+
+se dermos uma olhada nesse arquivo 
+
+
+
+'http.js',
+
+
+
+VOCÊ VERÁ QUE 
+
+__NÓS ESTAMOS USANDO ___ UMA THIRD PARTY PACKAGE....
+
+
+(AXIos) 
+
+
+
+Ali, em 'fetchData', 
+
+
+
+O PROFESSOR 
+
+FAZ UM ___GET REQUEST___ por meio do AXIOS...
+
+
+
+Ele faz um get request de DADOS de uma DUMMY API... ('jsonplaceHolder') ---> 
+
+
+
+um request de tipo GET __DE VERDADE__ é feito aqui, mas 
+
+é um DUMMY API.... --> é um dummy API 
+
+que podemos 
+
+
+usar para testar e tals....
+
+
+
+
+é a partir desse request 
+
+QUE 
+
+CONSEGUIMOS 
+
+UM OBJETO 'response' (providenciado PELO AXIOS)...
+
+
+aí nós vamo save
+lá 
+
+
+e EXTRAÍMOS a 
+
+'data' 
+
+DESSA RESPONSE... (por meio daquele '.then()' block....   )
+
+
+
+
+OBJETO 'RESPONSE' ---> tem algumas propriedades, como 'statusCode', 
+
+
+
+MAS TAMBÉM TEM UMA PROPRIEDADE COMO 'data', 
+
+QUE É A COISA QUE 
+
+ESTAMOS EXTRAINDO, AQUI...
+
+
+
+--------------------------------
+
+
+
+
+
+Certo... é isso que esse código faz...
+
+
+
+
+
+AGORA DEVEMOS RODAR ALGUNS TESTES EM CIMA DESSE CÓDIGO....
+
+
+
+
+
+---> professor explica que ele JÁ INSTALOU O JEST, aqui... 
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+ ---> NESSE CÓDIGO ELE TAMBÉM ESTÁ USANDO A SINTAXE 
+
+ DE IMPORT/EXPORT DO NODE.JS .....  ('const {...} = require(xxxx)') -->
+
+ ELE ESTÁ USANDO ESSA SINTAXE
+
+ ___PQ O JEST __A UTILIZA (a sintaxe node.js) 
+ POR DEFAULT...
+
+
+
+
+
+
+---> para fazer o jest ACEITAR OUTRA SINTAXE DE IMPORT( sintaxe ES6), 
+
+É NECESSÁRIO CRIAR UM BUILD WORKFLOW MAIS COMPLEXO...
+
+ --------------------
+
+
+
+---> NO ÚLTIMO VÍDEO, APRENDEMOS QUE PODEMOS CRIAR 
+
+___UM NOVO ARQUIVO DE TESTES___ por meio 
+
+da 
+
+
+criação de um arquivo 
+
+com nome 
+
+de 
+
+'xxxx.test.js'...
+
+
+ex:
+
+
+'app.test.js'...
+
+
+
+
+
+---> essa escolha de nome FARÁ COM QUE 
+
+O JEST PEGUE ESSE ARQUIVO E O EXECUTE AUTOMATICAMENTE...
+
+
+
+
+
+
+---> Certo, esse será o arquivo de teste para 
+
+'app.js'...
+
+
+
+
+--> DIGAMOS QUE QUEREMOS TESTAR 
+
+
+'printTitle'...
+
+
+
+---> ELE DIZ QUE CONVENIENTEMENTE ele 
+
+
+__JÁ ESTÁ __ EXPORTANDO 
+
+'printTitle' 
+
+
+por meio da sintaxe 
+
+'exports.printTitle = printTitle',
+
+
+em app.js,
+
+LÁ EMBAIXO NO ARQUIVO....
+
+
+
+Esse __EXPORT__ dessa função 
+
+É NECESSÁRIA PARA QUE 
+
+POSSAMOS 
+
+A UTILIZAR 
+
+em 
+
+'app.util.js'....
+
+
+
+
+
+
+-----------------------------
+
+
+Feito isso, 
+
+
+podemos usar a função 
+
+
+'test()' 
+
+
+
+em 
+
+APP.TEST.JS...
+
+
+
+
+MAS ANTES DISSO, DEVEMOS 
+
+
+ESCREVER ESSE O CÓDIGO DE IMPORT NO INÍCIO DO 
+
+'app.test.js'...
+
+(É O CÓDIGO DE IMPORT DE 'printTitle()'...)
+
+ex:
+
+
+
+const { printTitle } = require('./app');
+
+
+
+------------------------
+
+
+
+Certo, agora podemos usar 'test()'...
+
+
+
+----------------------------
+
+
+
+
+
+DEVEMOS PASSAR UMA DESCRIÇÃO DO QUE ESSA FUNÇÃO DEVERÁ  TESTAR/OBSERVAR/fazer com que 
+
+aconteça...
+
+
+
+
+o que queremos 
+é 
+
+
+'should print an uppercase text'...
+
+
+
+ex:
+
+
+
+
+test('should print an uppercase text', () => {
+
+} );
+
+
+
+
+----------------------------------
+
+
+
+
+
+NO SEGUNDO ARGUMENTO DEVERÁ IR A 'TESTING LOGIC'...
+
+
+
+
+É ALI QUE DEVEMOS DEFINIR AS NOSSAS EXPECTATIONS... (expect() ) 
+
+
+
+
+
+
+
+
+----> PROFESSOR EXPLICA QUE __NÓS PODERÍAMOS__ É CLARO___, fazer 
+
+'EXPECT()' de um uppercase TEXT com a ajuda de 
+
+ALGUMA 
+
+
+'MÁGICA REGEX' (usar regular expressions para 
+criar esse parâmetro do expect() ....) ---->  
+
+
+MAS AQUI, COMO NÓS VAMOS 
+
+
+MUDAR ISSO DE QUALQUER FORMA, 
+
+
+
+O professor 
+
+diz que 
+
+
+por enquanto 
+
+ele só vai 
+
+esperar 
+
+
+'DELECTUS AUT AUTEM' (o conteúdo 
+
+retornado pela API, o item da página) ---> 
+
+
+PQ ELE SEMPRE VAI RECEBER ESSES DIZERES ESPECÍFICOS 
+
+POR MEIO DA DUMMY API...
+------------------------------------
+
+
+
+
+
+RESULTADO:
+
+
+
+
+
+const { printTitle } = require('./app');
+
+
+test('should print an uppercase text', () => {
+    expect();
+} );
+
+
+
+
+-----------------------------
+
+
+
+Certo...
+
+
+o professor 
+
+
+vai 'ESPERAR QUE O RESULTADO DE 'printTitle()' 
+
+SEJA (toBe) IGUAL 
+
+
+À 
+
+'DELECTUS AUT AUTEM'...
+
+
+
+ex:
+
+
+
+
+
+
+
+const { printTitle } = require('./app');
+
+
+test('should print an uppercase text', () => {
+    expect(printTitle().toBe('DELECTUS AUT AUTEM'));
+} );
+
+
+
+------------------------------
+
+
+
+PODEMOS RODAR 
+
+
+O 'NPM RUN TEST'...
+
+
+
+
+
+--> esse run vai FALHAR...
+
+
+
+vai 
+
+
+
+dar 
+
+
+
+FAIL  ./app.test.js
+  ● Test suite failed to run
+
+    TypeError: Cannot read property 'addEventListener' of null
+
+
+
+
+--> A RAZÃO PARA ISSO, EXPLICA 
+
+O PROFESSOR, 
+
+É QUE 
+
+
+
+'APP.JS'
+
+
+TEM UM CÓDIGO 
+
+QUE SEMPRE EXECUTARÁ 
+
+
+QUANDO ESSE ARQUIVO 
+
+
+'app.js'
+ 
+
+ É EXECUTADO.... 
+
+
+ (
+
+     é o código de 'button.addEventListener('click', printTitle);'  ---------> é o 'printTitle'...
+ )
+
+
+
+ E ESSA FUNÇÃO É, __ DE FATO__, executada 
+
+ QUANDO NÓS A IMPORTAMOS 
+
+
+
+ DE  'app.js'
+
+
+ em 
+
+ 'app.test.js'...
+
+
+
+
+ ---> E ESSA FUNÇÃO TENTA ACESSAR 
+
+ O __DOM__ em 'app.js'  (porque o 'BUTTON', esse elemento JS, tenta acessar o DOM),
+
+
+MAS ISSO VAI FALHAR, POIS 
+
+O DOM DE VERDADE NÃO ESTÁ CARREGADO 
+
+
+em 
+
+
+'app.js'...
+
+
+--------------------------------
+
+
+
+Isso significa que 
+
+
+em 
+
+
+'const button = document.querySelector('button');' 
+
+
+O DOM DE VERDADE NÃO É CARREGADO...
+
+
+
+
+
+
+---> para CONSERTAR ISSO, o professor 
+
+faz aquela gambiarra 
+
+de pegar 
+
+
+UM PEDAÇO DE UM CÓDIGO E FAZER OUTSOURCE DELE, MANDAR ELE PARA OUTRO ARQUIVO E ENTÃO DEFINIR UMA 
+FUNÇÃO STANDALONE COM AQUELE CÓDIGO LÁ...
+
+
+
+---> isso significa que 
+
+ELE 
+
+
+
+
+VAI PEGAR 
+
+
+O CÓDIGO DE 
+
+'printTitle'  ('const printTitle = () => {...} '),
+
+
+
+que 
+
+
+é 
+
+
+
+'const printTitle = () => {loadTitle().then(title => {
+  console.log(title);
+});
+};'
+
+
+
+E ENTÃO 
+
+
+
+VAI COLOCÁ-LO 
+
+em um 
+
+novo arquivo, um arquivo de nome 
+
+
+'util.js'...
+
+
+
+
+---------------------------
+
+
+
+
+FEITO ISSO, 
+
+
+
+O PROFESSOR VAI 
+
+
+FAZER O EXPORT 
+
+
+de 'printTitle' (dessa constante/função) 
+
+
+em 'util.js', 
+
+
+por meio 
+
+
+do código 
+
+
+'exports.printTitle = printTitle;'
+
+
+
+
+---------------------------
+
+
+O QUE ISSO NOS DEIXA FAZER É 
+
+
+__IMPORTAR__ UMA FUNÇÃO 
+
+
+SÓ DAQUELE ARQUIVO DE 'util.js' (e a única função nesse arquivo 
+
+
+é essa função 'printTitle'..) ----------->   ISSO, EM CONTRAPARTIDA,
+
+
+VAI NOS 
+
+DEIXAR ___iMPORTAR ALGO DE NOSSO CÓDIGO (uma função) ___ SEM RECORRER 
+
+A EXECUTAR 'app.js', o que por sua vez NOS DEIXA EVITAR 
+
+'hit the real dom'...
+
+
+
+
+
+----> o professor, feito isso, renomeia 
+
+
+o 
+
+'app.test.js'
+
+
+para 
+
+
+'util.test.js'...
+
+
+
+
+
+
+---> feita essa alteração,
+
+
+ele MUDA, em 'util.test.js',
+
+
+A LINHA 
+
+
+DE CÓDIGO 
+
+
+
+'const { printTitle } = require('./app'); ' 
+
+PARA 
+
+
+
+'const { printTitle } = require('./util'); ///////// OU SEJA, 
+
+
+AGORA IMPORTAREMOS 
+
+
+ESSA FUNÇÃO 
+
+
+
+DE 'util.js', 
+
+
+E NÃO MAIS DE 'app.js'...
+
+
+
+
+
+
+Depois 
+
+
+disso, 
+
+
+
+em 
+
+
+'app.js'
+
+
+como nós 
+
+acabamos 
+
+
+de remover 
+
+
+
+o 'printTitle' 
+
+de lá, 
+
+NÓS 
+
+DEVEMOS 
+
+
+COLOCAR UM IMPORT NO CÓDIGO, um import de 'printTitle', que agora está em 'util.js'...
+
+
+
+
+ex:
+
+
+
+
+
+const { fetchData } = require('./http');
+
+const { printTitle } = require('./util');
+
+const button = document.querySelector('button');
+
+const loadTitle = () => {
+  return fetchData().then((extractedData) => {
+    const title = extractedData.title;
+    const transformedTitle = title.toUpperCase();
+    return transformedTitle;
+  });
+};
+
+const printTitle = () => {
+  loadTitle().then((title) => {
+    console.log(title);
+  });
+};
+
+button.addEventListener('click', printTitle);
+
+exports.printTitle = printTitle;
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+CERTO...
+
+
+MAS POR FIM, PARA QUE NOSSO CÓDIGO FUNCIONE, 
+
+O PROFESSOR 
+
+
+TERÁ 
+
+
+DE TRANSPLANTAR TAMBÉM 
+
+
+a função 'loadTitle' 
+
+
+PARA O 'util.js',
+
+
+TAMBÉM....  (pq o 'printTitle' DEPENDE DESSA FUNÇÃO PARA FUNCIONAR...)
+
+
+
+
+FICARÁ ASSIM:
+
+
+
+
+
+
+
+  const loadTitle = () => {
+    return fetchData().then((extractedData) => {
+      const title = extractedData.title;
+      const transformedTitle = title.toUpperCase();
+      return transformedTitle;
+    });
+  };
+
+
+
+
+  const printTitle = () => {
+    loadTitle().then(title => {
+    console.log(title);
+  });
+  };
+
+
+
+
+  exports.printTitle = printTitle;
+
+
+
+
+  --------------------------------------------
+
+
+
+
+
+  como CONSEQUÊNCIA DESSES TRANSPLANTES, 
+
+  TAMBÉM VAMOS 
+
+  PRECISAR IMPORTAR 
+
+  a função 
+
+
+  'fetchData' (de 'http.js') 
+
+
+  PARA 
+
+  DENTRO DO CÓDIGO DE 
+
+
+  'util.js' (pq esse fetchData é utilizado NA FUNÇÃO DE 'loadTitle()'...)  --->
+
+
+
+  É POR ISSO QUE O PROFESSOR VAI ROUBAR 
+
+
+
+  O CÓDIGO IMPORT DE FETCHDATA QUE ESTÁ 
+
+  LÁ NO ARQUIVO 'app.js'...
+
+
+
+
+  ----------------------------
+
+
+
+
+  COM ESSE SETUP CONCLUÍDO, SE AGORA 
+
+  RODARMOS 
+
+
+  'npm test',
+
+
+   
+
+
+
+
+CONSEGUIREMOS RODAR NOSSO TEST....
+
+
+---> nosso test vai rodar,
+ 
+
+ mas RECEBEREI OUTRO ERRO...
+
+
+
+
+ RECEBEREI (e o professor)  ---> MAS ERRO DO PROFESSOR É __DIFERENTE__ --> ele ganha um erro 'Expected string but received UNDEFINED'...
+
+
+
+
+
+ UM ERRO 
+
+
+ DE 
+
+    'TypeError: Cannot read property 'toBe' of undefined'
+ 
+
+
+
+
+---> CONSERTEI O MEU ERRO... era um ERRO DE SINTAXE em 'util.test.js'...
+
+
+era isso:
+
+
+ESTAVA ASSIM:
+
+
+test('should print an uppercase text', () => {
+    expect(printTitle().toBe('DELECTUS AUT AUTEM'));
+} );
+
+
+
+MAS ERA PRA ESTAR ASSIM:
+
+
+test('should print an uppercase text', () => {
+    expect(printTitle()).toBe('DELECTUS AUT AUTEM');
+} );
+
+
+
+
+ --------------------------------------
+
+
+
+
+'expected String BUT RECEIVED UNDEFINED' ---> isso já nos mostra UM PROBLEMA QUE TEMOS 
+
+COM 'ASYNC CODE TESTING'....
+
+
+--------------------------------------
+
+
+'expected String BUT RECEIVED UNDEFINED'  -------> PROBLEMA COM TEST DE CÓDIGO ASSÍNCRONO. 
+
+
+
+
+
+---> professor explica que 
+
+
+em 
+
+'printTitle', 
+
+
+ele/nós DE FATO 
+
+ESTAMOS ___RETORNANDO __ ___ __ ___ "NADA"___ __ _ ___. (nothing)...save
+
+veja o código 
+
+
+de 
+
+'printTitle':
+
+
+
+const printTitle = () => {
+  loadTitle().then(title => {
+    console.log(title);
+  })
+};
+
+
+
+---------------------------
+
+
+
+
+É por isso que recebermos 'undefined'   (e o teste espera um 'UPPERCASE TEXT'...)
+
+
+do run dessa função 
+
+É ALGO QUE FAZ PERFEITO SENTIDO...
+
+
+
+-----------------------------------
+
+
+
+
+
+Mas mesmo se nós REALMENTE RETORNÁSSEMOS alguma coisa por meio dessa função, 
+
+como por exemplo, 
+
+
+se eu ALÉM DE 
+
+console.loggar o title,
+
+também 
+
+fizesse 
+
+o __rETURN___ do title....
+
+
+
+ex:
+
+
+
+
+const printTitle = () => {
+  loadTitle().then(title => {
+    console.log(title);
+    return title;
+  })
+};
+
+
+
+
+-------------------------------------------
+
+
+
+SE EU FIZER ISSO E RECARREGAR,
+ 
+
+ EU AINDA ___VOU RECEBER AQUELE MESMO  ERRO____....
+
+
+
+
+ --------------------------------------
+
+
+
+ A RAZÃO PARA ISSO (e isso não tem NADA A VER COM TESTING, porque 
+ esse comportamento é algo TOTALMENTE NORMAL) É 
+
+
+ ___QUE RETURN STATEMENTS___ DENTRO DE CALLBACKS/DENTRO DE '.then()' CALLS 
+
+ DE PROMISES  ___NUNCA __ SÃO EXECUTADOS/NÃO SÃO EXECUTADOS___.... 
+
+
+ na verdade, 
+
+
+ ELES ___sÃO EXECUTADOS___, mas 
+
+
+ O JAVASCRIPT __NÃO ESPERA POR ELES (os return statements)__, ele __NÃO RETORNA__ 
+
+ ESSE VALOR 
+
+ de 'title' (nesse exemplo) COMO 
+
+ VALOR DE RETURN PARA ESSA 'OVERALL FUNCTION' de printTitle... --->  EM 
+
+
+ VEZ DISSO, 
+
+
+ EXPLICA O PROFESSOR, 
+
+ ESSE VALOR 'TITLE' É O VALOR RETORNADO COMO VALOR DE RETURN 
+
+ ____DA 'INNER FUNCTION' do printTitle...
+
+ (da função NESTED dentro da outra, pois esse return 
+ 
+ statement 
+ 
+ ESTÁ 
+ 
+ DENTRO DO SEGUNDO PARÂMETRO DAQUELE '.then()' call, daquele CÓDIGO ASSÍNCRONO.)
+
+
+
+ ---->  E NÓS NÃO ESTAMOS 
+
+
+ ____________tESTANDO ESSA 'INNER FUNCTION' de 'printTitle()',
+
+ E 
+
+
+ SIM 
+ ESTAMOS 
+
+ TESTANDO 
+
+
+ A ___OVERALL FUNCTION ____ de 'printTitle()', 
+
+ 
+
+ QUE É A COISA QUE FAZ, NO FINAL DAS CONTAS,
+
+ o output daquele 
+
+
+ 'uppercase text'... -------------> É POR ISSO 
+
+
+ QUE AQUI, NESSE NOSSO CASO, 
+
+
+ UMA SOLUÇÃO SIMPLES 
+
+ ___SERIA ___TESTAR__  o 
+
+
+
+ 'loadTitle()', 
+
+
+ e NÃO 
+
+ 'printTitle()'... 
+
+
+
+
+ MAS PQ TESTAR 'loadTitle()'? -------> PQ DENTRO 
+
+
+ DE loadTitle (
+
+
+  const loadTitle = () => {
+    return fetchData().then((extractedData) => {
+      const title = extractedData.title;
+      const transformedTitle = title.toUpperCase();
+      return transformedTitle;
+    });
+  };
+
+
+
+
+
+
+
+
+
+
+ )
+
+ nós 
+
+
+
+
+ __RETORNAMOS ___ ALGO 
+
+
+ NA FUNÇÃO INTERNA, SIM;
+
+
+
+ MAS NÓS TAMBÉM 
+
+ RETORNAMOS ALGO NA 'MAIN FUNCTION', 
+
+ na função 
+
+ ___eXTERNA____ (retornamos o RESULTADO de 'fetchData().then(...)'....) ----> 
+
+
+ NÓS RETORNAMOS, NA FUNÇÃO EXTERNA/MAIN, A ___PROMISE INTEIRA___... --> O que 
+
+ significa que 
+
+ PROVAVELMENTE RECEBEMOS UMA __PROMISE AQUI___, UMA PROMISE A QUAL PODEMOS FAZER 
+
+ 'listen to'...--> e isso nos deixa definir 'expects()' válidos...
+
+
+
+
+
+
+ podemos fazer 'expect()' de algo 
+
+ ÚTIL por meio 
+
+
+ do uso 
+
+
+ de 
+
+ 'loadTitle()'...
+
+
+
+ ------------------------------------
+
+
+
+ POR ISSO, DEVEMOS MUDAR ALGUMAS COISAS NO NOSSO CÓDIGO....
+
+
+ Professor diz que devemos 
+
+ EXPORTAR 
+
+
+ 'loadTitle', essa função,
+
+ 
+
+ no nosso código...
+
+
+
+
+
+por meio do código 
+
+
+
+
+'exports.loadTitle = loadTitle;'    EM 'util.js'...
+
+
+--------------------------
+
+
+
+DEPOIS DISSO, vamos 
+
+até 
+
+'util.test.js'
+
+
+
+
+e então  
+
+
+REMOVEMOS O CÓDIGO 
+
+DE 
+
+
+
+
+'expect(printTitle()).toBe('DELECTUS AUT AUTEM');'
+
+...
+
+
+
+FICA ASSIM:
+
+
+test('should print an uppercase text', () => {
+  ...
+})
+
+
+------------------
+
+
+
+
+DENTRO DO SEGUNDO PARÂMETRO,
+
+
+
+vamos colocar 
+
+
+um expect diferente....
+
+
+
+
+MAS ANTES 
+
+
+DISSO,
+
+
+VAMOS 
+
+
+
+IMPORTAr 
+
+
+
+'loadTitle' 
+
+
+
+nesse arquivo de util.test.js...
+
+
+
+ex:
+
+
+
+
+
+const { loadTitle } = require('./util');
+
+
+
+  
+test('should print an uppercase text', () => {
+  ...
+})
+
+
+
+--------------------------------------
+
+
+
+
+
+ISSO FEITO,
+
+
+
+O PROFESSOR 
+
+
+VAI, dentro do 
+
+
+'test()', 
+
+
+
+EXECUTAR 
+
+o 
+
+
+'loadTitle()' ....
+
+
+
+----------------------------------------
+
+ex:
+
+
+const { loadTitle } = require('./util');
+
+
+
+  
+test('should print an uppercase text', () => {
+  loadTitle();
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A execução de 
+
+'loadTitle()' 
+
+
+VAI NOS RETORNAR UMA 
+
+
+________pROMISe____...
+
+
+Como essa execução vai nos retornar UMA PROMISE, 
+
+podemos 
+
+usar
+
+
+um '.then()' BLOCK 
+
+
+logo após o 
+
+'loadTitle()', que 
+
+executará 
+
+códigos a partir DO RETURN de sua promise....
+
+ 
+
+
+
+
+
+
+
+ EX:
+
+
+
+
+ const { loadTitle } = require('./util');
+
+
+
+  
+test('should print an uppercase text', () => {
+  loadTitle().then();
+})
+
+
+
+-------------------------------------
+
+
+Dentro do 
+
+'.then()', 
+
+
+
+
+O professor vai colocar um 
+
+parâmetro 
+
+
+de 'title', POIS O PROFESSOR 
+
+
+___sABE___ QUE ELE VAI RECEBER UM 'title'
+ 
+
+ por meio 
+
+ do return da promessa 
+
+
+ de 
+
+ 'loadTitle'...
+
+ (LEMBRE-SE DO CÓDIGO DE 
+ 
+ 'const printTitle'....
+ 
+ 
+ 
+ Ex:
+ 
+ 
+ 
+ const printTitle = () => {
+   loadTitle().then(title => {
+     console.log(title);
+     return title;            -------------------> ESSA FUNÇÃO 'printTitle' NOS MOSTRA QUE O 'loadTitle' SEMPRE NOS RETORNARÁ UM 'title' 
+   });
+ };                
+ 
+)
+
+
+
+
+
+OK, mas pq diabos 
+
+'loadTitle()' 
+
+
+sempre nos retornará um title?
+
+
+
+É bem simples, 
+
+
+basta darmos uma olhada no código 
+
+
+de 'loadTitle()' em 'util.js'....
+
+ex:
+
+
+const loadTitle = () => {
+  return fetchData().then(
+    extractedData => {
+      const title = extractedData.title;
+      const transformedTitle = title.toUpperCase();
+      return transformedTitle; ----------> ESSE É O VALOR RETORNADO POR ESSA FUNÇÃO; é o valor que é o 'title' que será UTILIZADO NOS '.then()' blocks aleatórios EM OUTRAS PARTES DE NOSSO CÓDIGO... (como em 'test()'...) 
+    }
+  )
+}
+
+
+-------------------------------
+
+
+
+
+
+
+CERTO...
+
+
+
+Então esse é o código que temos em test:
+
+
+
+
+
+
+ const { loadTitle } = require('./util');
+
+
+
+  
+test('should print an uppercase text', () => {
+  loadTitle().then(title => {
+
+  });
+})
+
+
+
+-------------------------------------
+
+
+
+CERTO...
+
+A partir 
+
+do recebimento desse 
+
+'title', 
+
+
+
+o professor vai querer 
+
+
+
+
+'''EXPECT'''
+ 
+
+ 
+
+ que 
+
+ 'TITLE' SEJA (toBe() )  
+
+
+ IGUAL 
+
+ AO 
+
+ 'DELECTUS AUT AUTEM'... (a mensagem string em UPPER CASe...)
+
+
+
+
+ ex:
+
+
+
+
+  const { loadTitle } = require('./util');
+
+
+
+  
+test('should print an uppercase text', () => {
+  loadTitle().then(title => {
+    expect(title).toBe('DELECTUS AUT AUTEM');
+  });
+})
+
+
+
+
+------------------------
+
+
+
+CERTO... E É ISSO QUE O PROFESSOR VAI ESPERAR ('expect') COMO VALOR....
+
+
+
+
+O PROFESSOR RE-EXECUTA O 'npm test'...
+---------------------------
+
+
+
+
+
+DESSA VEZ, NOSSO CÓDIGO É __bEM SUCEDIDO___...
+
+
+
+
+ex:
+
+
+
+ PASS  ./util.test.js
+  √ should print an uppercase text (12 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        2.409 s
+Ran all test suites.
+PS C:\projeto\MODULO31TESTING\projeto32> 
+
+
+---------------------------------------------
+
+
+
+
+
+
+---> ESSA MANEIRA, PORTANTO, é __MELHOR___; é uma 
+
+maneira pela qual poderíamos 
+
+testar o nosso código assíncrono...  ---------> MAS AINDA 
+
+TEMOS UM PROBLEMA AQUI...  --------------> O PROBLEMA 
+
+
+É QUE ___NÓS AINDA ESTAMOS ___
+
+'HITTANDO' (hitting) 
+
+A NOSSA __API___.................
+
+
+
+---------------------------
+
+
+
+COMO ASSIm?
+
+
+
+
+--> bem, lá em 
+
+
+'util.js'
+ 
+
+ O PROFESSOR AINDA ESTÁ 
+
+ USANDO 
+
+
+ 'fetchData'...    e, se você 
+
+
+ se lembra bem, 
+
+
+
+ a função 'fetchData' 
+
+
+ É DEFINIDA 
+
+ NO ARQUIVO 
+ 'http.js'...
+
+
+ ---> LÁ 
+
+ NO ARQUIVO 
+
+ 'HTTP.JS',
+
+
+ NÓS ESTAMOS FAZENDO UM 
+
+ ____'REAL API REQUEST'___ (um API REQUEST ___ DE VERDADE___ ...)
+
+
+
+
+ CÓDIGO 
+
+ de 'fetchData' ===
+
+
+
+
+ const fetchData = () => {
+    return axios
+    .get('https://jsonplaceholder.typicode.com/todos/1') //////////// ESTE É UM API REQUEST DE VERDADE....
+    .then(response =>           ///////////////////
+        {
+            return response.data;
+        });
+};
+
+
+
+
+-------------------------------------------------
+
+
+
+
+-----> NÓS TIPICAMENTE 
+
+______NÃO VAMOS QUERER_____ FAZER 
+
+'REAL API REQUESTS' 
+
+em testing... (na fase de testing)... -------->
+
+
+--------> MAS PQ NÃO?
+
+
+
+--> PQ NÓS PODEMOS __EXCEDER CERTOS 'API QUOTAS' (cotas de API) 
+
+se nós fizermos isso... ---> por exemplo,
+
+SE NÓS ESTIVERMOS TESTANDO 
+
+___POST REQUESTS__,  NÓS PODEMOS ACABAR ATÉ MESMO 
+
+____EDITANDO ALGUMA COISA____ na API em si, ALGO QUE NÓS 
+
+CERTAMENTE NÃO QUEREMOS FAZER ENQUANTO ESTAMOS TESTANDO O NOSSO BROWSERSIDE... (certamente não vamos querer ESTRAGAR A NOSSA PRODUCTION API...)
+
+
+
+
+
+---> e é por isso que 'hittar a API' durante o testing 
+DE UMA PÁGINA/browserside 
+
+
+__TIPICAMENTE__ NÃO É ALGO QUE VAMOS QUERER FAZER/DEIXAR ACONTECER... ----> 
+
+
+há outras 
+
+razões para não fazer isso.... 
+
+
+
+--> PENSE: O QUE 
+
+DIABOS CONSEGUIRÍAMOS 
+
+
+AO __REALMENTE___ FAZER AQUELE HTTP REQUEST??? (seria meio inútil...) ---> por acaso 
+
+você quer testar se sua API FUNCIONA CORRETAMENTE? __CLARO__ que não, você quer 
+
+
+
+testar SE O SEU BROWSERSIDE FUNCIONA CORRETAMENTE, essa é a finalidade do jest, e essa 
+
+é outra razão para NÃO HITTAR os APIS/nossa API 
+
+durante o testing do código browserside...
+
+
+
+(o testing da API deve ser feito DURANTE O 'DEVELOPMENT' da API, e __NÃO DURANTE__ O TESTE 
+DO BROWSERSIDE...) ---> esses pedaços do código devem ser trabalhados SEPARADAMENTE.  --> vocÊ 
+pode, porém, testar ERROR FALLBACKS... claro, você pode TESTAR ERROR FALLBACKS no seu 
+frontend code COM O USO DE SUA API, MAS ___NUNCA__ SE A API ESTIVER FUNCIONANDO CORRETAMENTE...
+
+
+
+
+
+----------------------------> VOCê 
+
+
+TAMBÉM __NÃO VAI QUERER___ TESTAR COISAS COM SUA API se 
+
+o MÉTODO 
+
+
+'GET', nesse caso, exposto pelo 'axios' ESTIVER 
+
+
+FUNCIONANDO CORRETAMENTE... (Nós nunca vamos querer confiar em 
+
+third party packages/funcionalidades 
+TPP enquanto estamos testando, pois elas podem roubar dados....) ---> nós 
+
+sempre vamos querer 
+
+TESTAR NOSSO PRÓPRIO CÓDIGO... e nosso código aqui, por exemplo, 
+
+é um código de extração de dados, nada relacionado com a TPP...
+
+
+-----------------------------
+

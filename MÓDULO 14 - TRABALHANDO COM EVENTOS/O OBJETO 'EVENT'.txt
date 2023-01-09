@@ -1,0 +1,553 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+Agora que sabemos como ADICIONAR E FAZER 'LISTEN TO' a eventos, e como remover eventListeners (o que pode ser bem útil), 
+
+
+DEVEMOS DAR UMA OLHADA NO OBJETO 'EVENT', que é gerado AUTOMATICAMENTE PELO BROWSER, nesse caso, e 
+PASSADO 
+
+AO NOSSO 
+
+'eventHandler' ------------> na verdade, AINDA QUE VOCê NÃO ESTEJA 
+
+TRABALHANDO COM JAVASCRIPT, 
+
+
+EVENTOS são uma ideia 'core' por trás de muitos códigos, 
+
+
+tanto que há um nome para esses tipos de código, 
+
+
+'event driven code'.
+
+------------------------
+
+
+TUDO AQUILO QUE CAUSA UM EVENTO TIPICAMENTE TAMBÉM PROVIDENCIA ALGUNS DADOS em conjunto 
+
+com o tal evento... esses dados podem:
+
+DESCREVER O EVENTO, NOS DAR METADADOS EXTRAS OU NOS ___dAR MÉTODOS___ PARA CONTROLAR___ O COMPORTAMENTO 
+DO EVENTO ___ APÓS ELE TER OCORRIDO...
+
+
+
+(Essa coisa de 'métodos de controle' É IMPORTANTE PARA ALGUNS EVENTOS MAIS COMPLEXOS...)
+
+------------------------------
+
+
+
+
+
+
+temos 
+o 
+
+
+'buttonClickHandler'....
+
+
+
+
+ex:
+
+
+
+const buttonClickHandler = () => {
+    alert('Button was clicked!');
+};
+
+
+------------------------------
+
+
+
+NESSE buttonClickHandler, em vez de apenas mostrar um alerta, AGORA DEVEMOS FAZER COM QUE ELE 
+
+__aCEITE UM ARGUMENTO___. Professor aponta que podemos nomear esse argumento como quisermos, mas 
+
+ele diz que normalmente esse argumento é 
+
+
+chamado de 
+
+'event'/ 'ev' / 'e'  -----------------> 
+
+
+ELE É CHAMADO ASSIM PORQUE MUITAS VEZES ELE ____DESCREVE____ O EVENTO QUE ESTAREMOS RECEBENDO NESSA FUNÇÃO....
+
+
+
+-----------------------------------
+
+
+
+
+Professor vai querer fazer O CONSOLE.LOG do objeto 'event' (o event será um objeto, btw, sempre será um objeto), 
+
+
+para tal ele 
+
+escreve:
+
+
+
+ex:
+
+
+
+
+
+const buttonClickHandler = event => {
+    console.log(event);
+};
+
+
+
+const boundFn = buttonClickHandler.bind(this);
+
+
+
+
+button.addEventListener('click', boundFn);
+
+
+
+
+--------------------------------------
+
+
+
+PROFESSOR ESCREVE ESSE CONSOLE.LOG DE 'EVENT' pq ele quer dar UMA OLAHDA DENTRO DO OBJETO 'event'...
+
+
+
+
+
+AGORA, QUANDO CLICARMOS NO NOSSO BOTÃO, O EVENTO 'click' será CONSOLE.LOGGADO no devtools console...
+
+
+
+
+
+
+E É EXATAMENTE ISSO QUE OCORRE:
+
+
+
+
+o objeto/evento 
+
+
+
+'mouseEvent' É CONSOLE.LOGGADO.
+
+
+
+
+ex:
+
+
+
+>MouseEvent {isTrusted: true, screenX: 385, screenY: 584, clientX: 189, clientY: 259, ...}
+
+----------------------------------------------------------------------------------------
+
+
+
+ 
+
+ Recebemos um 'mouseEvent'... ELE TEM MUITAS PROPRIEDADES....
+
+
+ mas ele TAMBÉM TEM UM MONTE DE MÉTODOS, APESAR DE NÃO CONSEGUIRMOS VISUALIZÁ-LOS quando é outputtado por meio desse console.log... (btw: console.dir também não nos dá os métodos dele....)
+
+
+
+ -------------------------------------------------------------
+
+
+
+ NÓS TEMOS MUITAS PROPRIEDADES QUE, NO FINAL DAS CONTAS, DESCREVEM O EVENTO....
+
+
+
+ ex
+
+
+
+ 'altKey: false' ------------> NOS DIZ SE A TECLA 'alt' ESTAVA SENDO PRESSIONADA ENQUANTO CLICAMOS NO BOTÃO... (??? nem sabia que isso existia). ----> isso pode ser INTERESSANTE PARA CONSTRUIR CERTAS INTERFACES DE USUÁRIO...
+
+
+
+
+'ctrlKey: false' -------------> MESMA PROPRIEDADE DA DE CIMA, MAS DESSA VEZ COM A TECLA 'Ctrl'.
+
+
+
+
+'button: 0' -------------> ISSO NOS DIZ O BOTÃO QUE FOI PRESSIONADO. '0' É O BOTÃO ESQUERDO DO MOUSE. (btw: se o professor clicar com o botão direito, nada acontecerá, pois o eventListener está definido para O BOTÃO ESQUERDO. )
+
+
+
+'clientX: 206 ------------>
+
+e                       -------------------> NOS DIZEM A EXATA LOCALIZAÇÃO DO MOUSE POINTER NO MOMENTO EM QUE ELE PRESSIONOU NO BOTÃO assignado ao addEventListener....
+
+client Y: 171' --------------> 
+
+screenX --------------> 	Returns the horizontal coordinate of the mouse pointer, relative to the screen, when an event was triggered
+
+
+
+
+screenY --------------> 	Returns the vertical coordinate of the mouse pointer, relative to the screen, when an event was triggered
+
+
+
+which --------------->  Returns which mouse button was pressed when the mouse event was triggered
+
+
+
+cancelBubble: false --------------------> Sets or returns whether the event should propagate up the hierarchy or not
+
+
+shiftKey: false ------------->  	Returns whether the "SHIFT" key was pressed when an event was triggered
+
+
+cancelable: true ----------------->  Returns whether or not an event can have its default action prevented
+
+
+
+composed -----------------> ????
+
+
+
+currentTarget: 'null' ----------------->  Returns the element whose event listeners triggered the event
+
+
+
+movementX ----------> 	Returns the horizontal coordinate of the mouse pointer relative to the position of the last mousemove event
+
+
+
+movementY -------->	Returns the vertical coordinate of the mouse pointer relative to the position of the last mousemove event
+
+
+
+
+pageX ------> 	Returns the horizontal coordinate of the mouse pointer, relative to the document, when the mouse event was triggered
+
+
+
+
+
+pageY ---------->	Returns the vertical coordinate of the mouse pointer, relative to the document, when the mouse event was triggered
+
+
+
+getModifierState() ------------------>	Returns true if the specified key is activated
+
+
+
+
+metaKey ----------> 	Returns whether the "META" key (meta key no windows geralmente é 'Alt Gr') was pressed when an event was triggered
+
+
+
+offsetX -------->	Returns the horizontal coordinate of the mouse pointer relative to the position of the edge of the target element
+
+
+type ----------->	Returns the name of the event
+
+
+TARGET ---> É MUITO IMPORTANTE. VER MAIS ABAIXO.
+
+
+
+
+offsetY ----------->	Returns the vertical coordinate of the mouse pointer relative to the position of the edge of the target element
+
+
+relatedTarget: null --------------->	Returns the element related to the element that triggered the mouse event
+
+
+------------------------------
+
+
+
+EVENT TYPES (de 'mouseEvent'):
+
+
+
+
+
+onclick	------> The event occurs when the user clicks on an element
+oncontextmenu --------> 	The event occurs when the user right-clicks on an element to open a context menu
+ondblclick ----------> 	The event occurs when the user double-clicks on an element
+onmousedown	 ----------> The event occurs when the user presses a mouse button over an element
+onmouseenter ---------> 	The event occurs when the pointer is moved onto an element
+onmouseleave -------> 	The event occurs when the pointer is moved out of an element
+onmousemove ----------> The event occurs when the pointer is moving while it is over an element
+onmouseout ---------> 	The event occurs when a user moves the mouse pointer out of an element, or out of one of its children
+onmouseover --------> 	The event occurs when the pointer is moved onto an element, or onto one of its children
+onmouseup ----------> 	The event occurs when a user releases a mouse button over an element
+
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+CHEQUE O MDN para saber mais detalhes sobre as propriedades do 'mouseEvent'...
+
+
+
+
+offsetX----> COORDENADAS DENTRO DO BOTÃO EM SI.... começam no topo-esquerda do elemento... 
+
+
+e offsetY --->
+
+
+
+
+----------------------------------
+
+
+HÁ UMA PROPRIEDADE MUITO IMPORTANTE:
+
+
+
+'TARGET'...
+
+
+
+
+ex:
+
+
+'target: button' 
+
+--------------------------
+
+
+
+TODO EVENTO TEM ESSA PROPRIEDADE 'TARGET', e ela DESCREVE __QUAL TARGET__, QUAL ELEMENTO, NO FINAL DAS CONTAS, __CAUSOU__
+
+ESSE EVENTO...
+
+
+Nesse caso específico, o TARGET QUE CAUSOU ESSE EVENTO FOI O BOTÃO, pois foi em sua superfície que o usuário clicou....
+
+
+TARGET -----> NESSE CASO, NOS DÁ ACESSO AO ELEMENTO DOM de 'button'... ----------->
+
+-------------> E ISSO PODE SER SUPER, SUPER ÚTIL...
+
+
+
+Pode ser super útil pq se vocÊ TEM UMA SITUAÇÃO EM QUE VOCê QUER __INTERAGIR___ COM O ELEMENTO 
+
+DOM EM QUE VOCê CLICOU, é super conveniente TER ESSA PROPRIEDADE 'TARGET', pois ela, no final das contas, te dá 
+
+ACESSO DIRETO A ESSE ELEMENTO em que vocÊ clicou...
+
+
+---------------------------------------
+
+
+
+
+Aqui há um exemplo:
+
+
+
+
+Se voltarmos até o events.html E DUPLICARMOS O BOTÃO 'click me', nomeando o segundo como 
+
+'Click me, too!'......
+
+
+
+E se então ALTERARMOS NOSSO 'events.js' para REGISTRAR TODOS OS BUTTONS DO CÓDIGO HTML, por meio 
+
+de 'querySelectorAll' em vez de 'querySelector'....
+
+
+
+
+ex:
+
+
+const buttons = document.querySelectorAll('button');
+
+
+
+--------------------------------
+
+
+
+
+Caso realizemos essa mudança, não poderemos utilizar 
+
+
+'button.addEventListener('click', buttonClickHandler);' , POIS NÃO TEREMOS MAIS 1 ÚNICO BOTÃO, AGORA TEMOS VÁRIOS...
+
+
+
+Em vez disso, diz o professor, podemos ir até 'buttons' e usar o método FOREACH para executar 
+
+CÓDIGO DENTRO DE CADA ELEMENTO DO ARRAY DE 'buttons' (Que é composto por 2 button...).
+
+
+
+O CÓDIGO QUE O PROFESSOR EXECUTA DENTRO DE CADA ELEMENTO É 'btn(cada elemento em que será executado o código...).addEventListener()....
+
+
+
+
+
+ex:
+
+
+
+
+
+const buttons = document.querySelectorAll('button');
+
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', buttonClickHandler);
+}
+)
+
+
+-----------------------------------------------
+
+
+
+
+AGORA, QUANDO RECARREGARMOS A PÁGINA, VOCÊ VERÁ QUE AMBOS OS BOTÕES PODEM SER CLICADOS PARA VER O 
+
+MOUSEEVENT de cada um....
+
+
+
+
+
+Mas digamos que QUEREMOS DESABILITAR O BOTÃO EM QUE CLICAMOS.....
+
+
+
+
+Aí, diz o professor, seria bem difícil fazer ISSO SEM SABER EM QUAL BOTÃO EXATAMENTE NÓS CLICAMOS...
+
+
+Nós provavelmente teríamos de criar DOIS DIFERENTES MÉTODOS/FUNÇÕES que assignaríamos 
+
+a listeners... o que seria BEM INCÔMODO.
+
+
+
+
+BEm, com eventTarget, PODEMOS SIMPLESMENTE 
+
+
+DIGITAR O SEGUINTE CÓDIGO:
+
+
+
+ex:
+
+
+
+
+const buttonClickHandler = event => {
+    event.target.disabled = true;
+}
+
+
+------------------------------------
+
+
+OU SEJA, 
+
+
+EVENTS TEM UMA PROPRIEDADE 'disabled' QUE VOCê PODE DEFINIR COMO 'true' PARA 
+
+DESABILITAR UM CERTO ELEMENTO... (o elemento que é o 'TARGET', que é o negócio que teve o evento causado sobre si/causou o evento....).
+
+
+
+ISSO VAI FAZER COM QUE O BOTÃO EM QUE CLIQUEMOS SEJA DESATIVADO/disabled.
+
+
+
+DEPOIS DISSO, O PROFESSOR FAZ O CONSOLE.LOG DE 'event'...
+
+
+Ele deixa esse console.log PARA QUE HAJA UMA PROVA, NO DEVCONSOLE, de que realmente clicamos 
+
+
+nesse botão (qualquer 1 dos 2 botões).
+
+
+
+ex:
+
+
+
+const buttonClickHandler = event => {
+    event.target.disabled = true;
+    console.log(event);
+}
+
+
+
+------------------------------------
+
+
+
+RECARREGAMOS O CÓDIGO E TESTAMOS OS BOTÕES:
+
+
+
+quando clicamos neles, eles loggam o 'mouseEvent' e depois deixam de funcionar, o que é um sucesso.
+
+
+
+Se inspecionarmos o ELEMENTO 'BUTTON' em que clicamos, constataremos que 
+
+no seu código html é 
+
+adicionado o atributo 'disabled' depois que o pressionamos (graças ao 'event.target.disabled = true')
+
+
+
+
+'''TARGET'''', essa propriedade de objetos 'event', portanto, É ___MUITO ÚTIL_____. 
+
+Ela nos dá ACESSO DIRETO AO ELEMENTO  EM QUE CLICAMOS DIRETAMENTE...
+
+
+--------------------------------------
+
+
+

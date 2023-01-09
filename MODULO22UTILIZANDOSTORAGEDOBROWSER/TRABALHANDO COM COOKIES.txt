@@ -1,0 +1,1369 @@
+
+
+
+
+
+
+VIMOS OS BASICOS DOS COOKIES.
+
+
+
+
+DIGAMOS QUE QUEREMOS ARMAZENAR ___MAIS COISAS___ COM OS COOKIES....
+
+
+
+
+
+Para isso, digamos 
+
+
+que eu não vou querer apenas settar/armazenar o 'userId'  (que segura aquele valor de 'u123'),
+
+
+
+
+DIGAMOS QUE EU TAMBÉM QUERO ARMAZENAR 
+
+
+mais dados, uma constante chamada 
+
+
+de 'user'...
+
+
+
+
+
+LEMBRE-SE: com o exemplo do localStorage, nós havíamos criado um 
+
+objeto 'user' com uma key 'name', outra 'age' e outra 'hobbies'......
+
+
+
+
+
+
+
+PROFESSOR DIZ QUE DEVEMOS FAZER A MESMA COISA QUE FIZEMOS COM 'user' em localStorage aqui, com os cookies;
+
+devemos TENTAR CONVERTER O FORMATO DAQUELE OBJETO 'user' em DADOS JSON para então armazená-los no cookie/cookie storage...s
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    const user = {name: 'Max', age: 30};
+    document.cookie = `uid=${userId}`;
+    document.cookie = `user=${JSON.stringify(user)}`;
+})
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  console.log(document.cookie);
+});
+
+
+
+
+
+
+------------------------------------
+
+
+
+AGORA DEVEMOS CONSTATAR SE ISSO FUNCIONOU. Salvamos o código e recarregamos.
+
+
+
+
+
+APERTAMOS e apertamos 'store', MAS NADA ACONTECE.
+
+
+ESSES DADOS NÃO SÃO ARMAZENADOS NO OBJETO 'cookie' da página...
+
+
+
+Algo deu errado, pois o código do professor funcionou...
+
+
+
+
+
+CERTO, NOSSO CÓDIGO FUNCIONOU TAMBÉM.
+
+
+
+Conseguimos armazenar (botão store) E DAR RETRIEVE (botão retrieve) nesses dados,
+
+e eles aparecem naquele console.log de 
+
+'document.cookie'...
+
+
+
+
+ISSO ESTÁ FUNCIONANDO. NOSSA USER DATA 
+
+ESTÁ SENDO CONVERTIDA EM UMA STRING (JSON.stringify(user)) e ENTÃO ARMAZENADA 
+
+NO COOKie....
+
+
+
+--------------------------
+
+
+
+UMa outra coisa que nós já podemos ter percebido é que, apesar de isso funcionar, 
+
+NÓS NÃO TEMOS UMA API 
+
+DE 'retrieval' TÃO BOA COMO A DE LOCALSTORAGE....
+
+
+
+PQ, se você se lembrar bem, com localStorage e sessionStorage NÓS TINHAMOS 
+
+'getItem', QUE NOS DAVA UM ÚNICO ITEM do acervo/array de items que havíamos 
+
+armazenados nesses espaços...
+
+
+
+COM COOKIES, DAR RETRIEVE EM ITEMS É SEMPRE UMA COISA 'ALL OR NOTHING', você sempre 
+
+VAI PEGAR O CONJUNTO INTEIRO/vai dar retrieve no conjunto inteiro....
+
+
+
+
+
+TODOS OS VALORES SÃO RETRIEVADOS de uma só vez, SEPARADOS POR ';'...
+
+
+
+ex:
+
+
+
+uid=u123; user={"name":"Max", "age":30}
+
+
+
+--------------------------------------------
+
+
+
+
+O QUE RECEBEMOS NESSE OUTPUT/RETRIEVAL, essencialmente, É UMA 
+
+LONGA STRING.... 
+
+
+É EXATAMENTE POR ISSO QUE EM 'document.cookie' VOCÊ PODE ACESSAR 
+
+_________UM MONTE DE MÉTODOS DE STRING_____ (para vê-los, você pode usar o seu IDE, digite
+'document.cookie', que o negócio vai te mostrar todos).
+
+
+
+
+
+
+Alguns dos métodos de string disponíveis no retrieval 
+
+de cookies 
+
+
+são 
+
+
+
+'match',
+
+
+'normalize',
+
+
+
+repeat,
+
+
+
+search,
+
+
+
+replace,
+
+
+
+slice,
+
+
+small,
+
+split,
+
+
+startsWith,
+
+strike (é cruzar uma linha no meio de um texto),
+
+
+
+
+etc.
+
+
+
+-------------------------------
+
+
+
+
+O professor usa como exemplo 
+
+
+o método 
+
+
+
+'split'.
+
+
+
+ELE DIZ QUE VOCÊ PODE USAR '.split()' PARA 
+
+SPLITTAR OS ITEMS 
+
+DESSA LONGA STRING (que são todos separados por um ';', por isso que o split é útil).
+
+
+
+
+Nesse SPLIT, você passará como parâmetro o ';' que separa os items do cookie, 
+
+pois O SPLIT VAI CORTAR/SEPARAR TODOS OS ITEMS A PARTIR DESSE CARACTER...
+
+
+
+
+ex:
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  console.log(document.cookie.split(';'));
+});
+
+
+
+
+
+---------> ISSO VAI SPLITAR A LONGA LINHA DE STRING 'uid=u123; user={"name":"Max", "age":30}'
+
+
+
+
+
+
+ESTE SERÁ O OUTPUT NO CONSOLE:
+
+
+
+
+
+
+(2) ["uid=u123", " user={"name":"Max","age":30}"]
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+OU SEJA, COM ISSO PODEMOS, PELO MENOS, ___DIVIDIR/CORTAR__ os key-value pairs
+
+
+
+EM ITEMS SEPARADOS, em um array....
+
+
+
+VOCÊ SÓ TEM QUE TER EM MENTE QUe há um 'widespace' no 
+
+'user', no início dele, pq HAVIA UM 
+
+WIDESPACE NO COOKIE, anteriormente...
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+(8) ["GMAIL_AT=AF6bupPouxadAJ2ztSVuf8e8pE0hk6Hwgg", " SID=7Ae3NFeKs3gfmnQMFqr0X9Cjt21x0SsTCXupabSjSZpPUMC1oZAIvW0AOxSN2lNbM_QWEg.", " APISID=jkp4ubiOqzC4B8Lj/ANYARP0gUuJj7lBne", " SAPISID=uA022NhOkZp74w-G/AQoE4eGOJCpG2Zjg1", " __Secure-3PAPISID=uA022NhOkZp74w-G/AQoE4eGOJCpG2Zjg1", " __Host-GMAIL_SCH=nsl", " 1P_JAR=2021-2-20-20", " SIDCC=AJi4QfFHoIn8EL6ZiStK_CvtNYv1dVSnPcf7HPzalR39cvTMu6bY6yPYAO6g6NEm9ZOjA9Ko8BY"]
+0: "GMAIL_AT=AF6bupPouxadAJ2ztSVuf8e8pE0hk6Hwgg"
+1: " SID=7Ae3NFeKs3gfmnQMFqr0X9Cjt21x0SsTCXupabSjSZpPUMC1oZAIvW0AOxSN2lNbM_QWEg."
+2: " APISID=jkp4ubiOqzC4B8Lj/ANYARP0gUuJj7lBne"
+3: " SAPISID=uA022NhOkZp74w-G/AQoE4eGOJCpG2Zjg1"
+4: " __Secure-3PAPISID=uA022NhOkZp74w-G/AQoE4eGOJCpG2Zjg1"
+5: " __Host-GMAIL_SCH=nsl"
+6: " 1P_JAR=2021-2-20-20"
+7: " SIDCC=AJi4QfFHoIn8EL6ZiStK_CvtNYv1dVSnPcf7HPzalR39cvTMu6bY6yPYAO6g6NEm9ZOjA9Ko8BY"
+length: 8
+__proto__: Array(0)
+
+
+
+
+
+
+CERTO, MAS COMO DIABOS VOCÊ PODE FAZER RETRIEVE DE UM ÚNICO ITEM DE uma STRING 
+
+em um cookie?
+
+
+
+
+
+
+
+
+Bem, primeiro você tem que SE LIVRAR DO ESPAÇO EM BRANCO (widespace) EM CADA 'cookie item', daquela string 
+
+gigante...
+
+
+
+
+Para isso, o professor explica que você pode 
+
+ARMAZENAR SEU COOKIEDATA Em uma const...
+
+
+
+Você vai armazená-lo com aquele 
+
+
+'document.cookie.split(';');'
+
+
+
+
+
+
+ex:
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+});
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+FEITO ISSO, PODEMOS CHAMAR 
+
+
+'.map()' em cookieData...
+
+
+
+
+MAP() é um método DISPONÍVEL EM TODO E QUALQUER ARRAY....
+
+
+
+e 'CookieData' é um array.
+
+
+
+
+
+ESSE MÉTODO 'map' SEMPRE REQUERE UMA FUNÇÃO, uma função interna, A QUAL 
+
+SERÁ EXECUTADA EM CADA ITEM DESSE ARRAY em que você chamou o 'map'...
+
+
+
+
+ex:
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+  cookieData.map(i => {
+
+  });
+});
+
+
+
+--------------------------------------------------
+
+
+
+
+
+E CADA ITEM NESSE ARRAY É UMA STRING...
+
+
+
+
+
+
+O PROFESSOR QUER EXECUTAR UM CÓDIGO QUE SE LIVRE DO ESPAÇO EM EXCESSO EM CADA 
+ITEM DESSE NEGÓCIO...
+
+Para isso, eu digo que ele deve usar 'trim'...
+
+
+E, DE FATO, ELE USA O 'trim'...
+
+
+
+Ele dá return do valor/cada item em que ele executou 'trim' e removeu o WIDESPACE....
+
+
+
+TRIM() é um método que você pode chamar em strings PARA REMOVER 
+
+OS WIDESPACES EM EXCESSO...
+
+
+
+WIDESPACES EM EXCESSO NO INÍCIO OU NO FIM DAS STRINGS...
+
+
+
+ex:
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+  cookieData.map(i => {
+      return i.trim() ;
+  });
+});
+
+
+--------------------------------
+
+
+
+FEITO ISSO, O PROFESSOR ARMAZENA ESSE 'array perfectibilizado' (sem os widespaces) EM UMA 
+
+CONSTANTE CHAMADA DE 'data'....
+
+
+
+POR FIM, O PROFESSOR FAZ CONSOLE.LOG dessa constante 'data', que é o array SEM 
+
+OS WIDESPACES em cada item...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+  const data = cookieData.map(i => {
+      return i.trim() ;
+  });
+  console.log(data);
+});
+
+
+----------------------------------
+
+
+
+
+CERTO, AGORA O NEGÓCIO (botão 'retrieve')  ESTÁ ME RETORNANDO
+
+
+
+OS ITEMS EM UM ARRAY, certinhos, sem os widespaces....
+
+
+
+
+
+OUTPUT:
+
+
+(2) ["uid=u123", "user={"name":"Max","age":30}"]
+0: "uid=u123"
+1: "user={"name":"Max","age":30}"
+length: 2
+__proto__: Array(0)
+
+
+
+
+Beleza.
+
+
+
+Se você quisesse, por exemplo, acessar o valor
+
+
+EM ALGUM DOS ITEMS/keys desse negócio, VOCÊ PODE SIMPLESMENTE 
+
+
+usar o INDEXADOR dessa key....
+
+
+tipo 'data[1]'
+
+
+ex:
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+  const data = cookieData.map(i => {
+      return i.trim() ;
+  });
+  console.log(data[1]);
+});
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+ISSO, POR EXEMPLO, VAI ME DAR APENAS 
+
+
+
+
+'app.js:28 user={"name":"Max","age":30}' 
+
+
+NO OUTPUT DO CONSOLE, AO APERTAR EM 'retrieve'.....
+
+
+
+
+
+
+Se você quiser dividir as COISAS MAIS ainda,
+
+você 
+
+pode chamar '.split()' NESSA STRING RETORNADA por 'data[1]', junto do parâmetro 
+
+'=', 
+
+PARA 
+
+DIVIDIR AS 2 COISAS NESSE KEY-VALUE PAIR (a key e o value) EM 
+
+DOIS ITEMS SEPARADOS....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+  const data = cookieData.map(i => {
+      return i.trim() ;
+  });
+  console.log(data[1].split('='));
+});
+
+
+
+
+-------------------------------------
+
+
+
+ISSO VAI NOS RETORNAR, no botão 'retrieve',
+
+
+'user' e ' '{name: 'Max', age:30}', 
+
+
+
+A KEY E O VALUE, respectivamente.
+
+
+
+
+
+Feito tudo isso, o professor coloca a cereja no bolo, posiciona um 
+
+'[1]' NO FINAL DESSA LINHA IMENSA DE CÓDIGO, tudo para que seja selecionado 
+
+O SEGUNDO VALOR desse array (Array do key e do value do key-value pair),
+
+
+OU SEJA, O VALUE... (que é aquele objeto {...})
+
+
+
+
+ESSE SERÁ O 'USER VALUE', basicamente.
+
+ex:
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+  const cookieData = console.log(document.cookie.split(';'));
+  const data = cookieData.map(i => {
+      return i.trim() ;
+  });
+  console.log(data[1].split('=')[1]);
+});
+
+
+
+
+
+--------------------------------------
+
+
+
+
+DEPOIS DE TODO ESSE PROCESSO IMENSO, DE TODA ESSA DIVISÃO, SOMOS, ENFIM, CAPAZES 
+
+DE DAR RETRIEVE NO 'user value' armazenado nos nossos cookies...
+
+
+
+
+
+
+POR ISSO, COMO O PROFESSOR MENCIONOU ANTES, ESSE MÉTODO/APPROACH DOS COOKIES 
+
+
+É __MEIO CLUNKY____...
+
+
+
+Definitivamente não é tão bom de trabalhar como LOCAL STORAGE e SESSION STORAGE.
+
+
+
+
+
+--------------------------------------
+
+
+OK, MAS QUAIS SÃO AS VANTAGENS DOS COOKIES EM RELAÇÃO AOS LOCAL E SESSION STORAGES, 
+
+ENTÃO?
+
+
+
+
+
+A VANTAGEM DOS COOKIES É QUE PODEMOS __EXPIRÁ-LOS__ (ou, em outras palavras, que ELES EXPIRAM)...
+
+
+
+
+
+VOCÊ PODE DEFINIR QUE ELES EXPIREM EM UM CERTO MOMENTO/DATA, e você também 
+
+
+PODE ENVIÁ-LOS A UM SERVIDOR, por meio de seu anexo/attach() em http requests.
+
+
+---------------------------------------------
+
+
+
+
+COMO NÃO TEMOS NENHUM BACKEND server com o qual trabalhar, aqui, 
+
+DEVEMOS 
+
+FOCAR NO ASPECTO DA ___EXPIRAÇÃO__, 
+
+
+que é bem interessante.
+
+
+
+
+É BEM SIMPLES:
+
+
+
+
+SE VOCÊ NÃO DEFINE EXPIRATION DATE ALGUMA em um cookie, 
+
+ELE DEVERÁ/DEVE EXPIRAR QUANDO SUA/A SESSÃO DO USUÁRIO EXPIRAR...
+
+OU SEJA, QUANDO VOCÊ 
+
+FECHA TODO O BROWSER. 
+
+
+
+
+
+MAS, DE NOVO, CABE AO BROWSER DECIDIR __QUANDO ELE VAI DELETAR__ O COOKIE...
+
+
+
+
+
+
+TENHA EM MENTE QUE, ASSIM COMO 'LOCAL STORAGE', O USUÁRIO SEMPRE PODE IR LÁ 
+
+E SIMPLESMENTE DELETAR TODOS OS COOKIES...
+
+Ele pode fazer isso tanto pelas devtools COMO PELO BROWSER, em preferências...
+
+
+
+
+
+OBS:::: VOCÊ SEMPRE PODE LIMPAR OS COOKIES DE UMA PÁGINA, NÃO IMPORTANDO 
+
+O FATO DE ELES TEREM UMA EXPIRATION DATE ou não...
+
+
+
+
+
+------------------------------
+
+
+CERTO, MAS VOLTANDO AO EXPIRATION DATE:
+
+
+
+
+
+
+SE VOCÊ QUISER DIZER AO BROWSER/aos cookies QUE O NOSSO USERID 
+
+
+NÃO DEVE EXPIRAR quando a sessão acabar/expirar, 
+
+
+VOCÊ DEVE ADICIONAR 1 DE 2 FLAGS......
+
+
+
+
+
+AS FLAGS SÃO 
+
+
+'max-age' 
+
+
+
+e 
+
+
+'expires'...
+
+
+
+
+
+PARA ADICIONAR A FLAG 'max-age',
+
+
+
+VOCÊ DEVE ADICIONAR UMA SEMI-COLON (';') 
+
+
+APÓS O KEY-VALUE PAIR 
+
+DO COOKIE...
+
+
+
+DEPOIS DO ';', você deve COLOCAR UM WIDE-SPACE...
+
+
+
+FINALMENTE, DEPOIS DO WIDESPACE você pode 
+
+colocar 
+
+
+o 'max-age'..............
+
+
+
+Aí você pode colocar 
+
+
+'max-age='
+
+
+
+
+do lado do '=', você deve COLOCAR A IDADE MÁXIMA QUE ESSE COOKIE PERSISTIRÁ...
+
+
+
+ESSA MAX-AGE SEMPRE DEVE SER EXPRESSADA EM ___sEGUNDOS___.
+
+
+
+
+Você pode dizer, por exemplo, 
+
+'esse cookie só deverá persistir/viver por 50 SEGUNDOS, depois disso ele se torna inválido.'
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    const userId = 'u123';
+    const user = {name: 'Max', age: 30};
+    document.cookie = `uid=${userId}; max-age=50`;
+    document.cookie = `user=${JSON.stringify(user)}`;
+})
+
+
+
+
+----------------------------------
+
+
+
+O PROFESSOR SALVA E RECARREGA O CÓDIGO.
+
+
+
+SE EU IR ATÉ 
+
+a aba 'application' 
+
+
+no devtools,
+
+PODEREI VER NOS COOKIES a EXPIRATION DATE DE CADA UM DELES...
+
+
+O negócio nos mostra certinho quando cada um deles vai expirar, em anos, meses, dias, horas, minutos e segundos.
+
+
+
+
+Hmmmmm mas o nosso código não está funcionando, não está mostrando essa data de expiração.
+
+
+
+
+
+AGORA CONSEGUI FAZER COM QUE FUNCIONASSE.
+
+
+
+Era bem simples o problema:
+
+
+
+eu estava usando 'max-age: 30' 
+
+
+EM VEZ 
+
+
+DE 'max-age=30' (forma correta de definir o tempo de expiração de um cookie, em segundos).
+
+
+
+
+------------------------------------------------------------
+
+
+
+Se eu colocar um período menor, digamos 2 segundos, em 'max-age' 
+
+
+e então RECARREGAR A PÁGINA E CLICAR em 'retrieve', verei 
+
+
+QUE ESSE RETRIEVE NÃO FUNCIONARÁ,
+
+o console vai nos retornar um 
+
+erro 
+
+
+de 
+
+
+'Uncaught TypeError: Cannot read property 'split' of undefined at 
+
+HTMLButtonElement.<anonymous>', 
+
+
+JUSTAMENTE PELA 
+
+FALTA DO COOKIE, que já expirou (por causa do 'max-age=2' definido em 
+'document.cookie = `uid=${userId}; max-age=50`;'... como esse COOKIE JA EXPIROU,
+nosso sistema de indexadores anterior JÁ NÃO FUNCIONA COMO FUNCIONAVA (
+  antes havíamos 2 items, 0 e 1, agora apenas temos '0'... APENAS TEMOS 1 ÚNICO ITEM, pois 
+
+  o outro cookie foi removido... como o nosso código está tentando chamar 'split' no segundo cookie,
+  isso FALHA, pois nós apenas temos 1 único cookie, de indexador 0, agora.
+
+)
+)
+
+
+
+-------------------------------------
+
+
+
+É POR ISSO QUE NOSSO CÓDIGO AGORA APENAS FUNCIONA SE APERTARMOS 
+
+em 'store' e 'retrieve' BEM RÁPIDo...
+
+
+
+
+
+Professor diz que nosso código funciona se apertarmos esses 2 botões rapidamente, 
+
+MAS NA VERDADE ISSO ESTÁ INCORRECTO:
+
+
+o que acontece é que O CÓDIGO NÃO FALHA, E NÃO QUE 'funciona'...
+
+
+
+Nosso código, com 'expiration dates', NÃO FUNCIONA COMO ANTES FUNCIONAVA,
+
+mas o professor nos explicará isso depois...
+
+
+-----------------------------------------------------
+
+
+
+
+
+A ALTERNATIVA À ';max-age=xxx'
+
+
+É
+
+
+USAR A KEYWORD 'expires'...
+
+
+
+'expires=algumValor'...
+
+
+
+---------------------------------
+
+
+'EXPIRES' SEMPRE EXIGE UMA ___DATA___, um dia.
+
+
+
+
+Essa data/dia PRECISA TER UM CERTO FORMATO ESPECÍFICO...
+
+
+Anexada à essa lição, você encontra um 
+
+
+LINK DO MDN em que há exemplos do formato de data...
+
+
+
+
+
+ex:
+
+
+Expires=Thu, 31 Oct 2021 07:28:00 GMT;
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+VOCÊ USA ESSA ALTERNATIVA SE VOCÊ SABE QUE O COOKIE DEVE DURAR NÃO 10MIN, 10 DIAS, ou qualquer outra coisa, 
+
+E SIM UMA DATA ESPECÍFICA...
+
+
+
+
+-------------------------------------------------------
+
+
+
+O professor, no entanto, decide voltar à 'max-age', e define essa age 
+
+
+como 360 segundos....
+
+
+
+
+
+
+O PROFESSOR APONTA QUE NÓS TALVEZ TENHAMOS PERCEBIDO QUE HÁ UM PROBLEMA 
+
+QUANDO NÓS FAZEMOS 
+
+
+'retrieve' dos dados...
+
+O problema é que 
+
+
+SE EU FIZER STORE de data e então fizer RETRIEVE dessa data, 
+
+
+
+O CONSOLE.LOG VAI ACABAR SEMPRE PRINTANDO meu 'userId' (que é u123).
+
+
+
+
+
+ENTRETANTO, SE VOCÊ PENSAR BEM, NÃO É EXATAMENTE ISSO QUE EU QUERO PRINTAR POR MEIO DO 
+
+MEU CÓDIGO 
+
+(por meio de 
+
+'console.log(data[1].split('=')[1]));'
+
+
+).
+
+
+
+
+POR MEIO DESSE CÓDIGO, EU QUERO PRINTAR ___ O USER___ EM SI, e não o 'userId'... (que é u123)....
+
+
+
+
+
+CERTO, MAS PQ DIABOS ISSO ESTÁ ACONTECENDO?
+
+
+
+
+
+
+Para entendermos mais sobre o que está acontecendo aqui, devemos 
+
+
+console.loggar 
+
+
+'document.cookie'... nesse coiso do 'retrieve button'...
+
+
+
+ex:
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    console.log(document.cookie);
+    //console.log(document.cookie.split(';'));
+    const cookieData = document.cookie.split(';');
+    const data = cookieData.map(i => {
+        return i.trim();
+    });
+    console.log(data[1].split('=')[1]);
+
+}
+);
+
+
+
+
+---------------------------
+
+
+
+
+
+SE FIZERMOS ISSO, RECEBEREMOS 
+
+
+
+O OUTPUT De 
+
+
+
+'app.js:23 user={"name":"Max","age":30}; uid=u123'....
+
+
+
+
+OU SEJA, DE TODOS OS COOKIES armazenado no espaço/storage 'cookie'...
+
+
+
+
+
+
+MAS PQ DIABOS ESSE NEGÓCIO ESTÁ ARMAZENADO ASSIM????
+
+
+
+
+
+Professor explica que, é claro, é porque MEU COOKIE EXPIROU no passado, sim...
+
+
+MAS 'user' NÃO EXPIROU...
+
+
+
+E se nós settarmos 'user' de NOVO COM UM VALOR QUE ELE JÁ TINHA, esse cookie não será 
+
+RECRIADO, o velho não será deletado, 
+
+
+E SIM O NOVO COOKIE SERÁ ADICIONADO AO CONJUNTO QUE JÁ EXISTE (o novo, nesse caso, é o user, adicionado com a ajuda de 'JSON.stringify(user)' em 'storeBtn'....).....
+
+
+
+
+
+RESUMINDO:
+
+
+
+Como seu userId EXPIROU NO PASSADO, mas o USER nunca expirou, QUANDO O USER é readicionado,
+
+ELE ACABA TRAZENDO O 'userId' que estava aglutinado nele antigamente.......
+
+
+
+E quando isso acontece, quando trazemos UM ÚNICO COOKIE de um conjunto de cookies, sendo 
+
+que outro expirou, ESSE COOKIE ACABA TRAZENDO OS COOKIES QUE JÁ HAVIAM 
+
+EXPIRADO de volta...
+
+
+
+
+
+DIsso tudo, extraí-se uma máxima bem simples:
+
+
+Dar retrieve de dados apenas por 'indexadores' (um cookie por vez, por meio de indexadores)
+
+NÃO É UMA BOA IDEIA.......
+
+
+
+EM VEZ DE PROCURAR OS COOKIES POR MEIO DE INDEXADORES ([]), VOCÊ DEVE PROCURAR POR ELES 
+
+MEDIANTE USO DE 
+
+
+_____key names_____....
+
+
+
+VOCÊ PODE PROCURAR 
+
+
+UM DETERMINADO 'KEYNAME' em uma string de cookies por meio 
+
+do método 
+
+
+'.includes()'  (é um método de string)...
+
+
+
+
+Você chama '.includes()'  E ENTÃO INSERE O keyname que você quer selecionar...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+rtrBtn.addEventListener('click', () => {
+    console.log(document.cookie);
+    //console.log(document.cookie.split(';'));
+    const cookieData = document.cookie.split(';');
+    const data = cookieData.map(i => {
+        return i.trim();
+    });
+    console.log(data.includes('user'));
+
+}
+);
+
+
+
+--------------------------
+
+
+
+
+'.includes()' sempre vai nos retornar TRUE OU FALSE...
+
+
+
+
+Anexada à esta aula, você encontra um link do mdn que te diz como FAZER PARSE E GET 
+
+DE DADOS DE UM COOKIE...
+
+
+
+
+
+VOCê TAMBÉM DEVE SABER QUE 
+
+
+
+'MAX-AGE', essa flag extra, E TODAS AS FLAGS EXTRAS, NÃO SÃO 
+
+
+PARTE DO OUTPUT DO COOKIE QUE VOCê RECEBERÁ...
+
+
+Por isso você não deve se preocupar com isso quando VOCÊ ESTIVER FAZENDO 
+
+'PARSE' de seu cookie...
+
+
+
+
+ERA ISSO SOBRE COOKIES...
+
+
+Há alguns resources para ver mais sobre isso, 
+
+
+mas o professor só nos mostra o básico.

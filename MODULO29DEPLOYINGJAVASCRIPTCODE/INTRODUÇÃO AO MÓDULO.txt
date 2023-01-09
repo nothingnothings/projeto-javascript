@@ -1,0 +1,88 @@
+É O FINAL DO CURSO.
+
+
+
+
+
+
+NÓS TRABALHAMOS COM NOSSOS APLICATIVOS...
+
+
+
+
+NÓS OS TESTAMOS E AGORA ESTAMOS FELIZES COM A WEBPAGE QUE CRÍAMOS...
+
+
+
+Estamos felizes com o código javascript que roda nela...
+
+
+
+
+NÃO INTERESSA SE ESCREVEMOS só algum código javascript browserside, ou se 
+
+
+ESCREVEMOS TODO UM 
+ 
+
+
+ APLICATIVO SERVERSIDE... (com node.js)...
+
+
+
+
+
+
+ ---> AGORA O OBJETIVO É FAZER DEPLOY DESSE APLICATIVO..
+
+
+
+
+
+ ---> você quer se assegurar que ele não roda apenas LOCALMENTE na máquina em que 
+
+ você o testou, mas vocÊ 
+
+ quer 
+
+
+
+ colocá-lo EM ALGUM SERVIDOR, EM ALGUM COMPUTADOR 
+
+ NA WEB, 
+
+
+
+ um computador que TERÁ SEU PRÓPRIO 'DOMAIN'....
+
+
+ um domain, ip ADDRESS, QUE SERÁ alcançável POR QUALQUER UM.... (sua máquina local não é)...
+
+
+
+
+
+
+
+ VOCÊ QUER ISSO PARA QUE TODOS OS USUÁRIOS PASSEM A USAR SEU WEBAPP.
+
+
+
+
+
+ ----------> ESSE É O NOSSO OBJETIVO, E O QUE VEREMOS NESSE MÓDULO:
+
+
+
+
+
+ VEREMOS COMO FAZER DEPLOY DE UMA PÁGINA COM SÓ HTML, JS E CSS, 
+
+ sem backend.... (serverside code)....
+
+
+
+
+ E TAMBÉM VEREMOS COMO FARÍAMOS DEPLOY DE UM APLICATIVO NODE.JS  (ou seja, com 
+ 
+ um código serverside js e um  código BROWSERSIDE js...)

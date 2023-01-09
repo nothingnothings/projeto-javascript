@@ -1,0 +1,74 @@
+----> O QUE NÓS JÁ SABEMOS:
+
+
+
+
+
+sumário:
+
+
+
+
+
+Funções são constructs que nos permitem definir "CODE ON DEMAND" (código em demanda). Isso significa que 
+quando o Javascript lê o nosso script, ele basicamente vai por todo o script e a primeira coisa que ele faz é encontrar 
+e agarrar todas as funções, encontra todas as declarações de funções e as registra. Só então 
+ele realmente começa a executar o script.
+
+
+
+
+--> PODEMOS CHAMAR NOSSAS FUNÇÕES QUANTAS VEZES NÓS QUISERMOS... então nós temos 
+código que podemos repetir múltiplas vezes e em múltiplos lugares no nosso programa.
+
+
+
+
+-->TAmbém aprendemos que se vocÊ cria variáveis ou constantes dentro de uma função, eles 
+vÃO PERTENCER ÀQUELA FUNÇÃO. Isso é devido Àquele fenômeno do BLOCK SCOPE, que vimos no módulo anterior.
+
+
+
+
+
+
+
+---> Funções também podem aceitar PARÂMETROS, também chamados de ARGUMENTOS. Mas isso não é obrigatório. Você pode ter, além disso, quantos parâmetros você quiser.
+
+
+
+
+
+---> Funções também podem RETORNAR UM VALOR. Mas isso não é obrigatório.
+
+
+
+
+----> Como mencioando, funções podem ser chamadas múltiplas vezes ao longo do código... tipicamente 
+você quer chamá-las sempre COM ARGUMENTOS/PARÂMETROS DIFERENTES, PASSANDO DIFENTES PARÂMETROS/ARGUMENTOS 
+A CADA VEZ QUE AS CHAMAR. (functions can be called multiple times (with diferrent arguments)).
+Passar argumentos diferentes é uma coisa legal das funções, É O "CODE ON DEMAND", código que é capaz de ser DINÂMICO, 
+porque ele pode aceitar argumentos, e os argumentos podem mudar de function call para function call.
+Ou seja, a mesma função vai produzir resultados diferentes para calls diferentes, porque diferentes 
+argumentos/parâmetros foram passados à ela.
+
+
+Você também pode chamar funções + ou - direta ou indiretamente...
+
+
+Diretamente é quando você chama uma função por meio da adição de parênteses após o function name.
+
+ex:
+
+writeToLog();
+
+
+
+
+
+INDIRETAMENTE SERIA QUANDO VOCÊ anexou uma função a algum botão com a ajuda do evento "ADD", lá na calculadora, bem no início 
+do curso. Foi quando vimos a utilização dos addEventListener.
+
+
+
+Agora vamos ver o que podemos aprender a mais sobre funções.

@@ -1,0 +1,314 @@
+Agora sabemos que funções são objetos, e que podemos também armazenar funções em objetos, 
+o que essencialmente ARMAZENA O OBJETO EM UM OBJETO, poderia-se dizer. Mas esse objeto armazenado em um objeto 
+é especial, já que pode ser executado como uma função.
+
+
+
+Agora que sabemos isso, devemos ver algumas maneiras diferentes de criar funções.
+
+
+
+
+
+
+
+
+
+
+
+
+function startGame() {
+    console.log('Game is starting...');
+}
+
+
+
+const person = {
+    greet: function greet() {
+        console.log('Hello there!');
+    }
+};
+
+
+
+person.greet();
+
+
+
+console.dir(startGame);
+
+
+
+
+
+
+
+
+--------> O professor diz que esse código acima, em que ele armazenou uma função
+dentro de um objeto(
+greet: function greet () {
+    console.log('Hello there!');
+}
+
+) 
+é um pouco estranho, porque o que nós efetivamente estamos fazendo aqui É A CRIAÇÃO 
+DE UMA FUNÇÃO ____NO LADO_____ DIREITO____ DE UM OPERADOR = (assignment operator), o que 
+não deveria ser permitido. Pode não parecer se lermos a função por cima, mas o : é equivalente 
+ao =, se pensarmos bem. greet = function greet() ...   É QUASE A MESMA COISA QUE greet: function greet(); ... MAS 
+ISSO NÃO DEVIA SER PERMITIDO, NÃO?  E agora?
+
+A função do ":", afinal de contas, é assignar o valor da direita ao keyname/propriedade 
+da esquerda.
+
+
+
+Isso é estranho, pois:
+
+
+
+const startGameBtn = function startGame() ---->  ISSO SERIA CONSIDERADO UM ERRO DE SINTAXE PELO JAVASCRIPT.
+
+                                        Caso fizéssemos isso, caso definissemos a constante start como aquela função ali, 
+                                        o devtools nos mostraria um erro, originando DE OUTRA LINHA DE CÓDIGO, DIFERENTE DESSA...
+                                        O ERRO ORIGINARIA DA LINHA DE CÓDIGO DO EVENTLISTENER:
+
+                                startGameBtn.addEventListener('click', startGame);
+
+                                -----> a mensagem de erro RECLAMA QUE O JAVASCRIPT NÃO CONSEGUE MAIS ENCONTRAR A FUNÇÃO "STARTGAME", reclama que essa função sumiu, ainda que ela exista.
+
+                            ------------->O professor aponta que é interessante notar que NÓS NÃO RECEBEMOS QUALQUER OUTRO ERRO; ESSE FOI O ÚNICO ERRO ADVINDO DAQUELA MUDANÇA, DAQUELA ADIÇÃO DE UMA FUNÇÃO À DEFINIÇÃO DE UMA CONSTANTE.
+
+
+                            ----> OU SEJA, O JAVASCRIPT NÃO RECLAMA DO FATO DE QUE NÓS UTILIZAMOS ESSA FUNÇÃO NO LADO DIREITO DE UM "=", ele realmente 
+                            não se importa. O erro em questão aqui é apenas o fato de que ele não consegue encontrar a função.
+
+
+                            Mas isso não é algo que vocÊ deve "tomar como certo", porque se nós, por exemplo, TENTARMOS USAR 
+                            UM IF STATEMENT NO LADO DIREITO DE UMA VARIÁVEL, O JAVASCRIPT VAI CERTAMENTE RECLAMAR.
+
+                            ex:
+
+                            const dummy = if (true); ----> isso resulta em um erro de sintaxe... até mesmo o IDE reclama que isso não é permitido.
+
+
+
+                            Por isso não devemos tomar por certo que usar uma função no lado direito de uma variável é algo válido.
+                            É algo especial, de fato, é algo que podemos fazer em javascript, mas que não faremos toda hora.
+
+
+
+                            -->Continuando:
+
+
+                            Agora, nós armazenamos esse objeto-função/função-objeto (a função é um objeto, é isso que queremos dizer) DENTRO 
+                            DA CONSTANTE START.
+
+
+
+                            const start = function startGame() {
+                                console.log('Game is starting...');
+                            }
+
+
+
+
+
+
+
+
+
+
+                            A implicação desse armazenamento, no entanto, É ___MUITO____ IMPORTANTE:
+
+
+                            anteriormente, quando não estávamos armazenando a função dentro de uma variável, 
+                            O JAVASCRIPT LIA TODO O NOSSO ARQUIVO, PEGAVA E REGISTRAVA AS FUNÇÕES INDEPENDENTEMENTE 
+                            DO LOCAL ONDE ELAS ESTAVAM ESCRITAS, AINDA QUE ELAS ESTIVESSEM POSICIONADAS EMBAIXO DO LUGAR 
+                            ONDE AS UTILIZAMOS... E AINDA ASSIM O JAVASCRIPT TINHA CIÊNCIA DELAS, AS ARMAZENAVA EM UM LUGAR, NO GLOBAL SCOPE, NO FINAL DAS CONTAS.
+                            Por isso é que podíamos chamar o "startGame" indiretamente, lá embaixo, em "startGameBtn.addEventListener('click', startGame);"
+
+                            MAS QUANDO ARMAZENAMOS ESSA FUNÇÃO STARTGAME DENTRO DE UMA VARIÁVEL/CONSTANTE, A IMPLICAÇÃO É QUE
+                            ESSA FUNÇÃO AINDA É CRIADA, MAS NÃO É MAIS ARMAZENADA SOB O NOME "STARTGAME" NO GLOBAL SCOPE... em vez disso, 
+                            esse nome torna-se apenas + ou - um nome interno, O QUAL É DISPONÍVEL/ANEXADO à FUNÇÃO, MAS QUE NÃO É DISPONIVEL NO RESTO DO CÓDIGO, NÃO É 
+                            DISPONÍVEL NO GLOBAL SCOPE. A função não é mais disponível ao global scope naturalmente, porque ela AGORA PERTENCE 
+                            ÀQUELA VARIÁVEL.
+
+
+
+                            Agora, se você quiser chamar essa função, você pode CHAMÁ-LA PELO NOME DA CONSTANTE, EM VEZ DO NOME DA FUNÇÃO.
+                            COMO A CONSTANTE SEGURA A FUNÇÃO STARTGAME();, VOCÊ PODE SIMPLESMENTE CHAMAR A CONSTANTE EM SEU LUGAR, QUE O JAVASCRIPT ACEITARÁ SUA DECISÃO.
+
+                            ex:
+
+
+
+                            
+                            const start = function startGame() {
+                                console.log('Game is starting...');
+                            }
+
+
+                            startGameBtn.addEventListener('click', start);
+                                                                        |
+                                                                        |
+                                                                        |
+                                                                        |
+                                                                        |
+                                                                        |
+                                                                        |------->>>> Aqui é que houve a troca; simplesmente substituímos o chamado indireto da função startGame pelo CHAMADO DA CONSTANTE START, QUE SEGURA A FUNÇÃO DO STARTGAME().
+
+
+                            Obs: você PODE usar o mesmo nome para a constante e para a função.
+
+                            ex:
+
+                            const startGame = function startGame() {
+                                console.log('Game is starting...');
+                            }
+
+
+                            ISSO É ALGO QUE VOCÊ PODE FAZER... AS EXPRESSÕES NÃO VÃO COLIDIR, O PROFESSOR EXPLICA, PORQUE 
+                            A FUNÇÃO "STARTGAME" NUNCA MAIS SERÁ ENCONTRADA NO _____GLOBAL SCOPE____ NAQUELE CÓDIGO; aos olhos do javascript, 
+                            a função startGame que estava no global scope SIMPLESMENTE SUMIU, isso porque ela está dentro da constante startGame.
+
+                            Mas se você usar nomes diferentes para a constante e para a função (que é melhor nesse caso, para explicar mais facilmente), 
+                            você ainda deve se ligar que você DEVE CHAMAR O NOME DA CONSTANTE LÁ EMBAIXO NO EVENTLISTENER (ou outras funções/métodos), E NÃO 
+                            A FUNÇÃO QUE ESTÁ DENTRO DA CONSTANTE.
+
+                            Se vocÊ salvar e recarregar a página, vocÊ verá que tudo funcionará normalmente.
+
+
+
+                            VOCÊ PODE, PORTANTO, ARMAZENAR FUNÇÕES DENTRO DE VARIÁVEIS/CONSTANTES.
+
+
+                            O que você está fazendo aqui, com isso tudo, é basicamente usando essa função COMO UMA EXPRESSÃO EM VEZ 
+                            DE COMO UMA DECLARAÇÃO.
+
+
+                            ex de função como declaração/statement:
+
+                            function startGame() {
+                                console.log('Game is starting...');  // PRIMEIRO DECLARAMOS A FUNÇÃO, ANTES DE UTILIZÁ-LA. 
+                            }
+
+
+                            ex de função como EXPRESSÃO:
+
+
+                            const start = function startGame() {
+                                console.log('Game is starting...');
+                            }
+
+
+                            LEMBRE-SE: expressões são essencialmente as coisas que te 
+                            rendem/retornam valores, ou seja, algo que você poderia armazenar em algum outro lugar. (como é o caso dessa função, que é tratada como um objeto dentro de outro objeto). 
+                            
+
+
+
+
+                            A diferença entre adicionar uma expressão por declaração ou por expressão é que no último caso, 
+                            o JAVASCRIPT NÃO VAI IR ADIANTE E REGISTRAR AQUELA FUNÇÃO-OBJETO DENTRO DA GLOBAL SCOPE, VISTO QUE ELE INEXISTE 
+                            NO GLOBAL SCOPE, ESTÁ CONTIDO DENTRO DE UMA CONSTANTE/VARIÁVEL. ESSA CONSTANTE/VARIÁVEL É, POR SUA VEZ, O NEGÓCIO 
+                            QUE É ESCOLHIDO PARA SER ARMAZENADO NO GLOBAL SCOPE... mas nessa hipótese nós somente podemos 
+                            chamar aquela função que queremos por meio da referência à constante/variável que a segura.
+                            Isso é algo que podemos fazer.
+
+
+                            PROFESSOR MOSTRA OUTRA COISA IMPORTANTE/INTERESSANTE:
+
+                            Ele omite o nome da função startGame, armazenada dentro da constante startGame. Por meio desse movimento, 
+                            ele acaba de transformar a função em uma FUNÇÃO ANÔNIMA.
+
+                            ex:
+
+
+
+                            const startGame = function startGame() {
+                                console.log('Game is starting...');
+                            }
+
+
+
+                            ----> VIRA:
+
+
+                            const startGame = function() {
+                                console.log('Game is starting...');
+                            }
+
+                                    ------------------------------
+
+
+
+                            O professor diz que isso é óbvio... nós podemos omitir aquele nome, 
+                            deletá-lo completamente, ISSO PORQUE O NOME DA FUNÇÃO AGORA NOS É INÚTIL, JÁ QUE 
+                            ESSE NOME NÃO CONSEGUE MAIS SER ENCONTRADO PELO JAVASCRIPT NO GLOBAL SCOPE, E PORQUE AGORA 
+                            SÓ PODEMOS USAR ESSA FUNÇÃO POR MEIO DE REFERÊNCIAS AO NOME DA VARIÁVEL/CONSTANTE QUE A SEGURA.
+                            Por isso que podemos deletar o nome dessa função. Não temos como referenciar a função por meio daquele nome, por isso que deletamos o nome.
+
+                            EIS A FUNÇÃO ANÔNIMA.
+
+
+                            funções anônimas geralmente são escritas assim:
+
+                            function() {
+
+                            }  
+
+
+                            E NÃO ASSIM:
+
+
+                            function () {
+
+                            }
+
+
+                            É um estilo de escrita, mas geralmente o pessoal escreve
+                            sem o espaço entre o () e o function.
+
+
+                            IMPORTANTE: 
+
+                            Quando usamos funções anônimas, devemos colocar um semi-colon depois do curly braces.
+
+
+
+
+                            RESUMO:
+
+
+                            quando usamos funções COMO DECLARAÇÕES/STATEMENTS (nome da função fica lado esquerdo do =) ---> não colocamos curly braces.
+
+
+
+                            QUANDO USAMOS FUNÇÕES COMO EXPRESSÕES (nome da função fica no lado direito do =) ---> 
+
+
+
+                            Se nós fizermos isso e recarregarmos, veremos que as coisas ainda funcionam como antes, mas com 
+                            a presença dessa função anônima.
+
+
+                            O conceito de ter uma função anônima NÃO ESTÁ LIGADO AO CONCEITO DE ARMAZENAR UMA FUNÇÃO 
+                            EM UMA CONSTANTE... nós podemos utilizar funções anônimas em outros lugares, também, e o professor 
+                            vai nos mostrar um desses lugares daqui a pouquinho. Ele só usou os 2 conceitos de forma conjunta aqui para aproveitar o tempo.
+
+                            Mas agora devemos dar um passo para trás e ignorar a função anônima um pouco, e vasculhar 
+                            aquela expressão da função (function expression) vs declarações de funções.
+
+
+                            Isso é o que devemos estudar agora.
+
+
+
+                            POR QUE USARÍAMOS A SINTAXE DA EXPRESSÃO (função dentro de variável) EM VEZ DA SINTAXE 
+                            DA DECLARAÇÃO (sintaxe usual) ?
+
+
+
+
+
+                            

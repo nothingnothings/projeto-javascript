@@ -1,0 +1,571 @@
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	fullName() { ////isso é um método.
+	return `${person.firstName} ${person.lastName}
+	}
+};
+
+
+
+person.fullName = 'John Smith'         ///// ISSO É O QUE QUEREMOS PODER FAZER COM OS GETTERS E SETTERS, ALTERAR 		PROPRIEDADES do lado de __Fora____ de objetos, chamando esses getters/setters COMO SE FOSSEM PROPRIEDADES (ou seja, sem parênteses depois de seu nome.)
+
+
+
+
+console.log(person.fullName);
+
+
+
+
+
+
+
+
+
+USAMOS 
+
+
+
+GETTERS ---> para acessar propriedades
+
+
+
+
+SETTERS ---> para mudar (mutate) as propriedades.
+
+
+
+
+
+
+Devemos 
+
+
+
+adicionar 
+
+
+
+
+um GETTER.... com esse getter, podemos acessar 
+
+esse 'fullName' COMO se fosse UMA PROPRIEDADE... (do lado de fora)...
+
+
+
+
+
+
+e COM UM SETTER, podemos definir o valor dessa propriedade 
+
+
+DO LADO DE FORA...
+
+
+
+
+
+
+
+Eis como isso funciona:
+
+
+
+
+você 
+
+
+simplesmente adiciona o prefixo 'get' ao método 
+
+'fullName'.
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { ////isso agora é um GETTER.
+	return `${person.firstName} ${person.lastName}
+	}
+};
+
+
+
+
+
+
+
+
+Agora, o método 'fullName' se transformou em UM GETTER.
+
+
+
+
+
+ENTÃO, agora podemos acessar o fullName COMO SE UMA PROPRIEDADE FOSSE....
+
+
+
+ex:
+
+
+
+console.log(person.fullName);
+
+
+
+
+
+-------------------------------
+
+
+O professor vai em frente e comenta para fora do código o trecho "person.fullName = 'John Smith' "
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	}
+};
+
+
+
+
+console.log(person.fullName);
+
+
+
+
+---------------------------------
+
+
+
+
+Certo. Agora, para que sejamos capazes de SETTAR/definir essa propriedade DO LADO DE FORA do objeto, 
+
+
+NÓS PRECISAMOS DEFINIR UM SETTER.
+
+
+
+
+um setter é muito similar ao getter: adicionamos a keyword 'set' e então o nome da propriedade/método.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	},
+
+	set fullName() {}
+
+};
+
+
+
+
+------------------------------
+
+
+
+
+
+ENTRETANTO, o setter precisa de um PARÂMETRO. Geralmente o chamamos de 
+
+'value'.
+
+
+
+
+ex:
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	},
+
+	set fullName(value) {
+
+	}
+
+};
+
+
+----------------------------------
+
+
+
+O professor explica que esse PARÂMETRO (value) é geralmente 
+
+
+
+AQUILO QUE TEMOS NO LADO DIREITO do 'assignment operator' ("=").
+
+
+
+--------------------------------
+
+
+ex:
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	},
+
+	set fullName(value) {
+
+	}
+
+};
+
+
+
+
+
+person.fullName = 'John Smith'; //////'John Smith' é o VALUE do setter, aqui.
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+Agora, aqui, devemos assumir que 'value' É UMA STRING 
+
+
+VÁLIDA...
+
+
+
+TEMOS QUE dividir (split) essa string Com um espaço... pegar 
+as partes da string e então 
+
+definir as propriedades 'firstName' e 'lastName' com esses valores 
+da string separada...
+
+
+
+
+Para fazer isso, dentro do setter body eu vou lá 
+
+
+e escrevo 
+
+
+"value.split(' ')"      ////o espaço entre os quotes vai fazer com que os 2 nomes na string sejam separados... ele vai fazer isso porque irá considerar o espaço em branco entre john e smith como o elemento separador dos 2...
+
+
+
+
+O professor vai lá e armazena esse método/função 
+em uma constante chamada de 'parts'. Parts terá como valor esse ARRAY de partes... (porque é isso que 'split()' faz, nos retorna um array das coisas que você dividiu, no caso, 'john' e 'smith'...)
+
+
+
+
+
+ex:
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	},
+
+	set fullName(value) {
+		const parts = value.split(' ');
+	}
+
+};
+
+
+
+
+person.fullName = 'John Smith';
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+Agora podemos definir, dentro do setter,  o primeiro nome 'firstName' 
+
+como sendo 'parts[0]'.... e o 'lastName' como sendo 'parts[1]'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	},
+
+	set fullName(value) {
+		const parts = value.split(' ');
+		this.firstName = parts[0];
+		this.lastName = parts[1];
+	}
+
+};
+
+
+
+
+person.fullName = 'John Smith';
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+FINALMENTE, depois de ajeitado tudo isso, o professor 
+
+
+diz que devemos fazer 
+
+ o log 
+
+
+ do objeto 'person' em vez do 'person.fullName'... 
+
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+const person = {
+	firstName: 'Mosh',
+	lastName: 'Hamedani',
+	get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	},
+
+	set fullName(value) {
+		const parts = value.split(' ');
+		this.firstName = parts[0];
+		this.lastName = parts[1];
+	}
+
+};
+
+
+
+
+person.fullName = 'John Smith';
+
+
+
+
+
+console.log(person);
+
+
+
+
+
+-----------------
+
+
+
+
+Resumo:
+
+
+inicialmente, definimos nosso fullName (person.firstName + person.lastName) como sendo 
+
+'mosh hamadani', mas depois o alteramos para 
+
+ser 'john smith'... (com a ajuda do SETTER de 'fullName')
+
+
+
+
+
+
+
+
+o console.log nos retornará:
+
+
+
+{firstName: "John", lastName: "Smith"}
+
+
+
+
+VOcê pode ver, portanto, que as duas propriedades 
+
+
+FORAM ATUALIZADAS...
+
+
+
+
+___ALÉM DISSO___, VOCê 
+
+
+PODE PERCEBER QUE O 'fullName' terá 
+
+seu valor mostrado como  '...'  (3 pontos).
+
+
+
+
+
+PROFESSOR EXPLICA QUE, àS VEZES, QUANDO VOCê ESTÁ 
+LOGGANDO OBJETOS NO SEU CONSOLE, você pode ver 
+
+propriedades com esse tipo de valor...
+
+
+
+se passarmos o mouse em cima desse valor, 
+
+
+leremos 'invoke property getter'...
+
+
+
+Como podemos observar pelo tooltip, isso se TRATA 
+
+
+DE UM __gETTER__. 
+
+
+
+Para que possamos LER ESSE VALOR, precisamos 
+
+clicar nos 3 pontos.
+
+
+Assim que clicamos nos 3 pontos, o método 
+
+
+get fullName() { 
+	return `${person.firstName} ${person.lastName}
+	}
+
+
+É  EXECUTADO 
+
+
+
+e o resultado dele é mostrado no console... ("John Smith").
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ESSE É O BENEFÍCIO, PORTANTO, de getters e setters:
+
+
+
+
+eles nos permitem definir valores das propriedades e acessá-las DO LADO 
+
+
+DE FORA do objeto...
+

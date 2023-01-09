@@ -1,0 +1,74 @@
+
+
+
+
+APRENDEMOS SOBRE SINTAXE DE JAVASCRIPT E SOBRE ESCREVER JAVASCRIPT...
+
+
+
+
+
+
+
+AGORA VEREMOS O TÓPICO DE 
+
+
+'PERFORMANCE OPTIMIZATIONS'... ---> queremos 
+
+
+ser capazes DE ESCREVER CÓDIGO JAVASCRIPT, MAS CÓDIGO JAVASCRIPT __BOM__...
+
+
+
+
+
+
+VOCÊ DEVE SER CAPAZ DE DESCOBRIR SE VOCê ESCREVEU CÓDIGO QUE PROVIDENCIARÁ 
+
+BOA PERFORMANCE AOS SEUS USUÁRIOS, ou se há coisas 
+
+QUE VOCÊ PODE MELHORAR, que pode consertar... (para ter uma 
+
+melhor user experience)
+
+
+
+
+
+
+
+
+---> NESSE MÓDULO VEREMOS O QUE SIGNIFICA 'PERFORMANCE' --> é um termo amplo, e pode significar um monte de coisas diferentes...
+
+
+
+
+
+1) 'WHAT IS PERFORMANCE' 
+
+
+
+
+2) MEDINDO E ANALISANDO PERFORMANCE.... ---> DESCOBRIREMOS COMO NOSSO APLICATIVO SE COMPORTA...
+
+
+
+
+3) IDEIAS DE OPTIMIZAÇÃO ----> como melhorar seu código, coisas que podem melhorar o funcionamento do nosso código....
+
+
+
+
+4) MAIS RESOURCES ----> o tópico de 'optimização de performance' NÃO ACABA
+NO JAVASCRIPT; ampla variedade, coisas não relacionadas com javascript...
+
+---> muitos use-cases para javascript e etc...
+
+
+
+
+---> veremos muitos conceitos importantes, mas o professor 
+
+também nos dará FERRAMENTAS QUE NOS AJUDARÃO A OPTIMIZAR 
+
+NOSSOS WEBSITES/WEBAPPs...

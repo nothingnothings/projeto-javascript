@@ -1,0 +1,101 @@
+Vimos como ir para cima e para baixo no Dom. Mas 
+e se quisermos selecionar elementos primos/irmãos de um determinado elemento?
+
+
+
+
+
+Digamos que eu queira selecionar o header a partir de uma seleção de ul:
+
+
+
+
+
+ex:
+
+const li = document.querySelector('li');
+
+
+
+
+
+li.previousSibling;
+
+
+
+
+
+
+-------------------------------------------------
+Método alternativo:
+
+
+Agora digamos que queremos começar selecionando a UL, partindo do terceiro 
+item com a tag <li>. Para tal, fazemos:
+
+
+ex:
+
+
+const ul = li.parentElement;    -------------> isso é a mesma coisa que "document.querySelector('ul')", mas a versão do querySelector desse seletor É MAIS PESADA, demora mais. Além disso, há o problema de você ter multiplas tags <ul> em um site, para diferentes elementos. Nessa hipótese, a propriedade querySelector não é tão boa.
+
+-----------------------------
+
+ISSO VAI SELECIONAR O elemento "ul".
+
+
+ex:
+
+
+const ul = li.parentElement;
+
+ul.previousElementSibling; ----> isso vai selecionar HEADER, que é o irmão anterior à ul. Estão no mesmo nível, 
+é por isso que esse comando funciona.
+
+
+
+HÁ DUAS PROPRIEDADES RELATIVAS A "IRMÃOS":
+
+
+
+"previousSibling" e "previousElementSibling"
+
+
+O primeiro nos dá O SIBLING NODE PRÉVIO. NESSE CASO, É UM 
+____TEXT_____NODE_____. É o espaço em branco entre linhas, e NÃO É O QUE QUEREMOS.
+
+
+o segundo, mais útil geralmente, nos dá O SIBLING ANTERIOR QUE É UM 
+ELEMENTO. NESSE CASO, SERIA "HEADER", que é o que queremos.
+
+
+
+Esses comandos funcionam no outro sentido, também.
+
+
+ex:
+
+
+ul.nextElementSibling; ----> nos dá acesso à "Input"
+
+
+ul.nextSibling; ----> nos dá acesso ao espaço em branco e line break entre 
+                            ul e input.
+
+
+
+Aprendemos, portanto, as dom traversal techniques.
+
+
+
+São úteis para casos em que as execuções de código 
+são próximas, como quando você quer rodar 1 código diferente para 
+cada item em uma lista, aí você usa pseudoseletores (:first-of-type) e essas propriedades para 
+selecionar eficientemente cada elemento. Usar 
+essas propriedades de traversal é simplesmente mais rápido do que sempre começar uma nova 
+query com "querySelector()". Não só é mais rápido para nós 
+como desenvolvedores, mas também o é para o browser. (querySelector obriga o 
+browser a escanear todo o documento, e é pior para performance).
+
+
+

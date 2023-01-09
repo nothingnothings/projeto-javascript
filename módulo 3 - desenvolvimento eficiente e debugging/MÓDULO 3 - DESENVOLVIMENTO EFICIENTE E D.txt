@@ -1,0 +1,74 @@
+MÓDULO 3 - DESENVOLVIMENTO EFICIENTE E DEBUGGING.
+
+
+
+
+
+INTRODUÇÃO:
+
+
+
+
+
+COM AS FEATURES BÁSICAS EXPLICADAS, AGORA OLHAREMOS UM POUCO COMO DEBUGGAR SEU CÓDIGO E ASSEGURAR QUE VOCÊ É CAPAZ DE 
+TRABALHAR EFICIENTEMENTE COM SEU CÓDIGO.
+
+
+QUANDO VOCÊ TRABALHA COM CÓDIGO, VOCÊ ENCONTRA ERROS.
+
+NESSE MÓDULO VEREMOS 1)COMO ENCONTRAR ERROS
+
+
+2)COMO CONSERTÁ-LOS
+
+
+3)DIFERENTES FERRAMENTAS QUE VOCÊ TEM
+
+
+
+4)QUE TIPOS DE ERROS VOCê PODE ENCONTRAR
+
+
+
+o importante é ser produtivo, se acostumar ao editor de texto e às ferramentas que você tem ao seu dispor.
+
+
+Para ser produtivo, é necessário também ser capaz de encontrar ajuda, e saber onde encontrar recursos para procurar mais a fundo,
+onde você poderá aprender mais.
+
+
+
+
+
+
+
+
+
+
+
+
+OVERVIEW DO DESENVOLVIMENTO EFICIENTE E DEBUGGING.
+
+
+
+1)como escrever código eficientemente. ---> professor não quer dizer que você deve escrever código o mais rápido possível, e sim tirar o máximo das ferramentas que vocÊ tem ao seu dispor, que você não tenha que copiar e colar código e fazer trabalho manual.
+
+
+
+
+
+2)como procurar ajuda ----> em programação, mesmo que vocÊ tenha tido vários cursos e tenha sido um programador por muitos anos, sempre haverá algum problema no código, alguma coisa que você não sabe ou que você apenas se lembra vagamente, como uma função de javascript que você não conhece muito bem.
+Isso é totalmente normal, quando vocÊ se torna um desenvolvedor, seu objetivo não é aprender tudo by heart, porque as linguagens da programação também evoluem, e novas features estão sendo sempre adicionadas.
+O melhor é aprender como a linguagem funciona no geral, e como você deve pensar sobre escrever código e onde procurar mais fundo se você precisa de uma feature mais específica ou algum comando.
+
+
+
+
+3)Como debuggar seu código -----> como consertar suas paradas. VOcÊ deve produzir em um ambiente adequado. O professor está
+falando do editor de texto, configurá-lo para gostar mais de trabalhar. Ele fala de como configurá-lo de modo que 
+ele possa indentar seu código automaticamente, sem que você tenha que fazer tudo de forma manual. Atalhos importantes,
+auto-completion e outras features. Editor extensions também são muito úteis, assim como as settings mais obscuras.
+
+
+
+

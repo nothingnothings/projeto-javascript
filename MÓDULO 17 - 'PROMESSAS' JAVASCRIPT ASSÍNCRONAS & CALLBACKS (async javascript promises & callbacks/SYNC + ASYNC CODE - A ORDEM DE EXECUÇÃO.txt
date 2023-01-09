@@ -1,0 +1,532 @@
+
+
+
+
+
+AGORA DEVEMOS VER UM POUCO MAIS DE CALLBACKS EM CÓDIGO ASYNC....
+
+
+
+
+Para isso, o professor comenta o for loop para fora do nosso código-exemplo.
+
+
+
+
+Aí, dentro de trackUserHandler, EM VEZ DE Apenas loggar 'clicked' nesse body,
+
+
+nós queremos PEGAR A USERLOCATION....
+
+
+
+Nós podemos conseguir essa informação com o objeto global
+
+'NAVIGATOR' e então sua propriedade/método 'geolocation'...
+
+
+
+
+
+----------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+ navigator.geolocation;
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+GEOLOCATION é uma API 'BUILTIN' que nos permite 
+
+
+
+'reach out to the browser' PARA CONSEGUIR 
+
+A LOCALIZAÇÃO DO USUÁRIO, com a ajuda de 
+
+'getCurrentPosition();'
+
+
+
+ex:
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+ navigator.geolocation.getCurrentPosition();
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+------------------------------------------------
+
+
+
+
+getCurrentPosition É UM MÉTODO, AQUI, QUE NA VERDADE,
+
+SE VOCê DER UMA OLHADA EM SEUS PARÂMETROS, aceita 
+
+3 POTENCIAIS PARÂMETROS....
+
+
+
+
+
+
+1o parâmetro ----> 'successCallback' ----> um callback de 'sucesso' ---->
+---------------> É BASICAMENTE UMA FUNÇÃO QUE É EXECUTADA SE A POSIÇÃO DO USUÁRIO FOI OBTIDA ('fetched') COM SUCESSO.
+
+
+
+2o parâmetro ----> 'errorCallback' -----> UMA callback de ERRO, a qual é executada se a POSIÇÃO DO USUÁRIO NÃO FOI OBTIDA COM SUCESSO...
+
+
+
+
+3o parâmetro ---> UM OBJETO 'options' ---> NESSE OBJETO VOCÊ CONFIGURA ___COMO ESSA POSIÇÃO ___ DEVERÁ/DEVE SER OBTIDA...
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+E você pode, explica o professor, tanto definir UMAS FUNÇÕES NOMEADAS 
+
+PARA ENTÃO USAR COMO PARÂMETROS EM 'getCurrentPosition' (como fizemos no addEventListener de 'button', com 'trackUserHandler'...), 
+
+COMO 
+
+TAMBÉM USAR ANONYMOUS FUNCTIONS (de preferência arrow functions).
+
+
+
+
+O professor usa uma anonymous arrow function.
+
+
+
+
+
+ele coloca 
+
+uma função em que 
+
+
+ele consegue 
+
+
+a 
+
+
+'posData' (parâmetro passado a essa função que será o primeiro parâmetro)..
+
+
+aí no body ele faz o console.log da 'posData'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, 
+ );
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+----------------------------------------------------
+
+
+
+
+
+Essa função será o primeiro parâmetro, o 'success' callback ....
+
+
+
+COMO SEGUNDO PARÂMETRO O PROFESSOR COLOCA O ERRO....
+
+
+
+
+
+ele coloca 
+
+outra arrow function, 
+
+
+
+dessa vez 
+
+
+'error => console.log(error);'
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+COMO TERCEIRO ARGUMENTO (opcional) PODERÍAMOS PASSAR UM 
+
+
+OBJETO 'options', com o qual podemos configurar essa obtenção da localização.
+
+
+podemos definir um timeout, que definira 
+
+
+quanto tempo esperaríamos essa função acabar até lançar um erro....
+
+
+
+MAS O PROFESSOR NÃO FARÁ ISSO, ele utilizará o default em vez disso.
+
+
+
+------------------------------
+
+
+
+
+PROFESSOR SALVA O CÓDIGO E RECARREGA.
+
+
+
+
+ELE CLICA NO BOTÃO, E AGORA 
+
+ELE RECEBE AS COORDENADAS DE SUA LOCALIZAÇÃO no console.
+
+
+Mas ele tem de esperar um pco, pois essa função é (ESPERADAMENTE) mais lenta do que o comum.
+
+
+
+
+
+
+
+
+
+GeolocationPosition {coords: GeolocationCoordinates, timestamp: 1610998976967}
+
+
+
+
+
+
+
+PODEMOS EXPANDIR ESSE NEGÓCIO PARA VER NOSSAS COORDENADAS, SE ASSIM O DESEJARMOS.
+
+Bem conveniente para bastantes aplicativos.
+
+
+
+
+
+
+DIGAMOS QUE VOCÊ ESTEJA CONSTRUINDO UMA WEB PAGE DE UM SERVIÇO DE ENTREGAS 
+
+DE COMIDA....
+
+pegar a localização do usuário pode ser bem útil.
+
+
+
+
+-----------------------------------
+
+
+
+
+
+CERTO.
+
+
+
+NÓS TEMOS 2 CASOS ESPECIFICADOS NO CÓDIGO DE 'getCurrentPosition'..
+
+
+o caso de sucesso 
+
+
+e
+
+
+
+o caso de erro.
+
+
+
+
+PARA SIMULAR O CASO DE ERRO,
+
+
+BASTA QUE O PROFESSOR __NEGUE___ o pedido de autorização 
+
+
+para pegar a geolocation...
+
+
+
+FEITO ISSO, O GEOLOCATION É BLOQUEADO 
+
+
+E NÓS RECEBEMOS 
+
+
+
+'PositionError {code: 1, message: "User denied Geo Location"}.
+
+
+
+
+É UM OBJETO DE ERRO... É UMA MENSAGEM DE ERRO 
+
+
+PRINTADA PELA LINHA 
+
+
+'console.log(error);'
+
+
+----------------------------------------------
+
+
+
+
+É ASSIM, PORTANTO, que ESSES CALLBACKS FUNCIONAM....
+
+
+
+
+e, assim como addeventlistener,
+
+getCurrentPosition FAZ O 'OFFLOAD' dessa tarefa ao 
+
+browser....
+
+
+quando essa tarefa OFFLOADADA TERMINA, ela EMPURRA 
+
+O CÓDIGO em seu interior 
+
+(no caso o caso de erro/sucesso do getCurrentPosition) 
+
+PARA DENTRO DA MESSAGE QUEUE, ONDE O EVENT LOOP EVENTUALMENTE 
+
+OS MOVE/MOVE O CÓDIGO PARA DENTRO DO JS CALL STACK...
+
+
+
+
+
+
+AGORA, COMO ANTES, SE NÓS ENTÃO FIZERMOS ALGO DEPOIS DE 
+
+CHAMAR 'getCurrentPosition', COMO 
+
+UM CONSOLE.LOG de 'Getting position...',
+
+
+ESSE CÓDIGO SERÁ EXECUTADO AINDA QUE O getCurrentPosition se demore 
+
+mais do que ele....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+ navigator.geolocation.getCurrentPosition(posData => {
+     console.log(posData);
+ }, error => {console.log(error)}
+
+ );
+ console.log('Getting position...');
+}
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+Ou seja, o pop-up de 'permitir localização' aparece, e o console.log ainda acontece, mesmo se deixarmos o negócio parado.
+
+
+
+ISSO ACONTECE PQ O CÓDIGO DO getCurrentPosition FOI MOVIDO PARA DENTRO DO BROWSER, 
+
+NÃO INTERESSA O QUÃO RÁPIDO SEJA A EXECUÇÃO DE 'getCurrentPosition', O JAVASCRIPT 
+
+
+AINDA VAI CONTINUAR COM A EXECUÇÃO DO RESTANTE DO CÓDIGO CONTIDO EM 'trackUserHandler', que foi engatilhado 
+
+pelo eventListener que está no botão 'button'...
+
+
+
+
+
+
+
+o console.log de 'getting position...', nesse exemplo, 
+
+SEMPRE SERÁ EXECUTADO ANTES DA 
+
+EXECUÇÃO 
+
+
+DE getCurrentPosition (e do return de seus console.logs), 
+
+
+PORQUE O BROWSER tem que receber essa função 'offloadada' para 
+então passá-la ao event loop, para ´so então conseguir que 
+
+
+ela seja colocada e executada no call stack...
+
+
+
+
+---------------------------------
+
+
+
+

@@ -1,0 +1,431 @@
+
+
+
+
+
+
+ Devemos continuar a trabalhar com o nosso mini aplicativo...
+
+
+
+
+
+ Devemos fazer com que aquele botão adicionado por meio do 'render()' 
+ FUNCIONE, faça alguma coisa.
+
+
+
+
+
+
+
+
+ Há múltiplos approaches para que consigamos alcançar aquele botão...
+
+
+
+
+
+
+ APPROACH A)  esse approach seria ___NÃO ADICIONAR ____ o botão ali, dentro do innerHTML, e sim 
+ adicioná-lo como UM OBJETO CRIADO COM 
+ 'document.createElement()'. Se você escolhesse esse approach, você teria 
+ que primeiro criar esse botão; depois, você simplesmente teria 
+ que selecionar a parte do innerHTML que tem a div em que vocÊ quer inserir
+ o elemento botão (div > div > button) por meio de APPEND. 
+
+
+ ex:
+
+
+
+
+
+
+ render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            //<button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        document.createElement('button');
+        return prodEl;
+ }
+
+--------------------------------------------
+
+
+
+
+
+
+APPROACH B) é o approach que o professor utilizará. É 
+O APPROACH QUE DEIXA O BOTÃO FICAR 
+DENTRO DO innerHTML... o professor precisa 
+ganhar 
+acesso ao botão que está dentro do innerHTML adicionado 
+a partir de render()....
+
+
+
+Para tal, ele vai lá e cria uma constante 
+chamada 
+
+'addCartButton'.... 
+
+
+
+Depois disso, ele define o valor dela como 
+sendo 'prodEl' (QUE É AQUELE ELEMENTO 
+QUE NÓS CRIAMOS COM A AJUDA DE 'document.createElement('li');' )...  -----------> IMPORTANTE!! --> lembre-se que o innerHTML aqui é o innerHTML de 'prodEl', é por isso que o professor consegue utilizar 'prodEl.querySelector' mais abaixo....
+
+Feito isso, ele então utilizará o método do QUERYSELECTOR dentro do 
+prodEl...
+
+Aí ele vai lá e coloca 'button' como o tipo de tag que 
+ele quer dentro desse elemento prodEl... o querySelector vai 
+selecionar o PRIMEIRO BOTÃO QUE ELE ENCONTRAR (e só 1 botão existe, aqui).
+
+
+ex:
+
+
+
+
+
+
+
+
+render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        return prodEl;
+ }
+
+
+
+
+ -------------------------
+
+
+
+
+
+
+ IMPORTANTE!!! ---> como eu executo 
+ o querySelector 
+ DENTRO DO MÉTODO 'render()' dentro 
+ da classe ProductItem, esse seletor SEMPRE 
+ SERÁ APLICADO A ESSE SNIPPET ESPECÍFICO (ao snippet do innerHTML que eu adicionei por meio desse render()).
+
+ ou seja, os querySelectors de cada item/produto que eu adiciono ao código 
+ NÃO INTERFEREM UM COM O OUTRO, pois todos eles são 
+ aplicados aos seus code snippets específicos de seus 
+ próprios innerHTMLs...
+
+ Essencialmente o querySelector é aplicado ao code snippet 
+ criado PARA ESSA INSTÂNCIA CONCRETA ESPECÍFICA de innerHTML.
+
+
+ O fato de criarmos múltiplas classes, com múltiplos botões, não é problema, 
+
+ pois o querySelector vai olhar só dentro desse produto, dentro desse productItem criado 
+ a partir da classeProductItem.
+
+
+É por isso que ganhamos acesso exatamente àquele botão que queremos, 
+para esse produto (e para todos os outros).
+
+
+Ok, consegui acesso ao botão...
+
+
+
+agora devo adicionar um eventListener aqui, um click listener 
+
+que executará uma função... ou, para ser mais preciso, UM MÉTODO...
+
+
+UM MÉTODO, PORQUE adicionar um produto À um carrinho tem muito 
+mais sentido 
+se fizermos isso ser um método 
+da classe 
+
+'ProductItem'...
+
+
+POR ISSO ADICIONAREMOS UM NOVO MÉTODO à classe 'ProductItem' (a posição do método não importa; pode ser tanto em cima ou embaixo de render().).
+
+
+O método de se chamará 'addToCart() {}'
+
+
+Ele vai lá e o vincula ao eventListener por meio de 'this.addToCart'.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class ProductItem {
+
+
+
+
+
+
+
+    constructor(product) {
+        this.product = product;
+    }
+
+    
+    addToCart() {}   /////CÓDIGO EM QUESTÃO.
+
+    render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');  //// CÓDIGOS EM QUESTÃO.
+        addCartButton.addEventListener('click', this.addToCart);  ///////
+        return prodEl;
+    }
+
+
+}
+
+
+
+
+------------------------------------------
+
+
+
+
+
+O MÉTODO 'addToCart'.... depois vou querer inserir lógica dentro dele para editá-lo....
+
+mas por enquanto, o professor apenas vinculá-o ao eventListener... 
+
+
+
+
+Por enquanto, o professor vai querer usar o método addToCart para executar o código 
+'console.log('Adding product to cart...');'
+
+
+Ele também vai lá 
+e faz o console.log de 'this.product', para que POSSAMOS 
+VER QUAL PRODUTO QUE FOI ADICIONADO...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class ProductItem {
+
+
+
+
+
+
+
+    constructor(product) {
+        this.product = product;
+    }
+
+    
+    addToCart() {
+        console.log('Adding product to cart...');
+        console.log(this.product);
+    }   /////CÓDIGO EM QUESTÃO.
+
+    render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');  //// CÓDIGOS EM QUESTÃO.
+        addCartButton.addEventListener('click', this.addToCart);  ///////
+        return prodEl;
+    }
+
+
+}
+
+
+
+--------------------------
+
+
+Salvamos tudo, recarregamos a página e clicamos em 1 dos botões 'add to cart'.
+
+
+VEREMOS ALGO DE ESTRANHO NO CONSOLE....
+
+
+
+Veremos os outputs 
+
+'Adding product to cart...' 
+
+        e 
+
+'UNDEFINED'. ///////////////// ---------> OU SEJA, VOCÊ NÃO VE O PRODUTO EM QUE VOCê CLICOU (que deveria ser o pillow, por exemplo), mas sim 'undefined'.....
+
+
+
+
+MAS PQ ISSO?
+
+
+PQ O CONSOLE NOS RETORNOU UNDEFINED para esse item 'this.product'?
+
+
+
+
+A resposta é que isso está relacionado com 
+O COMPORTAMENTO de 'this' SOBRE O QUAL CONVERSAMOS no módulo de objetos....
+
+
+
+nós executamos 'addToCart' sempre que O BOTÃO 'addToCart' é pressionado...
+Nós assignamos o método 'addToCart' desse objeto 'ProductItem' A ESSE EVENTLISTENER... (ou ao botão...).
+
+
+
+Como você aprendeu no módulo de objetos, javascript então FAZ O BIND DE 'this' À ORIGEM 
+DO EVENTO (Do evento clique), ou seja, ao ___BOTÃO___, E NÃO à SUA CLASSE OU O SEU OBJETO nos quais
+esse método efetivamente está rodando...
+
+
+--> A __SOLUÇÃO__, OU UMA DAS POSSÍVEIS SOLUÇÕES, é usar 'bind' aqui e fazer O BIND DE 'THIS'...
+
+
+ex:
+
+
+
+  const addCartButton = prodEl.querySelector('button');  ////
+        addCartButton.addEventListener('click', this.addToCart.bind(this));  /////// EIS O CÓDIGO.
+        return prodEl;
+
+
+---------------------------
+
+
+
+Isso significa que NÓS, POR MEIO DESSE CALL DE 'bind', FAREMOS O BIND DE 'THIS' DENTRO 
+DE 'addToCart'.....   o que isso fará, essencialmente, é 
+FAZER COM QUE O USO DE 'THIS' NESSE ADDEVENTLISTENER VAI TER O MESMO EFEITO 
+DO 'this' USADO DENTRO DO MÉTODO 'ADDTOCART'...
+
+
+
+
+ex:
+
+
+class ProductItem{
+
+   
+    addToCart() {
+        console.log('Adding product to cart...');
+        console.log(this.product);  ////////'this' aqui SE REFERENCIARÁ à 'PRODUCTITEM' (que é o que desejamos).
+    }   
+
+
+
+
+ addCartButton.addEventListener('click', this.addToCart.bind(this));  ///////'this' AQUI TAMBÉM SE REFERENCIARÁ À 'PRODUCTITEM', pois o 'bind()' de this em 'addToCart' FARÁ COM QUE O 'this' que antes fazia referência à addEventListener AGORA PASSE A FAZER REFERÊNCIA à MESMA COISA QUE O 'this' DENTRO DE addToCart() SE REFERENCIA (no caso, o objeto 'productItem').
+                                                                            /////'this' aqui, nesse code snippet do addEventListener, se refere ao objeto/classe inteira productItem, ASSUMINDO QUE NÓS CHAMAMOS 'render' EM UMA INSTÂNCIA DESSE OBJETO (que é exatamente o que fazemos em nosso código). 
+}
+
+
+
+
+
+'this' aqui, nesse code snippet do addEventListener,
+ se refere ao objeto/classe inteira productItem, 
+ASSUMINDO QUE NÓS CHAMAMOS 'render' 
+EM UMA INSTÂNCIA DESSE OBJETO
+ (que é exatamente o que fazemos em nosso código).....
+
+
+ em 'const productItem = new ProductItem(prod);' NÓS CRIAMOS A INSTÂNCIA,
+ já em 'const prodEl = productItem.render();' NÓS CHAMAMOS 'render' dentro dessa instância... 
+
+
+
+
+
+
+ Portanto, agora o 'this' deve se referir à coisa correta (a classe/object productItem).
+
+ Se salvarmos e recarregarmos 
+ a página, veremos que agora o OBJETO 'product' SERÁ 
+ LOGGADO.
+
+
+ESSA AINDA NÃO É NOSSA LÓGICA FINAL... não é a lógica final que vou querer 
+executar quando alguma coisa é adicionada ao carrinho...
+
+
+
+EM VEZ DISSO, EU QUERO TER UM OBJETO, um objeto 'CARD', provavelmente uma 
+CLASSE 'card', a qual também renderizará alguns outputs na TELA, e que então 
+segura uma lista de todos os produtos e calcula uma soma de todos os valores que então será outputtada na tela.

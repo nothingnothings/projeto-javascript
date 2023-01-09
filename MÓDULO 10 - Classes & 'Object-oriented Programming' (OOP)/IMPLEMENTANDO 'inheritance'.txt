@@ -1,0 +1,1975 @@
+
+
+
+
+
+
+
+De volta ao nosso projeto, nós poderíamos adicionar 
+
+
+UMA NOVA CLASSE, bem em cima, sobre todas as outras classes 
+
+
+especializadas...
+
+
+
+o professor 
+
+chamará a classe 
+
+
+de 
+
+'component', porque no final das contas ESSA CLASSE SERÁ UTILIZADA 
+
+
+PARA FAZER O OUTPUT DE MUITOS DIFERENTES COMPONENTES da webpage...
+
+
+
+
+
+essa classe component vai ter um método 
+
+que será chamado 
+
+
+
+de 'createRootElement'....
+
+
+
+esse método vai receber 3 ARGUMENTOS DIFERENTES...
+
+
+1) a tag do elemento que quero criar (o tipo de elemento html)   -----------> ele vai usar isso depois para basicamente SUBSTITUIR a linha de código 'const cartEl = document.createElement('section');'
+
+
+
+2) Qualquer classe css que será adicionada ao elemento...
+
+
+
+
+
+3) quaisquer outros atributos que deverão/devem ser adicionados àquele elemento...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+
+    }
+}
+
+
+
+
+------------------------------
+
+
+
+
+
+
+DENTRO Do método createRootElement, podemos então 
+
+
+CRIAR o rootElement ('const rootElement') por meio 
+
+
+de 'document.createElement(tag);'
+
+
+
+
+ex:
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+    }
+}
+
+
+
+------------------------------------------
+
+
+
+
+
+APÓS ISSO, PODEMOS INSERIR UM IF CHECK, QUE CHECARÁ se temos 
+alguma classe css existente naquele trecho do código....
+
+fazemos isso por meio de 'if(cssClasses)' ---> se o cssClasses retornar truthy, o código dentro dos {} desse if block será executado....
+
+
+
+ex:
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+
+        }
+    }
+}
+
+
+
+
+---------------------------------------
+
+
+
+
+se cssClasses for um truthyValue, vou querer IR ATÉ 
+
+O ROOTELEMENT e definir seu 'className' como sendo 
+igual à cssClasses.... (ou seja, então eu espero que 'cssClasses' seja uma STRING de classes que devem/deverão ser adicionadas.)
+
+
+
+
+ELSE não vou fazer nada (por isso não há necessidade de um else block).
+
+
+ex:
+
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+    }
+}
+
+
+
+
+---------------------------
+
+
+
+
+DEPOIS DESSE IF CHECK, vou adicionar OUTRO IF CHECK, checando 
+
+pelos atributos...  vou querer checar se 'attributes' segura 
+um valor truthy.... E NÃO SOMENTE ISSO, VOU QUERER 
+
+TAMBÉM checar pelo fato de 'attributes' SER UM ARRAY COM LENGTH 
+
+MAIOR DO QUE 0.... (porque attributes deverá ser um array)....
+
+
+SE AMBAS ESSAS CONDIÇÕES FOREM VERDADEIRAS, vou querer 
+
+executar um for of loop POR DENTRO DOS ATRIBUTOS (você poderia usar um forEach loop tbm, dá na mesma).
+
+
+ex:
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+
+        if(attributes && attributes.length > 0) {
+            for (const attr of attributes) {
+
+            }
+        }
+    }
+}
+
+
+---------------------------------------------
+
+
+
+
+
+
+Aí, caso essas condições sejam satisfeitas, vou querer 
+
+
+chamar 'setAttribute' em 'rootElement'....
+
+
+
+esse método 'setAttribute' vai ter como 
+parâmetro UM PUNHADO DE OBJETOS nesse 
+array de 'attributes', que eu vou esperar... (expect).
+
+
+Cada objeto desse array de 'attributes' terá uma propriedade NAME e 
+também uma propriedade VALUE.
+
+
+ex:
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+
+        if(attributes && attributes.length > 0) {
+            for (const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+}
+
+
+
+
+------------------------------------------
+
+
+
+
+
+PARA GARANTIR ESSA ESTRUTURA, podemos adicionar 
+
+uma nova classe, chamada de  'ElementAttribute'....
+
+essa classe TERÁ UM CONSTRUCTOR... 
+
+
+
+ex:
+
+
+
+
+
+class ElementAttribute {
+    constructor() {}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+
+        if(attributes && attributes.length > 0) {
+            for (const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+}
+
+
+
+-------------------------------------
+
+
+
+
+
+Dentro desse constructor, vou querer receber 'attrName' 
+e 'attrValue' COMO PARÂMETROS....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ElementAttribute {
+    constructor(attrName, attrValue) {}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+
+        if(attributes && attributes.length > 0) {
+            for (const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+}
+
+
+
+-----------------------------
+
+
+
+Dentro do constructor body, 
+
+vou querer estabelecer:
+
+
+'this.name = attrName;'
+
+e 
+
+'this.value = attrValue;' ....  OU SEJA,
+
+NÓS ARMAZENAMOS OS DADOS QUE RECEBEMOS NO CONSTRUTOR (no chamado do construtor) 
+EM PROPRIEDADES correspondentes dessa mesma classe 'ElementAttribute'....
+
+
+
+
+E então, em 'createRootElement' da classe 'Component', eu 
+
+essencialmente espero (expect) que  'attributes' (o terceiro parâmetro)
+
+SEJA UM ARRAY CHEIO DE OBJETOS criados com base 
+
+NA CLASSE 'ElementAttribute'... (ou seja, provavelmente no futuro chamaremos 'new ElementAttribute' como TERCEIRO PARÂMETRO DE 'createRootElement'...), 
+
+
+PARA QUE NÓS POSSAMOS DEFINIR ATRIBUTOS ('rootElement.setAttribute(attr.name, attr.value'))
+
+NO ROOT ELEMENT.... (const rootElement). 
+
+
+
+ex:
+
+
+
+
+
+
+
+class ElementAttribute {        ////será usado como parâmetro, no slot 'attributes'.
+    constructor(attrName, attrValue) {
+        this.name = attrName;
+        this.value = attrValue;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+class Component {
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+
+        if(attributes && attributes.length > 0) {
+            for (const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+}
+
+
+
+
+------------------------------------
+
+
+
+
+Então, após toda essa lógica, eu vou querer 
+
+
+fazer o APPEND() desse elemento 
+
+'rootElement' AO DOM...
+
+
+Para fazer o append desse elemento, eu PRECISO 
+
+DE UM LUGAR NO CÓDIGO EM QUE EU POSSA FAZER ESSE APPEND... (essa adição).
+
+
+
+Para isso, eu vou na verdade ADICIONAR UM CONSTRUCTOR na classe 
+
+'Component', que esperará receber como PARÂMETRO O VALOR 
+
+DE 'renderHook'... O constructor vai esperer 'renderHook' como 
+
+parâmetro E ENTÃO O ARMAZENARÁ EM UMA PROPRIEDADE da classe 'Component', 
+
+'hook', por meio do constructor body....
+
+
+
+ex:
+
+
+
+
+class ElementAttribute {        
+    constructor(attrName, attrValue) {
+        this.name = attrName;
+        this.value = attrValue;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+class Component {
+        constructor(renderHook) {
+            this.hook = renderHook;
+        }
+
+
+
+    createRootElement(tag, cssClasses, attributes) {
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+
+        if(attributes && attributes.length > 0) {
+            for (const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+}
+
+
+
+------------------
+
+
+
+
+
+
+
+
+Essa propriedade 'hook' SEGURARÁ/SEGURA 
+
+
+OS DADOS que foram passados ao 
+
+constructor (que foram passados por meio do parâmetro 'renderHook')
+
+
+
+
+
+
+E, É CLARO, O PROFESSOR ESTÁ NOS MOSTRANDO 
+APENAS UMA DAS POSSÍVEIS MANEIRAS DE IMPLEMENTAR 
+
+INHERITANCE NO NOSSO CÓDIGO... (há outras).
+
+
+
+
+
+
+
+
+Então aqui, uma vez que tenhamos criado 
+
+aquele rootElement por meio 
+
+de 'createRootElement', aquele 
+
+elemento HTML com 
+aquela determinada tag (que muda 
+dependendo do lugar do código 
+em que chamo a função 'createRootElement'...)
+
+
+EU VOU QUERER ADICIONAR ESSE ELEMENTO HTML
+
+ao 'this.hook' da classe 'Component', a esse 
+
+elemento que EU tenho NO CONSTRUCTOR...
+
+
+
+E, para ser mais preciso, aqui 
+
+eu ESPERO (expect) que aquele 
+
+'this.hook' NÃO SEJA O ELEMENTO 
+
+hook em si mesmo (o elemento 'renderHook'),
+
+mas SIM, digamos, o ___ID___ daquele 
+
+
+elemento.... (por isso, o professor decide 
+
+renomear 'renderHook' para 'renderHookId'.).
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+    }
+
+    
+    createRootElement(tag, cssClasses, attributes) {
+
+   
+
+
+
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+        if (attributes && attributes.length > 0) {
+            for(const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+}
+
+
+
+----------------------------------
+
+
+
+
+
+Feito isso, nós lá embaixo 
+
+vamos lá e escrevemos em 
+
+'createRootElement' o código:
+
+
+
+'document.getElementById(this.hookId).append(rootElement);'
+
+
+
+------> ISSO VAI FAZER COM QUE O rootElement (criação de elemento HTML com tag variável...) 
+SEJA APENSO (appended) AO elemento 'hookId' DA CLASSE 'component'...
+
+
+
+
+
+----> assim que escrevemos essa lógica, nós simplesmente   FAZEMOS, em createRootElement, 
+
+O RETURN desse elemento 'rootElement;'
+
+
+ex:
+
+
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        this.hookId = renderHookId;
+    }
+
+    
+    createRootElement(tag, cssClasses, attributes) {
+
+   
+
+
+
+        const rootElement = document.createElement(tag);
+        if(cssClasses) {
+            rootElement.className = cssClasses;
+        }
+        if (attributes && attributes.length > 0) {
+            for(const attr of attributes) {
+                rootElement.setAttribute(attr.name, attr.value)
+            }
+        }
+    }
+    document.getElementById(this.hookId).append(rootElement);/////EIS O CÓDIGO EM QUESTÃO
+    return rootElement;  //////EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+
+
+
+(o professor aqui antes havia cometido um erro: ele havia colocado 'return this.rootElement', mas 
+
+isso está errado, pois nós deveríamos 'return rootElement'... essa última forma é a correta 
+
+PORQUE 'ROOTELEMENT' NÃO É UMA PROPRIEDADE, e sim um objeto... um objeto do DOM.)
+
+
+
+
+
+-----------------------------------
+
+
+
+Entretanto, agora nós temos a questão da classe 'Component'... COMO 
+
+DEVEMOS UTILIZÁ-LA?
+
+
+
+
+Bem, para fazer inherit dessa classe 'Component' em outros lugares do código,
+
+
+O QUE EU VOU QUERER FAZER EM SHOPPINGCART, PRODUCTITEM e 
+
+PRODUCTLIST (já que todos os 3 são métodos que fazem o 'render()' de alguma coisa....), 
+
+
+
+É USAR UMA SINTAXE ESPECIAL/ESPECÍFICA:
+
+
+
+VOcê tem de ir até a 
+classe que você quer que herde as características de outra 
+
+classe e então 
+
+
+ADICIONAR UMA NOVA KEYWORD depois do nome dessa classe herdeira...
+
+
+
+a keyword é 'extends'...
+
+
+extends + nome da classe pela qual queremos HERDAR as características.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+                 (keyword)  (classe legadora)
+class ShoppingCart extends Component { 
+                                        ...
+                                        }
+
+
+
+
+ ----------------
+
+
+
+DETALHE: VOCÊ SÓ PODE FAZER 'ESTEND' de UMA ÚNICA CLASSE...
+
+o inherit de múltiplas classes NÃO É ALGO DISPONÍVEM EM JAVASCRIPT... (algumas linguagens de programação tem essa opção, mas javascript não tem).
+
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+ class ShoppingCart extends Component {
+
+ }
+
+
+
+
+
+ -------------------------
+
+
+
+
+ Mas o que isso significa?
+
+
+
+
+
+ Significa que SHOPPINGCART agora ainda 
+
+ cria um objeto normal quando o instanciamos,
+
+
+ MAS TODOS ESSES OBJETOS NÃO TERÃO APENAS 
+
+ A LÓGICA QUE DEFINIMOS DENTRO DE 'SHOPPINGCART', MAS 
+
+ TAMBÉM A LÓGICA QUE DEFINIMOS EM 'Component', na OUTRA CLASSE.
+
+
+
+
+
+ (ou seja, os objetos criados a partir da instanciação de 'ShoppingCart' agora TAMBÉM 
+ 
+ 
+ TERÃO O MÉTODO 'createRootElement'...)....
+
+
+
+
+ A consequência disso é que NÓS PODEMOS IR ATÉ O 
+
+ MÉTODO 'render()' de shoppingCart, agora, E ENTÃO, EM VEZ 
+
+ DE CRIAR o nosso 
+
+
+ cartEl (cart Element) assim:
+
+
+ 'const cartEl = document.createElement('section');'  ,
+
+
+
+
+
+
+ NÓS PODEMOS CRIÁ-LO por meio da escrita do código 
+
+
+ 'this.createRootElement();'   ------------------>  ATÉ O IDE ME MOSTRA QUE ESSE MÉTODO EXISTE/É UTILIZÁVEL, porque 'this' está se referenciando à CLASSE 'ShoppingCart', que terá esse método 'createRootElement' HERDADO DA OUTRA CLASSE, 'Component'... 
+
+
+
+
+
+ 
+
+ createRootElement, portanto, é acessível via 'this.createRootElement' EM 
+ CLASSES QUE ESTEJAM HERDANDO AS CARACTERÍSTICAS 
+
+Da classe 'component' (que é classe 'base', nesse caso, que faz com que todas as outras 
+sejam herdeiras dela...).
+
+
+
+
+RESUMO (desse exemplo):
+
+
+
+
+ class ShoppingCart extends Component ------>
+
+ --------------> 
+
+
+
+ -----> Component = "base class", classe 'base' que compartilha características/lega características ÀS outras classes.
+
+
+
+ -----> ShoppingCart = "SUBCLASS", subclasse, classe que irá pegar elementos/característica da classe base.
+
+ 
+ --------------------------------------------
+
+
+
+
+
+
+
+ PROSSEGUINDO COM A EDIÇÃO DO CÓDIGO, 
+
+
+ o professor vai no render() de 'ShoppingCart' e então 
+
+
+edita esse método:
+
+
+
+
+ele troca 'const cartEl = document.createElement('section');' 
+
+
+POR 
+
+
+'this.createRootElement();'.........
+
+
+
+MAS, É CLARO, ESSA SINTAXE NÃO ESTÁ ___COMPLETA___.
+
+
+Devemos PASSAR OS PARÂMETROS do método 
+
+createRootElement PARA QUE ELE FUNCIONE CORRETAMENTE.
+
+
+Lembre-se: os parâmetros que definimos para tal método são 'tag', 'cssClasses' e 'attributes'.
+
+
+Por isso, professor define primeiro argumento como sendo 
+
+'section' (porque esse é o tipo de html tag do elemento que ele quer criar, nesse trecho do código).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class ShoppingCart {
+        ...
+
+
+
+
+
+        render() {
+            this.createRootElement('section');
+            cartEl.innerHTML = `
+            <h2>Total: \$${0}</h2>
+            <buttoon>Order Now!</button>
+            `;
+            cartEl.className = 'cart';
+            this.totalOutput = cartEl.querySelector('h2');
+            return cartEl;
+        }
+
+
+
+
+
+
+}
+
+
+
+
+
+----------------------------------
+
+
+
+
+Já para o  parâmetro 'cssClasses' do método ele 
+PASSA O className desse elemento que ele vai querer criar, 
+que será 'cart' (essa informação/classe é copiada 
+de 'cartEl.className = 'cart';', que é a linha de código 
+que será suprimida/substituída por esse novo método 
+compartilhado pela classe 'Component'.)
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+class ShoppingCart {
+        ...
+
+
+
+
+
+        render() {
+            this.createRootElement('section', 'cart');
+            cartEl.innerHTML = `
+            <h2>Total: \$${0}</h2>
+            <buttoon>Order Now!</button>
+            `;
+          
+            this.totalOutput = cartEl.querySelector('h2');
+            return cartEl;
+        }
+
+
+
+
+
+
+}
+
+
+
+
+
+----------------------------------
+
+
+
+
+ENTRETANTO, NÃO ACABAMOS POR AQUI:
+
+
+
+Não precisamos/passamos do terceiro parâmetro (attributes) porque 
+NÃO DEFINIMOS ATRIBUTOS nessa ocorrência do render....
+
+Entretanto, NÓS AINDA ESTAMOS RETORNANDO/RETORNAMOS 
+'cartEl' nesse método render... (é o resultado final, realmente).
+
+anteriormente, o cartEl era definido 
+inicialmente 
+
+
+por meio de 
+
+'const cartEl = document.createElement('section');'
+
+
+ENTRETANTO, como nós TROCAMOS ESSA SINTAXE/COMANDO 
+
+pelo comando de 
+
+'this.createRootElement('section', 'cart');', NÓS 
+
+AGORA DEVEMOS DEFINIR esse último comando como 
+sendo o valor de cartEl, ou seja, assim:
+
+
+
+const cartEl = this.createRootElement('section', 'cart');
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ShoppingCart {
+        ...
+
+
+
+
+
+        render() {
+            const cartEl = this.createRootElement('section', 'cart');
+            cartEl.innerHTML = `
+            <h2>Total: \$${0}</h2>
+            <buttoon>Order Now!</button>
+            `;
+          
+            this.totalOutput = cartEl.querySelector('h2');
+            return cartEl;
+        }
+
+
+
+
+
+
+}
+
+
+
+
+
+----------------------
+
+
+
+Professor explica que ainda preciso de 'cartEl' nessa execução 
+
+desse render específico; preciso dele 
+PARA DEFINIR EXATAMENTE o que diabos eu quero 
+
+fazer aqui (atualizar o HTML desse elemento 
+por meio de 'innerHTML = xxxx').....
+
+
+O professor não pode simplesmente mover 
+
+o código 'cartEl.innerHTML' para dentro da classe 
+
+base ('component') PORQUE O CÓDIGO 
+
+DE definição do innerHTML de 'cartEl' É ESPECÍFICO 
+
+À ESSA EXECUÇÃO DESSE RENDER ESPECÍFICO... (não existe nos outros essa definição do innerHTML, essencialmente).
+(não precisamos dessa definição do innerHTML na 'ShoppingList', por exemplo.)
+
+
+
+
+
+
+OU SEJA... A ÚNICA PARTE QUE É COMPARTILHADA 
+
+POR TODAS AS CLASSES, nesse caso específico, É 
+A PARTE EM QUE CRIAMOS UM ELEMENTO.... ('createElement').
+
+Na verdade, a única parte que é compartilhada por todos 
+
+é a DE CRIAÇÃO E APPEND() do elemento criado....
+
+é por isso que apenas essas funções/código são 
+outsourceadas (outsource) nesse nosso exemplo específico, 
+e é por isso que eles podem ser parte de uma classe separada...
+
+
+
+
+
+
+Com isso, se nós agora salvarmos tudo e recarregarmos a página, 
+
+
+RECEBEREMOS UM __ERRO__.
+
+
+
+
+
+Pq recebemos esse erro?
+
+
+
+
+'Uncaught TypeError: Cannot read property 'append' of null 
+at ShoppingCart.createRootElement
+at ShoppingCart.render
+at Shop.render
+at Function.init'
+
+
+
+
+
+
+
+Bem, nós ganhamos um erro, diz o professor, porque 
+
+NÓS NÃO PODEMOS 
+
+fazer append em 'null'... 
+
+
+
+
+OU SEJA, NÓS BASICAMENTE TEMOS UM PROBLEMA 
+
+RELACIONADO AO APPEND de um elemento que foi criado...
+
+
+
+Isso faz muito sentido, pois se nós revisitarmos 
+
+
+'createRootElement'....
+
+
+
+
+
+Lá, em createRootElement, eu preciso 
+
+do 'hookId' PARA CONSEGUIR FAZER 
+
+O APPEND de meu 'rootElement'...
+
+
+--------
+
+
+
+
+Bem, hookId está definido NO 
+
+CONSTRUCTOR Da classe 'Component'..., 
+
+dessa classe component da qual nós 
+
+legamos características às outras classes...
+
+
+
+
+A questão, é claro, é:
+
+
+ONDE É CHAMADO ESSE CONSTRUCTOR NO NOSSO CÓDIGO?
+
+
+
+Professor diz que quando 
+
+nós chamamos 'new ShopppingCart();' LÁÁÁÁ embaixo, 
+dentro da classe 'Shop', nós CHAMAMOS O CONSTRUCTOR 
+
+DE SHOPPINGCART (e não de 'Component', que é o constructor 
+que queremos...)...
+
+
+Mas então, em que momento o constructor da nossa 
+
+classe 'component' (a qual nós fizemos inherit em 'ShoppingCart') 
+
+É EFETIVAMENTE CHAMADO???
+
+
+(aqui, fundamentalmente, há o conflito entre 2 
+constructors diferentes: o constructor de 'Component' e o constructor de 'ShoppingCart';
+a classe 'Shop', lá embaixo, acaba chamando o constructor de 'ShoppingCart' quando 
+o instancia em 'this.cart = new ShoppingCart'... a questão é: onde então 
+é chamado o constructor de 'Component'...?)
+
+
+
+
+
+
+
+RESPOSTA: 
+
+
+Bem, quando falamos de constructors, HÁ 
+
+UM PUNHADO DE REGRAS...
+
+
+
+Se a sua subclasse (ou seja, 'ShoppingCart', nesse exemplo)
+
+
+NÃO TEM UM CONSTRUCTOR.....
+
+
+O CONSTRUCTOR DA CLASSE PARENTE (ou seja, da classe 'base', que seria, nesse caso, 'Component') 
+
+É AUTOMATICAMENTE CHAMADO.
+
+
+
+O problema aqui é EXATAMENTE ESSE: que o constructor 
+de 'Component' está sendo chamado...
+
+
+O professor diz que pode provar que o constructor 
+
+
+de 'Component' está sendo chamado: ele vai lá 
+e coloca um 'console.log('Called') dentro do constructor 
+de Component.
+
+
+ex:
+
+
+
+
+
+
+class Component {
+
+
+
+    constructor(renderHookId) {
+        console.log('Called');
+        this.hookId = renderHookId;
+    }
+
+
+    createRootElement(tag, cssClasses, attributes) {
+
+   ....
+
+    }
+
+
+
+
+-----------------------
+
+
+
+Realmente, podemos concordar com ele:
+
+
+
+'Called' é outputtado no nosso console...
+
+
+
+
+
+
+MAS, É CLARO,  renderHookId NÃO ESTÁ SENDO 
+
+PASSADO PARA DENTRO DESSE constructor 
+
+de 'Component'....
+
+
+
+é claro, porque, afinal, COMO DIABOS 
+
+JAVASCRIPT SABERIA O QUE ELE DEVE PASSAR PARA 
+
+DENTRO DO constructor de component?
+
+
+
+
+
+
+Portanto, o que está acontecendo é que o 
+
+CONSTRUCTOR do component ESTÁ SENDO CHAMADO,
+
+mas está sendo chamado sem nenhum valor como 
+parâmetro...
+
+
+
+
+
+
+
+
+Professor diz que se vocÊ adicionar um 
+constructor dentro de 'ShoppingCart',
+
+
+É ESSE CONSTRUCTOR QUE SERÁ CHAMADO, 
+
+
+E O CONSTRUCTOR DA CLASSE parent (da classe base, 'Component') 
+
+NÃO SERÁ CHAMADO. -----------> E isso TAMBÉM NÃO É O QUE EU QUERO.
+
+
+
+
+O que queremos fazer, no final das contas, 
+é chamar O CONSTRUCTOR de 
+
+'ShoppingCart' E, DE DENTRO DELE, CHAMAR 
+
+O CONSTRUCTOR DA CLASSE parent (classe base)...
+
+
+
+
+Podemos fazer isso por meio DE UMA KEYWORD 
+
+ESPECIAL, chamada 'SUPER'...
+
+
+
+'super();'
+
+
+
+ex:
+
+
+
+
+
+
+class ShoppingCart extends Component {
+    items = [];
+
+
+    get totalAmount() {
+        /*const sum = this.items.reduce((prevValue, curItem) => {  ///////LÓGICA DE 'redução' do array de products (faz com que todos os 'prices' do array de products SEJAM CONVERTIDOS EM UM ÚNICO VALOR...) 
+            return prevValue + curItem.price;  //////// OBS: ESSA É A FORMA 'TRADICIONAL' DESSA SINTAXE. A FORMA ABAIXO É A FORMA 'REDUZIDA, mais 'clean', que tem os mesmos efeitos/lógica, mas que remove os curly braces, return statement e ';'.
+        }, 0)  */
+
+        const sum = this.items.reduce(
+            (prevValue, curItem) => prevValue + curItem.price,
+            0
+            );
+            return sum;
+
+
+
+
+
+    }
+
+
+constructor() { ////
+    super(); /////
+} ///////
+
+
+
+....
+}
+
+
+
+-----------------------
+
+
+
+
+
+você executa 'super();' como se fosse uma função...
+
+
+
+o que super vai fazer é CHAMAR O CONSTRUCTOR 
+
+DA parent class...
+
+
+
+Professor explica que você vai querer 
+
+fazer isso nos seus próprios constructors 
+
+quando/se você tem uma classe parent QUE TAMBÉM 
+
+TEM UM CONSTRUCTOR QUE DEVE/deverá SER EXECUTADO....
+
+(o que tipicamente é o caso, se essa classe 
+parent tiver/tem um constructor...)
+
+
+
+
+
+
+
+
+UM DETALHE IMPORTANTE ACERCA DE 'super()':
+
+
+Quando você adicionar 'super()' ao seu constructor 
+da classe 'herdeira', VOCÊ DEVE ASSEGURAR QUE 
+
+VOCÊ NÃO ESTEJA dependendo de QUALQUER FIELD 
+
+naquele 'super constructor method'...      (isso vai se tornar importante mais tarde).
+ 
+
+
+TAMBÉM, SE VOCÊ PLANEJA ADICIONAR PROPRIEDADES NO SEU CONSTRUCTOR (por meio de 'this.something = somethingElse'),
+
+VOCÊ DEVE ADICIONAR ESSAS PROPRIEDADES ____DEPOIS___ DE CHAMAR 
+
+o 'super();'  
+
+
+
+
+Resumo:
+
+
+
+Você deve chamar o 'super()' (que invoca/chama o construtor da CLASSE BASE) antes 
+
+de adicionar propriedades ___ANTES___ de começar 
+
+a usar this para definir propriedades DENTRO DO CONSTRUCTOR DE SUA SUBCLASSE...
+
+
+
+ex:
+
+
+
+class ClasseFilha {
+
+    constructor() {
+
+        super(); ///////invoca/chama o constructor da classe BASE, que lega as suas características à classe filha...
+
+        this.propriedadeDaClasseFilha = new ClasseAleatória;
+    }
+}
+
+
+
+
+
+--------------------------------------
+
+
+
+
+Continuando com o projeto....
+
+
+
+Agora que nós chamamos 
+
+'super' dentro do constructor de ShoppingCart....
+
+
+
+Devemos alterar o RENDER() da classe 'Shop' também....
+
+
+
+
+O professor aponta que em nosso 
+
+código, nesse momento, o Id no qual queremos 
+
+adicionar 'cart' por enquanto é app, 
+
+certo? ('const renderHook = document.getElementById('app');)
+
+
+Porque é isso que essencialmente estou fazendo em 'Shop', 
+eu essencialmente consigo acesso à 'renderhook' em meu documento 
+E ENTÃO EU FAÇO O APPEND do elemento cart ('renderHook.append(cartEl)') E por aí vai....
+
+
+
+
+No final das contas, em 'Shop' eu NÃO PRECISO MAIS 
+DESSE ELEMENTO 'cartEl'... ('const cartEl = this.cart.render();')....,
+
+por isso eu posso me livrar das linhas 
+
+
+'const cartEl = this.cart.render();'
+
+e de 
+
+
+'renderHook.append(cartEl);'
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ex:
+
+ISSO:
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        this.cart = new ShoppingCart(); 
+        console.log(this);
+        //const cartEl = this.cart.render();
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+        //renderHook.append(cartEl);
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+
+VIRA  ISSO:
+
+
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        this.cart = new ShoppingCart(); 
+        console.log(this);
+        this.cart.render();   //Alteração
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+    
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+--------------------------
+
+
+
+
+Agora, para completar essa substituição 
+
+de código em 'Shop', vou querer 
+
+passar UM PARÂMETRO PARA 'new ShoppingCart' de 'this.cart'....
+
+Esse parâmetro será 
+
+'app', como uma string mesmo...  (é o value do id da div 'app', que eu quero usar como HOOK para RENDERIZAR ESSE ITEM NA PÁGINA)....
+
+E aí, na classe ShoppingCart, eu vou colocar 
+
+
+
+'renderHookId' como argumento esperado (expected) DO 
+
+CONSTRUCTOR DE SHOPPINGCART...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        this.cart = new ShoppingCart('app'); 
+        console.log(this);
+        this.cart.render();   //Alteração
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+    
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+
+
+class ShoppingCart extends Component {
+    items = [];
+
+
+    get totalAmount() {
+       
+
+        const sum = this.items.reduce(
+            (prevValue, curItem) => prevValue + curItem.price,
+            0
+            );
+            return sum;
+
+
+
+
+
+    }
+
+
+constructor(renderHookId) { 
+    super(); 
+} 
+
+
+
+....
+}
+
+
+
+
+----------------------------
+
+
+
+
+Ou seja, agora quando 
+
+
+chamamos 'new ShoppingCart('app')', 
+
+
+'app' é PASSADO COMO PARÂMETRO 'renderHookId' 
+
+DO CONSTRUCTOR DE SHOPPINGCART.... (e não ao constructor de 'Component', representado pelo 'super();')...
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+Feito tudo isso, o professor simplesmente 
+
+
+FAZ O FORWARD DESSE PARÂMETRO do constructor de 'shoppingCart' (o parâmetro 'renderHookId') 
+
+PARA O MÉTODO 'super();'....
+
+
+
+
+ex:
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        this.cart = new ShoppingCart('app'); 
+        console.log(this);
+        this.cart.render();   //Alteração
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+    
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+
+
+class ShoppingCart extends Component {
+    items = [];
+
+
+    get totalAmount() {
+       
+
+        const sum = this.items.reduce(
+            (prevValue, curItem) => prevValue + curItem.price,
+            0
+            );
+            return sum;
+
+
+
+
+
+    }
+
+
+constructor(renderHookId) { ///
+    super(renderHookId); ////
+} 
+
+
+
+....
+}
+
+
+
+
+
+
+------------------------------------------
+
+
+
+
+
+Ou seja, apenas fiz o forward do valor que 
+
+estou recebendo nesse constructor de 'shoppingCart' 
+
+ao constructor do Component.....
+
+
+
+faço isso para que o CONSTRUCTOR DE 'component' 
+
+TENHA ACESSO ao 'renderHookId'... (que é 'app', nesse caso.).
+
+
+
+
+
+
+
+SIDENOTE:
+
+
+render() em 'ShoppingCart' TAMBÉM 
+
+NÃO PRECISA MAIS fazer 'retrurn cartEl',
+
+NÃO PRECISA MAIS FAZER O RETORNO DE COISA ALGUMA...
+
+Não precisa PORQUE EU NÃO ESTOU MAIS INTERESSADO 
+NO elemento 'cart'... ('cartEl') (não preciso mais dele em lugar algum no lugar em que chamo 'render', a função 'createRootElement', compartilhada pela classe pai 'Component' Já faz todo seu serviço para nós.)
+
+
+
+
+
+---------------------
+
+
+
+
+
+
+Se salvarmos tudo isso e recarregarmos a página,
+
+receberemos algo um pouco melhor, uma 
+
+página com um elemento em branco, uma linha roxa...
+
+
+
+
+Mas ainda recebemos um erro:
+
+
+
+'cannot set property innerHTML of undefined 
+
+at ShoppingCart.render
+at Shop.render
+at Function.init
+'
+
+
+
+
+Esse é simplesmente um erro 
+recebido em função 
+
+do retorno 
+
+
+de 'this.rootElement' (return this.rootElement)
+
+NO MÉTODO 'createRootElement'....
+
+
+O correto seria:
+
+
+'return rootElement'....
+
+
+
+Se fizermos essa mudança, veremos que agora o código funciona perfeitamente.
+
+
+
+
+
+Estamos criando 'rootElement' aqui em 
+
+createRootElement e então o armazenando 
+em uma constante; É POR ISSO QUE 
+
+DEVO RETORNAR ESSA CONSTANTE (não estamos armazenando 
+o rootElement em uma propriedade instanciada,
+porque não precisamos fazer isso.
+Caso precisássemos, o código 
+
+'this.rootElement' poderia estar correto.)
+
+
+
+
+Agora o código funciona normal, como antes, mas 
+
+agora ele se utiliza das vantagens dessa BASE CLASS de 'component'.
+
+
+
+
+
+
+É CLARO QUE AINDA NÃO ACABAMOS:
+
+
+
+o professor quer ajustar as outras classes 
+para que elas possam 
+fazer 'extend' do 'component' também.....

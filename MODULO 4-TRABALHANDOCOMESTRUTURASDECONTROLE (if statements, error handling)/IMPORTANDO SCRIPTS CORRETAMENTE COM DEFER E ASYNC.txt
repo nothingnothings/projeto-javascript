@@ -1,0 +1,302 @@
+Para concluir este módulo, vamos voltar à algo que vimos lá no início do módulo, aquilo de como
+importar nossos scripts no arquivo HTML.
+
+
+O professor faz isso, de importar o script, no final da tag body, no final do body do documento.
+Ele faz isso porque nossos scripts dependem do rendering da página HTML, afinal estamos acessando items 
+dentro da página, por assim dizer, no arquivo vendor.js, em que estabelecemos conexões aos botões e etc, aos quais
+eu então adiciono eventListeners aqui no arquivo app.js. E para que sejam estabelecidas essas conexões entre as funções/propriedades
+de javascript, nós precisamos RODAR os scripts DEPOIS do browser ter parseado e renderizado todo o código HTML, sob pena dos botões pelos quais queremos estabelecer conexões
+não funcionarem, caso isso não ocorra (já que os botões nunca existiram sem o código HTML, e sem existirem os botões, não podemos incidir código javascript sobre eles).
+
+
+É por isso que o professor importou os scripts lá embaixo, no final do documento.
+
+
+ENTRETANTO, isso ainda não é totalmente optimizado, não é o optimal, o ideal, e o professor irá mostrar o porquê. 
+
+Para isso, abra sua página em uma nova página incognita, página incógnita porque isso me permite a excluir a hipótese de extensões distorcer o que o professor vai 
+te mostrar. 
+
+Abrimos as developer tools, que nos permitem ver através das cortinas. Lá, vamos até a tab performance. A performance tab nos dá uma ideia do que o browser faz em detalhes
+quando ele renderiza essa página.
+
+Há muitas coisas que você pode fazer com ela, mas é uma ótima ferramenta para entender como os scripts são carregados, parseados e executados e determinar qual pode ser 
+o problema em questão, aqui.
+ 
+
+ Com a página sendo usada, então, aperte o botão record que está ali e recarregue a página.
+
+ Você verá então um profile meio confuso de como a página é carregada.
+
+
+ O professor está interessado em apenas um pequeno trecho dessa timeline.
+
+ Na janela de cima você pode selecionar a parte segurando o botão do mouse e arrastando para o intervalo que você quer.
+
+ Estou interessado nessa pequena parte onde temos umas pequenas colinas/montanhas e linhas verticais.
+
+
+ Se você selecioná-la, ela é então aproximada por meio da janela de baixo, onde vemos cada detalhe do procedimento.
+
+ Lá você pode ver quais network requests foram enviados e o que o browser fez, qual foi sua resposta (o que ele parseou, o que executou e assim por diante).
+
+ O que vocÊ pode ver relativamente rápido é que nós temos um network request loooooongo que faz o download das fontes. Isso de certa forma distorce tudo aqui.
+
+ Então o professor resolve comentar para fora esse link das fontes, para não ter essa distração no meio do record da página.
+
+ Agora temos uma imagem clara do que acontece/aconteceu durante o runtime da página. 
+
+ O que aconteceu é que primeiramente baixamos o index file, a parte azul la do início.
+ 
+ Depois disso, o arquivo css é carregado, seguido dos 2 scripts em sua respectiva ordem (vendor.js -> app.js).
+
+ Agora, se formos para a janela mais de baixo, a janela MAIN, podemos ver o que o browser fez em detalhes.
+
+
+ Se aproximarmos essa janela com a roda do mouse, conseguimos enxergar uma MUITO pequena
+ janelinha azul no final da primeira task, que diz "receive data". Esse é o momento em que o browser
+ recebe o index file que foi baixado (o chrome organiza isso no developer tools: você pode ver que essa linha do receive data se alinha com o processo index.html azul que está em cima, na tab de network.)
+
+
+ Mais a frente, temos outro pequeno retângulo, indicador do momento em que o arquivo HTML TERMINA DE CARREGAR.
+
+ Ainda mais a frente, temos um retângulo um pouco maior, que significa o momento em que o arquivo html temrina de ser parseado.
+
+ Assim que ele começa a parsear o código html, você vê que 
+ quando ele está quase ACABANDO o processo de parseamento, quando já terminou, ele manda um request
+ aos arquivos Javascript. O arquivo CSS é mandado relativamente CEDO, se você traçar uma linha vertical lá para baixo, você verá que ele começa
+ a ser enviado já durante o início do parseamento do arquivo HTML.
+
+ Esse fenômeno faz sentido porque requisitamos o arquivo CSS no arquivo HTML já no início do negócio, logo abaixo de <title>, com a ajuda de <link rel="stylesheet" href=arquivo.css>, na seção da tag <head>.
+
+
+ Mas os arquivos javascript são requisitados um pouco depois, porque requisitamo-nos LÁÁÁ no final do arquivo html.
+
+
+ Claro, nosso arquivo de teste não é tão grande, por isso não há muito tempo de diferença entre o CSS e o javascript, mas ainda assim requisitamos os arquivos JavaScript apenas APÓS o 
+ parsing do html é concluído, ou quando está QUASE acabando, porque escrevemos a script tag la no final do HTML.
+
+
+ É por isso que apenas requisitamos os arquivos javascript quando estamos quase acabando de parsear o documento html.
+
+
+ Mas quais são as implicações disso, dessa timeline de html, javascript e css?
+
+
+
+ O benefício é que os scripts apenas são executados depois que o parsing chega ao fim.
+
+Mas também notamos que nós começamos a parsear e APENAS QUANDO ACABAMOS DE PARSEAR BAIXAMOS OS SCRIPTS.
+E apenas depois dos scripts terem baixado, beeem mais tarde (não é tao longo assim porque são milisegundos, mas ainda é longo), é que 
+executamos os scripts de verdade. Os scripts são os blocos amarelos que vemos lá embaixo, esses são os scripts sendo executados.
+As outras partes são os estilos sendo parseados e o estilos sendo renderizados (podemos ignorá-los).
+
+O que vemos, efetivamente, é que nós começamos a executar o primeiro script por volta dos 
+930ms e estamos acabados com o parsing lá por volta de 906-907. 
+Há, portanto, cerca de 20ms de pausa entre o fim do parsing o HTML e 
+executarmos o script.
+
+
+parse do html ----> 20ms --------> execução do script.
+
+
+
+
+Esses são todos números muito pequenos que não conseguimos nem mesmo sentir quando carregamos a página,
+porque nós temos pequenos scripts e temos um pequeno arquivo html.
+
+Mas imagine que nossos scripts são longos, que eles tomam mais tempo para serem carregados e executados, e 
+que temos muito mais linhas de arquivo html a ser parseado.
+
+
+NESSA SITUAÇÃO, NÃO É IDEAL TER QUE ESPERAR TODO ESSE CÓDIGO HTML SER PARSEADO ANTES DE 
+QUERER CARREGAR E EXECUTAR O JAVASCRIPT. O intervalo de 20ms torna-se BEEEEM maior.
+
+
+
+Certamente nós queremos executar os scripts DEPOIS do conteúdo HTML ser parseado, não queremos executar
+os scripts antes disso, mas carregar os scripts, baixá-los antes por meio de um request ao server... essa talvez seja uma boa ideia.
+
+
+Além disso, tenha em mente que todo o carregamento é rápido aqui porque estamos fazendo TUDO LOCALMENTE.
+ESTAMOS SÓ ACESSANDO ARQUIVOS NO NOSSO COMPUTADOR. Não há 
+webservidor no nosso ambiente, não há latency, o negócio seria mais lento se realmente houvesse um servidor. Esse delay
+desnecessário que temos agora tem que ser deletado, não podemos deixá-lo aqui. É possível reduzí-lo, sim.
+
+
+
+RESUMO: NÃO QUEREMOS COMEÇAR A CARREGAR OS SCRIPTS APENAS APÓS TODO CONTEÚDO HTML SER PARSEADO.
+
+
+
+QUEREMOS CARREGAR OS SCRIPTS ANTES, SIM, MAS QUEREMOS TAMBÉM QUE OS SCRIPTS APENAS SEJAM RODADOS ____APÓS_____
+TODO CONTEÚDO HTML SER CARREGADO/PARSEADO.
+
+
+Queremos o melhor dos dois mundos.
+
+
+É claro, podemos pegar as referência aos script (<script>app.js</script><script>vendor.js</script>) e movê-la para dentro da seção <head> do html. Se fizermos isso e recordarmos com o developer tools performance tab,
+veremos que, nesse caso, 
+
+começamos com o download do arquivo HTML e então imediatamente começamos
+a parseá-lo, daí pegamos os estilos e scripts e PAUSAMOS o parsing aqui e APENAS O RETOMAMOS
+QUANDO TERMINAMOS DE BAIXAR OS SCRIPTS.
+Os scripts são também executados ANTES do final do parse html, podemos ver eles na frente do negócio.
+
+
+
+Isso pode parecer meio estranho, pode parecer que baixamos app.js por um período
+mais longo do que aquele que ele realmente utilizou (o negócio/download excede até mesmo a sua própria execução, o que não faz sentido. ) ---> esses mostradores estão um pouco distorcidos.
+
+
+
+O que extraímos aqui de útil é que nós começamos a parsear o HTML, mas somos então interrompidos pelos script imports, que são então importados e parseados (tudo isso com o parsing do HTML PAUSADO.)
+
+Depois disso, executamos os scripts e SÓ DEPOIS DISSO continuamos a parsear o documento HTML.
+
+
+É claro que isso é horrível, e deve ser evitado. Causa um erro no nosso código, que pode ser visto no
+developer tools do chrome. O erro é causado pela tentativa de acessar os botões no website (pelo javascript) quando eles nem mesmo existiam.
+
+
+Então essa forma de referenciar os scripts também não é ideal.
+
+
+Com essa forma, baixamos os scripts antes, mas acabamos os executando cedo demais
+
+A solução para o grande problema é um ATRIBUTO EXTRA que pode ser adicionado aos scripts, e esse é o atributo DEFER.
+
+ Você adiciona-o sem um valor especial/extra, apenas com o comando
+
+ ex:
+
+
+ <script src="assets/scripts/vendor.js" defer></script>
+ <script src="assets/scripts/app.js" defer></script>
+
+
+DEFER COMUNICA AO BROWSER QUE ele deve baixar esses scripts DE PRONTO, JÁ NO INÍCIO DO CARREGAMENTO DE TUDO.
+ENTRETANTO, ELE AO MESMO TEMPO NÃO DEVE BLOQUEAR O PARSING DO HTML, PARA QUE ELE ENTÃO CONTINUE
+COM O PARSING DO HTML E APENAS EXECUTE OS SCRIPTS ASSIM QUE O HTML ESTEJA TODO CARREGADO.
+
+
+ADICIONAMOS 
+
+
+
+<script src="assets/scripts/vendor.js" defer></script>
+ <script src="assets/scripts/app.js" defer></script>
+
+
+na seção header do arquivo html, e então consertamos o problema.
+
+
+
+Agora o download e execução de scripts não mais bloqueia o código html, não mais o impede de carregar e renderizar elementos por meio do seu código.
+
+Esse método é mesmo mais rápido que aqueles tipos que vimos antes, reduz bastante o tempo de carregamento.
+
+Portanto, sempre referencie arquivos JS no seu código html com o tributo defer, inseridos no head.
+
+Isso garante que ele seja baixado e carregado antes, ao mesmo tempo que garante que o negócio só rodará assim que 
+todos elementos html foram parseados e renderizados.
+
+
+Porém, há alguns casos em que você tem scripts os quais você quer carregar mais cedo, mas que você também quer
+ executar já no início, porque talvez eles não dependam do código HTML, casos em que você não estabelece uma conexão entre esses códigos javascript e o próprio html, e portanto
+ você não se importa se o parsing do HTML acabou ou não. 
+
+
+ Outra palavra mágica, para esses casos específicos: a palavra "async".
+
+
+ex:
+
+ <script src="assets/scripts/app.js" async></script> 
+
+
+
+ async funciona um pouco como defer, ele comunica ao browser a informação de que ele deve
+ começar a carregar os scripts o mais cedo possível, aí o browser não é bloqueado e continua parseando
+ código HTML, mas a diferença para defer é que, COM ASYNC, o script então EXECUTA IMEDIATAMENTE o script assim que ele termina de ser baixado, ou seja, ele
+ não espera nada pelo código HTML ser parseado e executado. Em vez disso, ele
+ executa o script o mais rápido possível. Aí o parse do html será pausado até o momento
+ em que o script é executado, e somente após isso o parsing continuará.
+
+
+ No nosso caso em questão, o seu uso NÃO É A SOLUÇÃO, já que poderia levar ao caso
+ em que o script é executado ANTES do código HTML terminar de ser parseado.
+
+ Contudo, em  cenários em que seus scripts NÃO INTERAGEM com a webpage (talvez você apenas mande alguns dados a um background server), você pode usar async nesses casos.
+
+
+ A diferença final é que com ASYNC, um script realmente executa-se O MAIS RÁPIDO POSSÍVEL, ou seja, assim que foi baixado. 
+
+OU SEJA, A ORDEM DOS SCRIPTS ____NÃO É RESPEITADA_______
+
+
+
+ ex prático:
+
+
+
+
+ <script src="assets/scripts/vendor.js" async></script>  
+ <script src="assets/scripts/app.js" async></script>
+
+
+resultado:
+
+
+ -------------> ordem normal = 1)vendor.js
+                               2)app.js
+
+
+
+
+
+----------> ordem alterada(caso onde app.js carregou/baixou antes, e função async está aplicada) = 1)app.js
+                                                                     2)vendor.js
+
+
+
+-----------------------------------------------------
+
+
+COM "DEFER", POR OUTRO LADO, O BROWSER RESPEITA A ORDEM DOS SCRIPTS NO HTML (mesmo que app.js carregasse mais rápido que vendor.js, ele ainda rodaria DEPOIS do vendor.js.)
+
+
+
+A ordem é garantida com defer, já com async é descartada.
+
+Portanto, async é somente uma solução para o seu problema se você tem UM ÚNICO SCRIPT STANDALONE QUE NÃO DEPENDE DO SEU CONTEÚDO
+HTML.
+
+Perceba também que os comandos defer e async só tornam-se disponíveis se você tem SCRIPTS EXTERNOS, SE VOCÊ NÃO TEM, NEM ADIANTA COLOCAR NOS COMANDOS DO HTML.
+
+(ex: se você tem um inline script, ou seja, um script adicionado com a tag <script></script>, ele não será afetado pelos comandos async e defer.)
+
+
+async e defer são ignorados, nesse caso, porque não há coisa alguma a ser baixada de scripts, o script já está dentro do arquivo html.
+
+
+
+Não é uma boa ideia ter scripts no arquivo html.
+
+
+
+IMPORTANTE = VOCê NÃO PODE COMBINAR SCRIPTS INLINE COM SCRIPTS EXTERNOS (SCRIPTS DE ARQUIVOS EXTERNOS, src=).
+
+
+    caso você faça isso, o script inline será completamente ignorado.
+
+
+
+bem, agora temos uma página html que faz a incorporação dos scripts de forma eficiente e correta, com a ajuda do comando
+"DEFER".
+
+
+Multiple imports of javascript (even of the same file)
+are possible and normal!

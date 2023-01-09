@@ -1,0 +1,248 @@
+Agora que demos uma primeira checada 
+
+
+em classes, nós estamos algumas classes para DIVIDIR/splittar a nossa lógica, e 
+
+
+também estamos utilizando classes em algumas diferentes maneiras....
+
+
+
+
+
+
+Temos NOSSA CLASSE 'app', que possUI PROPRIEDADES ESTÁTICAS ('static cart;') 
+
+E MÉTODOS ESTÁTICOS..... (static addProductToCart e static init)
+
+
+
+Usamos esses métodos e propriedades estáticos para COLAR/AGRUPAR algumas 
+das outras classes, 
+
+E ESSE É APENAS UM DOS USE-CASES para static methods/properties...
+
+
+static methods/properties SEMPRE SÃO UMA BOA 
+
+
+IDEIA SE VOCÊ QUER COMPARTILHAR alguma funcionalidade de seu código 
+
+ao longo de DIFERENTES PARTES DE SEU APLICATIVO...
+
+ou, como o nosso caso presente, em que nós queríamos 
+compartilhar ALGUNS DADOS ou utilizar essa classe 
+estática como ALGUMA ESPÉCIE DE INTERFACE DE COMUNICAÇÃO (communication interface)...
+
+
+
+
+
+
+É claro que isso não é tudo que vocÊ pode fazer com classes...
+
+
+
+
+
+
+
+Antes de examinarmos mais algumas coisas que podemos fazer com as classes, 
+
+
+(e antes de consertarmos aquele problema do valor dos produtos sendo mostrado incorretamente, mostrando valor de '$1')
+
+antes devemos voltar um pouco 
+
+
+
+e VER A RELAÇÃO ENTRE CLASSES E OBJETOS...
+
+
+
+
+
+
+
+Primeiramente, é importante se tocar que SE VOCÊ NÃO ESTÁ USANDO 
+
+UMA CLASSE DE UMA MANEIRA ESTÁTICA (como 'App'), e sim utilizando 
+
+por meio de 'instantiating'(instanciação) COM 'new'....  (ex: 'const shop = new Shop') ....
+
+o que você estará fazendo aqui, com new Shop, É O ARMAZENAMENTO 
+
+DE UM OBJETO REGULAR JAVASCRIPT (ou uma referência a esse objeto) DENTRO 
+DA CONSTANTE 'shop'...
+
+
+POrtanto, no final das contas, ESSE RESULTADO É O MESMO 
+QUE VOCÊ OBTERIA COM UMA 'OBJECT LITERAL NOTATION' ('const shop = {xxx: yyy}')...
+
+
+
+
+O professor REALMENTE QUER dar ênfase nisso!!!! 
+
+
+
+
+
+Como resultado dessa correlação, você PODE USAR TODAS AS COISAS QUE VOCÊ USA 
+
+EM OBJETOS NORMALMENTE    NESSES OBJETOS CRIADOS A PARTIR DE CLASSES (pq esses objetos criados a partir 
+de classes são, essencialmente, objetos normais... iguais aos criados com o object literal notation...)
+
+
+
+
+
+
+ou seja, você pode, POR EXEMPLO, 
+
+USAR OBJECT DESTRUCTURING PARA 
+
+TIRAR O 'cart' para FORA DE SHOP E ARMAZÊNÁ-LO em uma constante...
+
+
+
+ex:
+
+
+
+class App {
+        static cart;
+
+        static init() {
+            const shop = new Shop();
+            const { cart } = shop;  /////////EXEMPLO DE OBJECT DESTRUCTURING EM OBJETO CRIADO A PARTIR DE CLASSE...
+            shop.render();
+            this.cart = shop.cart;
+        }
+
+
+}
+
+
+
+
+--------------------------------
+
+
+
+Algo como isso É POSSÍVEL, É BEM IMPORTANTE ENTENDER essa RELAÇÃO ENTRE OBJETOS E CLASSES, PORTANTO...
+
+
+
+-----------------------------------
+
+
+
+
+Também é importante saber 
+
+
+
+___QUANDO____ UTILIZAR CLASSES...
+
+
+
+
+
+Você pode até pensar que com classes, a maneira antiga 
+de criar objetos tornou-se obsoleta...
+
+MAS ISSO NÃO É VERDADE; ISSO ESTÁ ERRADO.
+
+
+
+
+A notação object literal ({})  NÃO É OBSOLETA.
+
+
+
+
+É muito bom utilizar essa notação object literal quando 
+vocÊ tem UMA COLEÇÃO DE DADOS, um punhado de variáveis que , no final das contas, você
+quer agrupar em um conjunto, MAS QUE VOCê QUER APENAS FAZER ISSO UMA ÚNICA VEZ, AGRUPÁ-LOS 
+UMA ÚNICA VEZ, ou agrupá-los em um único LUGAR DO SEU CÓDIGO....
+
+
+(Great for general data grouping, objects which you only create once)
+
+
+É útil em casos em que VOCÊ NÃO PLANEJA REUTILIZAR O OBJETO...
+
+
+
+
+
+ou seja, object literal notation não é muito útil para casos como o de 'Product', em que queremos 
+adicioná-lo EM DIFERENTES LUGARES (e em que nós também queremos que os objetos sempre 
+tenham a mesma estrutura) mas sim em casos em que VOCÊ QUER SER CAPAZ DE RAPIDAMENTE 
+CRIAR UM OBJETO ÚNICO (que não será reutilizado)  RAPIDAMENTE.... esse é o use-case perfeito para object literals....
+
+
+
+
+---> object literals são RÁPIDOS e fáceis de usar...  (você não tem OVERHEAD extra algum,
+
+e vocÊ também TEM UMA PEQUENA MELHORA NA PERFORMANCE...)----> mas essa pequena vantagem de performance dos object literals é rapidamente deixada de lado SE VOCê VAI LÁ E CRIA MÚLTIPLOS OBJETOS DESNECESSÁRIOS POR MEIO DE OBJECT LITERAL NOTATION EM VEZ DE UTILIZAR CLASSES PARA ISSO... (devemos utilizar classes para COMPARTILHAR CÓDIGo e para ter melhor performance, portanto.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CLASSES, EM GERAL, SÃO UMA ÓTIMA IDEIA. São ótimas se vocÊ tem 
+alguma lógica que você QUER REUTILIZAR... também são 
+
+ótimas quando você quer recriar o mesmo objeto de novo e de novo, múltiplas vezes.
+
+
+ex: aquele aplicativo de demonstração com o qual trabalhamos...
+
+
+
+
+
+VOCÊ TEM UM POUCO MAIS DE 'OVERHEAD' inicialmente (pois você tem que escrever a definição da classe), 
+
+MAS A DUPLICAÇÃO DE OBJETOS É MUITO MAIS FÁCIL, depois disso.
+
+
+(bem, na verdade não é UMA DUPLICAÇÃO, e sim uma CRIAÇÃO DE NOVOS OBJETOS baseados 
+na estrutura interna da classe que foi definida....)
+
+
+
+
+
+
+Ambos são importantes, e ambos têm lugar no javascript....
+
+
+
+
+
+O uso das 2 é algo que vem com experiência... 
+
+
+Devemos trabalhar mais com javascript para saber quando utilizá-las bem.
+
+
+
+
+
+
+NESSE APLICATIVO EXEMPLO DO MERCADINHO, as classes fazem muito sentido, pois elas 
+nos possibilitam DIVIDIR O CÓDIGO DE FORMA LIMPA (e nós, na verdade, reutilizamos 
+um monte as classes 'Product' e tals, e sua lógica, EM DIFERENTES LUGARES DE NOSSO CÓDIGO...)

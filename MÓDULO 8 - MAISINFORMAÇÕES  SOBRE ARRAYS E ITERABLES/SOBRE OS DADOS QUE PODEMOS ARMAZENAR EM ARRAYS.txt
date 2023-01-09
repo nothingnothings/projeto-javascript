@@ -1,0 +1,162 @@
+Agora que sabemos como CRIAR ARRAYS, devemos 
+ENTENDER QUAIS TIPOS 
+DE COISAS QUE PODEMOS ARMAZENAR EM ARRAYS.
+
+
+
+Podemos armazenar:
+
+
+
+1) Números 
+
+
+2) Strings
+
+
+
+3) objetos.  {keyName: value};
+
+
+------------> Todos esses tipos nós já vimos até agora.
+
+
+-----------------------------
+
+
+
+É importante saber, também, que arrays podem 
+SER DO MESMO TIPO DE NEGÓCIO, ex:
+
+
+const hobbies = ['Sports', 'Cooking', 'Chinelo']; ----> UM ARRAY COM APENAS STRINGS.
+
+
+
+const numbers = [1, 2, 3, 4, 5]; ----> UM ARRAY COM APENAS NÚMEROS.
+
+
+
+----------------------------------------------------
+
+
+ARRAYS TAMBÉM PODEM SER DE TIPOS DE DADOS MISTOS. ex:
+
+const personalData = ['Cooking', '2', 'Sports', {propriedade: valor}, {moreDetail: []}
+                        ];
+
+
+---> Podemos, portanto, ter tanto arrays uniformes, como arrays com diferentes 
+tipo de dados.
+
+
+
+
+TAMBÉM PODEMOS TER NESTED/MULTIDIMENSIONAL ARRAYS:
+
+ex:
+            (analyticsData, aqui, é um array DE ARRAYS).
+
+const analyticsData = [[1, 1.6], [-5.3, 2.1]]; 
+
+
+É um array em que CADA ELEMENTO NO ARRAY É OUTRO ARRAY.
+
+
+Professor explica que é evidente que você pode, ainda, fazer um LOOP
+DESSE ARRAY DENTRO DE UM ARRAY:
+
+(esse loop vai entrar no array de fora... "data" será OS ELEMENTOS DO ARRAY,
+ OU SEJA, os __NESTED___ARRAYS___ em si. )
+
+
+
+ex:
+
+
+
+const analyticsData = [[1, 1.6], [-5.3, 2.1]]; 
+
+
+for (const data of analyticsData) {
+
+}
+
+-----------------------------------------------
+
+VOcê também pode fazer um LOOP DENTRO DE UM LOOP, COM, POR EXEMPLO, O SEGUINTE CÓDIGO:
+
+(O dataPoint vai estar por dentro de data, que por sua vez estará 
+dentro de ANALYTICS DATA. Devemos nos lembrar, aqui, que for of loops 
+sempre executam/passam POR UM ÚNICO ELEMENTO A CADA VEZ QUE EXECUTAM SEU LOOP)
+
+ex:
+
+
+
+const analyticsData = [[1, 1.6], [-5.3, 2.1]]; 
+
+
+for (const data of analyticsData) {
+    for (const dataPoint of data) {
+        console.log(dataPoint);
+    }
+}
+
+
+------------------------------------------
+
+
+O professor explica que você PODE TER AINDA MAIS DIMENSÕES, TER UM ARRAY com 
+múltiplos arrays, ou um array com múltiplos objetos e um array misturado no meio...
+você pode misturar do jeito que você quiser.
+Muita flexibilidade.
+
+
+Professor explica: se você tem um array dentro de um array, mas um dos items 
+desse array interno é UM NÚMERO (ou seja, ALGO QUE NÃO É UMA ITERABLE, COMO STRINGS, QUE REALMENTE SÃO ITERABLES), 
+SEU CÓDIGO DO FOR OF LOOP (como esse for loop que temos logo acima) VAI ____QUEBRAR___.
+
+PQ vai quebrar? Por que o FOR OF LOOP FUNCIONA COM ____ITERABLES____ (e não números, que não são iterables).
+
+
+ex:
+
+
+
+const analyticsData = [[1, 1.6], [-5.3, 2.1]];  -------> FOR OF LOOP FUNCIONA. Pq? pq não EXISTE NÚMERO ALGUM AÍ (o que existe aqui é apenas iterables, pois os NÚMEROS EM SI estão dentro de arrays, que são iterables. Não há "números soltos").
+
+
+------------------------------------------------------------------
+
+ex:
+
+
+
+const analyticsData = [[1, 1.6], [-5.3, 2.1,], 5]; -------> FOR OF LOOP __NÃO___FUNCIONA. Pq? Pq EXISTE UM NÚMERO SOLTO NO MEIO DO ARRAY "GERAL" (externo), QUE É AQUELE NÚMERO 5.
+
+
+
+------------------
+
+Por isso, vocÊ deve ter cuidado com os seus arrays, não misturar arrays e números soltos.
+
+
+----------------------------
+
+
+
+ARRAYS SÃO INDEX-BASED. VOCÊ PODE ACESSAR DADOS POR MEIO DE INDEXES.
+
+ex:
+
+
+const hobbies = ['Cooking', 'Sports'];
+
+console.log(hobbies[1]); ---> logarei "Sports".
+
+
+hobbies ---> O LENGTH DELE É 2, SEU INDEX MÁXIMO É 1. (é sempre assim, o length é sempre maior do que o index por 1 único número)
+
+
+length = index máximo + 1.

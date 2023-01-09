@@ -1,0 +1,2570 @@
+
+
+
+
+
+
+--> ok, mas e quanto ao ADD de um produto...?
+
+
+
+
+---> Bem, quando eu vou adicionar um produto, é óbvio que EU VOU QUERER 
+
+
+
+_____cRIAR UM NOVO PRODUTO____...
+
+
+
+
+Eis o código de 
+
+(essa é a função que adiciona/deleta items, dependendo do if block que a execução segue...)
+
+
+'updateProducts()'  até agora...: 
+
+
+
+
+
+
+
+ex:
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+
+
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+
+----------------------------------------------------
+
+
+
+
+TEMOS QUE COLOCAR ALGO NO PRIMEIRO 'IF CHECK', que será o if check 
+
+relativo AOS ADD de items/product items na nossa list....
+
+
+
+---> mas queremos ADICIONAR ESSE PRODUCT À LISTA de uma maneira que 
+
+
+___NÃO AFETE___ OS DEMAIS 'product items'... ---> ou seja, 
+
+de uma maneira que não force nosso código inteiro a re-renderizar 
+
+apenas pq 
+
+
+adicionamos um produto....
+
+
+----> PORTANTO, 
+quando 
+
+
+o 'modo' é __ISADDING === TRUE, 
+
+
+eu vou querer CRIAR UM NOVO ITEM....
+
+
+Isso significa que eu vou querer basicamente 
+
+'pseudoexecutar' aquelas 
+
+linhas de 
+
+
+código 
+
+
+de 'renderProducts', aquelas 
+
+linhas que são
+
+
+'
+    const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+    '
+
+......
+
+
+
+
+MAS DE UMA MANEIRA QUE NÃO FORCE ___ TODOS OS PRODUCT ITEMS serem recarregados...____
+
+
+
+
+
+---> professor diz que essas linhas de código 
+
+
+de 
+'renderProducts' também 
+
+podem ser optimizadas...
+
+
+
+-----> PROFESSOR QUER QUE O ITEM SEJA ADICIONADO À LIST DE UMA MANEIRA 
+
+QUE NÃO AFETE NEGATIVAMENTE AS OUTRAS PARTES, QUE NÃO PRECISAM/NÃO DEVEM SER 
+RE-RENDERIZADAS...
+
+
+--------------------------
+
+
+
+
+
+ANTES DE MAIS NADA, O PROFESSOR 
+
+
+
+VAI OUTSOURCEAR (exportar) 
+
+
+ESSE código aí que FAZ A CRIAÇÃO de um product....
+
+
+Ele faz isso para que POSSAMOS REUTILIZÁ-LO 
+
+
+em 'updateProducts()'...
+
+
+
+
+
+Para isso, 
+
+
+
+ele cria uma nova function no CONTEXTO GLOBAL 
+
+de 'rendering.js'...
+
+
+uma função de nome 'createElement()'...
+
+
+
+
+ex(representação do código atual de 'renderProducts'...):
+
+
+
+
+
+
+
+function createElement() {
+
+}
+
+
+export function renderProducts(products, deleteProductFn) {
+  const productListEl = document.getElementById('product-list');
+  productListEl.innerHTML = '';
+  products.forEach((product) => {
+    const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+    newListEl.id = product.id
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, product.id)
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+    productListEl.appendChild(newListEl);
+  });
+}
+
+
+
+
+----------------------------------------
+
+
+
+
+CERTO....
+
+
+
+Então ele pega todo aquele código 
+
+
+DENTRO DAQUELA FUNÇÃO anônima de 'forEach'...
+
+
+
+ELE PEGA TODO ESSE CÓDIGO E COLA DENTRO Do body desse 
+
+
+'createElement()'...
+
+
+
+
+
+Na verdade,
+
+ele pega TODO O CÓDIGO INTERNO DE 'forEach', MAS ELE 
+
+
+DEIXA DE FORA 
+
+
+A linha de código 
+
+
+'productListEl.appendChild(newListEl)'.... ----> ESSA AINDA FICA DENTRO DO 'forEach' loop...
+
+
+
+
+
+ex (O CÓDIGO FICA ASSIM):
+
+
+
+
+
+function createElement() {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+    newListEl.id = product.id
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, product.id)
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+---------------------------------------------------------
+
+
+
+
+NESSA FUNÇÃO 'createElement', vamos precisar de um 
+
+PARÂMETRO/vamos ter que esperar um parâmetro de 
+
+
+'product'....
+
+
+
+
+ex:
+
+
+
+
+
+
+function createElement(product) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+    newListEl.id = product.id
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, product.id)
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+-------------------------------------------
+
+
+
+
+NÓS TAMBÉM VAMOS PRECISAR DE 
+
+
+UM PARÂMETRO 
+
+para o 'prodId'...
+
+
+
+ex:
+
+
+
+
+
+
+
+function createElement(product, prodId) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = product.id
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, product.id)
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+----------------------------------
+
+
+
+
+Professor diz então que nós devemos 
+
+
+TROCAR TODAS AS OCORRÊNCIAS de 
+
+
+'product.id' NO 
+
+
+
+CÓDIGO DO BODY de 'createElement' por 
+
+
+'prodId'...
+
+
+
+
+ex:
+
+
+
+
+
+function createElement(product, prodId) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; //////eis a troca em questão.
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) //////eis a troca em questão.
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+
+---------------------------------------------------
+
+
+
+
+POR FIM, PRECISAREMOS DE UM POINTER 
+
+
+À 'deleteProductFn', 
+
+
+
+Um pointer À função 'deleteProductFn'  que 
+
+
+o professor está/estará 
+
+usando mais embaixo, 
+
+
+naquele 
+
+trecho 
+
+
+'prodDeleteButtonEl.addEventListener(
+    'click', 
+    deleteProductFn.bind(null, prodId)
+);
+
+'
+
+
+
+----------------------------------
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; //////eis a troca em questão.
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) //////eis a troca em questão.
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+-----------------------------------------
+
+
+
+
+EX:
+
+
+
+
+
+ function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; //////eis a troca em questão.
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) //////eis a troca em questão.
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+--------------------------------------
+
+
+
+Certo, mas não acabamos por aí....
+
+
+
+
+ESSA FUNÇÃO TAMBÉM DEVE RETORNAR ('return') alguma coisa...  
+
+
+
+
+Ela deverá 
+
+retornar 
+
+
+'newListEl'... ( o novo 'PRODUCT ELEMENT'/new list element/novo PRODUTO A SER INSERIDO NA lista, 
+que é 
+
+criado nesse 'createElement', mesmo....)...
+
+
+
+
+
+EX:
+
+
+
+
+
+
+ function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; ///eis o código em questão.
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+-----------> AGORA, PORTANTO, PODEMOS CHAMAR 
+
+'createElement()' 
+
+
+
+EM 
+
+
+'renderProducts', dentro da FUNÇÃO ANÔNIMA/INTERNA 
+
+
+de 'forEach'...
+
+
+
+ex:
+
+
+
+
+
+
+ function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+            createElement();  ///////aqui, o novo código.
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+---------------------------------------
+
+
+
+
+MAS só esse 
+
+
+call 
+
+
+
+de 
+
+'createElement()' 
+
+ali NÃO VAI FAZER NADA POR SI SÓ...
+
+
+
+
+O professor ainda vai lá 
+
+
+e 
+
+escreve uma nova constante,
+
+
+'newListEl', 
+
+
+que terá o valor DESSE CALL DE 'createElement()"... (ou seja, o valor retornado de 'newListEl'...)
+
+
+
+
+EX:
+
+
+
+
+
+
+
+
+ function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+           const newListEl = createElement();  ///////aqui, o novo código.
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+----------------------------------------
+
+
+
+
+
+
+E O SIMPLES CALL 
+
+
+
+de 
+
+
+'createElement()' 
+
+como valor 
+
+NÃO FAZ NADA POR SI SÓ, também....
+
+
+não faz nada pq 
+
+'createElement' SEMPRE 
+
+
+__ESPERA___ 4 PARÂMETROS:
+
+
+
+1) o product (furado pelo 'forEach'...)
+
+
+2) o product ID (propriedade encontrada dentro de 'product', que é FURADO pelo 'forEach'...)
+
+
+3) a função 'deleteProduct'  ('deleteProductFn' que foi forwardada na função 'renderProducts'...)
+
+
+4) um valor para 'isAdding', seja ele 'true' ou 'false'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+ function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+           const newListEl = createElement(product, prodId, deleteProductFn, true);  ///////aqui, o novo código.
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+-----------------------------------
+
+
+
+
+FEITO ESSE LONGO 'ROUNDABOUT' de código,
+
+
+
+
+em 
+
+
+'updateProducts()', em 'rendering.js', lá naquele trecho 
+
+do if block 
+
+
+do 
+
+'isAdding = true', 
+
+
+FINALMENTE PODEMOS 
+
+
+CHAMAR O 'createElement()'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+ function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+           const newListEl = createElement(product, prodId, deleteProductFn, true);  
+
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+      createElement();
+
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+
+---------------------------------
+
+
+
+nesse 
+
+chamado 
+
+
+de 
+
+
+'createElement()', 
+
+
+DEVEMOS PASSAR AQUELES 
+
+
+4 PARÂMETROS, de novo....
+
+
+
+(na verdade, o professor deixa o parâmetro 'isAdding' de lado, por alguma razão)...
+
+
+ele então 
+
+armazena 
+
+
+o valor do chamado de 'createElement()' em 
+
+uma CONSTANTE, de nome 
+
+'newProductEl'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+      const newProductEl = createElement(product, prodId, deleteProductFn); /////////EIS O CÓDIGO EM QUESTÃO.
+
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+-----------------------------------------------------
+
+
+
+
+
+ISSO FEITO, agora queremos 
+
+
+
+ADICIONAR ESSE Item, esse 'newProductEl',
+ 
+
+ AO DOM, mas adicionar ao dom ___NA FRENTE ___ DOS OUTROS ELEMENTOS/ITEMS... (no final da lista)...
+
+ 
+
+ Devemos fazer isso PQ 
+
+escrevemos uma 
+
+
+Lógica
+
+
+EM 
+
+'product-management.js' 
+
+
+
+QUE FAZ O ____UNSHIFT___ desse novo item, 
+
+por meio 
+
+
+de '.unshift()' no array DE PRODUCTS e em 'newProduct'  
+
+
+
+(ou seja, o código 
+
+
+'products.unshift(newProduct)'  ... )  --------> isso fará com que o NOVO ITEM, colocado ao final, SEJA COLOCADO NO INÍCIO da lista...
+
+
+
+
+
+EXPLICAÇÃO DE 'unshift':
+
+
+Definition and Usage
+The unshift() method adds new items to the beginning of an array, and returns the new length.
+
+Note: This method changes the length of an array.
+
+Tip: To add new items at the end of an array, use the push() method.
+
+
+
+
+
+-----------------------------------------------
+
+
+
+  
+
+  Certo... mas o professor precisa, em 'updateProducts', no if block do 'ISADDING = TRUE', 
+
+
+GANHAR ACESSO AO LOCAL NO DOM EM QUE SERÁ INSERIDO O NOVO PRODUCT ITEM ('newProductEl')....
+
+
+
+
+
+E o professor explica que ele poderá ganhar 
+
+
+o acesso a ISSO __DA MESMA FORMA __ que ele 
+
+GANHA ACESSO a essa 'list' 
+
+
+
+EM 
+
+
+'renderProducts'.... 
+
+OU SEJA, 
+
+
+pelo 
+
+código 
+
+
+de 
+
+
+'const xxx = document.getElementById('product-list');'  -------> pq 'product-list' É, no final das contas, o item 'LIST' que tem o id de 'product-list'...
+
+
+
+--------------------------------------------------
+
+
+
+ 
+
+PROFESSOR EXPLICA QUE, COMO ELE PRECISA 
+
+DO ACESSO 
+
+À 
+
+essa constante 
+
+TANTO EM 
+
+'renderProducts' (que faz o PRIMEIRO RENDER; o primeiro render necessita 
+da list, é claro) COMO 
+
+
+EM 'UPDATEPRODUCTS' (que faz os UPDATES na lista em caso 
+de ADIÇÕES/REMOÇÕES de items...), 
+
+
+
+ELE DECIDE TRANSFORMAR 
+
+ela EM UMA CONSTANTE DE CONTEXTO GLOBAL....
+
+
+
+
+ex(representação do código):
+
+
+
+
+const productListEl = document.getElementById('product-list'); ///////EIS A VARIÁVEL GLOBAL EM QUESTÃO...
+
+
+
+function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+           const newListEl = createElement(product, prodId, deleteProductFn, true);  
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+      const newProductEl = createElement(product, prodId, deleteProductFn); 
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+Com isso, agora quando nós usarmos 
+
+'productListEl', 
+
+
+ESTAREMOS USANDO 
+
+
+
+A 'productListEl' de 
+
+CONTEXTO GLOBAL... (isso significa que ela ainda estará 
+disponível em outras funções... e funcionará tanto em renderProducts como em updateProducts)
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+Certo... vamos lá 
+
+
+e digitamos 
+
+
+'productListEl' na função de 
+
+
+'updateProducts', pois agora isso é possível (contexto global dessa constante)...
+
+
+
+ex:
+
+
+
+
+const productListEl = document.getElementById('product-list');
+
+
+
+function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+           const newListEl = createElement(product, prodId, deleteProductFn, true);  
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+      const newProductEl = createElement(product, prodId, deleteProductFn); 
+      productListEl .... ////eis o código em questão.
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+
+
+------------------------------------------
+
+
+
+
+Certo... mas só isso não basta;
+
+
+o professor vai lá 
+
+E CHAMA o método 
+
+
+'.insertAdjacentElement()' 
+
+
+EM CIMA 
+
+dessa 'productListEl'...
+
+
+
+ELE FAZ ISSO PARA QUE ELE CONSIGA INSERIR 
+
+o 'newProductEl' produzido a partir 
+
+do 'createElement'...
+
+
+
+ex:
+
+
+
+
+
+
+const productListEl = document.getElementById('product-list');
+
+
+
+function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+           const newListEl = createElement(product, prodId, deleteProductFn, true);  
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+      const newProductEl = createElement(product, prodId, deleteProductFn); 
+      productListEl.insertAdjacentElement(newProductEl);
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+
+
+
+-----------------------------------
+
+
+Certo, mas aqui fizemos 
+
+uma cagada...
+
+o 
+
+
+'insertAdjacentElement()'
+
+
+SEMPRE EXIGE 1 PRIMEIRO PARÂMETRO ESPECIAL...
+
+
+
+é Aquele primeiro parâmetro 
+
+
+QUE ESCOLHE/NOS DÁ A OPÇÃO 
+DE ESCOLHER 
+
+O LOCAL da list em que será inserido aquele elemento (
+
+
+    ex:
+
+
+    afterbegin, 
+    afterend, 
+    beforeend, 
+    beforebegin
+)
+
+
+
+O professor coloca um parâmetro de 
+
+
+'afterbegin'....
+
+
+ex:
+
+
+
+
+
+
+
+const productListEl = document.getElementById('product-list');
+
+
+
+function createElement(product, prodId, deleteProductFn) {
+const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+
+
+    newListEl.id = prodId; 
+
+
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, prodId) 
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+   return newListEl; 
+}
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+    const productListEl = document.getElementById('product-list');
+    productListEl.innerHTML = '';
+    products.forEach((product) => {
+
+           const newListEl = createElement(product, prodId, deleteProductFn, true);  
+         productListEl.appendChild(newListEl);
+    }
+}
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+      const newProductEl = createElement(product, prodId, deleteProductFn); 
+      productListEl.insertAdjacentElement('afterbegin', newProductEl);
+  } else {
+    const productEl = document.getElementById(prodId);
+    
+    productEl.parentElement.removeChild(productEl);
+  }
+}
+
+
+
+
+---------------------------------
+
+
+
+
+'afterbegin' --> dentro da UNORDERED LIST, 
+
+mas bem NO INÍCIO DELA... esse será o local em que o item deverá ser inserido.
+
+
+
+
+
+
+
+
+
+---> ISSO FEITO, AGORA APENAS DEVEMOS NOS CERTIFICAR QUE SEJA 
+
+CHAMADO O 
+
+
+'updateProducts' 
+
+
+
+LÁÁÁ no 'product-management.js',
+
+
+bem no trecho em que É ADICIONADO UM PRODUCT...
+
+
+
+
+CÓDIGO DE PRODUCT-MANAGEMENT.JS até agora:
+
+
+
+EX:
+
+
+
+
+(...) código mais acima (...)
+
+
+
+
+export function addProduct(event) {
+  event.preventDefault();
+  const titleEl = document.querySelector('#new-product #title');
+  const priceEl = document.querySelector('#new-product #price');
+
+  const title = titleEl.value;
+  const price = priceEl.value;
+
+
+
+
+  if (title.trim().length === 0 || price.trim().length === 0 || +price < 0) {
+    alert('Please enter some valid input values for title and price.');
+    return;
+  }
+
+  const newProduct = {
+    id: new Date().toString(),
+    title: title,
+    price: price
+  };
+
+  products.unshift(newProduct);
+  renderProducts(products, deleteProduct);
+}
+
+
+
+---------------------------------------------------------
+
+
+
+
+Professor 
+
+
+explica que essas última linha,
+
+
+
+'
+renderProducts(products, deleteProduct);'
+
+
+
+
+ESTÁ OBSOLETA... agora 
+
+
+nós vamos querer chamar 
+
+
+
+'updateProducts' 
+
+
+e então forwardar 
+
+
+
+O 'newProduct' que nós críamos 
+
+(que é 
+
+composto 
+
+de 
+
+'    id: new Date().toString(),
+    title: title,
+    price: price
+    '
+),
+
+
+O 'newProduct.id'  (para que seja passado o novo 'PRODUCTId' de uma maneira dedicada...),
+
+
+
+
+O pointer à função 'deleteProduct' de 'deleteProduct', 
+
+
+E, POR FIM, 
+
+'true' PARA o parâmetro de 
+
+
+'isAdding'...
+
+
+
+
+ex:
+
+
+
+
+
+export function addProduct(event) {
+  event.preventDefault();
+  const titleEl = document.querySelector('#new-product #title');
+  const priceEl = document.querySelector('#new-product #price');
+
+  const title = titleEl.value;
+  const price = priceEl.value;
+
+
+
+
+  if (title.trim().length === 0 || price.trim().length === 0 || +price < 0) {
+    alert('Please enter some valid input values for title and price.');
+    return;
+  }
+
+  const newProduct = {
+    id: new Date().toString(),
+    title: title,
+    price: price
+  };
+
+  products.unshift(newProduct);
+  updateProducts(newProduct, newProduct.id, deleteProduct, true);
+}
+
+
+
+--------------------------------
+
+
+
+OUTRA IMPLICAÇÃO DISSO É QUE PODEMOS 
+
+remover o import de 
+
+'renderProducts' 
+
+em 'product-management.js'....
+
+
+
+ex:
+
+
+
+
+import { renderProducts, updateProducts } from './rendering';
+
+
+VIRA 
+
+
+import { updateProducts } from './rendering';
+
+
+
+-----------------------------------------------
+
+
+
+PODEMOS REMOVER 
+
+
+
+'renderProducts' PQ NÃO VAMOS MAIS PRECISAR DELE EM 'product-management.js'...
+
+
+
+--------------------------------------------
+
+
+
+
+SE AGORA SALVARMOS TUDO ISSO, 
+
+teremos 
+
+
+UM SETUP EM QUE NÓS NÃO RE-RENDERIZAMOS tudo 
+
+quando nós adicionamos um item.... (e nem se deletarmos 1 item...)
+
+
+
+
+----> devemos abrir os devtools do chrome e 
+
+
+
+ver o que acontece com os list items quando nós ADICIONAMOS 
+
+
+um novo produto à lista...
+
+
+
+
+--> professor diz que aconteceu uma cagada, aqui...
+
+
+
+
+--> nossa página RECARREGOU quando nós adicionamos um item... --> esse comportamento 
+
+é indesejado ----> professor 
+
+vai até 
+
+o 
+
+
+'shop.js'
+
+E ENTÃO 
+
+dá uma olhada nos dynamic imports...
+
+
+
+Ele percebe imediatamente que nós 
+
+
+esquecemos de chamar 
+
+'event.preventDefault()' 
+
+
+na função de
+
+
+'addProduct()'.....
+
+
+
+
+
+CÓDIGO CORRIGIDO:
+
+
+function addProduct(event) {
+    event.preventDefault();
+    import('./product-management.js').then(module => {
+        module.addProduct(event);
+    })
+}
+
+
+-----------------------------------------
+
+
+
+
+Temos que chamar 
+
+'event.preventDefault()' 
+
+NESSE EXATO MOMENTO, bem no INÍCIO da 
+
+
+CHAIN DE EXECUÇÃO, na função 'addProduct' de 'shop.js',
+ 
+ PQ QUANDO 
+
+
+ A FUNÇÃO 'VERDADEIRA' de 'addProduct' for executada, a função 
+
+ 'addProduct' em 
+
+ 'product-management.js', 
+
+JÁ SERÁ 
+TARDE 
+
+DEMAIS PARA EXECUTAR O 'PREVENTDEFAULT()', 
+
+já será muito tarde, e a página recarregará (o comportamento default do browser/engine será seguido, se você não 
+colocar esse event.preventDefault() bem cedo na chain de execução).... ------> 
+
+ISSO OCORRERÁ/OCORRE pq o import daquele script 
+
+de 'product-management.js' ( trazido por meio do método 'import()') 
+
+OCORRE DE MANEIRA __ASSÍNCRONA___.... ----> e como é ASSÍNCRONA A EXECUÇÃO/RESOLVE 
+DESSE MÉTODO, sempre haverá um atraso, por isso o preventDefault não vai ser ativado 
+a tempo...
+
+
+------------------------------------------
+
+
+
+
+Em consequência disso, podemos remover
+
+
+'event.preventDefault()' lá 
+
+
+da função 
+
+'addProduct()' EM 
+
+
+
+'product-management.js'... 
+
+
+----------------------------------
+
+
+
+CERTO.
+
+MAS AGORA 
+
+SALVAMOS TUDO 
+
+e recarregamos a página...
+
+
+
+---> deu, podemos ver o resultado... ---> os list items 
+
+na aba 'elements' no devtools ---> SÓ 
+
+O item 
+
+QUE FOI ADICIONADO FLASHOU... (o resto continuou igual) ---> isso significa 
+
+que nossas alterações no código 
+
+
+FUNCIONARAM.  ----> resto dos list items NÃO FOI RE-RENDERIZado ---> o que economiza performance.
+
+
+----------------------------------------
+
+
+
+
+COM ISSO, IMPLEMENTAMOS UM 
+
+
+IMPROVEMENT ___gIGANTE___...
+
+
+
+
+----> ISSO PODE DEIXAR APLICATIVOS GRANDES __MUITO MAIS LENTOS__, caso você esteja
+ fazendo isso de forma errada....
+
+
+
+
+ ----> Para testar essa mudança,
+
+ deletamos algo aqui na nossa página 
+
+
+ e então FAZEMOS 
+
+ PROFILING disso por meio 
+
+ da aba 'performance' do devtools... --------> PROFESSOR DIZ QUE 
+
+ O CÓDIGO FICOU MAIS RÁPIDO... pouca coisa, mas ficou mais rápido.
+
+
+
+
+
+ ------------------------------
+
+
+
+
+ --> AINDA ASSIM, NOSSO CÓDIGO NÃO ESTÁ TOTALMENTE ÓPTIMO...
+
+
+
+
+ --> NOSSO CÓDIGO DE 'RENDERING' ainda não é perfeito...
+
+
+
+
+ ----> não é perfeito/não está perfeito PQ NÓS ESTAMOS CRIANDO 
+
+
+ __UM MONTE DE DOM NODES___
+
+ ____________SEPARADAMENTE_____ .... --->  e nós podemos, 'actually', fazer 
+
+ esse rendering COM MENOS CÓDIGO..... (e com um código 
+ 
+ UM POUCO MELHOR...)
+
+
+
+ -----> DEVEMOS 
+
+
+ REVISITAR A FUNÇÃO 
+
+
+ 'createElement()' em 'rendering.js'...
+
+
+
+
+ -----> É EVIDENTE QUE PRECISAMOS CRIAR nosso 'list item element' nessa 
+
+ função 
+
+
+ 'createElement'...  -----------> ENTRETANTO, APONTA O PROFESSOR, 
+
+
+ AS TAGS 'h2' e 'p' NÃO PRECISAM SER CRIADAS DESSA FORMA...
+
+(criadas por meio de 
+
+'const prodTitleEl = document.createElement('h2');
+const prodPriceEl = document.createElement('p');   ')
+
+
+
+
+
+ Em vez disso, o que poderíamos fazer aqui é 
+
+
+ 'REACH OUT' à 'newListEl' E ENTÃO 
+
+
+ DEFINIR SEU 
+
+ 'innerHTML'  
+
+
+
+ COMO SENDO UM 
+
+
+ template literal.... ( ``, backticks)...
+
+
+ Dentro desse template literal, 
+
+
+ o professor vai inserir VALORES DINÂMICOS...
+
+
+
+
+ DENTRO DO TEMPLATE LITERAL, 
+
+
+ o professor 
+
+ escreve:
+
+
+
+ '<h2></h2>
+ <p></p>' 
+
+
+
+
+ (OU SEJA, UMA TAG DE H2 e uma de parágrafo...)
+
+
+
+ AÍ, 
+
+ DENTRO DESSAS TAGS, vamos querer que seja inseridA 
+
+
+ A COISA QUE O USUÁRIO INPUTTOU...
+
+
+
+
+ Nesse caso, o 
+
+ negócio será o 
+
+
+ 'product.title'   ('${product.title}')
+
+
+ e o 
+
+
+ 'product.price' ('${product.price}')....
+
+
+
+
+
+ ----> PROFESSOR DIZ PARA CUIDAR COM 'CROSS-SITE SCRIPTING ATTACKS' aqui...
+
+ isso é pq ESTAMOS DEIXANDO O USUÁRIO INPUTTAR QUALQUER PORCARIA (strings, códigos)
+
+
+COMO O 'INNER HTML' desse listElement --> e isso é uma brecha para 
+
+cross-site scripting attacks...
+
+
+---> VOCÊ SEMPRE VAI QUERER 
+
+
+___SANITIZAR____ esse conteúdo 
+
+de 'product.title' e 'product.price' inserido aí...
+
+
+
+
+
+----> OK, DEVEMOS SANITIZAR esse negócio.... 
+
+
+
+
+(podemos testar aqui os conhecimentos de sanitização...)... --> módulo 28, segurança.
+
+
+
+
+
+FICARIA ASSIM:
+
+
+function createElement(product, prodId, deleteProductFn) {
+  const newListEl = document.createElement('li');
+  newListEl.innerHTML = `
+    <h2>${sanitizeHtml(product.title)}</h2>
+    <p>${sanitizeHtml(product.price)}</p>
+  `;
+
+
+
+
+
+  e ASSIM:
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JavaScript Performance</title>
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <script src="assets/scripts/shop.js" defer></script>
+  </head>
+  <body>
+    <script type="text/javascript" src="dist/sanitize-html.js"></script>
+    <script type="text/javascript" src="demo.js"></script>
+    <header>
+      <h1>My Shop</h1>
+    </header>
+    <section id="shop-controls">
+      <form id="new-product">
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input type="text" id="title" />
+        </div>
+        <div class="form-control">
+          <label for="price">Price</label>
+          <input type="number" min="0" step="0.01" id="price" />
+        </div>
+        <button type="submit">ADD PRODUCT</button>
+      </form>
+    </section>
+
+    <ul id="product-list"></ul>
+  </body>
+</html>
+
+
+
+
+---------------------------------------------
+
+
+
+
+E 
+
+
+
+ASSIM:
+
+
+
+
+
+import sanitizeHtml from 'sanitize-html';
+
+
+
+
+
+
+(E NÃO SE ESQUEÇA DE INSTALAR A DEPENDENCY 
+
+de 
+
+'sanitize-html' por meio de 
+
+
+'npm install --save-dev sanitize-html'...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TAMBÉM PRECISAMOS DE UM ARQUIVO '.js' QUE CONTENHA O CÓDIGO 
+
+
+do 
+
+
+'SANITIZE-HTML'....
+
+
+
+------------------------------------------
+
+
+
+
+
+ENTRETANTO, o import de 'sanitize-html' traz um preço grande: 
+
+
+
+a performance do website é afetada...
+
+
+
+
+
+
+-----------------------
+
+
+
+
+
+---> O professor seguirá fazendo o 'create' do botão 
+
+
+por meio do código 
+
+de 
+
+
+'const prodDeleteButtonEl = document.createElement('button');' 
+
+
+,
+
+
+PORQUE NESSAS LINHAS DE CÓDIGO ELE adiciona um eventListener a 
+
+esse botão...
+
+(na linha de código 
+
+
+'prodDeleteButtonEl.addEventListener(
+  'click', 
+  deleteProductFn.bind(null, prodId)
+)
+;
+)
+
+
+
+-------------------------------------
+
+
+
+
+
+
+
+ENTRETANTO, AQUELAS 2 LINHAS, 
+
+
+'prodTitleEl.innerHTML = product.title;
+prodPriceEl.innerHTML = product.price;' 
+
+
+
+PODEM SER REMOVIDAS... 
+
+podem 
+
+
+ser removidas pq ELAS ERAM RELACIONADAS com a antiga maneira de 
+
+criar aqueles 'titles' e 'prices', a maneira QUE CRIAVA ___NODES 
+
+SEPARADOS___ PARA AS TAGS 
+
+DE PARÁGRAFO e 'h2'....
+
+
+
+OU SEJA, O CÓDIGO 
+
+
+
+MUDA...
+
+
+
+ANTES ELE ERA ASSIM:
+
+
+
+
+
+export function createElement(product, prodId, deleteProductFn) {
+  
+  const newListEl = document.createElement('li');
+  const prodTitleEl = document.createElement('h2');
+  const prodPriceEl = document.createElement('p');
+  const prodDeleteButtonEl = document.createElement('button');
+
+  prodTitleEl.innerHTML = product.title;
+  prodPriceEl.innerHTML = product.price;
+  prodDeleteButtonEl.innerHTML = 'DELETE';
+
+  newListEl.id = prodId;
+
+  prodDeleteButtonEl.addEventListener(
+    'click',
+    deleteProductFn.bind(null, prodId)
+  );
+
+  newListEl.appendChild(prodDeleteButtonEl);
+
+  return newListEl;
+}
+
+
+
+
+AGORA ELE É ASSIM:
+
+
+
+
+
+
+export function createElement(product, prodId, deleteProductFn) {
+  
+  const newListEl = document.createElement('li');
+  newListEl.innerHTML = `<h2>
+  ${product.title}</h2>
+  <p>${product.price}</p>`;
+
+  const prodDeleteButtonEl = document.createElement('button');
+
+  prodDeleteButtonEl.innerHTML = 'DELETE';
+
+  newListEl.id = prodId;
+
+  prodDeleteButtonEl.addEventListener(
+    'click',
+    deleteProductFn.bind(null, prodId)
+  );
+
+  newListEl.appendChild(prodDeleteButtonEl);
+
+  return newListEl;
+}
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+POR FIM, O  PROFESSOR 
+
+
+decide definir 
+
+
+'textContent' EM VEZ 
+
+DE 'innerHTML' do buttonElement... -----> é UM POUCO MELHOR DO QUE 
+
+definir 'innerHTML', pois aqui apenas settaremos texto, e nada mais... (nenhuma necessidade 
+de definir o inner html do elemento...)
+
+
+
+o eventListener também está ok...
+
+
+
+Por fim, o professor 
+
+remove 
+
+os códigos 
+
+de 
+
+
+
+'newListEl.appendChild(prodTitleEl);
+newListEl.appendChild(prodPriceEl);'....' ---------> ELE DIZ QUE NÃO PRECISAMOS MAIS DESSES CÓDIGOS PQ NÓS JÁ ESTAMOS DEFININDO O 'innerHTML' desses elementos...
+
+
+ELE OS REMOVE E deixa 
+
+apenas 
+
+'newListEl.appendChild(prodDeleteButtonEl);'
+
+
+
+
+----> fizemos uma versão MELHOR do snippet de 'createElement'... --> por enquanto, isso está bom...
+
+
+mas o melhor upgrade foi o do 'updateProducts', essa foi a melhor melhoria. ---> não precisamos mais re-renderizar toda a lista de novo, sempre que um novo item é deletado/adicionado.

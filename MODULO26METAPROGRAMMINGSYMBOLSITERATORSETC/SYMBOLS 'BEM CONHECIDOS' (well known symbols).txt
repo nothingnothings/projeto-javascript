@@ -1,0 +1,653 @@
+
+
+
+
+
+
+
+---> ALÉM DOS SÍMBOLOS QUE PODEMOS CRIAR ( e você pode criar quantos você quiser),
+
+
+
+HÁ UNS NEGÓCIOS CHAMADOS DE 
+
+'WELL-KNOWN SYMBOLS'...
+
+
+
+
+
+Esses são símbolos criados A PARTIR DO 'ES5' (ecmascript 5)....
+
+
+
+
+
+Ecmascript 6+ 
+
+tem esses 
+
+
+símbolos...
+
+
+
+
+--> Antes do 'es6', eles também eram BUILTIN, MAS SÓ COM o es6 ELES 
+
+PASSARAM A SER ___ACESSÍVEIS___ por nós...
+
+
+
+
+
+
+Esses well-known symbols nos ajudam A FAZER CERTAS COISAS...
+
+
+
+
+
+
+Veremos o 
+
+'symbol.iterator', símbolo importante, EM AÇÃO LOGO LOGO, em um exemplo...
+
+
+
+
+
+
+----> O 'Symbol.iterator' TE PERMITE 
+
+FAZER _________QUALQUER______ OBJETO SER ____"ITERABLE"_____COM 
+
+
+
+O 'for of loop'.....
+
+
+
+(pq, NORMALMENTE, OBJETOS __NÃO SÃO___ 'ITERABLES' em for of loops... Isso significa que 
+ELES NÃO PARTICIPAM DO LOOP NATURALMENTE, precisam desse 'Symbol.iterator' para que 
+entrem nos loops...)
+
+
+
+
+---> o for of loop não é possível PARA UM 'OBJETO REGULAR', por exemplo.
+
+
+
+-----> ENTRETANTO, o 'for of loop' É POSSÍVEL PARA UM ARRAY... mas o professor vai voltar a isso, vai nos 
+explicar o pq disso, mais tarde.
+
+
+Symbol.iterator --> a method returning the default iterator for an object. Used by 'for... of'.
+
+
+
+
+--------------------------------
+
+
+
+
+---> NÓS TAMBÉM TEMOS OUTROS 'WELL-KNOWN SYMBOLS'...
+
+
+
+Você pode ver eles na página do MDN...
+
+
+
+
+ESSES SYMBOLS SÃO SIMPLESMENTE SYMBOLS 'BUILTIN' no javascript, os quais 
+
+vocÊ pode acessar POR MEIO DO OBJETO 
+
+
+'Symbol'...
+
+
+ex:
+
+'Symbol.iterator'...
+
+
+
+--------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE, PARA USAR ESSES SYMBOLS, DEVEMOS EXECUTÁ-LOS NÃO COMO 
+
+__FUNÇÕES__ ( ou seja, sem '()'...), 
+
+
+E SIM COMO 
+
+__OBJETOS__ COM UMA PROPRIEDADE ESTÁTICA, por meio da 'dot notation'...
+
+
+
+ex:
+
+
+
+Symbol.iterator ----> FORMA CORRETA DE EXECUTAR/USAR O OBJETO 'Symbol'...
+
+
+Symbol.iterator() ---> forma INCORRETA.
+
+
+--------------------------------------------
+
+
+
+
+
+
+outro ex:
+
+
+
+'Symbol.match'
+
+
+
+--------------------------------------------------------
+
+
+
+
+
+
+ESSES SÃO SYMBOLS QUE FORAM CRIADAS PELO JAVASCRIPT, BASICAMENTE.
+
+
+
+VOCê PODE USAR ESSES SYMBOLS, NO ENTANTO...
+
+
+
+
+Se vocÊ usar esses symbols, o javascript vai então tentar ENCONTRÁ-LOS 
+
+e usá-los PARA CERTAS AÇÕES...
+
+
+
+
+
+Bem, pense assim:
+
+
+nós, desenvolvedores, utilizamos os symbols para reassignar um valor, extrair um valor, etc...
+
+
+
+O JAVASCRIPT/A JAVASCRIPT ENGINE TAMBÉM UTILIZA OS SYMBOLS, SEUS 
+SYMBOLS 'BUILTIN', MAS ELA UTILIZA OS SYMBOLS EM CERTAS CIRCUNSTÂNCIAS ESPECÍFICAS,
+PARA FAZER COISAS DETERMINADAS......
+
+
+
+
+
+
+Exemplo clássico:
+
+
+
+Quando um FOR OF LOOP É executado, A JAVASCRIPT ENGINE TENTA ENCONTRAR 
+
+AQUELE 'Symbol.iterator', AQUELE 'SÍMBOLO DE ITERAÇÃO' no código do for of loop/no nosso código...
+
+SE ELE ENCONTRAR ESSE SYMBOL APLICADO A ALGUM OBJETO DO NOSSO CÓDIGO, ELE VAI INSERIR ESSE OBJETO NO 
+FOR OF LOOP... (é um exemplo de uso de symbol BUILTIN por meio do javascript para aplicar um efeito específico, nesse 
+caso um efeito EM UM OBJETO, que agora participará de um for of loop)
+
+
+
+
+--> javascript engine encontra o symbol.iterator em um objeto... assim que ele encontra 
+esse symbol, ELE EXAMINA SE O OBJETO É COMPATÍVEL COM O FOR OF LOOP (pq ainda é necessária 
+certa lógica específica dentro do objeto para que ele seja compatível com o for of loop)....
+
+
+
+
+
+
+Mas veremos mais exemplos disso...
+
+
+
+
+Veremos mais exemplos dessas interações QUANDO ESTUDARMOS ITERATORS E GENERATORS....
+
+
+
+
+
+Por enquanto, apenas tenha em mente que existem vários 'builtin symbols'...
+
+
+
+----------------------------------------
+
+
+
+
+Um symbol que o professor diz ser importante e que ele deve nos mostrar é o 
+
+
+'Symbol.toStringTag'...
+
+
+
+é o símbolo 'toStringTag'...
+
+
+-------------------------------------
+
+
+
+
+Certo, para o exemplo, nós temos 
+
+um 
+
+objeto 
+
+'user'...
+
+
+
+ex:
+
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age:30 
+};
+
+
+
+console.log(user);
+
+-------------------------------------------
+
+
+
+
+
+QUANDO CONSOLE.LOGGAMOS ESSE USUÁRIO, vemos 
+
+no chrome esse OBJETO no console...
+
+
+
+
+ENTRETANTO, SE FIZÉSSEMOS UM CONSOLE.LOG DE 
+
+
+'user.toString()', 
+
+
+NÓS RECEBERÍAMOS 
+
+
+UM OUTPUT NO CONSOLE 
+
+
+DE 
+
+
+'[object Object]'
+
+
+
+
+ex:
+
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age:30 
+};
+
+
+
+console.log(user.toString());
+
+
+
+-----------------------------------
+
+
+
+
+
+[object Object] 
+
+
+
+-------------------------------
+
+
+
+Certo.
+
+
+Mas pq diabos recebemos essa 'COISA' '[object Object]'...
+
+
+
+
+
+
+BEM, ISSO ACONTECE PQ O CALL DE '.toString()' EM QUALQUER OBJETO 
+
+SIMPLESMENTE PRINTA ESSA PORCARIA, 
+
+
+esse [object Object]....
+
+
+
+o 
+
+método 'toString()' existe em objetos PORQUE ELE EXISTE EM TODO 
+
+'PROTOTYPE DEFAULT' QUE CADA OBJETO TEM...
+
+
+
+É certo que ele existe, MAS ESSE OUTPUT AÍ NÃO É ÚTIL... parece ser um 
+método 'desperdiçado'/inútil  em objetos...
+
+
+
+
+
+
+
+----------->>>>>> O FATO DE QUE PODEMOS OLHAR ___DENTRO DESSE OBJETO___ por meio 
+do console.log É UMA PEQUENA ___CONVENIÊNCIA ____ OFERECIDA pelo  chrome, no final das contas........
+
+
+NÃO É ALGO EM QUE PODEMOS CONFIAR.... -----> Normalmente, esse 'toString()' em um objeto 
+DEVERIA APENAS/SIMPLESMENTE PRINTAR O RESULTADO DE 'toString()', pois 
+
+É ISSO QUE UM CONSOLE.LOG TIPICAMENTE FAZ....
+
+
+
+
+ENTRETANTO, PARA OBJETOS, O BROWSER (chrome) NOS DÁ 
+
+ESSA UTILIDADE EXTRA DE REALMENTE PRINTAR O OBJETO 'DE UMA FORMA ANALISÁVEL'...
+
+
+
+
+'.toString()', NO ENTANTO, é algo que podemos chamar PARA CONVERTER O OBJETO EM UMA STRING...
+
+
+Uma string a qual podemos, então, mostrar para um usuário, por exemplo...
+
+
+------------------------------
+
+
+
+
+Conforme fora mencionado, nós recebemos 
+
+
+
+
+[object Object] por meio desse console.log...
+
+
+
+
+
+
+
+ENTRETANTO, PROFESSOR APONTA QUE PODEMOS 
+
+____ADICIONAR UM SYMBOL ESPECIAL ____ AO OBJETO 'user'...
+
+
+
+
+
+De novo, devemos usar aquela sintaxe DE 'DYNAMIC PROPERTY ASSIGNMENT' (ou seja, '[]' no lugar das KEYS)...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age:30,
+    [] ///////eis o código em questão.
+};
+
+
+
+------------------------------------------
+
+
+
+DENTRO DESSA SINTAXE, VOU QUERER USAR UM DOS 'BUILTIN SYMBOLS', UM DOS 'well-known' SYMBOLS DO JAVASCRIPT,
+
+
+O 
+
+'Symbol.toStringTag'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age:30,
+    [Symbol.toStringTag] ///////eis o código em questão.
+};
+
+
+
+------------------------------
+
+
+
+BEM.
+
+
+
+
+'toStringTag' NOS PERMITE DEFINIR UMA 'tag' COMO UM VALOR....
+
+
+
+ex:
+
+
+
+"[Symbol.toStringTag]: ''  "
+
+
+
+-------------------------------------------
+
+
+
+
+
+NOS PERMITE DEFINIR UMA 'TAG' COMO UM VALOR, OU SEJA, uma 'string tag'...
+
+
+
+
+ESSA STRING TAG SERÁ ENTÃO PARTE ___DO OUTPUT___ QUE SERÁ 
+
+GERADO PELO 
+
+
+
+'CONSOLE.LOG(user.toString());'  (pelo console.log desse objeto convertido em string....).
+
+
+
+
+
+Como exemplo disso, podemos definir:
+
+
+
+ex:
+
+
+
+
+
+
+const user = {
+    [uid]: 'p1',
+    name: 'Max',
+    age:30,
+    [Symbol.toStringTag]: 'caganeira'
+};
+
+
+
+
+
+console.log(user.toString());
+
+
+--------------------------------
+
+
+
+
+
+O RESULTADO DO CONSOLE.LOG DISSO SERÁ:
+
+
+
+'[object caganeira]'.....
+
+
+
+
+--------------------------
+
+
+OU SEJA, AGORA ESTAREMOS PRINTANDO
+ 
+ 'object' e 'caganeira', que é esse valor definido como STRING TAG atribuída àquele objeto 'user'...
+
+
+
+
+
+
+ISSO NOS PERMITE, POR EXEMPLO, TWEAKAR O QUE O MÉTODO 'toString()' OUTPUTTA 
+
+NO NOSSO CONSOLE...
+
+
+
+
+É EVIDENTE QUE PODEMOS/PODERÍAMOS TAMBÉM SIMPLESMENTE __OVERWRITTAR___ TOTALMENTE 
+
+o método 'toString()' inteiro SE QUISÉSSEMOS O CUSTOMIZAR COMPLETAMENTE, POR MEIO DESSE SYMBOL.
+
+
+
+
+
+----> MAS SE QUISERMOS APENAS MUDAR AQUELA 'tag' que é parte do output DEFAULT desse objeto, 
+nós podemos fazer isso por meio do 'Symbol.toStringTag', esse Symbol BUILTIN...
+
+--> isso não é algo que você usa todo o dia, é meio inútil, mas 
+TE MOSTRA QUAL É A IDEIA POR TRÁS DESSES 'WELL-KNOWN' builtin symbols...
+
+
+
+----------->>> Os well-known symbols SÃO USADOS POR ALGUNS CÓDIGOS JAVASCRIPT DEFAULT.. (nesse caso, pelo método 'toString', que existe em todos os objetos )..
+            ---> se o javascript então ENCONTRA ESSES SÍMBOLOS, ELE OS UTILIZA... (E isso muda o seu comportamento...).
+
+
+
+
+
+
+E esse symbol especial 'builtin' SÓ FUNCIONA COM AQUELA GRAFIA ESPECÍFICA...
+
+
+se tentássemos, por exemplo, 'criar' um Symbol 'toStringTag', isso FALHARIA....
+
+
+ex:
+
+
+
+
+
+const user = {
+    [Symbol('toStringTag')]: 'User'
+} 
+
+
+
+----------> ISSO NÃO VAI FUNCIONAR, POIS A STRING 'toStringTag' SERÁ APENAS UM IDENTIFICADOR PARA FINS 
+DE DEBUGGING, PARA QUE NÓS, HUMANOS, CONSIGAMOS DIFERENCIAR ESSE SYMBOL DE OUTROS...
+
+
+--> essa string de identificação É TOTALMENTE __IGNORADA PELO JAVASCRIPT___. E esse Symbol, consequentemente, NÃO VIRA UM 'WELL-KNOWN SYMBOL', e por isso não gera efeito algum sobre o código, apenas é criado como um novo symbol...
+
+-------------------------------------------------------------
+
+
+
+
+[Symbol('toStringTag')]: 'User' --------> ERRADO.
+
+
+
+[Symbol.toStringTag]: 'User' ---> CERTO. (well-known symbol).
+
+
+

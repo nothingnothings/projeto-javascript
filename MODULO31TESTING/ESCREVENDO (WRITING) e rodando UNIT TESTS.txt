@@ -1,0 +1,1414 @@
+
+--> A PRIMEIRA FUNÇÃO DE 'util.js', 
+
+
+'generateText', É PERFEITA PARA O NOSSO PRIMEIRO 'UNIT TEST' --> ela 
+
+não tem nenhuma outra dependency, porque ela NÃO CHAMA NENHUMA OUTRA FUNÇÃO... --> 
+
+também não faz 'reach out' À web ou qualquer coisa do gênero...
+
+
+
+
+ela é:
+
+
+
+'exports.generateText = (name, age) => {
+    return `${name} (${age} years old)`;
+}'
+
+
+
+
+
+
+ELA SIMPLESMENTE ACEITA 2 ARGUMENTOS 'input' E ENTÃO 
+
+
+retorna um OUTPUT...  (name, age years old...)
+
+
+
+
+
+----> CERTO, ESSE É UM EXCELENTE UNIT TEST QUE PODERÍAMOS ESCREVER...
+
+
+
+---> para ESCREVER UM ___tESTE___ para essa função, 
+
+você deve criar UM ARQUIVO SEPARADO, UM ARQUIVO EM QUE VOCÊ 
+
+ARMAZENARÁ OS SEUS TESTES....
+
+
+Você tipicamente nomeará esse arquivo 
+
+como 
+
+'.spec' ou '.test.js'...
+
+
+
+ex (do arquivo de teste de 'util'..):
+
+
+
+'util.test.js' 
+
+
+ou 
+
+
+'util.spec'....
+
+
+
+
+ASSIM QUE VOCÊ CRIAR ESSE NEGÓCIO, O 'jest' VAI AUTOMATICAMENTE DETECTÁ-LO, 
+
+se ele tiver  '.test.js' (ou '.spec') -----------> QUANDO VOCê 
+
+RODAR O 'jest', ele vai automaticamente detectar 
+
+E EXECUTAR esses arquivos, os utilizará como 'instruções' para os seus tests...
+
+
+---------------------------------------------------
+
+
+
+-----> certo... em 'util.test.js'
+
+
+eu vou querer TESTAR 
+
+
+ESSA FUNÇÃO 'generateText()'...
+
+
+
+
+
+PARA ISSO, EU PRIMEIRAMENTE PRECISO ___iMPORTAr___ essa função 
+
+lá no 
+
+'util.test.js'....
+
+
+
+Para isso, o professor usará 
+
+
+a SINTAXE DE 'DESTRUCTURING'..
+
+
+
+
+ex:
+
+
+
+'const { } = require('./util');  '
+
+
+
+
+----------------------------------------
+
+
+
+
+ISSO FARÁ COM QUE ESSA FUNÇÃO ÚNICA (só ela será testada... ou outras, se assim desejarmos...
+mas se quisermos testar outras funções, devemos especificar dentro dos {} ) 
+
+
+SEJA IMPORTADA LÁ DO ARQUIVO 'util.js'....
+
+
+
+
+
+
+SINTAXE DE DESTRUCTURING ---> simplesmente significa que o professor 
+
+puxa ALGUNS ITEMS DO OBJETO que é exportado pelo arquivo 
+
+
+'util.js'....
+
+
+professor puxa para fora a função 'generateText()'...
+
+
+ex:
+
+
+
+
+const { generateText } = require('./util'); 
+
+
+
+-------------------------------------------------------
+
+
+
+
+
+RESUMINDO: ele importou a função generateText PARA DENTRO 
+
+
+DO ARQUIVO DE TESTES 'util.test.js'...
+
+
+
+
+
+BTW, essa é a 'NATIVE WAY ' de fazer IMPORT NOS 
+
+
+TESTS DO JEST...
+
+
+
+OU seja, não devemos usar a sintaxe de import padrão do ES6 (aquela 
+
+que é 'import { generateText } from './util';' --------> ISSO NÃO FUNCIONA COM O JEST...  )...
+
+
+
+
+ISSO NÃO VAI FUNCIONAR 
+
+NÃO SÓ PQ O PROFESSOR NÃO ESTÁ USANDO 'ES6 EXPORTS' ('export xxxx' no arquivo em que 
+queremos exportar alguma coisa),
+
+MAS TAMBÉM 
+
+PORQUE ESSA SINTAXE (SINTAXE DE IMPORTS DO ES6) NÃO É UMA SINTAXE DE IMPORTS 
+SUPORTADA __NATIVAMENTE__ pelo jest..
+
+
+
+-----------------------------
+
+
+
+JÁ ESSA SINTAXE DE IMPORTS/EXPORTS DO 'NODE.JS' ___É__ SUPORTADA___ pelo JEST,
+ 
+ e é por isso que o professor escreveu seu código para usar 
+
+ nodeJS exports... ---> pq fica mais fácil de implementar JEST.
+
+
+
+
+
+
+
+ -----------------------
+
+
+
+
+
+
+ OBVIAMENTE, VOCÊ CONSEGUE FAZER o jest funcionar com módulos 
+
+ ES6, como você usa em aplicativos 
+ que usam REACT e ANGULAR, mas LÁ 
+
+
+ VOCÊ PRECISA DE UM 
+
+
+ 'BUILD WORKFLOW' 
+
+
+ __MAIS COMPLEXO__... --> você também precisaria/precisa 
+ baixar ALGUNS PACKAGES ESPECÍFICOS, E FAZER UM SETUP ESPECIAL ----> neste 
+
+ curso, nesse módulo, o professor queria gastar menos 
+
+ tempo no setup e MAIS TEMPO NO TESTING EM SI, por isso 
+
+ ele não quis usar 
+
+ essa sintaxe do 
+
+ ES6 com o jest, pois ela demanda um build workflow mais elaborado/complexo...
+
+
+ ---------------------------------------------
+
+
+
+
+
+ ---> Feito o import de 'generateText()' em 
+
+
+ 'util.test.js',
+
+
+
+
+ PODEMOS 
+
+
+
+ ESCRVER NOSSO PRIMEIRO TESTE...
+
+
+
+
+
+ Para isso, o professor usa 
+
+
+ a simples função de 
+
+
+ 'test()'...
+
+
+ ele vai WRAPPAR a FUNÇÃO QUE ELE QUER TESTAR
+  nessa função de 'test()'...
+
+
+
+
+
+  TEST() ---> É UMA FUNÇÃO QUE É DISPONÍVEL GLOBALMENTE em 'util.test.js'...
+
+
+
+
+
+
+  -----> TEST() ----> É UMA FUNÇÃO PROVIDENCIADA ____PELO JEST____...
+
+
+
+
+
+  --> TEST() --> TE PERMITE DEFINIR 1 ÚNICO TESTE...
+
+
+
+
+  ---> a função 'TEST()' admite 2 parâmetros:
+
+
+
+
+  1o PARÂMETRO ---> 'NOME' do teste, OU O ___qUE ELE FAZ___/uma 
+  descrição (mais importante de se dizer...)..
+
+
+Esse parâmetro será uma _sTRING__....
+
+
+
+
+ex:
+
+
+
+
+const { generateText } = require('./util'); 
+
+
+
+
+test(''); 
+
+
+
+-----------------------------------------------
+
+
+
+NESSE EXEMPLO, VAMOS COLOCAR 
+
+
+UMA DESCRIÇÃO DE 
+
+'Should output name and age' ---> isso nos dará uma DESCRIÇÃO DA EXPECTATIVA 
+QUE TEMOS 
+
+PARA ESSA FUNÇÃO... o QUE ELA __DEVE FAZER__, caso funcione...
+
+
+
+'QUAL OUTPUT VOCê ESTÁ TESTANDO/TENTANDO CONSEGUIR COM ESSA FUNÇÃO?'
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const { generateText } = require('./util'); 
+
+
+
+
+test('Should output name and age'); 
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+2º parâmetro ---> É UMA ANONYMOUS FUNCTION QUE VOCÊ PASSA...
+
+
+NESSA ANONYMOUS FUNCTION ESTARÁ O CÓDIGO QUE VOCê VAI QUERER TESTAR... 
+
+É O CÓDIGO DE SEU 'UNIT TEST' (da função que você vai querer testar), 
+
+QUE DEVE SER WRAPPADO POR ESSA FUNÇÃO ANÔNIMA....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const { generateText } = require('./util'); 
+
+
+
+
+test('Should output name and age', () => {
+    generateText('Max', 29);   //////isso está certo, mas só o call dessa função não basta.
+}); 
+
+
+
+----------------------------------------
+
+
+
+
+ESSE 2o parâmetro será, na verdade, 
+
+
+A FUNÇÃO QUE O JEST 'actually' EXECUTA PARA RODAR 
+
+OS SEUS TESTES....
+
+
+--> é onde deverá ser inserido o seu 'testing code'... ---> o código que deverá ser testado...
+
+
+------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+const { generateText } = require('./util'); 
+
+
+
+
+test('Should output name and age', () => {
+    const text = generateText('Max', 29);  
+   
+}); 
+
+
+
+
+--------------------------------------------
+
+
+
+
+DETALHE/FATO: 'Max' e 29 FOI EXATAMENTE O QUE O PROFESSOR HAVIA INPUTTADO COMO EXEMPLO, 
+manualmente na nossa página, anteriormente... ----> OU SEJA, 
+
+O PROFESSOR ESTÁ, AGORA, EFETIVAMENTE TESTANDO A PARTE EM QUE 
+
+O 
+
+TEXTO DAQUELA LI (o 'Max(29 years old)') FOI GERADO........
+
+
+
+------------------------------------------
+
+
+
+
+Certo...
+
+
+'Max(29 years old)' É O RESULTADO QUE O PROFESSOR/NÓS ESPERAMOS 
+
+QUE 'generateText' DEVERÁ GERAR....
+
+
+
+É por isso que devemos USAR 
+
+
+A KEYWORD
+ 
+ 'expect()'... 
+
+
+
+É A FUNÇÃO 'EXPECT()' --> é uma função QUE TAMBÉM É PROVIDENCIADA PELO JEST...
+
+
+
+
+
+
+
+
+Professor explica que SE NÓS ESTIVÉSSEMOS USANDO 'mocha' ou 'chai', 
+
+o 'TEST' seria uma função DEFINIDA PELO NOSSO 'TEST RUNNER' específico, enquanto 
+
+que o 'expect' SERIA/É UMA FUNÇÃO PROVIDENCIADA PELO CHAI/MOCHA... (providenciada por sua ASSERTION LIBRARY...., pela assertion library que você estiver usando...)
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------
+
+
+
+A MAIOR PARTE DAS ASSERTION LIBRARIES TRABALHA COM A KEYWORD/FUNÇÃO DE 
+
+'expect()' ---> pq TESTES SÃO BEM ____DESCRIPTIVE___, em termos de 
+
+
+FUNCTION NAMES... --> (pq nós sempre 
+
+RODAMOS ___UM 'test()' E ENTÃO ___'EXPECT()' amos alguma coisa....)
+
+
+
+-------------------------------------------
+
+
+
+
+
+AQUI, NESSE EXEMPLO,
+
+
+VAMOS ESPERAR/expect 
+
+que 
+
+'text' SEJA IGUAL 
+
+à 
+
+'Max(29 years old)'....
+
+
+
+ou seja,
+
+
+vamos 
+
+
+escrever:
+
+
+
+
+'expect(text)....'
+
+
+
+
+-----------------------
+
+
+
+queremos/esperamos 
+
+
+que o 
+
+'text' seja... aquela string lá...
+
+
+
+quando digitamos 'expect(text)' e então 
+
+
+digitamos '.' DO LADO DO parâmetro (dot notation), 
+
+
+o IDE 
+
+já nos 
+
+MOSTRA UM MONTE DE HELPER FUNCTIONS/METHODS 
+
+que podemos 
+
+chamar para 
+
+melhor informar/comunicar nossas expectativas ao jest..
+
+
+
+---------------------------
+
+
+
+
+
+UM EXEMPLO clássico de helper function para o expect, e uma das mais usadas,
+
+é 
+
+'toBe'....
+
+
+
+Nós fazemos 'chain' dessas helper functions EM CIMA DE nosso 
+
+'expectable object'......
+
+
+
+Há funçõess como 
+
+
+'toBeNan', 
+
+
+
+'toBeNull', 
+
+
+
+'toBeTruthy', 
+
+
+
+'ToBeDefined', etc etc....
+
+
+
+-----------------------------------
+
+
+
+
+MAS A 'toBe()' É MUITO ÚTIL....
+
+
+
+definimos 
+
+
+
+
+'toBe()'  e então PASSAMOS  COMO ARGUMENTO 
+
+
+O VALOR QUE ESPERAREMOS QUE AQUELA CONST/OBJETO/VARIÁVEL/FUNÇÃO seja/retorne...
+
+
+
+
+ex:
+
+
+
+
+const { generateText } = require('./util'); 
+
+
+
+
+test('Should output name and age', () => {
+    const text = generateText('Max', 29);  
+    expect(text).toBe('Max (29 years old)')   ///////EIS O CÓDIGO EM QUESTÃO.
+   
+}); 
+
+
+
+
+-----------------------------------
+
+
+
+OU SEJA, NÓS PASSAMOS O VALOR QUE ESPERAMOS QUE 'text' SEJA...
+
+
+
+
+--------------------------------
+
+
+COM ISSO, AGORA TEMOS NOSSO PRIMEIRO TESTE DEFINIDO BEM CLARAMENTE em 'util.test.js'....
+
+
+
+
+
+CERTO...
+
+
+PARA RODAR ESSE TEST, 
+
+
+com a package do 'jest', 
+
+
+
+O PROFESSOR DIZ QUE ELE DEVE TWEAKAR nosso arquivo 'package.json'...
+
+
+
+no 
+
+'package.json', 
+
+
+nós temos um script 
+
+já definido por default, que 
+
+
+é aquele script de 'test'....
+
+
+
+O valor dele está como 
+
+"echo \"Error: no test specified\" && exit 1" ---------> PROFESSOR 
+
+EXPLICA QUE 
+
+
+ESSE VALOR ESTÁ  + OU - COMO INVÁLIDo, no presente....
+
+QUE DEVEMOS 
+
+__O DELETAR__...
+
+
+
+
+Deletamos esse script e simplesmente escrevemos 
+
+'jest' no seu valor....
+
+
+
+
+
+ISSO VAI SIMPLESMENTE EXECUTAR O 'jest' Na pasta 
+
+'node_modules'....
+
+
+
+O jest vai então 
+
+PROCURAR POR ARQUIVOS 
+
+
+COM 
+
+'.test.js' ( ou '.spec.js') NO 
+
+
+NOME  E ENTÃO EXECUTAR OS SEUS TESTES...
+
+
+
+-------------------------------------
+
+
+Certo...
+
+
+isso feito, agora rodamos 'test'...
+
+
+'npm run test'...
+
+
+
+
+Vemos umas mensagens no console...
+
+
+
+'RUNS' --> em amarelo 
+
+
+'PASS' ---> ./util.test.js 
+
+V Should output name and age (2 ms)
+
+
+
+Test suites: 1 passed, 1 total 
+Tests: 1 passed, 1 total 
+Snapshots: 0 total 
+Time: 11.023s 
+Ran all test suites...
+
+
+
+
+
+------------------------------------------------------
+
+
+OUTPUT VERDE --> TESTE FOI BEM SUCEDIDO.
+
+
+
+
+
+ISSO É ÓTIMO, POIS AGORA, se nós 
+
+EM ALGUM MOMENTO MUDARMOS ALGO 
+
+em 'util.js';
+
+
+
+como
+por exemplo, 
+
+
+
+fazer return de 
+
+
+'age' e 'age', em vez 
+
+
+de 'name' e 'age', 
+
+
+naquele trecho 
+
+
+de 
+
+
+'exports.generateText = (name, age) => {
+    return `${age} (${age} years old)';
+}'
+
+
+
+
+-----> SE FIZERMOS ISSO, A FUNÇÃO VAI __QUEBRAR__, obviamente....
+
+
+
+
+---> se fizermos isso e então rodarmos 'jest' de novo, 
+
+NOSSO TEST VAI __fALHAR__ ---> e É AQUI O LUGAR EM QUE TESTS PODEM NOS AJUDAR UM MONTE...
+
+
+
+
+---> TEMOS UM TEST FALHADO, o test nos diz o que falhou ('should output name and age') ,
+
+
+E ATÉ NOS DIZ O QUE FALHOU no nosso test....
+
+
+ex:
+
+
+'Expected: "Max (29 years old)" 
+Received: "29 (29 years old)" '
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+----> ISSO NOS AJUDA A 
+
+
+
+DEBUGGAR E CONSERTAR NOSSO CÓDIGO...
+
+
+
+
+---> claro que esse exemplo do professor, do 'age' e 'age', 
+
+
+É UM EXEMPLO PRÉ-CONSTRUÍDO, 
+
+MAS VOCÊ 
+
+AINDA 
+
+
+PODE TER TYPOES
+
+
+COMO ESSES NOS SEUS PROJETOS... --> você pode acabar usando errado alguma 
+
+variável ou argumento...
+
+
+
+----> SE CONSERTARMOS essa parada, colocarmos 'name', rodamos o 'jest' 
+
+de novo e conseguimos PASS...
+
+
+
+---> BTW, VOCÊ PODE TAMBÉM 
+
+
+
+USAR O JEST EM 'watch mode'... ---> ele vai olhar/vasculhar por mudanças no seu código,
+
+e se vocÊ alterar seu código de maneira que você CAGA alguma coisa, 
+
+o jest vai te avisar no terminal....
+
+
+
+para isso, 
+
+crie uma entry no 'package.json' 
+
+
+e coloque 
+
+
+'jest --watch'...
+
+
+
+
+---> O JEST VAI CONTINUAR EXECUTANDO TESTS CONTINUAMENTE...
+
+
+
+---> aperte 'w' PARA 
+
+VER OS COMANDOS DOS TESTS...
+
+
+
+ › Press a to run all tests.
+ › Press f to run only failed tests.
+ › Press p to filter by a filename regex pattern.
+ › Press t to filter by a test name regex pattern.
+ › Press q to quit watch mode.
+ › Press Enter to trigger a test run.
+
+
+
+ ------------------------------------------
+
+
+
+ É ÓTIMO DEIXAR ESSE NEGÓCIO RODANDO NO BACKGROUND...
+
+
+
+
+ CERTO... ESSE FOI NOSSO PRIMEIRO TEST...
+
+
+ Agora antes 
+
+
+ de vermos 'INTEGRATION TESTS',
+
+
+ o professor quer nos dar um breve exemplo...
+
+
+
+ --------------------------------
+
+
+ UM EXEMPLO DE UM DIFERENTE TIPO DE TESTE QUE TAMBÉM FAZ SENTIDO.....
+
+
+
+
+Nosso segundo teste...
+
+
+
+Nesse teste,
+
+
+que começamos 
+
+com 
+
+'test('')' 
+
+
+
+
+----> professor vai substituir o código da função 
+
+
+'exports.generateText = (name, age) => {
+    return `${name} (${age} years old)`;
+}'
+
+
+
+ELE VAI SUBSTITUIR o código do body 
+
+
+por um simples return 
+
+de UMA STRING de 
+
+
+'Max (29 years old)'; 
+
+
+
+EX:
+
+
+
+exports.generateText = (name, age) => {
+    return 'Max (29 years old)';
+}
+
+
+----------------------
+
+
+
+
+SE ELE FIZER/FIZESSE ISSO, o código anterior de teste 
+
+AINDA NOS MOSTRARIA 'pass' ---> mAS COM 
+
+ESSE RETURN DESSA STRING, NÓS NÃO ESTARÍAMOS 
+
+EXECUTANDO A FUNÇÃO CORRETAMENTE... (estaríamos testando algo QUE 
+NÃO ESTÁ FUNCIONANDO, UMA FUNÇÃO QUE 
+
+NÃO ESTÁ FUNCIONANDO DO JEITO QUE DEVERIA.... )
+
+
+
+
+-------> É POR ISSO QUE PODEMOS 
+
+
+CRIAR UM NOVO TEST,
+
+
+com uma descrição 
+
+de 
+
+
+'should output data-less text'...
+
+
+
+
+ex:
+
+
+
+test('should output data-less text', () -> {
+
+}  )
+
+
+
+----------------------------------------------------------
+
+
+
+NESSE SEGUNDO TEST, O PROFESSOR PASSARÁ 
+
+
+UMA execução de 
+'generateText()', 
+
+mas dessa vez 
+
+PASSANDO UMA EMPTY STRING E UM 'NULL' como argumentos...
+
+
+
+ex:
+
+
+
+
+test('should output data-less text', () -> {
+    const text = generateText('', null);
+}  )
+
+
+
+--------------------------------------------
+
+
+FEITO ISSO, 
+
+ELE PODERÁ 
+
+
+ESPERAR ('expect') QUE 
+
+
+o 'text' DEVERÁ SER ('toBe()') 
+
+
+TAL E TAL COISA....
+
+
+
+
+Professor vai estabelecer que 
+
+O RESULTADO DEVERÁ 
+
+ser 
+
+' ( years old)'       (OU SEJA, 1 ESPAÇO VAZIO, OUTRO ESPAÇO com 'null', YEARS OLD... --> que é o resultado que aconteceria se o usuário DEIXASSE EM BRANCO O NOME e se não digitasse nada/ se fosse null o número...)
+
+
+
+
+ex:
+
+
+
+
+
+test('should output data-less text', () -> {
+   const text = generateText('', null);
+   expect(text).toBe(' (null years old)');
+}  )
+
+
+-----------------------------------------
+
+
+
+
+
+SE O PROFESSOR SALVAR ESSE NEGÓCIO E RECARREGAR,
+
+
+ELE VAI RECEBER 
+
+
+UM 'FAIL'... ---> ele vai receber 
+
+um fail 
+
+
+PQ NOSSA FUNÇÃO 'generateText()' ESTÁ 
+
+
+SEMPRE ___RETORNANDO___ 'Max (29 years old)',
+
+
+OU SEJA, PQ __QUEBRAMOS ___ AQUELA FUNÇÃO___... ------->   ISSO SIGNIFICA 
+
+QUE 
+
+
+O PRIMEIRO TESTE __NOS DAVA FALSOS POSITIVOS__ (eram possíveis falsos positivos naquele 
+teste, como o FALSO POSITIVO DO 'RETURN SIMPLES' de uma string cagada IGUAL A QUE 
+TEMOS EM UMA EXECUÇÃO com os parâmetros 'Max' e '29' SENDO 
+PASSADOS ao nosso código....) --->  (PQ OS VALORES QUE EU ESPERAVA (expect) FORAM RECEBIDOS DE VDD, MAS OS VALORES QUE EU ESPERAVA NÃO FORAM OBTIDOS POR MEIO DOS PARÂMETROS QUE EU QUERIA QUE FOSSEM ANALISADOS, por isso é/era um falso positivo... )
+
+
+
+
+
+
+
+---->  Professor volta para o código de antes....
+
+
+
+
+
+---> CERTO, AGORA COM ESSAS MUDANÇAS, O SEGUNDO TESTE __vAI DEFINITIVAMENTE FALHAR__, 
+
+pois o professor colocou 
+
+
+
+' ( years old)' 
+
+
+
+e NÃO 
+
+
+
+' (null years old)' --------> ERROR POR PARTE DO PROFESSOR....
+
+
+
+-------------------------------------------------
+
+
+
+
+
+COM ISSO, AGORA O PROFESSOR passou nos 2 testes, o que 
+
+
+LHE DÁ CONFIRMAÇÃO DE QUE ELE __NÃO RECEBEU__ UM ''FALSO POSITIVO'' em 
+
+razão do 'generateText()'....
+
+
+
+
+
+
+
+--> É POR ISSO QUE TER UM SEGUNDO TESTE, COMO ESSE QUE CRIAMOS AGORA, TALVEZ 
+
+FAÇA SENTIDO/Às vezes faz sentido... ---> faz sentido pq NESSE SEGUNDO 
+
+TESTE NÓS 
+
+ACABAMOS CHECANDO PELO __RESULTADO OPOSTO__, por um resultado 'INVÁLIDO'....
+
+
+
+
+
+---> MAS É CLARO QUE VOCÊ PODERIA FAZER ESSE MESMO TEST POR MEIO DO SIMPLES 
+
+PASS DE DIFERENTES ARGUMENTOS/parâmetros à função 'test'.... ---> você 
+
+apenas teria que CRIAR OUTROS 'EXPECTS' dentro da função externa de 
+
+
+'test', como 
+
+
+
+por exemplo:
+
+
+
+
+
+test('should output data-less text', () -> {
+   const text = generateText('Max', 29);
+   expect(text).toBe('Max (29 years old)');
+   const text2 = generateText('Anna', 28);
+   expect(text2).toBe('Anna ( 28 years old)'; 
+}  )
+
+
+
+
+
+
+POR MEIO DESSE CÓDIGO AÍ, É ÓBVIO QUE VAMOS 
+
+QUERER QUE O TESTE RETORNE 'pass' ----> isso nos informará que A FUNÇÃO 
+
+'GENERATETEXT' ESTÁ USANDO SEUS PARÂMETROS DE FORMA ADEQUADA/REGULAR, e que seu body 
+não é um simples return de 
+
+'Max (29 years old)'...
+
+
+
+
+
+ESSE CÓDIGO DEVERÁ PASSAR, REALMENTE...
+
+
+
+
+
+Mas é por isso que ter DOUBLE CHECKS no seu código é bom: ELES 
+
+TE AJUDAM A EVITAR 'false positives' NO SEU CÓDIGO....
+------------------------------------------------------------
+
+
+
+
+
+
+NESTE TRECHO:
+
+
+
+test('should output data-less text', () -> {
+   const text = generateText('Max', 29);
+   expect(text).toBe('Max (29 years old)');
+   const text2 = generateText('Anna', 28);
+   expect(text2).toBe('Anna (28 years old)'; 
+}  )
+
+
+
+EXISTE UM 'DOUBLE CHECK', com certeza...    (double check feito pela passagem do parâmetro de MAX e 29 e ANNA e 28...)
+
+
+
+
+NESTE TRECHO/variante (a variante do TESTE DO OPOSTO, do 'caso nulo'/caso em que 
+usuário não inputtou os negócios direito), TAMBÉM:
+
+
+
+
+
+
+
+
+
+
+
+
+test('should output data-less text', () -> {
+   const text = generateText('', null);
+   expect(text).toBe(' (null years old)');
+}  )
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+---> Certo, mas e se eu/o usuário 
+
+PASSASSE 
+
+
+NADA ('undefined'), por exemplo?
+
+
+bem, 
+
+aí testaríamos/testamos 
+
+
+isto:
+
+
+
+
+
+
+
+test('should output data-less text', () -> {
+   const text = generateText('', null);
+   expect(text).toBe('undefined (undefined years old)');
+}  )
+
+
+
+--> é outro teste que faz sentido....
+--------------------------------------
+
+
+
+
+
+
+
+
+
+---> O PROFESSOR DELETA ESSES CÓDIGOS DE TESTE DO NOSSO PROJETO....
+
+
+Mas dele deixa uma dica valiosa:
+
+
+Você sempre deve ser lembrar que __É POSSÍVEL/CONVENIENTE ___ ESCREVER 
+
+_______MÚLTIPLOS UNIT TESTS___ PARA 1 ÚNICA COISA no seu script (como uma função, por exemplo)... 
+
+
+
+
+
+
+--> também devemos saber QUE É POSSÍVEL CHECAR MAIS DE 1 ÚNICA COISA EM UM UNIT TEST... --> 
+e também que podemos sempre testar 
+
+POR _FALSE POSITIVES_/OPOSTOS ('opposites')...
+
+
+
+
+
+
+----> AGORA DEVEMOS VER OS INTEGRATION TESTS...

@@ -1,0 +1,505 @@
+Agora que demos uma olhada na feature importante dos argumentos default, devemos dar uma olhada em outra feature.
+
+
+
+
+
+
+
+
+
+Não é uma feature com muita relação com o nosso aplicativo, mas é importante mesmo assim. Relaciona-se com funções.
+
+
+
+
+
+
+
+
+O professor adiciona uma nova função no final do arquivo app.js
+
+
+
+
+A função pode ser criada com uma das sintaxes recentes que aprendemos. As arrow funcions.
+
+
+ex:
+
+
+
+const sumUp  = () => {
+
+};
+
+
+
+
+
+
+
+
+
+
+
+A ideia do professor aqui é passar tantos argumentos quanto quisermos e CRIAR UM "SUM" para eles. Não um array, 
+mas tantos argumentos quanto quisermos.
+
+
+
+ex:
+
+
+
+
+const sumUp = (a, b, c, d) => {
+
+};
+
+
+
+
+
+MAAAAASSSSS, o professor quer ter um MONTANTE INFINITO DE ARGUMENTOS NESSE LUGAR. Essa é a ideia do professor, e é aí que 
+reside o problema. O professor não tem como saber, enquanto está escrevendo, com quantos argumentos (o número exato) essa 
+função será chamada. Bem, obvio que ele sabe se ELE FOR O CARA QUE A CHAMAR, NO CÓDIGO, LÁ EMBAIXO...
+Mas e se for outra pessoa? Como que ele vai saber quantos argumentos uma pessoa aleatória vai passar à essa função?
+
+
+
+Digamos que, para piorar, a função é dinâmica: digamos que ela começou dentro de um loop, um loop que é baseado em 
+um userInput. Aqui, queremos um caso em que NÓS NÃO CONSEGUIMOS CONTROLAR TOTALMENTE QUANTAS VEZES O NEGÓCIO 
+VAI SER CHAMADO. qualquer coisa que se encaixe nesse caso.
+
+
+
+
+
+ex:
+
+
+
+
+const sumUp = (a, b, c, d) => {
+
+};
+
+
+
+sumUp();
+
+
+
+-------------------> Aqui, o professor chamou a função POR SUAS PRÓPRIAS MÃOS. Mas devemos pensar que 
+ele não é a pessoa que vai chamar essa função desse jeito, devemos pensar que ele escreveu o código de modo que essa 
+função é CHAMADA DINAMICAMENTE E COM UMA QUANTIDADE DIFERENTE DE ARGUMENTOS. Por exemplo, podemos chamar 
+a função com um monte de números aleatórios.
+
+
+EX:
+
+
+
+const sumUp = (a, b, c, d) => {
+
+};
+
+
+
+sumUp(1, 5, 10, -3, 6, 10);
+
+
+
+
+
+Mas o professor também quer ser capaz de chamar essa função com UM ARGUMENTO EXTRA, 2 ARGUMENTOS EXTRAS, algo tipo isso aí.
+
+
+
+
+EX:
+
+
+
+
+
+
+const sumUp = (a, b, c, d) => {
+
+};
+
+
+
+sumUp(1, 5, 10, -3, 6, 10);
+sumUp(1, 5, 10, -3, 6, 10, 25, 88);
+
+
+
+
+O professor quer, em outras palavras, que essa função seja FLEXÍVEL em relação ao número de argumentos que ela aceita.
+
+
+
+Você pode pensar: "já que o javascript é misericordioso e PODEMOS ter mais parâmetros do que 
+nós precisamos, nós podemos obviamente construir essa função com UM MONTE DE PARÂMETROS em mente e 
+então rezar/esperar que aquele número absurdo de argumentos (digamos, argumento 10000000) nunca seja chamado, 
+que o número de argumentos chamados nunca ultrapasse o número que nós definimos.
+
+
+Bem, esperança nunca é algo em que você deve se escorar. Além disso, você também pode 
+encontrar problemas como o caso de todos os parâmetros não-utilizados ficarem UNDEFINED... e se isso acontecer, 
+se você tentar utilizar essa função em algum cálculo matemático, você provavelmente vai receber resultados incorretos ou 
+"NaN" como resultado. Por isso essa não é uma boa solução.
+
+
+
+Outra solução seria simplesmente FORÇAR O USUÁRIO A PASSAR UM ARRAY, certo? 
+algo tipo assim:
+
+
+EX:
+
+
+
+
+
+
+const sumUp = (numbers) => {
+
+};
+
+
+
+sumUp([1, 5, 10, -3, 6, 10]);    //aqui está o array.
+//sumUp(1, 5, 10, -3, 6, 10, 25, 88);
+
+
+
+
+
+
+Definido esse array, o professor diz que podemos usar um LOOP aqui... loop: "construa um sum, começe por 0, faça um loop 
+em que passamos por todos  os números aqui (o bom e velho for of loop), então simplesmente adicione cada número ao sum e, no final, simplesmente 
+retornamos o sum para fora da função.
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+
+
+EX:
+
+
+
+
+
+
+const sumUp = (numbers) => {
+    let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+
+
+console.log(sumUp([1, 5, 10, -3, 6, 10]);    //aqui está o array.
+
+
+
+
+
+
+SE RODARMOS ESSA FUNÇÃO no dev tools, veremos que 
+o console vai nos mostrar o número "29".
+
+29, que é a soma desses números.
+
+
+
+
+
+ESSE MÉTODO, PORTANTO, FUNCIONA, E VOCÊ PODERIA ESCREVER ISSO DESSA FORMA.
+
+
+
+O problema é que nem em todos programas de javascript você ficará contente com uma solução dessas.
+
+
+
+TALVEZ VOCÊ REALMENTE QUEIRA PERMITIR QUE A FUNÇÃO SEJA CHAMADA COM MÚLTIPLOS ARGUMENTOS, por qualquer razão que seja, mas 
+você quer assegurar que esse é o caso concreto.
+
+
+
+Nesses casos específicos, você pode usar o chamado "REST OPERATOR".
+
+Ele se parece com o SPREAD operator (...) ...
+
+
+
+Você adiciona 3 pontos, mas o lugar em que você usa esse operador é diferente do lugar do spread. 
+
+
+
+SPREAD OPERATOR ---> é usado quando você CRIOU UM OBJETO, ou quando você CRIOU UM ARRAY.  Nesses casos, você poderia 
+usar os ... para pegar UM OBJETO/ARRAY JÁ EXISTENTE E TIRAR TODOS OS KEY-VALUE PAIRS/ELEMENTOS DE DENTRO DO OBJETO/ARRAY e 
+ADICIONÁ-LOS AO NOVO OBJETO/ARRAY. 
+
+
+
+
+Já aqui nós utilizamos os ... em um lugar diferente: 
+
+
+nós os utilizamos EM UMA LISTA DE PARÂMETROS. E lá, dentro dessa lista de parâmetros de função, ESSE OPERADOR 
+FAZ ALGO DIFERENTE:
+
+EM VEZ DE PUXAR OS ELEMENTOS PARA FORA DE UM ARRAY, aqui ele PEGA TODOS OS ARGUMENTOS que essa função recebe (e por todos os argumentos, 
+queremos dizer "quantos argumentos você quiser") E FUNDE TODOS ELES EM UM ARRAY. ELE BASICAMENTE CONSTRÓI UM ARRAY
+AQUI, DENTRO DA FUNÇÃO.
+
+
+EX:
+
+
+
+
+
+                (o operador em ação)
+const sumUp = (...numbers) => {
+    let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+
+
+console.log(sumUp(1, 5, 10, -3, 6, 10);  //mudamos isso aqui, também.
+
+
+
+
+Agora, portanto, você PODE CHAMAR ESSA FUNÇÃO SEM PASSAR UM ARRAY, por meio da passagem de ARGUMENTOS 
+VERDADEIRAMENTE DIFERENTES... mas eles serão fundidos em um array DENTRO DA FUNÇÃO SUMUP (que, é claro, você 
+não vê quando você apenas chama a função..) e então nós podemos trabalhar com esse array e, nesse caso, podemos 
+retornar o nosso SUM.
+
+
+Esse código abaixo, portanto, agora funciona:
+
+
+
+
+
+
+EX:
+
+
+
+
+
+                (o operador em ação)
+const sumUp = (...numbers) => {
+    let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+
+
+console.log(sumUp(1, 5, 10, -3, 6, 10); 
+console.log(sumUp(1, 5, 10, -3, 6, 10, 25, 88);
+
+
+
+
+Essas 2 linhas de código ao final vão funcionar, agora. Vão funcionar devido àquele rest operator (o ...)
+
+
+
+
+
+O REST OPERATOR É MUITO, MUITO ÚTIL, já que nos dá maior flexibilidade ao criar nossas funções.
+
+
+
+
+UM DETALHE IMPORTANTE SOBRE O REST OPERATOR:
+
+
+
+Ele SEMPRE TEM QUE SER O ____ÚLTIMO____ ARGUMENTO____ na sua lista de argumentos/parâmetros.
+Se você, por exemplo, tiver o seguinte código: 
+
+
+
+
+const sumUp = (...numbers, a) => {...};
+
+
+
+VOCÊ NUNCA VAI ESPERAR QUE O ARGUMENTO "a" VAI TER PARÂMETROS PASSADOS A ELE, PORQUE O "...NUMBERS" SEMPRE IRÁ 
+CONSUMIR TODOS OS ARGUMENTOS E PARÂMETROS E SEMPRE VAI FUNDÍ-LOS TODOS EM UM ÚNICO ARRAY. Aqui, o "a" ficaria de lado completamente.
+Se você definir argumentos após o rest operator, esses argumentos nunca serão alcançados pelos chamados de função.
+O console do chrome até mesmo nos dá um erro de sintaxe se deixarmos esse negócio no código.
+
+
+
+ALÉM DISSO, VOCÊ SÓ PODE TER 1 REST OPERATOR ( e nunca 2), pela mesma razão de antes: 1 rest parameter já vai consumir todos os parâmetros/argumentos.
+
+
+O que você pode ter, entretanto, é PARÂMETROS NA FRENTE DESSE REST PARAMETER (o que o professor quer dizer é:
+"(a, b, ...numbers)" )---->
+
+
+MAS O QUE ACONTECE SE DEIXARMOS DOIS ARGUMENTOS (a e b) ANTES DE NUMBERS, NESSE EXEMPLO?
+
+
+Representação:
+
+
+const sumUp = (a, b, ...numbers) => {
+    let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+console.log(sumUp(1, 5, 10, -3, 6, 10));
+console.log(sumUp(1, 5, 10, -3, 6, 10, 25, 88));
+
+
+
+O QUE ACONTECE AQUI?
+
+
+
+Bem, basicamente o que vai acontecer é que o console VAI LOGAR 1 e 5 (parâmetros a e b na função da constante 
+"sumUp"), MAS O RESTANTE DOS PARÂMETROS PASSADOS POR CONSOLE.LOG SERÁ PASSADO AO REST OPERATOR, ___OU SEJA____, SERÃO TODOS 
+_____AGLUTINADOS____(somados) NAQUELE ARRAY DO TERCEIRO PARÂMETRO, DO PARÂMETRO "...numbers". A e B (1 e 5) serão excluídos dessa soma, mas 
+o resto participará desse cálculo.
+
+
+
+Se rodarmos isso, esse código todo, veremos que o console vai logar "23" e "136". 
+São os mesmos resultados de antes, mas -6. é -6 porque aqueles dois argumentos (A e B) FORAM EXCLUÍDOS 
+DO CÁLCULO DE "...numbers", da aglutinação desse operador, que colocou todos os números em um array.
+
+
+
+VOCÊ, PORTANTO, GANHA MUITA FLEXIBILIDADE COM ESSE OPERADOR "rest".
+
+
+
+SIDENOTE = quando não estamos usando arrow functions, ou seja, quando estamos usando a "FUNCTION KEYWORD"... NÓS PODEMOS 
+USAR O REST OPERATOR DENTRO DESSA SINTAXE, NÃO HÁ NENHUM PROBLEMA COM ISSO, VOCÊ APLICA O REST OPERATOR EXATAMENTE DA MESMA MANEIRA 
+QUE VOCÊ FAZ COM AS ARROW FUNCTIONS, mas.... aqui você na verdade tem OUTRO JEITO DE CONSTRUIR ISSO, DE UTILIZAR 
+O REST OPERATOR.
+
+
+
+digamos que criamos uma constante, "subtractUp"... que tem o mesmo código de sumUp, mas editado, visto que agora nós vamos 
+SUBTRAIR OS VALORES, e não adicioná-los.
+
+REPRESENTAÇÃO:
+
+const subtractUp = function() {
+let sum = 0;
+    for(const num of numbers) {
+        sum -= num;
+    }
+    return sum;
+};
+
+console.log(subtractUp(1, 10, 15, 20));
+
+----------------------------------------
+
+É CLARO QUE AGORA ESSE CÓDIGO VAI FALHAR, porque "numbers", dentro do for of loop, NÃO ESTARÁ DEFINIDO.
+Anteriormente, esse "numbers" era o nosso ARGUMENTO DO OPERADOR "rest", era o argumento do operador rest que 
+representava nosso array gerado automaticamente. Agora, esse array está faltando, inexiste, em um primeiro momento,
+nessa função "subtractUp".
+
+
+Se recarregaremos a página, receberemos um pequeno erro.
+
+
+Você pode aqui, é claro, como o professor explicou, UTILIZAR O REST OPERATOR ("...numbers") do mesmo jeito que 
+você usou com a arrow function, e se você fizer isso, TUDO VAI FUNCIONAR NORMAL, NÃO RECEBEREMOS MAIS AQUELE ERRO.
+
+
+
+MAS AGORA... "and that's the blast from the past thing", PODEMOS USAR ALGO DIFERENTE. EM FUNÇÕES CRIADAS COM 
+A "FUNCTION KEYWORD", você tem ____UMA VARIÁVEL ESPECIAL___ disponível, a qual você NUNCA DEFINE, E QUE VOCÊ NÃO ACEITA COMO 
+UM ARGUMENTO, MAS QUE ESTÁ ___MAGICAMENTE___ ALI. ELA SOMENTE EXISTE NESSAS FUNÇÕES CRIADAS COM A KEYWORD "FUNCTION".
+Essa variável mágica é chamada de __________"arguments"______. Arguments, como você pode observar, JÁ É MARCADO 
+PELO IDE COMO UMA KEYWORD, PORQUE ELA JÁ VEM INCORPORADA AO JAVASCRIPT. Você pode utilizá-la dentro de funções, mas 
+APENAS DENTRO DE FUNÇÕES QUE USAM A "FUNCTION" keyword. 
+
+
+Representação:
+
+
+
+
+const subtractUp = function() {
+let sum = 0;
+    for(const num of arguments) { //EIS AQUI A DIFERENÇA. OBS: NÃO USE ESSA MAGIA DOS "arguments"; UTILIZE, EM VEZ DISSO, O REST OPERATOR, tanto em funções criadas com a keyword "function", como em funções criadas sem ela.
+        sum -= num;
+    }
+    return sum;
+};
+
+console.log(subtractUp(1, 10, 15, 20));
+
+
+
+
+
+
+
+
+
+
+
+"arguments" te dá um OBJETO SEMELHANTE A UM ARRAY... não é um array VERDADEIRO, mas é COMO UM ARRAY. É como um array 
+de TODOS OS ARGUMENTOS QUE ESSA FUNÇÃO TEM.
+
+
+O professor explica que antes do rest operator ser introduzido com o ES6, ESSA ERA A ÚNICA MANEIRA DE 
+CRIAR UMA FUNÇÃO COMO ESSAS SUMUP/SUBTRACTUP. "arguments" era a coisa que utilizavam antes do "rest operator", 
+esse era o array de argumentos fundidos criado automaticamente, e não o rest, que ainda não existia.
+
+
+ Essa é, portanto, uma alternativa a usar o REST OPERATOR.
+
+
+ISSO DITO, USAR O REST PARAMETER É MUITO MAIS RECOMENDAOD, PORQUE É SEMPRE ESTRANHO TER ESSA COISA "MÁGICA" dos 
+"arguments" vindo de lugar nenhum, do nada; e é muito mais limpo DEFINIR ESSE REST PARAMETER. Portanto, embora essa coisa 
+do arguments funcione, é muito melhor você usar o rest (independentemente de você querer usar a function keyword ou não).
+
+
+
+
+Se o professor salvar isso e recarregar a página, ele verá que agora o negócio roda como antes, e que o resultado
+"-46" será criado na última linha do console.
+
+
+
+
+O professor apenas nos mostrou isso porque talvez nós encontremos essa forma de criar arrays de soma de números 
+em code snippets antigos, porque essa realmente era a única forma de conseguir esse comportamento antigamente.

@@ -1,0 +1,97 @@
+
+
+
+
+
+
+APRENDEMOS MUITO SOBRE A SINTAXE JAVASCRIPT, 
+
+
+
+e sobre como ESCREVER APLICATIVOS INCRÍVEIS JAVASCRIPT...
+
+
+
+tanto no frontend como no backend... (node.js, serveside)...
+
+
+
+
+
+
+
+
+UM TÓPICO QUE NÃO FALAMOS SOBRE ATÉ AGORA É ''SEGURANÇA''...
+
+
+
+
+
+
+--> SEGURANÇA IMPORTA.
+
+
+
+
+
+
+---> ''ESCREVENDO CÓDIGO SEGURO''...
+
+
+
+
+---> PROFESSOR VAI NOS MOSTRAR AS COISAS EM QUE DEVEMOS PRESTAR ATENÇÃO AO ESCREVER CÓDIGO JAVASCRIPT,
+ 
+  e alguns 'pitfalls' comums...
+
+
+
+
+
+
+  ---> VOCÊ DEVE ASSEGURAR QUE SEU CÓDIGO SEJA ESCRITO DE FORMA SEGURA;  QUE VOCÊ 
+  NÃO ESTÁ EXPONDO DADOS RELEVANTES DE SEGURANÇA OU QUALQUER COISA DO GÊNERO.
+
+
+
+
+
+  VEREMOS:
+
+
+
+  1) POTENTIAL SECURITY HOLES 
+
+
+
+
+
+  2) COMO PROTEGER O NOSSO CÓDIGO
+
+
+
+
+
+  3) VEREMOS ALGUNS ATTACK PATTERNS COMUNS, e alguns conceitos de SEGURANÇA,
+
+
+  como ataques 'CORS', 'CSRF' E 'XSSS'...
+
+
+
+
+
+
+
+  VEREMOS CSRF e 'XSSS', que é o MAIS IMPORTANTE DE TODOS... o 'xsss' VEM DE 
+
+  'CROSS SITE SCRIPTING ATTACKS'...
+
+
+
+
+
+
+  4) VEREMOS ALGUMAS NPM PACKAGES/ third party libraries em geral...
+
+------> PQ ESSAS THIRD PARTY LIBRARIES/PACKAGES ____TAMBÉM ___ PODEM NOS CONDUZIR A ALGUNS PROBLEMAS COM SEGURANÇA...

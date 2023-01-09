@@ -1,0 +1,548 @@
+Agora que sabemos como selecionar elementos tanto com query methods (querySelector, getElementById) 
+
+
+e com as técnicas de traversal do DOM, e também 
+como avaliar/ler e manipular elementos, 
+
+devemos dar uma olhada em uma maneira específica 
+de MANIPULAR ELEMENTOS E DADOS, que é 
+a forma de MUDAR O SEU ESTILO.
+
+
+
+
+O professor já nos mostrou como isso funciona, por meio da propriedade "style".
+
+Mas EXISTEM OUTRAS MANEIRAS DE FAZER ISSO, TAMBÉM.
+
+
+1a maneira === via STYLE PROPERTY. Com a style property, você "directly targets" estilos 
+CSS individuais ( aplicados naquele elemento determinado).
+
+É COMO USAR INLINE STYLES (Inline styles são aqueles 
+estilos escritos no próprio arquivo html, sem o auxílio de folhas de estilo) Naquele determinado elemento que está NO DOCUMENTO HTML.
+
+LEMBRE-SE DAS AULAS DE CSS: ESTILOS INLINE TEM A MAIOR ESPECIFICIDADE POSSÍVEL 
+NOS CÓDIGOS; ISSO SIGNIFICA QUE ESSES ESTILOS assignados com a propriedade
+"STYLE" VÃO SEMPRE DAR OVERWRITE EM QUAISQUER OUTROS ESTILOS QUE ESTIVEREM 
+ASSIGNADOS ÀQUELE ELEMENTO (dá overwrite em estilos assignados por classes, IDs, qualquer 
+coisa.)
+
+
+Importante = Como você já aprendeu, os nomes das propriedades style são 
+baseadas nos NOMES DAS PROPRIEDADES CSS, mas são ajustadas no padrão 
+CamelCase. ex: backgroundColor.
+
+
+Essa maneira de manipular estilos é boa, mas há outras maneiras, como por exemplo...
+
+
+
+
+2a maneira === FUNCIONA POR MEIO DA MANIPULAÇÃO DE ____CLASSES____CSS___.
+
+é o método "via className".  className é uma propriedade que pode ser 
+usada para MUDAR O NOME DA CLASSE DE UM CERTO ELEMENTO, FAZENDO COM QUE O ESTILO 
+DELE, CONSEQUENTEMENTE, MUDE.
+
+"directly set the css classes assigned to the element".
+
+Você pode settar as classes que existem nesses elementos para mudarem dinamicamente;
+pode removê-las, adicionar novas, etc etc.
+
+É outra maneira de ajustar os estilos que são aplicados a elementos da página.
+
+Você controla, com esse método, as classes que ficam em um determinado elemento.
+
+
+Com "className", você setta/controla todas as classes de uma só vez.
+
+"className" É UMA STRING, E É UMA STRING DE TODAS AS CLASSES QUE SÃO 
+ADICIONADAS, para que você possa manipular essa string para 
+manipular todas as classes.
+
+
+A propósito, é claro que alternativamente você poderia mudar também 
+o ID ou alguns outros atributos de um certo elemento, como em casos em que
+você usa ID selectors e  attribute selectors no seu código CSS... mas
+CLASSES CSS SÃO A MANEIRA MAIS COMUM DE ESPALHAR ESTILOS POR MÚLTIPLOS ELEMENTOS 
+("across multiple elements"). ("You can also control the id or other attributes")
+
+
+
+Quando o assunto é css classes, nós na verdade temos OUTRA MANEIRA DE EDITAR 
+classes em um elemento:
+
+
+ClassName recebe como parâmetro 1 string, 1 string que é simplesmente uma string 
+de todas as classes que devem ser adicionadas e, portanto, se você quiser dar toggle
+em uma classe nela, você tem que administrar ela manualmente (você mantém 
+classes que você não quer remover e apenas se livra das classes que você quer descartar)
+
+
+Para facilitar nossa vida, todos esses elementNodes tem OUTRA PROPRIEDADE, QUE 
+É a propriedade 
+"classList".
+
+
+3a maneira ==== via "classList".  É, no final das contas, um javascript 
+OBJECT, e não uma string, como "className". É um objeto COM UM PUNHADO 
+DE MÉTODOS "BUILT-IN". Métodos que facilitam o processo de 
+adicionar, remover e dar toggle em classes CSS.
+
+
+Facilita nossa vida quando o assunto 
+é gerenciar classes individuais; faz com que possamos evitar 
+o "microgerenciamento" das strings da propriedade className. 
+("GIVES YOU FINE-GRAINED CONTROL OVER 
+CLASSES THAT ARE ADDED")
+
+Além de dar "fine-grined" control sobre essas classes, 
+você ainda pode USÁ-LA JUNTO DE "className" (com cuidado, é claro; você não 
+quer que elas se deem overwrite.). ----> tipicamente, você vai querer usar apenas 
+uma das duas, e não as duas em conjunto.
+
+
+Agora devemos dar uma olhada em cada uma dessas opções, para tornar clara a exposição 
+que recebemos até agora.
+
+
+
+Voltamos ao devtools.
+
+
+Digamos que queremos estilizar a SECTION.
+
+
+Primeiro, devemos selecioná-la.
+
+
+ex:
+
+
+
+
+const section = document.querySelector('section');
+
+section; ----> isso vai mostrar a nós a section.
+nosso select foi bem sucedido.
+
+
+Com  a section disponível, podemos, é claro,
+acessar seus estilos (e suas classes).
+
+
+
+EX:
+
+
+section.style.backgroundColor = 'green';
+
+
+
+----------> SE você for até 
+a aba dos "elements" no devtools, você 
+verá que o javascript EDITOU O ATTRIBUTE 
+"STYLE" de section. Ele alterou de forma
+INLINE, OU SEJA, A 1ª das 4 maneiras.
+(<section style="background-color: green;">)...
+
+Esse estilo que foi adicionado de forma inline pode ser 
+adicionado por nós manualmente no arquivo html... MAS O 
+JAVASCRIPT NOS DÁ A VANTAGEM DE QUE NÃO PRECISAMOS ATIVAR ISSO 
+MANUALMENTE, PODEMOS CONDICIONAR ESSA MUDAÇA DE ESTILO À SITUAÇÕES 
+ESPECÍFICAS QUE OCORREM (eventListeners).
+
+
+
+Agora voltamos ao documento html para mudar algumas coisas, 
+a fim de testar mais algumas mudanças de estilo especiais (as outras maneiras).
+
+
+O professor adiciona um bloco <style></style> dentro do documento html.
+
+
+Ele então adiciona uma classe ".red-bg" dentro dessa tag style.
+
+
+
+ex:
+
+
+<style>
+    .red-bg {
+        background-color: red;
+        color: white;
+    }
+</style>
+
+
+
+...
+
+
+
+ELE TAMBÉM ADICIONA UMA NOVA CLASSE LOGO ABAIXO DESSA, CHAMADA DE "visible". ".visible";
+e outra classe, chamada de "invisible", com uma propriedade de "display: none;".
+
+
+ex:
+
+
+
+
+
+
+
+<style>
+    .red-bg {
+        background-color: red;
+        color: white;
+    }
+
+    .visible {
+        display: block
+    }
+
+    .invisible {
+        display: none;
+    }
+
+</style>
+
+
+
+
+
+------> "display" é uma propriedade css que já estudamos. Agora temos 
+3 classes CSS com as quais podemos brincar.
+
+DEPOIS DISSO, ADICIONAMOS UMA CLASSE PARA SECTION, de nome "red-bg" (mesmo nome 
+da classe que está lá em cima; professor faz isso de propósito.)
+
+
+ex:
+
+
+
+
+
+
+
+<style>
+    .red-bg {
+        background-color: red;
+        color: white;
+    }
+
+    .visible {
+        display: block
+    }
+
+    .invisible {
+        display: none;
+    }
+
+</style>
+
+.....
+
+
+<section class="red-bg">
+
+...
+
+
+
+</section>
+
+
+
+
+
+AGORA, SE SALVARMOS ISSO E RECARREGARMOS A PÁGINA...
+
+
+veremos que o background vai mudar para vermelho, e que a cor das listas ficará 
+branca (o título está branco, por sua vez, devido a codigos anteriores que colocamos 
+em app.js.)
+
+
+Atenção: nenhum javascript foi envolvido nessa etapa de aplicação de estilos a página, 
+APENAS código CSS, estilização regular de css.
+
+
+
+Lá no nosso app.js, o professor faz a seleção da section como nós fizemos no devtools.
+
+Aí ele vai lá e muda o estilo da section por meio de 
+
+
+"section.style.backgroundColor = 'blue';" 
+
+
+
+----> ISSO VAI IMEDIATAMENTE MUDAR O FUNDO DÁ PÁGINA PARA UMA COR AZUL. POR QUE ISSO?
+
+SIMPLES, É PORQUE ESSE MÉTODO DE APLICAÇÃO "INLINE" DE ESTILOS TEM PRIORIDADE MUITO SUPERIOR 
+ÀS OUTRAS 2 MANEIRAS; ESTILOS DEFINIDOS POR ESSE CAMINHO SÃO EQUIVALENTES A ESTILOS DEFINIDOS 
+DENTRO DO DOCUMENTO HTML, E POR ISSO TEM PRIORIDADE SOBRE  estilos 
+definidos por meio de "className", e "classList".
+
+
+
+
+As classes dos backgrounds vermelhos AINDA ESTÃO LÁ, mas são ignorados 
+devido à maior especificidade da propriedade ".style.xxx".
+
+
+
+
+Mas isso não era a coisa principal que o professor queria nos mostrar.
+
+
+
+O que ele quer mostrar, em vez disso, é como REMOVER classes. Para tal, ele 
+alcança a propriedade "className" de section E DEFINE ELA COMO UMA EMPTY STRING (''). Depois disso, 
+ele comenta para fora o comando "section.style.backgroundColor = 'blue';".
+
+
+
+
+ex:
+
+
+section.className = '';
+
+
+
+---------------------> ISSO VAI ESSENCIALMENTE DEFINIR O ATRIBUTO "CLASSE" ("class attribute") de 
+section como UNDEFINED.
+
+
+Se recarregarmos a página, percebemos que o FUNDO AZUL SOME COMPLETAMENTE, E O VERMELHO 
+NEM APARECE. O fundo fica branco por inteiro.
+
+
+O fundo azul some porque agora NADA está definido naquele atributo "classe".
+
+
+Essa medida é interessante quando você quer LIMPAR TUDO, ou em situações que 
+você quer mudar o estilo para o que estava antes:
+
+ex:
+
+definir section por meio de 
+
+"section.className = 'red-bg';"  (isso vai funcionar apenas se você não tiver um estilo inline definido com ".style.xxx".)
+
+
+
+Perceba que "red-bg", essa classe, foi adicionada/escrita 
+tanto no arquivo html como no arquivo javascript. O professor explica 
+que "Não é como se ela tivesse sido ADICIONADA 2 VEZES, ou algo do gênero, mas sim 
+que essa className (a propriedade className) foi definida como o nome 
+da string/nome que nomeia nosso estilo css específico."
+
+Professor explica que isso pode virar UM PROBLEMA.
+Digamos que queremos manter "red-bg", mas queremos adicionar 
+uma NOVA CLASSE. Isso quer dizer que você vai querer 
+definir essa string de "className" como a string que 
+você quer MANTER... e também a nova classe, que você vai querer 
+que o código/elementos se transformem no futuro.
+
+Para isso, diz o professor, devemos adicionar um BOTÃO no código 
+html.
+
+
+
+
+ele cria um button com <button></button> e o nomeia 
+"toggle visibility".
+
+
+
+Então ele vai até o código de app.js e adiciona um eventListener para esse elemento.
+
+
+Professor então cria diversos códigos...
+
+
+ex:
+
+
+
+
+const button = document.querySelector('button');
+
+button.addEventListener('click', () => {
+    section.className = 'red-bg visible';  //o professor define um EventListener que vai fazer com que o estilo do elemento section mude para a cor vermelha de .red-bg e para a propriedade display:block; de visible.
+});
+
+
+
+--------------------------------------
+
+
+Professor TAMBÉM DIZ QUE É UM CÓDIGO UM POUCO TRICKY ESSE DE ADMINISTRAR A VISIBILIDADE 
+DE UM ELEMENTO... Ele diz que poderíamos adicionar uma variável extra, que ajudaria com isso, 
+mas 
+se nós quisermos fazer isso apenas com a section que temos selecionada, teríamos que fazer assim:
+
+
+ex:
+
+
+
+const button = document.querySelector('button');
+
+button.addEventListener('click', () => {
+    if(section.className === 'red-bg visible') {
+
+    }
+    section.className = 'red-bg visible';  
+});
+
+
+
+
+
+
+"se o className de section for igual à "red-bg visible" (e 
+isso só funciona porque o professor sabe que só 
+terá NO MÁXIMO ESSAS 2 CLASSES, red-bg e visible. Se ele tivesse 
+mais classes ainda, mais classes que mudassem dinamicamente, seria 
+ainda mais difícil de checar isso aqui nessa condição), vou querer que 
+a className de section seja definida como 'red-bg invisible'." 
+"ELSE (caso contrário), vou querer definir essa seção como 'red-bg-visible'."
+
+
+Agora, com essa lógica (que, a propósito, só funciona "bem" porque temos 
+apenas 2 classes, e não mais do que isso; ) 
+
+
+
+--> Feito todo esse processo, quando clicamos no botão DUAS VEZES, ele finalmente 
+deixa visível e invisível aquele elemento, dependendo de quantas vezes clicamos.
+
+Se abrirmos a aba de elementos do devtools, veremos que esse botão 
+FAZ A CLASSE DE SECTION MUDAR DINAMICAMENTE: QUANDO APERTAMOS O BOTÃO, ELA MUDA 
+INSTANTANEAMENTE.
+
+
+
+Mas porque precisamos apertar esse botão 2 vezes?
+
+Porque na primeira vez que apertamos, section class já 
+está definida como "red-bg". Se apertarmos, o código JS automaticamente 
+muda o valor da string desse atributo para "red-bg visible", como colocamos naquele 
+else block. O restante é apenas a execução normal do código, sem esse percalço.
+
+
+
+
+
+O PROBLEMA COM ESSE APPROACH, DIZ O PROFESSOR, É QUE NÓS TEMOS QUE 
+ACOMPANHAR ("keep track of")MANUALMENTE AS CLASSES QUE ADICIONAMOS, qual 
+classe está aplicada e assim por diante.
+
+ISSO TUDO PODE SER FEITO DE UMA MANEIRA MAIS FÁCIL.
+
+
+Em vez de usar aquele if/else block gigante 
+
+
+" if (section.className === 'red-bg visible') {
+        section.className = 'red-bg invisible';
+    } else {
+        section.className = 'red-bg visible';  //o professor define um EventListener que vai fazer com que o estilo do elemento section mude para a cor vermelha de .red-bg e para a propriedade display:block; de visible.
+    }
+    "
+
+
+
+-----------------> EM VEZ DE USAR ISSO, 
+VOCÊ PODE USAR aquele objeto 
+"classList" QUE O PROFESSOR MENCIONOU ANTERIORMENTE. ClassList é outra 
+propriedade que você tem em todos element nodes. Dentro de ClassList, você 
+tem um punhado de métodos bem legais. VOCê TEM O MÉTODO "Contains", QUE 
+CHECA RAPIDAMENTE se uma classe está "settada". Por exemplo, aqui você poderia 
+checar se a classe ".visible" ESTÁ DEFINIDA (set)... E VOCÊ NÃO 
+PRECISA SE PREOCUPAR COM A STRING INTEIRA ("red-bg visible", como pode ver, 
+há uma outra classe no meio, a classe red-bg... mas essa classe não vai interferir nesse check
+) interferindo no check, 
+porque esse método apenas vai checar por aquilo que você colocou no parâmetro.
+
+VOCÊ TAMBÉM PODE CHAMAR ".classList.add" PARA ADICIONAR UMA NOVA CLASSE.
+VOCÊ TAMBEM PODE CHAMAR ".classList.remove" PARA REMOVER UMA CLASSE.
+VOCÊ TAMBÉM PODE CHAMAR ".classList.replace" PARA SUBSTITUIR UMA CLASSE POR OUTRA.
+
+E, POR FIM, VOCÊ PODE TAMBÉM ___"DAR TOGGLE"____ EM UMA CLASSE, por meio 
+de ".classList.toggle". Aqui, podemos fazer o toggle das classes 
+'visible' e 'invisible'.
+ 
+ex:
+
+
+
+button.addEventListener('click', () => {
+    if(section.className === 'red-bg invisible') {
+        section.classList.toggle('visible');
+    } else {
+        section.classList.toggle('invisible');
+    }
+    
+});
+
+
+
+
+O PROFESSOR EXPLICA QUE PODEMOS SUPRIMIR AINDA MAIS PARTES DESSE CÓDIGO, 
+PODEMOS SUPRIMIR TODO O IF/ELSE BLOCK, POIS O TOGGLE JÁ FAZ 
+A LÓGICA TODA QUE QUEREMOS PARA NÓS. PODEMOS TIRAR, ALÉM DISSO, 
+O TOGGLE DE "VISIBLE", PORQUE ELE É IRRELEVANTE: APENAS 
+O TOGGLE DE INVISIBLE É NECESSÁRIO, POIS O QUE QUEREMOS NESSE BOTÃO 
+É ALTERNAR ENTRE UM ESTADO DE "INVISIBLE:ON" E "INVISIBLE: OFF".
+
+Resultado final:
+
+
+
+
+
+button.addEventListener('click', () => {
+        section.classList.toggle('invisible');
+});
+
+
+
+
+
+
+
+AGORA ENTENDEMOS O PODER DE "CLASSLIST". Ele faz com que 
+o gerenciamento de classes CSS MUITO MAIS FÁCIL, e isso 
+te permite adicionar e remover classes (alterar também) dos 
+elementos dinamicamente. Podemos mudar estilos dinamicamente com ela.
+
+Algumas vezes você até vai querer mudar inline styles, mas na maioria dos casos 
+você vai querer mudar as classes... você vai querer adicionar estilos mais complexos 
+aos elementos, e essa propriedade classList vai te ajudar a fazer isso.
+
+
+Adicionar estilos como inline styles é chato e difícil, e complica 
+para os outros desenvolvedores que terão de ler o seu código.
+
+Você vai querer pegar o seu código css e adicionar/remover classes dinamicamente, 
+sempre. Isso facilita o trabalho em equipe.
+
+Um colega pode trabalhar com os estilos CSS enquanto você trabalha com o javascript.
+Se você trabalhar com outras pessoas, classList é melhor porque te dá maior 
+flexibilidade, mais flexibilidade do que .style e .className (que só seleciona 
+1 única classe). 
+
+Se você usar classList, seu colega do CSS pode simplesmente te passar todas as classes, que 
+você poderá então manipular totalmente por meio de classList. Isso tudo deixa o trabalho bem mais fácil.
+
+
+

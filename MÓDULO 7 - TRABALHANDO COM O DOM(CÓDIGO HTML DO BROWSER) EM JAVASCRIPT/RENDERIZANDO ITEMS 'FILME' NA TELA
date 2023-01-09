@@ -1,0 +1,709 @@
+FAZER O OUTPUT 
+DE OBJETOS/ITEMS "MOVIE" na tela do browser 
+envolve 2 partes:
+
+
+
+1 parte = parte dos bastidores; código que realmente é armazenado 
+e depois carregado na página.
+
+
+
+2a parte = parte visual.
+
+-----------------------------------------
+
+
+
+Primeiramente, o professor quer ATUALIZAR A UI (user interface);
+ele quer remover aquela caixa "your personal movie database" sempre que 
+nós adicionarmos algum filme.
+
+Além disso, ele também quer adicionar elementos filme AO ELEMENTO 
+<UL> QUE ELE TEM NO FINAL DO CÓDIGO HTML.
+
+ex:
+
+
+
+<ul id="movie-list"></ul>
+
+------------------------------------------
+
+
+
+Para fazer isso, vamos ter que selecionar a "SECTION" que contém a mensagem 
+de personal movie database para depois 
+removê-lo dinamicamente do código (ou simplesmente escondê-lo).
+
+
+------------------------------------------
+
+Fazemos uma tentativa nós mesmos:
+
+
+ex:
+
+
+const section = document.querySelector('section');
+
+
+const removeSection = () => {
+    section.remove();
+} 
+
+
+
+
+
+const addMovieHandler = () => {
+    const titleValue = userInputs[0].value;
+    const imageUrlValue = userInputs[1].value;
+    const ratingValue = userInputs[2].value;
+
+    if(titleValue.trim() === '' ||
+        imageUrlValue.trim() === '' ||
+        ratingValue.trim() === '' ||
+        +ratingValue < 1 ||
+        +ratingValue > 5
+    ) {
+        alert('Please enter valid values (rating between 1 and 5).');
+        return;
+    }
+    const newMovie = {
+        title: titleValue,
+        image: imageUrlValue,
+        rating: ratingValue
+    }; 
+    
+    movies.push(newMovie);
+    console.log(movies);
+    toggleMovieModal();
+    clearMovieInput();
+    removeSection(); //código adicionado.
+    };
+
+
+    -------------------------------------------
+
+
+
+    O professor diz que há múltiplas maneiras de fazer isso. O que o professor 
+    faz é adicionar uma nova função ao início do código, chaamda de "updateUI".
+    Essa função faz um check da LENGTH do array de movies.
+    Se essa length for maior do que 0, ou seja, não é EMPTY (falsy), 
+    aí ele vai querer se livrar daquela section (vai colocar display como none por meio de um inline style)... caso contrário, 
+    ele vai querer adicionar essa section de novo.
+
+
+
+    ex:
+
+    const section = document.getElementById('entry-text');
+
+    const updateUI = () => {
+        if(movies.length === 0) {
+            section.style.display = 'block';
+        } else {
+            section.style.display = 'none';
+     }
+    };
+   
+
+
+   --------------------------------------------
+
+
+   UPDATEUI deve sempre ser executado assim que nós adicionamos um filme.
+
+   Percebemos que isso funciona: a caixa é "removida" (tecnicamente, ela ainda está no código, mas de forma invisível em decorrência 
+   do display:none)
+
+-------------------------------------------------------
+
+
+
+Agora também devemos nos assegurar que o elemento movie é adicionado na tela para 
+que possamos ver a lista de filmes.
+
+Para tal, o professor cria uma nova função chamada de 
+"addNewMovieElement". Ele quer deixar transparente que essa função 
+vai impactar o DOM e aquilo que vemos na nossa tela.
+
+
+ex:
+
+
+
+const addNewMovieElement = () => {
+
+}
+
+
+NESSA FUNÇÃO, O PROFESSOR ESPERA RECEBER ALGUNS INPUTS, 
+como o "title", a "imageUrl" e a "rating".... munidos desses 
+3 parâmetros, podemos então renderizar esse novo elemento no código, essa lista de informações (o filme em si) com essa função.
+
+
+
+ex:
+
+
+
+const addNewMovieElement = (title, imageUrl, rating) => {
+
+}
+
+---------------------------------------------------
+
+Dentro dessa função colocamos A CRIAÇÃO DE UM NOVO ELEMENTO, POR MEIO DE UMA CONST.
+Essa const vai segurar a criação de um elemento novo, uma <li> que será inserida no nosso dom 
+com outras propriedades/métodos... ele vai inserir essa <li> dentro 
+daquela ul. A newMovieElement, portanto, vai criar um elemento <li> vazio...
+Dentro desse item <li>, o professor vai atribuir/adicionar uma classe CSS, ação que 
+ele pode fazer por meio da propriedade "className". 
+O professor quer hard-codar classes aqui, por isso ele apenas 
+faz a definição da classe desse novo objeto como sendo "movie-element' (é uma classe 
+que podemo encontrar em app.css, é um css selector que basicamente vai estilizar 
+os items da nossa lista...). Depois disso, o professor 
+decide adicionar o conteúdo que faltava dentro dessa lista vazia...
+o conteúdo que faltanão é apenas uma lista com algum texto chinelo, mas 
+sim UM CÓDIGO HTML BEM ESTRUTURADO. Esse código que ele vai adicionar VAI SER UM CÓDIGO 
+QUE NÃO TERÁ DE SER INTERAGÍVEL (professor não vai querer adicionar classes, adicioná-lo, removê-lo, etc), PODE SER INERTE...
+Por isso ele pode simplesmente usar innerHTML (método mais simples de injunção de HTML).
+
+
+Isso é algo que ainda não fizemos: já havíamos criado elementos html, 
+mas nunca críamos um elemento html para então substituir o seu próprio conteúdo 
+html depois, porém isso é possível, porque no final das contas, 
+isso é um objeto regular do dom. 
+
+O professor decide assignar o innerHTML desse objeto comso 
+uma STRING, e então ele usa BACKTICKS para que ele possa 
+utilizar uma string multi-linha. Ele só usa sintaxe multi-linha 
+aqui para fins de legibilidade, para que ele possa ler melhor o código.
+Dentro do conteúdo do movie, o professor vai querer adicionar 
+html content onde ele terá uma div com uma classe de 
+"movie-element__image", que terá como filho uma 
+<img> com source  DE UM VALOR DINÂMICO (outra vantagem dos backticks, 
+a possibilidade de injetar um valor dinâmico por meio de ${}), 
+que será a "imageUrl". Ele também setta um alternate text (alt) de 
+"title", para fins de acessibilidade.
+
+
+
+
+
+ex:
+
+
+
+const addNewMovieElement = (title, imageUrl, rating) => {
+    const newMovieElement = document.createElement('li');
+    newMovieElement.className = 'movie-element';
+    newMovieElement.innerHTML = `
+            <div class="movie-element__image">
+                <img src="${imageUrl}" alt="${title}">
+            </div>
+
+
+            `
+}
+
+
+------------------------------------
+
+
+O professor também vai querer uma SIBLING DIV, adjacente Àquela primeira div.
+Essa div irmã da outra vai receber uma classe de "movie-element__info".
+Dentro da div ele também insere uma <h2> tag com um valor dinâmico que será 
+o TITLE que o usuário inputtou, que será mais um dos 
+parâmetros enfiados nessa função toda vez que ela é chamada.
+
+Por fim, ele também coloca uma tag de <p>, em que ele define 
+o valor dinâmico de rating do lado de uma string com "/5 stars" (fixo).
+
+ex:
+
+
+
+
+ex:
+
+
+
+const addNewMovieElement = (title, imageUrl, rating) => {
+    const newMovieElement = document.createElement('li');
+    newMovieElement.className = 'movie-element';
+    newMovieElement.innerHTML = `
+            <div class="movie-element__image">
+                <img src="${imageUrl}" alt="${title}">
+            </div>
+            <div class="movie-element__info">
+                <h2>${title}</h2>
+                <p>${rating}/5 stars</p>
+            </div>
+            
+            `
+}
+
+
+-------------------------------------------------
+
+
+Isso tudo, portanto, agora torna-se o innerHTML do elemento movie sempre 
+que nós executamos essa função.
+
+
+Agora devemos ganhar acesso ao ELEMENTO "<ul>" DA PÁGINA, QUE 
+SERÁ ONDE INSERIREMOS ESSE OBJETO "MOVIE". O professor 
+ganha acesso à essa lista DE DENTRO DA FUNÇÃO "addNewMovieElement" (esse seletor passa a existir apenas dentro dessa função).
+
+
+Depois disso, ele usa "appendChild" para anexar o newMovieElement àquela 
+<UL> de que falamos anteriormente.
+
+
+
+ex:
+
+
+
+const addNewMovieElement = (title, imageUrl, rating) => {
+    const newMovieElement = document.createElement('li');
+    newMovieElement.className = 'movie-element';
+    newMovieElement.innerHTML = `
+            <div class="movie-element__image">
+                <img src="${imageUrl}" alt="${title}">
+            </div>
+            <div class="movie-element__info">
+                <h2>${title}</h2>
+                <p>${rating}/5 stars</p>
+            </div>
+            
+            `
+
+            const listRoot = document.getElementById('movie-list');
+            listRoot.append(newMovieElement);
+}
+
+
+
+Esse "listRoot.append(newMovieElement)" agora adiciona/anexa esse 
+novo elemento movie à nossa lista de movies. DEPOIS DISSO, FAZEMOS O 
+CHAMADO DESSA FUNÇÃO "addNewMovieElement" DE DENTRO DO "ADDMOVIEHANDLER"...
+MAS ANTES DISSO, PASSAMOS OS PARÂMETROS "titleValue", "imageUrlValue" e "ratingValue" A ESSE CHAMADO, 
+PARA QUE AS INFORMAÇÕES REALMENTE SEJAM DISPONIBILIZADAS NO OBJETO CRIADO NA PÁGINA.
+
+
+Agora, tudo isso adicionado, a página quase funciona perfeitamente.
+
+
+
+
+ENTRETANTO, AGORA O PROFESSOR QUER UMA FEATURE EXTRA:
+
+
+Ele quer que consígamos remover os elementos adicionados na página quando 
+clicamos neles.
+
+Para isso, devemos criar um addEventListener e adicioná-lo. Devemos adicionar 
+esse eventListener na função "renderNewMovieElement", logo antes de "const listRoot = document.getElementById('movie-list');".
+Essencialmente, o professor cria uma addEventListenr antes do append desse 
+elemento à "listRoot", bem no momento EM QUE CRIAMOS O "newMovieElement". O professor 
+adiciona esse eventListener, que deverá ter em seu código uma função QUE DELETARÁ ESSE FILME 
+SE CLICARMOS NELE.
+
+
+ex:
+
+
+
+const addNewMovieElement = (title, imageUrl, rating) => {
+    const newMovieElement = document.createElement('li');
+    newMovieElement.className = 'movie-element';
+    newMovieElement.innerHTML = `
+            <div class="movie-element__image">
+                <img src="${imageUrl}" alt="${title}">
+            </div>
+            <div class="movie-element__info">
+                <h2>${title}</h2>
+                <p>${rating}/5 stars</p>
+            </div>
+            
+            `
+            listRoot.addEventListener('click', );
+            const listRoot = document.getElementById('movie-list');
+            listRoot.append(newMovieElement);
+}
+
+-----------------------------------------------------------
+
+Então, ele cria a função "deleteMovieHandler", criada para deletar o filme quando clicamos 
+nele. Ele nomeia ela "handler" porque ela estará conectada a um eventListener.
+
+Dentro do deleteMovieHandler, o professor diz que devemos fazer algo específico.
+A parte difícil aqui é descobrir QUAL ELEMENTO QUE FOI CLICADO. Isso será mais 
+fácil de entender quando soubermos um pouco mais sobre eventos e sobre como eles 
+nos ajudam a descobrir quais elementos foram clicados, MAS NÓS AINDA NÃO 
+SABEMOS NADA SOBRE ISSO. Por enquanto, podemos nos ajudar por meio da utilização 
+do método "BIND()" aqui, que faz o BIND de um valor. 
+
+
+----BIND NOS AJUDA A PRECONFIGURAR ARGUMENTOS QUE SÃO RECEBIDOS PELA 
+FUNÇÃO A SER EXECUTADA.------
+
+
+O professor passa como primeiro argumento de bind o valor "null" (o primeiro parâmetro 
+de bind é aquele parâmetro gozado "this", "that". Professor coloca null pq isso não nos 
+interessa para esse caso específico). Para o segundo parâmetro, precisamos de 
+um "Unique identifier" para aquele movie que é criado. Ainda não temos esse identifier 
+único, por isso devemos ESPERAR UM ARGUMENTO AQUI QUE AINDA NÃO FOI ADICIONADO NO CÓDIGO. O professor 
+decide que esse argumento que deverá ser esperado é um "id", que é especificado também 
+nos parâmetros de renderNewMovieElement.
+
+
+
+
+ex:
+
+
+
+
+
+
+const deleteMovieHandler = () => {
+
+};
+
+
+
+
+
+
+const addNewMovieElement = (id, title, imageUrl, rating) => {  //alteração.
+    const newMovieElement = document.createElement('li');
+    newMovieElement.className = 'movie-element';
+    newMovieElement.innerHTML = `
+            <div class="movie-element__image">
+                <img src="${imageUrl}" alt="${title}">
+            </div>
+            <div class="movie-element__info">
+                <h2>${title}</h2>
+                <p>${rating}/5 stars</p>
+            </div>
+            
+            `
+            listRoot.addEventListener('click', deleteMovieHandler.bind(null, id ));
+            const listRoot = document.getElementById('movie-list');
+            listRoot.append(newMovieElement);
+}
+
+
+
+-------------------------------------------------
+
+
+
+É claro que, por enquanto, id não existe no nosso código, por isso não 
+consegue ser passado como parâmetro nesse slot "id" da função renderNewMovieElement.
+
+Precisamos consertar isso: Vamos até o lugar em que o filme é criado na memória,
+que é na função "addMovieHandler". Lá dentro, nos asseguramos de criar, dentro 
+da cosntante "newMovie", um key-data pair 
+para o id, que será referenciado nas outras funções, m ais tarde.
+
+
+O professor utiliza "Math.random()" como definição 
+do valor dessa propriedade/keyname "id". Ele faz isso 
+porque quer UM UNIQUE ID PARA CADA ELEMENTO MOVIE QUE É CRIADO/ADICIONADO 
+NA PÁGINA HTML (ele explica que um número aleatório, na verdade, não 
+é SEMPRE um unique id, porque é possível, embora raro, que um mesmo 
+número se repita 2x.) Ele também utiliza 
+a função ".toString()" para converter esse valor à uma string, 
+apesar de isso não ser totalmente necessário, em suas palavras.
+
+Feito tudo isso, podemos simplesmente passar esse id como 
+parâmetro em "addNewMovieElement".
+
+ex:
+
+
+
+const addMovieHandler = () => {
+    const titleValue = userInputs[0].value;
+    const imageUrlValue = userInputs[1].value;
+    const ratingValue = userInputs[2].value;
+
+    if(titleValue.trim() === '' ||
+        imageUrlValue.trim() === '' ||
+        ratingValue.trim() === '' ||
+        +ratingValue < 1 ||
+        +ratingValue > 5
+    ) {
+        alert('Please enter valid values (rating between 1 and 5).');
+        return;
+    }
+    const newMovie = {
+        id: Math.random().toString(); //Código adicionado.
+        title: titleValue,
+        image: imageUrlValue,
+        rating: ratingValue
+    }; 
+    
+    movies.push(newMovie);
+    console.log(movies);
+    toggleMovieModal();
+    clearMovieInput();
+    //removeSection();
+    addNewMovieElement(
+        newMovie.id, //OUTRO CÓDIGO ADICIONADO.
+        newMovie.title, 
+        newMovie.image, newMovie.rating
+        ); 
+    updateUI();
+    };
+ 
+
+    const addNewMovieElement = (title, imageUrl, rating) => {
+        const newMovieElement = document.createElement('li');
+        newMovieElement.className = 'movie-element';
+        newMovieElement.id = 'movie-element'
+        newMovieElement.innerHTML = `
+        <div class="movie-element__image">
+            <img src="${imageUrl}" alt="${title}">
+        </div>
+        <div class="movie-element__info">
+            <h2>${title}</h2>
+            <p>${rating}/5 stars</p>
+        </div>
+        
+        `
+        newMovieElement.addEventListener('click', deleteMovieHandler.bind(null, id); );
+        const listRoot = document.getElementById('movie-list');
+        listRoot.append(newMovieElement);
+        //movies.push(newMovieElement);
+    }
+
+
+
+-----------------------------------------------
+
+
+Como nós passamos esse id ao addNewMovieElement, e depois 
+bindamos ele ao deleteMovieHandler, NÓS TAMBÉM RECEBEMOS ESSE ID COMO 
+ARGUMENTO DENTRO DO "deleteMovieHandler" (é o argumento "movieId").
+
+Mas agora que temos o "movieId" dentro do deleteMovieHandler, a pergunta 
+agora é O QUE PODEMOS FAZER COM ESSE MOVIEID dentro dessa função/dentro desse lugar.
+
+Bem, nós podemos usar esse movieId para ENCONTRAR O FILME COM 
+ESSE ID DENTRO DO ARRAY DE "movies"... e o index que aquele movie terá 
+no movies array DEVERÁ SER O INDEX que o ELEMENTO MOVIE TERÁ no final 
+das contas, o index que o elemento movie terá em "const listRoot". 
+Isso é porque nós adicionamos elementos ao nosso movies array 
+na mesma ordem em que adicionamos eles na nossa lista do DOM.
+Os indexes são equivalentes, portanto. Por isso, se nós descobrirmos 
+o index do filme ali, no movies array, será muito bom, porque esse 
+será o mesmo index do item que  precisamos remover do DOM.
+
+PARA ENCONTRAR o index do movie com esse id dentro do array de movies,
+aprenderemos soluções mais elegantes no módulo sobre arrays, mas por enquanto, com as ferramentas 
+de que dispomos agora, podemos utilizar um FOR OF LOOP para passar por todos 
+os elementos que estão dentro do movies array. Submetemos 
+esse for of loop à uma condição:
+
+
+
+
+"se movie.id for igual ao MovieId que estamos recebendo aqui (se os 2 forem iguais, 
+sabemos que esse é o movie pelo qual estamos procurando, e esse é o id do qual precisamos ), 
+devemos fazer BREAK (ou seja, o JS deverá PARAR O LOOP mais próximo, que é o do for loop, e pular 
+para a linha de código seguinte, que é o código que adiciona +1 ao movieIndex.)."
+
+
+O professor cria uma variável dentro de deleteMovieHandler, a variável "movieIndex", que 
+terá um valor de 0. Aí, no final do código do deleteMovieHandler, o professor 
+adiciona um "movieIndex++", para que seja adicionado um '1'  no valor de movieIndex para 
+cada iteração desse loop.
+
+
+
+
+ex:
+
+const movies = [];
+
+const deleteMovieHandler = (movieId) => {
+    let movieIndex = 0;
+    for (const movie of movies) {
+        if (movie.id === movieId) {
+            break;
+        }
+        movieIndex++;
+    }
+
+};
+
+
+---------------------------------------------------
+
+
+
+AGORA que SABEMOS QUAL movieIndex é o INDEX CERTO PARA AQUELE 
+ID, podemos usar essa informação para REMOVER UM ELEMENTO DE NOSSA LISTA
+DE filmes.
+
+
+Primeiramente, o professor quer REMOVER O ELEMENTO DO ARRAY QUE 
+ESTÁ ARMAZENADO NO JAVASCRIPT (e que não se reflete visualmente na página).
+Para remover um elemento daquela lista, 
+o professor utiliza UM MÉTODO QUE ESTÁ SEMPRE 
+DISPONÍVEL EM ARRAYS, O MÉTODO _____SPLICE___.
+
+O método splice recebe um INDEX COMO PRIMEIRO ARGUMENTO, 
+E O NÚMERO DE ELEMENTOS A SEREM REMOVIDOS, COMO SEGUNDO ARGUMENTO.
+O professor insere o indexador "movieIndex" no primeiro slot, e 
+"1" no segundo. O que splice vai fazer é manipular aquele array, 
+fazendo com que o elemento que tem aquele index (movieIndex) seja 
+REMOVIDO. Elementos DEPOIS desse índice simplesmente vão se mover 
+para frente por 1 slot/um lugar, ou seja, o próximo slot na fila 
+vai ganhar o número indexador do elemento que recém removemos.
+
+
+
+ex:
+
+
+
+
+const movies = [];
+
+const deleteMovieHandler = (movieId) => {
+    let movieIndex = 0;
+    for (const movie of movies) {
+        if (movie.id === movieId) {
+            break;
+        }
+        movieIndex++;
+    }
+    movies.splice(movieIndex, 1);
+  
+};
+
+
+------------------------------------------------------
+
+
+
+
+ISSO TUDO FOI PARA O CÓDIGO JAVASCRIPT, MAS NÓS TAMBÉM TEMOS QUE 
+ATUALIZAR NOSSA PARTE VISUAL, A PARTE DO DOM.
+Para isso, o professor vai precisar da "listRoot", a qual 
+ele insere dentro da função deleteMovieHandler.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const movies = [];
+
+const deleteMovieHandler = (movieId) => {
+    let movieIndex = 0;
+    for (const movie of movies) {
+        if (movie.id === movieId) {
+            break;
+        }
+        movieIndex++;
+    }
+    
+    movies.splice(movieIndex, 1);
+    const listRoot = document.getElementById('movie-list');
+};
+
+
+
+-----------------------------------------------------------
+
+
+
+O professor diz que, DENTRO DESSA LIST ROOT, DEVEMOS REMOVER O ELEMENTO QUE 
+ESTÁ NAQUELE INDEX (movieIndex)... por isso, 
+devemos alcançar a listRoot e acessar seus 
+children e então selecionar o elemento com o indexador "movieIndex", que 
+deve ser aquilo que nós queremos deletar com "remove();".
+
+ex:
+
+listRoot.children[movieIndex].remove();
+
+-------------------------------------------
+
+
+
+
+ex:
+
+
+
+const movies = [];
+
+const deleteMovieHandler = (movieId) => {
+    let movieIndex = 0;
+    for (const movie of movies) {
+        if (movie.id === movieId) {
+            break;
+        }
+        movieIndex++;
+    }
+    
+    movies.splice(movieIndex, 1);
+    const listRoot = document.getElementById('movie-list');
+    listRoot.children[movieIndex].remove();
+};
+
+
+---------------------------------------
+
+
+AS COISAS AGORA DEVEM FUNCIONAR. (tudo faz + ou - sentido, mas essa 
+parte do curso certamente é complicada).
+
+
+
+Agora os elementos, quando são clicados, são deletados tanto no DOM como no 
+javascript array.
+
+
+UM DETALHE IMPORTANTE QUANTO AO EVENTLISTENER de 
+"NewMovieElement", que tem a função "deleteMovieHandler":
+
+
+QUANDO UM FILME É DELETADO, É EVIDENTE QUE ISSO SIGNIFICA QUE 
+ESSE EVENTLISTENER VAI PARA O ESPAÇO ("goes into the void") e é redundante, 
+porque O ELEMENTO EM SI É REDUNDANTE. Isso, por acaso, constitui um 
+"memory leak"? O professor diz que NÃO.
+
+Não constitui um memory leak. Isso é porque 
+se VOCÊ DELETA UM OBJETO DO DOM e você não tem mais nenhuma 
+referência àquele objeto no seu código (o que é o caso aqui, pois nós 
+realmente não temos), se isso é o caso, javascript/o browser automaticamente
+ LIMPA TUDO QUE É RELACIONADO ÀQUELE OBJETO DO DOM, incluindo seus 
+ eventListeners. Portanto, ele limpa OS EVENTLISTENERS DOS OBJETOS 
+ DELETADOS ___AUTOMATICAMENTE____.
+
+ As únicas referências que nós temos àquele newMovieElement estão 
+ LOCALMENTE NA FUNÇÃO "renderNewMovieElement". A constante newMovieElement aponta 
+para esse list item (<li>) que segura esse eventListener.
+Assim que a execução da função acaba, isso significa que essa constante 
+"newMovieElement" NÃO É USADA MAIS VEZ ALGUMA NO CÓDIGO, e o javascript detecta isso 
+e trata esse objeto <li> aqui como "SEM REFERÊNCIAS"; é por isso que quando o deletamos no DOM, o 
+javascript é capaz de limpar o seu addEventListener automaticamente. Não precisamos nos preocupar sobre isso.
+

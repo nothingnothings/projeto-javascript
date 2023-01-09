@@ -1,0 +1,86 @@
+MDN- a bíblia do JavaScript.
+
+
+MDN = MOZILLA DEVELOPER NETWORK.
+
+MDN = PSEUDO-OFICIAL BIBLIA OFICIAL DO WEB DEVELOPMENT.
+
+
+VocÊ também deve aprender a como usar o google adequadamente.
+
+
+
+Muitos developers não consigam usar o google adequadamente.
+
+
+
+COMO usar o google da forma correta.
+
+
+
+
+
+Aprender COMO formular questões de forma adequada, e ajudar os outros.--->
+
+Fóruns como stackOverflow.
+
+Você precisa descrever seu erro, copiar e colar seu código de erro, seu código normal.
+
+Etc.
+
+
+
+
+
+
+última coisa: não importa o quão experiente você seja como um desenvolvedor, você sempre
+terá muita tentativa e erro.
+
+Às vezes você saberá como consertar algo, você saberá que aquilo deveria funcionar do jeito que você
+está escrevendo, mas ele simplesmente não funciona.
+Bem, não desista, apenas continue tentando.
+
+Claro que aqui o professor não está falando de simples erros de sintaxe, onde você esqueceu uma letra,
+e sim casos onde você não consegue pegar a lógica certa para alguma coisa, para casos e m que você quer
+calcular um número aleatório entre 1 e 10, e você sempre pega um número entre 0 e 1,
+ por exemplo.
+
+Isso tudo é puro trial and error, tentar para ver se funciona.
+
+
+----------------------------------------------------------
+
+NA PÁGINA DO MDN, VOCÊ ENCONTRA INCONTÁVEIS TUTORIAIS SOBRE JAVASCRIPT, ÓTIMA REFERÊNCIA PARA LER 
+DEPOIS DESSE CURSO
+
+
+Na página do javascript você também encontra outras referências e guias, que detalham praticamente tudo.
+
+
+
+uma coisa muito útil é digitar alguma propriedade/função/valor e depois colocar MDN do lado, no google.
+
+isso vai te mostrar tudo sobre aquela coisa, no site do MDN.
+
+
+
+
+
+
+ECMAScript (the language "behind" JavaScript) is under active development and the current progress and active standard is of course documented.
+
+You find a link on this page: https://www.ecma-international.org/publications/standards/Ecma-262.htm
+
+Please note: This document is absolutely NOT meant to be learned by heart or to be used as a developer. Rather it's important to browser vendors.
+
+Still, if you're interested in getting a glimpse behind the scenes, this document might be interesting.
+
+
+
+
+
+
+
+
+
+https://www.ecma-international.org/publications/standards/Ecma-262.htm

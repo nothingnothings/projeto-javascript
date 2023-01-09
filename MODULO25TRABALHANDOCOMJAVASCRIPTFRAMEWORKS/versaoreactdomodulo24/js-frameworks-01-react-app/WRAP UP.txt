@@ -1,0 +1,47 @@
+Esse foi o overview do react...
+
+
+
+
+Devemos estudar isso em particular.
+
+
+
+
+
+
+
+
+A GRANDE VANTAGEM É QUE VOCÊ PODE FOCAR NA 'BUSINESS LOGIC' do seu código...
+
+
+
+
+VOCÊ DEFINE O 'END RESULT' DO SEU CÓDIGO e os diferentes pedaços de 
+
+
+'state' e 'data' QUE SÃO USADOS NO SEU CÓDIGO... feito isso, o trabalho do react se torna 
+GERENCIAR ESSES ELEMENTOS CORRETAMENTE...
+
+
+
+
+A MESMA LÓGICA É APLICADA NO ANGULAR E NO VUE.JS, BTW....
+
+
+
+
+ELES TEM UMA SINTAXE UM POUCO DIFERENTE E MANEIRAS COMPLETAMENTE DIFERENTES DE IMPLEMENTAR ISSO DAQUI, 
+mas são parecidos.
+
+
+A ideia geral do 'declarative approach' É A MESMA.
+
+
+
+SÃO USADOS EM PROJETOS JAVASCRIPT MAIORES, PROJETOS EM QUE GRANDE PARTE DA SUA UI É GERENCIADA 
+PELO JAVASCRIPT...
+
+
+
+ESSAS FRAMEWORKS nos dão bem mais poder e tempo...

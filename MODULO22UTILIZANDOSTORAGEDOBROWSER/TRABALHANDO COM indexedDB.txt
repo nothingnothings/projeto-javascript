@@ -1,0 +1,1459 @@
+
+
+
+
+
+--------> CERTO.
+
+
+
+
+
+PARA ADICIONAR UM ITEM AO NOSSO OBJECT STORE, PRECISAMOS REPETIR O PROCESSO DESSE CÓDIGO:
+
+
+
+
+const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+
+
+
+
+-------------------------------------------------
+
+
+
+
+POR ISSO O PROFESSOR COPIA ESSE CÓDIGO E O INSERE NO EVENTLISTENER de 'storeBtn'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+    dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+}
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+storeBtn.addEventListener('click', () => { ////////EIS O CÓDIGO EM QUESTÃO.
+     const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+------------------------------------------------
+
+
+
+Com isso, diz o professor, a database E O OBJECT STORE serão INICIALIZADOS QUANDO 
+
+O CÓDIGO no interior do addEventListener EXECUTAR...
+
+
+
+
+
+
+Como nós estamos adicionando um NOVO PRODUTO ao object store de 'products', O PROFESSOR 
+
+
+SIMPLESMENTE VAI ATÉ 
+
+AS DEFINIÇÕES DE 
+
+
+'productsStore.add({})'
+
+
+
+E ALTERA O ID, trocando 'p1' por 'p2'......
+
+Ele também altera o preço, para diferenciar um pouco mais.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+    dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+}
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+storeBtn.addEventListener('click', () => { 
+     const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p2', //////////EIS O CÓDIGO EM QUESTÃO.
+            title: 'Second Product',
+            price: 25.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+---------------------------------------------
+
+
+
+
+
+PROFESSOR EXPLICA QUE ISSO ___QUASE____ IRÁ FUNCIONAR;
+
+
+O ÚNICO PROBLEMA SERÁ A DATABASE EM SI, pois não temos uma 'db' (database) DEFINIDA COMO 
+
+CONSTANTE GLOBALMENTE....
+
+
+(é apenas definida localmente na função 'dbRequest.onupgradeneeded')....
+
+
+
+
+
+PARA FAZER COM QUE ESSA DATABASE FIQUE DISPONÍVEL GLOBALMENTE (e resolver esse problema), PODEMOS SIMPLESMENTE 
+
+
+DIGITAR 
+
+
+'let db' no scope global de nosso código...
+
+
+
+
+--------------------------------
+
+
+
+
+Certo. Aquele erro sumiu.
+
+
+O professor adiciona um if check ao 'storeBtn.addEventListener'...
+
+
+
+
+ELE CHECA SE o 
+
+
+'db' NÃO ESTÁ SETTADO (ou seja, 'if (!db)')....
+
+
+SE ELE NÃO ESTIVER SETTADO, NOSSO CÓDIGO FAZ RETURN (não executa mais nada)....
+
+
+O professor coloca isso PARA QUE O CÓDIGO PARE DE SER EXECUTADO NO CASO DA DATABASE AINDA NÃO EXISTIR...
+
+
+
+
+
+
+Explica ele que esse é APENAS UM 'EXTRA CHECK' que poderíamos adicioanr aqui...
+
+
+(contudo, se não colocarmos esse extra check, nosso código vai nos dar um erro, o erro
+
+    Uncaught TypeError: Cannot read property 'transaction' of undefined
+    at HTMLButtonElement.<anonymous> 
+
+)
+
+
+COM ISSO, SALVAMOS E RECARREGAMOS O CÓDIGO.
+
+
+
+
+CLICAMOS EM 'store'...
+
+
+
+
+----------------------------
+
+
+
+AO CLICAR EM 'STORE', nada muda na aba 'application'... 
+
+
+
+
+
+PROFESSOR EXPLICA QUE O PROBLEMA AQUI É QUE NÓS SETTAMOS 
+
+
+
+'db' (a DATABASE) em 
+
+
+'.onupgradeneeded' (nessa seção do código).....
+
+
+
+
+O PROBLEMA É QUE O CÓDIGO DE 'onupgradeneeded' NEM SEMPRE 
+
+É EXECUTADO, NEM SEMPRE RODA... ---> SE NÓS 
+
+TIVERMOS UMA DATABASE EM QUE O NÚMERO DA VERSÃO (aquele segundo parâmetro em 'indexedDB.open()') 
+
+NÃO MUDOU/NÃO MUDA, esse código de 
+
+
+'.onupgradeneeded' ___NUNCA IRÁ ____ 'RE-RODAR'........
+
+
+
+
+
+
+----> resumindo:
+
+
+'onupgradeneeded' SOMENTE MUDA SE O NÚMERO DA VERSÃO MUDAR...
+
+
+SE NÃO TIVER NENHUMA VERSÃO NOVA, O CÓDIGO DEFINIDO NELE NÃO SERÁ EXECUTADO...
+
+
+
+
+
+---> 'onupgradeneeded' SOMENTE RODA QUANDO:
+
+
+1) NA PRIMEIRA VEZ QUE É LIDO/PARSEADO/EXECUTADO
+
+
+
+2) QUANDO O NÚMERO DA VERSÃO MUDA.
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+É claro que poderíamos simplesmente mudar o número da versão em 'indexedDB.open('StorageDummy', 1)'
+
+PARA 2, E ISSO FARIA A FUNÇÃO FUNCIONAR DNV,
+
+
+mas se tentássemos fazê-lo, NOSSO CÓDIGO TENTARIA RECRIAR (CRIAR DE NOVO) ESSE 
+
+OBJECT STORE de 'p1', O QUAL JÁ EXISTE....
+
+
+
+----> Isso significa que VOCÊ NÃO DEVE USAR ESSE 'VERSION NUMBER' para tentar 'kindof' 
+
+fazer O RESTO DO SEU CÓDIGO FUNCIONAR...
+
+
+NÃO, VOCê DEVE APENAS UTILIZÁ-LO SE VOCÊ ____REALMENTE____ MUDOU/MUDA A ESTRUTURA 
+
+INTERNA DAQUELA DATABASE....
+
+
+
+
+
+
+
+----> por isso, essa não é a solução que estamos buscando aqui...
+
+
+
+
+
+----> EM VEZ DISSO, O QUE PRECISAMOS FAZER AQUI É COPIAR O CÓDIGO 
+
+
+
+de 
+
+'dbRequest.onupgradeneeded = function (event) {...}'
+
+
+
+E __REESTRUTURAR TODO O NOSSO CÓDIGO__.
+
+
+
+Ok, o professor começa COPIANDO aquele 
+
+
+
+
+código de 'dbRequest.onupgradeneeded = function (event) {...}':
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+let db;
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+    dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+
+
+}
+
+
+
+
+
+
+
+   dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+
+
+
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    if(!db) {
+        return;
+    }
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+    productsStore.add({
+        id: 'p2', 
+        title: 'Second Product',
+        price: 25.99, 
+        tags: ['Expensive', 'Luxury']
+    });
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+Feita essa cópia, ele vai querer ALTERAR O 'objStore.transaction.onupgradeneeded' 
+
+
+DA CÓPIA para 'objStore.transaction.onsuccess'...
+
+
+
+
+
+ex:
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+let db;
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+    dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+
+
+}
+
+
+
+
+
+
+
+   dbRequest.onsuccess = function(event) { ////eis aqui a cópia.
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+
+
+
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    if(!db) {
+        return;
+    }
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+    productsStore.add({
+        id: 'p2', 
+        title: 'Second Product',
+        price: 25.99, 
+        tags: ['Expensive', 'Luxury']
+    });
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+
+--------------------------------------
+
+
+
+
+
+
+ESSE CÓDIGO DE '.onsuccess' VAI RODAR SEMPRE QUE ESSE 'indexedDB.open('StorageDummy, 1);'
+
+
+FOR OPENED/CRIADO....
+
+
+
+
+FEITO ISSO, ELE VAI SE LIVRAR DE TODO O CONJUNTO DE CÓDIGO QUE NÃO SEJA 'database-assigning'
+
+NESSA CÓPIA...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+let db;
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+    dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+
+
+}
+
+
+
+
+
+
+
+   dbRequest.onsuccess = function(event) {
+    const db = event.target.result;
+
+    ////////CÓDIGO A SER APAGADO 
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+
+
+
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+///////////////////////////////
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+
+
+
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    if(!db) {
+        return;
+    }
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+    productsStore.add({
+        id: 'p2', 
+        title: 'Second Product',
+        price: 25.99, 
+        tags: ['Expensive', 'Luxury']
+    });
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+
+------------------
+
+
+
+
+
+
+PÓS-REMOÇÃO DO CÓDIGO QUE NÃO TEM NADA A VER COM 'DATABASE-ASSIGNING':
+
+
+
+
+
+
+
+
+
+
+
+
+
+const storeBtn = document.getElementById('store-btn');
+const rtrBtn = document.getElementById('retrieve-btn')
+
+let db;
+
+
+const dbRequest = indexedDB.open('StorageDummy', 1);
+
+
+    dbRequest.onupgradeneeded = function(event) {
+    const db = event.target.result;
+
+
+    const objStore = db.createObjectStore('products', {keyPath: 'id'});
+
+    objStore.transaction.oncomplete = function(event) {
+    
+        const productsStore = db
+        .transaction('products', 'readwrite')
+        .objectStore('products');
+        productsStore.add({
+            id: 'p1',
+            title: 'A First Product',
+            price: 12.99, 
+            tags: ['Expensive', 'Luxury']
+        });
+    };
+
+
+
+}
+
+
+
+
+
+
+
+   dbRequest.onsuccess = function(event) {
+    const db = event.target.result;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dbRequest.onerror = function(event) {
+    console.log('ERROR!');
+}
+
+
+
+
+
+
+
+
+
+
+
+storeBtn.addEventListener('click', () => {
+    if(!db) {
+        return;
+    }
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+    productsStore.add({
+        id: 'p2', 
+        title: 'Second Product',
+        price: 25.99, 
+        tags: ['Expensive', 'Luxury']
+    });
+})
+
+
+
+rtrBtn.addEventListener('click', () => {
+
+}
+);
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+Certo.
+
+
+
+Adicionamos, portanto, um 'onsuccess' handler ao nosso código...
+
+
+
+esse 'onsuccess' handler SERÁ EXECUTADO SEMPRE QUE 'indexedDB' é OPENED/criado (com '.open()')...
+
+
+
+
+A ÚNICA COISA QUE ESSE 'onsuccess' handler irá fazer É 
+
+EXECUTAR O CÓDIGO 'db = event.target.result' (OU SEJA, ELE IRÁ 
+
+___DEFINIR___A NOSSA DATABASE COMO SENDO ISSO AÍ.)... ele irá 
+
+ASSIGNAR a nossa database SEMPRE QUE o 'indexedDB.open()' for executado... (o indexedDB.open cria/abre uma conexão ao database).
+
+
+
+
+
+
+
+Por meio do código no interior de '.onsuccess', 
+
+
+a variável ('let db;', no contexto global) 
+
+
+DE 'db' SERÁ ENTÃO DEFINIDA, o que possibiitará que trabalhemos com ela.
+
+
+
+
+
+
+
+Salvamos tudo e vamos até a aba 'application' de novo...
+
+
+
+
+
+Deveríamos ver os dois 'p', o 'p1' e o 'p2', mas só vemos p1...
+
+Algo de errado aconteceu...
+
+
+
+
+Certo.
+
+
+era um erro de sintaxe.
+
+
+havia colocado 'const db' em 'onupgradeneeded', mas 
+
+
+era necessário 'db = event.target.result;'
+
+
+
+
+Agora o negócio está funcionando.
+
+--------------------------------------
+
+
+
+
+
+
+É assim que você pode ARMAZENAR DADOS....
+
+
+
+
+
+
+
+PARA FAZER ___RETRIEVE___ dos dados, 
+
+
+
+você deve ir até o seu botão 'retrieve button'...
+
+
+
+
+dentro do segundo parâmetro do addeventlistener, você precisará 
+
+DE ACESSO 
+
+
+
+AO 
+
+
+
+'OBJECT STORE' que recém criamos....
+
+
+
+
+como precisamos de acesso ao object store  que críamos, 
+
+podemos reutilizar 
+
+
+
+o código de 
+
+
+
+'const productsStore = db.transaction('products', 'readwrite').objectStore('products');'
+
+
+
+
+ex:
+
+
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+})
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+
+DENTRO DESSE 'STORE OBJECT' CRIADO DENTRO DESSE PARÂMETRO DO EVENTLISTENER,
+
+
+
+
+você pode agora usar um método chamado de '.get()' PARA PEGAR 
+
+O ITEM QUE VOCÊ QUER RETRIEVAR... BASTA QUE VOCÊ PASSE O KEYNAME desse 
+
+ITEM...
+
+
+O professor usa o exemplo de 'p2'....
+
+
+
+
+ex:
+
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+   productsStore.get('p2');
+})
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+ENTRETANTO, NÃO BASTA APENAS ESCREVER '.get(xxx)' assim.....
+
+
+ISSO NÃO VAI TE DAR O ITEM DE CARA...  EM VEZ DISSO, ESSE MÉTODO TE DÁ 
+
+
+O 'REQUEST OBJECT'...... você pode/deve armazenar esse 'request object' 
+
+EM UMA CONSTANTE (que pode ter, por exemplo, o nome 'request')...
+
+
+
+ex:
+
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+  const request = productsStore.get('p2');
+})
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+Você faz esse dumping do objeto request (dado pelo método '.get()' ) 
+na constante 'request' PAR AQUE VOCÊ 
+
+ENTÃO POSSA ADICIONAR 
+
+
+AS HIPÓTESES/'eventlisteners'  
+
+DE 
+
+
+'onsuccess' 
+
+
+e 
+
+'onerror'...
+
+
+
+(Você tem que fazer isso pq ESSA É MANEIRA PELA QUAL ESSA API FUNCIONA...)
+
+
+-------------------
+
+
+
+Você então vincula esses listeners/hipóteses a funções....
+
+
+
+
+ex:
+
+
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+  const request = productsStore.get('p2');
+
+
+  request.onsuccess = function() {
+
+  }
+
+
+  request.onerror = function() {
+
+  }
+})
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+PROFESSOR BRINCA:
+
+
+nessa função vinculada ao 'onsuccess', nós 
+
+INFELIZMENTE TAMBÉM ___NÃO RECEBEMOS___ O ITEM 
+
+COMO UM ARGUMENTO... (que bosta)....
+
+
+INFELIZMENTE, É ASSIM QUE O API FUNCIONA.
+
+
+
+
+EM VEZ DISSO, PODEMOS AGORA PEGAR O 'RETRIEVED ITEM' no 
+
+'request object' (o qual foi retornado pelo método '.get('p2')', mais acima)...
+
+
+
+
+ex:
+
+
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+  const request = productsStore.get('p2');
+
+
+  request.onsuccess = function() {
+      console.log(request); /////////EIS O CÓDIGO EM QUESTÃO.
+  }
+
+
+  request.onerror = function() {
+
+  }
+})
+
+
+---------------------------------------
+
+
+
+
+Dentro desse item REQUEST OBJECT que foi retornado por '.get()', temos uma propriedade 
+
+
+CHAMADA '.RESULT', a qual, FINALMENTE, SERÁ O ITEM QUE QUERÍAMOS DAR RETRIEVE/demos retrieve (o item 'p2')...
+
+
+ex:
+
+
+
+
+
+
+
+retrBtn.addEventListener('click', () => {
+    const productsStore = db
+    .transaction('products', 'readwrite')
+    .objectStore('products');
+  const request = productsStore.get('p2');
+
+
+  request.onsuccess = function() {
+      console.log(request.result); /////////EIS O CÓDIGO EM QUESTÃO.
+  }
+
+
+  request.onerror = function() {
+
+  }
+})
+
+
+
+------------------------------------------------
+
+
+
+
+Feito isso, vamos até nossa página, apertamos 
+
+'retrieve' e CONSEGUIMOS O NOSSO 
+
+
+ITEM 
+
+
+'p2'...
+
+
+(se ele realmente estiver no indexedDB da página, se 
+tivermos apertado 'store' antes....)
+
+
+
+
+
+
+
+
+
+----> finalmente conseguimos fazer o STORE E RETRIEVE de items por meio de keynames, no indexedDB...
+
+
+
+
+
+
+
+Como você pode ter percebido, alguns aspectos do indexedDB podem ser um pouco confusos...
+
+
+
+
+
+
+É ESSA API OFERECIDA PELO INDEXEDDb, contudo.
+
+
+
+Porque é um pouco clunky, com todos esses 'handler assignments' ---->  POR CAUSA DISSO,
+
+EXISTEM THIRD PARTY LIBRARIES PARA FACILITAR O SEU USO...
+
+
+
+
+
+A LIBRARY MAIS IMPORTANTE É 
+
+
+
+'IDB.js'...
+
+
+
+
+O professor coloca um link sobre isso aí.
+
+
+
+
+Coloca um link do MDN, também.
+
+
+
+
+
+
+
+
+
+
+
+
+https://github.com/jakearchibald/idb
+
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+
+

@@ -1,0 +1,1308 @@
+
+
+
+
+
+
+
+
+
+
+
+
+Quando você trabalha com CLASSES em javascript, 
+
+
+você tem essas PROPRIEDADES, FIELDS E METHODS....
+
+
+
+
+
+Nós já aprendemos sobre eles....
+
+
+
+
+
+TODOS ELES SÃO "INSTANCE PROPERTIES" (propriedades de instância)...
+
+
+
+
+Bem, agora você vai descobrir que também coisas chamadas de 
+
+
+
+'STATIC PROPERTIES' (e methods).
+
+
+
+
+
+
+
+Mas qual é a diferença entre INSTANCE properties/methods/fields    e   STATIC field/properties/methods?
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+FIELDS/PROPERTIES/METHODS   ESTÁTICOS (static) SÃO DEFINIDOS POR 
+
+
+MEIO DA KEYWORD 'static' na frente deles....
+
+
+
+
+
+
+A diferença entre os instance e static coisos 
+
+
+é que 
+
+
+OS PROPRIEDADES/MÉTODOS/FIELDS STATIC SÃO SOMENTE 
+ACESSÍVEIS  
+
+
+NA CLASSE EM SI (on the class itself), POR ISSO VOCÊ 
+
+NÃO PRECISA 'instantiate' (instanciar) A CLASSE...
+
+Ou seja, você NÃO PRECISA USAR a keyword 'new' em conjunção 
+
+com o nome da classe para criar um objeto baseado naquela classe 
+para então utilizar essas coisas static...
+
+
+
+(Only acessible on class itself, without instantiation (i.e. not 
+on instance)).
+
+
+
+
+
+
+
+NÓS TIPICAMENTE UTILIZAMOS propriedades/métodos/fields static em 
+
+HELPER CLASSES, ou em algumas GLOBAL CONFIGURATIONS, etc....
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+JÁ AS INSTANCE PROPERTIES/METHODS/FIELDS são criadas 
+
+
+____SEM___ a keyword 'static'....
+
+
+(é o que fizemos até agora nesse módulo de OOP.)
+
+
+
+
+
+
+-----> ALÉM DISSO, ESSAS PROPRIEDADES/MÉTODOS/FIELDS SÓ 
+ESTÃO/FICAM DISPONÍVEIS EM INSTÂNCIAS (instances) BASEADAS 
+NAQUELA CLASSE 
+
+
+
+(Only acessible on instances (= objects) based on class) 
+
+
+
+
+
+----------> Por essa razão, nós utilizamos os instance fields/methods/properties 
+PARA 
+
+TODA A LÓGICA REUTILIZÁVEL DO NOSSO CÓDIGO.....
+
+
+(Used for core, re-usable logic).
+
+
+
+
+
+
+
+EX: no nosso código, até agora, NÓS SOMENTE TEMOS TRABALHADO 
+COM INSTANCES....
+
+Nós sempre temos reutilizado as classes por meio de 'new xxx'....
+
+
+estruturamos o código dessa forma porque NÓS PRECISAMOS DE DIFERENTES 
+
+'PRODUCT ITEMS' (new ProductItem(prod)), 
+
+Precisamos de product Items que POSSUEM A MESMA ESTRUTURA, 
+_______MAS QUE SEGURAM 
+
+DIFERENTES DADOS______________.......
+
+
+
+
+
+-------------------
+
+
+Já com STATIC PROPERTIES e STATIC METHODS, nós 
+
+
+TEMOS UMA CLASSE QUE NÃO É INSTÂNCIADA (instantiated) e, portanto, 
+
+QUE SEMPRE TRABALHA COM OS MESMOS DADOS, por exemplo...
+
+
+
+........
+
+
+
+
+E ISSO É EXATAMENTE O QUE PODEMOS UTILIZAR no nosso código, em algumas partes....
+
+
+
+
+
+Dentro do nosso código, podemos adicionar uma nova classe,
+
+talvez chamá-la de 'app', PORQUE 
+
+
+ELA SEGURARÁ nosso APP em GERAL...  (não se esqueça que static methods/properties geram excelentes helper  classes).
+
+
+
+
+Essa classe 'helper' é criada como uma classe normal, nada 
+de especial na sua sintaxe...
+
+
+Entretanto, dentro dela eu adiciono 
+
+UM NOVO MÉTODO, 
+
+
+'init() {}'....
+
+
+Na frente desse método 
+eu insiro 
+
+a keyword 'static'.
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class App {
+
+
+    static init() {}
+
+}
+
+
+
+
+
+
+const shop = new Shop();  /////////-------> CÓDIGO ANTIGO
+shop.render();   ///////----------->  Código antigo.
+
+-----------------------
+
+
+
+
+
+
+AGORA PODEMOS MOVER aquele código 'const shop = new Shop();  /////////-------> CÓDIGO ANTIGO
+shop.render();   ///////----------->  Código antigo.' 
+
+
+
+PARA DENTRO DO MÉTODO 'init' DESSa classe 'estática' APP....
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+
+
+    static init() {
+
+            const shop = new Shop(); 
+            shop.render();  
+
+    }
+
+}
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+Dentro de 'init()', você pode executar qualquer código....
+
+
+
+
+APENAS TENHA EM MENTE QUE se vocÊ tentasse usar 'this' DENTRO 
+
+DO MÉTODO 'init()', você sempre faria referência 
+
+à CLASSE EM SI (à 'class App'), E ____NUNCA___ À UMA OBJECT__ INSTANCE  (um objeto, essencialmente)
+
+BASEADA NESSA CLASSE....
+
+
+
+
+
+
+Agora, portanto, 
+
+
+
+você não vai no seu código e cria 
+
+
+um OBJETO APP globalmente, tipo assim:
+
+
+
+
+ex (do que você não precisa/não pode fazer):
+
+
+
+
+
+
+
+
+
+class App {
+
+
+    static init() {
+
+            const shop = new Shop(); 
+            shop.render();  
+
+    }
+
+}
+
+
+
+
+const app = new App();
+
+
+----------------------------
+
+
+
+Na verdade, você PODERIA FAZER ISSO, 
+mas não é necessário....
+
+
+Não é necessário PORQUE VOCÊ PODE CHAMAR 
+
+'init()' em QUALQUER FUNÇÃO DO CÓDIGO MESMO 
+
+SEM TER INSTANCIADO A CLASSE 'App' (essa é a utilidade de static methods/properties/fields).
+
+
+------------------------------------------
+
+
+
+
+
+Para chamar 'init();',  BASTA QUE VOCÊ 
+O CHAME 
+
+NORMALMENTE, COMO SE O OBJETO 'App' já existisse 
+
+
+no seu código... (mesmo que você não tenha criado uma instância 'app' por meio de 'new App'.)
+
+
+
+
+Basta que você chame a classe em si, e então chame o método.
+
+
+
+
+ex:
+
+
+
+
+
+class App {
+
+
+    static init() {
+
+            const shop = new Shop(); 
+            shop.render();  
+
+    }
+
+}
+
+
+
+
+App.init();
+
+
+
+
+
+---------------------------
+
+
+
+
+ISSO VAI FAZER COM QUE O MÉTODO 'init()' SEJA 
+EXECUTADO NA CLASSE 'App' em si... (desde que haja a keyword 'static' na frente do nome do método que você quer chamar)
+
+
+
+
+
+
+
+De novo: nós não temos nenhum objeto App aqui para chamar métodos em cima,
+
+em vez disso nós operamos DIRETAMENTE COM AQUELA CLASSE, e, portanto, 
+
+essa call desse método funcionará normalmente.
+
+
+
+
+
+-----------------------------------
+
+
+
+funcionará, mas É UM APPROACH ___DIFERENTE___.
+
+
+
+
+A vantagem pode ser vista se nós formos adiante 
+
+
+E SOLUCIONARMOS O NOSSO 
+
+PROBLEMA DO 'CART'....
+
+
+
+
+Você deve se lembrar:
+
+
+
+
+na classe 'ShoppingCart' nós tínhamos 
+
+o método 
+
+
+'addProduct()' (esse método aceitava um PRODUTO como método e então fazia o UPDATE do card renderizado com o valor total correto dos produtos)...
+
+
+queríamos chamá-lo de dentro 
+
+de 'ProductItem', mas não conseguíamos 
+porque o tal
+
+método NÃO EXISTIA dentro de 'ProductItem', só 
+existia 
+
+dentro da classe ShoppingCart (e da constante 'cart', que somente existia dentro da classe 'Shop')....
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+Bem, agora o professor vai em frente e REORGANIZA O NOSSO CÓDIGO, resolvendo o problema:
+
+
+
+
+Primeiramente ele vai lá 
+
+e decide 
+
+
+que nós podemos 
+
+
+
+
+ARMAZENAR ESSA REFERÊNCIA ao 
+
+objeto 'ShoppingCart' (criado a partir de classe com o mesmo nome) 
+
+
+EM UMA PROPRIEDADE, EM UMA PROPRIEDADE 
+
+
+DENTRO DO método 'render()' Da classe 'Shop'.
+
+
+
+ex:
+
+
+
+ISSO:
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        
+        const cart = new ShoppingCart();
+        const cartEl = cart.render();
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+        renderHook.append(cartEl);
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+VIRA ISSO:
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        
+        this.cart = new ShoppingCart();  /////EIS A ALTERAÇÃO EM QUESTÃO.
+        const cartEl = cart.render();
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+        renderHook.append(cartEl);
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+'this.cart' vai fazer com que 
+
+
+SEJA CRIADA UMA PROPRIEDADE 'cart' dentro da classe 
+
+'Shop' (ou do próximo objeto criado com essa classe, basically).
+
+
+
+
+'cart' é igual a 'ShoppingCart'(o objeto).
+
+
+
+
+É claro que isso significa que, aqui, eu também 
+
+
+devo alterar a próxima linha, que diz 
+
+
+'const cartEl. cart.render();', POIS ESSE 'cart' que está REFERENCIADO ALI (o objeto 'cart', que existia antigamente), 
+
+JÁ NÃO EXISTE, FOI SUBSTITUÍDO PELA PROPRIEDADE 'cart'....
+
+
+
+Faço isso por meio do código 'const cartEl = this.cart.render();'
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        
+        this.cart = new ShoppingCart();  /////EIS A ALTERAÇÃO EM QUESTÃO.
+        const cartEl = this.cart.render();
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+        renderHook.append(cartEl);
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+-------------------------------------
+
+
+
+
+
+
+A VANTAGEM OBTIDA POR ESSAS  ALTERAÇÕES É QUE 
+
+AGORA PODEMOS IR ATÉ a nossa classe 'App' 
+
+e no método 'init()' NÓS 
+
+GANHAMOS ACESSO ao 
+
+
+'Shop', certo?
+
+
+E o 'Shop' é, no final das contas, 
+
+UM OBJETO BASEADO 
+
+
+NA CLASSE 'Shop', a qual 
+
+
+segura A propriedade 'CART', CERTO?
+
+
+
+
+
+Vamos até 'shop', que é  inicializado DENTRO DE 'APP'... (dentro de 'app' temos 'const shop = new Shop()'...)
+
+E ARMAZENAMOS o objeto 'cart' (ou seja, 'new ShoppingCart()') DENTRO 
+
+DE UMA PROPRIEDADE...:
+
+
+'this.cart = new ShoppingCart();'
+
+
+
+Agora, portanto, 'cart' é UMA PROPRIEDAED DE shop que tem como seu valor
+aquela classe/objeto 'ShoppingCart'.
+
+
+temos também que alterar 'cart.render' para 'this.cart.render', porque 
+NOSSA ORGANIZAÇÃO de dentro da classe 'Shop' mudou; afinal agora não 
+temos mais o 'cart' como uma constante, e sim como uma propriedade...
+a sintaxe 'this.cart.render' vai fazer com que selecionemos essa propriedade 
+adequadamente e fará com que consigamos chamar o método inscrito nela.
+
+
+
+
+
+
+A vantagem de tudo isso é que agora podemos IR ATÉ 
+
+A NOSSA CLASSe 'app'....
+
+
+com o método 'init()' de app nós ganhamos 
+acesso ao 'Shop'...
+
+
+
+
+Em 'app' nós TAMBÉM PODEMOS ADICIONAR UMA PROPRIEDADE 'cart'..., 
+por meio da referência à propriedade 
+
+'cart' em 'shop'....
+
+ex:
+
+
+
+
+'this.cart = shop.cart;'
+
+
+
+
+
+
+
+
+
+-----------------
+'this.cart'  =  'shop.cart';
+--------------
+
+
+
+ex:
+
+
+
+
+
+
+class Shop {
+    render() {
+        const renderHook = document.getElementById('app');
+        
+        
+        this.cart = new ShoppingCart(); 
+        const cartEl = this.cart.render();
+        const productList = new ProductList();
+        const prodListEl = productList.render();
+
+
+
+        renderHook.append(cartEl);
+        renderHook.append(prodListEl);
+    }
+}
+
+
+
+class App {
+
+ static init() {
+
+            const shop = new Shop(); 
+            this.cart = shop.cart; //////EIS O CÓDIGO EM QUESTÃO.
+            shop.render();  
+
+    }
+
+
+}
+
+
+
+
+App.init();
+
+
+
+
+
+
+
+----------------------------
+
+
+'shop.cart' ???? ----> como assim? Ver amanhã...
+
+
+
+
+
+
+RESUMO:
+
+
+'this.cart' ----> adiciona a propriedade 'CART' à classe 'APP'.
+
+
+
+'shop.cart' ----> define o VALOR da propriedade 'cart' de app COMO SENDO 
+a propriedade 'cart' (que é a classe 'ShoppingCart') DE 'shop'...
+
+
+
+SE salvarmos isso e recarregarmos a página...
+
+
+
+Bem, percebemos que está tudo funcionando como antes, + ou -...
+
+
+
+
+-------------------------------------
+
+
+
+
+Mas por que o professor está fazendo isso?
+
+
+
+Por que ele está 
+
+relacionando 
+
+'this.cart = shop.cart' ?
+
+
+
+
+
+---> é porque agora aqui, em 'app', ele pode 
+
+adicionar OUTRO MÉTODO ESTATICO... 
+
+
+Um método chamado 
+
+de 
+
+'addProductToCart()'.
+
+
+
+Ele vai fazer com que esse método espere 
+'product' como parâmetro...
+
+
+Após isso, ele se refere 
+
+
+a 'this.cart.addProduct()'  -----> ele escreve dessa forma pq 'this.cart' se refere à UMA INSTÂNCIA (instance) baseada na nossa classe 'ShoppingCart'....
+                                    E ESSA CLASSE tem um método 'addProduct()', que estamos chamando agora...
+
+
+
+
+
+
+
+O professor então chamará 'addProduct()' da classe shop,
+fazendo 
+
+o forward do parâmetro 'product' dentro desse method call....
+
+
+
+
+
+
+
+ex:
+
+
+
+class App {
+
+ static init() {
+
+            const shop = new Shop(); 
+            this.cart = shop.cart; //////EIS O CÓDIGO EM QUESTÃO.
+            shop.render();  
+
+    }
+
+
+
+static addProductToCart(product) {
+    this.cart.addProduct(product);
+}
+
+
+
+
+
+
+}
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+NÓS ENTÃO, POR MEIO DESSES CÓDIGOS e método estáticos, UTILIZAMOS 
+
+APP + ou - como se ele FOSSE UM PROXY....
+
+porque, e ESSA É A VANTAGEM E TODA A IDEIA 
+POR TRÁS DE UTILIZAR MÉTODOS ESTÁTICOS, como 
+
+nós sempre operamos NA/SOBRE a classe e não 
+sobre as instâncias, nós NÃO 
+TRABALHAMOS em/com diferentes objetos (nós trabalharíamos com diferentes objetos se nós não utilizássemos static methods e utilizássemos, em vez disso, diferentes aplicativos em diferentes lugares do app... ).
+
+
+
+Em vez disso, o 'app' que o professor está usando aqui
+
+PARA INICIALIZAR o seu app... essa classe 
+
+'App' é a MESMA CLASSE QUE ELE PODE, POR EXEMPLO, 
+
+CHAMAR DE DENTRO DE 
+
+'productItem'...
+
+
+
+
+
+Então aqui, em productItem, dentro de 
+
+
+'addToCart()', o professor pode se LIVRAR 
+dos console.logs E ENTÃO 
+
+simplesmente chamar 'App.addProductToCart(this.product)';
+
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+
+ static init() {
+
+            const shop = new Shop(); 
+            this.cart = shop.cart; 
+            shop.render();  
+
+    }
+
+
+
+static addProductToCart(product) {
+    this.cart.addProduct(product);
+}
+
+}
+
+
+
+
+
+
+class ProductItem {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+        App.addProductToCart(this.product);  /////EIS O CÓDIGO EM QUESTÃO.
+    }
+
+
+
+
+    render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+        return prodEl;
+    }
+}
+
+
+
+-----------------------------------
+
+
+
+
+
+"App.addProductToCart(this.product);"   ///////  --------> aqui 'this.product' se refere ao product armazenado DENTRO Da CLASSE/OBJETO 'ProductItem'...
+
+
+
+
+Aqui, portanto, o professor ESTÁ USANDO STATIC METHODS... e ele ressalta o fato de que 
+nós não estamos trabalhando sobre/com objetos 
+BASEADOS EM CLASSES, mas na CLASSE EM SI MESMA, para compartilhar alguns 
+dados, compartilhar uma instância 'card', por exemplo
+
+
+---------------------------------
+
+
+
+
+Professor explica que essa não é a única maneira de resolver o problema (... que problema?) ....
+
+você poderia encontrar outras soluções, mas  este é um bom use case para 
+MÉTODOS ESTÁTICOS
+
+
+
+
+
+
+
+IMPORTANTE ---> aqui, o professor está chamando 
+
+
+'addProductToCart' em 'App' e fazendo o forward de 'product', que é o product em 'ProductItem'...
+
+
+
+Agora, entretanto, em 'this.cart.addProductToCart' nós temos um problema...
+
+
+Se o professor salvar o código, der reload e pressionar em 'Add to Cart', 
+
+
+
+
+ele verá que o console nos atirará 
+
+
+UM ERRO.
+
+
+
+
+'Cannot read property 'addProduct' of undefined at Function.addProductTocart 
+at ProductItem.addToCart' ...............
+
+
+
+
+Ou seja, o browser NÃO CONSEGUE ENCONTRAR UM método 'addProduct' em 
+
+'cart' (láááá naquela linha de 'this.cart.addProduct(product)', dentro do método estático 'addProductToCart'.)...
+
+
+
+Ele não consegue encontrar esse método pq em 'app' eu estou 
+
+
+tentando armazenar 'cart' (o qual eu obtenho de 'shop.cart') antes 
+
+
+de chamar 'shop.render();'...... E, SE VOCÊ OBSERVAR DE PERTO, VOCÊ 
+
+PERCEBERÁ QUE É ___ JUSTAMENTE___ EM RENDER____ QUE EU CRIO 
+
+O 'cart'....    Ou seja, o código ___NÃO VAI FUNCIONAR NESSA ORDEM____.
+
+DEVEMOS trocar de ordem 'shop.render()' e 'this.cart = shop.cart'.
+
+
+ex:
+
+
+
+
+
+
+class App {
+
+ static init() {
+
+            const shop = new Shop(); 
+            shop.render();  
+            this.cart = shop.cart; 
+
+           
+
+    }
+
+
+
+static addProductToCart(product) {
+    this.cart.addProduct(product);
+}
+
+}
+
+
+
+
+
+
+class ProductItem {
+    constructor(product) {
+        this.product = product;
+    }
+
+
+    addToCart() {
+        App.addProductToCart(this.product);  /////EIS O CÓDIGO EM QUESTÃO.
+    }
+
+
+
+
+    render() {
+
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodEl.innerHTML = `<div>
+        <img src="${this.product.imageUrl}" alt="${this.product.title}">
+        <div class="product-item__content">
+            <h2>${this.product.title}</h2>
+            <h3>\$${this.product.price}</h3>
+            <p>${this.product.description}<p>
+            <button>Add to Cart</button>
+        </div>
+    </div>
+        `;
+        const addCartButton = prodEl.querySelector('button');
+        
+        addCartButton.addEventListener('click', this.addToCart.bind(this));
+
+        return prodEl;
+    }
+}
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+Devemos, então, PRIMEIRO RENDERIZAR O 'cart', para só então 
+conseguir acesso a ele com   'this.cart = shop.cart;'
+
+
+
+
+
+Se salvarmos isso e recarregarmos a página, veremos que o negócio 
+AINDA NÃO FUNCIONARÁ, pois o professor fez um ERRO antes...
+
+
+
+
+Ali na classe 'ShoppingCart', em que ele assigna um novo valor/cria uma nova propriedade por meio de 
+
+'this.totalOutput = <h2>.......</h2>' ----------> ELE EXPLICA 
+
+QUE ALI ELE DEVERIA TER COLOCADO 
+
+'this.totalOutput.innerHTML = <h2>......</h2>', E NÃO A FUTURA PROPRIEDADE "solta" na linha de código.  -------> ou seja, ele quer ATUALIZAR O INNERHTML DESSA PROPRIEDADE, e não 'atualizar o valor armazenado na propriedade 'totalOutput'  ".
+
+
+
+Se fizermos essa alteração e recarregarmos a página, veremos que agora o 0 do valor total trocará 
+para 1 TODA VEZ Q APERTARMOS o add to cart.
+
+
+
+
+
+
+Certo, essa parte da lógica do código está funcionando....
+
+
+
+
+
+
+Ainda não adicionamos a lógica que fará com que o verdadeiro valor dos items seja outputtado ali...
+
+
+
+
+
+
+
+Você pode, para treinar, adicionar 
+
+um FIELD STÁTICO À classe 'app', chamado de 'cart'....
+
+
+
+Por meio disso nós DEIXAMOS BEM CLARO QUE nós temos essa propriedade estática 'cart'...
+
+
+
+nós nos referimos à essa propriedade em 'this.cart', dentro desse mesmo 'app'...... 
+
+
+
+OBS: SE VOCÊ USAR 'this' dentro de um método ESTÁTICO dentro de uma classe, ELE SEMPRE IRÁ SE REFERIR 
+à CLASSE EM QUE ELE ESTÁ ARMAZENADO (ele nunca irá se referir À uma instância daquela classe, 
+SEMPRE IRÁ SE REFERIR À CLASSE NA QUAL ESTÁ ARMAZENADO. )......
+
+
+Portanto, os métodos estáticos ADICIONAM ____PROPRIEDADES ___ ESTÁTICAS ___ IMPLICITAMENTE (como 'this.cart') e então 
+acessa essa propriedade estática, implicitamente...
+
+
+mas ainda assim, escrever 'static xxxx'  deixa bem claro que nós esperamos ter aquela propriedade estática (que isso já estava nos nossos planos), 
+
+E, NA OPINIÃO DO PROFESSOR, ISSO AUMENTA A LEGIBILIDADE DO CÓDIGO.
+
+
+
+ex:
+
+
+
+
+
+
+class App {
+        static cart; //////DEIXO BEM CLARO QUE É REALMENTE MEU PLANO UTILIZAR ESSA PROPRIEDADE 'estática'...
+
+
+
+ static init() {
+
+            const shop = new Shop(); 
+            shop.render();  
+            this.cart = shop.cart; 
+
+           
+
+    }
+
+
+
+static addProductToCart(product) {
+    this.cart.addProduct(product);
+}
+
+}
+
+

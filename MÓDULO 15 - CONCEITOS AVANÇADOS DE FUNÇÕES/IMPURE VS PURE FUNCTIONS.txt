@@ -1,0 +1,139 @@
+
+
+
+
+
+TIPICAMENTE, É UMA BOA IDEIA EM PROGRAMAÇÃO (não apenas em javascript, MAS PRINCIPALMENTE EM JAVASCRIPT)
+
+tentar ESCREVER FUNÇÕES QUE SEJAM PURAS, OU SEJA, QUE NÃO 
+
+TENHAM SIDE EFFECTS....
+
+
+
+
+
+A razão para isso é bem simples: queremos escrever funções puras SIMPLESMENTE 
+
+PORQUE ELAS SÃO BEM MAIS PREVISÍVEIS....
+
+
+
+
+
+
+SE ALGUÉM AS CHAMA SEM SABER A DEFINIÇÃO DA FUNÇÃO (como um outro desenvolvedor), é sempre bom confiar/depender 
+
+do fato DE QUE ESSA FUNÇÃO NÃO FARÁ NADA ESTRANHO POR TRÁS DAS CENAS, NOS BASTIDORES....
+
+
+
+
+
+
+TUDO BEM.
+
+
+
+MAS QUANDO VOCÊ ESTÁ CONSTRUINDO UM APLICATIVO, quando você estiver escrevendo código,
+
+
+SERÁ __IMPOSSÍVEL_____ EVITAR A INTRODUÇÃO DE SIDE EFFECTS POR INTEIRO NO SEU CÓDIGO...
+
+
+
+
+Em algum momento, é bem provável que você tenha alguns side effects no seu código...
+
+
+
+
+EX: uma função TALVEZ PRECISE DEFINIR ALGUM EVENTLISTENER, ou talvez TENHA QUE ENVIAR 
+
+ALGUNS DADOS a um servidor... e esse fracasso de evitar 'funções impuras' É TOTALMENTE 
+
+ACEITÁVEL.
+
+
+
+
+
+
+O OBJETIVO EM PROGRAMAÇÃO É SIMPLES: TENTAR MINIMIZAR A OCORRÊNCIA DE FUNÇÕES QUE 
+
+SÃO IMPURAS/que têm side effects... mas quando isso é impossível, aceita-se o resultado 
+
+
+'subóptimo'...
+
+
+
+
+
+
+
+VOCÊ APENAS DEVE TRABALHAR COM O SEU CÓDIGO DE UMA FORMA __LÓGICA____;
+
+
+TENTAR MANTER SUAS FUNÇÕES __PREVISÍVEIS__ E PURAS...
+
+
+
+
+
+SE VOCÊ OCASIONALMENTE TIVER ALGUMAS FUNÇÕES QUE ___PRECISAM___ realizar/ter um side effect, ou ser 
+
+IMPURAS, isso é totalmente aceitável.
+
+
+
+
+---> se uma função for impura, talvez você queira melhorar outra parte do seu código, como, por exemplo, tentar 
+
+
+SER MAIS CLARO COM OS NOMES DAS FUNÇÕES, esclarecer bem que uma função faz uma determinada coisa, cria um 
+determinado side effect, etc etc.
+
+
+
+
+
+
+
+
+
+EX:
+
+
+uma função chamada 
+
+
+'sendDataToServer' teria sobre ela a expectativa DE QUE ELA ENVIA ALGUNS 
+
+DADOS A UM SERVIDOR... o fato de ela enviar alguns dados a um servidor 
+
+TRAZ IMPLICITAMENTE ALGUMAS CONSEQUÊNCIAS... não seria absurdo considerar, por exemplo, que ela 
+
+talvez PRODUZA, COMO SIDE EFFECT, UM HTTP REQUEST.....
+
+-----------------------------------------------------------
+
+UMA FUNÇÃO QUE É SIMPLESMENTE CHAMADA 'add', POR OUTRO LADO, PROVAVELMENTE __NÃO__ DEVE CRIAR ALGUM 
+
+SIDE EFFECT/ SER IMPURA, pois uma função com esse nome TRAZ IMPLICITAMENTE A EXPECTATIVA DE SER PURA... (normalmente).
+
+
+
+COMO SEMPRE, ISSO VEM COM EXPERIÊNCIA...
+
+
+
+É aceitável não ser perfeito com essa distinção entre pura/impura.
+
+
+MAS VOCÊ DEFINITVAMENTE DEVE TER CIÊNCIA DESSE CONCEITO, do conceito de pure functions...
+------------------------------------------
+
+
+
+SEMPRE TENTE ESCREVER PURE FUNCTIONS; esforce-se para reduzir o número de impure functions / functions com side effects.... 

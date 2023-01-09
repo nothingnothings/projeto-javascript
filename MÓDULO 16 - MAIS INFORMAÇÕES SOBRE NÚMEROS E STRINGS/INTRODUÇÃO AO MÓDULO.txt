@@ -1,0 +1,66 @@
+
+
+
+
+DEVEMOS ESTUDAR MAIS SOBRE 
+
+
+
+NÚMEROS E STRINGS....
+
+
+
+
+É CLARO QUE JÁ TRABALHAMOS COM OS 2 MUITO ATÉ AGORA....
+
+
+
+
+
+
+NÃO COMEÇAREMOS 'do nada' nesse módulo...
+
+
+
+
+VAMOS PRIMEIRAMENTE VER UM POUCO DO 'POR TRÁS DAS CENAS' desses dados no javascript;
+
+
+
+feito isso, 
+
+devemos explorar 
+
+
+algumas das features AVANÇADAS que ainda não utilizamos 
+
+até agora.
+
+
+
+
+
+
+NESSE MÓDULO, VEREMOS:
+
+
+
+
+1) MAIS SOBRE NÚMEROS. Como são representados internamente no nosso código, e porque Às vezes nós acabamos COM ALGUNS RESULTADOS ESTRANHOS EM certos cálculos...
+
+
+
+
+
+2) TRABALHANDO COM OBJETOS GLOBAIS 'Number' e 'Math'.... --------->  SÃO OBJETOS/CONSTRUCTOR FUNCTIONS QUE NOS AJUDAM.
+
+
+
+
+
+3) MAIS SOBRE STRINGS E TEMPLATE LITERALS ---------> devemos saber mais sobre isso, pq, aparentemente, HÁ MAIS COISAS QUE PODEMOS FAZER COM ELES DO QUE PARECE...
+
+
+
+
+----------------

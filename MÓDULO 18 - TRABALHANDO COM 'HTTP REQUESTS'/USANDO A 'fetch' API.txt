@@ -1,0 +1,982 @@
+
+
+
+
+
+
+
+
+
+
+OK.
+
+NÓS COMECAMOS A VER OS HTTP REQUESTS COM AQUELE 
+
+OBJETO 'XMLHttpRequest'....
+
+
+
+
+
+
+
+BTW, vocÊ pode estar pensando:
+
+
+
+'de onde diabos esse nome XML vem?'
+
+
+
+
+
+
+PROFESSOR EXPLICA QUE NO PASSADO, BASTANTE TEMPO ATRÁS, 
+
+ISSO, ESSE OBJETO XMLHttpRequest, FOI INTRODUZIDO 
+
+PARA QUE PUDÉSSEMOS FAZER 'fetch' DE 
+
+
+DADOS 'XML' por trás das cenas....
+
+
+
+HOJE, É CLARO, É MUITO MAIS COMUM USAR 
+
+DADOS 'JSON',
+
+
+MAS ISSO NÃO FEZ COM QUE O NOME DO OBJETO MUDASSE,
+
+POR ISSO ELE CONTINUA COMO 'XMLHttpRequest'....
+
+
+
+
+
+
+
+
+----------------------------------------------------
+
+
+
+
+
+
+
+
+ENTRETANTO, HÁ MAIS COISAS QUE VOCÊ PODE FAZER COM ESSE OBJETO 'XMLHttpRequest'...
+
+
+HÁ MAIS COISAS QUE VOCê PODE CONFIGURAR COM ELE...
+
+
+você pode mergulhar mais fundo nesse tópico....
+
+
+
+
+PROFESSOR ANEXOU ALGUNS RECURSOS QUE NOS PERMITEM VER MAIS SOBRE ISSO.
+
+
+
+
+
+
+AGORA, PORÉM, 
+
+O PROFESSOR QUER DAR UMA OLHADA EM UMA ALTERNATIVA 
+
+__________MAIS MODERNA_____, A QUAL FOI ADICIONADA 
+
+
+AOS BROWSERS HÁ ALGUNS ANOS... e a qual 
+
+não é, na verdade, suportada em todos os browsers...
+
+
+
+
+BROWSERS MAIS ANTIGOS, internet explorer, etc etc... NÃO 
+
+SUPORTAM ESSA NOVA API QUE VOCÊ PODE USAR....
+
+
+
+
+
+
+E ESSA NOVA API da qual o professor está falando é
+
+
+
+a 'FETCH API'...
+
+
+
+
+PARA USÁ-LA, O PROFESSOR DECIDE COMENTAR PARA FORA 
+
+
+TODO O CÓDIGO no interior da função dE 'sendHttpRequest'... (ou seja, 
+
+TODO O CÓDIGO DE DENTRO DA 'PROMISE CONSTRUCTOR FUNCTION' no interior de sendHttpRequest.)
+
+
+
+(PORÉM, PROFESSOR MANTÉM A PROMISE EM SI:
+
+
+'const promise = new Promise((resolve, reject) => {
+
+}')
+
+
+
+
+
+PROFESSOR DIZ QUE AGORA VAMOS UTILIZAR AQUELA NOVA API DE ENVIAR 
+
+HTTP REQUESTS NO LUGAR DO VELHO E ANTIQUADO objeto 'XMLHttpRequest'....
+
+
+-------------------------------
+
+
+
+
+
+
+ESSA API FOI INVENTADA PARA SER MAIS MODERNA, MENOS CLUNKY (sem esses event handlers estranhos, como: 'onerror', 'onload', 'oncoisas'.... esses 'on' são coisas velhas, impróprias no javascript moderno.)
+
+
+
+
+É POR ISSO QUE ESSA NOVA API FOI INTRODUZIDA.
+
+
+
+
+
+
+CHAMA-SE 'fetch API' porque 
+
+
+TODAS SUAS FEATURES
+
+
+
+GIRAM EM TORNO 
+
+
+DE UMA 
+
+
+'key function', 
+
+
+
+
+A 
+
+
+'FETCH FUNCTION'...
+
+
+
+escreve-se:
+
+
+
+'fetch()'....
+
+
+
+
+-------------------------------
+
+
+
+
+essa função 'fetch()' É BUILTIN 
+
+nos browsers,
+
+é EXPOSTA (exposed) no JAVASCRIPT, assim msm...
+
+
+
+ISSO SIGNIFICA QUE VOCÊ NÃO PRECISA CHAMÁ-LA COMO UM MÉTODO 
+em qualquer objeto, ou qualquer coisa do gênero....
+
+
+
+---> É UMA FUNÇÃO DISPONÍVEL GLOBALMENTE NO JAVASCRIPT MODERNO...
+
+
+
+
+
+---->>>
+
+
+ENTRETANTO, COMO O PROFESSOR REFERIU ANTERIORMENTE, 
+
+ESSA KEY FUNCTION NÃO É 
+
+DISPONÍVEL EM BROWSERS MAIS ANTIGOS...
+
+
+
+
+--------> VEREMOS MAIS SOBRE ISSO NO MÓDULO DE 'BROWSER SUPPORT'...
+
+
+
+
+
+
+-------> FETCH, NA SUA FORMA MAIS SIMPLES, ACEITA 
+
+APENAS UMA 
+
+
+simples
+URL...
+
+
+
+
+ou seja, devemos passar uma url a fetch...
+
+
+
+ex:
+
+
+
+
+fetch(url);
+
+
+
+------------------------------
+
+
+
+ESSA URL PODE SER UMA STRING OU UMA VARIÁVEL/CONST...
+
+
+-------------------------------
+
+
+
+
+DIGITADA ESSA URL, fetch() 
+
+
+VAI ACABAR ___ENVIANDO UM REQUEST DE TIPO 'GET'...
+
+
+
+SERÁ ENVIADO UM REQUEST DE TIPO 'GET' à ESSA URL QUE VOCÊ PASSOU COMO PARÂMETRO...
+
+
+
+
+----------------------------
+
+
+
+FETCH(), por default, 
+É 
+
+
+________PROMISE BASED_______.
+
+
+
+
+ISSO SIGNIFICA QUE É A PRIMEIRA 
+
+
+
+'NATIVE PROMISE API' que vemos nesse curso, 
+
+
+A
+
+
+            (''application programming interface'')
+PRIMEIRO 'API' que UTILIZA PROMISES NATIVAMENTE...
+
+
+
+
+
+
+
+ISSO QUER DIZER QUE NÓS __NÃO PRECISAMOS 'PROMISIFÁ-LA' NÓS MESMOS (promisify),
+
+
+
+
+visto que UTILIZA PROMISES POR CONTA PRÓPRIA....
+
+
+
+
+
+EM RAZÃO DISSO, PODEMOS SIMPLESMENTE REMOVER 
+
+
+'const promise = new Promise((resolve, reject) => {})'
+
+
+DE NOSSa função 
+
+
+'sendHttpRequest'...., 
+
+
+E TAMBÉM O 
+
+'return promise;'.....
+
+
+
+
+
+PODEMOS, EM VEZ DISSO, SIMPLESMENTE RETORNAR 
+
+
+O RESULTADO
+
+de 'fetch(url)' NESSA FUNÇÃo...
+
+
+
+ex:
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+ ////////////const promise = new Promise((resolve, reject) => {
+  ///////////      ...
+ ///////////   })
+
+
+
+
+
+ //////////////////return promise;
+
+
+
+
+
+
+ return fetch(url); ///////////EIS AQUI O CÓDIGO EM QUESTÃO... o resto tudo pode ser apagado (o resto tudo faz parte da sintaxe de 'XMLHttpRequest'...)
+}
+
+
+
+--------------------------------------
+
+
+
+
+PODEMOS, PORTANTO, SIMPLESMENTE 
+
+
+FAZER O 'fetch' DESSA URL (enviar um REQUEST DE TIPO 'GET' àquela url, portanto) 
+
+E ENTÃO 
+
+FAZER O RETURN DESSE FETCH....
+
+ESSE RETURN SERÁ O RETURN 
+
+
+DE ___UMA PROMISE____, o valor será uma promise (OU SEJA, O RETURN DESSA FUNÇÃO AQUI É BEM PARECIDO COM O QUE TÍNHAMOS NA FUNÇÃO ANTIGA QUE UTILIZAVA O XMLHttpRequest, PORQUE NAQUELE MODELO NÓS TAMBÉM RETORNÁVAMOS UMA PROMISE...)....
+
+
+
+
+ESSA PROMISE 
+
+RETORNADA agora cumpre tarefa similar à promise que tínhamos 
+
+no sendHttpRequest que usava o XMLHttpRequest, 
+
+
+SENDO ESSA TAREFA O AUXÍLIO AOS DESENVOLVEDORES 
+
+
+NO TRABALHO COM a 'response' do servidor... (returns a promise which helps us work with the response).
+
+
+
+
+
+
+
+
+
+DEVEMOS PRIMEIRAMENTE VER COMO ISSO TUDO FUNCIONA ANTES DE 
+
+FAZER O 'FINE TUNE' DELA PARA 
+
+
+aceitar os diferentes tipos de http requests...
+
+
+
+
+
+Devemos começar com o FETCH de posts, 
+
+
+fetch de posts em que 
+
+O PROFESSOR ENVIA UM HTTP REQUEST E, PORTANTO, 
+
+TENTAMOS enviar UM REQUEST à url 
+
+de 'https://jsonplaceholder.typicode.com/posts'
+
+
+
+----------------------------------
+
+
+
+SE SALVARMOS E RECARREGARMOS NOSSA PÁGINA, 
+
+E ENTÃO CLICARMOS EM 'FETCH POSTS',
+
+
+VEREMOS UM __ERRO___.
+
+
+
+ganhamos 
+
+um alerta de erro 
+
+que diz 
+
+
+'listOfPosts is not iterable'...
+
+
+
+
+
+ISSO PODE SER MEIO ENGANOSO... (deceiving).
+
+
+
+
+
+
+PARA VER O PROBLEMA ___dE VERDADE_,
+
+DEVEMOS temporariamente 
+
+__remover ____ o 'try-catch' em nosso código, em 'fetchPosts'...
+
+
+ISSO FARÁ COM QUE NÓS DEIXEMOS DE FAZER 'try' naquele bloco de linhas de código, 
+
+e com que deixemos de fazer 'catch' em quaisquer erros....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+async function fetchPosts() {
+
+
+
+  //try {
+    const responseData = await sendHttpRequest(
+      'GET', 
+      'https://jsonplaceholder.typicode.com/posts'
+    ); //////EIS O CÓDIGO EM QUESTÃO.
+  const listOfPosts = responseData;  
+      for (const post of listOfPosts) {
+      const postEl = document.importNode(postTemplate.content, true);
+      postEl.querySelector('h2').textContent = post.title.toUpperCase();
+      postEl.querySelector('p').textContent = post.body;
+      postEl.querySelector('li').id = post.id;
+      listElement.append(postEl);
+    }
+   // } catch (error) {
+   //   alert(error.message);
+  //  }
+  }
+
+
+
+
+
+
+  function sendHttpRequest(method, url, data) {
+      
+      return fetch(url);
+  }
+
+
+
+
+
+  -------------------------------------
+
+
+
+
+
+    Certo.
+
+    Removemos o try-catch.
+
+
+
+
+    Agora tentamos de novo.
+
+
+
+    AGORA O PROFESSOR RECEBE UM OUTRO ERRO, 
+
+
+    um erro 
+
+
+
+    '>Uncaught (in promise) TypeError: listOfPosts is 
+    not iterable 
+    at HTMLButtonElement.fetchPosts'...
+
+
+
+
+    LIST OF POSTS IS NOT ITERABLE.....
+
+
+
+
+
+    certo, mas o que está dando de errado aqui, o que ESTÁ FALHANDO?
+
+
+
+
+    De alguma forma, nós acabamos NÃO TENDO 'listOfPosts' no nosso código/runtime...
+
+
+
+    ISSO SIGNIFICA QUE, POR ALGUMA RAZÃO, DEIXAMOS DE CONSEGUIR o 'responseData' quando 
+
+    CHAMAMOS 
+
+    'sendHttpRequest' com os parÂmetros lá... 
+
+
+
+
+
+    BEM, MAS EM 'sendHttpRequest', nessa função, EU DE FATO
+
+    retornei (return) um resultado/O RESULTADO 
+
+    de 'fetch()' ENVIANDO UM REQUEST 
+
+    àquela url de 'url'...
+
+
+    -------------------------------------
+
+
+    Portanto, agora checamos a tab 'network' para 
+
+    ver se o request foi realmente enviado....
+
+
+
+
+
+    percebemos, então, QUE OS POSTS REALMENTE FORAM 'fetched' COM SUCESSO...
+
+
+     Isso está funcionanndo, então PQ DIABOS a 'listOfPosts' não 
+     está presente no nosso código?
+
+
+
+
+
+     ---> O QUE ESTÁ ACONTECENDo?
+
+
+
+
+     O problema é/a diferença é que, AO CONTRÁRIO do nosso approach 
+
+     
+     'XMLHttpRequest',  FETCH() NÃO NOS DÁ 
+
+     A 'response' PARSEADA COMO NÓS TÍNHAMOS ANTES.... (
+
+       ou seja, ele não faz aquele 'JSON.parse(xhr.response);'/'xhr.responseType = "json";
+     ),
+
+
+      O _FETCH() NOS DÁ UMA response 
+
+
+      'STREAMED'... isso significa basicamente que 
+
+      O objeto 'response' QUE NÓS RECEBEMOS AQUI,nessa função,
+
+NÃO SEGURA O 'response body' (o body da resposta) DE UMA 
+
+MANEIRA QUE POSSA SER USADA IMEDIATAMENTE... 
+
+(ou seja, a 'fetch api' não nos dá uma response já manipulada,
+ pronta para o consumo, ou algo do gênero...).
+
+
+
+
+ EM VEZ DISSO, O QUE VOCê PRECISA FAZER é colocar '.THEN() blocks' NESSE 
+
+ RETURN DO fetch() DENTRO Da função...
+
+
+
+ esses then blocks serão executados normalmente quando a promise 
+
+ de fetch for 'resolved'...
+
+
+
+ ex:
+
+
+
+
+ 
+
+
+
+ function sendHttpRequest(method, url, data) {
+
+
+
+
+
+
+
+ return fetch(url).then(); //////////EIS O CÓDIGO EM QUESTÃO.
+}
+
+
+-------------------------------------------------------
+
+
+
+
+
+VocÊ então coloca dentro do then block UM PARÂMETRO 
+
+
+DE 'response' (para que ele receba o OBJETO 'response' como parâmetro), 
+
+enfiado em uma arrow function em que 
+
+VOCê TERÁ ENTÃO ACESSO À RESPONSE.....
+
+
+Você então CHAMA o método '.json()' NESSA 
+
+response....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+ function sendHttpRequest(method, url, data) {
+
+
+
+
+
+
+
+ return fetch(url).then(response => {        ////////////EIS AQUI O CÓDIGO.
+     response.json();
+   });
+}
+
+
+------------------------------------------
+
+
+
+POR FIM, VOCÊ FAZ O RETURN do resultado desse chamado do método '.json' nessa response...
+
+
+
+
+ex:
+
+
+
+
+ function sendHttpRequest(method, url, data) {
+
+
+
+
+
+
+
+ return fetch(url).then(response => {        ////////////EIS AQUI O CÓDIGO.
+    return response.json();
+   });
+}
+
+
+------------------------------------------------------
+
+
+
+
+VOCê VAI RETORNAR O RESULTADO DESSE 'METHOD CALL' pq esse método VAI, NA VERDADE, 
+
+RENDER uma ___NOVA PROMISE____....
+
+
+
+
+
+Certo.
+
+
+Explicando:
+
+
+
+'.json()', quando você o chama no objeto 'response' (o qual A FETCH API TE DÁ; essa é uma feature dela msm... você só precisa passar esse parâmetro 'response' à função interna/configuradora do 'then block'....)
+
+, O .JSON() vai PARSEAR 
+
+
+________O __BODY___ DA RESPONSE ____E 
+
+___ TRANSFORMÁ-LO _____ DE '.json data' PARA 
+
+
+'JAVASCRIPT DATA'... (no caso, OBJETOS E ARRAYS JAVASCRIPT)....
+
+
+
+
+
+
+
+--->
+--->
+---> ENTRETANTO, O '.json()' NÃO FAZ APENAS ESSE PARSE SIMPLES DO BODY, ele não 
+
+faz só a mesma coisa que 'JSON.parse();'; 
+
+ELE, ALÉM DISSO, TAMBÉM FAZ A CONVERSÃO DO 'streamed response body' (o qual você tem no objeto 'response' que você recebeu na função interna do then block)
+
+_______EM UMA SNAPSHOT____....
+
+
+
+ELE CONVERTE ESSE OBJETO 'RESPONSE BODY' STREAMADO em uma SNAPSHOT....
+
+
+E com essa SNAPSHOT você poderá TRABALHAR...
+
+
+------------------------------------
+
+
+
+
+
+
+RESUMINDO:
+
+
+
+Você precisa chamar 
+
+'response.json();' 
+
+PARA 
+
+
+____CONVERTER___ SEU 'RESPONSE BODY', 
+
+SEU 'STREAMED UNPARSED RESPONSE BODY (estado inicial),
+
+
+EM  ____um 'SNAPSHOT PARSED RESPONSE BODY' (estado final)...
+
+
+
+
+--------------------------------------------
+
+
+
+COM ISSO, seu 
+
+método
+'overall'  sendHttpRequest VAI 
+
+
+RENDER UMA PROMESSA 
+
+
+___________QUE EVENTUALMENTE RETORNARÁ_____ ESSE 
+
+'parsed response BODY/data'.........
+
+
+
+
+
+
+RESPONSE.JSON() É IMPORTANTE JUSTAMENTE POR ISSO, POR CAUSA DESSA CONVERSÃO.
+
+
+
+
+
+
+
+ALÉM DE 'response.json()', você também 
+
+
+tem métodos como 
+
+
+
+
+
+'response.text();' ---------------------->>>>>>>> ESSE MÉTODO RETORNA 'plain text' EM VEZ DE OBJETOS/ARRAYS JAVASCRIPT.
+                                        >>>>>>>>>>> Esse método FAZ APENAS A CONVERSÃO de 'streamed' PARA 'snapshot'.... ou seja, ele não converte os dados '.json' em javascript...
+
+
+
+
+
+'response.blob()' --------->  ISSO DARÁ AO USUÁRIO acesso a um arquivo. É utilizado para BAIXAR COISAS.
+
+
+
+-----------------------------
+
+
+
+
+
+AQUI, ENTRETANTO, TEMOS 'json data', por isso precisamos 
+
+
+retornar esse 
+
+método 
+
+'.json();'
+
+
+
+
+-------------------------------------
+
+
+
+
+
+COM ISSO, SE AGORA NÓS SALVARMOS E RECARREGARMOS A PÁGINA, VEREMOS QUE 
+
+
+se clicarmos em FETCH POSTS nós vamos pegar os posts como antes...
+
+
+
+
+
+
+Toda lógica funciona como antes....
+
+
+
+
+
+
+CONTUDO, COMO O PROFESSOR MENCIONOU ANTES,
+ 
+
+ VOCê DEVE SEMPRE SE LEMBRAR QUE 
+
+
+ a 'fetch API' PRECISA DAQUELE 
+
+ PASSO EXTRA 
+
+ para converter/baixar as coisas, 
+
+ ELA __NÃO FUNCIONA____ 'automaticamente'...
+
+
+
+ PROFESSOR RESSALTA QUE __NÃO É APENAS ___ A JSON DATA QUE NÓS PRECISAMOS SEMPRE CONVERTER, 
+
+ MAS TAMBÉM 
+
+ AS 'STREAMED DATA'...
+
+
+ Essas stream data/streamed data SEMPRE PRECISAM SER TRNASFORMADAS EM SNAPSHOTS para serem usadas....
+
+
+ e tudo isso é feito por meio do método '.json' no objeto 'response'...
+
+
+
+
+
+ Próxima lição será acerca DE COMO CRIAR UM NOVO POST...

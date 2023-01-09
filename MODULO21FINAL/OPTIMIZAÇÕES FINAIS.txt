@@ -1,0 +1,1149 @@
+Com nossos 2 workflows settados,
+
+
+ 
+
+ ESTAMOS ACABADOS, EM GERAL.
+
+
+
+
+ Mas ainda há DOIS MELHORAMENTOS que 
+
+ o professor quer implementar no nosso código.
+
+
+
+
+
+ UM DELES É O NOSSO 'assets/scripts' ('/dist') FOLDER...
+
+
+
+
+
+
+ ELE CONTINUA CRESCENDO E CRESCENDO... e sempre que criamos algo novo e os 
+
+ file names SÃO UM POUQUINHO DIFERENTES, e os arquivos antigos são mantidos, ficam soltos por aí,
+ 
+ junto aos arquivos novos.
+
+
+
+
+
+ISSO __NÃO É IDEAL___.
+
+
+
+
+EM VEZ DISSO, EXPLICA O PROFESSOR, EU GOSTARIA/QUERO 
+
+
+SEMPRE 'CLEAR' meu scripts folder COM 
+
+CADA NOVA BUILD...., e então 
+
+ADICIONAR OS ARQUIVOS/VERSÕES NOVAS AO MESMO TEMPO EM QUE 
+
+REMOVO AS ANTIGAS...
+
+
+
+
+E isso, explica o professor, é fácil de fazer com o webpack...
+
+
+
+APENAS TEMOS QUE TWEAKAR NOSSA configuração um pouquinho...
+
+
+---------------------------------------------
+
+
+
+
+
+----> precisamos, primeiro, instalar uma NOVA PACKAGE...
+
+
+
+o código é 
+
+
+'npm install --save-dev clean-webpack-plugin'
+
+
+-------------------------------------------
+
+
+
+---> isso instala uma nova package que podemos implementar 
+
+EM NOSSO WEBPACK CONFIG file e no nosso webpack workflow....
+
+
+
+
+ESSE PLUGIN LIMPA/CLEARS UP o 'webpack output folder', ou seja, 
+
+
+o folder que você define em 
+
+'path: path.resolve(xxxxx)' (no caso, '__dirname, 'dist' ') )'....
+
+
+
+
+
+PARA USÁ-LO NO WEBPACK CONFIG FILE (webpack.config.js), 
+
+
+
+EU APENAS TENHO QUE IMPORTÁ-LO.....  (lá na webpack.config.js msm...)
+
+
+
+Mas para importá-lo, tenho que USAR 
+
+
+AQUELA SINTAXE 
+
+
+'const' e aí colocar o 'require' dnv...
+
+
+
+
+O professor coloca 'cleanPlugin' como nome 
+
+dessa constante...
+
+
+aí ele mete um 'require' de 
+
+
+'clean-webpack-plugin'...
+
+
+
+
+
+ex:
+
+
+
+const path = require('path'); ////É DESSA SINTAXE QUE ESTOU FALANDO.
+
+
+const cleanPlugin = require('clean-webpack-plugin');
+
+
+
+
+module.exports = {
+
+
+    devServer: {
+        contentBase: './dist' 
+    
+    },
+    devtool: 'eval-cheap-module-source-map',
+
+    entry: './src/app.js',
+    
+    mode: 'development',
+   
+
+    node: {
+        
+    },
+    output: {
+        filename: 'app.js', 
+        path: path.resolve(__dirname, 'dist')
+        //, publicPath: 'assets/scripts'
+  
+    },
+    resolve: {
+        extensions: ['.js']
+    }
+    
+
+  
+
+  
+};
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+PROFESSOR ENTÃO EXPLICA QUE PODEMOS, REALMENTE, USAR O 'CLEAN-WEBPACK' PLUGIN 
+
+
+no nosso arquivo 
+
+
+'webpack.config.js'....
+
+
+
+NÓS APENAS TEMOS QUE ADICIONAR UMA NOVA ENTRY no objeto 'config'... ({}).....
+
+
+
+
+ESSA NOVA ENTRY SERÁ CHAMADA DE 
+
+
+'plugins' (e é uma entry default, é claro).
+
+
+
+
+
+
+
+PLUGINS -----. É UM CONCEITO EM WEBPACK que te PERMITE APLICAR VÁRIAS 
+
+
+OPTIMIZAÇÕES/TRANSFORMAÇÕES  NO OUTPUT QUE FOR GERADO....
+
+
+(ou seja, ESSES PLUGINS APLICAM ESSAS OPTIMIZAÇÕES/TRANSFORMAÇÕES NÃO 
+
+NOS ARQUIVOS INDIVIDUAIS, E SIM NO 
+
+____OUTPUT____ GERADO___ EM GERAL__.) -----------> no caso do 'clean plugin' essa transformação 
+
+                                                OCORRE NO FOLDER DE 'OUTPUT'....
+
+                                                (ocorre no folder de output ___ANTES___ DO OUTPUT 
+                                                SER ESCRITO NESSE FOLDER...)
+
+
+
+    
+
+
+----> PLUGINS, no caso, é um ARRAY.
+
+
+É um array PQ VOCÊ PODE APLICAR MAIS DE UM ÚNICO PLUGIN NOS SEUS PROJETOS.... 
+
+
+
+
+
+MAS COMO AQUI O PROFESSOR APENAS PRECISA/ESTÁ USANDO UM ÚNICO PLUGIN, 
+
+
+ele coloca só o seu único plugin....
+
+
+
+
+Ele insere esse plugin nesse slot 
+
+
+por meio 
+
+
+do comando/código 
+
+
+
+'new CleanPlugin.CleanWebpackPlugin();' ----------->
+
+
+
+-----------> OU SEJA, ELE __cRIA UM NOVO OBJETO DAQUELE TIPO 'CleanWebpackPlugin', por 
+meio do call (parênteses) DESSE NEGÓCIO COMO SE FOSSE UMA FUNÇÃO.....
+
+
+
+
+O professor sabe tudo isso pq ele leu nos DOCS.... nos docs oficiais do webpack clean plugin.
+
+
+
+
+
+
+O PROFESSOR EXPLICA QUE É CLARO QUE ELE NÃO VAI ADICIONAR ISSO SOMENTE EM 'webpack.config.js';
+
+Não, ele também vai adicionar em 
+
+
+'webpack.config.prod.js'...
+
+
+
+
+
+
+--------------------------------
+
+
+
+
+SE FIZERMOS TUDO ISSO E ENTÃO RODARMOS 
+
+
+
+o 'npm run build:prod' no terminal 
+
+
+
+
+
+(ou seja, SE RODARMOS 'node_modules/.bin/webpack --config webpack.config.prod.js'),
+
+
+
+
+
+
+SE FIZERMOS ISSO, VEREMOS AGORA QUE NOSSO 
+
+
+FOLDER 
+
+
+'dist' (ou 'scripts') 
+
+
+
+ESTARÁ 
+
+
+___UM POUCO MAIS VAZIO____ (menos arquivos)...
+
+
+
+Os únicos arquivos que teremos, agora, 
+
+
+serão 
+
+'app.js', 'app.js.map', '331.app.js' e '331.app.js.map'...
+
+
+
+
+
+ISSO ACONTECEU PQ TODOS OS ARQUIVOS __UNUSED__ (que não são/serão utilizados) 
+
+FORAM DELETADOS. ---> e era exatamente isso que o professor queria.
+
+
+
+
+
+
+ESSA É UMA BOA FEATURE DE SE TER.
+
+
+
+
+
+
+
+
+
+OUTRA MELHORIA SERIA 
+
+
+ALTERAR O __NAMING___ de nossos arquivos outputtados...
+
+
+
+
+
+O PROFESSOR DIZ QUE GERALMENTE ELE ESTÁ 'OK' com esses nomes (app.js, 331.app.js, 1.app.js, etc),
+
+
+
+
+MAS SE VOCÊ FOSSE DAR DEPLOY DESSES ARQUIVOS EM UM SERVIDOR,
+
+
+
+ou seja, 
+
+
+se você pegar os seus scripts e os arquivos html aos quais eles pertencem,  e então 
+movê-los 
+
+a um servidor,
+
+
+OS BROWSERS VÃO TIPICAMENTE ___"CACHEAR"____ arquivos javascript e css....
+
+
+
+ISSO SIGNIFICA QUE ELES VÃO ___"ARMAZENAR CÓPIAS"____ 
+
+desses arquivos.......
+
+
+
+E se o NOME do arquivo NÃO MUDOU/não muda, 
+
+A PRÓXIMA VEZ QUE O USUÁRIO VISITAR A 
+
+PÁGINA, ELE VAI CONTINUAR/manter com AQUELE ARQUIVO ARMAZENADO/CACHEADO.
+
+
+
+
+----> Bem, essa é uma MELHORIA dos browsers, uma melhoria que GRANDE PARTE DAS 
+VEZES FAZ SENTIDo...
+
+
+(e você pode controlar essa feature POR MEIO DA CONFIGURAÇÃO DO 'serverside' do seu site;
+no serverside, você define os HEADERS corretos NOS SEUS 'RESOURCES'... ---> obs:
+essa é uma TAREFA/TASK do ADMINISTRADOR DO SERVIDOR, algo que não tem relação direta com 
+o javascript...  ).....
+
+
+
+------> MAS, CONTUDO, ENTRETANTO, VOCÊ TAMBÉM PODE ___FORÇAR__ OS BROWSERS A BAIXAR 
+
+UMA NOVA VERSÃO DE UM ARQUIVO....
+
+
+VocÊ faz isso por meio da SIMPLES TROCA DO __NOME DO ARQUIVO___, 
+
+porque aí esse arquivo será UM NOVO ARQUIVO AO BROWSER, o que, portanto, fará 
+com que 
+
+o browser o downloade E DEIXE DE USAR QUAISQUER VERSÕES 'CACHEADAS' (cached versions)....
+
+
+
+
+E, PARA ISSO, QUEREMOS/VAMOS QUERER GERAR ESSES NOMES DE ARQUIVOS 
+
+
+____AUTOMATICAMENTE___; vamos querer GERAR UM NOVO FILE NAME ____SEMPRE____ 
+
+QUE ___ PRODUZIMOS (produce, production) ___ UMA NOVA "BUILD"___.
+
+
+
+
+
+E ISSO É OUTRO PROCESSO EM QUE WEBPACK PODE NOS AJUDAR.
+
+
+
+
+
+
+----> o webpack faz com que seja fácil adicionar uma feature 
+
+DE NOMES DETERMINÍSTICOS (e não aletaórios, DETERMINÍSTICOS) para cada 
+
+arquivo novo que for criado... ---> o webpack, por meio dessa feature, vai adicionar 
+
+UM 'UNIQUE ELEMENT' a cada file name QUE MUDA COM 
+
+CADA REBUILD....
+
+
+-------------------------
+
+
+
+Para implementar essa feature, tudo que precisamos fazer é ir até o nosso config de PRODUCTION  (webpack.config.prod.js)
+
+(apenas no de production, pois essa coisa de "pseudo-aleatorizar" os nomes realmente 
+
+SÓ IMPORTA PARA O "pRODUCTION OUTPUT"... )
+
+
+
+E LÁ, DENTRO DO OBJETO CONFIG, EM 'filename', 
+
+
+PODEMOS ADICIONAR UM 
+
+
+___________ELEMENTO DINÂMICO_____.
+
+
+
+
+DEVEMOS/PODEMOS adicionar uns 
+
+square brackets ([]) E ENTÃO 
+
+
+ESCREVER 'contenthash' DENTRO DELES.
+
+
+
+'contenthash' TEM QUE SER ESCRITO DESSA FORMA MSM.
+
+
+
+Essa é uma KEYWORD PARA O WEBPACK, é uma keyword QUE DIZ 
+
+AO WEBPACK QUE 
+
+UMA 
+
+'hash' DEVE SER GERADA AQUI, nesse lugar...
+
+
+
+HASH = cerquilha.
+
+
+
+
+
+
+---> UMA HASH DEVE SER GERADA NESSE LUGAR, UMA HASH QUE 
+
+__DEVE__/SERÁ DIFERENTE SEMPRE QUE UM ARQUIVO DE NOSSO PROJETO FOR ALTERADO... (e isso criará o fenômeno dos nomes QUE FICAM SE ALTERANDO, o que resultará no efeito desejado na nossa página, que sempre baixará novos arquivos e nunca utilizará arquivos nossos guardados no cachê do browser....)
+
+
+
+
+SE UM ARQUIVO NOSSO NÃO FOR/NÃO É MUDADO, webpack VAI MANTER 
+
+O 'hash' JÁ EXISTENTE.
+
+
+
+
+--------------------------------
+
+
+
+Professor diz para então rodarmos 'npm run build:prod' 
+
+MAIS UMA VEZ.
+
+
+
+
+Fazemos isso, é claro, por meio da escrita de 
+
+
+'node_modules/.bin/webpack --config webpack.config.prod.js'
+
+
+NO TERMINAL.
+
+
+
+-----------------------------------
+
+
+
+
+
+CERTO.
+
+JÁ PERCEBEMOS O RESULTADO IMEDIATO DISSO.
+
+
+
+NOSSOS ARQUIVOS 'outputtados' AGORA ESTÃO COM NOMES ABSURDOS. (os arquivos em 'dist'.)
+
+
+
+Estão com aqueles 'mumble jumble' que frequentemente vemos em páginas da web.
+
+
+
+ex:
+
+
+203ab5814fa68dc29ee9.js
+
+
+
+------------------------------------------------
+
+
+
+ESSE OUTPUT NOSSO VAI MUDAR TODA VEZ QUE MUDARMOS 
+
+
+AS 'underlying files' E FIZERMOS 'REBUILD' (ou seja, toda vez que MUDARMOS as linhas de código de nossos scripts e então fizermos rebuild ).
+
+
+
+COMO 
+
+
+O FILENAME AGORA SEMPRE MUDARÁ NOS REBUILDS, 
+
+
+
+OS BROWSERS SERÃO OBRIGADOS A RE-BAIXAR 
+
+ESSES ARQUIVOS.
+
+
+-----------------------------------------------
+
+
+
+Certo, mas surge um problema.
+
+Nosso 
+
+
+'index.html' não está adaptado a esses nomes malucos.
+
+
+Deve ser alterado alguma coisa lá, diz o professor...
+
+
+
+Mas o que é?
+
+
+
+
+
+
+DEVEMOS MUDAR/atualizar   O IMPORT DE SCRIPT 
+
+em 'index.html' 
+
+
+
+PARA ATENDER/CORRESPONDER AO 
+
+
+'latest hash' dos nomes de nossos arquivos....
+
+
+
+
+
+OBS::: ISSO APENAS PARA ___PRODUCTION___.....
+
+
+
+
+APENAS PARA PRODUCTION, PORQUE SE EU VOLTAR PARA 
+
+
+'dev', para o MODO "DEV", esse NÃO SERÁ MAIS O CASO, 
+
+NÃO TEREMOS MAIS ESSES ARQUIVOS COM NOMES MALUCOS; 
+
+
+NA VERDADE, NÃO TEREMOS MAIS NADA NO 
+
+
+FOLDER 'DIST', POIS O QUE ACONTECERÁ É QUE ESSES ARQUIVOS (de development) ESTARÃO 
+
+
+ARMAZENADOS NA MEMÓRIA...
+
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+ENTRETANTO, ESTAMOS COM BASTANTES ERROS AGORA...
+
+
+Se eu tento rodar o webpack dev server com a ajuda de 
+
+
+
+'webpack serve', 
+
+
+TOMO 1 MILHAO DE ERROS...
+
+
+
+Vou tentar com 
+
+'node_modules/.bin/webpack'..
+
+
+
+
+Certo, esse 'node_modules/.bin/webpack' 
+
+
+ACABA COMPILANDO O CÓDIGO EM UMA MANEIRA 'development mode'...
+
+(aí os arquivos todos voltam a ser 
+
+'app.js', 'src_app_Tooltip_js.app' NO FOLDER 'dist')....
+
+
+
+
+E aí posso executar esses arquivos no servidor de development QUANDO NAVEGO ATÉ 
+
+'dist' 
+
+
+e executo 
+
+
+'webpack serve'...
+
+
+
+(na verdade, não posso não, hahaha).
+
+
+(devo encontrar outra solução).
+
+
+--------------------
+
+
+
+
+
+
+O CÓDIGO DE ____PRODUÇÃO__ (com o acréscimo do plugin) Ainda funciona....
+
+
+
+O problema é, de fato, o código de DEVELOPMENT (servidor de development, que parou de funcionar...).
+
+
+
+
+Na verdade, o código de development ('node_modules/.bin/webpack') AINDA FUNCIONA no terminal, 
+
+A ÚNICA COISA QUE NÃO ESTÁ FUNCIONANDO, NO PRESENTE, é o servidor de development 
+
+
+
+(provavelmente me embananei com algum código...)
+
+
+
+
+
+
+----> outro problema: quando troquei o código para a versão de PRODUCTION, o 'serve js' (nosso servidor de development pobre)
+
+
+PASSOU A MOSTRAR AQUELA LISTA DE DIRETÓRIOS, e não mais nossa webpage (é um erro/problema que eu já havia visto antes; eu estou 
+    na pasta errada no terminal, esse é o problema. A pasta correta agora já não é mais 'dist'... É O ROOT do 'modulo21javascripttooling...').
+
+
+
+
+
+----> na verdade, não é o root também.... (então o que DIABOS/onde diabos pode estar o 'index.html'???)
+
+
+
+
+---> meu deus, o negócio COMEU meu 'index.html...'
+
+não sei onde diabos ele está...
+
+
+
+
+----> encontrei uma informação no stackoverflow:
+
+
+
+
+
+3
+
+I had the same problem and found the solution here: https://webpack.js.org/guides/development/
+
+I quote:
+
+Tell CleanWebpackPlugin that we don't want to remove the index.html file after the incremental build triggered by watch. We do this with the cleanStaleWebpackAssets option:
+
+So in my case I simply had to add the option like this:
+
+new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+
+
+
+
+
+(ou seja, colocar 
+
+'new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),'
+
+
+
+NO 'webpack.config.js'... )
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+Certo.
+
+Fiz algumas alterações 
+
+
+nos códigos e tal, 
+
+
+AGORA O INDEX.HTML foi restaurado (copiei o do professor) 
+
+E O NOSSO 'serve' comum funciona...
+
+
+
+Ok, mas 
+
+
+
+e o 
+
+
+'WEBPACK SERVE'? (server de development)
+
+
+
+ESSE TAMBÉM ESTÁ FUNCIONANDO?
+
+
+
+NÃO.
+
+
+
+RECEBEMOS UM ERRO:
+
+
+
+
+
+
+
+
+[webpack-cli] Failed to load 'C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\webpack.config.js' config
+[webpack-cli] TypeError: CleanPlugin.CleanWebpackPlugin is not a constructor
+    at Object.<anonymous> (C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\webpack.config.js:38:9)
+    at Module._compile (C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\node_modules\v8-compile-cache\v8-compile-cache.js:192:30)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)
+    at Module.load (node:internal/modules/cjs/loader:973:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:813:14)
+    at Module.require (node:internal/modules/cjs/loader:997:19)
+    at require (C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\node_modules\v8-compile-cache\v8-compile-cache.js:159:20)    
+    at loadConfig (C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\node_modules\webpack-cli\lib\webpack-cli.js:1158:31)      
+    at WebpackCLI.resolveConfig (C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\node_modules\webpack-cli\lib\webpack-cli.js:1290:44)
+    at WebpackCLI.createCompiler (C:\projeto\MODULO21JAVASCRIPTTOOLING&WORKFLOWS2\node_modules\webpack-cli\lib\webpack-cli.js:1670:33)
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+CERTO.
+
+
+FINALMENTE CONSEGUI FAZER O CÓDIGO FUNCIONAR.
+
+
+
+
+
+Corrigi o erro por meio dessa página do stackoverflow:
+
+
+
+
+https://stackoverflow.com/questions/56567930/typeerror-cleanwebpackplugin-is-not-a-constructor
+
+
+
+
+
+
+
+CÓDIGO FINAL DO 
+
+
+
+WEBPACK.CONFIG.JS:
+
+
+
+
+
+
+
+
+/* eslint-disable array-bracket-newline */
+/* eslint-disable quote-props */
+const path = require('path');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+//const CleanPlugin = require('clean-webpack-plugin'); ///código ANTIGÃO, não mais usado.
+
+
+
+
+
+module.exports = {
+
+
+    devServer: {
+        contentBase: './dist' /////É O LOCAL ONDE SEU ARQUIVO 'ROOT HTML' está posicionado. Geralmente é o MESMO LUGAR EM QUE FICA O 'webpack.config.js'... por isso você coloca './' (OBS: VOCê TAMBÉM PODE OMITIR o valor aqui, pois o default é esse aí msm).
+    
+    },
+    devtool: 'eval-cheap-module-source-map',
+
+    entry: './src/app.js',
+    
+    mode: 'development',
+   
+
+    node: {
+        
+    },
+    output: {
+        filename: 'app.js', 
+        path: path.resolve(__dirname, 'dist')
+        //, publicPath: 'assets/scripts'
+  
+    },
+
+    plugins: [
+        //new CleanPlugin.CleanWebpackPlugin() ////////ISSO VAI APLICAR/ADICIONAR NOSSO PLUGIN DE 'clean-webpack-plugin'... ----> esse plugin nos ajuda a criar menos arquivos em 'output'/no output folder... 
+        //o código acima causou problemas no nosso código: ele acaba deletando o index.html junto com outros arquivos de production, o que faz com que sejamos incapazes de executar nosso servidor.
+        //new CleanPlugin.CleanWebpackPlugin(),
+        new CleanWebpackPlugin({cleanStaleWebpackAssets: false})
+    ], ///professor nos ensina que também devemos adicionar isso em 'webpack.config.prod.js'...
+
+
+    resolve: {
+        extensions: ['.js']
+    }
+    
+
+  
+
+  
+};
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------
+
+
+
+
+
+
+
+
+CÓDIGO FINAL DO 'WEBPACK.CONFIG.PROD.JS':
+
+
+
+
+
+/* eslint-disable array-bracket-newline */
+/* eslint-disable quote-props */
+//esse é o arquivo de configuração de PRODUCTION do webpack... é usado para configurar a fase de PRODUCTION, e não de DEVELOPMENT... 
+const path = require('path');
+const {CleanWebpackPlugin} = require('webpack'); ///adicionado automaticamente pela instalação do 'clean-webpack-plugin'?
+//const CleanPlugin = require('clean-webpack-plugin');  /////CÓDIGO ANTIGÃO, NÃO MAIS USADO, substituído pelo logo acima.
+
+
+
+
+module.exports = {
+
+
+    devServer: {
+        contentBase: './dist' 
+    
+    },
+    devtool: 'cheap-source-map', ////É isso que muda tudo; essa definição de source map É USADA PARA A PRODUCTION PHASE... é menos usado para debugging, e mais para 'minificar'/uglify nosso código base/original para que RODE MAIS RÁPIDO. 
+
+    entry: './src/app.js',
+    
+    mode: 'production',
+   
+
+    node: {
+        
+    },
+    output: {
+        //filename: 'app.js',  //versão 'PADRÃO' de filename. Isso fará com que o browser sempre utilize as versões CACHEADAS de nossos arquivos quando o usuário entrar nas nossas páginas...
+        filename: 'app.js', ///VERSÃO 'ALTERNATIVA' de filename. Isso deixará "pseudoaleatórios" os nomes de nossos arquivos, resultando no fenômeno que fará o browser SEMPRE RE-BAIXAR NOSSOS ARQUIVOS QUANDO O USUÁRIO ENTRAR NOS NOSSOS SITES. (é o contrário do 'filename' padrão, que admite o uso de versões CACHEADAS/cópias armazenadas no storage do browser de nosso site...) OBS: ESSA COISA DE FILENAMES COM 'contenthash', essa keyword 'contenthash', SÓ DEVE SER USADA NO webpack de PRODUÇÃO (webpack.config.prod.js), pois no development é INÚTIL (em development, não teremos essa variável dos USUÁRIOS ENTRANDO NOS NOSSOS SITES).
+        path: path.resolve(__dirname, 'dist')
+        //, publicPath: 'assets/scripts'
+  
+    },
+    plugins: [
+        //new CleanPlugin.CleanWebpackPlugin()
+        //o código acima causou problemas no nosso código: ele acaba deletando o index.html junto com outros arquivos de production, o que faz com que sejamos incapazes de executar nosso servidor.
+        //new CleanPlugin.CleanWebpackPlugin(),
+        new CleanWebpackPlugin({cleanStaleWebpackAssets: false})
+    ],
+
+    resolve: {
+        extensions: ['.js']
+    }
+    
+
+  
+
+  
+};
+
+
+
+
+--------------------------------
+
+
+
+
+TRANSCRIÇÃO DA SOLUÇÃO:
+
+
+
+
+
+--------------------------------------------
+
+
+
+The correct one is to use this import:
+
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+And then instead of passing an array with the distribution folder, change it to
+
+plugins: [
+     new CleanWebpackPlugin(),
+     //...
+]
+
+
+------------------------------------
+
+
+
+
+
+ENTRETANTO, AINDA HÁ UM PROBLEMA:
+
+
+
+
+se eu executo o 'webpack serve' no 
+
+
+root do 'modulo21javascripttooling...'
+
+
+EU ACABO ABRINDO AQUELE DIRETÓRIO IDIOTA, e não minha página do index.html...
+
+
+
+
+Estou pensando em uma solução...
+
+
+
+
+
+Lembre-se:
+
+
+'webpack-serve' ---> SERVIDOR DE 'DEVELOPMENT.'...
+
+
+
+Talvez a solução seja alterar o relative folder em 
+
+
+'webpack.config.js'..., trocar o local de 'dist' para 'src'...
+
+
+
+
+
+
+
+FIZ ISSO, e agora o problema continua; 
+
+
+Agora o negócio está ABRINDo O SISTEMA DE DIRETÓRIOS 
+
+de 'src' QUANDO eu rodo 'webpack serve'... (confusão de diretórios).
+
+
+
+
+
+
+Ok.... agora um novo problema surgiu:
+
+
+
+
+
+
+o negócio/webpack DELETOU TODO MEU CÓDIGO...
+
+
+simplesmente deletou tudo:
+ 
+
+
+ 'app.js', o '331.app.js', o 'ProjectList', o 'ProjectItem', TUDO.
+
+
+
+ Vou pegar o código do professor, do curso mesmo, pois o meu todo foi para o lixo.
+
+
+
+ Vou transferir todas essas anotações para o novo código....

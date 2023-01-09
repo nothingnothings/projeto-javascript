@@ -1,0 +1,864 @@
+
+
+
+
+AGORA, PARA REAGIR A UM DROP DE ELEMENTO, PODEMOS ADICIONAR OUTRO EVENTLISTENER 
+
+no método
+
+
+
+'connectDroppable'... (que fica em 'ProjectList'... esse eventListener ainda vai ficar na list, POIS AFINAL DE CONTAS, ESSA LIST É O LUGAR EM QUE DROPPAMOS OS ITEMS...).
+
+
+
+E ESSE EVENTLISTENER SERÁ O EVENTLISTENER do evento 
+
+'drop'....
+
+
+
+
+
+
+ex:
+
+
+
+
+const list = document.querySelector(`#${this.type}-projects ul`);
+
+        list.addEventListener('dragenter', event => {  ///////O EVENTO 'DRAGENTER' é opcional...
+        if(event.dataTransfer.types[0] === 'text/plain') {
+            list.parentElement.classList.add('droppable');
+            event.preventDefault(); ////PREVENTDEFAULT AQUI É OPCIONAL, ao contrário do 'preventDefault' em DRAGOVER, que ___não é opcional___. AINDA ASSIM, colocamos ele aqui, só para garantir.
+        }
+        
+        });
+    
+
+        list.addEventListener('drop', ...);
+
+
+
+
+        list.addEventListener('dragover', event => {     ////////O EVENTO 'DRAGOVER', PARA A DEFINIÇÃO DE 'DROPZONES' DE INTERAÇÕES DRAG AND CLICK, ___NÃO É OPCIONAL___; NÃO É OPCIONAL COMO O 'dragenter'...
+        if(event.dataTransfer.types[0] === 'text/plain') {
+        event.preventDefault();
+    }
+        });
+
+        list.addEventListener('dragleave', event => {
+            if (event.relatedTarget.closest(`#${this.type}-projects ul`) !== list) {
+            list.parentElement.classList.remove('droppable');
+            }}
+        );
+        
+        }
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+ENTÃO COLOCAMOS COMO SEGUNDO PARÂMETRO AQUELE CÓDIGO NORMAL DOS EVENTOS, 
+
+o código a ser executado (a arrow function anônima...).
+
+
+
+
+
+
+
+
+ex:
+
+connectDroppable{
+
+
+list.addEventListener('drop', event => {
+
+}
+)
+}
+
+-----------------------------------
+
+
+
+CERTO.
+
+
+No evento 'drop', NÓS PODEMOS ____EXTRAIR___ QUAISQUER DADOS DO OBJETO 'event', o qual 
+
+FIZEMOS ADD algumas aulas atrás, em 'dragstart'.... (no addEventListener de 'connectDrag()'....).
+
+
+
+
+ex(do negócio cujos dados podemos extrair):
+
+
+
+connectDrag() {
+    document.getElementById(this.id).addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', this.id);
+        event.dataTransfer.effectAllowed = 'move';
+
+    })
+}
+
+
+-----------------------------------------
+
+
+OU SEJA, OS DADOS QUE PASSAMOS POR MEIO DO CÓDIGO 'event.dataTransfer.setData('text/plain', this.id);' 
+
+
+AGORA PODEM SER EXTRAÍDOS LÁÁÁÁ NO evento 'DROP'...., que agora está disponível (pq o adicionamos ao código).
+
+
+
+
+PORTANTO, AGORA, LÁ EMBAIXO no evento 'drop', podemos PEGAR O NOSSO 
+
+PROJECTID ('prjId') POR MEIO DA DEFINIÇÃO DESSA CONST COMO 
+
+SENDO 'event.dataTransfer.getData('')'  -------------> ____GETDATA()____ É O PAR DE 'SETDATA', QUE COLOCAMOS LÁÁÁÁ NO EVENTO 'dragstart'.... OS 2 FUNCIONAM EM CONJUNTO PARA FAZER AS RELAÇÕES DRAG AND DROP FUNCIONAREM.
+
+
+
+ex:
+
+
+
+
+connectDroppable() {
+    document.getElementById(this.id).addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', this.id);
+        event.dataTransfer.effectAllowed = 'move';
+
+    })
+}
+
+
+
+
+
+
+list.addEventListener('drop', event => {
+    const prjId = event.dataTransfer.getData(''); /////EIS O CÓDIGO EM QUESTÃO.
+}
+)
+
+
+
+------------------------------------------------------
+
+
+ENTRETANTO, DEVEMOS PASSAR UM PARÂMETRO AO MÉTODO 'getData', senão ele não funciona...
+
+
+ex (fórmula do método):  dataTransfer.getData(format);
+
+
+                        format ----> A DOMString representing the type of data to retrieve.  (ex: 'text/plain' )
+
+
+
+
+
+
+EX (do código final):
+
+
+
+
+
+connectDroppable() {
+    document.getElementById(this.id).addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', this.id);
+        event.dataTransfer.effectAllowed = 'move';
+
+    })
+}
+
+
+
+
+
+
+list.addEventListener('drop', event => {
+    const prjId = event.dataTransfer.getData('text/plain'); /////EIS O CÓDIGO EM QUESTÃO.
+}
+)
+
+
+
+-----------------------------------------------------------
+
+
+
+ESSA COMBINAÇÃO DE CÓDIGOS VAI CONSEGUIR FAZER O 'SET' DA DATA LÁÁÁÁ NO evento 'DRAGSTART' E 
+
+O 'GET' DA DATA LÁ NO 'DRAGEND'....
+
+
+
+
+AGORA, LEMBRE-SE, NÓS ESTAMOS EM UMA DE ___DUAS LISTAS____.... E EU QUERO 
+
+ASSEGURAR QUE  SE NÓS ESTAMOS/ESTIVERMOS NA __OUTRA LISTA___ (ou seja, se nós 
+
+REALMENTE ARRASTAMOS O ELEMENTO PARA A OUTRAL LISTA), 
+
+EU CONSIGA ADICIONAR O ELEMENTO QUE ARRASTEI ATÉ ESSA LISTA...
+
+
+
+
+
+***CERTO. Mas eu também quero adicionar AQUELA HIPÓTESE CLÁSSICA DE O USUÁRIO 'MUDAR DE IDEIA'...
+
+O usuário começar a arrastar o item para a outra lista, mas aí soltá-lo na MESMA LISTA EM QUE ESTAVA.
+
+Quando isso acontecer, não vou querer mudança alguma, vou querer que as 2 listas permaneçam iguais...
+
+
+
+
+
+COMO O EVENTLISTENER DE 'drop' já está adicionado À LIST, e como ele 
+
+RODA DENTRO DE UM MÉTODO ('connectDroppable') DENTRO DA CLASSE/OBJETO 
+
+ProjectList, NÓS 
+
+TEMOS QUE CHECAR (dentro do 'drop')
+
+'Se NO ARRAY DE ___PROJECTS___ EM QUE O EVENTLISTENER DESSA LISTA RODA NÓS 
+
+ENCONTRARMOS UM PROJETO COM esse ID.... (com o id de 'prjId')
+
+
+("WE HAVE TO CHECK 'IF IN THE  PROJECTS ARRAY OF THAT LIST THE EVENTLISTENER RUNS ON WE FIND 
+this ID...'" )
+
+
+Se nós encontrarmos um projeto com esse id.... (continua mais abaixo)...
+
+
+***PARA FAZER ESSE IF CHECK, o professor tem que passar por DENTRO DE TODOS OS PROJETOS 
+
+E ___COMPARAR__ IDS....  ELE FAZ ISSO POR MEIO DE 'find(p => p === prjId)'
+
+
+
+OBS: 'this' aqui irá se referir À PROJECTLIST EM QUE ESTÁ DEFINIDO ESSE EVENTLISTENER 
+
+DE 'list.addEventListener('drop', event => {...})', OU SEJA, A MESMA PROJECTLIST 
+
+DE ONDE SAIU O DRAGGABLE ITEM.... (em outras palavras, essa é a hipótese em que 
+o usuário NÃO TIROU O ITEM DRAGGABLE de cima da lista de onde o tirou.)
+
+
+ex(forma do código):
+
+
+
+
+
+
+list.addEventListener('drop', event => {
+    const prjId = event.dataTransfer.getData('text/plain');
+    if(this.projects.find(p => p === prjId))     /////////////////EIS AQUI O CÓDIGO EM QUESTÃO.
+}
+);
+
+
+
+
+-----------------------
+
+
+
+SE NÓS ACHARMOS UM PROJETO COM AQUELE ID ('prjId') DENTRO DO ARRAY 'PROJECTS', DOS 
+
+PROJETOS QUE __JÁ ESTÃO ASSIGNADOS__ AQUELA LIST, Aí nós/a engine 
+
+SABERÁ QUE ___NÓS DROPPAMOS O PROJECTITEM____ NA MESMA LISTA EM QUE ELE JÁ FAZIA PARTE...
+
+Nessa hipótese, eu NÃO VOU QUERER EXECUTAR COISA ALGUMA; VOU QUERER DEIXAR A LISTA COMO ELA ESTÁ...
+
+como não quero mudança alguma para essa hipótese, posso simplesmente escrever 
+
+'return' PARA ACABAR COM ESSE IF BLOCK...
+
+
+ex:
+
+
+
+
+list.addEventListener('drop', event => {
+    const prjId = event.dataTransfer.getData('text/plain');
+    if(this.projects.find(p => p === prjId))  {
+    
+        return;
+    }
+);
+
+
+
+-----------------------------
+
+
+
+ENTRETANTO, ISSO AINDA DEIXA UM NEGÓCIO MEIO INDESEJADO NO CÓDIGO:
+
+quando replicamos esse comportamento, quando deixamos o item de volta na section/lista de onde o tiramos,
+
+A SECTION SE TORNA ROSA (fica rosa por alguma razão...)
+
+
+
+PARA CONTORNAR ISSO, eu decidi colocar um 'list.parentElement.classList.remove('droppable');'
+
+ANTES DO 'return;', que FAZ COM QUE ESSA COR ROSA INDESEJADA SUMA NESSA HIPÓTESE...
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+AGORA, PORTANTO, NOSSO CÓDIGO APENAS CONTINUARÁ (ou seja, ignorará aquela hipótese) 
+
+SE CONSTATAR QUE O ID DO PROJETO que foi arrastado NÃO É O MESMO 
+
+DO PROJETO QUE JÁ ESTAVA NA LISTA ORIGINÁRIA (na lista de 'this.projects'...)
+
+
+
+OU SEJA, NA HIPÓTESE DE NÓS REALMENTE TERMOS DROPPADO ESSE PROJECTITEM NA 
+
+OUTRA LISTA....
+
+
+
+Nessa hipótese, vou querer REALMENTE ADICIONAR ESSE PROJECTITEM 
+
+na outra lista... (nessa lista em que o droppamos)...
+
+
+ALÉM DISSO, VOU QUERER __REMOVER ESSE ITEM___ DA LISTA DE ONDE 
+
+ELE VEIO...
+
+
+
+NA VERDADE, ISSO NÃO É TÃO SIMPLES....
+
+
+
+
+NÃO É TÃO SIMPLES pq OS PROJETOS COM OS QUAIS EU POSSO INTERAGIR ('this.projects')
+
+SÃO SOMENTE OS PROJETOS DOS QUAIS O PROJETO 'DRAGGADO' (que foi arrastado) NÃO 
+
+FAZ PARTE.... E EU SÓ TENHO O __iD DO PROJETO ARRASTADO___....
+
+
+
+
+NÓS TERÍAMOS, PORTANTO, DE ACHAR UMA SOLUÇÃO COMO FIZEMOS MAIS 
+
+CEDO NO CURSO, com uma FUNÇÃO QUE PASSAMOS PELAS DUAS INSTANCES ('between the two list instances')
+
+
+DE  'list'... faríamos isso PARA QUE PUDÉSSEMOS CHAMAR UMA FUNÇÃO LÁÁÁ NA OUTRA LIST e, só então, 
+mover o nosso elemento.
+
+
+//
+OU, FAZEMOS OUTRA COISA:
+
+//
+
+
+E se nós simplesmente ativássemos/triggássemos um 'click' no botão de 'finish' ou de 
+
+'activate'.... ( ou seja, faríamos a troca POR MEIO DE UM CÓDIGO QUE JÁ EXISTE; REUTILIZARÍAMOS 
+O CÓDIGO DE TROCA/SWITCH ENTRE LISTAS PARA ESSA INTERAÇÃO DRAG AND DROP....) ?
+
+
+Isso faria o trabalho, não?
+
+
+Pq pense bem: ISSO MOVERIA O ELEMENTO... Isso vai rodar TODA AQUELA 
+LÓGICA DE 'CLICK LISTENING' que já escrevemos para a troca de listas dos projectItem, o que 
+
+terá EXATAMENTE O EFEITO QUE QUEREMOS, aqui.
+
+
+
+
+
+
+E é exatamente isso que o professor fará em 
+
+'list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); ///////HIPÓTESE EM QUE O USUÁRIO SOLTA O PROJECTITEM na mesma lista de onde o tirou...
+            if(this.projects.find(p => p.id === prjId)) {
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+        })'
+
+
+-------------------------------------
+
+
+
+
+ELE DIZ QUE IRÁ ATÉ 'document' 
+
+
+e usará getElementById com o 'prjId' COMO IDENTIFICADOR...
+
+pq o valor dessa constante  ('prjId') JÁ ESTÁ ASSIGNADO COMO UM 'ID' AOS ELEMENTOS HTML...
+
+
+
+ex:
+
+
+
+
+
+list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); ///////HIPÓTESE EM QUE O USUÁRIO SOLTA O PROJECTITEM na mesma lista de onde o tirou...
+            if(this.projects.find(p => p.id === prjId)) {
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+            document.getElementById(prjId);
+        })
+
+
+-------------------------------------------
+
+
+Agora DENTRO DESSE PROJECT QUE SELECIONAMOS COM 'prjId', O PROFESSOR QUER 
+
+
+GANHAR ACESSO AO BUTTON... ele consegue fazer isso POR MEIO DO QUERYSELECTOR....
+                                                    (com a indicação 'button:last-of-type')
+
+
+
+
+ex:
+
+
+
+
+list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); ///////HIPÓTESE EM QUE O USUÁRIO SOLTA O PROJECTITEM na mesma lista de onde o tirou...
+            if(this.projects.find(p => p.id === prjId)) {
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+            document.getElementById(prjId).querySelector('button:last-of-type');
+        })
+
+
+-----------------------------------------------------
+
+
+
+
+POR FIM, O PROFESSOR SIMPLESMENTE USA O MÉTODO '.click' nesse botão que foi selecionado 
+por esse imenso código PARA QUE A LÓGICA DE TRANSPORTE DE 1 LISTA PARA A OUTRA 
+SEJA INTEGRADA NESSA RELAÇÃO DRAG AND DROP...
+
+
+
+ex:
+
+
+
+
+list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); ///////HIPÓTESE EM QUE O USUÁRIO SOLTA O PROJECTITEM na mesma lista de onde o tirou...
+            if(this.projects.find(p => p.id === prjId)) {
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+            document.getElementById(prjId).querySelector('button:last-of-type').click();
+        })
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+CERTO. O CÓDIGO FUNCIONA, OS PROJECTITEMS SÃO MOVIDOS PELAS LISTAS. 
+
+
+Mas ainda há um problema:
+
+
+
+A section continua colorida de rosa, mesmo depois de termos terminado a operação de drop...
+
+
+
+-------------------------------------------------
+
+
+Como solucionar isso?
+
+
+
+Com a adição de 
+
+'list.parentElement.classList.remove('droppable');'
+
+
+AO FINAL DESSA PARTE DO addEventListener de 'drop'....
+
+
+
+ex:
+
+
+
+    list.addEventListener('drop', event => {
+            const prjId = event.dataTransfer.getData('text/plain'); 
+            if(this.projects.find(p => p.id === prjId)) { ///////HIPÓTESE EM QUE O USUÁRIO SOLTA O PROJECTITEM na mesma lista de onde o tirou...
+                list.parentElement.classList.remove('droppable');
+                return;
+            }
+            document.getElementById(prjId).querySelector('button:last-of-type').click(); //////ESSE CÓDIGO DE 'CLICK()' VAI FAZER COM QUE A LÓGICA DE TRANSPORTE DE PROJECTITEMS POR ENTRE AS LISTAS SEJA ___rEUTILIZADO___ (pq é como se tivéssemos simulado um 'click' no botão switch/activate do projectItem selecionado com esse seletor....).
+            list.parentElement.classList.remove('droppable');
+        })
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+EFETIVAMENTE, O QUE ACONTECE AQUI É QUE EU VOU ATÉ O ELEMENTO QUE FOI 'droppado' (e que NÃO FOI REALMENTE MOVIDO, como o professor explicou...
+ELE APENAS ___PARECE__ QUE FOI MOVIDO, mas realmente não foi.)
+
+
+VAMOS ATÉ ESSE ELEMENTO QUE ESTÁ SENDO DRAGGADO, que no caso é o elemento 'finish the course', 
+
+
+e QUANDO NÓS DROPPAMOS ESSE ELEMENTO, O BOTÃO DENTRO DELE, AQUELE 'ACTIVATE/FINISH' é ___CLICADO____.
+
+SIMULA-SE UM CLICK NELE... Tudo com a ajuda daquele código 'document.getElementById(prjId).querySelector('button:last-of-type').click()'.
+
+
+
+
+
+OBS:
+
+
+Formatação 'bonita' daquele código:
+
+
+
+document
+    .getElementById(prjId)
+    .querySelector('button:last-of-type')
+    .click();
+
+
+
+----------------------------------------------
+
+
+
+
+
+
+PROFESSOR DIZ QUE OUTRA COISA QUE VOCê PODE FAZER AQUI, TAMBÉM, É CHAMAR 
+
+
+'event.PREVENTDEFAULT()'....
+
+
+ISSO NÃO É REALMENTE NECESSÁRIO, MAS VOCÊ PODE FAZER, para evitar o comportamento
+
+default de drop de algo aqui...
+
+(EX: imagine que o usuário arrasta uma imagem para esse espaço 'droppable', aí a imagem ficaria fullscreen 
+e cagaria tudo. Com 'event.preventDefault()', vocÊ evita essa situação.)
+
+
+
+--------------------------------------------
+
+
+
+COM ISSO, ACABAMOS ESSA INTERAÇÃO DRAG AND DROP.
+
+
+
+SALVAMOS E TESTAMOS. Funciona.
+
+
+
+
+ANTES DE TERMINARMOS ESTE MÓDULO, NO ENTANTO, O PROFESSOR QUER MOSTRAR 
+
+
+O evento 'dragend', O QUAL REALMENTE NÃO É NECESSÁRIO AQUI, mas ainda é legal saber.
+
+
+
+-----------------------------
+
+
+
+
+Você pode fazer listen to a um DRAGEND event....
+
+
+O DRAGEND sempre é colocado NO MESMO ELEMENTO EM QUE VOCÊ DEFINIU O listen de 'DRAGSTART'...
+
+
+NO NOSSO CASO, ISSO SERIA A CLASSE 'projectItem', no método 'connectDrag()'....
+
+
+
+
+ex:
+
+
+
+connectDrag() {
+    document.getElementById(this.id).addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', this.id);
+        event.dataTransfer.effectAllowed = 'move'; 
+    })
+}
+
+
+----------------------------------------
+
+
+DENTRO DESSE MÉTODO, PODEMOS BASICAMENTE COPIAR AQUELA LINHA 
+
+'document.getElementById(this.id).addEventListener'
+
+
+
+E então 'refatorar' todo o código (fazer ficar mais bonito).
+
+
+Ele então adiciona o listener de 'dragend' logo abaixo...
+
+
+
+
+
+ex:
+
+
+connectDrag {
+    
+const item = document.getElementById(this.id).addEventListener;
+item.addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', this.id);
+        event.dataTransfer.effectAllowed = 'move'; 
+    })
+}
+
+item.addEventListener('dragend', event => {
+
+})
+
+
+
+
+-------------------------------------
+
+
+
+O PROFESSOR ENTÃO FAZ O CONSOLE.LOG DE 'event' nesse segundo parâmetro, para que seja possível 
+
+observarmos o que há dentro dele...
+
+
+
+ex:
+
+
+
+
+connectDrag {
+    
+const item = document.getElementById(this.id).addEventListener;
+item.addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', this.id);
+        event.dataTransfer.effectAllowed = 'move'; 
+    })
+}
+
+item.addEventListener('dragend', event => {
+    console.log(event);
+})
+
+
+
+---------------------------------
+
+
+
+CERTO.
+
+
+O console.log de 'dragend' nos rende, no console do devtools, 
+
+
+o output:
+
+
+
+
+'DragEvent {isTrusted: true, dataTransfer: dataTransfer, screenX: 654, screenY: 734, ClientX: 654, ...}'
+
+
+
+
+-------------------------------------------------
+
+
+
+
+DENTRO DESSE OBJETO EVENT QUE FOI OUTPUTTADO, podemos pegar alguns pedaços 
+
+de informação...
+
+
+PODEMOS PEGAR O 'target', que nesse caso É O ELEMENTO 
+
+EM SI (ex: 'li#p1.card')...
+
+
+((BTW: PARA TODOS OS 'DRAGENTER' E 'DROP' EVENTS, OU SEJA, PARA TODOS OS EVENTOS 
+QUE ADICIONAMOS COMO LISTENERS À LISTA EM SI, o target SEMPRE 
+É/SERÁ/SERIA A ___LISTA____, E ___NUNCA____ O ELEMENTO QUE ESTARIA/ESTÁ 
+SENDO ARRASTADO...    
+
+
+
+É ASSIM PQ É ______A LISTA_____ QUE FAZ TRIGGER DO EVENTO, no final das contas, E NÃO O ITEM...
+ ))
+
+
+
+
+AQUI, NO ENTANTO, 'DRAGEND' ESTÁ NO item em si... E PORTANTO O 'TARGET' (o valor da propriedade target, tbm) É O 
+
+ITEM EM SI...
+
+
+
+
+
+E AQUI NÓS TAMBÉM PODEMOS PASSAR ALGUNS DADOS, SE DESEJARMOS...
+
+
+
+Dentro da propriedade 'dataTransfer', NÓS TAMBÉM 
+
+TEMOS, além de 'effectAllowed: 'move', 
+
+A PROPRIEDADE 
+
+
+'dropEffect' (EX: 'dropEffect: move')
+
+
+
+
+...OU SEJA, O DROPEFFECT ESTÁ COMO O MESMO DE 'effectAllowed', está como 
+
+valor de 'move' (ou seja, ele IMITA o effectAllowed..)....
+
+
+ESSE 'effectAllowed' NOS MOSTRA QUE O DROP FOI BEM SUCEDIDO...
+
+
+pq se o DROP NÃO FOI BEM SUCEDIDO, ou seja, 
+
+se nós largarmos o objeto no meio do nada, fora da outra caixa, 
+
+NÓS AINDA VAMOS RECEBER O OUTPUT DO 
+
+
+'dragEvent', MAS 
+
+EM DATATRANSFER NÓS VEREMOS 
+
+que em 'dataTransfer' a PROPRIEDADE 
+
+
+'dropEffect' ESTARÁ COMO 'none'.....
+
+
+ex:
+
+
+>dragEvent 
+
+>dataTransfer
+
+    -> dropEffect = "none"
+
+    -> effectAllowed = "move"
+
+-------------------------------
+
+
+
+
+RESUMINDO: VOCÊ SEMPRE PODE CHECAR A PROPRIEDADE 'DROPEFFECT' EM DATATRANSFER 
+
+para descobrir SE UM DROP FOI BEM SUCEDIDO OU NÃO....
+
+
+
+
+E AGORA VOCê PODERIA RODAR QUALQUER LÓGICA QUE VOCÊ QUISESSE NESSE 'dragend'...
+
+
+exemplos comuns são O UPDATE DA UI, ou o movimento de dados pelo código... 
+
+
+ISSO TAMBÉM É POSSÍVEL.
+
+
+
+
+Certo, acabamos o módulo de EVENTOS/DRAG AND DROP.

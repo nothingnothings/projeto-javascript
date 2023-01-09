@@ -1,0 +1,194 @@
+
+
+
+
+
+
+
+
+
+Para fazer query de elementos (ou nodes); ---> professor nos mostrará a diferença entre nodes e elementos mais tarde.
+
+
+
+
+
+
+
+
+
+Mas para fazer QUERY DE CONTEÚDO em sua página html (sua página html carregada), ou seja, no dom,  você tem 
+um punhado de métodos que você pode usar naquele "objeto DOM" que o professor nos mostrou há pouco tempo.
+
+
+
+
+
+
+
+
+
+OS MAIS IMPORTANTES DE TODOS SÃO "QUERYSELECTOR()" e "getElementById();"
+
+
+
+
+
+
+
+Esses métodos VÃO SELECIONAR 1 ÚNICO ELEMENTO POR VEZ.
+
+
+
+
+
+
+
+Nós também temos "querySelectorAll()" e "getElementsByTagName()", dentre outros. ESSES 
+SELECIONAM MÚLTIPLOS ELEMENTOS.
+
+
+
+
+Você pode, portanto ganhar acesso a elementos únicos com querySelector e getElementById...
+Esses dois são simplesmente diferentes maneiras de fazer query de elementos.
+
+
+
+QUERYSELECTOR === pega UM SELETOR CSS (até mesmo pseudoseletores são suportados), já que você poderia utilizá-lo em um arquivo css,
+E ELE TE DÁ UM MONTE DE FLEXIBILIDADE E PODER em relação a selecionar elementos com queries complexos no seu DOM.
+
+
+
+
+GETELEMENTBYID === getElementById, por outro lado, pega um ID que você já deve ter assignado a um elemento html e 
+seleciona um elemento por meio disso. E como IDs devem ser únicos na sua webpage, esse é um método que retorna um único elemento.
+
+
+
+
+O queryselector pega qualquer css selector e, portanto, esse pode ser um seletor que AFETA MÚLTIPLOS ELEMENTOS.
+
+
+ex: faço query do seletor css "h1". Aqui surge um problema: não serão TODOS ELEMENTOS H1 que serão afetados, e sim apenas 
+o primeiro elemento h1 que o seletor encontra na página.
+
+
+
+QuerySelector e getElementById te dão uma DIRETA REFERÊNCIA ao elemento do DOM que é retornado a nós.
+
+(Dom nodes são apenas objetos javascript, no final das contas. Em outras palavras, os dom nodes são 
+VALORES REFERENCIAIS. ESSES MÉTODOS DOS QUAIS ESTAMOS FALANDO AGORA APENAS RETORNAM AS REFERÊNCIAS AOS OBJETOS, OU 
+SEJA, OS POINTERS/INDICADORES/ENDEREÇOS AOS OBJETOS).
+
+
+
+
+QuerySelectorAll e getElementsByTagName ( e outros), por sua vez, TE DÃO ACESSO A COLEÇÕES DE ELEMENTOS, A 
+"ARRAY-LIKE OBJECTS". Tipicamente te dão uma node list (NodeList), embora isso não aconteça sempre, não é sempre isso 
+que acontece. Ainda assim, tipicamente é uma node list que NÃO É UM VERDADEIRO ARRAY, mas que é "array-like". É 
+array-like porque suporta alguns comportamentos de um array, MAS NÃO TODOS ELES.
+
+
+Com querySelectorAll e getElementsByTagName, você tem diferentes maneiras de fazer query de elementos (por CSS selectors, por tag name, por classe CSS...)
+
+
+
+
+
+querySelectorAll recebe um css selector como queryselector, MAS AO CONTRÁRIO DE QUERYSELECTOR, ele não 
+retorna o primeiro elemento que ele encontra com aquele css selector na página, mas sim TODOS OS ELEMENTOS 
+QUE POSSUEM AQUELE SELECTOR.
+
+
+
+getElementsByTagName te dá todos os elementos que possuem uma certa html tag.
+
+
+
+Há outros seletores, como o seletor de Class name ou pelo "name attribute".
+
+
+
+MAS O QUERYSELECTORALL AINDA É O SELETOR MAIS FLEXÍVEL DESSES AÍ. Você ganha o poder 
+de selecionar qualquer coisa que você quiser por meio dos seletores css.
+
+
+
+
+Uma importante diferença aqui que o professor quer mencionar de cara, e que muitas vezes não importará, mas 
+que ainda vale a pena explicar:
+
+
+QuerySelectorAll vai te dar uma "NON-LIFE" NodeList. Isso significa que ele vai te dar uma FOTO (a snapshot) do 
+DOM renderizado naquele presente, enquanto que os métodos "getXbyY" NOS RETORNAM NODELISTS "VIVAS" (não são snapshots do negócio "morto", 
+elas realmente nos retornam a nodelist do momento atual.)       
+Exemplo de "getXbyY" -----> "GetElementsByTagName".  ----> esse método nos retorna uma nodelist VIVA.
+
+
+
+Nodelist viva ---> isso significa que se vocÊ então adicionar ou remover elementos (coisa que aprenderemos a fazer nesse módulo), você 
+verá isso refletido na lista que você carregou por meio do método "getXbyY" (lista viva). Essas adições e remoções não ficam 
+registradas no querySelector, mas ficam registradas no getXbyY. 
+
+
+Mas isso tudo é algo que veremos depois, assim que aprendermos sobre como adicionar e remover elementos.
+
+
+Agora devemos ignorar isso.
+
+
+
+Antes de tentarmos esses métodos, no entanto, devemos ver um pouco sobre nodes e elementos, 
+a diferença entre esses termos de que o professor mencionou anteriormente.
+
+
+
+O professor usou esses termos de forma alternativa (como se não fossem diferentes), mas na verdade 
+você deveria ter cuidado e pelo menos aprender qual é a diferença entre os 2.
+
+
+Você, portanto, tem:
+
+
+
+NODES                                                 e                                              ELEMENTS.
+
+São os objetos que compõem o DOM.                                                                       Elements, portanto, são apenas element NODES (como o professor mencionou, ali do lado.)
+Tudo que está no DOM é um NODE.                                                                         Elements são apenas os nodes que são criados a partir das tags HTML que foram renderizadas, e NÃO O TEXTO QUE ESTÁ LÁ, DENTRO DELAS.
+                                                                                                        Por que isso importa? Porque em "element nodes" você TEM PROPRIEDADES ESPECIAIS PARA INTERAGIR COM OS ELEMENTOS (mudar seu estilo, mudar seu conteúdo. ). Nas text nodes você tem propriedades diferentes. Você não trabalha tanto com text nodes como você trabalha com element nodes.
+                                                                                                        Isso é porque você tipicamente quer adicionar um novo elemento html, remover, alterar, alterar estilo, etc. Para texto, as mudanças são mais sutis, geralmente você só quer mudar o texto... tipicamente você apenas vai até o elemento que segura o texto e MUDA O CONTEÚDO do "conteúdo filho", que geralmente é o TEXT NODE (text element). É por isso que 
+                                                                                                        você não trabalha tanto com text nodes.
+
+                                                                                                        E quais propriedaes e métodos são disponíveis a todo e qualquer elemento? --> depende do tipo do elemento, se é texto ou se é element node puro. ex: inputs, onde o usuário digita algo; você tem diferentes maneiras de ler aquele input. Em outros elementos, elementos em que o usuário não pode simplesmente editar o conteúdo, você não tem acesso àquela propriedade, é claro. 
+HTML TAGS SÃO apenas "element nodes" (ou                                                                    (available methods and properties depend on the kind of element).
+apenas "elementos".)                                                                                           
+
+                                                                                                        Há muitas maneiras diferentes de selecionar elementos (can be selected in various different ways via javascript)
+Também temos "TEXT NODES", e outros nodes 
+que veremos mais tarde (e que não são tão úteis).                                                       Elementos podem ser criados e removidos via javascript.
+
+
+Attributos criam "attribute nodes" (não são tão importantes).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Essas são as diferenças entre nodes e elements. Elements são as coisas importantes para nós aqui; text 
+nodes apenas são criados automaticamente na maior parte das vezes, como quando você estabelece o conteúdo de texto de um 
+elemento para um novo conteúdo de texto, por exemplo. Mas isso é algo que veremos mais tarde.
+
+
+
+Agora devemos testar alguns desses query methods para ver como eles funcionam.

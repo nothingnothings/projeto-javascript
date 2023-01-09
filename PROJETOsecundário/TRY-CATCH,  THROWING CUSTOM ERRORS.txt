@@ -1,0 +1,267 @@
+De volta ao nosso projeto, o monster killer, simularemos um problema.
+Um problema relacionado ao userInput, uma das hipóteses comuns de erro/problema 
+que vimos na aula passada.
+
+
+
+
+
+Nos recebemos um user input no nosso código, é O "enteredValue", 
+E NÓS JÁ REALIZAMOS UMA ESPÉCIE DE VALIDAÇÃO NO CÓDIGO...
+ NÓS CHECAMOS SE O QUE O USUÁRIO INPUTTOU PODE SER USADO COMO 
+ UMA VIDA MÁXIMA, E SE O QUE ELE INPUTTOU NÃO É VALIDO, MOSTRAMOS UM AVISO 
+ COM "FUCK YOU".
+
+
+ Se o número é menor que 0 (chosenMaxLife <= 0) e se não é um número (isNan(chosenMaxLife <= 0), 
+ definimos a vida máxima como 100, o default.
+
+
+
+ A coisa "triste" aqui (não é bem triste, porque é uma coisa boa, na verdade), é que 
+ "parseInt" não nos joga um erro se o usuário coloca algo INVÁLIDO no nosso programa.
+ Em outras linguagens de programação, a função teria nos dado um ERRO BEM GRANDE, mas 
+ javascript é uma linguagem bem misericordiosa: se você inputta algo que não pode ser convertido 
+ para uma integral/número, você não ganha um erro em retorno, você não ganha um erro de sistema (system error) 
+ que CRASHA SEU SCRIPT, em vez disso o que acontece é que parseInt gera aquele valor NaN, o qual usamos para checar a condição/função
+ "isNaN".
+
+
+parseInt(enteredValue) com um valor inválido, portanto, não produz um erro, mas AQUI, PARA QUE O PROFESSOR CONTINUE A LIÇÃO E 
+NOS MOSTRE O FUNCIONAMENTO DE TRY-CATCH, ELE VAI QUERER UM ERRO DE VERDADE.
+A boa notícia é que podemos criar e jogar nossos próprios erros. E por mais que possa parecer estranho que você queira 
+fazer isso no seu código, você deve ter em mente que, com javascript, você pode escrever APLICAÇÕES MUITO GRANDES, que cobrem 
+múltiplos arquivos e, de fato, você provavelmente vai querer jogar um erro em algumas partes da sua aplicação para que vocÊ 
+possa usar ESSAS "OFFICIAL ERROR MANAGEMENT TOOLS" para administrar aquele erro, em vez de ter que escrever dezenas de 
+if statements em partes diferentes do seu código.
+
+
+Portanto, especialmente em aplicativos maiores, é muito comum que você jogue no código seus próprios erros, e aqui nós vamos 
+mostrar como jogar para dentro do código nosso próprio erro, para que possamos praticar com "try-catch".
+
+
+Em outras situações, que veremos mais para frente no curso, como 
+
+EM CASOS EM QUE VOCÊ QUER SE CONECTAR A UM SERVIDOR E VOCÊ RECEBE UM ERRO AUTOMATICAMENTE, isso é javascript, 
+o javascript ou o browser vai automaticamente nos jogar um erro se as coisas acontecerem de forma errada...
+
+Aqui, com esse user input, não temos essa opção, não há servidor para nos jogar o erro automaticamente. Devemos fazer isso por conta própria.
+
+
+
+Como podemos fazer isso por conta própria?
+
+
+Bem, primeiramente devemos pegar um trecho de nosso código, as partes: 
+
+
+------------------------------------------------------------------------------
+
+const enteredValue = prompt('Maximum life for you and the monster:', '100');
+
+
+let chosenMaxLife = parseInt(enteredValue);
+
+
+------------------------------------------
+
+
+Pegamos essas duas partes e as jogamos para dentro de uma função.
+
+
+
+
+Chamaremos a função de getMaxLifeValues.
+
+
+
+
+
+getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster:', '100');
+    let chosenMaxLife = parseInt(enteredValue);
+}
+
+
+
+Colocamos também o if check de enteredValue dentro dessa função:
+
+
+
+
+
+getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster:', '100');
+    let chosenMaxLife = parseInt(enteredValue);
+    if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+  chosenMaxLife = 100;
+  alert('Fuck You');
+}
+}
+
+
+
+Colocamos o if check para que aquela tarefa seja realizada, a tarefa de VALIDAR O QUE O USUÁRIO INPUTTOU. Mas, em vez de settar 
+a vida máxima default como 100, o professor vai tirar isso. O professor também alterará a variável chosenMaxLife... ele a transformará em uma 
+CONSTANTE, a constante "parsedValue".
+
+
+
+
+
+getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster:', '100');
+    const parsedValue = parseInt(enteredValue);
+    if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+
+  alert('Fuck You');
+}
+}
+
+
+
+....
+
+
+Mas não é só isso; o professor também coloca uma variável no lado de fora da função, 
+a variável global chosenMaxLife, que ele definirá inicialmente como a função que definimos agora, "getMaxLifeValues()".
+
+
+
+
+
+ex:
+
+
+let chosenMaxLife = getMaxLifeValues();
+ 
+
+
+getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster:', '100');
+    const parsedValue = parseInt(enteredValue);
+    if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+
+  alert('Fuck You');
+}
+}
+
+
+--------------------------------
+
+
+Professor faz outra alteração: 
+
+dentro de getMaxLifeValues, ele coloca no final dela um comando de RETURN, "return parsedValue", que retornará o valor convertido, teoricamente.
+
+
+
+
+ex:
+
+
+
+
+
+let chosenMaxLife = getMaxLifeValues();
+ 
+
+
+getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster:', '100');
+    const parsedValue = parseInt(enteredValue);
+    if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+
+  alert('Fuck You');
+}
+return parsedValue;  //esse é o comando que foi adicionado.
+}
+
+
+
+----------------------------------------
+
+
+Mas além disso, o professor também quer que no if statement, se tivermos um valor inválido ele não vai querer que 
+retornemos 100 como um valor de fallback aqui (claro que essa é uma possibilidade, poderíamos fazer isso, mas 
+para que nós possamos ver como gerenciamos erros no javascript ele vai usar OUTRA PALAVRA CHAVE EM JAVASCRIPT, QUE É 
+A "THROW" keyword)
+
+
+
+
+THROW KEYWORD= JOGA/FAZ THROW DE UM NOVO ERRO. UM ERRO PODE SER QUALQUER COISA: VOCê PODE JOGAR UM NUMERO COMO UM ERRO, UMA STRING, UM OBJETO...
+
+Aqui, nessa condição if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) , professor vai definir como erro de throw a seguinte mensagem
+"Invalid user input, not a number!". 
+OBS: "MESSAGE" É O MAIS COMUM, O MAIS UTILIZADO PARA MOSTRAR MENSAGENS DE ERRO. GERALMENTE MENSAGENS DE 
+ERRO SÃO MOSTRADAS POR MEIO DE OBJETOS; UM KEY-DATA PAIR QUE MOSTRA UM AVISO AO USUÁRIO. 
+
+Obs: professor também troca enteredValue por parsedValue, porque o código estava dando um erro de referenciamento.
+
+
+
+como ficaria no código:
+
+
+
+if (isNaN(parsedValue) || parsedValue <= 0) {
+  throw {
+    message: 'Invalid user input, not a number!'
+  };
+  return parsedValue;
+}
+
+------------------
+CÓDIGO COMPLETO:
+
+function getMaxLifeValues() {
+  const enteredValue = prompt ('Maximum Life for you and the monster.', '100');
+
+const parsedValue = parseInt(enteredValue);
+if (isNaN(parsedValue) || parsedValue <= 0) {
+  throw {
+    message: 'Invalid user input, not a number!'};
+  
+  
+}
+return parsedValue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Agora, portanto, temos nosso próprio erro aqui. O resultado disso é que, se recarregarmos o código e DIGITARMOS 
+
+LETRAS NO INPUT FIELD, CONSEGUIREMOS UM ERRO. SE ABRIRMOS O DEV TOOLS, VEREMOS O ERRO EXPLICADO POR NOSSOS PRÓPRIOS 
+TERMOS: 
+
+"UNCAUGHT"
+
+
+"message: "Invalid user input, not a number!"  "
+
+
+Nosso erro customizado será mostrado no dev tools, com a ajuda da função "THROW".
+
+ENTRETANTO, O NEGÓCIO NÃO SERÁ TRATADO APENAS COMO UMA MENSAGEM PARA O USUÁRIO... 
+A OCORRÊNCIA DE UM ERRO, O USO DE "THROW, FAZ A EXECUÇÃO DO SCRIPT PARAR. O SCRIPT CRASHA QUANDO É 
+MOSTRADO ESSE ERRO.
+
+
+Bem, é possível q você queira fazer isso em scripts mais complexos, para que você 
+possa usar o mecanismo de gerenciamento de erros dessa função...
+
+Aqui, o professor nos mostrou essa mensagem e utilização específicas para nos 
+mostrar como funciona a função. 
+
+Fez tudo isso para nos mostrar o try catch, porque mais tarde nós trabalharemos
+ com outras coisas, como NETWORK REQUESTS (onde o javascript por si só nos joga erros, erros os quais você deve estar preparado para gerenciar/solucionar).

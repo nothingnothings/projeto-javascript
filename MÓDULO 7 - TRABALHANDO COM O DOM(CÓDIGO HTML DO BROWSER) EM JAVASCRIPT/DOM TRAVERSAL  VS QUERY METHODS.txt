@@ -1,0 +1,197 @@
+Um adendo importante sobre Essas 
+DOM TRAVERSAL TECHNIQUES, btw:
+
+
+É SUPER IMPORTANTE DE TER CIÊNCIA DE SUA EXISTÊNCIA.
+
+
+
+
+Como o professor mencionou, por exemplo, se você quiser selecionar o 
+primeiro list-item de uma unordered list e você já tiver 'ul' selecionada para 
+início de conversa, talvez seja melhor apenas utilizar "firstElementChild" para ganhar acesso a esse item.
+                                                        (e não firstChild, que seleciona o primeiro node em geral, ou seja, um textnode de " ", espaço em branco.)
+
+ex:
+
+
+const ul = document.querySelector('ul');
+
+
+ul.firstElementChild; -----> isso vai selecionar o primeiro item do ul.
+
+
+
+
+
+Geralmente é muito melhor fazer isso do que rodar uma query de querySelector novinha em folha, que gastará 
+recursos de forma desnecessária.
+
+
+
+Aqui nesse caso usar firstElementChild é melhor também porque é quase 100% 
+garantido que um list item sempre será um child de uma unorderedlist/orderedlist.
+
+Ainda que você vá para seu código html e depois mude algumas coisas de lugar, essa relação 
+entre ul e aquela list geralmente ficará a mesma coisa.
+
+Quando você coloca "firstElementChild" para selecionar um elemento de uma unorderedlist,
+99% das vezes o javascript VAI SELECIONAR UM LIST ITEM. Porque é assim que as coisas geralmente funcionam.
+
+MAS ISSO NÃO SE APLICA, NECESSARIAMENTE, A TODO O SEU SITE.
+
+
+
+Digamos que no nosso projeto exemplo nós escrevemos certo código JS (comentamos para fora todo o código JS antigo).
+
+
+ex:
+
+
+
+const ul = document.body.firstElementChild;  ----------> ISSO VAI SELECIONAR O HEADER, PORQUE ELE É O PRIMEIRO FILHO DA TAG <BODY>.
+
+
+
+
+-------------------------------------------
+
+
+Uma vez que eu tivesse o header selecionado, eu poderia selecionar o seu sibling, o nextElementSibling,
+que seria a unorderedlist.
+
+
+ex:
+
+
+
+const ul = document.body.firstElementChild.nextElementSibling;   //// -------------> ISSO REALMENTE FUNCIONA. FUNCIONA PORQUE ATÉ O TRECHO 'document.body.firstElementChild' nós SELECIONAMOS O HEADER, e com "nextElementSibling" SELECIONAMOS, DE UMA VEZ, o próximo primo, que é a unorderedList.
+
+
+
+-------------------------------------------------------
+
+
+
+Agora, se eu quiser pegar o primeiro list item da unorderedList, eu posso simplesmente usar o seguinte código:
+
+
+
+const ul = document.body.firstElementChild.nextElementSibling;
+
+const firstLi = ul.firstElementChild; -----------> ISSO VAI REALMENTE SELECIONAR O PRIMEIRO ELEMENTO DE UL, QUE É AQUELE LIST ITEM QUE NÓS QUERÍAMOS.
+
+
+console.log(firstLi); ---> isso vai fazer com que list-item apareça no console. "<li class="list-item">Item 1</li>
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+Mas há um PROBLEMA com esse código:
+
+
+
+O primeiro problema é que aquela primeira linha de código ____É UM POUCO DIFÍCIL DE LER___.
+
+"const ul = document.body.firstElementChild.nextElementSibling;"
+
+
+
+
+Se o professor ler o nosso código, não será imediatamente óbvio para ele que você 
+está selecionando uma unordered list nessa primeira linha de código.
+Claro, ele pode "saber" isso se ele for pelo nome da constante, 
+mas se você escolhe um nome diferente naquele lugar, vai ficar difícil para 
+ele entender exatamente oq está acontecendo aqui.
+ Esse código é ruim de entender porque o professor tem que olhar para o código 
+ HTML para ver o que está sendo selecionado. Essa é uma desvantagem.
+
+
+ A MAIOR DESVANTAGEM É QUE aqui, enquanto você estiver trabalhando nesse app,
+    chegado certo ponto no desenvolvimento você pode decidir "ah, eu preciso 
+    de um novo elemento de seção aqui...". E aí vocÊ vai lá 
+    e wrappa a unordered list com essa nova seção.
+
+ex:
+
+
+
+
+<body>
+
+
+    <header><h1 id="main-title">Dive into the DOM!</h1></header>
+    <section>Seção Nova</section>  <!-- Parte nova que você adicionou --> ---------------------------------------
+    <ul>
+        <!-- <li>Item 1</li>    Esse é o item 1 antigo, que não tinha a classe list-item como os demais items-->
+        <li class="list-item">Item 1</li>
+        <li class="list-item">Item 2</li>
+        <li class="list-item">Item 3</li>
+    </ul>
+    </section>  <!-- AÍ VOCê FAZ WRAP DESSA SEÇÃO EM VOLTA DA UL. -->
+    <input type="text" value="default text">
+    
+</body>
+</html>
+---------------------------------------------------------------------
+
+
+SE VOCê FIZER ISSO E NÃO AJUSTAR O SEU CÓDIGO (algo que ocorre frequentemente),
+VOcê talvez receba comportamentos BIZARROS no seu aplicativo... por exemplo, 
+no exemplo do professor, se fizermos essa alteração da adição da nova section e 
+recarregarmos a página, veremos que O ELEMENTO QUE É SELECIONADO POR AQUELE COMANDO 
+AGORA É "ul", e não mais aquele primeiro item <LI> da "Ul". Isso acontece/aconteceu aqui 
+porque por meio de "document.body.firstElementChild.nextElementSibling" nós selecionamos 
+primeiramente o header, e depois passamos diretamente para a section (com nextElementSibling). Antes 
+esse código funcionava perfeitamente porque escolhíamos HEADER com "firstElementChild" e aí passávamos
+diretamente  para ul com nextElementSibling, para então depois selecionarmos o priemiro elemento de ul 
+com o comando "ul.firstElementChild". Mas essa mudança da section cagou tudo, porque agora o "nextElementSibling"
+faz com que selecionemos a SECTION, e não a ul. Isso, por consequência, faz com que 
+a constante firstLi, console.loggada mais abaixo, console.logge O PRIMEIRO ELEMENTO DO SECTION (que agora é 
+o elemento selecionado pela constante ul; console.log logga o primeiro filho elemento de ul, que nesse caso é uma constante
+que segura/selecionou o elemento section.)
+
+TUDO ERRADO AQUI, COM essa mudança.
+
+
+
+
+Portanto, usar essas dom traversal techniques PODE SER UMA FERRAMENTA MUITO 
+PODEROSA, mas você deve utilizá-las com cuidado.
+
+
+Você deve utilizá-las em casos em que a relação dos elementos pelos quais você 
+está traversing NÃO VAI MUDAR AO LONGO DO DESENVOLVIMENTO DO CÓDIGO, que a relação 
+entre eles vai ficar a mesma ainda que vocÊ mude código de lugar (ex:
+list items, que sempre estarão dentro de unorderedLists. É uma relação constante).
+
+Em casos que a constância das relações não pode ser garantida, vocÊ deve ajustar 
+seu código JS de forma cuidadosa. Ajustar o código html e javascript de acordo com 
+as mudanças que você vai fazendo.
+
+
+É claro que você também não pode ser tímido e deixar de usar os query methods.
+Só porque "document.body.firstElementChild.nextElementSibling;" nos dá uma melhor 
+performance do que 
+"querySelector('ul')", não significa que a performance do query selector é TÃÃÃO horrível assim e que 
+devemos deixar de usá-lo.
+
+Você deve ser esperto com aquilo que você decide usar. Não há 
+sempre um "certo e errado", às vezes há múltiplas respostas.
+
+
+As DOM TRAVERSAL techniques podem ser boas para seleção de coisas gerais/genéricas, 
+como por exemplo selecionar uma ul de forma genérica.
+
+
+
+
+
+
+OBS::: importante: muita lógica de traversal NESTEADA também te dá performance ruim, 
+muitas vezes ainda pior do que os querySelectors.

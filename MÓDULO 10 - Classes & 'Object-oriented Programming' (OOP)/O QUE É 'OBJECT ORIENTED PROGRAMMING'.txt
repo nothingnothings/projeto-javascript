@@ -1,0 +1,211 @@
+Então, o que é isso?
+
+
+
+
+
+
+OOP ====
+
+
+
+É UM APPROACH, UMA MANEIRA DE PENSAR E ESTRUTURAR O SEU CÓDIGO...
+
+
+
+É UMA MANEIRA DE RACIOCINAR/PENSAR sobre o seu código, planejá-lo.
+
+
+
+
+
+
+A ideia por trás de OOP é que vocÊ trabalha com 
+
+
+'ENTIDADES DA VIDA REAL' NO SEU CÓDIGO.
+
+('work with (real-life) Entities in your Code').
+
+
+
+
+
+O PROFESSOR JÁ MENCIONOU ISSO ANTES, QUANDO ELE FALOU SOBRE OBJETOS.
+
+
+
+
+Isso, portanto, não é novo.
+
+
+
+
+
+
+
+-------> NÓS USAMOS OBJETOS PARA AGRUPAR DADOS EM CONJUNTOS, NO FINAL DAS CONTAS, 
+E FAZEMOS ISSO PARA, POR EXEMPLO, 
+CRIAR UM 'MOVIE' OBJECT..., 
+para que possamos trabalhar com 
+esse 'movie' no nosso código.... e para que 
+possamos PENSAR NO NOSSO CÓDIGO 
+
+
+em termos/em uma maneira que É MAIS FÁCIL DE SE IMAGINAR (mais fácil a nós, humanos).
+
+
+
+
+
+OOP É BASICAMENTE ISSO. É ESSENCIALMENTE SOBRE 
+"ABRAÇAR" a lógica de que nós trabalhamos com 
+objetos (quase sempre SÓ COM OBJETOS) no nosso código, abraçar 
+o fato de que nós 
+
+colocamos todo o nosso código EM DIFERENTES OBJETOS, OU SEJA,
+EM DIFERENTES 'MÉTODOS DE OBJETOS', no final das contas.
+
+
+
+Eis aqui um exemplo:
+
+
+
+
+Digamos que estamos criando uma loja online bem simples...
+
+Lá, nós temos uma lista de produtos....
+
+
+
+para essa lista de produtos, criamos um componente no código chamado de 'productList'.
+
+
+
+Essa 'ProductList' vai segurar TODOS OS DADOS E, ___EM MÉTODOS__, TODA A LÓGICA 
+RELACIONADA AO OUTPUT DA LISTA DOS TAIS PRODUTOS....
+
+
+
+
+---> 'productList', portanto, segurará 
+
+1) A LÓGICA DE RENDERIZAR A LISTA DE PRODUTOS  (renders a list of products)
+
+
+
+2) A LÓGICA DE OBTER/FAZER RETRIEVE/RETORNAR/FAZER FETCH DESSA 
+LISTA DE PRODUTOS DE UM SERVER EXTERNO (database)    ('...which were fetched from a server( database)') 
+
+
+
+
+3) Além disso, productList também provavelmente tem uma propriedade/propriedades que a ajudam 
+A ARMAZENAR OS DADOS DOS PRODUTOS QUE FORAM CARREGADOS ('loaded product data').
+
+
+
+
+
+
+
+
+
+BASICAMENTE, É UM OBJETO QUE SEGURA (HOLDS) TANTO UMA LÓGICA DE RENDERING COMO 
+TAMBÉM UMA LÓGICA DE 'FETCH'/RETRIEVAL....
+
+
+
+--------------------------------
+
+
+Para além dessa productList, podemos ter um OUTRO OBJETO que 
+reflete a existência dos produtos como unidades (a single product):
+
+
+
+
+ex:
+
+
+Product.
+
+
+-------------------------------
+
+
+
+Esse objeto 'product' pode ser responsável PELA 
+RENDERIZAÇÃO DE DETALHES SOBRE UM ÚNICO PRODUTO/UMA UNIDADE, e 
+também talvez renderize UM BOTÃO E SUA LÓGICA CORRESPONDENTE, 
+A LÓGICA DE ADICIONAR UM PRODUTO (ESSE PRODUTO) A UM CARRINHO POR MEIO 
+DESSE BOTÃO.
+
+(Renders details about a product and allows addition to cart).
+
+
+
+Essa seria a responsabilidade desse 'product'.....
+
+
+
+NESSE EXEMPLO, O TAL DO 'PRODUCT' ESTARIA, É CLARO, + ou - LIGADO 
+AO PRODUCT LIST. (eles não poderiam existir no código separadamente).
+
+
+
+
+
+Ou seja, DENTRO DOS MÉTODOS DO PRODUCTLIST nós talvez estejamos trabalhando (ou tenhamos de trabalhar) com 
+ESSE OBJETO 'PRODUCT'....
+
+
+Para complementar, nós talvez ainda tenhamos um 
+OBJETO 'ShoppingCart', que também será + ou - vinculado (linked) ao 
+objeto 'Product', 
+
+PORQUE NÓS ATIVAMOS A ADIÇÃO AO CARRINHO ___DE DENTRO (from inside the logic stored) ___ DA LÓGICA ___ 
+ARMAZENADA dentro do OBJETO 'product'....
+
+
+
+E esse 'ShoppingCart' é RESPONSÁVEL 
+
+POR, digamos, OUTPUTTAR TODOS OS PRODUTOS QUE SÃO 
+PARTE DELE e, talvez, nos mostrar a soma total deles (totalSum).
+Ele também talvez ofereça ao usuário 
+
+UM BOTÃO (renderizado por ele msm); botão cuja lógica 
+vinculada a ele será segurada também por 'ShoppingCart'...
+tal lógica será ativada quando 
+o botão é clicado....
+Essa lógica pode ser uma lógica de ORDENAÇÃO, por exemplo.
+
+
+(Renders cart products and total; allow user to order them)
+
+
+(Object holds rendering + ordering (server communication) logic )
+
+
+
+
+------------------------------------
+
+
+
+ESSE É UM EXEMPLO TEÓRICO, MAS NA VERDADE É O EXEMPLO 
+QUE VAMOS CRIAR 
+
+
+NESSE MÓDULO ATUAL.
+
+Utilizaremos esse módulo para aprender 
+
+
+sobre o OOP e sobre classes.
+
+
+
+DEVEMOS COMEÇAR COM O OOP, PORQUE ELE NÃO NECESSITA QUE NÓS tenhamos conhecimento de 'classes'.

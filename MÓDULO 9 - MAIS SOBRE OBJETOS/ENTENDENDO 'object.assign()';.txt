@@ -1,0 +1,117 @@
+Se tocarmos no assunto de 'copiar', devemos também falar sobre 
+
+OUTRA MANEIRA DE COPIAR VALORES....
+
+
+Para isso, o professor vai recarregar o devtools e começar com outro objeto 'person'.
+
+
+
+ex:
+
+
+
+const person = {name: 'Max'};
+
+
+
+----------------------------
+
+
+AGORA, SE ELE QUISESSE CRIAR UM OBJETO 'person2', é claro, diz o professor, 
+que PODEMOS UTILIZAR AQUELE SPREAD OPERATOR (...), o que até mesmo seria a RECOMENDAÇÃO DO PROFESSOR, 
+porque é UMA SINTAXE MUITO, MUITO CURTA.
+
+MAS TAMBÉM HÁ OUTRO APPROACH, UM APPROACH QUE TEM MAIS HISTÓRIA DO QUE ESSE APPROACH 
+DO SPREAD OPERATOR, QUE É MAIS VELHO e ___TEM MELHOR BROWSER SUPPORT___.
+
+
+(apesar de que, como aprenderemos no módulo de browser support, ISSO TALVEZ NEM IMPORTE 
+TANTO ASSIM )
+
+
+
+
+Esse approach é o uso do método 'Object.assign();'....
+
+
+-----------------------
+
+
+
+OBJECT ----> OBJECT É UM OBJETO DISPONÍVEL GLOBALMENTE NO JAVASCRIPT... 
+                É um objeto que tem um MÉTODO 'assign', o qual exige que você 
+                PASSE UM "TARGET" (que será, por exemplo, o novo objeto que vocÊ criou/criará) E ENTÃO 
+                O OBJETO ONDE VOCÊ DESEJA "COPY OVER" OS SEUS VALORES...(como 'person', por exemplo.).
+
+
+
+
+
+ex:
+
+
+
+
+const person = {name: 'Max'};
+
+
+
+
+const person2 = Object.assign({}, person);
+
+
+
+-----------------------------------------------
+
+
+O PROFESSOR EXPLICA QUE VOCÊ PODE, NA VERDADE, ADICIONAR MÚLTIPLOS 'sources' em que 
+você quer 'copy over' os key-value pairs, e, no final das contas, OBJECT.ASSIGN() VAI 
+CUSPIR PARA FORA UM NOVO OBJETO AQUI, NA DEFINIÇÃO DESSA CONSTANTE, E ENTÃO FUNDIRÁ TODOS OS KEY-VALUE PAIRS (do 2o, 3o, 4o, etc, argumentos...)
+NESSA FUNÇÃO NOVA... (que é o primeiro argumento, na verdade, por isso o '{}' nesse exemplo).
+
+
+
+
+O professor aponta que, BTW, você não é obrigado a usar '.assign' PARA CRIAR UM 
+NOVO OBJETO (por meio do primeiro argumento); você PODERIA TER UM OBJETO JÁ 
+EXISTENTE, QUE TEM SUAS PROPRIEDADES JÁ EXISTENTES... a utilização desse objeto 
+no primeiro parâmetro, nesses casos, faria com que os key-value pairs dos objetos 
+inseridos no 2o, 3o, 4o (infinitos) argumentos fossem incorporados nesse objeto 
+do primeiro argumento. Isso também funciona.
+
+Mas um use-case COMUM, que você verá muito, É EXATAMENTE ESSE USE-CASE QUE O PROFESSOR 
+ESTÁ NOS MOSTRANDO:
+
+
+
+'const person2 = Object.assing({}, person);'
+
+
+É o use-case em que você ASSIGNA AS PROPRIEDADES DE UM OBJETO JÁ EXISTENTE ('person') A UM NOVO 
+OBJETO, por meio de 'Object.assign()';
+
+
+
+
+
+IMPORTANTE!!!!! --------> QUANDO O PROFESSOR DIZ 'assignar propriedades', ele também QUER DIZER MÉTODOS, MÉTODOS TAMBÉM SÃO INCLUÍDOS (mesma coisa que vimos com o spread operator, que pode ser utilizado tanto com arrays, como com métodos).
+
+                            Métodos, portanto, TAMBÉM SÃO 'COPIED OVER'. Propriedades e métodos são copiados por meio do 'Object.assign()'.
+
+
+
+------------------------------------------
+
+
+
+Se agora digitarmos 'person2' no console, veremos que AGORA PERSON2 É UMA CÓPIA DE PERSON, MAS UMA CÓPIA INDEPENDENTE.
+
+
+
+Essa sintaxe, resumindo, é ANÁLOGA AO USO DO SPREAD OPERATOR, PARA COPIAR OBJETOS.
+
+
+
+Entretanto, o spread operator ainda É A RECOMENDAÇÃO DO PROFESSOR, POIS É 
+UMA SINTAXE UM POUCO MAIS CURTA.

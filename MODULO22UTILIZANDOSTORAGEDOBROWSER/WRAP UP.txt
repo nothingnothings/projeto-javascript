@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+------> ACABAMOS COM 'indexedDB' e armazenamento de browsers em geral.
+
+
+
+
+---> professor nos deu um breve overview.
+
+
+
+
+
+
+
+----> é bom para armazenar dados, mas lembre-se que usuários podem visualizar e editar (até deletar) os dados 
+
+como querem, por isso esse tipo de armazenamento não é NADA SEGURO.
+
+
+
+
+
+---> browser também pode deletar dados de browser, se constatar que está sem espaço.
+
+
+
+
+
+
+
+--> se você está construindo um aplicativo RICO client-side, o qual gerencia muitos dados,
+
+aí ter algo como 'indexedDB' é muito bom... mas não substitui o storage de dados em servidores munidos de databases.

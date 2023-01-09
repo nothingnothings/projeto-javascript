@@ -1,0 +1,152 @@
+Falando de built-in classes, 
+
+
+
+
+
+
+HÁ TAMBÉM UMA 
+
+
+
+CLASSE/TYPE GLOBAL chamada de 'Object'...
+
+
+
+
+
+
+
+
+VOCÊ PODE UTILIZAR essa CLasse/type PARA CRIAR OBJETOS...
+
+
+
+
+
+
+De fato, diz o professor, você pode CRIAR UM NOVO OBJETO 
+
+POR MEIO DESSA SINTAXE:
+
+ex:
+
+
+'const obj = new Object();'
+
+
+
+------------------------------------
+
+
+
+
+QUANDO VOCÊ FAZ ISSO, o 'obj' (a constante), 
+
+se vocÊ digitá-lo no devtools console, 
+
+
+VOCÊ VERÁ QUE ISSO 
+
+APENAS CRIARÁ UM OBJETO VAZIO.
+
+
+ex:
+
+
+
+>obj 
+
+
+<- {}
+
+
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+DE FATO, ESCREVER 
+
+
+'const obj = new Object();' 
+
+
+É A MESMA COISA QUE 
+
+ESCREVER
+
+
+
+'const obj2 = {};'
+
+
+
+---------------------
+
+
+
+É a mesma coisa, portanto, que CRIAR UM 
+OBJETO COM UM 'OBJECT LITERAL' vazio...
+
+
+---------------------------------
+
+
+
+Professor diz que o 
+
+'obj2' é preferido, O OBJECT LITERAL VAZIO, PORQUE 
+
+
+'const obj = new Object();' É UM POUCO 
+
+___MAIS LENTO___ (tanto em relação à performance como à digitação...), 
+
+
+E NÃO NOS DÁ VANTAGEM ALGUMA.
+
+
+
+
+É APENAS UMA CLASSE 'built-in' QUE SE TORNARÁ MAIS 
+
+IMPORTANTE NO PRÓXIMO MÓDULO...
+
+
+
+
+
+Tipicamente, porém, você não o utiliza dessa forma...
+
+
+----------------------------------
+
+
+
+
+
+Você também deve se lembrar que nós podemos 
+
+digitar 
+
+
+'new Array()' PARA CRIAR UM NOVO ARRAY (é possível, mas não mt utilizado).
+
+
+
+
+ENTRETANTO, A ARRAY LITERAL NOTATION ('[]') É MUITO MAIS UTILIZADA E PREFERIDA...
+
+
+
+
+
+
+Há mais algumas built-in classes, e as veremos ao longo do curso...

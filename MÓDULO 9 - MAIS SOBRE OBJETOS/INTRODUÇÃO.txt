@@ -1,0 +1,54 @@
+Agora que vimos mais sobre arrays, uma data structure ESSENCIAL do javascript, 
+
+
+Devemos dar uma olhada em OBJETOS também, pois objetos 
+são uma data structure AINDA MAIS importante em javascript.
+
+
+
+
+Arrays ----> na verdade, ARRAYS ___SÃO___ OBJETOS.
+
+
+
+
+Com objetos, podemos fazer um monte de coisas em javascript. 
+SÃO MUITO IMPORTANTES PARA AGRUPAR DADOS (data)...
+
+além disso, são importantes para AGRUPAR FUNCIONALIDADE.... ainda 
+não vimos nada sobre isso, mas é algo que devemos entender agora.
+
+
+
+
+
+MUITAS COISAS EM JAVASCRIPT SÃO OBJETOS.
+
+
+
+
+
+ex:
+
+
+quando nós trabalhamos com O DOM, onde nós adicionamos um FILME com aquele FORMULÁRIO...
+ se nós dermos uma olhada naquele código, é claro que a const "newMovie" é um 
+ OBJETO JAVASCRIPT, o qual utilizamos para salvar os dados sobre o filme no nosso código para que pudéssemos 
+ trabalhar com ele.
+
+
+ MAS CADA DOM NODE DO CÓDIGO, CADA NODE QUE GANHAMOS ACESSO POR MEIO DE "getElementById", querySelector, etc etc,
+ ou cada DOM que criamos com "createElement()", TODAS ESSAS COISAS
+SÃO OBJETOS.
+
+Todos eles são objetos. Às vezes criados por nós, como "newMovie", em que usamos {}; noutras, é criado por meio do browser, 
+QUANDO NÓS APENAS GANHAMOS ACESSO A ESSES OBJETOS CRIADOS.
+
+
+
+
+------> OBJETOS, PORTANTO, ESTÃO POR TODA PARTE DO JAVASCRIPT.
+
+
+Veremos o que podemos fazer com objetos, quais diferentes features de sintaxe podemos utilizar com 
+eles e muito, muito mais.

@@ -1,0 +1,2275 @@
+
+
+
+DEVEMOS MOSTRAR UM MAPA DENTRO DA NOSSA PÁGINA.
+
+
+
+
+
+TEMOS UMA ÁREA NA NOSSA PÁGINA EM QUE VAMOS QUERER MOSTRAR O NOSSO MAPA....
+
+
+
+
+
+Será um mapa mostrado QUANDO CONSEGUIMOS A USER LOCATION DO USUÁRIO...
+
+
+
+
+
+Para mostrar esse mapa, o professor usará o GOOGLE MAPS...
+
+
+Para usar o google maps, 
+
+
+
+VocÊ deve procurar por 
+
+
+
+'googlemaps sdk'
+
+
+
+
+a coisa que vocÊ quer é o 
+
+
+'google maps platform'...
+
+
+
+
+Nessa página há várias coisas oferecidas pelo google maps.
+
+
+A que nos interessa é o 
+
+
+
+'maps javascript API'...
+
+
+
+
+Clicamos nela.
+
+
+
+
+Há bastante documentação 
+
+
+sobre o google maps...
+
+
+
+
+
+---------> O GOOGLEMAPS EM SI FOI CONSTRUÍDO COM JAVASCRIPT....
+
+
+
+
+-------------------------------------
+
+
+
+Construíremos um mapa BÁSICO na nossa página....
+
+
+
+Para fazer isso, devemos IMPORTAR UM SCRIPT NA NOSSA PÁGINA...
+
+
+
+
+
+devemos copiar esse script e colar no nosso index.html.
+
+
+
+Devemos colar esse script ACIMA DO NOSSO ARQUIVO JAVASCRIPT...
+
+
+
+
+
+UMA COISA IMPORTANTE É QUE ESSE IMPORT 
+
+
+TEM UMA PARTE QUE DIZ 
+
+
+
+'YOUR_API_KEY'... 
+
+
+
+e também 
+
+
+tem um negócio de callback ("&callback=initMap")
+
+
+
+
+---> PROFESSOR DIZ QUE PODEMOS DELETAR ESSE NEGÓCIO DO CALLBACK DIRETO, de cara. Esse 'callback' TE PERMITIRA EXECUTAR UMA FUNÇÃO JAVASCRIPT IMEDIATAMENTE APÓS O 'googlemaps' ser carregado... (e isso não é algo que o professor quer fazer aqui).
+
+
+
+
+
+Mas nós somos obrigados a colocar algo no 'your_api_key'...
+
+
+
+
+
+
+PARA USAR GOOGLE MAPS, VOCê PRECISA DE UMA CONTA DO GOOGLE, 
+
+
+E PRECISA DEFINIR UM ___PROJETO___ com o google...
+
+
+
+
+
+isso geralmente é DE GRAÇA, mas você pode aprender mais sobre isso 
+
+na página de 'pricing'.
+
+
+
+
+
+-----> VOCê PRECISA DE UM CARTÃO DE CRÉDITO PARA USAR ESSE RECURSO...
+
+
+Mas os primeiros 200 dólares de uso desses recursos, em cada mês, saem 
+
+DE GRAÇA.
+
+
+
+
+200 dólares É ___MUITO___, é muito trafego.
+
+
+
+
+
+Ainda assim, você precisa de uma CONTA DO GOOGLE com um cartão de crédito.
+
+
+
+
+
+Não vou fazer isso. Muito inseguro. 
+
+
+
+Vou fingir que fiz, 
+
+
+seguir os passos mesmo assim.
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+
+Using Google Maps unfortunately requires a credit card, even though you got a generous free tier which you very likely wouldn't exceed.
+
+If you got no credit card, you can look into OpenLayers as an alternative (here's how to render a map with it: https://openlayers.org/en/latest/doc/quickstart.html).
+
+In our concrete example, this would render a map:
+
+Include this in your HTML file:
+
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
+In Map.js, use this JS code:
+
+document.getElementById('map').innerHTML = ''; // clear the <p> in the <div id="map">
+
+const map = new ol.Map({
+  target: 'map',
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM()
+    })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([coordinates.lng, coordinates.lat]),
+    zoom: 16
+  })
+});
+You can explore the OpenLayers docs to learn how to render a broad variety of different things.
+
+In the next lectures, we'll also use the Google API to convert a pair of coordinates into an address and vice versa. For that, we'll also use the Google APIs and hence need a credit card.
+
+Unfortunately, I'm not aware of any credit-card-free alternatives, so for now the solution will be to simply return some dummy data in those utility functions we'll add:
+
+export async function getAddressFromCoords(coords) {
+  return '6th Avenue'; // return any dummy address you want
+}
+
+export async function getCoordsFromAddress(address) {
+  return {lat: 47.01, lng: 33.55}; // return any dummy coordinates you want
+}
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Se você tiver o cartão de crédito, você  
+
+deve clicar em 'get started' no google maps platform-pricing...
+
+
+
+
+---> AÍ VOCê SELECIONA 'MAPS' E 'PLACES'... (vamos precisar de 'places' mais tarde...).
+
+
+Clique nessas 2 opções e coloque continue...
+
+
+
+CRIE UM NOVO PROJETo 
+
+
+
+'new project'....
+
+
+
+
+------> NEXT 
+
+
+
+
+
+
+----> isso vai demorar um pouco.
+
+
+
+
+
+
+vocÊ verá o google cloud maps platform.
+
+
+
+Faça 'set billing'... 
+
+
+
+----> confirme tudo e tal....
+
+
+
+
+
+
+------> NESSAS PÁGINAS, VEMOS O MESMO TIPO DE OVERLAY QUE CONSTRUÍMOS NESSE ÚLTIMO PROJETO...
+
+
+
+
+POR FIM, CONSEGUIMOS UMA API KEY... Devemos inseri-la no index.html.
+
+
+
+Certo, estamos com o negócio importado.
+
+
+
+
+AGORA PRECISAMOS RENDERIZAR UM MAPA NO 
+
+'<div id="map">' 
+
+
+DO NOSSO CÓDIGO....
+
+
+
+
+
+----------------------------------
+
+
+
+PARA ISSO, O PROFESSOR CRIARÁ UM NOVO ARQUIVO NO FOLDER 'Ui' do nosso projeto...
+
+
+ele nomeará esse arquivo de 'map.js'...
+
+
+
+
+
+
+----> dentro dele, vou criar uma classe chamada 'MAP', que será responsável pela renderização do nosso mapa....
+
+
+
+COLOCAMOS UM CONSTRUCTOR dentro da classe...
+
+
+
+
+COLOCAMOS UM CONSTRUCTOR PQ, afinal de contas, o que 
+
+precisamos para renderizar UM MAPA 
+
+E UM LUGAR DENTRO DESSE MAPA...?
+
+
+
+precisamos 
+
+___DAS COORDENADAS DAQUELE LUGAR___.... 
+
+
+E AS COORDENADAS NÓS JÁ TEMOS, SÃO AQUELAS PROPRIEDADES 'lat' e 'lng' lá em 
+
+'sharePlace'...
+
+
+
+
+-------------------------------
+
+
+É POR ISSO QUE DEFINIMOS O PARÂMETRO 'coords' NO CONSTRUCTOR DESSA CLASSE 
+
+
+'Map'...
+
+
+
+ex:
+
+
+
+
+class Map {
+    constructor(coords) {
+
+    }
+}
+
+
+-----------------------------------
+
+
+
+Certo.
+
+
+De posse dessas coordenadas, VAMOS QUERER RENDERIZAR UM MAPA NA TELA 
+
+COM BASE NELAS.
+
+
+
+Por isso o professor adiciona um método 'RENDER()' nessa classe 'Map'...
+
+
+
+eX:
+
+
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.render();
+    }
+    render() {
+
+    };
+    
+}
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+
+O PROFESSOR VAI QUERER CHAMAR ESSE MÉTODO 'render' ____QUANDO O MAPA___/ a classe MAP for criada/instanciada...
+
+
+
+
+Entretanto, antes que consigamos/chamemos RENDER, PROFESSOR DIZ QUE DEVEMOS 
+
+ARMAZENAR AS 'coords' AS COORDENADAS em uma propriedade 
+
+
+de nome 'coordinates'...
+
+
+
+
+
+ex:
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+
+    };
+    
+}
+
+
+---------------------------------------
+
+
+
+
+
+
+EM RENDER(), POR SUA VEZ, QUEREMOS USAR 
+
+A JAVASCRIPT SDK do google PARA RENDERIZAR UM MAPA NA TELA...
+
+
+
+
+---> os docs oficiais nos mostram tudo sobre como fazer isso, mas aqui vamos fazer o DISPLAY 
+DE UM MAPA BÁSICO...
+
+
+
+
+----> PRIMEIRAMENTE, O PROFESSOR INSERE UM IF CHECK, QUE VAI CHECAR POR CASOS EM QUE __NÃO TENHAMOS__ UMA 
+
+VARIÁVEL 'google' GLOBAL...
+
+
+
+
+ex:
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+
+        }
+    };
+    
+}
+
+
+-------------------------------
+
+
+PQ o professor fez isso?
+
+
+
+
+Pq 'google' É UMA VARIÁVEL GLOBAL ____aDICIONADA___ PELO GOOGLE MAPS SDK que estamos importando 
+
+
+aqui.... nós devemos ter acesso a essa variável EM TODOS OS SCRIPTS QUE VÊM APÓS SEU IMPORT 
+
+NO NOSSO INDEX.HTML (naquele trecho 'script src=xxx' do googlemaps).
+
+
+
+
+
+SE NÃO TIVERMOS ACESSO AO GOOGLE MAPS, O PROFESSOR VAI QUERER JOGAR UM "ALERT()' 
+DIZENDO 
+
+'could not load maps library- please try again later' ----> isso informará o usuário de que 
+
+ALGO DEU ERRADO... 
+
+
+aí o professor insere também um return, para que O RESTANTE DO CÓDIGO DEIXE DE SER EXECUTADO.
+
+
+
+
+ex:
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+
+    };
+    
+}
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+SE CONSEGUIMOS PERSISTIR PARA ALÉM DESSE IF STATEMENT, sabemos que O GOOGLE MAPS FOI CARREGADO 
+CORRETAMENTE, QUE PODEMOS COMEÇAR A TRABALHAR COM O MAP....
+
+
+
+
+
+O trabalho com o map é algo MUITO SIMPLES. 
+
+
+
+
+
+TUDO QUE PRECISAMOS FAZER É CHAMAR 
+
+'new google' (essa variável 'google' GLOBAL)...
+
+
+
+
+'new google.maps'
+
+
+
+
+
+
+'new google.maps.Map()' ----------------> NO FINAL DAS CONTAS, AQUI NÓS GANHAMOS/RECEBEMOS 
+
+UMA CLASSE/CONSTRUCTOR FUNCTION ___PROVIDENCIADA PELA PACKAGE DO GOOGLE MAPS___, uma classe/constructor function 
+
+QUE ___INSTANCIAMOS___ POR MEIO DESSE CALL...
+
+
+
+
+
+
+
+
+---> CERTO.
+
+
+
+
+---> A ESSE 'MAP CONSTRUCTOR' que temos aqui, devemos PASSAR O ELEMENTO, O ELEMENTO DOM EM QUE VAMOS 
+
+QUERER RENDERIZAR O MAPA (a área da nossa página, basicamente)...
+
+
+
+
+---> NO CASO DO PROFESSOR, ELE QUER USAR A DIV de id 'map'...
+
+
+
+
+
+
+-----> NÓS VAMOS SELECIONAR ESSA DIV POR MEIO DE UM SELECTOR E ENTÃO FAZER FORWARD DA CONSTANTE QUE 
+O SEGURA AO CONSTRUCTOR DE 'new google.maps.map()'....
+
+
+
+
+ex:
+
+
+const mapArea = document.getElementById('map');
+
+new google.maps.map(mapArea);
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+O professor faz de forma ainda mais simples:
+
+
+ele simplesmente coloca 
+
+
+'document.getElementById('map')' 
+
+DENTRO DESSE CONSTRUCTOR...
+
+
+
+
+ex:
+
+
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map')); //////eis o código em questão.
+    };
+    
+}
+
+
+----------------------------------------------
+
+
+
+
+O PROFESSOR TAMBÉM EXPLICA QUE PODEMOS PASSAR UM SEGUNDO ARGUMENTO A ESSE CONSTRUCTOR...
+
+
+Esse segundo argumento SERÁ UM ""OBJETO CONFIG""" (um {}) EM QUE 
+
+PODEREMOS CONFIGURAR COISAS COMO:
+
+
+''em que lugar nosso mapa deverá estar ZOOMADO no início, quando recém é criado?''
+
+
+
+
+O professor coloca  'center'  (E 'CENTER' É UMA PROPRIEDADE DENTRO DESSE OBJETO...)
+
+
+COLOCA 
+
+
+'center' E DEFINE O VALOR DE CENTER COMO SENDO AQUELA NOSSA PROPRIEDADE 'coordinates'...
+
+
+
+
+ex:
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {center: this.coordinates}); //////////EIS O CÓDIGO EM QUESTÃO.
+    
+}
+
+}
+
+------------------------------------------
+
+
+
+
+
+OS DOCS OFICIAIS NOS EXPLICAM QUE:
+
+
+
+a propriedade 'center' ____ESPERA ____ UM OBJETO____ COM AS ____ PROPRIEDADES ___ 'let' e 'lng'........
+
+
+
+
+E NÓS JÁ TEMOS ESSE OBJETO, ESSE OBJETO É EXATAMENTE AQUILO QUE QUEREMOS PASSAR AO CONSTRUCTOR Da classe 'Map', 
+
+é aquele parâmtro 'coords' ESPERADO POR ELA...........
+
+
+
+
+
+
+NÓS TAMBÉM TEMOS UMA PROPRIEDADE CHAMADA 'zoom'.....
+
+
+
+ISSO DEFINE O QUANTO NÓS ESTAREMOS ZOOMADOS NAQUELE lugar no mapa...
+
+
+O professor coloca '16', pois ele quer que esteja um pouco zoomado.
+
+
+
+
+ex:
+
+
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+}
+
+}
+
+
+----------------------------------------------------
+
+
+
+
+AGORA O PROFESSOR VAI ARMAZENAR ESSE NOSSO MAPA em uma CONSTANTE de nome 
+
+'map'...
+
+
+
+
+
+ELE TAMBÉM VAI QUERER ADICIONAR UM "MARKER" a esse mapa, UM 'PIN' QUE COLOCAREMOS NO MAPA...
+
+
+
+Podemos fazer isso 
+
+
+com 
+
+
+'new google.maps.Marker()' ------> OU SEJA, INSTANCIAREMOS ESSA __OUTRA CONSTRUCTOR FUNCTION___ PROVIDENCIADA PELO GOOGLE MAPS...
+
+
+
+A esse constructor do 'Marker' vocÊ 
+
+
+PASSA 
+
+UM ARGUMENTO QUE É UM OBJETO....
+
+
+
+
+
+É UM OBJETO EM QUE VOCÊ CONFIGURA 
+
+___O LOCAL ___ EM QUE O MARKER SERÁ INSERIDO.....
+
+
+
+O local em que será inserido E A SUA APARÊNCIA....
+
+
+OS docs oficiais nos falam mais sobre isso....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+
+        })
+}
+
+
+}
+
+
+
+
+---------------------------------- 
+
+
+
+
+
+O PROFESSOR DEFINE A PROPRIEDADE 'position' desse marker como sendo 
+
+
+DE VALOR 'this.coordinates'... ------> ELE FAZ ISSO PARA QUE O MARKER SEJA FINCADO EXATAMENTE NA LOCALIZAÇÃO QUE 
+O USUÁRIO NOS DEU.... (ou seja, o mapa vai fincar o marker ali e então ZOOMAR NESSE LOCAL ONDE ELE FOI FINCADO)...
+
+
+
+
+Essa passagem de 'this.coordinates' FARÁ COM QUE O PIN SEJA FINCADO ___bEM NO CENTRO__ DO MAPA...
+
+
+
+
+Além da propriedade 'position', devemos também COLOCAR UMA PROPRIEDADE QUE INDIQUE ___EM QUAL MAPA____ 
+
+ESSE MARKER DEVERÁ SER INSERIDO...
+
+(pq não é natural/automático que esse marker SERÁ INSERIDO NESSE mapa armazenado na const de nome 'map'....). ---->
+
+----> isso quer dizer, em outras palavras, que ESSE MARKER É CRIADO ___tOTALMENTE ___ 'standalone' EM RELAÇAÕ 
+AO MAPA CRIADO COM 'new.google.maps.Map()'......
+
+
+
+
+A PROPRIEDADE USADA PARA ISSO É A PROPRIEDADE 'map'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: this.coordinates,
+            map: xxxxx
+        })
+}
+
+
+}
+
+
+
+-------------------------------------
+
+
+
+
+
+É A PROPRIEDADE 'MAP' DENTRO DO OBJETO DE CONFIGURAÇÃO DO MARKER...
+
+
+
+DEVEMOS APONTAR ESSA PROPRIEDADE 'map' À NOSSA CONSTANTE 'map' QUE ESTÁ SEGURANDO NOSSO MAPA...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: this.coordinates,
+            map: map
+        })
+}
+
+
+}
+
+
+
+--------------------
+
+
+COM ISSo, devemos ter TUDO AQUILO DE QUE PRECISAMOS AQUI...
+
+
+
+
+
+AGORA PODEMOS CRIAR ESSA CLASSE 'map' NO NOSSO CÓDIGO.../instanciá-la...
+
+
+
+
+SE A INSTANCIARMOS, UM MAPA SERÁ CRIADO NA NOSSA PÁGINA....
+
+para isso, basta que FAÇAMOS A EXPORTAÇÃO DESSA CLASSE, por meio da keyword 'export'....
+
+
+
+
+
+ex:
+
+
+
+
+export class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render() {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: this.coordinates,
+            map: map
+        })
+}
+
+
+}
+
+
+
+-------------------------
+
+
+
+ISSO FEITO, DEVEMOS IMPORTAR ESSA CLASSE LÁ EM 'sharePlace'...
+
+
+
+
+
+Agora, lá em 'SharePlace', 
+
+VOU QUERER ADICIONAR UM MÉTODO LOGO ABAIXO DO CONSTRUCTOR Da 
+
+
+classe 
+
+
+'PlaceFinder()' 
+
+
+
+
+VOU NOMEAR ESSE MÉTODO COMO 
+
+
+'selectPlace()'
+
+
+
+
+NESSE 'selectPlace' VOU QUERER 
+
+
+ESPERAR um parâmetro de 'coordinates' COMO ARGUMENTO....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+
+
+import { Map } from './UI/Map';
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler);
+    addressForm.addEventListener('submit', this.findAddressHandler);
+  }
+
+    selectPlace(coordinates) {
+
+    }
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+       
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        console.log(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler() {}
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+----------------------------------------------
+
+
+
+DENTRO DESSE MÉTODO, eu vou QUERER RENDERIZAR O MEU MAPA...
+
+
+
+Devemos fazer import do map (já fizemos) lá no root do nosso arquivo, bem no início.
+
+
+
+
+
+Feito isso, o professor vai querer 
+
+INSTANCIAR a classe 'Map' E ENTÃO FAZER FORWARD DO 
+
+ARGUMENTO 'coordinates'...
+
+
+
+
+ex:
+
+
+
+
+selectPlace(coordinates) {
+    new Map(coordinates);
+}
+
+
+
+
+
+----------------------------------------
+
+
+
+ex:
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+
+
+import { Map } from './UI/Map';
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler);
+    addressForm.addEventListener('submit', this.findAddressHandler);
+  }
+
+    selectPlace(coordinates) {
+        new Map(coordinates);
+    }
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+       
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        console.log(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler() {}
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+ESSE OBJETO JÁ FOI CRIADO LÁ EMBAIXO, por meio do código 
+
+
+'
+const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };'  
+
+
+, POR ISSO TEMOS EXATAMENTE O NECESSÁRIO.
+
+
+
+
+
+
+------------------------------------
+
+
+CERTO, AS COORDENADAS ESTÃO FORWARDADAS ALI naquela instância do map......
+
+
+
+
+AGORA O PROFESSOR VAI QUERER ARMAZENAR ESSE MAPA que recém criamos 
+
+EM UMA PROPRIEDADE 
+
+DE NOME 'map' (ou seja, 'this.map') 
+
+
+DENTRO DA NOSSA CLASSE 'PlaceFinder'
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+
+
+import { Map } from './UI/Map';
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler);
+    addressForm.addEventListener('submit', this.findAddressHandler);
+  }
+
+    selectPlace(coordinates) {
+       this.map = new Map(coordinates); /////EIS O CÓDIGO EM QUESTÃO.
+    }
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+       
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        console.log(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler() {}
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+---------------------------------------
+
+
+
+
+
+O PROFESSOR FAZ ISSO POR UM SIMPLES MOTIVO:
+
+
+
+
+Ele vai adicionar um if check em 'selectPlace'
+
+
+
+ESSE IF CHECK VAI CHECAR SE NÓS JÁ TEMOS UM MAP ('if (this.map)')....
+
+
+
+SE NÓS ____JÁ TIVERMOS UM MAPA___, O PROFESSOR VAI QUERER __________rEUSAR _____ 
+
+O MAPA ATUAL (e não carregar outro por cima).....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+selectPlace(coordinates) {
+    if(this.map) {
+        
+    }
+    this.map = new Map(Coordinates);
+}
+
+
+
+--------------------------
+
+
+
+
+SE NÓS JÁ TIVERMOS UM MAPA, O PROFESSOR VAI QUERER CHAMAR 
+
+
+'this.map.render()' (aquele método que temos lá dentro da classe 'map') 
+
+E ENTÃO APENAS CRIAR UM NOVO 
+
+
+MAPA SE _____NÓS NÃO TIVERMOS____ CRIADO UM NO PASSADO....
+
+
+
+Fazemos isso para que, caso CONSIGAMOS A USER LOCATION 2X EM SEQUÊNCIA, 
+
+NÓS NÃO PRECISEMOS CRIAR UM OUTRO MAPA idêntico, um objeto 'map' novo toda hora,
+
+e SIM APENAS REUTILIZAR O ANTIGO...
+
+
+
+
+
+PARA QUE ESSA FEATURE FUNCIONE NO NOSSO CÓDIGO, APENAS PRECISAMOS NOS ASSEGURAR QUE 
+
+O MÉTODO 'RENDER' seja tornado um pouquinho mais flexível...
+
+
+
+ex:
+
+
+
+
+
+selectPlace(coordinates) {
+    if(this.map) {
+        this.map.render();
+    }
+    this.map = new Map(Coordinates);
+}
+
+
+----------------------------------------------
+
+
+
+
+
+Se deixarmos o método 'render()' um pouco mais flexível, 
+
+
+PODEMOS FAZER O FORWARD DAS COORDENADAS A ELE __dIRETAMENTE___.
+
+ex:
+
+
+
+
+
+selectPlace(coordinates) {
+    if(this.map) {
+        this.map.render(coordinates);
+    }
+    this.map = new Map(Coordinates);
+}
+
+
+------------------------------------------
+
+
+
+Mas como deixar esse 'render()" mais flexível?
+
+
+
+
+Bem, devemos ir até Map.js e COLOCAR UM ARGUMENTO DE 
+
+
+'coordinates' NO MÉTODO RENDER.....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+export class Map {
+    constructor(coords) {
+        this.coordinates = coords;
+        this.render();
+    }
+    render(coordinates) {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: this.coordinates,
+            map: map
+        })
+}
+
+
+}
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+Mas não acabamos por aí:
+
+
+
+
+O professor ainda diz que, naquele trecho de 'this.render()' no constructor 
+
+da classe Map, DEVE SER INSERIDO O PARÂMETRO DE 'coords', para que 
+
+ESSA PROPRIEDADE/VALOR DESSA PROPRIEDADE SEJA CORRETAMENTE PASSADA AO MÉTODO 'render()' 
+
+AO SER INSTANCIADA A CLASSE 'map'...
+
+
+
+Também devemos REMOVER ESSA PROPRIEDADE 'this.coordinates = coords', POIS 
+
+NÃO VAMOS MAIS PRECISAR DELAS; ESTAREMOS USANDO ESSA ALTERNATIVA COM O FORWARDING DE 'coords'....
+
+
+
+
+ex:
+
+
+
+
+
+
+export class Map {
+    constructor(coords) {
+      
+        this.render(coords); ////////EIS O CÓDIGO EM QUESTÃO.
+    }
+    render(coordinates) {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: this.coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: this.coordinates,
+            map: map
+        })
+}
+
+
+}
+
+
+------------------------------------------------
+
+
+
+
+
+nós fazemos forward de 
+
+
+
+'coords' 
+
+
+no MÉTODO 
+
+'this.render()' NA CLASSE 
+
+
+'Map' PARA QUE POSSAMOS 
+
+
+
+CHAMAR ESSE RENDER TANTO NO CONSTRUCTOR DESSA CLASSE COMO 
+
+FORA DESSA CLASSE... (por meio do chamado de 'Map.render()')
+
+
+
+
+
+
+PARA TERMINAR A MUDANÇA, DEVEMOS trocar 
+
+
+
+'center: this.coordinates' 
+
+
+por 
+
+
+
+'center: coordinates'....  (isso na DEFINIÇÃO do método 'render'...).
+
+Precisamos fazer essa troca PORQUE COORDINATES AGORA 
+
+SERÁ UM PARÂMETRO RECEBIDO POR 'render', E NÃO MAIS 
+UMA PROPRIEDADE DEFINIDA 
+
+DENTRO DE 'map'...
+
+
+Fazemos a mesma coisa com o marker....
+
+
+
+
+
+RESULTADO:
+
+
+
+
+
+export class Map {
+    constructor(coords) {
+        //this.coordinates = coords;
+        this.render(coords);
+    }
+    render(coordinates) {
+        if(!google) {
+            alert('Could not load maps library - please try again later!');
+            return;
+        }
+
+
+
+        new google.maps.Map(document.getElementById('map'), {
+            center: coordinates,
+            zoom: 16
+
+        }); 
+    
+        new google.maps.Marker( {
+            position: coordinates,
+            map: map
+        })
+}
+
+
+}
+
+
+
+
+-----------------------------
+
+
+
+
+ESSA MUDANÇA/ALTERAÇÃO 
+
+
+VAI NOS PERMITIR CRIAR __UM NOVO GOOGLE MAP___ 
+
+
+tanto em 
+
+UMA INSTÂNCIA JÁ EXISTENTE 
+
+
+DA classe 'map', 
+
+
+
+COMO TAMBÉM EM UMA NOVA INSTÂNCIA, NOVINHA EM FOLHA (brand new instance).
+
+
+
+
+
+
+
+---> você pode ver a documentação do googlemaps javascript 
+sdk 
+
+para descobrir COMO VOCÊ PODE 
+
+
+____USAR UM MAPA___ JÁ EXISTENTE... (um mapa que 
+vocÊ pode já ter, 
+
+um google map).....
+
+
+
+um google map que você pode armazenar como uma PROPRIEDADE 
+
+Da classe 'MAP'...
+
+
+
+
+
+
+
+---> vocÊ também pode fazer o zoom em uma NOVA LOCALIDADE,
+por meio de um comando do google maps....
+
+
+
+
+
+---> o professor não nos mostrará isso pq o foco não é 
+
+o google maps no nosso curso, por isso ele FICA CONTENTE 
+
+COM APENAS A CRIAÇÃO DE UM NOVO GOOGLE MAP e 
+
+A REMOÇÃO DO GOOGLE MAP ANTIGO DA MEMÓRIA...
+
+
+------------------------------------------------
+
+
+
+
+
+Com isso, de volta ao 'shareplace.js', 
+
+
+
+NÓS RENDERIZAMOS NOSSO MAPA, NO FINAL DAS CONTAS...
+
+
+renderizamos ele com a AJUDA DAS Coordinates que recebemos...
+
+
+
+
+AGORA APENAS PRECISAMOS CHAMAR 
+
+
+
+'selectPlace' DE DENTRO 
+
+
+DO NOSSO MÉTODO DE 'successResult'...
+
+
+
+
+Ou seja, em vez de ter aquele código de 'console.log(coordinates)',
+
+
+PODEMOS CHAMAR 
+
+
+
+this.selectPlace()
+
+
+
+
+E ENTÃO FORWARDAR AS 'coordinates'...
+
+
+
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+
+import { Modal } from './UI/Modal';
+import { Map } from './UI/Map';
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+    locateUserBtn.addEventListener('click', this.locateUserHandler);
+    addressForm.addEventListener('submit', this.findAddressHandler);
+  }
+
+
+
+
+  selectPlace(coordinates) {
+    if (this.map) {
+      this.map.render(coordinates);
+    } else {
+      this.map = new Map(coordinates);
+    }
+  }
+
+
+
+
+
+
+
+  locateUserHandler() {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern one'
+      );
+      return;
+    }
+
+    const modal = new Modal(
+      'loading-modal-content',
+      'Loading location - please wait'
+    );
+    modal.show();
+    navigator.geolocation.getCurrentPosition(
+      (successResult) => {
+        //console.log(successResult);
+        modal.hide();
+        const coordinates = {
+          lat: successResult.coords.latitude,
+          lng: successResult.coords.longitude,
+        };
+        this.selectPlace(coordinates);
+      },
+      (error) => {
+        modal.hide();
+        alert(
+          'Could not locate you, unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  }
+
+  findAddressHandler() {}
+}
+
+const placeFinder = new PlaceFinder();
+
+
+
+
+------------------------------
+
+
+
+
+
+
+AGORA, COM TUDO ISSO FEITO, SE CLICARMOS EM 
+
+
+
+
+'get current location', naquele botão, NOSSO 
+
+MAPA DEVERÁ SER RENDERIZADO...
+
+
+
+
+
+Entretanto, em vez de conseguirmos o mapa renderizado na página com 
+a localização do usuário, 
+
+recebemos 
+
+um ERRO dizendo
+
+"
+'_this.selectPlace' IS 
+
+NOT A FUNCTION"
+
+
+
+
+
+------> MAS QUAL É O PROBLEMA QUE RESULTOU NESSE ERRO?
+
+
+
+
+
+Professor explica que o problema é QUE ESTAMOS USANDO 
+
+
+A KEYWORD 'this'
+
+
+
+em 
+
+'this.selectPlace(coordinates)'
+
+
+
+
+
+this --------> ESTAMOS USANDO ESSE 'this' 
+
+EM 
+
+
+
+'locateUserHandler'... -----------> 
+
+
+O PROFESSOR ESTÁ USANDO UMA ARROW FUNCTION DENTRO DESSE NEGÓCIO, 
+
+
+NAS FUNÇÕES INTERNAS DE 'geolocation.getCurrentPosition'............
+
+
+
+
+
+E, COMO APRENDEMOS MUITAS AULAS ATRÁS, O 'this' DENTRO DE ARROW FUNCTIONS 
+
+
+TEM O MESMO CONTEXTO de um 'this' NO LADO DE FORA DESSE TIPO DE FUNÇÕES... 
+
+
+
+
+
+'FORA DESSA FUNÇÃO', NESSE CASO, quer dizer 'DENTRO DO MÉTODO locateUserHandler' (pq ele está envolvendo esse 'this')...
+
+
+
+
+Certo... e a que 'this' SE REFERE, DENTRO DO 'locateUserHandler'?
+
+
+
+
+
+Para sabermos isso, DEVEMOS ANALISAR ___ COMO O locateUserHandler____ 
+
+
+ESTÁ SENDO CHAMADO NO NOSSO CÓDIGO....
+
+
+
+
+E ELE ESTÁ SENDO CHAMADO LOGO ALI, em 'locateUserBtn.addEventListener(..., this.locateUserHandler)',
+
+QUANDO CLICAMOS
+
+NESSE BOTÃO 'locateUserHandler'...
+
+
+
+
+Isso quer dizer que ele é chamado A PARTIR DESSE EVENTO 'click'...
+
+
+
+
+
+E NÓS APRENDEMOS ISSO NO CURSO:
+
+
+
+
+QUANDO TEMOS UM EVENTLISTENER que chama um __MÉTODO__, 
+
+
+O 'this' DENTRO DESSE MÉTODO/FUNÇÃO 
+
+
+NÃO IRÁ SE REFERIR AO 'CONTEXTO QUE O ENVOLVE' (ao "surrounding context", no caso, À classe 'PlaceFinder'), 
+
+
+E SIM SE REFERIRÁ 
+
+AO ___TARGET___ DO EVENT................
+
+
+
+PARA MUDAR ISSO, DEVEMOS CHAMAR 'bind' NESSE SEGUNDO PARÂMETRO DO ADDEVENTLISTENER...
+
+DEVEMOS BINDAR O 'this' DENTRO DO 'locateUserHandler' AO """THIS"""", 
+
+ao """"THIS"""" dessa linha mesmo, ou seja, AO """THIS"""" DESSE PRÓPRIO CONSTRUCTOR 
+
+DO 'placeFinder'...
+
+
+
+
+ex:
+
+
+
+class PlaceFinder {
+  constructor() {
+    const addressForm = document.querySelector('form');
+    const locateUserBtn = document.getElementById('locate-btn');
+
+
+  locateUserBtn.addEventListener('click', this.locateUserHandler.bind(this)); ////////EIS O CÓDIGO EM QUESTÃO.
+  addressForm.addEventListener('submit', this.findAddressHandler);
+  }
+}
+
+
+
+-----------------------------------
+
+
+
+
+Antes, o código estava dando um erro...:
+
+
+
+ERA UM ERRO CAUSADO POR TER DEFINIDO 'map: map' 
+
+
+
+em 
+
+
+
+new google.maps.Marker( {
+            position: coordinates,
+            map: map
+        })
+}
+
+--------------------------------------------
+
+
+
+
+ESSA ERA A SINTAXE ANTIGA DESSES NEGÓCIOS. HOJE EM DIA, VOCê 
+
+TEM QUE USAR 'setMap: xxxx'
+
+
+
+EU mudei, então, o código para:
+
+
+
+
+new google.maps.Marker( {
+            position: coordinates,
+            setMap: map
+        })
+}
+
+
+
+-------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+js?key=:67 You are using this API without a key. See https://developers.google.com/maps/documentation/javascript/error-messages?utm_source=maps_js&utm_medium=degraded&utm_campaign=billing#api-key-and-billing-errors
+_.fe @ js?key=:67
+(anonymous) @ common.js:112
+(anonymous) @ js?key=:99
+(anonymous) @ js?key=:233
+e @ js?key=:99
+Bg @ js?key=:98
+Promise.then (async)
+wg @ js?key=:97
+_.Ag @ js?key=:97
+_.Kg @ js?key=:99
+_.n.notify @ js?key=:233
+_.Mg.set @ js?key=:233
+xu.o @ common.js:161
+(anonymous) @ common.js:113
+(anonymous) @ common.js:162
+c @ common.js:98
+(anonymous) @ QuotaService.RecordEvent?1shttp%3A%2F%2Flocalhost%3A8080%2F&7sv50khl&10e1&callback=_xdc_._yymtjf&token=39936:1
+util.js:224 Google Maps JavaScript API warning: NoApiKeys https://developers.google.com/maps/documentation/javascript/error-messages#no-api-keys
+LA.j @ util.js:224
+(anonymous) @ js?key=:144
+Promise.then (async)
+(anonymous) @ js?key=:144
+setTimeout (async)
+ik @ js?key=:144
+google.maps.Load @ js?key=:14
+(anonymous) @ js?key=:260
+(anonymous) @ js?key=:260
+util.js:224 Google Maps JavaScript API warning: InvalidKey https://developers.google.com/maps/documentation/javascript/error-messages#invalid-key
+
+
+
+
+
+
+
+
+-----------------------------------
+
+
+
+Entretanto, o importante É QUE NOSSO CÓDIGO ESTÁ FUNCIONANDO.... 
+
+
+O mapa está renderizando e o marker tbm, 
+
+
+
+MAS NÃO TEMOS A API KEY...
+
+
+
+
+
+
+----------------------------
+
+
+
+
+
+AGORA DEVEMOS COLOCAR UMA OUTRA FEATURE, A FEATURE DO ADDRESS...
+
+
+
+
+Vamos querer fazer com que O ENDEREÇO QUE O USUÁRIO COLOCA NA CAIXA 
+
+DE TEXTO APAREÇA NO MAPA quando ele apertar o botão  'find place'...
+
+
+
+
+
+
+-

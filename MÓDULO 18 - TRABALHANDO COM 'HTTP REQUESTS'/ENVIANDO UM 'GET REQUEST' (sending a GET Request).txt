@@ -1,0 +1,504 @@
+
+
+
+
+
+
+
+COMO PODEMOS ENVIAR UM HTTP REQUEST?
+
+
+
+Tudo começa com a criação de um novo 
+
+
+ OBJETO 
+
+
+ 'XMLHttpREQUEST'....
+
+
+
+
+
+ FAZEMOS ISSO COM UMA CONSTANTE, É CLARO.
+
+
+
+
+
+ ex:
+
+
+
+
+
+ const xhr = 
+
+
+
+ --------------------------------------
+
+
+
+ PARA CRIAR UM NOVO OBJETO 'XMLHttprequest', 
+
+ você deve usar o comando 
+
+
+ 'new XMLHttpRequest();'....
+
+
+
+
+
+ ex:
+
+
+
+
+
+
+ const xhr = new XMLHttpRequest();
+
+
+
+
+----------------------------------------
+
+
+
+
+ESSE É O STARTING POINT....
+
+
+
+
+
+ESSE OBJETO VAI TE DEIXAR ENVIAR HTTP REQUESTS....
+
+
+esse objeto é BUILTIN no browser, E ___tODOS OS BROWSERS___ o suportam...
+
+
+TEM BROWSER SUPPORT ___MUITO BOM____.
+
+
+
+
+
+PARA ENVIAR O REQUEST, PARA 'começar', 
+
+DEVEMOS ___CONFIGURAR____ O REQUEST...
+
+
+
+
+A primeira etapa para configurá-lo é a de 
+
+USAR O NOSSO OBJETO (o nome da constante, nesse caso)
+
+
+E CHAMAR O MÉTODO 
+
+
+
+'.open()' QUE FICA NO SEU INTERIOR....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+ const xhr = new XMLHttpRequest();
+
+
+
+ xhr.open();
+
+
+
+
+ -------------------------------------------
+
+
+
+o significado de 
+ 'open()' pode parecer 
+
+
+ 'abrir uma conexão', MAS ELE NÃO FAZ NADA DISSO.
+
+
+ CHAMAR apenas 'open()' NÃO VAI ABRIR UMA CONEXÃO 
+
+ COM A URL QUE DESEJAMOS... NENHUMA 
+
+
+ 'NETWORK ACTIVITY' será INICIADA....
+
+
+
+ OPEN É APENAS A PRIMEIRA ETAPA NO PROCESSO 
+ DE CONFIGURAR 
+
+ O REQUEST.....
+
+
+
+ E 'open()' ACEITA/EXIGE 
+
+ ______PELO MENOS______ 2 ARGUMENTOS...
+
+
+
+ O PRIMEIRO ARGUMENTO 
+
+
+
+ _________DESCREVE____ o 'método http' QUE VOCÊ QUER USAR....
+
+
+
+
+ NO NOSSO EXEMPLO, O MÉTODO HTTP QUE QUEREMOS USAR É 'get', pois 
+
+ vocÊ quer mandar UM 'GET REQUEST'...
+
+
+
+É por isso que você passa uma string com o valor 'GET' como 
+
+primeiro argumento de open...
+
+
+
+ISSO FARÁ COM QUE SEJA ENVIADO UM GET REQUEST, QUANDO O OBJETO 
+
+XMLHttpRequest terminar de ser configurado.
+
+
+
+
+ ex:
+
+
+
+ 
+
+
+ const xhr = new XMLHttpRequest();
+
+
+
+ xhr.open('GET');
+
+
+
+
+-----------------------------------
+
+
+
+
+OBS: se esse get request for enviado, receberemos aquela 
+
+lista de dados (lorem ipsum) daquela página '.../posts'.
+
+
+
+
+PROFESSOR APONTA QUE ESSES DADOS RECEBIDOS NA PÁGINA 
+
+PARECE UMA LISTA DE DADOS COM OS QUAIS PODEMOS TRABALHAR....
+
+
+
+PROFESSOR DIZ QUE DEVEMOS ENVIAR UM GET REQUEST....
+
+
+
+
+
+PARA FAZER ISSO, PRECISAMOS DE UM ARGUMENTO ADICIONAL NESSE OBJETO XMLHttpRequest...
+
+
+
+ESSE ARGUMENTO É A URL À QUAL VOCÊ QUER ENVIAR ESSE REQUEST...
+
+
+
+Esse argumento, explica o professor, é outra string,
+
+dessa vez com o endereço que você quer objetivar.
+
+
+
+ex:
+
+
+
+
+
+
+
+ const xhr = new XMLHttpRequest();
+
+
+
+ xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+
+ -------------------------------------------------------------
+
+
+
+
+
+ CERTO.
+
+
+
+ AÍ NÓS TEREMOS UM REQUEST DE TIPO 'GET' QUE SERÁ ENVIADO AO TAL ENDEREÇO...
+
+
+
+
+
+ COM ISSO, NÓS BASICAMENTE JÁ CONFIGURAMOS O REQUEST. 
+
+
+ NÓS INFORMAMOS O OBJETO  'xhr' DE QUAL TIPO DE REQUEST QUEREMOS ENVIAR A TAL ENDEREÇO...
+
+
+
+ -------------------------------------------
+
+
+
+ AGORA PARA CONSEGUIR ENVIAR UM HTTP REQUEST, 
+
+ precisamos 
+
+
+ chamar o objeto e então chamar o método 
+
+
+ '.send();'....
+
+
+
+
+ ex:
+
+
+
+
+
+
+
+ const xhr = new XMLHttpRequest();
+
+
+
+ xhr.open('GET', 'https://jsonplaceholder.typicode.com/posts');
+
+
+
+ xhr.send(); /////////////ISSO FARÁ COM QUE O REQUEST SEJA ENVIADO. ISSO ENVIARÁ O REQUEST.
+
+
+ ---------------------------------------------------------------
+
+
+
+
+ AGORA, SE NÓS FORMOS ATÉ NOSSA PÁGINA QUE TEM O 'APP.JS', salvarmos e recarregarmos,
+  
+
+NÃO VEREMOS MUDANÇA ALGUMA...
+
+
+
+
+
+Mas é verdade que nada mudou, nada aconteceu?
+
+
+
+
+
+BEM, PODEMOS CHECAR ISSO SE FORMOS ATÉ A ABA 'NETWORK' nos devtools 
+
+do chrome...
+
+
+
+SE FORMOS ATÉ LÁ,
+
+VEREMOS 
+
+TODOS OS NETWORK REQUESTS QUE FORAM ENVIADOS PELA PÁGINA...
+
+
+
+
+SE VOCê SALVAR A PÁGINA E RECARREGAR, VOCê 
+
+VERÁ 
+
+QUE TEMOS UM MONTE DE REQUESTS SENDO ENVIADOS 
+
+por essa nossa página...
+
+
+ex:
+
+
+
+
+index.html
+
+app.CSS
+
+app.js
+
+posts  (A URL A QUE ENVIAMOS O 'GET REQUEST')
+
+
+
+
+
+
+
+------------> 'posts' --------> ESSE REQUEST NÃO 
+
+FOI A UMA 'FILE', como os outros requests (de index.html, app.css, app.js),
+
+
+E SIM A UMA URL, À URL QUE NÓS DIGITAMOS NO OBJETO 'XML'.......
+
+
+
+
+E SE NÓS CLICARMOS NESSE 'posts' E O INSPECIONARMOS,
+
+
+VEREMOS QUE AQUI NÓS CONSEGUIMOS, NA VERDADE, 
+
+ENXERGAR OS DADOS (the data) QUE 
+
+
+FORAM RETORNADOS PELO REQUEST......
+
+
+NESSE CASO, NO CASO DE 'POSTS', A DATA QUE FOI RETORNADA 
+
+É UMA LONGA LISTA DE 'dummy post data'...
+
+
+
+----------------------------------
+
+
+
+SE CLICARMOS EM 'headers', nessa aba 'network', NÓS 
+
+VEOMS A CONFIGURAÇÃO DO REQUEST....
+
+
+
+AÍ NÓS PODEMOS PERCEBER QUE 
+
+
+o 
+
+
+'request method' está como 'GET',
+
+e que 
+
+a 'request URL' está 
+
+como 
+
+
+
+
+'
+https://jsonplaceholder.typicode.com/posts'
+
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+NÓS TAMBÉM VEMOS OS HEADERS QUE FORAM ANEXADOS à 'responde' do servidor...
+
+
+
+ESSES HEADERS (os de response) SEMPRE 
+
+SÃO ANEXADOS 
+
+
+________PELO SERVIDOR___ quando ele decide responder....
+
+
+
+
+
+MAS NÓS TAMBÉM TEMOS 
+
+OS 'request headers'... -----------> ESSES SÃO OS HEADERS QUE FORAM ANEXADOS AO NOSSO REQUEST...
+
+
+
+É lógico que nÓS NÃO ADICIONAMOS ESPECIFICAMENTE NOSSOS PRÓPRIOS HEADERS,
+
+
+mas OS BROWSERS FAZEM ATTACH DE ALGUNS HEADERS DEFAULT ___aUTOMATICAMENTE____. 
+
+
+Um exemplo de header default anexado/attached pelo browser é o 
+
+'userAgent' (aquela coisa da identidade do browser) HEADER.
+
+
+-------------------------------------------------------------
+
+
+
+PORTANTO, CONSEGUIMOS ENVIAR O REQUEST, E ALGUNS DADOS FORAM RECEBIDOS EM TROCA (enviados por '.../posts'.).
+
+
+
+
+
+
+
+AGORA SÓ PRECISAMOS DESCOBRIR ___cOMO USAR ____ ESSES DADOS____, 
+
+
+E PARA ISSO, PRIMEIRAMENTE PRECISAMOS 
+
+
+ENTENDER O 
+
+'Data format'....

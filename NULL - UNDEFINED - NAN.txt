@@ -1,0 +1,149 @@
+Com arrays, booleans, objects, números e strings, demos uma olhada nos data types mais importantes do javascript. Vemos quase todos, mas há 
+mais DOIS data types importantes que ainda não vimos. Há, além disso, um valor estranho, que se parece com um data type. 
+
+
+ESSES SÃO O NULL, O UNDEFINED E O NaN.
+
+
+O que são eles?
+
+
+São tipos especiais de valores, embora null e undefined sejam AO MESMO TEMPO     VALORES E DATA TYPES.
+
+
+
+Então qual é a ideia por trás disso?
+
+
+
+Undefined = é o valor PADRÃO que variáveis inicializadas têm. Em outras palavras, se você cria uma variável e você não assigna um valor no início com a ajuda do equal sign (=), o que acontecerá é que essa variável será UNDEFINED.
+Também vimos undefined no log, quando tentamos acessar um elemento no ARRAY por meio de um INDEX que NÃO TINHA NÚMERO ALGUM, NÃO HAVIA ELEMENTO ALGUM ALI PARA SER APRESENTADO NAQUELE MOMENTO, nenhum elemento criado (nóia do [0], [1], etc.).
+Tentamos acessar um elemento que não estava lá, e por isso retornou-se um valor de undefined.
+
+
+PORTANTO, esse é um VALOR. Undefined é um VALOR. É um valor que indica que NADA ESTÁ LÁ... mas ao mesmo tempo é também UM TIPO SEPARADO DE DATA TYPE. Tal qual números e strings são data types, undefined
+TAMBÉM é um data type.
+
+*****Entretanto, você NUNCA deve assignar undefined como um valor MANUALMENTE.****
+
+Portanto, nunca escreva = undefined, porque esse é apenas um valor default que você recebe se à alguma coisa nunca tenha sido assignado um valor. Agora, você poderia ter casos
+no seu código em que você realmente recebe alguma coisa que você não tem certeza se é undefined ou não... depois vocÊ vai aprender como checar se um valor é definido ou undefined, mas é 
+mas é de suma importância estar já ciente da existência desse data type.
+
+
+Relacionado ao undefined, temos a figura do NULL, QUE É TANTO UM VALOR, QUANTO UM DATATYPE. Por isso é similar ao undefined. Muito parecido com undefined: 
+o significado dele é o de que "não há dados", PORÉM UNDEFINED É O VALOR PADRÃO QUE APARECE QUANDO VOCÊ NUNCA ASSIGNOU VALOR ALGUM/VALOR NOVO À CERTA VARIÁVEL...
+JÁ NULL, por outro lado, NUNCA É UM VALOR DEFAULT. Em vez disso, você tem que DEFINIR O VALOR DE NULL EM ALGUMA COISA PARA USAR ELE/USAR O VALOR NULL.
+O valor null é muitas vezes utilizado quando você quer resetar ou limpar uma variável: digamos que você tem um user input e você quer resetá-lo.
+
+Você poderia settá-lo para uma string vazia, mas você TAMBÉM poderia settá-lo para o valor NULL. Você settaria o valor como null PARA DEIXAR CLARO AO SEU PROGRAMA
+QUE, ATUALMENTE, NÃO DEVE EXISTIR UM VALOR, PORQUE NENHUM VALOR FOI INPUTTADO, ou qualquer coisa do gênero. (age como reação, o null...)
+
+De novo: isso é especialmente útil mais tarde. Exemplo dos checks: se podemos rodar alguns checks, alguns conditional checks com if statements para determinar se um valor está definido ou não (defined ou undefined), e então FAZER
+CERTA COISA caso esteja, sim, definido...
+
+Resumindo... UNDEFINED e NULL são importantes para administrar dados vazios (empty data), tanto em casos em que o valor nunca foi definido (undefined) como em casos em que você 
+QUER definí-lo como vazio/null. (nesses casos, você define como NULL, e não como undefined.)
+
+
+
+Eles são muito parecidos, mas não são totalmente iguais, pelas razões mencionadas.
+
+
+
+
+HÁ, POR FIM, OUTRO VALOR ESPECIAL, E ESSE é Nan...
+
+NAN é uma sigla, que representa o dizer "Not A Number".
+
+
+E, tecnicamente, ao contrário de NULL e UNDEFINED, que são ambos seus próprios tipos de data types, NAN NÃO É UM DATA TYPE.
+
+
+NAN É TECNICAMENTE DO TIPO NÚMERO (não é seu próprio tipo), e por isso PODE SER USADO EM CÁLCULOS, ser usado com números.
+
+
+a ideia por trás de NAN é que ele é uma espécie de código de erro.
+
+
+Um código de erro que brota quando vocÊ roda um cálculo com algo que não inclui um número. Como uma multiplicação com texto ou qualquer outra gororoba.
+
+Você não teria um número como um resultado. E SE VOCÊ USAR NAN EM UM CÁLCULO,  VOCÊ TAMBÉM RECEBERÁ NAN COMO RESULTADO.
+
+
+numero x texto = Nan
+
+Nan x texto = Nan
+
+Número x Nan = Nan
+
+
+Nan sempre rende um novo Nan em cálculos, e Nan sempre é um resultado de cálculos INVÁLIDOS.
+
+
+Então isso rende not a number, que é um resultado inválido.
+
+
+Surge a questão: qual a utilidade de rodar um cálculo inválido?
+
+
+bem, javascript te permite escrever código muito dinâmico.
+
+
+
+No caso de nossa calculadora, poderíamos ter uma calculadora onde usuários podem inputtar qualquer valor; em que eles não são forçados a inputtar um número, e na qual, portanto, você poderia
+rodar um cálculo com um user input que não é um número, e então receber um "NOT A NUMBER" como um resultado.
+
+De novo, isso é mais útil se você tem também a habilidade de compará-la ou checá-la com uns if statements para rodar uns códigos se você recebe tal resultado inválido, mas vale a pena 
+ter ciência desse tipo de valor. 
+
+Agora, para rapidamente ter uma ideia de todos esses tipos de valores e data types, usamos o console do developer tools para digitar um pouco de código javascript. No console 
+do developer tools podemos rodar código javascript imediatamente, e ele é imediatamente analisado e parseado.
+Aqui o professor quer mostrar os 3 tipos de valores/data types que ele mencionou.
+
+
+criamos uma váriavel, de nome userName.        let userName.
+
+
+Não assignamos a ela valor algum.
+
+
+Assim, declaramos-na, MAS NÃO A INICIALIZAMOS (importante).
+
+
+Se você rodar esse código (apertar enter), você verá que ele retorna um valor de undefined aqui, porque esse é o valor de retorno dessa execução.
+
+
+
+PORÉM, SE AGORA VOCê DIGITAR console.log(userName); ---->      (na verdade, você pode apenas escrever userName solto, que o console do developer tools já automaticamente roda o log dele no seu interior) 
+------->
+vocÊ verá o valor que está dentro dele, e você perceberá que o valor que está lá dentro também está undefined.
+
+
+Agora, é claro que, se eu assignar um valor, como a string 'Max', e printar o userName de novo (apenas digitar userName), você verá o valor da string escrito no console, a string "Max".
+
+
+Então essa é uma coisa que temos como undefined se ainda não assignamos seu valor no código.
+
+
+AGORA, SE VOCÊ QUISESSE RESETTAR ESSA VARIÁVEL, COMO O PROFESSOR MENCIONOU ANTERIORMENTE, VOCÊ NUNCA DEVE FAZER AQUILO QUE ELE DISSE, DE ASSIGNAR A VARIÁVEL COMO UNDEFINED.
+
+tecnicamente, essa porcaria iria funcionar, mas isso é nem um pouco recomendado.
+
+em vez disso, você deveria settar nele o valor NULL, o outro valor especial.
+
+
+E se você fizer isso e der uma olhada em userName agora, você verá que isso de fato é NULL.
+
+
+Para o exemplo de NaN, podemos executar três X 'hi' no código.  3 * 'hi';
+
+
+Você verá: Nan, o resultado não é um número.
+
+
+
+Se você rodar 3x o NaN, você também ganhará NaN.
+
+
+Esses são, então, os 3 valores, dos quais você deve sempre se lembrar ao longo do curso, onde poderemos checar se uma variável tem um valor ou não.

@@ -1,0 +1,883 @@
+
+
+
+NÓS ESTUDAMOS OS SYMBOLS, ANTERIORMENTE.
+
+
+
+
+
+AGORA DEVEMOS APRENDER O QUE SÃO 'Iterators' e 'generators'...
+
+
+
+
+
+
+
+-----> COMEÇAMOS COM ITERATORS...
+
+
+
+
+
+
+---> um iterator É SIMPLESMENTE UM OBJETO que tem um método de 'next()'...
+
+
+
+
+---> esse método 'next()', por sua vez, RETORNA UM ___rESULTADO___ de uma 
+certa ____estrutura____.
+
+
+
+
+
+---> Para exemplificar isso, digamos que temos OUTRA CONSTANTE, de nome 'company'...
+
+
+
+Essa constante tem outro objeto, um objeto que tem uma propriedade de 'employees'...
+
+
+
+
+ex:
+
+
+
+const company = {
+    employees: ['Max', 'Manuel', 'Anna']
+}
+
+
+
+
+
+------------------------------------
+
+
+
+
+ESSE É UM OBJETO REGULAR, CERTO?
+
+
+
+
+
+Nós transformamos ele em um objeto 'iterable'/convertemos ele em um ITERATOR (é a mesma coisa)
+por meio da adição de um método 'NEXT()' NO SEU INTERIOR...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const company = {
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+
+    }
+}
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+O NOME DEVE SER OBRIGATORIAMENTE 'next()'...
+
+
+
+
+
+Dentro desse método 'next', nós devemos então retornar __um objeto___
+
+
+EM QUE TEREMOS UMA PROPRIEDADE 'value'....
+
+
+essa propriedade vai ter um valor de 'this.employees[0]' ------>  isso vai selecionar o valor do primeiro elemento do array de 'employees'....
+
+
+
+já a segunda propriedade será 'done', com um valor BOOLEAN de 'false'...
+
+
+
+
+ex:
+
+
+
+
+
+const company = {
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        return { value: this.employees[0], done: false }
+    }
+}
+
+
+
+-------------------
+
+
+
+
+Essa propriedade 'done' SIMPLESMENTE SINALA PARA NÓS, por meio de um boolean, SE NÓS TEMOS 
+
+MAIS VALORES QUE PODEMOS OUTPUTTAR (ou seja, OUTROS VALORES NO ARRAY DE 'employees') OU 
+
+NÃo.....
+
+
+
+
+
+Professor diz que devemos ter uma outra propriedade aqui, uma propriedade de 'current employees' (curEmployee)...
+
+
+
+
+Essa propriedade terá um valor inicial de ZERO.
+
+
+
+ex:
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        return { value: this.employees[0], done: false }
+    }
+}
+
+
+
+--------------------------------------------
+
+
+
+essa propriedade 'curEmployee' SERÁ UTILIZADA 
+
+
+PARA ___TRACKAR___ O NÚMERO/QUAIS EMPLOYEES NÓS JÁ OUTPUTTAMOS...
+
+
+
+O professor ainda faz outra alteração: ele vai lá e troca 'this.employees[0]' por 
+'this.employees[this.curEmployee]'  (isso vai fazer o papel de 'i', de ITERAÇÃO, para essa nossa função 'for of'/para o nosso loop...)
+
+
+
+
+ex:
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        return { value: this.employees[this.curEmployee], done: false }
+    }
+}
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+
+POR FIM, O PROFESSOR ARMAZENA ESSE valor retornado com 'return' em uma VARIÁVEL DE 
+
+NOME 'returnValue'...
+
+
+
+(ele também tira o 'return', pois isso deixará de ser PARTE DA FUNÇÃO do método 'next()'...)
+
+
+
+NA VERDADE, professor decide por UMA CONSTANTE, pois esse valor não vai mudar... esse valor de 'returnValue' não vai ser alterado no futuro.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+       const returnValue = { value: this.employees[this.curEmployee], done: false }
+    }
+}
+
+
+
+---------------------------------------------
+
+
+
+
+
+DEPOIS DISSO, O PROFESSOR SETTA 'this.curEmployee' como 'this.curEmployee + 1'... (isso é o que vai fazer o loop 'girar'...)
+
+
+A SINTAXE DISSO, COMO JÁ ESTUDAMOS, É 'this.curEmployee++'...
+
+
+
+
+ex:
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+       const returnValue = { value: this.employees[this.curEmployee], done: false }
+       this.curEmployee++;
+    }
+}
+
+
+
+
+-------------------------------------------
+
+
+
+depois, o professor COLOCA UM 'RETURN' de 'returnValue', desse OBJETO aí, colocado nessa constante.
+
+
+
+
+ex:
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+       const returnValue = { value: this.employees[this.curEmployee], done: false }
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+---------------------------------------
+
+
+
+
+Feito isso, o professor COLOCA UM IF CHECK NESSE MÉTODO 'next()'...
+
+
+
+VAMOS CHECAR, NESSE IF CHECK, SE NÓS AINDA TEMOS 'EMPLOYEES' sobrando.....
+
+
+fazemos isso por meio 
+
+
+de 
+
+
+
+if (this.curEmployee !== 0)  (ERRADO, EU TENTEI USAR ESSE FORMATO, MAS NÃO FUNCIONA...)
+
+
+
+
+FORMA CORRETA --> if (this.curEmployee >= this.employees.length) {
+
+}
+
+
+
+
+
+
+esse if check basicamente vai dizer 
+
+
+'se o curEmployees for MAIOR (pq ele é incrementado 
+com 'curEmployee++') do que a LENGTH total (2) do meu array de employees, (isso basicamente significa que não temos mais employees sobrando...)
+
+VOU QUERER RODAR MEU CÓDIGO NESSE IF BLOCK' (que supostamente é um RETURN VAZIO/return de outra coisa)...
+
+
+
+
+O PROFESSOR VAI QUERER 
+
+
+
+RETORNAR, NESSE IF BLOCK, um OBJETO 
+
+com 
+
+uma propriedade 
+
+
+'value' de 'this.curEmployee' e uma 
+
+propriedade 
+
+
+'done' de valor 'true'....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+ 
+
+ ---------------------------------
+
+
+ ESSE 
+
+
+
+ 'done: true' VAI SINALIZAR AO JAVASCRIPT QUE 
+
+ ___aCABAMOS___/não queremos mais loopar por dentro daquele array....
+
+
+
+ Ok, mas qual é a ideia por trás desse método 'next()'?
+
+
+
+
+
+
+Para entender isso, podemos fazer 'console.log' de 'company.next()'....
+
+
+
+
+ex:
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+
+console.log(company.next());
+
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+RESULTADO DO CONSOLE.LOG É:
+
+
+
+
+
+Object
+done: false
+value: "Max"
+
+
+
+-------------------------------------------
+
+
+
+MAS PROFESSOR DIZ QUE DEVEMOS FAZER ESSE CONSOLE.LOG MÚLTIPLAS VEZES...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+
+console.log(company.next());
+console.log(company.next());
+console.log(company.next());
+console.log(company.next());
+console.log(company.next());
+console.log(company.next());
+
+
+
+----------------------------------------------
+
+
+
+
+
+
+OUPUT SERÁ:
+
+
+
+app.js:46 [object caganeira]
+app.js:80 {value: "Max", done: false}done: falsevalue: "Max"__proto__: Object
+app.js:81 {value: "Manuel", done: false}
+app.js:82 {value: "Anna", done: false}
+app.js:83 {value: 3, done: true}
+app.js:84 {value: 3, done: true}
+app.js:85 {value: 3, done: true}
+
+-----------------------------
+
+
+
+
+
+
+CERTO, ISSO QUER DIZER QUE ___PRINTAMOS___ TODOS OS DIFERENTES 'EMPLOYEES'... 
+
+até o estado do negócio retornar 'done: true'... (until we are done).
+
+
+
+
+
+------------------------------------
+
+
+RESUMINDO: o que fizemos aqui, no final das contas, foi criar NOSSO PRÓPRIO MÉTODO QUE 
+NOS PERMITE __LOOPAR___ por um ___FIELD ESPECÍFICO___ (no caso aquele array de 'employees') 
+DESSE OBJETo....
+
+
+----> E NÓS PODERÍAMOS TER QUALQUER LÓGICA DE LOOP QUE QUISÉSSEMOS, dentro desse 'next'... 
+
+
+
+
+
+
+
+-----> isso, no final das contas, KIND OF faz com que esse objeto vire 
+
+UM 'LOOPABLE OBJECT'.............
+
+
+
+
+
+
+POR ENQUANTO NÃO PODEMOS USAR ESSE OBJETO COM 'for of', MAS LOGO 
+
+CONSEGUIREMOS FAZER EXATAMENTE ISSO...
+
+
+
+
+Mas o importante aqui é QUE NÓS TEMOS O MÉTODO (o método 'next()') QUE 
+
+PODEMOS CHAMAR __MÚLTIPLAS VEZES__ para ir por dentro DE QUALQUER LÓGICA 
+DE NOSSA ESCOLHA...
+
+
+
+nesse exemplo específico, usamos o next PARA IR POR DENTRO DE TODOS OS EMPLOYEES no array 'employees'...,
+--> MAS É EVIDENTE QUE VOCÊ PODE ___ESCOLHER___ QUAL FIELD OU QUAL COISA VOCÊ vai querer que esse método 
+'next' loope....
+
+
+
+
+
+---> isso quer dizer QUE NÓS TEMOS UM MÉTODO ____QUE PODEMOS CHAMAR ____ MÚLTIPLAS VEZES....
+
+E cada vez que ele é chamado, ELE VAI RETONRAR ALGO DIFERENTE.......
+
+
+E não só isso, ELE VAI, NA VERDADE, IR POR DENTRO DE UMA 'list of data', ele vai EXAURIR 
+ALGUMA 'LISTA DE DADOS'....... e quando essa lista de dados for 'exaurida', ESSE MÉTODO 
+NÃO VAI RECEBER UM ERRO (como geralmente acontece, com métodos), NÃO; EM VEZ DISSO ELE SIMPLESMENTE 
+NOS DARÁ UM __VALOR__ INDICANDO QUE ESTAMOS 'done'... (nesse caso, ''''done: true'''').
+
+
+
+
+
+Também em razão dessa propriedade 'uniforme' de 'done' (que sempre existirá, mas cujo valor 
+vai ser ou TRUE ou FALSE), NÓS SEMPRE PODEMOS SABER SE É POSSÍVEL CHAMAR 'next' mais uma vez 
+e ter MAIS VALORES SOBRANDO ou se isso não é o caso...
+
+
+
+
+
+
+
+
+----> esse método, por si só, talvez não seja TOTALMENTE ÚTIL AINDA... mas 
+
+essa é uma lógica que você ***poderia*** usar em alguns aplicativos em que você tem 
+UM OBJETO QUE VOCÊ USA COMO DATA STORAGE... e em que você quer ir POR DENTRO DE UMA 
+
+'CUSTOM LOGIC' dentro desse objeto PARA ENTÃO FAZER OUTPUT DE ALGUNS DADOS QUE ESTÃO ARMAZENADOS 
+NO SEU INTERIOR...  -----> nesse caso específico, você deixaria de usar um 'for in loop', hipoteticamente, 
+pois vocÊ NÃO ESTARIA INTERESSADO EM TODAS AS PROPRIEDADES DESSE OBJETO, E SIM APENAS ALGUNS DOS VALORES 
+EM ALGUMAS PROPRIEDADES/propriedade ESPECÍFICAS DESSE OBJETO...
+
+( É AÍ QUE UMA 'CUSTOM LOOPING LOGIC', criada por meio de 'next()' PODE SER INTERESSANTE...)
+
+
+
+--------------------------------------------------------------
+
+
+
+
+
+Pode ser interessante pq o que você poderia criar com o 'next()' É UM 
+
+WHILE LOOP....
+
+
+criar um while loop E ENTÃO TER UM 'RESULT' aqui, ou então um 'employee' (variável employee)...
+
+
+
+nesse 'employee', você armazenaria um valor de 'company.next();'
+
+
+
+
+ex:
+
+
+
+let employee = company.next();
+
+
+
+--------------------------------------------------
+
+
+
+CRIADA ESSA VARIÁVEL, vocÊ poderia então CRIAR UM WHILE LOOP por meio da keyword 'while'...:
+
+
+
+
+'while(xxxx)' ------->
+
+
+'while(!employee.done)' ----> 'ENQUANTO O EMPLOYEE NÃO ESTIVER __DONE___' (ou seja, enquanto o 'employee.done' não estiver como TRUE), 
+
+                                                                                deve-se continuar o 'loop'/looping.... o looping 
+                                                                                de 'console.log(employee.value)'
+
+
+
+
+
+ex:
+
+
+
+while(!employee.done) {
+    console.log(employee.value);
+}
+
+
+
+
+
+----------------------------------------
+
+
+
+
+      ('while')
+--->'Enquanto employee.done não estiver 'TRUE' (truthy), 
+QUEREMOS QUE O CÓDIGO FIQUE 
+RODANDO... (esse código de 'console.log(employee.value)', que 
+é os valores/strings dentro do método 'next()' em 
+'company'.... )
+
+
+---------------------------------------
+
+
+
+
+REPRESENTAÇÃO COMPLETA DO CÓDIGO:
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+}
+
+
+
+
+-----------------------------------
+
+
+
+
+feito isso, depois definimos 
+
+'employee = company.next();' dentro 
+
+DESSE WHILE LOOP...
+
+
+
+---------------------------------
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+    employee = company.next();
+}
+
+
+
+--------------------------------------
+
+
+
+
+COM ISSO, AGORA TEMOS UM ___LOOP DINÂMICO___; 
+
+
+
+não é um 'for of loop', MAS AINDA É UM LOOP, UM LOOP QUE NO FINAL 
+DAS CONTAS vai 
+
+
+ ir por dentro DE TODOS OS NOSSOS 'EMPLOYEES' com a nossa própria 'iterator logic'...
+
+
+ ----------------------------------------------------------
+
+
+
+ Certo, acho que entendi.
+
+
+
+ ---------------------------------------------
+
+
+
+ SE SALVARMOS O CÓDIGO E RECARREGARMOS, 
+
+
+ VEREMOS 
+
+ o output de
+
+
+
+
+ 'Max
+
+ ManU 
+
+
+ Anna' 
+
+
+
+
+ ,
+
+
+
+ OU SEJA, CONSEGUIMOS UM WHILE LOOP... ele consegue os 'value' daqueles 3 
+
+ items daquele array no interior do 'next()' de company  E ENTÃO PARA... ('done = true ' ---> isso faz com que '(!employee.done)' RENDA FALSE/exit condition.)
+
+
+
+
+ ESSE É UM EXEMPLO DE COMO USAR SEU PRÓPRIO 'ITERATOR' ('company', nesse caso), O QUAL 
+
+ ENTÃO TE DEIXA TER UMA LÓGICA DE LOOP ___PARA QUALQUER ___ FIELD/QUALQUER LÓGICA QUE 
+
+ VOCÊ TENHA/TEM NESSE OBJETO 'Company'...

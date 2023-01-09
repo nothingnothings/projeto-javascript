@@ -1,0 +1,218 @@
+Não acabamos com sets e mapas ainda.
+
+
+Devemos ver as versões especiais deles.
+
+
+
+
+
+new WeakSet() E new WeakMap().
+
+
+
+
+O que são?
+
+
+
+
+
+Digamos que temos uma variável aqui:
+
+
+ex:
+
+
+
+
+
+
+
+let person = {name: 'Max' };
+
+
+
+
+
+
+
+
+-----------------------------------
+
+
+
+AGORA DIGAMOS QUE O PROFESSOR QUER ARMAZENAR ESSA VARIÁVEL DENTRO DE UM SET.
+O professor explica que antes nós criamos um set com STRINGS, por meio 
+da keyword "new Set()". Ele diz que nós poderíamos ARMAZENAR QUALQUER DADO 
+ALI DENTRO, PODERÍAMOS ARMAZENAR DADOS DENTRO DAQUELE TIPO DE SET, TAMBÉM.
+
+Mas nesse exemplo, o professor quer criar um ____weakset____.
+Ele nos explica que, com weaksets, OS DADOS ARMAZENADOS DEVEM 
+OBRIGATORIAMENTE SER OBJETOS. DEVEM SER "OBJECT DATA".
+Isso significa que VOCê TAMBÉM PODE ARMAZENAR ____ARRAYS___ DENTRO 
+DESSES WEAKSETS, POIS ARRAYS TAMBÉM SÃO OBJETOS, NO FINAL DAS CONTAS.
+Entretanto, você não pode armazenar strings/números, como mencionado anteriormente.
+
+
+
+
+
+ex:
+
+
+
+
+
+let person = {name: 'Max'};
+
+
+
+
+
+const persons = new WeakSet();
+
+
+
+
+
+
+
+------------------------------------
+
+
+O PROFESSOR VAI EM FRENTE E INICIALIZA AQUELE WEAKSET cOMO UM SET VAZIO.
+Depois disso, ele utiliza o método ".add()" para ADICIONAR a variável "person" (que segura um objeto) NO 
+SEU INTERIOR.
+
+
+
+ex:
+
+
+
+
+
+let person = {name: 'Max'};
+
+
+
+
+
+const persons = new WeakSet();
+
+
+
+persons.add(person);
+
+
+
+-----------------------------------------
+
+
+Se digitarmos "person." (person e depois um PONTO), veremos que o IDE nos mostra que HÁ MUITO 
+MENOS MÉTODOS DISPONÍVEIS A "WEAKSETS". Há apenas 3 métodos disponíveis:
+add(), delete() e has(). Não há, por exemplo, um método para pegar todas 
+as entradas desse set.
+A RAZÃO PARA ISSO É QUE WEAKSET, ASSIM COMO WEAKMAP, funciona internamente 
+de modo a APENAS POSSIBILITAR QUE SEJAM ARMAZENADOS OBJETOS para que 
+ele possa LIMPAR ESSES OBJETOS para você (liberá-los para o garbage collection)
+SE VOCÊ NÃO  MAIS TRABALHAR COM UM CERTO PEDAÇO DE DADO.
+
+
+Convenientemente, se nós console.loggarmos "persons", veremos que 
+o browser ainda permite que nós demos uma olhada dentro desse weakSet.
+
+Podemos entrar dentro do set e ver o valor que está lá dentro.
+
+
+Você pode estar se perguntando: PQ DIABOS EU PRECISARIA DESSA COISA ESTRANHA?
+
+
+
+
+Bem, se você tem uma aplicação em que VOCÊ ARMAZENA DADOS, armazena dados em um SET...
+armazena OBJECT DATA em um SET..., em que você eventualmente VAI QUERER 
+SE LIVRAR DE CERTOS DADOS.... nessas hipóteses, você vai querer se assegurar 
+que esses dados POSSAM SER COLETADOS PELO GARBAGE COLLECTOR. 
+
+ex: trabalhamos com "person" e seu objeto... digamos que rodamos algumas 
+operações com eles.... e então nós precisávamos dele no set para essas operações...
+E nós ainda precisariámos do set depois disso, para rodar OUTRAS OPERAÇÕES.
+PRECISAMOS DO SET... MAS O "PERSON" não é mais necessário. O professor diz que então 
+nós definimos person como "null":
+
+
+ex (representação):
+
+
+
+
+let person = {name: 'Max'};
+
+
+const persons = new WeakSet();
+
+persons.add(person);
+
+
+person = null;
+
+
+console.log(persons);
+
+
+
+-----------------------------
+
+Isso significaria, essencialmente, que estaríamos definindo a variável "person" como NULL. 
+Essa definição faria com QUE O OBJETO NÃO TIVESSE MAIS NINGUÉM INTERESSADO NELE.
+Essa variável "person", que armazenava o endereço do objeto, agora está RESETADA COMO "NULL".
+Em consequência disso, o ENDEREÇO É LIBERADO DALI, LIBERADO DAQUELA VARIÁVEL, E ENTÃO A ENGINE JAVASCRIPT 
+É CAPAZ DE PEGAR O ENDEREÇO (o objeto) E LIMPÁ-LO, LIMPAR ESSE OBJETO E RETIRÁ-LO DO "HEAP" (LONG TERM MEMORY).
+
+(é isso que garbage collection faz: retira/limpa dados para fora da  memória).
+
+
+
+
+
+
+SE NÓS UTILIZÁSSEMOS UM SET NORMAL (new Set) PARA "PERSONS", que você normalmente pode fazer...
+aí A "person" que críamos aqui, a variável que segura o endereço do objeto ___AINDA SERIA PARTE DESSE SET____.
+Isso significa que MESMO QUE VOCÊ LIMPASSE SUA VARIÁVEL POR MEIO DE "person = null", você ainda 
+teria adicionado aquele objeto/endereço/pointer AO SET... graças a Deus, javascript DETECTA ISSO e então NÃO VAI 
+LIMPAR SEU OBJETO, pois o SET ainda SEGURA UMA REFERÊNCIA A ELE. E isso é bom, porque o javascript basicamente 
+espera que você ainda trabalhe com aquele objeto, entende que deletar o objeto seria algo ruim.
+
+
+Agora digamos que você NUNCA MAIS TRABALHE COM AQUELA "person" novamente... com um SET NORMAL,
+ VOCÊ TEM AQUELE/AQUELES DADOS DESNECESSÁRIOS GUARDADOS NA MEMÓRIA, porque você tem aqueles dados em um set 
+ ainda que você não queira mais trabalhar com eles...  CLARO QUE VOCÊ PODERIA TER CHAMADO/chamar O MÉTODO 
+ "persons.delete(person)", MAS ISSO É UMA MÃO.... e você sempre pode acabar se esquecendo disso.
+
+
+
+ MAS COM WEAKSET, a situação é diferente: se você resetar todos os outros lugares em que vocÊ 
+ apontar para esse objeto (endereços), o WEAKSET NÃO VAI MAIS FICAR SEGURANDO ESSE OBJETO. O weakset basicamente 
+ permite que O GARBAGE COLLECTOR RECOLHA E SE LIVRE DESSES OBJETOS QUE SÃO PARTE DO SET SE CONSTATAR QUE 
+ ESTÃO INUTILIZADOS NO CÓDIGO, desde que nenhum outro lugar do código os utilize.
+
+
+
+ Se recarregarmos o nosso código e examinarmos o devtools, veremos que o código do objeto 
+ de person NÃO FOI JUNTADO PELO GARBAGE COLLECTOR entre a linha "person = null" e a linha "console.log(persons);".
+PROFESSOR DIZ QUE ISSO NÃO SIGNIFICA NADA: GARBAGE COLLECTION NÃO PODE SER PLANEJADA, VOCÊ NUNCA SABE QUANDO 
+O BROWSER A FARÁ. É por isso que não vemos efeito algum nesse exemplo específico, nessa comparação entre 
+new Set(); e new WeakSet();
+
+O que interessa é que com "weakSet()", o browser é capaz de coletar esse lixo, esses casos em que 
+um objeto deixa de ser referenciado em outros lugares do código e torna-se inútil.
+
+
+WeakSet é uma opção interessante em casos em que você armazena DADOS DE OBJETO (OBJECT DATA) em um 
+set e EVENTUALMENTE LIBERA ALGUNS DESSES DADOS (release some of that data), e então quer assegurar que 
+esses objetos sejam coletados pelo garbage collector.
+
+É claro que isso é SUPER AVANÇADO; não é algo que você utilizará em muitos aplicativos, mas 
+é algo bom de ter como ferramenta.

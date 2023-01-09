@@ -1,0 +1,742 @@
+Professor pode nos provar  que 
+
+
+
+
+
+
+
+
+
+
+
+
+O USO DE 
+
+
+'Extends' em classes + ou - equivale ao uso de 'prototypes' para definir fal
+
+
+
+
+
+
+O professor vai no nosso código e comenta todo ele para fora.
+
+
+
+
+
+
+
+
+Ele apenas deixa a classe de 
+
+
+'Person'.
+
+
+
+
+
+
+ex:
+
+
+
+
+class Person {
+   name = 'Max';
+
+
+
+ constructor() {
+     this.age = 30;
+ }
+
+
+   greet() {
+     console.log(
+         'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+
+ }
+
+ }
+
+
+ ------------------------------------
+
+
+
+
+ Aí ele vai lá e adiciona UMA NOVA CLASSE AO NOSSO CÓDIGO, 
+
+ a classe 'AgedPerson'...
+
+
+
+ Dentro de 'AgedPerson', professor cria um 
+
+ método de 'printAge()', 
+
+ que faz o console.log de 
+ 'this.age'....
+
+
+ DEpois disso, ele faz 
+
+ O EXTEND dessa classe na classe 'Person'...
+
+
+
+ ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AgedPerson {
+
+    printAge() {
+        console.log(this.age);
+    }
+}
+
+
+
+
+
+
+
+
+ 
+class Person extends AgedPerson {
+   name = 'Max';
+
+
+
+ constructor() {
+     this.age = 30;
+ }
+
+
+   greet() {
+     console.log(
+         'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+
+ }
+
+ }
+
+
+---------------------------------------
+
+
+
+Ele não muda mais nada. Se ele voltar ao console do devtools, 
+
+ELE VAI RECEBER UM ___ERRO___. 
+
+É o erro que recebemos qunado 
+
+
+
+ESQUECEMOS DE DEFINIR 'super()' dentro de nossas classes....
+
+
+
+Professor explica que SE NÓS ADICIONAMOS UM CONSTRUCTOR() dentro 
+
+
+de nossa classe, SOMOS OBRIGADOS A ADICIONAR UM 'super()'... dentro desse 
+constructor.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AgedPerson {
+
+    printAge() {
+        console.log(this.age);
+    }
+}
+
+
+
+
+
+
+
+
+ 
+class Person extends AgedPerson {
+   name = 'Max';
+
+
+
+ constructor() {
+     super();
+     this.age = 30;
+ }
+
+
+   greet() {
+     console.log(
+         'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old.');
+
+ }
+
+ }
+
+
+const p = new Person();
+
+p.greet();
+p.printAge();
+console.log(p.__proto__); /////// ESSE CONSOLE.LOG É IMPORTANTE. É ele que nos mostra a semelhança entre definir prototypes manualmente e por meio de 'classes e extends'.
+
+
+
+
+
+ -------------------------------------------
+
+
+
+
+
+ Ele vai lá e adiciona o super() ao 'constructor()'.
+
+
+
+
+ Ele recarrega o código e recebe um output...
+
+
+
+
+ É ESSENCIALMENTE O MESMO OUTPUT DE ANTES....
+
+
+
+
+( ou seja, o console log de 'p.__proto__' RETORNA O OBJETO QUE 
+
+FOI DEFINIDO PELA CLASSE 'base' de 'AgedPerson', QUE ESSENCIALMENTE 
+
+
+CUMPRE A MESMA FUNÇÃO DO MODUS OPERANDI QUE VIMOS NA ÚLTIMA LIÇÃO, 
+
+DE DEFINIR O PROTOTYPE DE UMA CONSTRUCTOR FUNCTION 
+
+POR MEIO DE 
+
+
+'xxx.prototype = {...objetoComPropriedades/métodosFallBackQueSerãoTRansmitidosAosObjetosFuturosCriadosComBaseNaConstructorFunction)'
+
+
+
+
+
+OU SEJA, ELE RETORNARÁ 
+
+
+
+'AgedPerson {constructor: f, greet: f}'
+
+
+
+----------------------------------------
+
+
+
+A ÚNICA DIFERENÇA PARA O OUTPUT DE ANTES, diz o professor, É QUE 
+
+NÓS AINDA TEMOS, DE FATO, aquela propriedade 
+
+
+'constructor'....
+
+
+
+Ele diz que logo nos explicará a razão disso.
+
+
+
+----------------------------------------------
+
+
+
+Professor aponta que O QUE PODE SER CONFUSO AQUI É O FATO 
+
+DE NÓS conseguirmos 
+
+
+enxergar 'greet()' como uma das propriedades/métodos desse 
+
+'AgedPerson'...
+
+
+
+
+Professor lança a pergunta:
+
+
+Nosso prototype APARENTA ser essa classe de 'AgedPerson', mas se esse é o caso, 
+
+COMO DIABOS NÃO ESTAMOS VENDO 'printAge' como uma das propriedades/métodos 
+
+desse 'objeto fallback' de AgedPerson?
+
+
+
+
+
+BEM, DIZ O PROFESSOR, SE VOCÊ ENTÃO EXPANDIR o 'prototype do prototype' (
+
+    ou seja, a propriedade '__proto__' da classe base/prototype 'AgedPerson' (ou o 'fallback object do fallback object da person'), 
+  
+), 
+
+VOCÊ ENCONTRARÁ O 'printAge()'..............
+
+
+
+
+A RAZÃO PARA ESSA ESTRUTURA 'double prototype' (double prototype structure), CRIADA 
+
+POR MEIO DE 'class + extends' (que é claramente DIFERENTE DO QUE 
+NÓS OBTIVEMOS POR MEIO DAS CONSTRUCTOR FUNCTIONS, AULAS ANTES, com 
+
+'Person.prototype'),  SERÁ 
+
+
+EXPLICADA UM POUCO MAIS TARDE NESSE MÓDULO...
+
+
+
+
+A razão disso tem relação com ___ A MANEIRA PELA QUAL O JAVASCRIPT ADICIONA MÉTODOS AOS NOSSOS OBJETOS. _____
+
+
+
+
+
+O JAVASCRIPT ADICIONA MÉTODOS de uma maneira um pouco diferente com classes (a adição 
+
+de métodos em constructor functions é distinta dessa adição de métodos em classes.)
+
+
+
+
+O PROFESSOR VOLTARÁ A ISSO EM OUTRO MOMENTO.
+
+
+
+
+
+
+Por enquanto, devemos manter nas nossas mentes o fato de que, no final das contas, 
+
+
+
+o 'extends' e as 'classes' AINDA FUNCIONAM COM PROTOTYPES PARA FAZER FUNCIONALIDADES 
+
+ficarem DISPONÍVEIS EM TODAS AS CLASSES que estendem a mesma classe base....
+
+
+
+MAS FORA ISSO, o que aconteceu aqui foi que 
+
+
+O PROTOTYPE de nosso objeto 'Person' (ou seja, 'p')  FOI DEFINIDO COMO 
+
+SENDO 
+
+O OBJETO 'AgedPerson', por assim dizer... (na verdade, como sendo UM OBJETO BASEADO NESSA CLASSE...).
+
+
+E isso TAMBÉM É A EXPLICAÇÃO para a OBRIGAÇÃO 
+
+
+DE NÓS CHAMARMOS 'super' em nossas classes:
+
+
+No final das contas, o que as CLASSES BASES fazem é CRIAR UM OBJETO 
+BASEADO NESSA CLASSE QUE É ENTÃO definido COMO 
+
+_PROTOTYPE___ DO OBJETO 'padrão' (do objeto 'original', padrão), do objeto 
+
+CRIADO A PARTIR DA SUBCLASSE... (no caso de nosso exemplo/projeto, a subclasse 'Person'.).....
+
+
+
+.......---------> ISSO É, TAMBÉM, O MESMO PROCESSO 
+
+QUE FIZEMOS MANUALMENTE 
+
+
+POR MEIO DE 
+
+
+'Person.prototype = {...}'. ----------->   O que isso faz é 
+                                                CRIAR UM OBJETO CONCRETO  ({'printAge() {console.log(this.age)}})
+                                                E ENTÃO O DEFINE COMO UM __PROTOTYPE___ dos 
+                                                PRÓXIMOS OBJETOS 'person'. (como o '__proto__' desses novos 'Person'...) ---->   Fazemos isso para que QUANDO UM NOVO OBJETO 'Person' for criado, teremos DISPONÍVEL ESSAS PROPRIEDADES DEFINIDAS DENTRO DESSE OBJETO CONCRETO....
+
+
+
+
+----------------------> A MESMA COISA (vista logo acima) OCORRE 
+                            NO CONSTRUCTOR do objeto 'Person'.........
+
+                        É claro que, no caso das classes base/subclasses, eu preciso 
+                        CRIAR UMA CLASSE BASE ANTES PARA QUE ELA SEJA DEFINIDA COMO 
+                        UM PROTOTYPE DE UM OBJETO QUE SERÁ CRIADO A PARTIR DE UMA SUBCLASSE... 
+
+
+
+
+Ou seja, a definição de prototypes por 
+
+
+'xxxx.Prototype = {...}' 
+
+
+
+e
+
+
+'class XXX extends YYYY = {...}'      
+
+
+
+
+É A MESMA COISA, a única coisa que muda entre as duas formas é que a forma 
+
+das classes base/subclasses POSSUI UM POUCO DE 'synthatic sugar', O QUE 
+
+FAZ COM QUE SUA ESCRITA SEJA MAIS FÁCIL DE SER COMPREENDIDA   (mas a sintaxe 'básica' dos prototypes, a primeira forma logo acima, é o que É EXECUTADO NOS BASTIDORES DO JAVASCRIPT.)
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+O que é estranho, ou O QUE PODE PARECER ESTRANHO, é que 
+
+SE O PROFESSOR RECARREGAR A PÁGINA, o output DELE ___MUDARÁ____ se 
+
+ele estiver usando a forma do 'prototype', e não a forma das classes base/subclasses...
+
+
+
+
+Mas o que muda, afinal?
+
+
+------------------------------------------
+
+
+---> output antigo (class e extends):
+
+
+
+'AgedPerson {constructor: f, greet: f}'
+
+->constructor: class Person
+
+-> greet: f greet()
+
+-> __proto__: Object
+
+
+---------------------------------
+
+
+
+---> OUTPUT NOVO ( com o 'xxx.prototype = {printAge() {}}'):
+
+
+    '{printAge: f}'
+
+    -> printAge: f printAge()
+
+    -> __proto__: Object
+
+----------------------------------------------------
+
+
+
+AGORA, PORTANTO, O prototype VOLTA A SER UM OBJETO com 
+'__proto__' e 'printAge', 
+
+MAS  ----------->>>>>>>>>> VOLTA A SER UM OBJETO ___SEM O CONSTRUCTOR METHOD_____. 
+
+
+
+ISSO ACONTECE PORQUE O QUE O PROFESSOR FAZ QUANDO 
+
+
+DEFINE 
+
+'Person.prototype', quando ele ASSIGNA UM NOVO PROTOTYPE A ESSE OBJETO, é SUBSTITUIR 
+
+O ANTIGO 'OBJETO DEFAULT' que está assignado como PROTOTYPE DE 'Person' (como o '__proto__' de 'Person'.) POR UM 
+
+NOVO OBJETO, que será agora o novo prototype.
+
+
+
+....... UM APPROACH MELHOR, tipicamente, seria NÃO SUBSTITUIR O PROTOTYPE 
+ANTIGO, E SIM EM VEZ DISSO ALCANÇAR ESSE PROTOTYPE 
+
+E ____ADICIONAR___ DINAMICAMENTE____ UMA NOVA PROPRIEDADE/MÉTODO A ELE....
+
+
+
+Mas como fazer isso?
+
+
+
+Professor explica: 
+
+
+devemos digitar 
+
+'xxxxx.prototype' e DEPOIS '.nomeDaPropriedadeNovaEIndéditaQueVocêQuerAdicionar' ..... 
+
+----------------------------------------------------------
+
+
+
+ex:
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, fucker');
+    };
+}
+
+
+
+
+Person.prototype.printAge =  .....  /////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+----------------------------------------
+
+
+
+
+Professor explica que na parte do valor, colocamos, É CLARO, O VALOR/FUNÇÃO QUE 
+VOCÊ QUER QUE ESSA PROPRIEDADE/MÉTODO TENHA...
+
+
+ex:
+
+
+
+
+
+
+
+ex:
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max';
+    this.greet = function() {
+        console.log('Hi, fucker');
+    };
+}
+
+
+
+
+Person.prototype.printAge =  function () {
+    console.log(this.age);
+}
+
+
+------------------------------------------
+
+
+
+
+O RESULTADO DISSO, SE NÓS RECARREGARMOS, SERÁ o output de:
+
+
+
+'{printAge: f, constructor: f}'
+
+
+
+
+
+OU SEJA,  O OUTPUT NOS MOSTRARÁ QUE, POR MEIO DESSE CÓDIGO, TAMBÉM 
+
+TEREI AGORA UM ___OBJETO____ QUE TERÁ O 'CONSTRUCTOR METHOD' (ou seja, será EXATAMENTE O MESMO FORMATO DE OUTPUT produzido pelo uso de classes base/subclasses). 
+
+
+
+
+
+
+BTW, caso vocÊ esteja se perguntando, ESSE 
+
+
+
+MÉTODO 'constructor' SE REFERE À CONSTRUCTOR FUNCTION 
+
+
+DE PERSON......
+
+
+(
+
+    ou seja, está se referindo à 
+
+
+
+
+    'function Person() {
+        ...
+    }'         , -----------> SIM, ELE ESTÁ SE REFERINDO À FUNÇÃO CONSTRUTORA NA SUA INTEGRALIDADE.
+)
+
+
+-----------------------------------------
+
+
+
+Professor diz que você poderia fazer um teste e criar MAIS OBJETOS A PARTIR DA CONSTRUCTOR FUNCTION de 'Person', 
+
+
+utilizando uma sintaxce específica:
+
+
+
+ex (criação do objeto 'p2'):
+
+
+
+
+
+const p2 = new p.__proto__.constructor();
+
+
+console.log(p2);
+
+
+
+--------------------------------
+
+
+
+SE FIZERMOS ISSO, CONSEGUIREMOS UM NOVO OBJETO 'Person'....... 
+
+
+
+Entretanto, aponta o professor, essa é uma MANEIRA DEMASIADO COMPLEXA DE CRIAR um objeto a partir de 
+uma constructor function....
+
+
+APESAR DISSO, DIZ ELE, ESSA SINTAXE ABSURDA ___PODE SER ÚTIL___ EM APLICATIVOS EM QUE VOCÊ NÃO 
+TEM mais ACESSO FÁCIL à constructor function responsável pela construção de algum objeto.
+
+
+(E O NOVO OBJETO QUE SERÁ CRIADO SERÁ __INDEPENDENTE___ do objeto que serviu de base para ele...)
+
+
+
+
+Essa sintaxe pode ser útil nesses casos.....
+
+
+
+ENTRETANTO, NO NOSSO CASO CONCRETO DO APLICATIVO, essa sintaxe complexa e gigante não tem sentido.
+
+
+Podemos simplesmente 
+
+
+criar um novo objeto 'Person' por meio 
+
+
+da simples sintaxe de classes/constructor functions, por meio de 
+
+
+'const p = new Person();' (ou seja, o emprego da keyword 'new').
+
+
+
+
+
+
+Portanto, agora sabemos QUE O CONSTRUCTOR METHOD DENTRO DE UM OBJETO CRIADO A PARTIR DE UMA 
+
+CONSTRUCTOR FUNCTION SEMPRE APONTA PARA A CONSTRUCTOR FUNCTION EM SI, A CONSTRUCTOR FUNCTION QUE 
+
+SERVIU DE 'blueprint' PARA ESSE PRÓPRIO OBJETO......
+
+
+
+
+------------------------------------
+
+
+
+Mas mais importante do que isso, aprendemos a MANEIRA PRINCIPAL PELA QUAL ADICIONAMOS 
+
+'prototypes' EM OBJETOS 'básicos'...
+
+
+
+NÓS NÃO UTILIZAMOS A FORMA SIMPLES 'xxxx.prototype = {... código do objeto}' ,   MAS SIM 
+
+A FORMA 
+
+
+'xxx.prototype.novaPropriedadeQueVocêQuer = function () {
+    código
+}', 
+
+
+QUE É UMA SINTAXE QUE UTILIZA/RESPEITA O PROTOTYPE DEFINIDO ANTERIORMENTE NESSE OBJETO (fazendo isso, nós também MANTEMOS O CONSTRUCTOR METHOD desse objeto... Vimos isso logo acima, nos exemplos.)
+
+E QUE AO MESMO TEMPO ADICIONA UMA NOVA PROPRIEDADE/MÉTODO.

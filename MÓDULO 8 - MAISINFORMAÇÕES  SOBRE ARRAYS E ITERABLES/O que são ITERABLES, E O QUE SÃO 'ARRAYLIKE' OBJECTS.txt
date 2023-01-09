@@ -1,0 +1,91 @@
+
+
+
+ITERABLE ----> pode ser definida, tecnicamente, como 
+UM OBJETO, OU QUALQUER OBJETO, QUE IMPLEMENTA O 
+PROTOCOLO "iterable" e que possuem um método 
+@@iterator (exemplo: Symbol.iterator).
+
+
+
+(objects that implement the "iterable" protocol and have 
+an @@iterator method (Symbol.iterator))
+
+
+
+iterables tem a
+Propriedade  "Symbol.iterator".
+
+
+
+SYMBOLS === São um tipo ESPECIAL DE VALORES EM JAVASCRIPT. Veremos eles 
+bem mais tarde em javascript, visto que são muito nicho e específicos.
+
+
+Essa é a definição TÉCNICA de iterable.
+
+
+
+
+A DEFINIÇÃO "HUMANA" de iterable é:
+
+
+
+"SÃO OBJETOS EM QUE PODEMOS UTILIZAR O FOR OF LOOP".
+
+
+Sim, é simples assim.
+
+Iterables são objetos nos quais vocÊ pode usar "for of loop", são objetos 
+em que podemos passar um loop com "for of".
+
+
+--------------------------------------------
+
+
+
+O IMPORTANTE DE ENTENDER AQUI É QUE ___NEM TODA ITERABLE_____ EM____ JAVASCRIPT___
+É___ UM___ ARRAY.
+
+
+Trabalhamos com arrays até agora, MAS TAMBÉM 
+HÁ OUTROS OBJETOS "ITERABLE", como "NodeList", "Strings", "Map" e "Set". --> não são arrays (podem até ser arraylike objects, MAS NÃO SÃO ARRAYS).
+
+
+
+
+Outro termo, o qual o professor já utilizou antes: 
+
+
+"ARRAY-LIKE". ----> 'array-likes' e 'ITERABLES'  ___NÃO___ SÃO ___ A MESMA COISA.
+
+Arraylike e iterables são 
+TERMOS OFICIAIS NA LINGUAGEM JAVASCRIPT.
+
+
+
+Arraylike objects, o que são?
+
+
+Definição TÉCNICA = Arraylike objects são 
+OBJETOS QUE TEM UMA PROPRIEDADE "LENGTH" e que empregam 
+INDEXES ([]) para acessar os seus items.
+
+Definição humana = Mesma coisa que a técnica.
+
+
+
+Assim como iterables, NEM TODOS OS "ARRAYLIKE OBJECTS" são 
+arrays! Outros objetos arraylikes são, por exemplo, "NodeList" e "Strings".
+
+Nodelists e strings são objetos que tem length e indexes, e que também podem 
+ser utilizados com "for of loops", MAS QUE NÃO SÃO CONSIDERADOS VERDADEIROS ARRAYS, 
+PORQUE, COMO VOCÊ APRENDERÁ NESSE MÓDULO, ARRAYS TEM UM PUNHADO DE COMPORTAMENTOS 
+INTERESSANTES e um monte de métodos importantes disponíveis a eles que NÃO EXISTEM 
+NESSES ARRAYLIKE e ITERABLE objects.
+
+
+
+Feitos esses esclarecimentos, devemos dar uma olhada, primeiramente, NOS 
+ARRAYS, para depois entendermos melhor os arraylike objects e 
+os iterables.

@@ -1,0 +1,78 @@
+ 
+
+
+
+
+
+ 1 NOTA ACERCA do consumo de memória/economia de memória...
+
+
+
+
+
+
+
+ SE TODAS AS FUNÇÕES 'GRAVAM' OS AMBIENTES/VARIÁVEIS EXTERNOS A ELAS, 
+
+
+
+Isso não deveria nos dar uma performance terrível?
+
+
+
+Como fica a memória?
+
+
+
+
+Se tivermos um aplicativo grande com MUITAS VARIÁVEIS, 
+
+
+
+uma função talvez faça lockin DE VÁRIAS VARIÁVEIS QUE ELA __NUNCA UTILIZARÁ___...
+
+
+
+
+
+Nesse caso, o javascript NÃO IRÁ SE LIVRAR DESSAS VARIÁVEIS, pois algumas funções 
+
+podem ter feito 
+
+'close over' (closed over them) POR CIMA DELAS...
+
+
+
+MAS AINDA ASSIM, ESSA FUNÇÃO PODE NUNCA SER CHAMADA, OU MESMO QUE ELA SEJA CHAMADA, não é garantido 
+
+que ela estará/esteja interessada em todas as variáveis....
+
+
+
+
+NÃO SERIA ESSE, ENTÃO, UM GRANDE PROBLEMA PARA A MEMÓRIA?
+
+
+
+EM TEORIA, SIM.
+
+
+
+--> é claro que as javascript engines são muito espertas, 
+
+por isso esse fenômeno é OPTIMIZADO NAS JAVASCRIPT ENGINES ATUAIS....
+
+
+As javascript engines atuais basicamente ACOMPANHAM O USO DE VARIÁVEIS.... --> se uma variável OBVIAMENTE não está sendo utilizada POR COISA ALGUMA NO NOSSO CÓDIGO, SEJA objetos, funções, etc... SE ISSO ACONTECER, ESSAS ENGINES ____VÃO SE LIVRAR DESSAS VARIÁVEIS___...
+
+
+É claro que elas vão se livrar dessas variáveis DE UMA FORMA SEGURA; da forma mais segura possível, para que seu programa 
+não seja crashado (pq talvez seu código utilize essas funções/variáveis em algum momento) em razão dessa 'destruição' das variáveis.
+
+
+
+TODO O COMPORTAMENTO das variáveis em contato com a engine é OPTIMIZADO;
+
+é optimizado de modo que você NÃO PRECISA RESETAR TODAS AS VARIÁVEIS QUE VOCÊ NÃO 
+
+PRECISA/NÃO UTILIZARÁ.... as engines fazem isso para nós automaticamente...

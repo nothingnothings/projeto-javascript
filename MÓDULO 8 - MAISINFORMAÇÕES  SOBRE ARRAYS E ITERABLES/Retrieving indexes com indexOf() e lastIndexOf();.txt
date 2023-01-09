@@ -1,0 +1,164 @@
+Até agora, quando trabalhamos com arrays, sempre falamos sobre adicionar 
+e selecionar items, items únicos ou múltiplos (range of items).
+
+
+
+
+Mas também há cenários/casos em que você vai ter um 
+array de dados. Nesse array, você vai querer descobrir EM QUE 
+INDEX NESSE ARRAY UM CERTO ITEM SE ENCONTRA. Você quer descobrir o index 
+desse item para substituir o item, modificá-lo/qualquer outra razão que seja.
+
+
+
+
+Digamos que queremos DESCOBRIR QUAL LUGAR/SLOT DO CÓDIGO/ARRAY O NÚMERO "1.5" VIVE.
+
+
+ex:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+----------------------------------------------------
+
+Você pode fazer isso por meio de um MÉTODO QUE EXISTE EM TODOS OS ARRAYS:
+
+
+é o ".indexOf".
+
+
+ex:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+
+console.log(testResults.indexOf());
+
+
+
+--------------------------------------------
+
+
+Como o nome sugere, esse método RETORNA O INDEXADOR DO VALOR/VARIÁVEL/CONSTANTE QUE VOCÊ 
+ESTÁ PASSANDO COMO ARGUMENTO AQUI.
+
+
+ex:
+
+
+
+ex:
+
+
+
+const testResults = [1, 5.3, 1.5, 10.99, -5, 10];
+
+
+console.log(testResults.indexOf(1.5)); -----> isso vai retornar "2", que é o slot que esse número ocupa.
+
+
+------------------------------------------------------
+
+
+
+Professor explica que ESSE MÉTODO TAMBÉM ACEITA UM SEGUNDO ARGUMENTO. O SEGUNDO ARGUMENTO FAZ 
+COM QUE ESSA FUNÇÃO PROCURE POR ESSE NÚMERO SOMENTE PARTINDO DE UM CERTO SLOT.
+
+
+ex:
+
+
+
+const testResults = [1.5, 5.3, 1.5, 10.99, -5, 10];
+
+console.log(testResults.indexOf(1.5, 1)); ---------> ESSE CONSOLE.LOG AINDA VAI NOS RETORNAR O SLOT "2", PORQUE NÓS DEFINIMOS QUE ELE SÓ DEVERÁ COMEÇAR A PROCURAR A PARTIR DO INDEXADOR 1, QUE É O SEGUNDO ELEMENTO (5.3), que reside EM UM ESPAÇO POSTERIOR AO PRIMEIRO NÚMERO (indexador 0), que também é um 1.5, E QUE ENTRARIA NO CRITÉRIO DE BUSCA do método.
+
+
+
+-----------------------------------------------------------
+
+
+Contudo, há um punhado de coisas importantes que devemos compreender:
+
+
+
+1) se vocÊ tem o mesmo valor múltiplas vezes, o método .indexOf vai PARAR NO PRIMEIRO ELEMENTO QUE 
+SATISFAZER O CRITÉRIO DE BUSCA.
+
+2) se voccê quiser COMEÇAR A PROCURA NO SENTIDO DIREITA-ESQUERDA, HÁ UM MÉTODO ALTERNATIVO PARA ISSO:
+
+"lastIndexOf();" ---> isso vai fazer com que a procura comece na direita e termine na esquerda.
+
+
+ex:
+
+
+
+
+const testResults = [1.5, 5.3, 1.5, 10.99, -5, 10];
+
+
+console.log(testResults.lastIndexOf(10)); //------> ISSO VAI NOS RETORNAR "6", que é o slot DE 10.
+
+
+
+3) Outro detalhe importante sobre indexOf e lastIndexOf é que ELES FUNCIONAM BEM PARA 
+VALORES PRIMITIVOS, MAS NEM TANTO PARA VALORES REFERENCIAIS.
+
+Digamos que temos uma constante chamada 
+"personData". Essa constante segurará um array com DOIS OBJETOS.
+
+ex:
+
+
+const personData = [{name: 'Max'}, {name: 'Manuel'}];
+
+------------------------------------------------------
+
+
+
+Se o professor quiser descobrir onde "manuel" está, ele, então, poderia tentar:
+
+ex:
+
+
+const personData = [{name: 'Max'}, {name: 'Manuel'}];
+
+
+console.log(personData.indexOf({ name: 'Manuel'})); //-----> VOCÊ PODERIA ATÉ PENSAR QUE ISSO FUNCIONARIA, QUE O MÉTODO INDEXOF NOS MOSTRARIA O SLOT ONDE O OBJETO "MANUEL" ESTÁ.
+                                                //Se nós fizermos isso e recarregarmos a página, o console vai nos RETORNAR O VALOR DE -1.
+                                                //OBS:::: "-1" É O VALOR QUE INDEXOF/LASTINDEXOF NOS RETORNA CASO ELE NÃO CONSIGA ENCONTRAR NENHUM ELEMENTO COM ESSE VALOR/CONSTANTE. Só então ele nos retornará esse valor bizarro de -1.
+                                                //Ou seja, indexOf e lastIndexOf nunca nos jogam um erro, retornam FALSE, ou qualquer coisa do gênero. Eles apenas nos retornam -1 se não encontram porra alguma.
+
+
+
+
+
+A razão para eles nos retornarem -1 é, é claro, esse negócio de valores referenciais.
+
+
+Objetos são VALORES REFERENCIAIS, portanto no array de personData, no final das contas, o professor 
+está criando um objeto NOVINHO EM FOLHA e então passando esse objeto como argumento no método 
+indexOf... PORÉM, ELE NA VERDADE NÃO ESTÁ PASSANDO ESSE OBJETO COMO ARGUMENTO.... ELE ESTÁ 
+PASSANDO ___OUTRO___ OBJETO___, QUE PODE ATÉ MESMO SER IDÊNTICO AO QUE ELE ESTÁ TENTANDO 
+INQUERIR COM INDEXOF (um objeto idêntico, com "{name: 'Manuel'}", é referenciado no parâmetro do método indexOf.), mas que na verdade não é igual.
+
+O objeto que ele passa como parâmetro em indexOf NÃO É O MESMO que está na array de personData.
+Isso decorre dos valores referenciais do javascript (e objetos são exatamente isso, valores referenciais).
+
+
+Ainda que eles se pareçam, 2 objetos nunca serão iguais/a mesma coisa.
+
+
+
+Portanto, indexOf e lastIndexOf NÃO FUNCIONAM SE VOCÊ TIVER UM OBJETO DENTRO DE UM ARRAY.
+
+Entretanto, o professor nos conforta dizendo que EXISTE UM MÉTODO PARA CASOS COMO ESSE, CASOS 
+EM QUE VOCê TEM UM OBJETO DENTRO DE UM ARRAY e em que você quer descobrir o número do indexador 
+desse objeto.
+
+

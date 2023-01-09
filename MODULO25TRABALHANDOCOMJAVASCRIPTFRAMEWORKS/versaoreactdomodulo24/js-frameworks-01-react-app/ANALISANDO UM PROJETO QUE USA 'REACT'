@@ -1,0 +1,3053 @@
+Certo, continuando...
+
+
+
+
+
+
+
+Devemos abrir o 
+
+
+
+terminal
+
+
+
+
+
+e digitar 
+
+
+
+
+'npm start'....
+
+
+
+Mas por que 
+
+
+'npm start'?
+
+
+
+
+
+PORQUE O PROFESSOR DEFINIU UM SCRIPT 
+
+
+DE 
+
+
+
+"start": "react-scripts start" 
+
+
+
+
+
+DENTRO DO PACKAGE.JSOn do nosso projeto....
+
+
+
+
+Esse comando vai iniciar 
+
+
+
+'react-scripts start'....
+
+
+
+
+
+---------------------------------
+
+
+CERTO, ISSO RETORNOU UM __ERRO_.
+
+
+Mas pq um erro?
+
+
+
+
+Porque nós não temos o react instalado...
+
+
+
+
+Devemos usar o npm install para instalar o react...
+
+
+
+------------------------------
+
+
+
+rodei 'npm start'...
+
+
+
+
+console está parado.
+
+
+
+
+Agora apareceu 
+
+
+
+'starting the development server...'
+
+
+
+Abriu-se uma página vazia do internet edge.
+
+
+
+
+Nessa página, agora há o conteúdo do nosso projeto do mapa..
+
+
+------------------------------------
+
+
+
+professor explica que o 'react' usa WEBPACK 'under the hood' PARA 
+
+CONVERTER NOSSO CÓDIGO TODO, PARA BUNDLAR ELE...
+
+
+
+
+Nós temos basicamente o config quase igual àquele do webpack tradicional, mas com 
+
+o REACT BASICAMENTE FAZENDO O 'HEAVYLIFTING' para nós, por trás das cenas...
+
+
+(por isso, você não deve usar o WEBPACK 'nu e cru' com 
+o react; vocÊ deve usar 
+OS SCRIPTS PROVIDENCIADOS POR 'react', em 'package.json'....)
+
+
+
+
+
+ISSO TAMBÉM É ALGO QUE ESSES FRAMEWORKS OU GRANDES LIBRARIES 
+
+tipicamente fazem para você...----> Eles te dão 
+
+project setups em que vocÊ não precisa configurar tudo manualmente...
+
+e isso, é claro, GARANTE QUE VOCê NÃO PRECISE VIRAR UM 'WEBPACK MASTER' apenas 
+
+para criar e shippar código optimizado...
+
+
+
+
+
+VOcÊ deve deixar esse processo rodando no background....
+
+
+Compiled successfully!
+
+You can now view javascript-complete-guide-react in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://192.168.0.12:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+
+
+
+--------------------------------------------------------
+
+
+
+
+vocÊ sempre pode quitar com 'ctrl + c', mas aí 
+
+você fechará o servidor de desenvolvimento...
+
+
+esse servidor é que nem o de antes, é um servidor de desenvolvimento 
+
+que recarrega automaticamente SEMPRE QUE VOCÊ MUDA ALGO NO CÓDIGO...
+
+
+
+
+------> você pode visualizar sua página no endereço 'localhost:3000'
+
+
+
+
+------------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE, APESAR DE NOSSA PÁGINA TER A MESMA APARÊNCIA E FUNCIONALIDADES DE ANTES, 
+
+ELA AGORA TEM UM CÓDIGO COMPLETAMENTE DIFERENTE NO SEU INTERIOR...
+
+
+
+
+
+
+
+Podemos encontrar nosso código no folder 'source'... (src)....
+
+
+
+
+
+O FOLDER 'public' CONTÉM O ÚNICO ARQUIVO HTML DESSA PÁGINA...
+
+
+e se dermos uma olhada nesse arquivo html de 'index', nós 
+
+
+
+veremos que ESTÁ BEM __vAZIO___....
+
+
+
+TAMBÉM PERCEBEMOS QUE É APENAS __1__ ARQUIVO HTML...
+
+ANTES NÓS TINHAMOS 2, o index para a página 'sharePlace' e outro para a página 'MyPlace'...
+
+
+
+
+
+
+A RAZÃO PARA ISSO É QUE, COM REACT, AQUI (e tipicamente você faz a mesma 
+coisa  com o angular), NÓS CRÍAMOS AQUILO QUE É CHAMADO 
+
+DE 
+
+'SINGLE PAGE APPLICATION' ---> isso significa que NÓS TEMOS/TEREMOS 
+
+__UMA ÚNICA__ PÁGINA HTML....  ----> temos apenas 
+
+UM ÚNICO HTML...... E O JAVASCRIPT VAI RENDERIZAR _________TUDO AQUILO ____________
+QUE NÓS VEMOS _________  NA TELA_____, VAI _______MUDAR ____ TUDO AQUILO QUE HÁ NA TELA ___
+SE ELE ____ SENTIR QUE PRECISA FAZER ISSO/QUE FOI EXIGIDO QUE ELE FIZESSE ISSO ____.
+
+
+
+
+
+*****antes, nós usamos HTML para ISSO....... USAMOS HTML PARA MUDAR 
+AS PÁGINAS DO NOSSO WEBAPP.... professor explica que FAZER TUDO ISSO 
+COM O JAVASCRIPT, COMO FIZEMOS ANTES, SERIA MUITO TRABALHOSO E INEFETIVO...
+
+
+
+Se tivéssemos que escrever todas essas instruções por conta própria, por nosso código, 
+
+seria MUITO TRABALHOSO...
+
+
+
+
+COM REACT E FRAMEWORKS DE MESMA ESPÉCIE, Essa troca de páginas É UMA MARAVILHA, PORQUE 
+O REACT É O NEGÓCIO QUE VAI FAZER TODO O HEAVYLIFTING....
+
+
+
+
+Ok, mas como diabos 'react' sabe/saberá o que ele deve/deverá renderizar?
+
+
+
+
+
+BEM, NÓS TEMOS UMA 'ROOT DIV' no nosso único html...
+
+
+
+ex:
+
+
+<div id="root"></div>
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+SE DERMOS UMA OLHADA NO 'index.js' lá na pasta >src>Utilty>index.js,
+
+
+
+
+
+(OBS:::::::: O ARQUIVO 'INDEX.JS' É O PRIMEIRO ARQUIVO JAVASCRIPT SENDO 
+EXECUTADO PELO REACT NO NOSSO APLICATIVO, NO FINAL DAS CONTAS...)
+
+
+
+
+
+SE DERMOS UMA OLHADA NESSE ARQUIVO, VEREMOS UM MONTE DE IMPORTS :
+
+
+
+
+
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import './index.css';
+import App from './App';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+VEMOS TAMBÉM QUE, no final das contas, no final do código, temos 
+
+
+
+um trecho bem estranho, aquele trecho 
+
+
+'ReactDOM.render(<App />, document.getElementById('root'));'....
+
+
+
+
+
+esse código é estranho pq nunca vimos 
+
+esse método 
+
+
+'.render(<App />, etc etc)',
+ 
+
+
+
+ NUNCA VIMOS HTML TAGS SENDO USADOS COMO PARÂMETROS EM 
+
+ métodos javascript....
+
+
+
+
+MAS O QUE VEMOS AQUI É QUE O SEGUNDO PARÂMETRO ESTÁ OBJETIVANDO/DANDO TARGET 
+
+NAQUELE ELEMENTO que tem uma div id de 'root', no nosso arquivo html...
+
+
+
+ex:
+
+                                                (AQUI)
+'ReactDOM.render(<App />, document.getElementById('root'));'....
+
+
+
+-------------------------------------------
+
+
+
+
+
+OK, O QUE DIABOS ESTÁ ACONTECENDO AQUI?
+
+
+
+
+
+
+
+Bem,  'React' e 'ReactDOM', as 
+
+
+coisas que importamos aqui nesse arquivo, SÃO 
+
+___fEATURES____ DA LIBRARY DO 'React' e da library do 'ReactDOM'...
+
+
+
+
+Essa library do 'ReactDOM' está conectada com a library do 'React'...
+
+
+
+-----------------------------------------------
+
+
+
+ReactDOM ------> NOS DÁ ACESSO AO DOM, e nos permite RENDERIZAR AQUILO QUE É 
+CHAMADO DE ' REACT COMPONENT' NAQUELE DOM/NO ARQUIVO HTML... (depois que a página é carregada)...
+
+
+
+
+OU SEJA, 
+
+
+aquele código 
+
+
+
+'<App />'  ------> ISSO É UM 'REACT COMPONENT'...
+
+
+
+
+
+<App /> É UM REACT COMPONENT QUE ESTÁ SENDO 
+
+RENDERIZADO, POR MEIO DO REACT.JS, em 
+
+
+
+'document.getElementById('root');' (nessa área em questão).
+
+
+
+-------------------------------------------------------
+
+
+
+
+<App /> --------------> ISSO É UM REACT COMPONENT.
+
+
+
+
+
+REACT COMPONENTS, COMO ESSE ELEMENTO LOGO ACIMA, USAM AQUELA SINTAXE 
+
+
+'.jsx' QUE O PROFESSOR MENCIONOU ANTERIORMENTE.... é a 'enhanced javascript syntax', basicamente.
+
+
+
+
+
+
+
+
+ESSA SINTAXE FOI ___INVENTADA____ PELA EQUIPE DO REACT... E esse código javascript ('<App />')
+
+DEFINITIVAMENTE NÃO É O CÓDIGO JS que é executado e lido por um browser....
+
+
+(É IMPORTANTE TER ISSO EM MENTE).
+
+
+
+
+
+
+
+--> ESSA PORCARIA DE '<App />' NÃO É LIDA PELO BROWSER...
+
+Em vez disso, esse código é CONVERTIDO EM UMA INSTRUÇÃO JAVASRIPT ___DE VERDADE___, 
+
+uma instrução que o browser CONSEGUE/PODE EXECUTAR...... É UMA INSTRUÇÃO 
+
+QUE O BROWSER CONSEGUE/PODE EXECUTAR _________aNTES____________ DO CÓDIGO ____ 
+SER ______ SHIPPADO ____ ('shipped').
+
+
+
+
+Como assim, 'antes de ser shippado'?
+
+
+
+
+-----> Isso quer dizer: ANTES DO ___BUILD PROCESS___...... 
+
+
+
+
+
+Antes, nós rodávamos o comando do webpack  'run build'..... -----> 
+
+
+AGORA, NÓS CONSEGUIMOS ESSE development workflow __BUILTIN__ NO REACT....
+
+Esse development workflow, que shippa o código, JÁ VEM 'BUILTIN' no react...
+
+
+
+
+
+
+QUANDO O CÓDIGO DE 'react' é executado, ESSE CÓDIGO DE '<App />' 
+
+É IMEDIATAMENTE CONVERTIDO...
+
+
+
+O professor explica que, por trás das cenas, 
+
+
+esse código de '<App />' é 
+
+
+
+CONVERTIDO para 
+
+
+'React.createElement(App)' -------------> É ESSE PROCESSO QUE ACONTECE 
+
+AQUI, NESSE LUGAR, QUANDO USAMOS O REACT. TUDO ISSO ACONTECE POR TRÁS DAS CENAS...
+
+
+
+é por isso que se escrevêssemos 
+
+'ReactDOM.render(React.createElement(App), document.getElementById('root'));'
+
+
+USANDO O REACT, RECEBERÍAMOS O MESMO RESULTADO DE 
+
+
+
+'ReactDOM.render(<App />, document.getElementById('root'));'
+
+
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+NO FINAL DAS CONTAS, AQUELE CÓDIGO De '<App />', esse código JSX, É 
+
+
+CONVERTIDO EM 'React.createElement(App)'..., 
+
+
+É CONVERTIDO NESSA INSTRUÇÃO JAVASCRIPT... nessa instrução javascript,
+ 
+
+ nós passamos como parâmetro UM 'REACT COMPONENT', que é 
+
+ esse 'App'.......
+
+
+
+
+ NO caso do nosso projeto, esse 'react component' chamado de 'App' É 
+
+ TRAZIDO/IMPORTADO DE UM ARQUIVO 'App.js' NESSE MESMO FOLDER...
+
+
+ (
+     BASTA lermos o código 
+
+     'import App from './App';  
+
+
+     lá em cima...
+
+
+
+
+
+ )
+
+
+
+ --------------------------------
+
+
+
+
+ Logo logo daremos uma olhada no arquivo 'App.js'...
+
+
+
+
+ --------------------------------------
+
+
+
+
+
+ O PROFESSOR EXPLICA QUE O CÓDIGO 'Não abreviado' de 'ReactDOM.render(React.createElement(App), document.getElementById('root'));'
+
+
+ É 
+
+ MUITO LONGO DE SE ESCREVER.......
+
+
+ É muito longo pq eventualmente teremos mais de 1 component costurados 1 ao outro...
+
+
+
+
+ COMO ESSE NEGÓCIO É MUITO LONGO E RUIM DE SE ESCREVER, NÓS TEMOS 
+
+ ESSA SINTAXE ESPECIAL 'JSX', que 
+
+ no caso é 
+
+
+ o 
+
+ '<App />' ....
+
+
+
+
+ ESSA SINTAXE É CONVERTIDA AUTOMATICAMENTE, PELO REACT, NA SINTAXE JAVASCRIPT COMUM....
+
+
+ Essa conversão é UMA DAS RAZÕES PARA O PROFESSOR ESTAR IMPORTANDO 'React' ('import React from 'react';') NESSE 
+
+ ARQUIVO 'index.js', AINDA QUE ELE NÃO ESTEJA O UTILIZANDO EM LUGAR ALGUM 
+ DESTE ARQUIVO 'index.js'.... ---> o REACT ACABA SENDO USADO __IMPLICITAMENTE__, 
+pois essa sintaxe específica, 'enhanced', acaba sendo 
+CONVERTIDA À SINTAXE 'NORMAL', legível pela engine javascript...
+E quando essa sintaxe REALMENTE É/FOR CONVERTIDA, O REACT ACABA REALMENTE SENDO 
+USADO, pois nós não temos, de fato, uma classe 'React' e um método 'React.createElement' BUILTIN no browser/javascript comum...
+
+
+-----------------------------------------
+
+
+
+
+
+Certo, temos esse código 'jsx'...
+
+
+
+O professor explica mais sobre isso no CURSO DE REACT....
+
+
+
+
+
+----------------------------------------
+
+
+POR ENQUANTO, podemos apenas relaxar e aceitar que COM ESSA INSTRUÇÃO 
+
+do 'ReactDOM.render()'  NÓS ACABAMOS 
+
+
+RENDERIZANDO ALGO, renderizando o componente 'App', NAQUELE 
+
+
+LUGAR, 
+
+naquela div 
+
+
+de id 'root'.......
+
+
+
+
+-----------------------------------
+
+
+
+
+AGORA DEVEMOS DAR UMA OLHADA NESSE ARQUIVO 'App.js' PARA 
+
+ENTENDER 
+
+
+______O QUE DIABOS ____ É UM 'REACT COMPONENT'...
+
+
+---------------------------------------
+
+
+
+
+Se dermos uma olhada no arquivo 'App.js', observamos o código:
+
+
+
+
+
+
+
+
+import React from 'react';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
+
+import SharePlace from './Pages/SharePlace';
+import MyPlace from './Pages/MyPlace';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path='/' component={SharePlace} exact />
+        <Route path='/my-place' component={MyPlace} />
+      </Switch>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+
+--------------------------------------------
+
+
+
+
+
+Certo, vemos que temos uma FUNÇÃO de nome 'App' QUE 
+
+ACABA SENDO ___EXPORTADA__ por meio do código 'export default App;'
+
+
+
+
+É EXPORTADA POR MEIO DE UM 'DEFAULT EXPORT'....
+
+
+
+
+O PROFESSOR ESTÁ IMPORTANDO ____MAIS COISAS___, DE OUTROS LUGARES/ARQUIVOS....
+
+(ex:
+
+import SharePlace from './Pages/SharePlace';
+import MyPlace from './Pages/MyPlace';
+
+
+)
+
+------------------------------------------------------
+
+
+
+
+Ele TAMBÉM ESTÁ IMPORTANDO O 'react'............ (MAS NÃO ESTÁ IMPORTANDO O 'REACTDOM')...
+
+
+
+
+----> ELE ESTÁ IMPORTANDO O 'REACT' pq ELE TEM 
+ESSE CÓDIGO 
+
+'jsx' mais abaixo....
+
+
+
+(o código jsx, no caso, é 
+
+o que está dentro da função 'App'...
+
+ex:
+
+
+
+<BrowserRouter>
+<Switch> --------------> TUDO ISSO É JSX..)....
+
+
+
+
+
+
+
+
+
+---------------------------------------
+
+
+
+ELE TAMBÉM ESTÁ IMPORTANDO ALGUMAS COISAS 
+
+DA PACKAGE
+
+'reacter-router-dom'......  ---> ex:  import { BrowserRouter, Route, Switch} from 'react-router-dom';
+
+
+Explica o professor que ESSA É OUTRA PACKAGE, UMA PACKAGE 
+
+QUE NÃO É GERENCIADA ('managed') DIRETAMENTE PELA 
+
+
+EQUIPE DO 'REACT', MAS QUE É ___PARTE___ DO ___""ECOSSISTEMA""" DO REACT, QUE, 
+NO FINAL DAS CONTAS, NOS 
+
+PERMITE ___RENDERIZAR____ DIFERENTES TIPOS DE CONTEÚDO ___PARA ____ DIFERENTES ___
+___ URLS ____ QUE ESTAMOS VISITANDO.....
+
+
+
+O react-router-dom 
+
+
+
+EXISTE para essa feature:
+
+
+
+
+
+Eu estou no endereço 'localhost:3000'.
+
+Se eu ir até 
+
+
+'localhost:3000/my-place',
+
+
+O CONTEÚDO DESSA PÁGINA EM QUE ESTOU SERÁ ____TROCADO ____ INTEGRALMENTE___, 
+
+
+será trocado INTEIRAMENTE e um CONTEÚDO TOTALMENTE DIFERENTE É RENDERIZADO NESSA PÁGINA...
+
+
+Com 
+
+
+AS LINHAS DE CÓDIGO 
+
+
+'<Switch>
+<Route path='/' component={SharePlace} exact />
+<Route path='/my-place' component={MyPlace} />
+</Switch>'
+
+
+
+NÓS ACABAMOS DIZENDO AO REACT ____QUAIS____ COMPONENTS (  expressos por 'component = {SharePlace}')
+ELE DEVE RENDERIZAR PARA __cADA ___ 'path' ___ INPUTTADO NA NOSSA URL...
+
+
+
+
+Isso quer dizer, por exemplo, que se o usuário 
+
+
+
+colocar só 
+
+
+'/' no final da URL, ele será REDIRECIONADO PARA O "___COMPONENT___" 'SharePlace'....
+
+
+
+JÁ SE ELE COLOCAR 
+
+'/my-place' no final da URL, ELE SERÁ REDIRECIONADO PARA O '___COMPONENT___' 'Myplace'...
+
+
+
+
+---------------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE PROCESSO TODO ESTÁ/ESTARÁ ACONTECENDO ____NO BROWSER EM SI____...
+
+O BROWSER ESTARÁ USANDO ___JAVASCRIPT___, lá, PARÁ ENTÃO 
+
+__PREENCHER A PÁGINA COM CONTEÚDO___...
+
+
+Isso quer dizer QUE O BROWSER ""___TWEAKA___"" O DOM ___'on the fly' QUANDO 
+
+NÓS INPUTTAMOS UMA DIFERENTE URL, UM DIFERENTE 'PATH' para o nosso domínio...
+
+  
+  --------------------------------------------
+
+
+É EXATAMENTE ISSO QUE O 'REACT' FAZ....
+
+
+E o 'react-router' NOS AJUDA, ELE NOS DEIXA RENDERIZAR 
+
+_____DIFERENTES CONTEÚDOS PARA ___ DIFERENTES ___ PATHS___ NA URL...
+
+
+
+-----------------------------------------
+
+
+
+
+
+DEVEMOS, PRIMEIRAMENTE, DAR UMA OLHADA EM 
+
+
+
+'SharePlace', NESSE COMPONENTE 'SharePlace'...
+
+
+ESSE É O COMPONENT/CONTEÚDO RENDERIZADO QUANDO O USUÁRIO 
+
+INPUTTA 
+
+
+o domínio e aí '/'...
+
+
+
+é localhost:3000/porra nenhuma (nothing).
+
+
+--------------------------------
+
+
+
+
+EM "PAGES", nós VEMOS O ARQUIVO 'SharePlace.js'...
+
+
+
+em 'SharePlace.js', TEMOS ___MUUUUUUITO CÓDIGO____.
+
+
+
+
+O que temos dentro dele é UMA ARROW FUNCTION ARMAZENADA EM UMA CONSTANTE CHAMADA DE 
+
+'SharePlace'...
+
+
+
+ex:
+
+
+
+
+
+
+import React, { useState, useRef, useEffect } from 'react';
+
+import SelectedPlace from '../UI/SelectedPlace';
+import Modal from '../UI/Modal';
+import Header from '../UI/Header';
+import {
+  getCoordsFromAddress,
+  getAddressFromCoords
+} from '../Utility/Location';
+import './SharePlace.css';
+
+const SharePlace = () => {
+  const [chosenCoords, setChosenCoords] = useState();
+  const [chosenAddress, setChosenAddress] = useState();
+  const [sharableLink, setSharableLink] = useState('');
+  const [isLoading, setIsLoading] = useState();
+  const addressInputRef = useRef();
+  const shareLinkRef = useRef();
+
+  useEffect(() => {
+    if (chosenAddress && chosenCoords) {
+      setSharableLink(
+        `${window.location.origin}/my-place?address=${encodeURI(
+          chosenAddress
+        )}&lat=${chosenCoords.lat}&lng=${chosenCoords.lng}`
+      );
+    }
+  }, [chosenAddress, chosenCoords]);
+
+  const pickAddressHandler = async event => {
+    event.preventDefault();
+    const address = addressInputRef.current.value;
+    if (!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const coordinates = await getCoordsFromAddress(address);
+      setChosenCoords(coordinates);
+      setChosenAddress(address);
+    } catch (err) {
+      alert(err.message);
+    }
+    setIsLoading(false);
+  };
+
+  const getUserLocationHandler = async () => {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern browser or manually enter an address.'
+      );
+      return;
+    }
+    setIsLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async successResult => {
+        const coordinates = {
+          lat: successResult.coords.latitude + Math.random() * 50,
+          lng: successResult.coords.longitude + Math.random() * 50
+        };
+        const address = await getAddressFromCoords(coordinates);
+        setChosenCoords(coordinates);
+        setChosenAddress(address);
+        setIsLoading(false);
+      },
+      error => {
+        setIsLoading(false);
+        alert(
+          'Could not locate you unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  };
+
+  const sharePlaceHandler = () => {
+    if (!navigator.clipboard) {
+      shareLinkRef.current.select();
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(sharableLink)
+      .then(() => {
+        alert('Copied into clipboard!');
+      })
+      .catch(err => {
+        console.log(err);
+        shareLinkRef.current.select();
+      });
+  };
+
+  return (
+    <React.Fragment>
+      {isLoading && (
+        <Modal>
+          <div className="modal__content centered">
+            <div className="lds-dual-ring"></div>
+          </div>
+        </Modal>
+      )}
+
+      <Header title="Share a Place" />
+
+      <SelectedPlace
+        fallbackText="You haven't selected any place yet. Please enter an address or
+            locate yourself!"
+        centerCoords={chosenCoords}
+      />
+
+      <section id="share-controls">
+        <input
+          ref={shareLinkRef}
+          value={sharableLink}
+          type="text"
+          readOnly
+          placeholder="Select a place to get a sharable link."
+        />
+        <button disabled={!sharableLink} onClick={sharePlaceHandler}>
+          Share Place
+        </button>
+      </section>
+
+      <section id="place-data">
+        <form onSubmit={pickAddressHandler}>
+          <label htmlFor="address">Address</label>
+          <input type="text" id="address" ref={addressInputRef} />
+          <button type="submit">Find Place</button>
+        </form>
+        <button onClick={getUserLocationHandler}>Get Current Location</button>
+      </section>
+    </React.Fragment>
+  );
+};
+
+export default SharePlace;
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+ESSA FUNÇÃO, BEM LÁ NO FINAL, É ___EXPORTADA___.
+
+
+
+
+RESUMINDO: EU ESTOU BASICAMENTE ___EXPORTANDO UMA FUNÇÃO__, NESSE ARQUIVO...
+
+
+
+
+E ISSO É IMPORTANTE !!!!! ----> EM REACT, VOCÊ PODE 
+
+ESCREVER __FUNÇÕES ESPECIAIS__, funções que são, no final das contas, 
+FUNÇÕES __NORMAIS JAVASCRIPT____, MAS QUE FUNCIONAM/SE COMPORTAM DE UMA 
+MANEIRA ESPECÍFICA....
+
+
+
+Como assim 'maneira específica'?
+
+
+
+
+Bem, um exemplo disso é que ELAS ___SEMPRE ____ RETORNAM CÓDIGO 
+
+'JSX'....
+
+
+ex:
+
+
+
+
+return (
+    <React.Fragment>
+      {isLoading && (
+        <Modal>
+          <div className="modal__content centered">
+            <div className="lds-dual-ring"></div>
+          </div>
+        </Modal>
+      )}
+
+
+
+    --------------------------
+
+
+ESSE É UM 'MUST-HAVE', as funções no REACT ___SEMPRE __ VÃO RETORNAR 
+
+CÓDIGO 'JSX'... (jsx code).... elas não podem simplesmente retornar código javascript ,
+
+o negócio não funciona assim.
+
+
+
+---------------------------------------------------
+
+
+ESSAS FUNÇÕES SÃO ENTÃO TRATADAS PELO __REACT____ COMO SE FOSSEM ___''' REACT COMPONENTS'''___...
+
+
+
+
+
+REACT COMPONENTS ---> esse é apenas um TERMO INTERNO, ele não é algo específico do javascript, 
+
+É APENAS UMA __DESCRIÇÃO____.
+
+
+--------------------------------------------
+
+
+
+
+Essas funções, no final das contas, SÃO 
+
+____FUNÇÕES JAVASCRIPT NORMAIS____...
+
+São funções normais, sim, MAS NÓS NÃO VAMOS CHAMÁ-LAS nunca.... 
+
+
+
+não vamos fazer, por exemplo, 
+
+
+'SharePlace()'....
+
+
+
+
+
+NÃO...
+
+no final das contas, o professor só está PASSANDO 
+
+
+
+'<App />' 
+
+
+em 
+
+
+'ReactDOM.render()'... ( OU SEJA, ELE ESTÁ PASSANDO ESSE PARÂMETRO '<App />' AO REACT...)
+
+
+
+-----------------------------------------------
+
+
+
+
+É O REACT QUE ENTÃO EXECUTA ESSAS FUNÇÕES PARA NÓS, executa essas funções, executa-as para 
+
+
+PASSAR OS DADOS DE QUE ELAS PRECISAM E PARA RETORNAR esses códigos 
+
+
+'jsx'...
+
+
+-----------------------------------------------------
+
+
+
+
+
+O CÓDIGO 'JSX' retornado é, no final das contas, 
+
+
+apenas um monte de 'nested'  CALLS DE   'React.createElement()', como 
+
+vimos antes..., PARA ENTÃO, POR SUA VEZ,
+
+__USAR ___ TODAS ESSAS INSTRUÇÕES PARA RENDERIZAR 
+ALGUMA COISA NA NOSSA TELA.....
+
+
+
+
+
+SE INSPECIONARMOS OS ELEMENTOS DA NOSSA PÁGINA, PERCEBEREMOS QUE 
+
+
+temos um 'populated DOM' nos nossos arquivos...
+
+
+OQ O PROFESSOR QUER DIZER COM 'populated DOM'?
+
+
+
+Ele quer dizer que O DOM REALMENTE FOI TOCADO pelo 'react'...
+
+O DOM FOI TOCADO ('touched') E CONTEÚDO FOI ADICIONADO A ELE....
+
+
+
+
+MAS TUDO ISSO FOI FEITO PELO ___JAVASCRIPT____.... BEM, É ÓBVIO 
+QUE NÃO FOI O JAVASCRIPT QUE NÓS DIGITAMOS COM NOSSAS PRÓPRIAS MÃOS, AFINAL 
+
+NÓS NÃO TEMOS UM ÚNICO 'createElement' ou 'appendChildElement()' NO NOSSO CÓDIGO/projeto ,
+
+
+e SIM O REACT... 
+
+
+É O REACT QUE INTERAGE COM NOSSO HTML __ A PARTIR DAS INSTRUÇÕES ___ em 
+
+
+'SharePlace.js', 
+
+NAQUELES LUGARES COMO 
+
+
+'
+return (
+    <React.Fragment>
+      {isLoading && (
+        <Modal>
+          <div className="modal__content centered">
+            <div className="lds-dual-ring"></div>
+          </div>
+        </Modal>
+      )}
+      '
+
+
+DENTRO DA FUNÇÃO 'SharePlace'...
+
+
+
+
+----------------------------------------------------------------------
+
+
+
+
+É POR ISSO QUE TEMOS ESSAS INSTRUÇÕES, É POR ISSO QUE TEMOS ESSE CÓDIGO 'JSX'...
+
+temos tudo isso para que o REACT POSSA REAGIR EM CIMA DELES...
+
+
+
+Mas pq usar esse código 'JSX'?
+
+
+
+BEM, PORQUE ELE É BEM MAIS ___LEGÍVEL___ do que o código javascript comum....
+
+
+
+Ele é mais legível PQ ELE TEM A APARÊNCIA DE HTML, apesar de não ser HTML... (não é html, tecnicamente).....
+
+
+
+
+
+
+
+BEM, EM 'SharePlace.js' TEMOS UMA FUNÇÃO DE nome 'SharePlace' QUE 
+
+acabamos exportando...
+
+
+
+
+EM 'sharePlace.js' TAMBÉM ESTAMOS 
+
+________iMPORTANDO _____ ALGUMAS COISAS DO 'React'...
+
+
+
+EX:
+
+
+
+
+'import React, { useState, useRef, useEffect } from 'react'; 
+
+
+
+
+
+
+
+----> NÓS TAMBÉM estamos importando COISAS DE OUTROS ARQUIVOS DO PROJETO:
+
+
+
+ex:
+
+
+
+
+'import SelectedPlace from '../UI/SelectedPlace';
+import Modal from '../UI/Modal;
+import Header from '../UI/Header;
+import {
+  getCoordsFromAddress, 
+  getAddressFromCoords
+} from '../Utility/Location';
+import './SharePlace.css';
+
+
+
+--------------------------------------
+
+
+
+
+
+NÓS TAMBÉM ESTAMOS IMPORTANDO _______UM ARQUIVO CSS, AQUI_____....
+
+
+ex:
+
+
+import './SharePlace.css';
+
+
+
+
+E ISSO É SUPER ESTRANHO... (pq diabos importar um arquivo css aqui?)
+
+
+
+
+
+
+----> ENTRETANTO, DIZ O PROFESSOR, ESSE NEGÓCIO DE IMPORTAR UM ARQUIVO __cSS__ NO NOSSO CÓDIGO 
+JAVASCRIPT NÃO É ALGO 
+
+ESPECÍFICO AO 'React'...
+
+Não, isso É ALGO 
+
+QUE """WEBPACK""" PODE FAZER COM VOCÊ, SE VOCê 
+
+COLOCAR O LOADER 'CERTO' PARA ISSO...
+
+
+
+--> NO FINAL DAS CONTAS, isso apenas vai dizer ao webpack para TAMBÉM 
+
+DAR UMA OLHADA NAQUELE ARQUIVO CSS E 'BUNDLE IT UP', CARREGANDO-O ('load it up') 
+
+COMO PARTE DO SEU PROJETO, DENTRO DO SEU ARQUIVO HTML...
+
+
+
+(RESUMINDO: ISSO É ALGO QUE O WEBPACK FAZ... E não o 'react' em si....)
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+DEVEMOS DAR UMA EXAMINADA NA NOSSA 'FUNÇÃO COMPONENT', aqui, a função 
+
+
+
+'SharePlace"....
+
+
+
+
+
+ex:
+
+
+
+import React, { useState, useRef, useEffect } from 'react';
+
+import SelectedPlace from '../UI/SelectedPlace';
+import Modal from '../UI/Modal';
+import Header from '../UI/Header';
+import {
+  getCoordsFromAddress,
+  getAddressFromCoords
+} from '../Utility/Location';
+import './SharePlace.css';
+
+
+
+
+
+const SharePlace = () => {
+  const [chosenCoords, setChosenCoords] = useState();
+  const [chosenAddress, setChosenAddress] = useState();
+  const [sharableLink, setSharableLink] = useState('');
+  const [isLoading, setIsLoading] = useState();
+  const addressInputRef = useRef();
+  const shareLinkRef = useRef();
+
+  useEffect(() => {
+    if (chosenAddress && chosenCoords) {
+      setSharableLink(
+        `${window.location.origin}/my-place?address=${encodeURI(
+          chosenAddress
+        )}&lat=${chosenCoords.lat}&lng=${chosenCoords.lng}`
+      );
+    }
+  }, [chosenAddress, chosenCoords]);
+
+  const pickAddressHandler = async event => {
+    event.preventDefault();
+    const address = addressInputRef.current.value;
+    if (!address || address.trim().length === 0) {
+      alert('Invalid address entered - please try again!');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const coordinates = await getCoordsFromAddress(address);
+      setChosenCoords(coordinates);
+      setChosenAddress(address);
+    } catch (err) {
+      alert(err.message);
+    }
+    setIsLoading(false);
+  };
+
+  const getUserLocationHandler = async () => {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern browser or manually enter an address.'
+      );
+      return;
+    }
+    setIsLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async successResult => {
+        const coordinates = {
+          lat: successResult.coords.latitude + Math.random() * 50,
+          lng: successResult.coords.longitude + Math.random() * 50
+        };
+        const address = await getAddressFromCoords(coordinates);
+        setChosenCoords(coordinates);
+        setChosenAddress(address);
+        setIsLoading(false);
+      },
+      error => {
+        setIsLoading(false);
+        alert(
+          'Could not locate you unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  };
+
+  const sharePlaceHandler = () => {
+    if (!navigator.clipboard) {
+      shareLinkRef.current.select();
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(sharableLink)
+      .then(() => {
+        alert('Copied into clipboard!');
+      })
+      .catch(err => {
+        console.log(err);
+        shareLinkRef.current.select();
+      });
+  };
+
+  return (
+    <React.Fragment>
+      {isLoading && (
+        <Modal>
+          <div className="modal__content centered">
+            <div className="lds-dual-ring"></div>
+          </div>
+        </Modal>
+      )}
+
+      <Header title="Share a Place" />
+
+      <SelectedPlace
+        fallbackText="You haven't selected any place yet. Please enter an address or
+            locate yourself!"
+        centerCoords={chosenCoords}
+      />
+
+      <section id="share-controls">
+        <input
+          ref={shareLinkRef}
+          value={sharableLink}
+          type="text"
+          readOnly
+          placeholder="Select a place to get a sharable link."
+        />
+        <button disabled={!sharableLink} onClick={sharePlaceHandler}>
+          Share Place
+        </button>
+      </section>
+
+      <section id="place-data">
+        <form onSubmit={pickAddressHandler}>
+          <label htmlFor="address">Address</label>
+          <input type="text" id="address" ref={addressInputRef} />
+          <button type="submit">Find Place</button>
+        </form>
+        <button onClick={getUserLocationHandler}>Get Current Location</button>
+      </section>
+    </React.Fragment>
+  );
+};
+
+
+
+---------------------------------------------
+
+
+
+
+
+ESSA É UMA FUNÇÃO, EXPLICA O PROFESSOR, QUE NÃO RECEBE ARGUMENTO/PARÂMETRO 
+
+ALGUM... ----> NESSE CASO, ELA NÃO RECEBE/EXIGE ARGUMENTOs....
+
+
+
+
+professor diz QUE O REACT PASSARIA/PODERIA PASSAR ALGUNS ARGUMENTOS A ELA DURANTE A 
+
+EXECUÇÃO, se assim o desejássemos....
+
+
+
+(mas aqui não estamos...)  --------> MAIS TARDE O PROFESSOR 
+NOS DIRÁ __QUAIS ARGUMENTOS __ PODEMOS USAR EM FUNÇÕES do 'react'...
+
+
+
+
+------------------------------------
+
+
+
+
+
+
+DENTRO DO FUNCTION BODY DE 'SharePlace', O PROFESSOR 
+
+RECEBE/GANHA UM MONTE DE __INSTRUÇÕES ESTRANHAS_____....
+
+
+
+Todas elas 
+
+usam 
+
+
+uma função 
+
+
+'useState();'
+
+
+
+e 
+
+
+outra função, 
+
+'useRef();'
+
+
+----------------------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+const SharePlace = () => {
+  const [chosenCoords, setChosenCoords] = useState();
+  const [chosenAddress, setChosenAddress] = useState();
+  const [sharableLink, setSharableLink] = useState('');
+  const [isLoading, setIsLoading] = useState();
+  const addressInputRef = useRef();
+  const shareLinkRef = useRef();
+
+
+
+
+  --------------------------------------------
+
+
+
+  TODAS ESSAS SÃO FUNÇÕES ________PROVIDENCIADAS ____ PELO REACT____...
+
+
+
+
+  E ESSA É A SINTAXE __MAIS ___MODERNA__ DO 'React' QUE PODEMOS USAR, 
+
+  NO PRESENTE...
+
+
+
+
+  ------> PARA INFORMAR O REACT DE CERTAS 'DEPENDENCIES' QUE 
+  TEMOS DENTRO 
+  DESSE COMPONENTE 'SharePlace', NÓS PRECISAMOS 
+
+
+USAR UMA OUTRA SINTAXE DISPONIBILIZADA pelo react...
+
+
+É UMA SINTAXE 
+
+
+______UTILIZADA ___ PARA __ CRIAR 'COMPONENTS'...
+
+
+
+Nessa sintaxe, você usa a keyword 'class' PARA CRIAR UMA 
+
+CLASSE JAVASCRIPT NORMAL...
+
+
+
+
+E isso é algo perfeitamente aceitável, vocÊ verá isso em muitos projetos...
+
+
+
+
+
+---> NO CURSO DE REACT, O PROFESSOR ENSINA AMBAS AS SINTAXES...
+
+
+
+
+
+--> nesse exemplo do nosso projeto, o professor foca, no entanto, NA 
+
+SINTAXE 'FUNCTION DRIVEN' do react...
+
+
+----> A VERSÃO 'FUNCTION DRIVEN' DA SINTAXE DO REACT É 
+
+A VERSÃO MAIS MODERNA DA SINTAXE DELE...
+
+
+
+
+CERTO.
+
+
+
+
+DENTRO DESSA FUNÇÃO, NÓS TEMOS UM PUNHADO 
+DE  'FUNCTION CALLS' PARA CHAMAR 
+
+'useState' e 'useRef'...
+
+
+
+
+
+
+TODAS ESSAS FUNÇÕES SÃO FUNÇÕES QUE ESTÃO VINDO DA LIBRARY DE 
+'react'...
+
+
+ex:
+
+
+
+import React, { useState, useRef, useEffect } from 'react';  --------> É ISSO QUE ESTÁ IMPORTANDO ESSAS 'FEATURES'/function calls de ' useRef' e 'useState'...
+
+
+
+
+
+useRef e useState ----> ESSAS COISAS ____DEFINEM_____ ___COISAS PARA ___ O REACT 
+
+FAZER 'WATCH'... --> são elas que dizem "Observe este elemento aqui"....
+
+
+
+
+
+useState ---> DEFINE ALGUMAS "STATE DATA PIECES" (pedaços de 'state data"...)
+
+ESSES 'State data pieces", QUANDO SÃO MUDADOS/ALTERADOS, ACABAM TRIGGANDO 
+
+ESSES COMPONENTS DEFINIDOS EM 'const'...
+
+
+ex:
+
+
+
+'const [chosenCoords, setChosenCoords] = useState();' ------> quando o STATE FOR MUDADO, ESSES COMPONENTS DEFINIDOS EM 'const' SERÃO TRIGGADOS..
+
+
+
+ASSIM QUE ESSES COMPONENTS FOREM 'triggados', ELES SERÃO ___RE-RENDERIZADOS__ NA TELA...
+
+
+
+
+
+
+RESUMINDO:
+
+
+Sempre que algum dado/data aqui, nesse 'state, __MUDA__, O 
+REACT VAI EM FRENTE 
+E 
+
+__UPDATA___ a UI.... ------> e essa 'REATIVIDADE' é BUILTIN no react... faz parte desse framework.
+
+
+
+
+
+
+JÁ 
+
+
+'useRef' NOS DÁ ACESSO ___ A ELEMENTOS DOM___... ele existe para que possamos, por exemplo, 
+
+LER O VALOR DE UM INPUT na página....
+
+
+
+
+
+
+O professor não aprofundará muito esse código, devemos ver o curso dele para isso.
+
+
+
+
+--> no final das contas, a maneira pela qual construímos uma UI com react 
+
+é um modus operandi em que TEMOS ESSES 'STATES', ESSES 'STATE DATA PIECES'.....
+
+
+
+
+O professor explica que nós usamos 'array destructuring' ( ou seja, aquela sintaxe dos ARRAYS À ESQUERDA DO SINAL DE '='...)
+
+PARA CONSEGUIR ______ DOIS PEDAÇOS DE ____ 'DATA' DE UMA MESMA EXECUÇÃO DE FUNÇÃO/do mesmo resultado de 'useState'...
+
+
+Como assim?
+
+
+
+Bem, observe o código de uma das calls:
+
+
+'const [chosenCoords, setChosenCoords] = useState();'
+
+        (OU SEJA, CONSEGUIREMOS 2 PEDAÇOS DE 'DATA' DE UM MESMO 
+        call de 'useState'..., DO MESMO __rESULTADO/result__ de 'useState'....)
+
+
+
+
+---------------->>>>>>> os 2 pedaços de data são:
+
+
+
+chosenCoords --> É O 'CURRENT STATE' do nosso código armazenado PELO REACT....
+
+
+setChosenCoords ---> É UMA FUNÇÃO QUE NOS PERMITE ____MUDAR ESSE STATE___. ---> essa mudança vai, por sua vez, 
+triggar UM UI UPDATE......
+
+
+
+
+Triggado o 'ui update', o REACT VAI DAR UMA OLHADA 
+
+NO NOSSO CÓDIGO JSX LÁÁÁA NO FINAL DO ARQUIVO...
+
+
+ex:
+
+
+'<SelectedPlace 
+fallbackText="You haven't selected any place yet. Please enter an address or 
+locate yourself!"
+centerCoords={chosenCoords}
+/>'
+
+
+--------------------------------------
+
+
+
+AÍ, LÁ NO FINAL DESSE CÓDIGO, SEMPRE QUE USARMOS/O CÓDIGO USAR ALGUM 
+
+'STATE' QUE FOI MUDADO, o REACT VAI IR EM FRENTE E ALCANÇAR 
+
+O 'DOM VERDADEIRO' (the real DOM) E ____ATUALIZAR/UPDATAR____ AQUELA 
+
+PARTE DO DOM PARA QUE ELA CORRESPONDA A esse 'updated state' no nosso código...
+
+-------------------------------
+
+
+Professor vai nos dar um exemplo (porque eu não entendi nada)...
+
+
+
+
+Como exemplo, nós temos aquele botão 
+
+
+'Get Current Location'...
+
+
+
+ex:
+
+
+
+
+
+
+    <section id="place-data">
+        <form onSubmit={pickAddressHandler}>
+          <label htmlFor="address">Address</label>
+          <input type="text" id="address" ref={addressInputRef} />
+          <button type="submit">Find Place</button>
+        </form>
+        <button onClick={getUserLocationHandler}>Get Current Location</button> //ESTE BOTÃO.
+      </section>
+
+
+
+----------------------------------------------------------------
+
+
+
+
+O professor explica que ele colocou um 
+
+'click listener' aqui, por meio de '<button onClick={getUserLocationHandler}'....
+
+ELE ADICIONOU 
+
+ESSE CLICK LISTENER POR MEIO DE ___OUTRA INSTRUÇÃO 'NOVA'___ que 
+
+ainda não havíamos usado...
+
+
+
+(a sintaxe 'onClick= {getUserLocationHandler}')
+
+
+
+Essa sintaxe bizarra É COMPREENDIDA PELO 'REACT'....
+
+
+
+
+
+Aqui, o professor está dizendo 
+
+
+'Se esse botão for CLICADO' (onClick), 
+
+VOU QUERER EXECUTAR 
+
+
+a função
+
+'getUserLocationHandler'...
+
+
+-----------------------------------------
+
+
+
+NÓS ENCONTRAMOS ESSA FUNÇÃO 'getUserLocationHandler' 
+
+
+NESTEADA dentro DAQUELA FUNÇÃO COMPONENTE ('component function') 
+
+DE 'SharePlace'...
+
+
+
+
+Essa função 
+
+
+'getUserLocationHandler' 
+
+É A MESMA FUNÇÃO QUE CONSTRUÍMOS ANTES, QUANDO NÓS 
+
+HAVÍAMOS CONSTRUÍDO TOD ESSE PROJETO...
+
+
+mas naquela ocasião, estávamos usando javascript puro...
+
+
+
+
+
+PROFESSOR EXPLICA QUE A 'IDEIA CENTRAL' é a mesma, (the rough idea),
+
+
+
+
+MAS AQUI, POR EXEMPLO, dentro desse 'getUserLocationHandler', 
+
+
+EM VEZ DO PROFESSOR/nós 
+
+termos de criar 
+
+
+uma classe 'modal' 
+
+
+e então chamar 'modal.show()', 
+
+o que fazíamos antes, 
+
+
+professor explica que agora 
+
+ele apenas 
+
+define 
+
+
+'setIsLoading' COMO SENDO 'true'...
+
+
+
+ex:
+
+
+
+  const getUserLocationHandler = async () => {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern browser or manually enter an address.'
+      );
+      return;
+    }
+    setIsLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async successResult => {
+        const coordinates = {
+          lat: successResult.coords.latitude + Math.random() * 50,
+          lng: successResult.coords.longitude + Math.random() * 50
+        };
+        const address = await getAddressFromCoords(coordinates);
+        setChosenCoords(coordinates);
+        setChosenAddress(address);
+        setIsLoading(false);
+      },
+      error => {
+        setIsLoading(false);
+        alert(
+          'Could not locate you unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  };
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+Ou seja, ele define essa 'função utility' de 'setIsLoading' COMO SENDO 
+
+TRUE.....
+
+
+essa função 'setIsLoading', por sua vez, é obtida POR MEIO DAQUELE 
+
+NOSSO call de 'useState()' LÁÁÁÁÁÁ NO INÍCIO DO CÓDIGO desse documento...
+
+
+ex:
+
+
+
+
+
+const SharePlace = () => {
+  const [chosenCoords, setChosenCoords] = useState();
+  const [chosenAddress, setChosenAddress] = useState();
+  const [sharableLink, setSharableLink] = useState('');
+  const [isLoading, setIsLoading] = useState(); /////////////// EIS O CÓDIGO EM QUESTÃO.
+  const addressInputRef = useRef();
+  const shareLinkRef = useRef();
+
+(...)
+
+
+
+
+  const getUserLocationHandler = async () => {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern browser or manually enter an address.'
+      );
+      return;
+    }
+    setIsLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async successResult => {
+        const coordinates = {
+          lat: successResult.coords.latitude + Math.random() * 50,
+          lng: successResult.coords.longitude + Math.random() * 50
+        };
+        const address = await getAddressFromCoords(coordinates);
+        setChosenCoords(coordinates);
+        setChosenAddress(address);
+        setIsLoading(false);
+      },
+      error => {
+        setIsLoading(false);
+        alert(
+          'Could not locate you unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  };
+
+
+--------------------------------------------------
+
+
+
+
+
+Certo. mas esse call de 'setIsLoading' em 
+'getUserLocationHandler' acaba definindo o STATE do loading 
+
+COMO SENDO/ESTANDO 'true'....
+
+
+
+
+----> INICIALMENTE, O ___VALOR___ DE 'setIsLoading' É   ___'''undefined'''__...
+
+
+
+É undefined PQ O PROFESSOR NÃO DEFINIU NENHUM PARÂMETRO PARA ELE LÁ EM CIMA, 
+
+em 
+
+'const [isLoading, setIsLoading] = useState();' -------> A PASSAGEM DE PARÂMETROS, AQUI, OCORRE DENTRO DE 'useState()', dentro do seu argumento/parâmetro.
+
+
+
+
+
+--------------> ou seja, os 'useState' PODEM TER PARÂMETROS PASSADOS NO SEU INTERIOR...
+          -----> eses parâmetros/valores passados ao seu interior SÃO USADOS PARA ___iNICIALIZAR __ 
+          OS STATES... 
+
+
+  Mas
+
+  como o professor não definiu nada como sendo o valor de 'setIsLoading', dentro de 'useState',
+
+  o valor fica como UNDEFINED....
+
+
+
+
+
+  ENTRETANTO, LÁ EMBAIXO O PROFESSOR REALMENTE DEFINE O VALOR DESSE negócio como 
+
+
+  sendo 
+
+  'true'...
+
+  ex:
+
+  setIsLoading(true);
+
+
+
+  ------------------------------------------------------
+
+
+
+  Feito isso, no código o professor acaba conseguindo A __USER LOCATION____....
+
+
+
+  UMA VEZ QUE O PROFESSOR REALMENTE CONSEGUE/CONSEGUIU ESSA USER LOCATION, ELE 
+
+  DEFINE O 'setIsLoading' COMO SENDO 'FALSE', para que nosso overlay de 'carregando' suma.
+
+
+
+  ex:
+
+
+
+
+
+
+    const getUserLocationHandler = async () => {
+    if (!navigator.geolocation) {
+      alert(
+        'Location feature is not available in your browser - please use a more modern browser or manually enter an address.'
+      );
+      return;
+    }
+    setIsLoading(true); /////eis o código 
+    navigator.geolocation.getCurrentPosition(
+      async successResult => {
+        const coordinates = {
+          lat: successResult.coords.latitude + Math.random() * 50,
+          lng: successResult.coords.longitude + Math.random() * 50
+        };
+        const address = await getAddressFromCoords(coordinates);
+        setChosenCoords(coordinates);
+        setChosenAddress(address);
+        setIsLoading(false);
+      },
+      error => {
+        setIsLoading(false); ///////eis o código
+        alert(
+          'Could not locate you unfortunately. Please enter an address manually!'
+        );
+      }
+    );
+  };
+
+  ----------------------------------------------
+
+
+
+  AS COORDENADAS E O ENDEREÇO QUE CONSEGUI PELO 'getUserLocationHandler' e pelo código de 'const address = await getAddressFromCoords(coordinates);'
+
+TAMBÉM SÃO ARMAZENADAS em 'state'........
+
+
+SÃO ARMAZENADOS EM 'STATE' 
+
+
+por causa do código 
+
+'setChosenCoords(coordinates);
+setChosenAddress(address);'.......
+
+
+
+
+POR MEIO DO CALL DESSAS 3 'SET FUNCTIONS', POR MEIO DO CALL DE 
+
+
+'setChosenCoords(coordinates);
+setChosenAddress(address);
+setIsLoading(false)',
+
+
+
+
+O STATUS É REALMENTE __ALTERADO/MUDADO/___, o que fará 
+
+com que react reaja...
+
+
+
+
+--> isso vai acabar dizendo: hey, seu state mudou... você vai querer checar e updatar sua UI e código jsx?
+
+
+
+
+
+
+
+
+"Se eu estiver usando esse STATE ORIGINÁRIO LÁ EMBAIXO, e se eu estiver e então 
+
+ACONTECER ALGO DE DIFERENTE NO CÓDIGO (algo mudar),  VOU QUERER QUE 
+VOCÊ VÁ EM FRENTE E ___aTUALIZE ESSE ELEMENTO  NO DOM...  ---> é isso que estou dizendo ao react, aqui....
+
+
+
+--------------------------------------------
+
+
+
+É POR ISSO QUE, QUANDO EU CONSIGO A 'USER LOCATION', EU SALVO AS COORDENADAS, O ADDRESS e, então, 
+
+troco/mudo o LOADING STATE....  ------> a mudança do loading state é que enseja o react atualizar tudo? (ou não, não tenho certeza)...
+
+
+
+
+
+Ok, mas quais são os efeitos de todas essas mudanças?
+
+
+BEM, DEVEMOS DAR UMA OLHADA NO NOSSO CÓDIGO JSX...
+
+
+
+
+
+Por exemplo, o professor está usando 
+
+o state/estado 'isLoading' 
+
+em 
+
+
+
+'return (
+  <React.Fragmnet>
+  {isLoading && (
+    <Modal>
+    <div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>
+    </modal>
+  )}
+'''
+
+
+
+
+ESSES '{}', USADOS EM 'isLoading', SÃO UM TIPO ESPECIAL DE SINTAXE 
+
+do REACT....
+
+
+ex:
+
+
+{isLoading && )...}
+
+
+ESSA SINTAXE ESPECIAL, QUANDO MISTURADA COM 'JSX', acaba dizendo ao javascript:
+
+
+'EI, ISSO AQUI QUE VOCÊ ESTÁ VENDO NÃO É 'JSX' NA SUA INTEGRALIDADE...
+
+
+EM vez disso, esse TAMBÉM é UM/O CÓDIGO JAVASCRIPT REGULAR, MAS MISTURADO COM UM 
+
+POUCO DE JSX...
+
+
+
+
+
+Certo.
+
+
+
+Em 
+
+
+'{isLoading}',
+
+
+ex:
+
+
+'return (
+  <React.Fragmnet>
+  {isLoading && (
+    <Modal>
+    <div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>
+    </modal>
+  )}
+'''
+
+
+
+
+
+
+
+O PROFESSOR BASICAMENTE está com 'isLoading' 
+
+
+E AQUELE 'SHORTCUT' DE '&& ()' QUE APRENDEMOS MAIS CEDO NO CURSO.......
+
+
+
+ESSE SHORTCUT BASICAMENTE DIZ:
+
+
+'Se 'isLoading' for VERDADEIRO, ESSE CÓDIGO DEPOIS DOS "&&" DEVERÁ 
+
+SER RENDERIZADO...
+
+
+
+ex:
+
+
+
+
+
+
+return (
+  <React.Fragmnet>
+  {isLoading && (
+    <Modal>
+    <div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>
+    </modal>
+  )}
+
+
+------------------------------------------------
+
+
+
+
+
+ESSA É AGORA A MINHA MANEIRA DE EXPRESSAR QUE ___EU QUERO ____ RENDERIZAR 
+
+O MODAL___ se ESTIVERMOS 'isLoading' (se estivermos 'carregando', basicamente)....
+
+
+
+
+E SE 'isLoading' RETORNAR PARA 'false', ESSE CÓDIGO TODO/EM GERAL VAI RETORNAR/render "FALSe", o que 
+FARÁ COM QUE 
+
+O ELEMENTO DEIXE DE SER RENDERIZADO/retornado como resultado da expressão ' {isLoading && (
+    <Modal>
+    <div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>
+    </modal>
+
+  )}'....
+
+
+
+
+TODO O CÓDIgo 
+
+
+
+{isLoading && (
+    <Modal>
+    <div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>
+    </modal>
+
+  )}
+
+
+
+  DEIXARÁ DE SER EXECUTADO.
+
+
+
+  -------------------------------------
+
+
+
+  O REACT VAI IR EM FRENTE E UPDATARÁ O DOM, removendo ESSE 'MODAL CONTENT'  (
+
+
+   ' <Modal>
+    <div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>
+    </modal>'
+  ),
+
+  esse conteúdo que, no final das contas, é renderizado...
+
+
+
+
+  pq, você deve ter percebido, aqui nós temos alguns 
+
+  ELEMENTOS 'HTML' NORMAIS (
+
+    como
+
+    '<div className="modal__content centered">
+    <div className="lds-dual-ring"></div>
+    </div>'
+  ) DENTRO 
+
+  DESSE CÓDIGO, Esses são elementos HTML que são OUTPUTTADOS 
+
+  NA NOSSA TELA POR MEIO DO 'react'...
+
+
+--------------------------------------------
+
+
+
+
+
+E é exatamente isso que o professor queria dizer:
+
+vocÊ não precisa FAZER ESSAS ''CALLS MANUAIS'' para:
+
+1) criar um elemento 
+
+2) fazer append do elemento 
+
+3) remover o elemento...
+
+------------------
+
+
+EM VEZ DISSO, VOCÊ DEFINE ____O RESULTADO QUE VOCÊ QUER/VAI QUERER ___, possivelmente 
+
+um resultado QUE SE DARÁ SOB UMA CONDIÇÃO x... Feito isso, o REACT VAI 
+ASSEGURAR QUE ESSE RESULTADO ACABE SENDO MOSTRADO NA PÁGINA CORRETAMENTE...
+
+
+
+Aqui, nesse exemplo, o react VAI GARANTIR QUE, ao pressionarmos 'get current location', consigamos 
+
+ESSE 'MODAL DE CARREGANDO'...
+
+
+ISSO É ALGO QUE O REACT VAI FAZER POR NÓS.... E ISSO NÃO OCORRE 
+
+
+apenas com o 'isLoading', mas também com 
+
+
+AS COORDENADAS QUE CONSIGO NO CÓDIGO (com o 'chosenCoords'...)...
+
+
+
+Professor explica que QUANDO ELE CONSEGUE AS 'chosenCoords', ELE ACABA AS PASSANDO 
+
+PARA O COMPONENTE 'SelectedPlace'....
+
+
+ex:
+
+
+
+<SelectedPlace
+  fallbackText="xxx"
+  centerCoords={chosenCoords}
+/>
+
+
+---------------------------------------------
+
+
+
+
+'SelectedPlace' É OUTRO DOS MEUS 'REACT COMPONENTS'... 
+
+E ao contrário dos outros componentes que vimos até agora, 
+
+esse componente 'SelectedPlace' 
+
+
+______ACEITA/EXIGE DOIS (2) INPUTS____...
+
+
+
+Você pode pensar nesses inputs quase como 'parâmetros de funções', coisas que 
+SÃO PASSADAS PARA DENTRO DOS COMPONENTES (assim como parâmetros são passados para funções)...
+
+
+
+
+Nós veremos COMO ESSES 'INPUTS' SÃO RECEBIDOS E 'handled' pelos components logo logo...
+
+
+(aqui, no caso, os 'inputs' seriam 'fallbackText' e 'centerCoords'...).
+
+
+
+
+
+---> A MESMA COISA ACONTECE COM o '{sharableLink}' nesse trecho de código:
+
+
+
+
+<section id="share-controls">
+        <input
+          ref={shareLinkRef}
+          value={sharableLink} /////esse código.
+          type="text"
+          readOnly
+          placeholder="Select a place to get a sharable link."
+        />
+        <button disabled={!sharableLink} onClick={sharePlaceHandler}>
+          Share Place
+        </button>
+      </section>
+
+
+
+-------------------------------------------
+
+
+
+
+NESSA LINHA DE CÓDIGO, EU 'BINDO' a propriedade 
+
+'value' do 'input' (<input>) AO 
+
+'sharableLink'........
+
+
+
+E o professor pode MUDAR ESSE 'sharableLink', e ele REALMENTE MUDA ESSE NEGÓCIO, 
+
+
+com 
+
+
+'setsharableLink', nesse trecho de código (que existe nesse mesmo documento/página):
+
+
+ex:
+
+
+useEffect(() => {
+    if (chosenAddress && chosenCoords) {
+      setSharableLink( ////////ISSO AQUI VAI MUDAR O NOSSO 'sharableLink'...
+        `${window.location.origin}/my-place?address=${encodeURI(
+          chosenAddress
+        )}&lat=${chosenCoords.lat}&lng=${chosenCoords.lng}`
+      );
+    }
+  }, [chosenAddress, chosenCoords]);
+
+
+  -----------------------------------------------
+
+
+
+
+  Esse component 'setSharableLink' É QUE VAI FAZER ESSA MUDANÇA/ALTERAÇÃO.
+
+
+
+
+  E QUANDO ESSE 'sharableLink' MUDAR E CONSEGUIR UM NOVO VALOR, O REACT VAI 
+
+  IR ATÉ OS LUGARES EM QUE USAMOS ESSE 'sharableLink', como 
+
+  em 
+
+  '<input 
+  ref={shareLinkRef}
+  value={sharableLink} ////////// NESSE LOCAL
+  type="text"
+  readOnly
+  placeholder="Select a place to get a sharable link."
+  />,
+
+
+  ELE VAI IR ATÉ ESSE LUGAR E UPDATAR 
+
+  O VALOR QUE ESTÁ ALI, TAMBÉM... (vai updatar o valor de 'sharableLink' nesse local, E ISSO 
+  REFLETIRÁ NA TELA, TAMBÉM.)
+
+----------------------------------------------
+
+
+
+
+
+
+É ASSIM QUE O 'REACT' PENSA...
+
+
+
+É claro que isso é apenas um breve sumário...
+
+
+
+
+É MUITA COISA PARA SE PENSAR SE VOCÊ NUNCA TRABALHOU COM ELE...
+
+
+Devemos estudar o react...
+
+
+VOcê define o resultado, e não AS ETAPAS PARA CHEGAR ATÉ ESSE RESULTADO...
+
+
+
+---> NO CURSO DO PROFESSOR, VOCÊ APRENDE REACT DESDE O INÍCIO, e eventualmente aprende aquela 
+sintaxe alternativa que ele nos mostrou.
+
+
+
+------------------------------------
+
+
+
+
+
+POR FIM, DEVEMOS DAR UMA OLHADA NO 
+
+
+COMPONENTE 'SelectedPlace', esse componente que encontramos no FOLDER 'UI'....
+
+
+
+
+LÁ, NÓS VEMOS QUE NÓS RECEBEMOS ALGUNS ____INPUTS____ nesse componente 'SelectedPlace'...
+
+
+(exemplo de input é 'props' em 'const selectedPlace = props')
+
+
+
+
+ex:
+
+
+
+
+
+import React, { useEffect, useRef } from 'react';
+
+import './SelectedPlace.css';
+
+const SelectedPlace = props ///////ESTE É UM INPUT => {
+  const { centerCoords, fallbackText } = props;
+  const mapEl = useRef();
+
+  useEffect(() => {
+    if (centerCoords) {
+      const map = new window.google.maps.Map(mapEl.current, {
+        center: centerCoords,
+        zoom: 16
+      });
+
+      new window.google.maps.Marker({
+        position: centerCoords,
+        map: map
+      });
+    }
+  }, [centerCoords]);
+
+  return (
+    <section id="selected-place">
+      <div ref={mapEl}>{!centerCoords && <p>{fallbackText}</p>}</div>
+    </section>
+  );
+};
+
+export default SelectedPlace;
+
+
+
+----------------------------------------
+
+
+
+Esse parÂmetro 'props' é IMPORTANTE....
+
+
+perceba esse trecho do código:
+
+
+--------------------------------------------
+
+
+const SelectedPlace = props  => {
+  const { centerCoords, fallbackText } = props;
+  const mapEl = useRef();
+
+
+
+  -----------------------------------------------
+
+
+  SE VOCÊ DEFINE CERTOS __INPUTS__ (como 'fallbackText' e 'centerCoords') em um COMPONENT no seu arquivo, como em 
+
+  'SharePlace', nessas linhas de código:
+
+
+        <SelectedPlace
+        fallbackText="You haven't selected any place yet. Please enter an address or
+            locate yourself!"
+        centerCoords={chosenCoords}
+      />
+
+
+
+      ,
+
+
+
+      (OBS: VOCÊ DEFINE INPUTS EM UM COMPONENT QUASE DA MESMA FORMA COMO VOCÊ ADICIONA ___ATRIBUTOS__ em 
+      UM CÓDIGO HTML COMUM...),
+
+
+
+      SE VOCÊ DEFINE CERTOS INPUTS NESSE COMPONENT, O REACT VAI ____BUNDLAR____ TODOS ESSES 
+      INPUTS COMO ___PROPRIEDADES___ EM UM ÚNICO OBJETO..., UM ÚNICO OBJETO QUE ESSA FUNÇÃO-COMPONENTE (nesse caso 'SelectedPlace')
+      RECEBERÁ...
+
+
+
+
+      Ou seja: 
+
+
+      'fallbackText' e 'centerCoords' SERÃO BUNDLADOS EM UM OBJETO e ENTÃO a função componente 'SelectedPlace' OS 
+      RECEBERÁ...
+
+
+
+
+
+      No caso do nosso código, esse componente 'SelectedPlace', de código 
+
+      
+const SelectedPlace = props => {
+  const { centerCoords, fallbackText } = props;
+  const mapEl = useRef();
+
+  useEffect(() => {
+    if (centerCoords) {
+      const map = new window.google.maps.Map(mapEl.current, {
+        center: centerCoords,
+        zoom: 16
+      });
+
+      new window.google.maps.Marker({
+        position: centerCoords,
+        map: map
+      });
+    }
+  }, [centerCoords]);
+
+  return (
+    <section id="selected-place">
+      <div ref={mapEl}>{!centerCoords && <p>{fallbackText}</p>}</div>
+    </section>
+  );
+};
+
+,
+
+
+
+ACABA RECEBENDO ESSE OBJETO ______'props'________...
+
+E É ESSE OBJETO 'PROPS' QUE SEGURA OS INPUTS "centerCoords" e 
+"fallbackText", QUE ACABAM SENDO CONVERTIDOS EM PROPRIEDADES....
+
+
+isso significa que 'props' é basicamente ----> 'props = {
+  centerCoords:  xxxxx,
+  fallbackText: yyyyy
+}'
+
+
+-----------------------------------------------------
+
+
+Certo.
+
+Essas propriedades que estão dentro de 'props'
+
+ACABAM SENDO ""PUXADAS PARA FORA"""" do objeto 'props' POR MEIO DE 
+
+______OBJECT DESTRUCTURING_____....
+
+
+
+mas pq object destructuring?
+
+Por causa do formato da sintaxe:
+
+
+'const { centerCoords, fallbackText } = props;'
+
+
+
+
+
+ESSA SINTAXE É CONVERTIDA BASICAMENTE PARA:
+
+
+'const centerCoords = xxxx' 
+
+'const fallbackText = yyyyy'
+
+
+
+----------------------------------
+
+
+Professor explica que então o 'useEffect' é UTILIZADO AQUI...
+
+
+Esse 'useEffect' É IMPORTADO DA LIBRARY DO 'react', por meio do código de 
+
+'import React, { useEffect, useRef } from 'react';........
+
+
+
+ESSE 'useEffect', no final das contas, apenas COUNICA AO REACT QUE 
+
+
+EU POSSO/DEVO SETTAR UM 'listener' A CERTO DADO/DATA... e quando essa DATA (como 'centerCoords') mudar, EU VOU 
+QUERER EXECUTAR 
+UM CÓDIGO/CERTO CÓDIGO __EM RESPOSTA A ___ ESSA MUDANÇA...
+
+
+
+E o código que vou querer que seja executado é 
+
+
+'''
+const map = new window.google.maps.Map(mapEl.current, {
+        center: centerCoords,
+        zoom: 16
+      });
+
+      new window.google.maps.Marker({
+        position: centerCoords,
+        map: map
+      });
+    }''''
+
+
+
+
+
+CERTO..... mas pq isso?
+
+
+
+
+
+POR CAUSA DA SINTAXE USADA EM 'useEffect'  (o if check de 'centerCoords'...)...:
+
+
+
+
+
+  useEffect(() => {
+    if (centerCoords) {  /////// "se centerCoords for alterado, vou querer EXECUTAR ESSES DADOS EM RESPOSTA..."
+      const map = new window.google.maps.Map(mapEl.current, {
+        center: centerCoords,
+        zoom: 16
+      });
+
+      new window.google.maps.Marker({
+        position: centerCoords,
+        map: map
+      });
+    }
+  }, [centerCoords]);
+
+  return (
+    <section id="selected-place">
+      <div ref={mapEl}>{!centerCoords && <p>{fallbackText}</p>}</div>
+    </section>
+  );
+};
+
+
+--------------------------------------------------
+
+
+
+
+Quando aqueles dados mudarem, vou querer RODAR ESSE CÓDIGO MENCIONADO ACIMA...
+
+
+ESSA SINTAXE É USADA ____QUANDO EU NÃO QUERO UPDATAR A UI REATIVAMENTE COMO ANTES____; 
+
+É usada em casos EM QUE QUERO __fAZER OUTRA COISA__, QUANDO QUERO FAZER __OUTRAS COISAS ___ EM RESPOSTA 
+A 'data changes'... -------->  o exemplo clássico é 
+
+'useEffect'.... com useEffect, o professor pode ESPECIFICAR 
+
+
+'centerCoords' ___COMO UMA DEPENDENCY___ (
+
+
+isso está expresso na linha de código 
+
+
+'[centerCoords]', lá no final...
+)
+
+
+
+
+
+
+aquele segundo parâmetro, o 
+
+'[centerCoords]' É EXATAMENTE ISSO, É UM ARRAY DE __DEPENDENCIES__ QUE EU 
+
+PASSO à 'useEffect'...
+
+
+
+E dentro daquela função QUE NÓS/O PROFESSOR PASSOU COMO PRIMEIRO ARGUMENTO à 'useEffect',
+EU PODEREI/POSSO RODAR 
+
+ALGUM CÓDIGO (como 
+'new window.google.maps.Marker') 
+
+QUANDO O CÓDIGO DAQUELE DATA (de 'centerCoords', basicamente) 
+MUDAR... -----> quando o CÓDIGO DA NOSSA DEPENDENCY MUDAR, nesse exemplo...
+
+
+
+--> aqui o professor vai querer executar, ao primeiro sinal de mudança desse DATA, O CÓDIGO 
+
+DO  PACKAGE DO 'GOOGLE MAPS', que vai renderizar um mapa na nossa tela...
+
+
+É ISSO QUE ESTÁ ACONTECENDO NO NOSSO COMPONENT DE EXEMPLO 'selectedPlace'...
+
+
+
+
+O PROFESSOR TAMBÉM DEFINIU UMA CONDIÇÃO LÁ NO FINAL DO NOSSO CÓDIGO....
+
+
+
+ex:
+
+
+
+  return (
+    <section id="selected-place">
+      <div ref={mapEl}>{!centerCoords && <p>{fallbackText}</p>}</div>
+    </section>
+  );
+};
+
+
+
+----------------------------------------------------------
+
+
+
+É uma condição que diz QUE SE ELE AINDA  NÃO TIVER nenhuma 'centerCoords', 
+
+DEVERÁ SER MOSTRADO O 'fallbackText'...
+
+
+ex:
+
+<div ref={mapEl}>{!centerCoords && <p> {fallbackText} </p>}</div>
+

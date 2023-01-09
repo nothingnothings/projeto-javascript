@@ -1,0 +1,1631 @@
+
+
+
+
+
+
+
+
+
+---> UMA COISA QUE TAMBÉM CUSTA PERFORMANCE, mas "is what it is", neste aplicativo,
+ 
+
+ É O FATO DE QUE 
+
+
+ NÓS 
+
+
+
+ 'UNSHIFTAMOS' ('unshift()') 
+
+
+ O NOSSO ARRAY...
+
+
+
+
+
+
+
+
+
+ ---> como vocÊ aprendeu no módulo de 'arrays e iterables',
+
+
+ O 'shift()' simplesmente 
+
+ SIGNIFICA 
+
+
+ QUE O JAVASCRIPT É OBRIGADO A 
+
+ ___REVISITAR ___ TODOS OS ELEMENTOS DO ARRAY ('array elements') E ENTÃO 
+
+ OS EMPURRAR para o final do array.... (POIS UM NOVO ELEMENTO É ADICIONADO 
+ 
+ __AO INÍCIO DESSE ARRAY___... -> o que significa que todos elementos devem obrigatoriamente 
+ ser empurrados para que o novo elemento caiba... ) ----> 
+
+
+
+ MAS 'it is what it is'... --> SE ISSO É O QUE QUEREMOS FAZER 
+
+ NESSE APLICATIVO, é o que queremos fazer, e ponto final... ----------> 
+
+
+
+ E ESSA É A PARTE EM QUE DEVEMOS TER CUIDADO QUANDO O ASSUNTO É OPTIMIZAÇÃO --> 
+
+
+
+ quando você está tentando optimizar tudo, 
+
+
+ É MUITO FÁCIL PENSAR de uma maneira SUPER COMPLEXA e tentar 
+
+ optimizar coisas que NÃO PRECISAM SER OPTIMIZADAS... 
+
+
+
+
+
+ ---> claro, usar 'UNSHIFT()' É MAIS LENTO DO QUE USAR 
+
+ 'push()', 
+
+
+ MAS A NÃO SER QUE VOCÊ ESTEJA FAZENDO ESSA OPERAÇÃO ___A TODO SEGUNDO ___ ('every second') 
+
+ EM UM ARRAY COM __MILHARES DE ITEMS___, 
+
+
+ você PROVAVELMENTE NÃO VERÁ DIFERENÇA ALGUMA.... ---> PQ QUANDO 
+
+ NÓS CONVERSAMOS SOBRE PERFORMANCE,
+  
+
+  é claro que nós podemos ter uma diferença de, digamos, 10ms... ---> 
+
+  mas isso vai importar? --> muitas vezes, não ---> por isso
+
+  VOCÊ DEVE TER CUIDADO 
+
+
+  QUANDO VOCÊ TENTA OPTIMIZAR TUDO absurdamente... --> muitas vezes não vale a pena, 
+
+  e você pode até mesmo QUEBRAR SEU APP ou inventar algum workaround 
+
+
+  ESTRANHO que oferece uma user experience RUIM, ou que no pior dos casos pode 
+
+  SER ATÉ MESMO MAIS LENTO do que a solução inicial/normal... ---> tudo pq você queria 
+  
+  evitar um certo método, o método 'correto', ainda que esse método SÓ SE TORNASSE 
+  MAIS LENTO SE VOCÊ usasse ele de uma determinada maneira/para um determinado fim...
+
+
+
+  ----------------------------------------
+
+
+
+
+  ENTRETANTO, DEVEMOS VER UM POUCO MAIS SOBRE ESSAS MICRO-OPTIMIZAÇÕES...
+
+
+
+
+
+  ----> o professor disse que devemos FAZER 'MEASUREMENT' antes de optimizar....
+
+
+  ---> até agora, não fizemos MUITAS MICRO-OPTIMIZAÇÕES... ---> pq as mudanças 
+
+  que fizemos até agora, no DOM, são 'no-brainers' ---> são simplesmente __MELHORES__. --> e não 
+
+  são micro-optimizações --> as optimizações que fizemos são OPTIMIZAÇÕES ___QUE PODEM IMPORTAR___...
+
+
+  -----------------------------
+
+
+
+
+
+  AGORA, EIS UM EXEMPLO DE MICRO OPTIMIZATION ---> uma micro-opt QUE QUEREMOS CHECAR 
+
+
+  SE É MELHOR DO QUE NOSSA VERSÃO ATUAL...
+
+
+
+
+  ----> certo... em 'rendering.js', 
+
+
+
+  NÓS ESTAMOS, em 'renderProducts()', usando 
+
+
+  'forEach' ----> bem,
+
+
+  ESSA NÃO É A ÚNICA MANEIRA DE IR POR DENTRO DE TODOS OS ITEMS EM UM ARRAY, 
+  como bem sabemos... (existe o 'for of loop'....) ----> 
+
+
+  DEVEMOS DETERMINAR SE ESSA É A MELHOR ALTERNATIVA.... ----> para isso, 
+
+  devemos criar uma nova constante, 
+
+
+  'startTime', que será LOGGADA....
+
+
+
+
+  ex:
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  productListEl.innerHTML = '';
+  const startTime = ...
+  products.forEach(product => {
+    const newListEl = createElement(product, product.id, deleteProductFn);
+    productListEl.appendChild(newListEl);
+  });
+
+}
+
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+CERTO...
+
+
+nessa constante, armazenaremos um valor de 
+
+
+'performance.now();' ----> 'performance.now()' --> UMA FUNÇÃO QUE NOS AJUDA A MEDIR PERFORMANCE... ---> essa função te dá UM ___TIMESTAMP___....
+
+
+
+
+
+ex:
+
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  productListEl.innerHTML = '';
+  const startTime = performance.now();
+  products.forEach(product => {
+    const newListEl = createElement(product, product.id, deleteProductFn);
+    productListEl.appendChild(newListEl);
+  });
+
+}
+
+
+
+
+---------------------------------------------
+
+
+
+
+certo.... mas 'performance.now()' precisa mais do que apenas isso para ser utilizado...
+
+
+precisamos criar uma nova constante, 
+
+que pode ser chamada de 'endTime'.......
+
+
+essa constante segurará TAMBÉM um valor de 'performance.now();'....
+
+
+Mas a diferença entre os DOIS CALLS de 'performance.now()' é que 
+
+
+ESSE PERFORMANCE.now de 'endTime' 
+
+__É EXECUTADO __ APÓS __ o 'forEach', e não  __ANTES___ do forEach().... (é tipo 'antes e depois' do forEach, por meio do call EM PARES desse método 'performance.now()'....)
+
+
+
+
+
+ex:
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  productListEl.innerHTML = '';
+  const startTime = performance.now();
+  products.forEach(product => {
+    const newListEl = createElement(product, product.id, deleteProductFn);
+    productListEl.appendChild(newListEl);
+  });
+  const endTime = performance.now();
+
+  console.log(endTime - startTime);
+
+}
+
+
+
+
+
+
+
+
+
+ISSO FEITO, 
+
+PROFESSOR EXPLICA QUE 
+
+PODEMOS 
+
+executar um console.log de 
+
+
+'console.log(endTime - startTime)' PARA 
+
+CONSEGUIR 
+
+A DIFERENÇA ('time difference') entre o 
+
+STARTTIME e o ENDTIME....
+
+
+
+--> salvamos isso e vemos QUAL É O DIFERENCIAL ENTRE OS TIMES DESSES NEGÓCIOS....
+
+
+
+------------------------------------------------
+
+
+
+Certo... nosso console está loggando o valor de 
+
+
+'1.alguma coisa....' (1 e pouco...)...
+
+
+
+JÁ O 
+
+CONSOLE.LOG DO PROFESSOR ESTÁ 
+
+
+console.loggando um valor de '0.3' alguma coisa....
+
+
+-----------------------------------------------------------------------------
+
+
+
+Mas se executarmos nosso código VÁRIAS VEZES, veremos algumas __FLUTUAÇÕES__ nesse valor---> isso já nos indica 
+
+QUE DEVEMOS TER MUITO CUIDADO COM RESPEITO A ESSAS 'MICRO-OPTIMIZAÇÕES'... -------> você 
+
+provavelmente gostaria/executaria 
+
+ESSE SCRIPT ALGUMAS 
+
+
+__MILHARES DE VEZES___ por meio de um script extra que refresha/refreshasse isso.... (E isso te mostraria 
+
+qual versão desse código é melhor....) 
+
+
+
+
+
+---> A VERSÃO DO PROFESSOR, por exemplo, está com MUIta 'DEVIATION' ---> está variando entre 0.3 e 0.5 --> muita variação entre results....
+
+
+
+
+
+
+
+AGORA, DIGAMOS QUE VAMOS TESTAR UM NOVO APPROACH...
+
+
+Comentamos 
+
+o approach do 'forEach' para fora do nosso código...
+
+
+e então decidimos usar UM FOR LOOP COMUM....
+
+
+
+Professor explica que ele vai usar UM FOR LOOP COMUM, nem mesmo um 'for of loop'.... ---> 
+
+
+esse for loop do professor vai ter um 'iterator/iteration' que começa em 0... ('let i = 0'), 
+
+
+e então um loop que persistirá "desde que i for menor do que products.length'.... ('i < products.length')....
+
+e esse loop será incrementado em 1 ('i++') PARA CADA ITERAÇÃO....
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  productListEl.innerHTML = '';
+  const startTime = performance.now();
+  products.forEach(product => {
+    const newListEl = createElement(product, product.id, deleteProductFn);
+    productListEl.appendChild(newListEl);
+  });
+
+for(let i = 0; i < products.length; i++) { ////EIS O FOR LOOP COMUM, em questão...
+
+}
+
+
+
+
+  const endTime = performance.now();
+  console.log(endTime - startTime);
+
+}
+
+
+
+-----------------------------------------
+
+
+
+Certo...
+
+
+agora pegamos 
+
+o código de 
+
+
+'const newListEl = createElement(product, product.id, deleteProductFn);
+productListEl.appendChild(newListEl);'
+
+
+E INSERIMOS DENTRO DESSE 'regular for loop'...
+
+
+
+
+ex:
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  productListEl.innerHTML = '';
+  const startTime = performance.now();
+  products.forEach(product => {
+    const newListEl = createElement(product, product.id, deleteProductFn);
+    productListEl.appendChild(newListEl);
+  });
+
+for(let i = 0; i < products.length; i++) {
+const newListEl = createElement(product, product.id, deleteProductFn);
+productListEl.appendChild(newListEl);
+}
+
+
+
+
+  const endTime = performance.now();
+  console.log(endTime - startTime);
+
+}
+
+
+
+
+---------------------------------------
+
+
+
+Professor diz que é claro que em 'createElement()' temos que fazer umas pequenas alterações...
+
+
+devemos trocar 'product' por 'products[i]'   (ITEM DE INDEXADOR 'i' DE DENTRO DO ARRAY DE 'products')...
+
+
+
+em 'product.id', também deverá ser 'products[i].id'....
+
+
+
+
+
+Ex:
+
+
+
+
+
+export function renderProducts(products, deleteProductFn) {
+  productListEl.innerHTML = '';
+  const startTime = performance.now();
+  products.forEach(product => {
+    const newListEl = createElement(product, product.id, deleteProductFn);
+    productListEl.appendChild(newListEl);
+  });
+
+for(let i = 0; i < products.length; i++) {
+const newListEl = createElement(products[i], products[i].id, deleteProductFn); //////EIS O CÓDIGO EM QUESTÃO.
+productListEl.appendChild(newListEl);
+}
+
+
+
+
+  const endTime = performance.now();
+  console.log(endTime - startTime);
+
+}
+
+
+---------------------------------------------------
+
+
+AGORA SALVAMOS ESSE CÓDIGO E RECARREGAMOS...
+
+
+
+QUANDO SALVARMOS E RECARREGARMOS, PROVAVELMENTE NÃO VEREMOS GRANDES DIFERENÇAS NO 
+
+valor mostrado no nosso console.... (não vai ficar muito mais rápido...) --> muita 'RANDOMNESS' envolvida... ---> como 
+
+o professor nos explicou: VOCÊ TERIA DE RODAR ESSE CÓDIGO DEZENAS DE MILHARES DE VEZES para determinar se esse código é superior 
+ao outro, ou não..
+
+
+
+
+
+----------> BEM, PARECE QUE __eXISTEM SITES__ QUE FAZEM ESSES ___TESTES ___ PARA NÓS___...
+
+
+
+
+--> um exemplo desse tipo de sites é 'jsPerf'... ('jsPerf.com', jsperformance, basicamente.)
+
+
+
+
+
+
+----> no 'jsPerf', você precisa loggar COM UMA CONTA DO GITHUB para criar 
+
+__SEUS PRÓPRIOS 'test cases'....
+
+
+
+
+
+--> BEM, MAS ESSE __SITE NÃO EXISTE __ MAIS...
+
+devemos usar alternativas como  jsbench.me....
+
+"https://jsbench.me/"
+
+
+
+
+---> nesses sites você pode criar SEUS PRÓPRIOS 'TEST CASES' ---> que são, na verdade,
+
+COMPARAÇÕES ENTRE DIFERENTES APPROACHES...
+
+
+
+-> você também pode escrever 
+
+
+'popular test cases jsperf' para encontrar 
+
+COMPARAÇÕES POPULARES 
+
+
+ENTRE CÓDIGOS DE JAVASCRIPT/ FEATURES DE JAVASCRIPT...
+
+
+----------------------------------
+
+
+Por exemplo, em 'jsperf', temos uma 
+
+COMPARAÇÃO 
+
+
+
+entre 
+
+
+'for' e 'forEach'...
+
+
+-------------------------------------------
+
+
+
+
+---> o professor então nos mostra um BENCHMARk, nessa página do for vs forEach, 
+
+que 
+
+no final das contas 
+
+
+TEM UM ARRAY COM UM MONTE DE NÚMEROS....
+
+
+ex:
+
+
+
+let arr = [1,2,3,4 ................., 65, 1, 2, 3.....]
+
+
+----------------------------------
+
+
+
+
+Abaixo desse array, 
+
+há diferentes 
+
+TESTES a serem rodados ('run tests')....
+
+
+
+diferentes testes, com diferentes códigos...
+
+ex:
+
+
+'for loop'      ex   'for (let i = 0; i < arr.length; i++)
+                      console.log(arr[i]);
+
+'iterable for of'  (for of loop)..                ex:  for(let i of arr)
+                                                      console.log(i);
+
+
+'forEach'                          ex: arr.forEACH(N => {console.log(n)})
+
+
+'reduce' ------------>         ex: arr.reduce((a,b) => {console.log(a)})
+
+
+
+
+
+SE VOCÊ CLICAR EM 'run tests', 
+
+
+TODOS ESSES TESTS SERÃO EXECUTADOS um monte de vezes...
+
+
+Ele roda um monte de vezes e então TE DÁ UMA MÉDIA de performance dessas funções/approaches...
+
+
+
+
+---> o que você verá (e os resultados àS VEZES ___VARIAM__, você pode rodar esses testes múltiplas vezes) É 
+
+QUE  
+
+
+
+O ___FOR LOOP___ TRADICIONAL  É O APPROACH ___MAIS RÁPIDO DE TODOS ESSES___... --> se você googlar isso, 
+
+vocÊ verá que há discussões sobre isso, não é unânime...
+
+
+
+
+---> mas agora, no presente, o FOR LOOP TRADICIONAL É MAIS RÁPIDO DO QUE O FOR OF LOOP e mais 
+
+rápido do que o forEach e assim por diante...
+
+
+
+
+
+---> mas por acaso isso quer dizer que você DEVERÁ TROCAR TODOS OS FOR OF LOOPS/FOREACh loops do seu código 
+
+POR 'FOR LOOPS' tradicionais?  você deve OBRIGATORIAMENTE USAR O CÓDIGO MAIS RÁPIDO?  ----------> NÃO, 
+
+
+NÃO É SEMPRE ASSIM.... -- ----> pq quando falamos sobre um código ser 
+
+'mais lento', nós temos QUE SER MUITO, MAS MUITO CUIDADOSOS...
+
+
+
+
+-----> quando nós falamos de uma diferença de 11% de lentidão, ISSO NÃO __É MUITA COISA__...
+
+É UMA DIFERENÇA BEM MÍNIMA... ---> pense assim: você RARAMENTE usará um array 
+
+
+COM MILHARES DE ITEMS, todos esses items examinados múltiplas vezes por segundo... ----> se você fizer isso, talvez a 
+
+diferença entre os 2 approaches, esses 11%, importem alguma coisa... --> mas 99% dos aplicativos não se importarão/não mudará 
+
+nada ter essa diferença...
+
+
+
+
+
+----> NÃO DEVEMOS USAR O APPROACH MAIS RÁPIDO se O NEGÓCIO NÃO IMPORTAR NEM UM POUCO... (if it doesnt matter in most cases)...
+
+
+-----------------------------------------------------
+
+
+BENCHMARKING E COMPARING PERFORMANCE...
+
+
+
+
+---> isso significa que se você está checando se o approach A é melhor do que o approach B, 
+
+VOCê TEM QUE INTERPRETAR 
+
+OS RESULTADOS 
+
+_________COM CUIDADO_____...
+
+
+
+
+--> se você não estiver realizando milhares de execuções do código, 
+
+niche cases, VOCÊ __PODE USAR ___o código mais '''lento'''...
+
+
+
+----> FREQUENTEMENTE O CÓDIGO MAIS ''lento'' é mais LEGÍVEL E ___CURTO___ do que o código 
+
+longo e 'mais optimizado'  
+
+
+
+
+
+
+---> MAIS DO QUE ISSO: PERFORMANCE NÃO __É UMA COISA__ 'FIXA'____ ---> 'performance changes over time (and from browser to browser)'....
+
+
+
+
+
+
+Até agora só usamos chrome, no firefox esses approaches podem TER PERFORMANCE DIFERENTE.... 
+
+
+
+----> Approaches que podem ser mais lentos no browser hoje, em razão de sua modernidade, PODEM 
+
+SE TORNAR MAIS VELOZES NO FUTURO; PODEM ATÉ SE TORNAR A VERSÃO MAIS ÓPTIMA de um approach... 
+
+
+
+
+---> VOCÊ SEMPRE PODE VOLTAR AO SEU CÓDIGO E ENTÃO IMPLEMENTAR A 'MELHOR APPROACH'... --> ou vocÊ pode pensar 
+
+'não vou executar esse negócio 1000x por dia, não preciso melhorar tanto assim o código'... ---> aí você evita a MICROOPTIMIZAÇÃO.
+
+
+
+--------------------------------------------
+
+
+ISSO SIGNIFICA QUE NO NOSSO CÓDIGO, NO NOSSO EXEMPLO 
+
+
+DOs 'products', é claro que 
+
+PODERÍAMOS RODAR NOSSO 
+
+
+LOOP POR MEIO DO CÓDIGO TRADICIONAL DO 'for loop'.... ('for (let i = 0.....)' )
+
+
+E É 'NICE' FAZER ISSO... 
+
+
+
+
+
+(E SEMPRE É BOM SABER MENSURAR PERFORMANCE POR MEIO DO 'performance.now()'...)  ---> MAS VOCê 
+
+
+NUNCA DEVE 'OVERDO IT'... --> por exemplo, 
+
+nesse 
+
+
+caso do 'forEach' vs 'for loop', o 
+
+approach do
+'forEach' É UM POUCO MENOR... ---> esse approach não é horrível, é apenas 1 pouquinho mais lento, bem pouquinho.
+
+
+
+
+
+--> cuidar com o microoptimizing --> você pode acabar com um código MAIS LENTO/MENOS LEGÍVEL... (ou os 2 ao mesmo tempo, haha)
+
+
+---------------------------------------------------
+
+
+
+
+
+E, de fato, podemos ver a diferença já nos MB, entre as snapshots.... (uma antes de deletar, e outra APÓS deletar...)
+
+
+
+
+
+
+-----------------> DEPOIS DISSO, podemos clicar naquele dropdown ali e clicar 
+
+
+em 'comparison' PARA VER A DIFERENÇA DA SEGUNDA SNAPSHOT 
+
+para a primeira... ----> ISSO NOS DEIXA VER 
+
+O QUE MUDOU NA MEMÓRIA.... ---> o que pode ser útil para ENCONTRAR PROBLEMAS...
+
+
+
+
+
+
+---> Aqui, por exemplo, nós vemos que 
+
+UM ELEMENTO 'script' ('HTMLScriptElement') FOI ADICIONADO, o que faz sentido.. --> esse é O LAZY LOADING ocorrendo na nossa página...
+
+
+
+
+---> LAZY LOADING ---> é isso que o webpack faz, POR TRÁS DAS CENAS, quando nós 
+
+carregamos (load) o código para FAZER A FUNÇÃO DE DELETE...
+
+
+
+
+--> além disso, outras coisas foram adicionadas ENTRE os snapshots.... ----> um monte das 
+
+coisas aqui não estão relacionadas DIRETAMENTE ao seu código... ----> o que podemos ver, por exemplo, é que 
+
+
+QUANDO NÓS FALAMOS SOBRE 'ELEMENTOS HTML', não parece que nós temos MUITA DIFERENÇA ENTRE 
+
+AS SNAPSHOTS.... --> ou seja, não parece que nós REALMENTE nos livramos de um 'button' e de um elemento 'li'... ---> e 
+
+isso NÃO É MUITO BOM, pq quando nós REMOVEMOS UM ELEMENTO, ele deve __IR___, ir embora, REALMENTE SUMIR ('really be gone')...
+
+
+
+----> certo... mas devemos rodar OUTRA SNAPSHOT e então compará-la à snapshot anterior... ---->
+
+
+Feito isso, podemos checar por diferenças entre as duas... ---> sortamos a lista 
+
+
+por
+
+
+'delta'... por 'delta' e pelas COISAS QUE FORAM REMOVIDAS PRIMEIRAMENTE.... ---------> mas 
+
+mesmo quando examinamos o 'delta', o que percebemos é que O QUE FOI TOCADO pelas alterações 
+
+do 'delete' NÃO FOI
+ 
+
+
+ REALMNETE o elemento '<li>' e o '<button>'.... -----> não aconteceu nada 
+
+ com ele 
+
+
+ PQ NÓS TIVEMOS 1 button/li 
+
+ ___DELETADO____ (coluna '#deleted', em que há o número '1'...) 
+
+
+ e 
+
+
+
+ao mesmo tempo tivemos um 
+
+__ADICIONADO____ (coluna '#added', em que há o número '1'.)
+
+
+
+
+
+-------> OU SEJA, NÃO PARECE QUE NÓS REALMENTE NOS LIVRAMOS DESSE ELEMENTO (li + button) COM 
+
+NOSSO APPROACH ATUAL...
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+--> se clicarmos naquele ícone de 'lixo' (garbage collect),
+
+
+VOCÊ PODE DEIXAR O GARBAGE COLLECTOR RODANDO...
+
+
+
+----> se você DEIXAR O GARBAGE COLLECTOR RODANDO E ENTÃO 
+
+TIRAR OUTRA SNAPSHOT, 
+
+vocÊ AINDA __NÃO VERÁ___ MUDANÇA ALGUMA ENTRE AS 'HEAP SNAPSHOTS'... ---> NADA FOI REMOVIDO, ainda...
+
+
+
+
+------------------------------------
+
+
+
+Ou seja, parece que nossos elementos '<li>' NÃO ESTÃO REALMENTE SENDO 
+
+REMOVIDOS DO DOM quando nós deletamos ITEMS da página (esses items estão sendo VISUALMENTE DELETADOS, mas não estão sendo deletados DE VERDADE do DOM...)
+
+
+
+(DELTA DE '0' === SIGNIFICA QUE NADA MUDOU, 
+elementos/número desse tipo de elemento CONTINUA O MESMO...)
+
+-----------------------------
+
+
+
+Certo....
+
+
+agora devemos ver COMO PODEMOS ENCONTRAR __E CONSERTAR__ esse 
+
+memory leak EM POTENCIAL ('potential memory leak...')...
+
+
+
+-----------------------------------
+
+
+
+Para isso, de novo o professor vai tirar 
+
+um snapshot, deletar 1 item da página, e então tirar outro snapshot...
+
+
+
+Feito isso, ele vai checar a aba 'comparison' DE NOVO, para CONFIRMAR que nós 
+
+___AINDA TEMOS ESSE PROBLEMA__, que não é coisa da nossa imaginação....
+
+
+quando o professor compara as snapshots de novo, 
+
+
+DESSA VEZ OS ITEMS/ELEMENTOS __fORAM REALMENTE REMOVIDOS ___ (delta de '-1', que significa que O NÚMERO DE ELEMENTOS VARIOU EM '1', PARA negativo... )
+
+
+
+
+
+
+----> professor explica que ESSE RESULTADO de '-1' no delta 
+
+é algo QUE PODE NÃO TER SURGIDO NO NOSSO CÓDIGO ----> ele explica que 
+
+ELE TEVE DE RODAR ESSE NOSSO CÓDIGO DA PÁGINA MÚLTIPLAS VEZES ATÉ CONSEGUIR 
+
+esse resultado do delete.... -----> ou seja, parece que nossa página 
+
+ÀS VEZES DELETA OS ELEMENTOS, E ÀS VEZES __NÃO___.... 
+
+
+
+-----------------------------------------------------------------
+
+
+
+Professor repete o procedimento, e dessa vez o delta é 0...
+
+
+
+
+
+Professor então clica no 'dropdown' e então 
+
+
+seleciona 'summary'...
+
+
+ele então 
+
+busca por 
+
+
+'LiElement' na caixa de busca...
+
+
+a busca 
+
+rende a ele 
+
+
+o 
+
+
+'HMTLLiElement' 
+
+
+e suas características....
+
+
+o summary diz 
+
+que ele 
+
+tem 8 unidades desse tipo de elemento/constructor na página, 
+
+que sua 'distance' é 4 e que o shallow size 
+
+é de 152....
+
+
+ele também diz que o 'retained size' é de 1168...
+
+
+
+-------------------------------------------
+
+
+
+SE ELE/NÓS EXPANDIRMOS as unidades, 
+
+serão mostradas elas em detalhes....  ---> 8 'LI ELEMENTS', mais elementos DO QUE OS ELEMENTOS QUE ESTÃO 
+SENDO EXIBIDOS NA NOSSA PÁGINA, NO PRESENTE... ---> VISÍVEIS na página, temos 4 elementos, mas nessa informação do summary 
+vemos 8 ELEMENTOS...
+
+
+
+
+---> professor diz que agora devemos tentar DETERMINAR/DESCOBRIR qual elemento dessa lista pertence a 
+qual elemento visual/elemento DOM da página...
+
+
+
+
+---> Para fazer isso, devemos clicar com o botão esquerdo em algum dos elementos...
+se fizermos isso, embaixo, naquela aba inferior de 'retainers', 
+
+
+VEREMOS VÁRIAS INFORMAÇÕES, 
+
+
+como 
+
+
+'Object' 
+
+
+'Distance' 
+
+
+'Shallow Size' 
+
+
+e 
+
+
+'Retained Size'...
+
+
+
+
+
+Em 'Object', vemos um monte de 
+
+
+coisas '_proto_' estranhas...
+
+
+
+nós ___SÓ___ VEMOS coisas '_proto_' estranhas... -----> ISSO SIGNIFICA QUE ESSE OBJETO 
+PROVAVELMENTE NÃO SE TRATA DE UM 'ACTUALLY RENDERED ELEMENT', e sim algo DIFERENTE disso.... ---> PQ 
+
+SE VOCê FOR/SE VOCÊ CLICAR NO SEGUNDO ELEMENTO '<li>' dessa lista de 'Objects', 
+
+VOCÊ VERÁ algo que o professor chama de 
+
+'related elements or objects...' -----------> PROFESSOR MOSTRA UM EXEMPLO:
+
+
+
+
+É possível ver uma informação 
+
+de 
+
+
+
+'[4] in HTMLButtonElement @75890' --------> SE NÓS PASSARMOS O MOUSE POR CIMA 
+
+DESSE OBJETO, UMA TINTA AZUL FICARÁ SOBRE O BOTÃO NA NOSSA PÁGINA correspondente a esse objeto.... (highlight) ----> 
+ISSO NOS INDICA CLARAMENTE QUE ESSE É UM OBJETO QUE ESTÁ SENDO ___RENDERIZADO ___ DE VERDADE_ NA NOSSA PÁGINA___ ... ('clearly rendered in our page'.)
+
+
+
+
+---> Vamos ao nosso próximo elemento e constatamos a mesma coisa, é um 
+ELEMENTO QUE REALMENTE FOI RENDERIZADO NA NOSSA PÁGINA... (é o último 'button Element'...)
+
+
+
+
+
+
+
+-----> E O PROFESSOR CONSTATA QUE TODOS OS ELEMENTOS QUE ESTÃO ___REALMENTE __ renderizados na nossa página 
+
+POSSUEM O MESMO 'retained size' na aba da direita.... ----> professor diz que isso faz total sentido, pois 
+todos esses botões estão no MESMO 'STATE'....
+
+
+
+---> Entretanto, ele aponta que NÓS NÃO SABEMOS O QUE É O PRIMEIRO ELEMENTO 'HMTLLIElement', 
+o qual tem um retained size de '600'.... -----------> professor explica que essa pode ser 
+
+a CONSTRUCTOR FUNCTION __INTERNA__ da qual a javascript engine tem ciência/conhece/reconhece ('is aware of')... --->
+----> PQ SE VOCê CRIAR UM NOVO 'HMTLLIElement', a javascript engine/o javascript VAI USAR UMA DESSAS 'CONSTRUCTOR FUNCTIONS' 
+de retained size '600' PARA ENTÃO O CONFECCIONAR... (por seu tamanho, esse negócio provavelmente é isso, a constructor 
+function de LIST ELEMENTS do javascript....)
+
+
+
+
+-------------> CERTO... MAS AQUELES 3 ÚLTIMOS 'List elements'... ---> esses 3 list elements SÃO 
+
+APENAS OBJETOS VELHOS 'lingering around', ESPERANDO/PREPARADOS PARA O 'CLEANUP' ('ready for the cleanup')....
+
+
+---> para comprovar isso, o professor diz que se nós passarmos o mouse por cima do elemento 'HTMLButtonElement', 
+desse objeto que NÃO RENDERIZOU NADA, na aba 
+'Object', NADA NA PÁGINA SERÁ HIGHLIGHTEADO.... ---> isso mostra que esse elemento é apenas LIXO; que não renderiza nada.
+
+
+
+
+---> TAMBÉM É POSSÍVEL PERCEBER QUE 1 DESSES ITEMS tem uma 'distance' MAIOR DO QUE OS OUTROS 
+
+'HMTLLIElement'... ----------> a 'distance' É UM INDICADOR, NO FINAL DAS CONTAS, de QUÃO ATIVAMENTE 
+UM DETERMINADO ITEM/ELEMENT da página é usado.............. -----> quanto MENOR a 'distance', 
+
+MAIS AQUELE ELEMENTO/ITEM ESTÁ SENDO USADO NA PÁGINA... ----> e '7' é bem maior do q 4/5,
+por 
+
+isso podemos afirmar/considerar que esse ELEMENTO/item é LIXO.
+
+
+
+
+
+7 ----> um item NÃO MUITO USADO. 
+
+
+
+
+---> RETAINED SIZE DESSE ITEM TAMBÉM É __MENOR___ (40, em vez de 112 ou 600)... --> isso significa que 
+
+É PROVAVELMENTE ALGO DO __bROWSER__ que faz com que esse negócio não seja removido... provavemente um comportamento 
+DO BROWSER... ---------> PROVAVELMENTE NÃO É UM ERRO DE NOSSA PARTE, é algo realmente do ___BROWSER___...
+
+
+
+
+
+--> isso aí não era erro nosso... mas agora o professor quer mostrar COMO É UM ERRO DE VERDADE (a mistake), 
+
+
+UM ERRO PODE SE PARECER.... ----> digamos que, por qualquer razão, ESTAMOS 
+
+'keeping track of' TODOS OS ELEMENTOS QUE ESTAMOS CRIANDO/ESTAREMOS CRIANDO NESSA PÁGINA...
+
+
+
+
+----> para isso, para fazer esse 'keep track of',
+
+
+nós teremos uma CONSTANTE em nível global em 'rendering.js'...
+
+
+
+
+uma constante chamada de 
+
+'renderedProducts', que segurará um ___ARRAY__....
+
+
+
+ex:
+
+
+
+
+
+const renderedProducts = [];
+
+
+
+
+----------------------------------
+
+
+
+
+
+CERTO.
+
+
+E agora, no nosso código, sempre que nós ADICIONARMOS UM NOVO PRODUTO, VAMOS QUERER 
+
+QUE ELE SEJA ADICIONADO ÀQUELE ARRAY...
+
+
+
+pARA isso, o professor faz uso de 'push()'...
+
+
+
+
+ele coloca o código de push() dentro do IF STATEMENT de 'isAdding = true' 
+
+Na função de 'updateProducts()'...
+
+
+
+ex:
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+    const newProductEl = createElement(product, prodId, deleteProductFn);
+    productListEl.insertAdjacentElement('afterbegin', newProductEl);
+    renderedProducts.push(); /////////EIS O CÓDIGO EM QUESTÃO...
+  } else {
+    const productEl = document.getElementById(prodId);
+    productEl.remove();
+
+  }
+}
+
+
+-----------------------------------
+
+
+
+
+Nessa execução de código, o professor vai querer passar/pushar A 
+
+CONSTANTE 
+
+'newProductEl' PARA DENTRO DAQUELE ARRAY....
+
+
+
+
+ex:
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+    const newProductEl = createElement(product, prodId, deleteProductFn);
+    productListEl.insertAdjacentElement('afterbegin', newProductEl);
+    renderedProducts.push(newProductEl); /////////EIS O CÓDIGO EM QUESTÃO...
+  } else {
+    const productEl = document.getElementById(prodId);
+    productEl.remove();
+
+  }
+}
+
+
+
+---------------------------------------------
+
+
+
+FAREMOS ISSO PARA QUE, POR EXEMPLO, POSTERIORMENTE POSSAMOS FAZER O CONSOLE.LOG 
+
+de todos os 'renderedProducts' (do array com todos os products)....
+
+
+
+ex:
+
+
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+    const newProductEl = createElement(product, prodId, deleteProductFn);
+    productListEl.insertAdjacentElement('afterbegin', newProductEl);
+    renderedProducts.push(newProductEl);
+    console.log(renderedProducts); ////EIS O CÓDIGO EM QUESTÃO...
+  } else {
+    const productEl = document.getElementById(prodId);
+    productEl.remove();
+
+  }
+}
+
+
+
+--------------------------------------
+
+
+
+Esse console.log, portanto, vai console.loggar TODOS OS PRODUTOS QUE 
+
+NÓS LOGAMOS NO PASSADO e os que também estão console.loggados na tela....
+
+
+
+SE O PROFESSOR SALVAR ISSO E ENTÃO IR ATÉ O CONSOLE,
+
+se agora ele adicionar um novo produto, 
+
+
+
+VEREMOS UM LIST ITEM NO CONSOLE...
+
+
+
+SE ELE ADICIONAR UM OUTRO PRODUTO, 
+
+
+ELE VERÁ 2 LIST ITEMS ALI...
+(o antigo e o novo) ---> OU SEJA, NOSSO CONSOLE.LOG ESTÁ FUNCIONANDO...
+
+
+
+------------------------------------
+
+
+
+MAS SE AGORA O PROFESSOR DELETAR 1 ITEM de nossa list e então 
+
+ADICIONAR OUTRO LOGO DEPOIS, 
+
+
+CONSTATAREMOS QUE O 
+
+____LIST ITEM ___ QUE O PROFESSOR DELETOU ___TAMBÉM AINDA FARÁ PARTE ______ DO 
+
+ARRAY ____ de 'renderedProducts'...
+
+
+
+
+----> o item que o professor deletou ainda faz 
+parte do array.... ----->  O PROFESSOR PODE PROVAR 
+
+QUE TEMOS UM PROBLEMA DE MEMÓRIA 
+
+por meio da aba de 'memory' no devtools...
+
+
+
+
+---> professor limpa as snapshots.... então 
+
+ele DELETA UM ITEM   e então tira outra snapshot...
+
+
+ELe compara as 2 snapshots...
+
+
+
+ELE DIZ QUE OS ELEMENTOS 'li' AINDA 
+
+NÃO SÃO REMOVIDOS (e isso estava acontecendo antes)...
+
+
+MAS SE NÓS 
+
+
+usarmos o 'summary view'
+
+
+
+E PROCURARMOS POR 'LIel' (list element),
+
+
+ENXERGAREMOS UM PROBLEMA...
+
+
+
+---> no negócio de 'HMTLLIElements', nós vemos 
+
+
+10 OBJETOS 'HMTLLIElement'....  ----> e alguns desses objetos, claro, 
+
+
+ESTÃO RENDERIZADOS NOS PRESENTE...  ----> mas nós também vemos alguns __QUE
+ NÃO ESTÃO RENDERIZADOS__ ---> NÓS TINHAMOS ISSO ANTES, É CLARO, coisas relacionadas 
+ ao botão QUE NÃO ESTAVAM RENDERIZADAS NA PÁGINA; antes essas coisas não estavam 
+ relacionadas com erros por nossa parte -----> MAS, AGORA, A EXISTÊNCIA 
+ DESSES NEGÓCIOS 
+
+ QUE __NÃO SÃO RENDERIZADOS__ SE DÁ EM RAZÃO DE UM ERRO De NOSSA PARTE...  --->
+
+ como o professor sabe disso?
+
+
+ Simples, pela presença daquele 
+
+ 'Detached HTMLLIElement', mais abaixo... ---> isso é um HINT 
+
+ que nos diz que  
+
+ ALGUMA COISA PARECE ESTAR ERRADO Com nosso 'LI ELEMENT'.... ----> e, de fato, NÓS 
+
+ PERCEBEMOS/VEMOS, nessa aba 'Objects', que esse ELEMENTO __eSTÁ ARMAZENADO EM ALGUM ARRAY...__
+
+
+
+
+
+ -----> a aba 'Object' É difícil de ler POIS HÁ MTAS COISAS NO SEU INTERIOR.... ---> mas 
+
+ o que interessa é QUE TEMOS UM NOVO ELEMENTO nessa lista de objetos em 'memory'...
+ esse 'detached HTMLLIElement'... --------> E QUANDO NÓS O INSPECIONAMOS, ele nos 
+
+ diz QUE ELE ESTÁ ARMAZENADO EM ALGUM ARRAY... ---> ele nos diz que ALGUM ARRAY 
+
+ SEGURA UM REFERENCE VALUE a esse list element... -------------> 
+
+
+
+ PROFESSOR EXPLICA QUE ESSES 
+
+ 'detached HTMLLIElementS' 
+
+ SÃO 
+
+
+ ____INDICATORS___... ----> antigamente nós tinhamos uns 
+
+ LI ELEMENTS AQUI QUE NÃO TINHAM SIDO 'cleaned up'... ----> mas nós 
+
+não conseguíamos encontrar PROBLEMA ALGUM NO NOSSO SOURCE CODE...
+
+
+
+
+----> com esse HINT EXTRA do 'detached HTMLLIElement', 
+
+nós devemos/temos de dar outra olhada no nosso código...
+
+
+
+
+---------------------------------------
+
+
+
+
+E, DE FATO, O PROFESSOR NOS EXPLICA QUE TEMOS UM MEMORY LEAK NO NOSSO CÓDIGO...
+
+no código de 
+
+
+
+
+export function updateProducts(product, prodId, deleteProductFn, isAdding) {
+  if (isAdding) {
+    const newProductEl = createElement(product, prodId, deleteProductFn);
+    productListEl.insertAdjacentElement('afterbegin', newProductEl);
+    renderedProducts.push(newProductEl); 
+    console.log(renderedProducts);
+  } else {
+    const productEl = document.getElementById(prodId);
+    productEl.remove();
+
+  }
+}
+
+
+
+----------------------------------------------
+
+
+
+
+O MEMORY LEAK ESTÁ 
+
+
+na linha 
+
+
+'renderedProducts.push(newProductEl);'
+
+
+
+
+PROFESSOR EXPLICA QUE ___cADA NOVO ___ ITEM QUE É ADICIONADO, 
+
+CADA 'newly added DOM OBJECT', 
+
+
+É ADICIONADO a esse 
+
+ARRAY 
+
+
+de 
+
+'renderedProducts'.......
+
+
+
+Professor explica que 
+
+
+COMO ELE/NÓS ___NÃO REMOVEMOS___ ESSE DETERMINADO OBJETO 
+
+DE __ DENTRO DO __ARRAY___ QUANDO NÓS 
+
+O REMOVEMOS DO __DOM__, eles acabam FICANDO EM UM ESTADO 
+
+DE 
+
+'DETACHED' (they end up in a 'detached state') ----> eles ficam DESVINCULADOS DO DOM, mas vinculados AO ARRAY...
+
+
+
+ou seja, a origem do problema está 
+
+no código de 
+
+
+
+' }else {
+  const productEl = document.getElementById(prodId);
+  productEl.remove(); ////////ESSE CÓDIGO NÃO ESTÁ OS REMOVENDO DO ARRAY...
+}'
+
+
+---------------------------------
+
+
+
+
+O DOM NODE DAQUELE LIST ITEM FOI REMOVIDO, mas o UNDERLYING javascript object 
+
+DO LIST ELEMENT __não foi___...
+
+
+
+---> NORMALMENTE, QUANDO VOCÊ REMOVE UM DOM NODE, o browser TAMBÉM DESTRÓI AUTOMATICAMENTE 
+O UNDERLYING JAVASCRIPT OBJECT QUE REPRESENTA AQUELE NODE... ---------> MAS 
+
+
+SE VOCÊ TIVER _________OUTRA REFERÊNCIA_____ ÀQUELE OBJETO (
+
+  como temos no nosso exemplo,
+
+  em que 
+
+
+  APONTAMOS A UM OBJETO DOM ___de dentro DE UM ARRAY___ ,
+
+
+como, nesse caso, pelo 
+
+console.log de 'renderedProducts', que é UM POINTER 
+
+ÀQUELE ARRAY...
+
+
+),
+
+
+o browser ACABA NÃO DELETANDO AQUELE JAVASCRIPT OBJECT PQ ELE PENSA QUE 
+VOCê AINDA VAI CONTINUAR TRABALHANDO COM ELE...
+
+
+
+
+
+
+----> por isso, não podemos fazer o console.log de 'renderedProducts' aqui SEM CRIAR 
+
+UM MEMORY LEAK --->  por isso, quando queremos 'KEEP TRACK' DE ELEMENTOS COMO ESSES, 
+
+
+DE ELEMENTOS <LI> DENTRO DE UM ARRAY, 
+
+nós sempre devemos 'clean them up' quando os REMOVEMOS DO DOM... ----> podemos 
+
+'clean them up' POR MEIO DE 'IDs', por exemplo.... (ou então não usar/'keep track of' por meio 
+de console.logs dessa forma...)
+
+
+
+
+
+
+--> ESSE É UM TÍPICO EXEMPLO DE MEMORY LEAK: você aponta a elementos no seu código, elementoss que 
+
+vocÊ ENTÃO REMOVE NO DOM, mas que então FICAM BOIANDO NO SEU CÓDIGO... ----> e com 
+as tools do browser, 
+
+as tools de 'memory', PODEMOS DETECTAR ESSES PROBLEMAS...
+
+
+
+
+
+
+--> isso requer certa experiência e trial and error...
+
+
+
+---> você deve detectar padrões INCORRETOS no seu código...

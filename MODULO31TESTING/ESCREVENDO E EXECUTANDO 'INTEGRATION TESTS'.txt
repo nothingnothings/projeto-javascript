@@ -1,0 +1,1385 @@
+
+
+
+
+
+DEVEMOS ESCREVER INTEGRATION TESTS....
+
+
+
+
+
+
+
+
+----> PARA ISSO, 
+
+devemos 
+
+
+dar uma olhada no nosso código...
+
+
+
+
+
+
+----> QUE FUNÇÃO PODERÍAMOS USAR?
+
+
+
+
+---> em 'app.js',  NÓS TEMOS A FUNÇÃO 
+
+
+'addUser()' ---------> É UMA FUNÇÃO 
+
+
+
+___ QUE USA ___ UM MONTE ___ DE OUTRAS FUNÇÕES___... -----> e que tem UM MONTE DE DEPENDENCIES...
+
+
+
+
+
+---> o teste de 'addUser()' seria um integration test, certamente, 
+
+MAS ESSA É UMA FUNÇÃO 
+
+
+________qUE NÃO ACEITA/EXIGE UM INPUT, e NEM RETORNA UM OUTPUT.... 
+
+
+(ou seja,
+
+o código dela é 
+:
+
+
+
+'const addUser = () => {
+
+    ...
+}')
+
+
+
+
+--------> EM VEZ DISSO, É UMA FUNÇÃO QUE REALMENTE ('actually') TEM 
+
+APENAS A TAREFA DE ___ADICIONAR___ ALGO AO DOM__...  ---> é por isso que 
+
+
+
+ESSA FUNÇÃO É BEM O TIPO DE FUNÇÃO QUE VOCÊ VAI QUERER TESTAR EM UM 
+
+'END TO END' TEST ('user interface test'),
+
+
+
+
+
+
+
+
+---> certo... mas rodar um 'integration test' NESSA FUNÇÃO 
+
+
+DE 'addUser()' seria algo um pouco difícil... ---> seria difícil pq NÓS 
+
+TERÍAMOS DE FAZER ___UM MONTE DE ___ INTERAÇÕES __MANUAIS COM __ O DOM 
+
+DENTRO DE NOSSO TESTE, o que você poderia fazer, é claro, MAS 
+QUE VOCê TALVEZ NÃO ___QUEIRA __ FAZER...
+
+
+
+
+----> EM VEZ DISSO, 
+
+há algo mais que o professor quer nos mostrar, algo mais que podemos testar....
+
+
+
+
+ELE DIZ QUE ESSA FUNÇÃO/COISA É BASICAMENTE PARTE DA função 'addUser', 
+
+'you could say',...
+
+
+
+
+
+
+
+
+
+--> O QUE O PROFESSOR FAZ EM 'addUser'
+
+
+(código:
+
+
+
+
+
+
+
+
+
+
+
+
+const addUser = () => {
+    //Fetches the user input, creates a new HTML element based on it
+    //and appends the element to the DOM
+    const newUserNameInput = document.querySelector('input#name');
+    const newUserAgeInput = document.querySelector('input#age');
+
+
+
+    if(
+        !validateInput(newUserNameInput.value, true, false) ||
+        !validateInput(newUserAgeInput.value, false, true)
+    ) {
+        return;
+    }
+
+
+    const userList = document.querySelector('.user-list');
+const outputText = generateText(
+    newUserNameInput.value,
+    newUserAgeInput.value
+)
+
+const element = createElement('li', outputText, 'user-item');
+userList.appendChild(element);
+};
+
+
+
+
+)
+
+
+
+
+O QUE ELE FAZ É SELECIONAR UM PUNHADO DE ELEMENTOS ('newUserNameInput' e 'newUserAgeInput'),
+
+
+DEPOIS ELE __VALIDA O INPUT___ ('!validateInput') 
+
+
+E ENTÃO  ELE GERA UM __tEXT___     ('const outputText = generateText(newUserNameInput.value, newUserAgeInput.value);')
+com 
+
+base naquele input...
+
+
+
+
+------------------------
+
+
+
+Professor admite que poderíamos OUTSOURCEAR PARTES DESSA FUNÇÃO 
+
+'addUser'...
+
+
+
+
+E ELE DIZ QUE ISSO FAZ PARTE DO PROCESSO DE ESCRITA DE UM CÓDIGO JS: 
+
+MODULARIZAR (dividir) AS DIFERENTES TAREFAS (funções) de um código...
+
+O testing nos INCENTIVA A FAZER ISSO,
+
+e ISSO TORNA 
+NOSSO CÓDIGO 
+
+MELHOR COMO UM TODO... ------->  certo... vamos outsourcear 
+
+parte do código de 
+
+'addUser', 
+
+
+o que deixará 
+
+nosso código mais FÁCIL DE MANTER
+
+ e mais fácil de se reutilizar...
+
+
+
+
+
+
+ ----> é por isso que em 'util.js' EU POSSO/VOU 
+
+ EXPORTAR uma nova função, 
+
+
+  
+  a qual chamarei de 'checkAndGenerate'...
+
+
+
+
+  ex:
+
+
+
+
+
+  exports.checkAndGenerate = () => {
+
+  }
+
+
+
+
+  -----------------------------------
+
+
+
+
+  essa 
+
+  função 
+
+  'checkAndGenerate' VAI 
+
+  RECEBER uns parâmetros 
+
+
+  de 'name' e 'age' como input... 
+
+
+
+
+  EX:
+
+
+
+
+    exports.checkAndGenerate = (name, age) => {
+
+  }
+
+
+
+  -------------------------------------
+
+
+
+
+  FEITO ISSO, O PROFESSOR VAI ATÉ o 'app.js'
+
+
+
+  E AGARRA O CÓDIGO DO 'validateInput', o call do 'validateInput()', 
+
+  QUE É O NOSSO CÓDIGO DE VALIDAÇÃO.... ----> ELE VAI pegar esse código 
+
+
+
+  e COLAR 
+
+  na função de 
+
+
+  'checkAndGenerate'...
+
+
+
+
+  EX:
+
+
+
+
+     exports.checkAndGenerate = (name, age) => {
+
+         if (
+             !validateInput(newUserNameInput.value, true, false) ||
+             !validateInput(newUserAgeInput.value, false, true)
+         ) {
+             return;
+         }
+  }
+
+
+
+
+-----------------------------
+
+
+
+CERTO... feito isso, o professor vai trocar 
+
+
+"newUserNameInput" POR 'name' 
+
+
+
+e 
+
+
+'newUserAgeInput' por 'age'...
+
+
+
+
+ex:
+
+
+
+
+     exports.checkAndGenerate = (name, age) => {
+
+         if (
+             !validateInput(name, true, false) ||
+             !validateInput(age.value, false, true)
+         ) {
+             return;
+         }
+  }
+
+------------------------------------
+
+
+
+
+FEITO ISSO,
+
+
+o professor vai colocar um 
+
+
+
+
+CALL/return de um call 
+
+
+de 
+
+'generateText()' NO FINAL DESSA 
+
+
+FUNÇÃO 'checkAndGenerate()'....
+
+
+
+ex:
+
+
+
+
+
+
+     exports.checkAndGenerate = (name, age) => {
+
+         if (
+             !validateInput(name, true, false) ||
+             !validateInput(age.value, false, true)
+         ) {
+             return;
+         }
+         return generateText();
+  }
+
+
+
+---------------------------
+
+
+e nesse call de 'generateText()', 
+
+o professor passará 
+
+'name' e 'age'... COMO PARÂMETROS... --> pq é isso que ele vai querer retornar,
+
+nessa função..., ele vai retornar o 'checked text' (o texto VALIDADO pelo 'validateInput' que fica dentro de 'checkAndGenerate()'...)
+
+
+
+ex:
+
+
+
+
+
+
+     exports.checkAndGenerate = (name, age) => {
+
+         if (
+             !validateInput(name, true, false) ||
+             !validateInput(age, false, true)
+         ) {
+             return;
+         }
+         return generateText(name, age); //////eis o código em questão.
+  }
+
+
+
+
+-------------------------------
+
+
+certo...
+
+
+
+'generateText()', dentro desse 'checkAndGenerate()', 
+
+vai retornar 
+
+
+O CÓDIGO( 'name' e 'text') CHECADO (pelo 'validateInput') pelo/DENTRO 
+
+DO INTERIOR 
+
+da função 'checkAndGenerate()'...
+
+
+
+------------------------------
+
+
+
+
+POrtanto, em 'app.js', em que O PROFESSOR ESTÁ USANDO esse 'generateText()', 
+
+na linha 
+
+de código 
+
+
+'const outputText = generateText(
+    newUserNameInput.value,
+    newUserAgeInput.value
+)',
+
+
+EM QUE 
+
+
+____O PROFESSOR ESTÁ USANDO  ESSE NEGÓCIO___, 
+
+
+
+
+'outputText()' É APENAS, NO FINAL DAS CONTAS,
+
+
+O RESULTADO DE MINHA CALL ao 'checkAndGenerate' (que possui 'validateInput' no seu interior) --> 
+
+em razão DISSo,
+
+o professor nao precisa mais 
+
+
+de 'validateInput' 
+
+
+naqueles IMPORTS 
+
+escritos em 
+
+app.js... (aquela linha de código 
+
+
+'const { generateText, createElement, validateInput } = require('./util');)'...
+
+
+
+
+ELE __TAMBÉM NÃO PRECISA MAIS DO IMPORT DE 'generateText()' em app.js...,
+
+
+NÃO, ELE APENAS PRECISA DO IMPORT DE 
+
+'checkAndGenerate()', QUE AGORA É a função 
+
+QUE CHAMA TODAS ESSAS FUNÇÕES/FUNCIONALDIDADES... 
+
+
+----------------
+
+
+
+RESULTADO DA MUDANÇA:
+
+
+const { checkAndGenerate, createElement } = require('./util');
+
+
+
+
+-------------------------------------------------------
+
+
+
+
+FEITO ISSO, O PROFESSOR AGORA, LÁ EMBAIXO em 'app.js',
+
+
+realiza a troca de 
+
+
+'const outputText = generateText(..)' 
+
+por 
+
+
+'const outputText = checkAndGenerate()'...
+
+
+
+
+EX:
+
+
+
+
+
+
+
+const addUser = () => {
+    //Fetches the user input, creates a new HTML element based on it
+    //and appends the element to the DOM
+    const newUserNameInput = document.querySelector('input#name');
+    const newUserAgeInput = document.querySelector('input#age');
+
+
+
+
+
+    const userList = document.querySelector('.user-list');
+const outputText = checkAndGenerate( ///////EIS O CÓDIGO EM QUESTÃO.
+    newUserNameInput.value,
+    newUserAgeInput.value
+)
+
+const element = createElement('li', outputText, 'user-item');
+userList.appendChild(element);
+};
+
+
+
+
+---------------------------------
+
+
+
+
+Depois disso, ele move o código 
+
+
+de 'outputText' um pouco para cima, antes de 'const userList = xxxx'...
+
+
+
+
+
+ex:
+
+
+
+
+
+const addUser = () => {
+    //Fetches the user input, creates a new HTML element based on it
+    //and appends the element to the DOM
+    const newUserNameInput = document.querySelector('input#name');
+    const newUserAgeInput = document.querySelector('input#age');
+
+
+    const outputText = checkAndGenerate( ///////EIS O CÓDIGO EM QUESTÃO.
+    newUserNameInput.value,
+    newUserAgeInput.value
+)
+
+
+
+    const userList = document.querySelector('.user-list');
+
+const element = createElement('li', outputText, 'user-item');
+userList.appendChild(element);
+};
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+Isso feito, agora o professor diz que ele pode rodar 
+
+
+'if(!outputText)'    (SE  'not' OUTPUTTEXT)  ( ou seja, se retornamos algo como 'false' em 'checkAndGenerate')...
+
+
+
+LOGO APÓS o 'outputText'...
+
+
+
+OBS:::: o código  de 'exports.checkAndGenerate()' deve ser também alterado ----> 
+
+(tipo assim:
+
+exports.checkAndGenerate = (name, age) => {
+    if (
+        !validateInput(name, true, false) ||
+        !validateInput(age, false, true)
+    ) {
+        return false; ///// AGORA, SE A VALIDAÇÃO FALHAR, nosso código retornará 'FALSE', o que satisfará o código de '!outputText'...
+    }
+    return generateText(name, age); 
+}
+
+
+
+)
+
+
+
+
+
+
+
+EX:
+
+
+const addUser = () => {
+    //Fetches the user input, creates a new HTML element based on it
+    //and appends the element to the DOM
+    const newUserNameInput = document.querySelector('input#name');
+    const newUserAgeInput = document.querySelector('input#age');
+
+
+    const outputText = checkAndGenerate( 
+    newUserNameInput.value,
+    newUserAgeInput.value
+)
+
+    if(!outputText) { /////EIS O CÓDIGO EM QUESTÃO. 
+ 
+    }
+
+    const userList = document.querySelector('.user-list');
+
+const element = createElement('li', outputText, 'user-item');
+userList.appendChild(element);
+};
+
+
+
+-------------------------------
+
+
+
+
+SE ESSE CÓDIGO do 'outputText' for false, 
+
+se seguirá para aquele if block ali....
+
+
+
+Dentro daquele if block,
+ 
+ deixaremos 
+
+ um simples 'return', 
+
+
+ o código SIMPLESMENTE DEIXARÁ DE EXECUTAR AS ETAPAS SEGUINTES....
+
+
+
+
+EX:
+
+
+
+
+
+const addUser = () => {
+    //Fetches the user input, creates a new HTML element based on it
+    //and appends the element to the DOM
+    const newUserNameInput = document.querySelector('input#name');
+    const newUserAgeInput = document.querySelector('input#age');
+
+
+    const outputText = checkAndGenerate( 
+    newUserNameInput.value,
+    newUserAgeInput.value
+)
+
+    if(!outputText) { 
+        return; ///////EIS O CÓDIGO EM QUESTÃO.
+    }
+
+    const userList = document.querySelector('.user-list');
+
+const element = createElement('li', outputText, 'user-item');
+userList.appendChild(element);
+};
+
+
+--------------------------------------------
+
+
+
+--> CERTO... AGORA TEMOS A função de 'addUser' TWEAKADA... ---> 
+
+ESSA FUNÇÃO AGORA 
+
+NOS dá a função 
+
+
+'checkAndGenerate()', 
+
+
+QUE É EXCELENTE PARA se usar em um INTEGRATION TESt.....
+
+
+
+
+É por isso que o professor vai querer 
+
+
+ESCREVER UM TESTE PARA ela 
+
+
+em 
+
+
+'util.test.js'....
+
+
+
+----> O PROFESSOR VAI QUERER 
+
+
+TESTAR 
+
+SE O CÓDIGO DE VALIDAÇÃO 
+
+
+FUNCIONA CORRETAMENTE, 
+
+e se conseguimos
+
+
+RECEBER O CÓDIGO QUE QUEREMOS de volta, regularmente...
+
+
+
+
+----> É POR ISSO QUE O PROFESSOR CRIA UM 
+
+'test()' com um 
+
+primeiro parâmetro 
+
+
+de 
+
+
+'Should generate a valid text output'....
+
+
+
+
+ex:
+
+
+
+
+
+const { generateText } = require('./util');
+
+
+
+test('Should output name and age', () => {
+    const text = generateText('Max', 29);  
+    expect(text).toBe('Max (29 years old)');
+}); 
+
+
+
+
+test('should output data-less text', () => {
+    const text = generateText('', null);
+    expect(text).toBe(' (null years old)');
+})
+
+
+
+
+test('should output a valid text output', () => {
+
+} ) 
+
+
+
+
+------------------------------------------
+
+
+
+
+CERTO...
+
+
+aí naquele segundo parâmetro, 
+
+
+O PROFESSOR VAI QUERER TESTAR AQUELA 
+
+FUNÇÃO 
+
+
+'checkAndGenerate()'...
+
+
+MAS ANTES de chamá-la ali,
+
+
+ele DEVE IMPORTÁ-LA 
+
+
+no 'util.test.js' 
+
+POR MEIO 
+
+
+DA SINTAXE DO NODE.JS....
+
+
+
+ex:
+
+
+
+
+
+
+const { generateText, checkAndGenerate } = require('./util');
+
+
+
+test('Should output name and age', () => {
+    const text = generateText('Max', 29);  
+    expect(text).toBe('Max (29 years old)');
+}); 
+
+
+
+
+test('should output data-less text', () => {
+    const text = generateText('', null);
+    expect(text).toBe(' (null years old)');
+})
+
+
+
+
+test('should output a valid text output', () => {
+
+} ) 
+
+
+----------------------------------------------
+
+
+
+
+Feito isso, professor diz que ele pode simplesmente 
+
+
+CRIAR uma const de 'text' aqui, com 
+
+um call 
+
+
+de 'checkAndGenerate()'......
+
+
+ele vai chamar essa função e então 
+
+passar 
+
+'Max' e '29' 
+
+
+COMO PARÂMETROS a esse call...
+
+
+
+
+ex:
+
+
+
+
+
+const { generateText, checkAndGenerate } = require('./util');
+
+
+
+test('Should output name and age', () => {
+    const text = generateText('Max', 29);  
+    expect(text).toBe('Max (29 years old)');
+}); 
+
+
+
+
+test('should output data-less text', () => {
+    const text = generateText('', null);
+    expect(text).toBe(' (null years old)');
+})
+
+
+
+
+test('should output a valid text output', () => {
+    const text = checkAndGenerate('Max', 29);
+} ) 
+
+
+
+--------------------------------------
+
+
+
+Certo... mas não acabamos por aqui:
+
+
+devemos colocar uma 'expectation' por meio de 'expect()'....
+
+
+
+
+ex:
+
+
+
+const { generateText, checkAndGenerate } = require('./util');
+
+
+
+test('Should output name and age', () => {
+    const text = generateText('Max', 29);  
+    expect(text).toBe('Max (29 years old)');
+}); 
+
+
+
+
+test('should output data-less text', () => {
+    const text = generateText('', null);
+    expect(text).toBe(' (null years old)');
+})
+
+
+
+
+test('should output a valid text output', () => {
+    const text = checkAndGenerate('Max', 29);
+    expect(text).toBe('Max (29 years old)') ////EIS O CÓDIGO EM QUESTÃO....
+} ) 
+
+
+
+----------------------------------
+
+
+ISSO SIGNIFICA QUE A EXPECTATIVA DO PROFESSOR VAI SER A MESMA DO UNIT TEST,
+
+
+mas esse teste NÃO SERÁ UM 'UNIT TEST COMUM',
+
+pois 
+
+__A FUNÇÃO ___ QUE ESTAMOS TESTANDO__ TEM MAIS COISAS DENTRO DELA, mas coisas que 
+
+PODEM FALHAR __EM SEU INTERIOR___ (e é por isso que é um INTEGRATION TEST a coisa que 
+
+estamos rodando.) 
+
+
+
+
+
+--> por exemplo, nós/o teste poderia dar FAIL se a VALIDATION falhar, 
+
+OU PORQUE 
+
+'generateText()'  FALHA/FALHOU....
+
+
+
+
+
+---> entretanto, 'generateText()' é meio IMPOSSÍVEL DE FALHAR, PODEMOS ELIMINAR ESSA POSSIBILIDADE,
+
+
+pois NÓS __JÁ HAVÍAMOS/TÍNHAMOS UM __UNIT TEST__ SEPARADO PARA ELE ____ (
+
+    nós já tínhamos aquele código 
+
+    de teste de 
+
+
+    'test('should output name and age', () => {
+        const text = generateText('Max', 29);
+        expect(text).toBe('Max (29 years old)');
+    });'
+)
+
+
+-----------------------------------------
+
+
+
+
+E É ASSIM MESMO QUE VOCÊ VAI QUERER ESCREVER SEUS CÓDIGOS, BTW....
+
+
+
+--> você sempre vai querer ASSEGURAR que vocÊ 
+
+
+'DRILL DOWN' ao NÍVEL MAIS MÍNIMO POSSÍVEL... descer ao nível 
+mais microscópico 
+
+E ENTÃO ANALISAR AS COISAS COM UNIT TESTS.... ---> escrever 
+
+unit tests PARA TODAS AS SUAS UNIDADES... ---> isso significa que 
+
+
+SERIA BOM NÃO SÓ ESCREVER UM TESTE PARA 'generateText()',
+
+MAS TAMBÉM 
+
+
+PARA 
+
+'VALIDATEINPUT'...
+
+
+
+----->  AÍ, FEITA ESSA ANÁLISE MICROSCÓPICA, A TAREFA DE SEUS INTEGRATION TESTS É SIMPLESMENTE 
+
+DETERMINAR QUE SUAS UNIDADES CONSEGUEM TRABALHAR EM CONJUNTO SEM CRIAREM PROBLEMAS/ERROS...
+
+
+
+
+
+Certo.... 
+
+
+o Professor salva aquele integration TEST e então o executa com 'npm run test'...
+
+
+
+
+esse nosso teste vai FALHAr.
+
+
+
+
+
+--> o código de erro será:
+
+
+
+ should output name and age
+
+    ReferenceError: validateInput is not defined
+
+      40 |
+      41 | exports.checkAndGenerate = (name, age) => {
+    > 42 |     if (
+         |     ^
+      43 |         !validateInput(name, true, false) ||
+      44 |         !validateInput(age, false, true)
+      45 |     ) {
+
+      at checkAndGenerate (util.js:42:5)
+      at Object.<anonymous> (util.test.js:21:18)
+
+
+
+
+--------------------------------------
+
+
+
+
+
+'validateInput' não está defined, explica o professor porque 
+
+
+
+o 'validateInput' AINDA ESTÁ SENDO EXPORTADO POR MEIO DA SINTAXE 
+
+
+DE 
+
+'exports.validateInput()'....   ---> E ISSO NÃO É MAIS NECESSÁRIO, POIS AGORA 
+
+essa função É UTILIZADA/chamada NO MESMO LOCAL EM QUE É DEFINIDa (em 'util.js')....
+
+É POR ISSO QUE O PROFESSOR VAI LÁ E A TRANSFORMA EM UMA CONSTANTE 
+
+DO CONTEXTO GLOBAL DO 'util.js'
+
+
+POR MEIO DO CÓDIGO 
+
+
+'const validateInput = (text, notEmpty, isNumber) => {...}'
+
+
+
+(em vez de 'exports.validateInput'..)
+
+
+
+--------------------------------
+
+
+
+
+
+---> CERTO... Ele mudou esse negócio para que ele seja UMA CONSTANTE...
+
+
+
+--> ele faz a MESMA COISA COM 'generateText()', pois ele também 
+
+A UTILIZA NO MESMO ARQUIVO DE 'util.js', e não em outro lugar do código, em outro arquivo...
+
+
+
+ex:
+
+
+
+const generateText = (name, age) => {
+    ...
+}
+
+
+
+
+const validateInput = (text, notEmpty, isNumber) => {...}
+
+
+-----------------------------------------------------
+
+
+
+POR FIM, 
+
+
+
+O PROFESSOR EXPORTA 
+
+
+'generateText' e 'validateInput' como 
+
+
+CONSTANTES representando essas funções....
+
+
+
+ex:
+
+
+
+
+
+const generateText = (name, age) => {
+    ...
+}
+
+
+
+
+const validateInput = (text, notEmpty, isNumber) => {...}
+
+
+
+
+
+
+
+exports.generateText = generateText;
+exports.validateInput = validateInput;
+
+
+
+
+-------------------------------------
+
+
+
+ESSAS 2 LINHAS DE CÓDIGO garantem 
+
+que 
+
+'generateText()' e 'validateInput()' 
+
+
+POSSAM SER UTILIZADOS EM OUTROS ARQUIVOS TAMBÉM...
+
+
+
+
+-------------------------------
+
+
+
+CERTO, COM ISSO, os 2 arquivos passaram ----> a ideia por trás 
+
+
+de INTEGRATION TESTS é que 
+
+
+se o professor MUDAR ALGO 
+
+
+NA SUA FUNÇÃO DE 'checkAndGenerate()',
+
+
+
+COMO POR EXEMPLO usar a função 'validateInput' de forma INCORRETA, sem o BANG ('!')
+
+
+
+ex (em vez disso):
+
+
+
+exports.checkAndGenerate = (name, age) => {
+    if (
+        !validateInput(name, true, false) ||
+        !validateInput(age, false, true)
+    ) {
+        return;
+    }
+    return generateText(name, age); 
+}
+
+
+
+
+
+
+PROFESSOR FAZ ISSO (sem querer):
+
+
+
+exports.checkAndGenerate = (name, age) => {
+    if ( 
+        validateInput(name, true, false) ||       //////eis o erro em questão...
+        !validateInput(age, false, true)
+    ) {
+        return;
+    }
+    return generateText(name, age); 
+}
+
+
+
+---------------------
+
+
+
+SE o professor esquecer sem querer, 
+
+deixar sem '!' no código, 
+
+
+o JEST __vAI O INFORMAR__ da cagada que ele fez.... (usou 'validateInput' incorretamente....) -->
+
+esse é um 
+
+GRANDE EXEMPLO DO PQ 
+
+
+QUE DEVEMOS TER INTEGRATION TESTS.... ------------->  se o professor 
+
+FIZESSE SÓ 
+
+TESTES UNITÁRIOS,
+ 
+ o 'validateInput' não daria 'FAIL', porque ELE REALMENTE CONTINUA FUNCIONANDO 
+ CORRETAMENTE, O QUE ERRAMOS FOI APENAS OS VALORES PASSADOS AO SEU CALL, que são/eram 
+
+ então LIDOS POR OUTRA FUNÇÃO... ----> e o integration test CONSEGUE 
+
+DETECTAR ESSE PASS ERRADO de parâmetros, o pass errado de parâmetros na FUNÇÃO 
+
+'checkAndGenerate()'....
+
+
+
+
+pq se eu não colocar "!" na frente do validateInput, 
+
+
+o 
+
+if block vai CHEGAR AO PRIMEIRO BLOCK (o block com 'return false') quando 
+esse validateInput for true... ---> o problema é que condicionar isso ao 'true' de 
+
+validateInput LEVA À LÓGICA ERRADA PARA ESSE CÓDIGO....... ou seja: 
+
+
+o 'validateInput' em si continua sendo executado corretamente, mas 
+
+
+O 'checkAndGenerate' EM SI, a função que o utiliza, FICA COM A LÓGICA ERRADA... ---> e é por isso 
+
+que os TESTES DE INTEGRAÇÃO são importantes..., nos mostram esse tipo de erro.
+
+
+
+
+
+
+----> MESMO SE TODAS AS UNIDADES DE UM CÓDIGO FUNCIONAREM, 
+
+você ainda pode ter um problema, ainda pode ter UM PROBLEMA DE ___INTEGRAÇÃO__ ('integration tests")....
+
+
+
+
+--------------------------------------------------------------------------------------
+
+
+
+
+
+MEUS 2 TESTES PASSARAM...
+
+
+
+
+------>
+

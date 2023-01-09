@@ -1,0 +1,338 @@
+Usamos o mesmo exemplo dos 3 items.
+
+
+
+Agora começamos de maneira simples: devemos selecionar um daqueles list item dentro de ul.
+É claro que você aprendeu diferentes maneiras de selecionar elementos. Aqui, eu quero selecionar 
+o SEGUNDo item DAQUELA LISTA.
+
+Como fazemos isso?
+
+
+Para esse segundo list item, há um monte de maneiras que NÃO VÃO FUNCIONAR. Isso é porque 
+é o segundo item, e não o primeiro ou o último.
+
+
+
+document.querySelector('li') ----> NÃO VAI FUNCIONAR, PORQUE ESSE QUERYSELECTOR SELECIONA 
+O PRIMEIRO ELEMENTO CORRESPONDE à ESSA TAG. Isso iria selecionar a primeira das <li>.
+
+O que funcionaria é se vocÊ pegasse a classe ('.list-item'), e colocasse no querySelector.
+POR QUE ISSO FUNCIONARIA? Simples, é porque o item 2 dos <li> É O PRIMEIRO ITEM COM A CLASSE 
+"list-item", e O QUERYSELECTOR SEMPRE SELECIONA O PRIMEIRO ITEM COM AQUELA etiqueta (pode ser ou id, ou tag, ou classe).
+
+
+ex:
+
+document.querySelector('.list-item');
+
+
+
+
+
+Mas talvez você tenha um setup em que isso não é o caso, ou seja, em que o item 2 da lista não é o 
+primeiro com essa classe de ".list-item". 
+Para isso, realmente vamos lá e alteramos o código html para refletir essa hipótese.
+
+ex:
+
+
+Isso
+
+
+<li>Item 1</li>
+<li class="list-item">Item 2</li>
+<li class="list-item">Item 3</li>
+
+
+
+VIRA ISSO:
+
+
+
+<li class="list-item">Item 1</li>
+<li class="list-item">Item 2</li>
+<li class="list-item">Item 3</li>
+
+
+-----------------------------------
+
+
+De repente, aquela maneira de selecionar elementos por meio de querySelector('.class-list') NÃO FUNCIONA MAIS.
+Não funciona mais porque agora esse seletor vai selecionar o primeiro seletor correspondente que ele encontrar, e tal 
+seletor estará NO ITEM 1, E NÃO NO 2, QUE QUEREMOS SELECIONAR.
+
+
+
+
+Mas então, como podemos selecionar o item 2?
+
+
+Devemos usar as dom traversal techniques que o professor nos mostrou. É claro que 
+se isso fosse a vida real, você poderia adicionar um ID dentro desse elemento para que você 
+pudesse o selecionar por meio de "getElementById", mas é ÚTIL SABER OUTRAS MANEIRAS DE SELECIONAR ELEMENTOS, é 
+útil saber COMO NAVEGAR PELO DOM.
+
+Uma maneira de acessar esse segundo item seria por meio do acesso ao parente (<ul>), o elemento 
+"Unordered list". Acessar esse unordered list node e então dar uma olhada 
+nos seus child nodes/child node elements e aí selecionar o segundo filho.
+
+Isso pode ser feito:
+
+
+ex:
+
+
+const ul = document.querySelector('ul');
+
+----------------------------------------------
+
+
+Depois que selecionamos o pai, é claro que podemos usar o "querySelector" para selecionar quaisquer 
+elementos nesteados dentro dali, mas SE FIZÉSSEMOS ISSO, TERÍAMOS O MESMO PROBLEMA DE ANTES, nós acabaríamos 
+selecionando o primeiro item.
+
+MAS PODEMOS USAR ALGUMAS DAS OUTRAS COISAS QUE O PROFESSOR NOS MOSTROU.
+
+
+Podemos, por exemplo, faer o OUTPUT DE "CHILDREN" aqui.
+
+ex:
+
+const ul = document.querySelector('ul');
+ul.children;
+
+
+
+------------------------------------------------
+
+
+ul.children no console do devtools te dá uma COLEÇÃO HTML (HTMLCollection), que é um objeto 
+array-like (não é um array de verdade), não é um array, mas suporta looping e outras funções.
+
+Dentro desse objeto array-like, percebemos que o segundo elemento tem o index de 1.
+
+PARA SELECIONAR ESSE SEGUNDO ITEM, SIMPLESMENTE DIGITAMOS O SEGUINTE CÓDIGO:
+
+
+ul.children[1];  -------------> COM ISSO, GANHARÍAMOS ACESSO EXATAMENTE ÀQUELE SEGUNDO ELEMENTO/ITEM FILHO DO NODE "pAI" "Ul".
+
+
+Podemos constatar isso por meio do visualizador na esquerda da página web: o item 2 é selecionado pelo browser.
+
+
+Esse também é um excelente lugar para entender a DIFERENÇA ENTRE "CHILDNODES" e "Children".
+
+Aqui, o professor está usando "children", que lhe dá acesso a todos os child 
+ELEMENT NODES, ou seja, APENAS CHILD NODES QUE SÃO BASEADOS EM TAGS HTML, elementos html, E NÃO 
+"TEXTNODES", que são EXCLUÍDOS dessa seleção.
+
+
+Tenha em mente que, como o professor mencionou anteriormente, textNodes SÃO TAMBÉM PARTE 
+DA DOM TREE, da árvore criada pelo browser para refletir o seu documento html. Até os 
+espaços brancos adicionados no seu arquivo html para fins de legibilidade é registrado 
+no browser como textnode.
+
+
+"Children" me dá uma lista dos elementos que SÃO FILHOS DIRETOS dessa 
+unordered list. FILHOS DIRETOS, SEM DESCENDANTS e SEM OUTROS TIPOS DE NODES.
+
+
+CHILDNODES, POR OUTRO LADO, NOS DÁ UMA LISTA MUITO MAIOR, UMA LISTA QUE 
+CONSIDERA OS ___TEXTNODES_____ no interior da unorderedList/do elemento que 
+você selecionou.
+
+ex:
+
+ul.children;
+
+ul.childNodes;
+
+
+
+
+
+
+
+
+ChildNodes nos dá uma NodeList. Se expandirmos essa NodeList, vamos ver 
+que diversos dos números ali são ocupados por TEXTO.
+
+ex:
+ul.childNodes;
+
+--->                                                    representação:
+                                                    <ul>
+0:text                                                 -line break-              
+1: li.list-item                                       <li class="list-item">Item 1</li>
+2: text                                                 -line break-
+3: li.list-item                                       <li class="list-item">Item 2</li>
+4: text                                                 -line break-
+5: li.list-item                                       <li class="list-item">Item 3</li>
+6: text                                                 -line break-
+                                                    </li>
+
+cada item com "text" é um line break.
+
+
+
+
+
+
+Se checarmos as propriedades de 0, vamos ver que ele tem uma propriedade 
+chamada de "data: '' " ---> AINDA NÃO APRENDEMOS SOBRE ISSO, MAS data É, na verdade,
+ O "TEXTCONTENT". Onde vocÊ tem textContent em element nodes para assignar um 
+ texto e automaticamente criar um child TEXTNODE para um ELEMENTNODE...
+
+ data em um textnode define/setta o TEXTO EM UM TEXTNODE.
+
+
+ O chrome, nesse caso, nos mostra na propriedade "data: ". Uma SETA, que 
+ representa um line break. Uma seta com um wide space do lado. Esse wide space 
+ é EXATAMENTE O NÚMERO DE ESPAÇOS QUE DEFINIMOS NO NOSSO CÓDIGO PARA OCORRER 
+ O LINE BREAK.
+
+
+ Mas por que esses textNode não são renderizados na página? 
+
+ Bem, ele não são renderizados PORQUE NÃO HÁ STYLE para RENDERIZÁ-LOS. O 
+ estilo default para html, para a maior parte das tags, é o default de basicamente 
+ OMITIR whitespaces em branco (empty whitespace) que não possuem 
+ nenhum propósito.
+
+ É por isso que o widespace entre "item 1" e "item 2" que está no nosso código 
+ HTML é completamente ignorado, e por isso que os 2 estão relativamente juntos, um acima do outro, 
+no display final da página. O espaço entre "item" e "1" é renderizado, mas os espaços 
+em branco NO INÍCIO E NO FINAL do conteúdo de um elemento são tipicamente 
+omitidos. Você *pode* mudar isso com um estilo especial, entretanto. Se 
+expandirmos a ul no devtools e observarmos a aba "styles", lá podemos 
+adicionar "white-space: pre;" no 'element.style {}', e isso 
+vai fazer com que os espaços em branco sejam renderizados. Isso vai fazer com que 
+um monte de espaços em branco apareçam na página final. Muitos widespace e line breaks. 
+Essa é uma configuração/estilo CSS específica que faz overwrite do 
+default do browser de basicamente ignorar whitespaces excessivos, e faz com que 
+eles sejam renderizados.
+
+
+No devtools do chrome não é possível ver os espaços em branco do código html 
+na aba "elements", contudo é possível observar isso no console e na aba 
+"sources", que tem os arquivos na sua forma pura.
+
+------------------------------------------------------------------
+
+
+Você geralmente vai querer trabalhar com children, porque na maior parte 
+dos casos você vai ter maior interesse em acessar os child element nodes.
+Entretanto, se você precisa de acesso a TODOS OS NODES, vocÊ pode usar 
+childNodes, como o professor nos mostrou agora. Essa é a única forma de 
+conseguir acesso a textNodes por meio do javascript, uma combinação 
+de childNodes e indexadores ([0,1,2,3,4])
+
+
+
+Agora, além de children e childNodes, também temos outras 2 propriedades úteis.
+
+
+
+Digamos que você seleciona aquela <ul> com um querySelector. Dentro de ul, você quer 
+ganhar acesso AO PRIMEIRO OU ÚLTIMO ITEM. O professor diz que é claro que você 
+poderia usar "document.querySelector('li:last-of-type'); , MAS ELE 
+DIZ QUE ISSO CUSTA UM POUCO DE PERFORMANCE, porque querySelector SEMPRE TEM QUE 
+SCANNEAR A PÁGINA INTEIRA, E SCAN é uma css query um pouco complexa, e isso pode 
+ser um pouco REDUNDANTE, afinal você já conseguiu acesso à UL dessa forma.
+
+Por isso, o professor diz para utilizarmos os métodos 
+
+"ul.firstChild" ----> pega o PRIMEIRO CHILDNODE. O primeiro childnode, nesse caso, É UM TEXTNODE.
+
+e 
+
+"ul.firstElementChild" ---> pega o PRIMEIRO CHILD ELEMENT NODE, que nesse caso é o "li.list-item" relativo ao PRIMEIRO ITEM.
+
+
+
+
+ul.lastChild ----> nos dá o último child desse elemento, child que nesse caso é UM TEXTNODE (é o espaço em branco ao final).
+
+
+
+
+
+ex:
+
+const ul = document.querySelector('ul');
+
+
+ul.firstElementChild;
+
+
+e 
+
+
+ul.lastElementChild;
+
+
+
+
+
+Esses comandos são mais eficientes e BARATOS em relação ao querySelector.
+
+São mais baratos do que criar uma nova query no documento inteiro, que é aquilo 
+que querySelector faz.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ex DE TENTATIVA PRÓPRIA (erros):
+
+
+
+const ul = document.getElementByTagName('ul');
+
+ul.first-of-child.textContent = 'Item 1 changed!';
+
+ul.nextSibling.textContent = 'Item 2 changed!';

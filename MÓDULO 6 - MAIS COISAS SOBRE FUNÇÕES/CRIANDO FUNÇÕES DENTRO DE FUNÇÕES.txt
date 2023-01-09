@@ -1,0 +1,194 @@
+É claro que, até agora, vimos um monte de pedaços de informações novas sobre funções.
+
+
+
+
+
+Mas e se o professor nos dissesse que nós também podemos criar FUNÇÕES DENTRO DE FUNÇÕES?
+
+
+
+
+Por exemplo, aqui na função sumUp, poderíamos adicionar uma NOVA FUNÇÃO, DE NOVO, com qualquer uma 
+das 3 sintaxes de função que aprendemos. O professor usará a arrow function, a título de exemplo. Criará a função 
+"validateNumber", nesse caso. Essa função aceita um número como um input/argumento.
+
+
+
+REPRESENTAÇÃO ANTES: 
+
+
+const sumUp = (a, b, ...numbers) => {
+    
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+console.log(subtractUp(1, 10, 15, 20));
+
+--------------------------------------------
+
+REPRESENTAÇÃO DEPOIS:
+
+
+
+REPRESENTAÇÃO ANTES: 
+
+
+const sumUp = (a, b, ...numbers) => {
+    const validateNumber = (number) => {
+
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+console.log(subtractUp(1, 10, 15, 20));
+
+---------------------------------------------
+
+
+Essa função "validateNumber" é UMA FUNÇÃO NORMAL, A ÚNICA COISA DIFERENTE É QUE ELA FAZ PARTE DE OUTRA FUNÇÃO.
+Mas se você pensar sobre essa situação, até que faz sentido. Afinal, o que são funções? ESSENCIALMENTE, 
+SÃO ___OBJETOS___. E é claro que você pode criar um objeto e armazená-lo DENTRO DE UMA FUNÇÃO... se você 
+fizer isso, o objeto será SCOPADO LOCALMENTE ÀQUELA FUNÇÃO (ganhará o local scope daquela função), 
+devido ao BLOCK SCOPE. 
+
+
+É A MESMA COISA QUE ESTAMOS FAZENDO AQUI, ESTAMOS CRIANDO UMA FUNÇÃO DENTRO DE OUTRA FUNÇÃO. A ÚNICA DIFERENÇA PARA 
+TODAS AS NOSSAS OUTRAS FUNÇÕES É QUE ESSA FUNÇÃO "validateNumber" AGORA SÓ FICA DISPONÍVEL DENTRO DESSA FUNÇÃO.
+
+Todas as outras funções desse projeto foram criadas globalmente, sempre no ROOT LEVEL do script, e, devido ao NORMAL SCOPING, essas funções sempre 
+estão disponíveis GLOBALMENTE. Mas essa função que criamos agora SÓ PODE SER USADA DENTRO DESSA FUNÇÃO ESPECÍFICA.
+Por exemplo, poderíamos escrever uma função ternária dentro do function body dela, dizer "cheque se number isNaN(não é um número), 
+se for truthy (not a number), escolha o valor 0, CASO CONTRÁRIO, ESCOLHA O VALOR "number" (que é o próprio valor de number) e RETORNE ISSO."
+
+
+Representação:
+
+
+
+const sumUp = (a, b, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += num;
+    }
+    return sum;
+};
+
+
+
+
+console.log(subtractUp(1, 10, 15, 20));
+
+
+
+
+
+
+DEPOIS DE DEFINIDA ESSA FUNÇÃO TERNÁRIA, PODEMOS TAMBÉM ADICIONAR um chamado da função "validateNumber" mais abaixo, dentro 
+do for of loop de "numbers".
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+
+const sumUp = (a, b, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    return sum;
+};
+
+
+
+
+console.log(sumUp(1, 10, 15, 20));
+
+
+-------------------------------------------------
+
+Usamos "validateNumber" aqui para BASICAMENTE ADICIONAR NOSSO NÚMERO VALIDADO DENTRO DESSE CÁLCULO DO "sum", inerente ao for of loop.
+Se agora recarregarmos, basicamente receberemos o mesmo comportamento de antes, os mesmos números serão logados (23, 136 e -46).
+
+MAS OCORRERÁ UMA DIFERENÇA SE ADICIONARMOS ALGO QUE ___NÃO É UM NÚMERO_____, como um texto/string dentro de console.log.
+
+
+ex:
+
+
+
+
+const sumUp = (a, b, ...numbers) => {
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+let sum = 0;
+    for(const num of numbers) {
+        sum += validateNumber(num);  //EIS AQUI A ALTERAÇÃO
+    }
+    return sum;
+};
+
+
+console.log(sumUp(1, 5, 'fdsa', -3, 6, 10));
+
+
+
+
+VEJA QUE CURIOSO: o JAVASCRIPT NÃO NOS DARÁ UM ERRO DECORRENTE DESSE VALOR INVÁLIDO (isNaN = true), ISSO 
+POR CAUSA DA EXPRESSÃO TERNÁRIA QUE O PROFESSOR INSERIU DENTRO DO FUNCTION BODY DA FUNÇÃO "validateNumber", que existe 
+localmente dentro da função "sumUp". Sem essa função validateNumber e seu function body, certamente RECEBERÍAMOS UMA 
+MENSAGEM DE ERRO POR MEIO DESSE CONSOLE.LOG COM VALOR DE STRING.
+
+
+Mas a razão de isso não ter dado um erro não é tanto a lógica que o professor escreveu ali (lógica da expressão ternária e do "isNaN".).
+A coisa importante é que ISSO AGORA É UMA FUNÇÃO QUE SÓ EXISTE DENTRO DESSA FUNÇÃO ESPECÍFICA.
+
+
+Mas você deve fazer isso? Criar funções dentro de outras funções?
+
+
+DEPENDE. Na maior parte do tempo, na grande maioria dos casos, FUNÇÕES GLOBAIS SÃO AQUILO QUE VOCÊ QUER.
+
+A razão disso é simples: por causa da maneira que as funções funcionam e devido aos métodos pelos quais você constrói
+seu código com diferentes funções que dependem uma da outra, você quase sempre tem um cenário em que você quer trabalhar 
+com UM MONTE DE FUNÇÕES GLOBAIS, e um cenário em que uma função em si chame uma função que apenas pertença a ela É RARO. Mais provável é 
+que a função mencionada chame uma função global, uma função mencionada fora de ela mesma. 
+
+Mas ainda assim, há uns casos específicos em que isso faz sentido, por isso é legal saber que EXISTE ESSA POSSIBILIDADE.
+Vamos ver mais sobre isso depois, quando estudarmos mais sobre os aspectos avançados do javascript, sobre performance e como 
+os argumentos e dados que você usa se comportam de verdade.
+
+
+Por enquanto, é apenas algo que o professor quer nos mostrar e cientizar.
+
+
+
+Se você pensar um pouco, funções dentro de funções fazem sentido. São apenas objetos dentro de funções, basicamente. 
+Funções/objetos que armazenamos dentro de constantes/variáveis dentro de uma função.

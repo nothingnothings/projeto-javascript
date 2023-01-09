@@ -1,0 +1,253 @@
+
+
+
+Primeiramente, outro problema:
+
+
+Agora, se nós digitarmos coisas no console e então CLICARMOS NO BACKDROP, o backdrop 
+fará com que o modal seja fechado, MAS OS INPUTS QUE COLOCAMOS ANTES CONTINUARAM NOS INPUT FIELDS.
+
+O professor quer que isso mude, que os input fields sejam limpos quando nós fechamos 
+a janela por meio do clique no backdrop.
+
+
+
+Temos aquela função "clearMovieInput", que é chamada sempre 
+que o "cancelAddMovieHandler" é chamado.
+
+DEVEMOS COPIAR E COLAR ESSA FUNÇÃO (FAZER UM CHAMADO DELA) também 
+em "backdropClickHandler", para que os inputs sejam limpos nesse caso, também.
+
+
+Deu. Isso realmente funcionou.
+
+
+
+
+DEPOIS DISSO, DEVEMOS EXAMINAR O PROBLEMA FINAL E PRINCIPAL DO NOSSO CÓDIGO:
+
+Quando clicamos no botão "yes" de remover o item que adicionamos na página, o botão 
+yes faz com que TODOS OS ITEMS MOVIE QUE FORAM ADICIONADOS SUMAM. Além disso, 
+há um outro bug: essa opção "yes" faz com que o backdrop suma, mas não apaga o modal da tela do usuário.
+
+
+1) o processo de deleção não está correto
+
+
+
+2) o modal nunca fecha.
+
+
+------------------------
+
+
+Primeiro a solução para o problema 2:
+
+
+vamos até a função "deleteMovie", que apenas é acionada quando realmente queremos nos livrar de tudo.
+Nessa função, nós fazemos o chamado da função "cancelMovieDeletion" (chamada pelo professor de "closeMovieDeletionModal").
+
+
+Feito o teste, comprovamos que isso realmente funciona.
+
+ENTRETANTO, O BUG DA SELEÇÃO AINDA PERMANECE: sempre deletamos o último elemento que foi criado, e 
+nunca o elemento em que clicamos.
+
+Mas qual é o problema aqui? 
+
+
+O problema tem relação com a função "deleteMovieHandler". Dentro 
+dessa função, o professor estabeleceu um eventListener para o "btnDanger" ( e para o BtnPassive, mas temos essa constante como global, e não local ).
+
+
+O problema é: se nós temos um filme aqui, PRESSIONAMOS PARA DELETAR..., colocamos 
+"NO" e ENTÃO, MAIS TARDE, COLOCAMOS "YES" (para realmente deletar), O CONSOLE 
+DO DEVTOOLS NOS LANÇA UM ERRO. "cannot read property 'remove' of undefined at deleteMovieHandler".
+
+
+Esse problema está ligado com o problema de às vezes deletarmos múltiplos items quando queremos deletar apenas 1.
+Os 2 problemas tem a mesma origem.
+
+Mas o que é esse problema?
+
+--> sempre que o professor COMEÇA O PROCESO DE DELEÇÃO DO MOVIE ITEM, por meio 
+de "deleteMovieHandler", ele adiciona um eventListener para o botão "btnDanger" e para "BtnPassive".
+
+Quando ele cancela a deleção, por meio de "no", ele, é claro, executa o botão que 
+executa a  função "cancelMovieDeletion", E NÃO A OUTRA FUNÇÃO, A FUNÇÃO "deleteMovie" que está 
+NO ADDEVENTLISTENER CONECTADO À "btnDanger".
+
+--> continuando:
+
+POr isso, quando o professor clica no MESMO FILME DE NOVO (ou mesmo em um outro filme), o problema é 
+que NÓS ACABAMOS ADICIONANDO ____NOVOS___ EVENTLISTENERS____ (pois é uma nova execução dessa função 
+deleteMovieHandler, com novos eventListeners 'idênticos'), MAS OS LISTENERS ANTIGOS 
+DESSES BOTÕES ___AINDA____ESTÃO____ ALI___ NO___ CÓDIGO_. 
+
+Você nunca deve se esquecer de que esses "underlying DOM objects" NUNCA SÃO REMOVIDOS, 
+ELES CONTINUAM NO CÓDIGO, A NÃO SER QUE VOCê OS REMOVA. Ou seja, os eventListeners antigões 
+nunca são limpados pela engine do javascript.
+
+Isso significa que QUANDO NÓS CLICAMOS NESSE NOVO EVENTLISTENER, ___TODOS____ OS EVENTLISTENERS 
+CRIADOS NO PASSADO SERÃO EXECUTADOS, ATÉ MESMO AQUELES QUE VOCÊ NÃO UTILIZOU (por ter clicado no botão "no").
+
+E se nós tivermos apenas 1 único filme e então abrirmos e fecharmos esse modal múltiplas vezes, NÓS 
+BASICAMENTE ESTAREMOS ADICIONANDO MAIS E MAIS EVENTLISTENERS A ESSE BOTÃO DE CONFIRMAR (o botão "yes").
+
+E se então o professor clicar em "yes", ele vai ganhar um milhão de mensagens de erro, uma para cada 
+eventListener, dizendo que VOCÊ NÃO PODE REMOVER ESSE ELEMENTO ESPECÍFICO, PORQUE ELE JÁ ERA, JÁ NÃO EXISTE MAIS.
+
+ex: 
+
+professor abriu modal 5x antes de deletar com "yes" --->
+
+
+Vai receber 4 mensagens de erro, pois o primeiro ADDEVENTLISTENER vai 
+remover, e os outros não vão conseguir fazer isso (porque o elemento já não está no código ,
+ foi removido pelo primeiro ADDEVENTLISTENER).
+
+
+ ---> Tudo bem, mas como consertamos isso?
+
+
+ --> Bem, devemos LIMPAR OS EVENTLISTENERS existentes NO PRESENTE.
+
+
+ --> outro problema: existe, é claro, uma função chamada "removeEventListener" (removeEventListener(); ),
+ MAS ESSA FUNÇÃO SEMPRE pega o evento pelo qual você quer remover o listener (evento 'click', geralmente) 
+ E ENTÃO A FUNÇÃO QUE VOCÊ EXECUTOU POR MEIO DO SEU EVENTLISTENER antigo.
+
+ ex:
+
+
+btnDanger.removeEventListener('click',  deleteMovie.bind(null, movieId));
+
+
+---------------------------------------------
+
+PROBLEMÃO: isso funcionaria NORMALMENTE, mas como usamos "bind" nessa função deleteMovie do eventListener antigo, 
+o que esse bind faz é RETORNAR (return) UMA NOVA FUNÇÃO. VocÊ pode pensar: "ah, sem problemas, é 
+só eu colocar um bind nessa função que eu cito no novo removeEventListener", MAS ISSO NÃO FUNCIONA, 
+PORQUE SE VOCÊ FIZER ISSO, ESSE NOVO "deleteMovie.bind" VAI NA VERDADE RETORNAR UM NOVO OBJETO-FUNÇÃO...
+E, como você já sabe, 2 objetos, ainda que possuam os mesmos valores/key-value pairs, NUNCA SÃO IGUAIS.
+
+
+
+OOU SEJA, aquela função que você vai referenciar dentro do removeEventListener NÃO É A MESMA 
+FUNÇÃO UTILIZADA MAIS CEDO NO EVENTLISTENER.
+
+
+basicamente... "btnDanger.removeEventListener('click',  deleteMovie.bind(null, movieId));" procuraria 
+por um objeto com   ESSE EVENTLISTENER: "('click',  deleteMovie.bind(null, movieId));", 
+PORÉM ESSE EVENTLISTENER NÃO É IGUAL A ESSE EVENTLISTENER: "('click',  deleteMovie.bind(null, movieId));"
+                                                                    (ainda que os 2 objetos tenham os mesmos valores).
+
+-------------------------------------------------------------------------------
+
+A boa notícia É QUE PARA O BOTÃO DE DIZER "NO", ISSO (O MÉTODO removeEventListener) funciona perfeitamente, 
+pois não estamos utilizando BIND no eventListener dele. 
+Para esse botão, estamos bem: limpamos um eventlistener antigo antes de 
+adicionar um novo, agora.
+
+ex:
+
+btnPassive.removeEventListener('click', backdropClickHandler);
+btnPassive.addEventListener('click', backdropClickHandler);
+
+
+-------------------------------------------------------------------------------
+
+
+Mas para o botão "yes", as coisas ainda não estão funcionando...
+
+
+PRECISAMOS DE UM WORKAROUND.
+
+
+Um workaround que podemos utilizar, apesar de ser meio clunky e hacky, 
+É A IDEIA 
+DE SIMPLESMENTE RECRIAR AQUELE BOTÃO DE DELEÇÃO. Se fizermos isso, 
+nos livramos desse objeto DOM do botão antigo... com o botão-objeto DOM antigo removido, 
+todas as referências àquele botão são removidas também, o que faz com que todas as constantes 
+antigas que seguram os valores dos botões também são jogadas no vácuo, graças 
+À ajuda do garbage collector da engine do javascript. O garbage collector 
+se livra dos eventListeners antigos atrelados a esses botões descartados.
+
+
+Mas como devemos expressar isso no código?
+
+Devemos TROCAR o botão de deleção ____ANTES____ DE ADICIONARMOS UM EVENTLISTENER A ELE.
+Devemos fazer isso para QUE SEMPRE TENHAMOS UM BOTÃO NOVINHO EM FOLHA EM QUE PODEREMOS 
+ADICIONAR UM NOVO EVENTLISTENER. Para fazer isso, o professor simplesmente 
+digita o método "replaceWith", para trocar 
+o botão antigo por um novo elemento. Além disso, ele usa "cloneNode()" para simplesmente 
+replicar o botão antigo sem gastar muito código. Ele usa "cloneNode(true)" PARA CRIAR UM 
+___DEEP CLONE___ do botão/elemento "btnDanger". Portanto, fazemos um clone do elemento 
+antigo e o substituímos por esse novo elemento. O deepclone é necessário aqui 
+para que o texto dentro do botão seja replicado.
+
+ex:
+"btnDanger.replaceWith(btnDanger.cloneNode(true));"
+
+
+ex:
+
+const deleteMovieHandler = movieId => {
+    ...
+
+
+    btnDanger.replaceWith(btnDanger.cloneNode(true));
+    btnDanger.addEventListener('click', deleteMovie.bind(null,  movieId));
+}
+
+---------------------------------
+
+MAS, ENTÃO, SURGE UM NOVO PROBLEMA:
+
+O novo botão "yes" não funciona. Não faz nada, pois não tem eventListeners atribuídos a ele (os eventListeners 
+estavam atribuídos ao botão antigo, que foi jogado ao vácuo).
+
+Para consertar isso, o professor diz que devemos mudar o btnDanger, que não será mais 
+uma constante, e sim uma VARIÁVEL (let). Ele também INVERTE A ORDEM Do 
+"replaceWith" e do "addEventListener" do botão "yes", para que ele ganhe 
+acesso ao botão com "addEventListener" DEPOIS DO BOTÃO ANTIGO SER SUBSTITUÍDO 
+PELO NOVO.
+
+
+
+
+Conseguimos consertar todos os problemas do código, com aquele 
+workaround.
+
+Há outras maneiras de consertar aquele problema 
+dos eventListeners, mas 
+ainda não aprendemos como fazer isso 
+com essas outras maneiras.
+
+
+
+ENTRETANTO... AINDA FALTA UM 
+PEQUENO DETALHE:
+
+
+
+O professor quer se assegurar de que, 
+se não temos mais nenhum item, que a section antiga ("your personal movie database!") volte
+
+
+
+Como podemos fazer isso?
+ 
+
+ DEVEMOS UTILIZAR A  função "UPDATEUI" 
+ QUE DEFINIMOS LÁ NO INÍCIO DO PROJETO.
+
+ Tudo que precisamos fazer é chamá-la sempre que nós 
+ deletamos um movie.
+
+
+ Isso realmente funciona, a section volta quando 
+ deletamos todos os items.
+
+ (isso é porque o código está definido como 
+ "if movies.length === 0, section.style.display = 'block', else section.style.display = 'none');

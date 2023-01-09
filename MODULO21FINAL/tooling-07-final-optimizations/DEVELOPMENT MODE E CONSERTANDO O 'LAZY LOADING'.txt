@@ -1,0 +1,453 @@
+
+
+
+
+NÓS FIZEMOS NOSSO PRIMEIRO 'WEBPACK BUILD' por meio do código do comando no terminal de 
+
+'node_modules/.bin/webpack'...
+
+
+
+
+
+NÓS CONSEGUIMOS NOSSO PRIMEIRO CÓDIGO OPTIMIZADO, QUE AGORA RESIDE NA PASTA 'dist'...
+
+
+
+
+Se a opção 'mode' em webpack.config.js não estiver definida, o modo sempre será definido
+
+PRODUCTION como default....
+
+
+
+
+Se o modo for production (como está agora), webpack vai automaticamente aplicar 
+
+UM MONTE DE OPTIMIZAÇÕES PARA NÓS....
+
+
+
+
+É claro que essas optimizações são super convenientes, mas aqui eu quero COMEÇAR 
+
+COM UM 'BUILD' DE DEVELOPMENT...
+
+
+as builds de development, usadas para development, não possuem todas essas optimizações.
+
+
+
+
+vou até webpack.config.js e defino 
+
+
+'mode' como 'development'...
+
+
+
+
+
+
+Se eu fizer isso, vou receber ARQUIVOS QUE NÃO SERÃO MAIS AS VERSÕES OPTIMIZADAS DO NOSSO CÓDIGo...
+
+
+
+
+
+
+vou receber o código de 'app.js' na sua forma NAO OPTIMIZADA e webbundlada...
+
+
+
+
+
+SE VOCÊ EXAMINAR O CONTEÚDO DESSE NEGÓCIO, VOCÊ VERÁ QUE HAVERÁ 
+UM MONTE DE LINHAS DE CÓDIGO ADICIONAIS, as quais nós não escrevemos...
+
+
+
+
+
+ISSO TUDO É TRABALHO DO WEBPACK, o código que assegura que tudo funcionará, que 
+
+tudo rodará no momento do runtime e assim por diante....
+
+
+
+
+
+
+
+
+
+
+MAS ESSE CÓDIGO REALMENTE FUNCIONA?
+
+
+
+
+Bem, para testar isso, tudo que precisamos fazer é ativar 
+
+
+nosso development server, 
+
+
+
+QUE POR ENQUANTO AINDA É 'serve'...
+
+
+
+Bem, agora temos um problema...
+
+
+
+
+Ok, "consertei" o problema...
+
+
+(o "serve" estava fazendo serve no meu sistema de pastas, e não no arquivo html...
+
+Para que ele fizesse serve no arquivo html de 'app.js', tive de digitar 'cd dist' no 
+console... isso fará com que 
+
+a pasta 'dist', onde está o arquivo app.js, seja objetivada pelo console.) ----> 
+
+
+ENTRETANTO, AGORA TEMOS OUTRO PROBLEMA:
+
+
+Os ESTILOS da página estão quebrados... o conteúdo do arquivo 'app.css' NÃO ESTÁ SENDO CARREGADO.
+
+
+
+
+
+"consertei" ----> coloquei o arquivo de estilos 'app.css" dentro 
+
+
+da pasta DIST, depois coloquei 
+
+
+
+
+' <link rel="stylesheet" href="app.css"/>'
+
+
+
+NO HTML...
+
+---------------------------------------------
+
+
+
+
+Certo, as paradas estão funcionando.... (só foi um pouco complicado).
+
+
+
+
+
+E... mais um problema: 
+
+
+
+meus scripts são carregados na página, mas o 'app.js' ESTÁ VERMELHO e com um response code de '404'....
+
+
+
+
+
+
+ACHO que consertei...
+
+
+
+alterei o app.js dos arquivos "não webpackados" para 
+
+o app.js "webpackado", que está dentro da pasta 'dist'...
+
+
+
+
+
+
+
+Agora, vários erros, de tipos e cores diferentes...
+
+
+
+erro no console.log de "DEFAULT_vALUE"....
+
+
+vou lá e comento esse console.log par afora do código....
+
+
+
+
+ok. mas agora 
+
+
+"hasActiveTooltip" está como undefined em 
+
+'app.js'.....
+
+
+
+
+BEM, PELO MENOS AGORA O SCRIPT NÃO ESTÁ MAIS ___vERMELHO____ e com 
+
+response 404, como antes...
+
+
+Mas temos que consertar isso do hasActiveTooltip...
+
+
+
+
+era 
+
+
+
+um 'this' que estava faltando...
+
+
+
+colocamos o 'this' no hasActiveTooltip em 'projectItem'
+
+
+E ENTÃO RODAMOS o 
+
+
+
+webpack de novo, por meio do código 
+
+de módulos lá.
+
+
+
+
+----------------------------
+
+
+
+CERTO, CONSEGUI.
+
+
+
+CONSERTEI TUDO QUE HAVIA DE ERRADO;
+
+
+
+AGORA O CÓDIGO FUNCIONA, TODOS OS SCRIPTS QUE ESTÃO EM MÓDULOS SÃO COMPILADOS EM APENAS 1 
+
+SÓ, o script 
+
+'app.js' GERAL/UNIVERSAL....
+
+
+
+Enquanto isso, ainda posso CONTINUAR TRABALHANDO NOS MÓDULOS desse script...
+
+
+Quando termino de alterar algo, simplesmente rodo aquele código maluco 
+
+dos node_modules PARA ENTÃO EXECUTAR O WEBPACK 
+
+e compilar tudo de novo.
+
+
+
+
+
+Certo....
+
+
+
+
+
+MAS ALGO AINDA ESTÁ INCOMPLETO NO NOSSO CÓDIGO:
+
+
+
+O lazy loading ainda ocorre nele....
+
+
+E o código de 'tooltip' NÃO É CARREGADO (por meio de request) SOMENTE QUANDO NÓS APERTAMOS NO BOTÃO 'more Info'... (ele já fica carregado antes na página, o que é um fracasso).
+
+
+
+----------------------------------------------------------------------
+
+
+
+
+Professor diz que, se clicarmos em tooltip, VEREMOS UM PROBLEMA...
+
+
+
+no console aparecerá 
+
+
+"0.app.js", um request que terá código de 404.... ( e o código/mensagem de tooltip também não aparecerá...)
+
+(entretanto, no nosso código nós NÃO VEMOS ISSO, o que é bizarro; no nosso código, não aparece 
+nada quando clicamos nesse botão.)
+
+
+
+---------------------------------
+
+
+
+Professor diz que código está sendo burro: 
+
+não está conseguindo encontrar 
+
+'0.app.js', está procurando nas pastas erradas.
+
+
+
+o Workaround para esse problema, problema de encontrar o arquivo que 
+
+segura o script do nosso código, 
+
+
+PRECISAMOS 
+
+VOLTAR AO NOSSO 
+
+
+'webpack.config.js' E ENTÃO, 
+
+EM OUTPUT, 
+
+
+COLOCAR OUTRA KEY nele, uma key que será chamada de 
+
+'publicPath'...
+
+
+
+PROFESSOR EXPLICA QUE WEBPACK ESTÁ PEGANDO TODOS OS NOSSOS SCRIPTS E ENTÃO 
+
+OS MOVENDO PARA O FOLDER 'dist' discriminado em 'path'...
+
+
+
+
+Nosso servidor/webserver então importa 
+
+'app.js' DAQUELE FOLDER 'dist'...
+
+
+
+
+O problema aqui é que webpack escreve nosso arquivo 'app.js' de modo que 
+
+O WEBPACK PROCURA PELO '0.app.js' (ou '331.app.js') NÃO 
+
+NO MESMO FOLDER em que o 
+
+arquivo 'app.js' está (ou seja, no folder 'dist'), 
+
+
+MAS NO ___ROOT LEVEL___ do nosso servidor....
+
+
+(E é exatamente por isso que nosso script, o NOSSO SCRIPT, no caso, está funcionando, 
+
+PORQUE '331.app.js' ESTÁ NO MESMO FOLDER, no folder 'dist', DE 'app.js'... o que não 
+
+está ocorrendo com o professor). --------------->
+
+
+
+COM 'PUBLICPATH', podemos DIZER AO WEBPACK QUE 
+
+NOSSOS ARQUIVOS ESTÃO ARMAZENADOS EM UM LUGAR ___DIFERENTE___.
+
+
+
+o professor então coloca (no caso dele) 
+
+
+O path de 
+
+
+'assets/scripts/'...
+
+
+ex:
+
+
+
+
+module.exports = {
+    mode: 'development',
+    entry: './src/app.js', //de novo, esse é o caso DO PROFESSOR, e não o nosso.
+    output: {
+        filename: 'app.js',
+        path: path.resolve(__dirname, 'assets', 'scripts'),  //exemplo do PROFESSOR
+        publicPath: 'assets/scripts'    //de novo, esse foi o exemplo DO PROFESSOR, e não o nosso.
+    }
+};
+
+
+
+----------------------------------
+
+
+
+CERTO, MAS AINDA HÁ UM PROBLEMA....
+
+
+O código de 'Tooltip' ainda não está sendo carregado dinamicamente......
+
+
+
+
+
+
+CERTO, CONSEGUIMOS!!!!
+
+
+
+
+
+O PROBLEMA ERA SIMPLES:
+
+
+um código residual ainda existia em 'ProjectItem',
+
+uma linha de código que importava 
+
+o tooltip de forma ESTÁTICA no nosso código...
+
+
+
+Consertamos isso por meio do 'comment out' desse código...
+
+
+Aí apenas o import DINÂMICO sobrou...
+
+
+
+
+
+OBS: a configuração desse tooltip dinâmico acabou criando OUTRO 
+
+ARQUIVO DE SCRIPT, o arquivo 'src_App_Tooltip_js.app.js'...
+---------------------------------
+
+
+
+PORTANTO, AGORA TUDO FUNCIONA:
+
+
+
+agora conseguimos fazer nosso tooltip aparecer, e 
+
+agora temos esse nosso 'bundled output', um bundled output QUE 
+
+AINDA TEM ESSA CAPACIDADE DE CARREGAR UNS CÓDIGOS "on demand" (ou seja, quando interagimos/clicamos em algo na página, os imports DINÂMICOS, por assim se dizer).

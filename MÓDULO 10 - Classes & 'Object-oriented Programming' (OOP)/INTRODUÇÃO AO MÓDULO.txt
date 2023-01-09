@@ -1,0 +1,128 @@
+Agora que vimos mais sobre objetos, 
+
+
+devemos ver ainda mais sobre eles. 
+
+
+
+
+
+Não veremos muita coisa sobre o 
+
+
+
+'object literal notation' (a notação literal de objetos, com a qual nós trabalhamos um monte até agora, 
+
+que tinha/tem diferentes features de sintaxe como 'destructuring', que já 
+estudamos), 
+
+
+
+mas, EM VEZ DISSO, VAMOS MERGULHAR EM UMA 
+
+
+FEATURE NOVINHA EM FOLHA, EM UM TIPO COMPLETAMENTE 
+NOVO DE SINTAXE,
+
+o qual tem relação COM UM CONCEITO GERAL DE PROGRAMAÇÃO 
+QUE É CHAMADO 
+
+
+DE 'Object Oriented Programming'.
+
+
+
+Nesse módulo, veremos o que diabos isso significa, por que 
+
+gostaríamos de utilizá-lo, e COMO 
+
+PODEMOS UTILIZÁ-LO em uma aplicação 
+javascript.
+
+
+
+
+E PARA USÁ-LA, OU PARA CONSTRUIR UM APLICATIVO COM 
+ESSE 'OOP', mas também em GERAL, 
+
+para ter UMA EXPERIÊNCIA MAIS AGRADÁVEL de trabalho com 
+objetos.
+
+
+
+
+
+
+1) O que é 'OOP'?
+
+
+
+
+2) Classes e 'instancias' (instances).
+
+
+
+----------------------------
+
+
+
+
+
+DEVEMOS VER O QUE SÃO 'classes' e 'instances'.
+
+
+
+
+
+O professor vai nos explicar tudo isso.
+
+
+
+
+3) Propriedades, fields e methods...
+
+
+
+
+
+
+AS PROPRIEDADES, FIELDS E METHODS ESTÃO CONECTADAS a classes 
+e instances.
+
+
+
+
+
+Aprenderemos sobre 'fields', que não são tão novos assim, como você 
+logo verá.
+
+
+
+
+REVISITAREMOS ___MÉTODOS____ PORQUE CLASSES, COMO VOCÊ APRENDERÁ, 
+VÃO NOS AJUDAR A CRIAR OBJETOS, e por isso 
+devemos dar uma olhada 
+em properties e methods mais uma vez, 
+para que póssamos entender como essas coisas funcionam 
+quando usamos CLASSES.
+
+
+
+
+
+4) INHERITANCE  ---> é um conceito que pode ser 
+MUITO ÚTIL QUANDO VOCÊ ESTÁ CRIANDO APLICATIVOS MAIS COMPLEXOS 
+COM JAVASCRIPT.
+
+
+
+
+
+Veremos todas essas coisas em um pequeno aplicativo de demonstração...
+
+
+
+Esse aplicativo nos demonstrará 
+as razões 
+dessas coisas serem úteis, desses conceitos serem úteis, 
+e como são aplicados a problemas de verdade.

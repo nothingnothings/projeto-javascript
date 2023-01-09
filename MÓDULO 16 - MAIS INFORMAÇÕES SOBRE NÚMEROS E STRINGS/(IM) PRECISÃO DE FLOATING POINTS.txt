@@ -1,0 +1,1136 @@
+Falando do sistema binário e do sistema DECIMAL, você talvez possa se lembrar que 
+
+às vezes, ao longo do curso, você conseguia um output 
+
+estranho para alguns  cálculos aparentemente fáceis...
+
+
+
+
+
+ex:
+
+
+
+
+'0.2 + 0.4' = 
+
+
+'0.6000000000000001'
+
+
+---------------------------------
+
+
+
+
+Recebemos esse 0.60000000000001, que faz POUCO SENTIDO...
+
+
+
+
+Professor diz que isso deveria ser '0.6'.
+
+
+
+
+
+E, DE FATO, SE VOCÊ DIGITASSE UMA COMPARAÇÃO NO DEVTOOLS CONSOLE, 
+
+como 
+
+
+'0.2 + 0.4 === 0.6' , 
+
+
+
+VOCê RECEBERIA 'FALSE'...
+
+
+------------------
+
+
+
+0.1 + 0.1 === 0.2
+true
+0.3 + 0.3 === 0.6
+true
+0.4 + 0.3 === 0.7
+true
+
+
+--------------------
+
+
+
+CERTO, MAS PQ DIABOS 0.2 + 0.4 === 0.6   RENDE 'false'?
+
+
+
+
+----------------------------
+
+
+
+
+A RAZÃO DISSO É SIMPLESMENTE ____O SISTEMA BINÁRIO_____.
+
+
+
+O SISTEMA BINÁRIO QUE O JAVASCRIPT E TODAS AS LINGUAGENS DE PROGRAMAÇÃO
+
+UTILIZAM, POR TRÁS DAS CENAS....
+
+
+
+
+
+É a combinação entre o BINARY SYSTEM (que a máquina usa, por trás das cenas) E 
+
+O DECIMAL SYSTEM (que nós, desenvolvedores, usamos).
+
+
+
+
+
+Quando escrevemos 
+
+'0.2' e '0.4', é evidente 
+
+
+que estamos trabalhando COM O SISTEMA DECIMAL...
+
+
+COM UMA BASE DE 10.
+
+
+
+
+O javascript internamente trabalha com o SISTEMA BINÁRIO.
+
+
+
+
+
+ 
+ PORTANTO, O JAVASCRIPT ___CONVERTE___ ESSES NÚMEROS DECIMAIS 
+
+ ___ AO SISTEMA BINÁRIO, para que consiga fazer OS CÁLCULOS...
+
+
+ FEITOS OS CÁLCULOS, O JAVASCRIPT CONVERTE O OUTPUT DE VOLTA AO FORMATO DECIMAL,
+
+ para que o output seja COMPREENSÍVEL aos olhos humanos...
+
+
+ NÓS, HUMANOS, PREFERIMOS TRABALHAR COM O SISTEMA DECIMAL DO QUE O SISTEMA BINÁRIO.
+
+
+
+
+ É IMPORTANTE ENTENDER QUE NÚMEROS 
+
+
+ COM CASAS DECIMAIS (como '0.2' e 0.4') SÃO, 
+ NO FINAL DAS CONTAS, 
+
+ SIMPLESMENTE REPRESENTADOS COMO 
+
+
+ _____FRAÇÕES____ DE INTEGRAIS_____ (integers)....
+
+
+
+
+
+
+
+ Você poderia dizer, por exemplo, que 
+ '0.2' poderia ser representado no sistema 
+
+ DECIMAL POR 
+
+ '1/5'....
+
+
+ já 
+
+
+ '0.4' PODERIA SER REPRESENTADO 
+
+ POR 
+
+ '2/5'...
+
+
+
+ NO SISTEMA DECIMAL, ESSES CÁLCULOS E REPRESENTAÇÕES SÃO SUPER SIMPLES, CERTO?
+
+
+
+
+JÁ NO SISTEMA __bINÁRIO____, tudo isso é diferente...
+
+
+
+
+
+
+PARA ENTENDER COMO AS COISAS FUNCIONAM LÁ,
+
+PRIMEIRAMENTE DEVEMOS VER UM CÁLCULO QUE REALMENTE NÃO 
+
+CONSEGUIMOS RESOLVER, ou um cálculo cuja RESPOSTA NÃO 
+
+É PERFEITA NO SISTEMA DECIMAL, TAMBÉM...
+
+
+
+
+Exemplo disso é 
+
+'1/3' --->
+
+
+
+Isso nos dá uma DÍZIMA PERIÓDICA...
+
+
+'0.333333333333333333'.
+
+
+
+NO SISTEMA DECIMAL NÃO TEMOS UMA DIVISÃO PERFEITA PARA ESSE NÚMERO.
+
+
+
+
+No sistema binário, casos similares EXISTEM. Esses casos não são com números/cálculos 
+
+como 
+
+'1/3' necessariamente, mas 
+
+
+POR EXEMPLO, existem para números como '1/5' (1 dividido por 5)...
+
+
+
+------------------------------
+
+
+
+
+É por isso que pode até ser conveniente entender COMO NÚMEROS SÃO 
+
+REPRESENTADOS NO SISTEMA BINÁRIO...
+
+
+
+Isso pode ser feito facilmente com o input de um número 
+
+
+no devtools console...
+
+
+
+
+
+OBS(IMPORTANTE)::::: EM JAVASCRIPT, 
+
+
+SE VOCê QUER REPRESENTAR REALMENTE UM INTEGRAL/uma 'integer', você deve 
+
+ENVOLVÊ-LA EM PARÊNTESES. ISSO DIZ AO JAVASCRIPT QUE VOCÊ REALMENTE QUER REPRESENTAR/USAR 
+
+ESSE NÚMERO NA SUA FORMA 'INTEGER'....
+
+
+ex:
+
+
+
+(1)
+
+
+
+
+------------------------------------
+
+
+
+PROFESSOR DIGITA '(1)' E ENTÃO, COM A DOT NOTATION (.), ELE VAI LÁ 
+
+E ACESSA UM ___MÉTODO___ DENTRO DESSA INTEGRAL...   (ou seja, com '.', aqui ACESSAMOS UM MÉTODO NESSE NÚMERO, e não 'uma casa decimal' a ele...)
+
+
+
+ex:
+
+
+
+(1).toString();
+
+
+
+
+-----------------------------------
+
+
+
+PROFESSOR ACESSA O 
+
+'toString()'
+
+
+
+
+ELE EXPLICA QUE 'toString' ACEITA UM PARÂMETRO OPCIONAL, 
+
+um parâmetro em que VOCÊ DECRETA/INDICA/SINALIZA ____A BASE ___ À QUAL VOCÊ 
+
+VAI QUERER CONVERTER AQUELE NÚMERO...
+
+
+se vocÊ 
+
+digitar '2', por exemplo...
+
+
+
+
+ex:
+
+
+
+
+(1).toString(2);
+
+------------------------------------
+
+
+
+
+
+
+SE VOCÊ DIGITAR '2' NESSE PARÂMETRO, VOCÊ FARÁ A REPRESENTAÇÃO DESSE NÚMERO 
+
+como 
+
+
+'1' NO SISTEMA BINÁRIO!!!!!
+
+
+
+ENTRETANTO, O '1' no sistema binário ____AINDA ___ É 1...
+
+
+ainda é 1 pq NO SISTEMA BINÁRIO NÓS APENAS TEMOS OS NÚMEROS/DÍGITOS 
+
+0 e 1.... 
+
+---------------------------------------
+
+
+
+MAS ISSO MUDA SE COLOCARMOS UM NÚMERO QUE NÃO EXISTE NATIVAMENTE NO SISTEMA 
+
+BINÁRIO... como por exemplo, 5.
+
+
+
+ex:
+
+
+
+(5).toString(2);
+
+
+
+----------------------
+
+
+
+LEMBRE-SE: 
+
+
+1/5 é a mesma coisa que '0.2' no SISTEMA DECIMAL....
+
+
+---------------------------------
+
+
+
+5 no sistema binário é 
+
+O NÚMERO '101'...
+
+
+ex:
+
+
+(5).toString(2);
+
+
+output:  "101"
+
+
+
+
+-------------------------
+
+
+
+
+CERTO.
+
+
+COMO 
+
+
+5 É IGUAL A 101 no sistema binário, 
+
+
+a expressão '1/5' no sistema binário 
+
+É TRANSFORMADA, NA VERDADE, 
+
+
+EM '1/101' (1 dividido por 101...).
+
+
+
+OU SEJA, QUANDO VOCÊ 
+
+ESTÁ TENTANDO EXPRESSAR 
+
+'0.2' NO SISTEMA BINÁRIO, VOCÊ ESTÁ DIZENDO A MESMA COISA 
+
+QUE 
+
+
+'1/101'...
+
+
+
+
+0.2 = 1/5 ----> que é registrado como '1/101', que é um OUTRO NÚMERO, DIVERSO DE '1/5'...
+
+
+
+
+
+
+PROFESSOR DIZ QUE PODEMOS OBSERVAR O RESULTADO EXATO DESSA DIVISÃO/REPRESENTAÇÃO NO 
+
+SISTEMA BINÁRIO se nós 
+
+digitarmos 
+
+no devconsole 
+
+
+'(1/5).toString(2)' ----------->   ou seja, COM ESSE CÓDIGO NÓS QUEREMOS VER O RESULTADO DESSA DIVISÃO NO SISTEMA BINÁRIO (2)...
+
+
+
+ex:
+
+
+ISSO VAI NOS DAR UM OUTPUT DE 
+
+
+'0.001100110011001100110011001100110011001100110011001101'.   (mesma coisa para '0.2', que é a mesma coisa.).
+
+
+
+
+----------------------------
+
+
+
+ESSE NÚMERO GIGANTE É, NO FINAL DAS CONTAS, o resultado 
+
+
+que obtemos no sistema binário se tentarmos dividir 1 POR 5 em uma representação do sistema decimal...
+
+
+
+
+ESSE É O RESULTADO DA 'to the binary system' calculation que O JAVASCRIPT REALIZOU...
+
+
+
+
+
+
+'0.2' em 
+
+
+0.2 + 0.4,  É, 
+
+
+NO FINAL DAS CONTAS, 
+
+ESSE NÚMERO '0.001100110011001100110011001100110011001100110011001101' no BINARY SYSTEM...
+
+
+
+-------------------------------------------------
+
+
+Professor explica também que ESSE NÚMERO É CORTADO ALI NO FINAL... (1101)....
+
+
+MAS ELE EXPLICA QUE ESSE PADRÃO DE NÚMEROS AQUI REPRESENTADOS SERIA/É REPETIDO 
+
+INFINITAMENTE NO SISTEMA BINÁRIO....
+
+
+(É A MESMA COISA QUE OCORRE COM O '1/3' NO SISTEMA DECIMAL, mas dessa 
+vez no SISTEMA BINÁRIO....)...
+
+
+
+--------------------------------------
+
+
+
+
+RESUMINDO:
+
+
+
+
+Isso significa que HÁ CERTAS FRAÇÕES EM QUE ___NÃO HÁ ___ UMA SOLUÇÃO 
+
+PERFEITA NO SISTEMA BINÁRio, da mesma forma que HÁ CERTAS 
+
+DIVISÕES, como '1/3', EM QUE NÃO HÁ UMA SOLUÇÃO PERFEITA NO SISTEMA 
+
+DECIMAL...
+
+
+------------------------------------
+
+
+
+E é essa a razão 
+
+
+de acabarmos 
+
+com esse resultado escroto de 
+
+'0.600000000000001' para 
+
+'0.2 + 0.4'.
+
+
+
+------------------------------------------
+
+
+
+NO FINAL DAS CONTAS, ESSA ADIÇÃO ENTRE 
+
+
+'0.2' E '0.4', dois NÚMEROS 
+
+
+COM ___RESULTADOS IMPERFEITOS___ (ou seja, cuja divisão/representação de '1/5', '2/5', NÃO É PERFEITA)
+
+
+
+ACABA EM UM 
+
+___RESULTADO IMPERFEITO__, pois nós 
+
+juntamos 2 números 
+
+
+QUE NÃO PODEM SER 'solucionados', no final das contas....
+
+
+
+
+-----------------------------
+
+
+
+É A MESMA COISA QUE ADICIONARMOS 
+
+
+1/3 + 1/3 + 1/3 no devconsole....
+
+
+
+NÓS VAMOS GANHAR 
+
+'1' NO DEVCONSOLE, pois 
+
+o javascript faz um certo arredondamento para nós, faz 
+
+isso para nos entregar um resultado QUE FAZ SENTIDO.
+
+
+
+
+
+
+MAS, NO FINAL DAS CONTAS, VOCÊ ESTÁ TRABALHANDO COM 
+
+
+
+
+
+números que são 
+
+
+'0.33333 + 0.333333 + 0.33333' 
+
+
+O resultado dessa adição seria algo 
+
+como 
+
+'0.9999993',  o que 
+
+não é, de fato, 1....
+
+
+
+
+E O MESMO OCORRE COM O SISTEMA BINÁRIO, 
+
+
+com 
+'0.2 + 0.4'...
+
+
+
+VOCÊ NÃO CONSEGUE ADICIONAR 0.2 E 0.4 E CONSEGUIR '0.6' PQ ESSES DOIS NÚMEROS, NO SISTEMA BINÁRIO,
+
+não conseguem ser dissolvidos/solucionados, 
+
+
+NÃO HÁ UMA QUANTIDADE FINITA DE CASAS DECIMAIS NO JAVASCRIPT PARA CONSEGUIR REPRESENTAR CADA 
+
+UM DESSES NÚMEROS no sistema binário...
+
+
+------------------------------------
+
+
+
+
+Certo. Mas frequentemente em javascript, o próprio javascript 
+
+CONSERTA ISSO PARA NÓS:
+
+
+
+ele nos mostra um número QUE FAZ SENTIDO PARA NÓS mesmo que no SISTEMA BINÁRIO 
+
+
+esse número não possa ser realmente representado...
+
+-------------------------------------
+
+
+
+
+Por exemplo, se nós apenas 
+
+
+utilizarmos 
+
+'0.2'...
+
+
+
+
+
+Recém aprendemos que não existe uma representação perfeita 
+
+de '0.2' NO SISTEMA BINÁRIO...
+
+
+
+
+
+AINDA ASSIM, SE O JAVASCRIPT CONVERTE/converter a representação 
+
+binária desse número, 
+
+que é 
+
+o número '0.001100110011001100110011001100110011001100110011001101',
+
+
+
+QUANDO ELE CONVERTER ESSE NÚMERO DE VOLTA A UM NÚMERO DECIMAL para outputtar a nós, 
+
+
+ELE O CONVERTE DE VOLTA A UM NÚMERO DECIMAL PERFEITO (0.2), e não 
+
+algo como 
+
+
+'0.20000000000000000002'.
+
+
+
+---------------------------------------
+
+
+
+MAS ISSO É APENAS UM ____TRUQUE___ POR PARTE DO JAVASCRIPT (e também por muitas outras linguagens de programação).
+
+
+
+É evidente que elas não querem nos mostrar esse número binário feio (0.00101011010110) a nós,
+
+
+em vez disso elas querem NOS DAR UM RESULTADO QUE FAZ SENTIDO A NÓS...
+
+
+
+e geralmente elas são bem espertas quanto ao arredondamento de números 
+
+que elas encontraram/receberam/pegaram no sistema binário...
+
+
+
+
+
+ENTRETANTO, VOCÊ PODE VER/OBSERVAR A IMPRECISÃO 
+
+
+SE VOCê USAR OUTRO MÉTODO, que é 
+
+o 
+
+
+'.toFixed()'....
+
+
+
+
+ex:
+
+
+
+
+
+0.2.toFixed();
+
+
+----------------------------
+
+
+
+o 'toFixed' NÃO VAI CONVERTER O '0.2'...
+
+
+
+Em vez disso, o que você faz com o 'toFixed' é definir 
+
+
+UMA CERTA QUANTIA DE DÍGITOS QUE VOCÊ QUER QUE SEJAM OUTPUTTADOS...
+
+
+
+
+
+por exemplo, se você digitar '20', VOCÊ FORÇARÁ O JAVASCRIPT A REPRESENTAR 
+
+ESSE NÚMERO COM 20 CASAS DECIMAIS...
+
+
+
+ex:
+
+
+
+0.2.toFixed(20);
+
+
+
+-----------------------------
+
+
+OUTPUT: 
+
+
+0.20000000000001110
+
+
+
+--------------------------
+
+
+
+
+OU SEJA, DEPOIS DE UM CERTO TEMPO/EXTENSÃO DO RESULTADO, podemos 
+
+observar certa imprecisão (o '1110')....
+
+
+
+
+JAVASCRIPT, PORTANTO, APENAS ESTÁ FAZENDO UM 'ARREDONDAMENTO ESPERTO' quando ele 
+
+escreve '0.2' de output no devconsole...
+
+
+PQ POR TRÁS DAS CENAS, O NÚMERO '0.2' é na verdade 
+
+'0.20000000000001110'
+
+
+
+
+------------------------------------
+
+
+
+CERTO, E ISSO NÃO É UM PROBLEMÃO?
+
+
+...não, geralmente isso não é um problema, para 
+
+a grande maioria dos cálculos.
+
+
+
+PARA A GRANDE MAIORIA DOS CÁLCULOS, 
+
+ESSE ARREDONDAMENTO AUTOMÁTICO funciona bem.
+
+
+
+CLARO QUE VOCÊ NÃO VAI QUERER MOSTRAR AO SEU USUÁRIO UM NÚMERO 
+
+FEIO COMO 
+
+'0.6000000000000001' 
+
+
+na sua página...
+
+
+
+
+
+PARA CONSERTAR OUTPUTS FEIOS AO USUÁRIO COMO ESSE, VOCÊ PODE USAR 
+
+AQUELE MÉTODO QUE VOCÊ APRENDEU AGORA, o 
+
+'toFixed(número de casas que você quer)', 
+
+
+PARA FORÇAR O JAVASCRIPT A MOSTRAR APENAS CERTO 
+
+NÚMERO DE CASAS DECIMAIS, em vez do número 'inteiro' (às vezes o número n existe inteiro, mesmo).
+
+
+
+ex:
+
+
+
+2.5.toFixed(0); -------> VOU QUERER 0 CASAS DECIMAIS ---> output será de '3' (????? ok... é assim que funciona o arredondamento, então).
+
+
+
+2.4.toFixed(0); -------> VOU QUERER 0 CASAS DECIMAIS ---> output será de '2' (Certo.).
+
+
+
+
+------------------------------------------
+
+
+
+POR ISSO QUE 'TOFIXED' é um excelente método para melhorar a experiência do usuário.
+
+
+
+
+
+
+É CLARO QUE HÁ OUTROS CÁLCULOS, NO ENTANTO, EM QUE VOCÊ 
+
+NÃO se preocupa com o RESULTADO/COISA QUE VOCÊ VAI MOSTRAR 
+
+AO USUÁRIO, mas O RESULTADO/coisa EM SI
+
+
+
+
+-------------------------------------------
+
+
+
+DIGAMOS QUE VOCÊ TEM UMA LOJA ONLINE E QUE VOCÊ ESTÁ TRABALHANDO COM PREÇOS.
+
+
+
+
+
+Digamos que algo custa 20.2 euros...
+
+
+
+VOCÊ MANDA ISSO AO SERVIDOR PARA QUE AO CARTÃO DE CRÉDITO DO CLIENTE SEJA 
+
+COBRADO ESSE VALOR.......
+
+
+
+
+Aí, por trás das cenas, esse número '20.2' ESTÁ 
+
+SENDO MANDADO 
+
+
+
+COMO 
+
+'20.199999999999999999928946' AO SEU SERVIDOR.....
+
+
+
+
+Isso significa que nesse resultado, no final das contas, VOCÊ 
+
+NÃO ESTÁ COBRANDO O SUFICIENTE DO SEU CLIENTE...
+
+
+
+Professor explica que, é claro, quando você está cobrando algo como 
+
+
+'20.199999999999999999928946', o serviço de pagamento que você 
+
+
+está usando AUTOMATICAMENTE ARREDONDARÁ esse número para CONSERTAR O SEU ERRO OU QUALQUER 
+
+COISA DO GÊNERO...
+
+
+
+mas TAMBÉM HÁ A CHANCE (as chances sempre existem) DE QUE VOCê ESTÁ INTRODUZINDO ALGUNS 
+
+PEQUENOS ERROS AO SEU SITE.... isso pode levar 
+
+o site a às vezes COBRAR DEMAIS, ÀS VEZES COBRAR DE MENOS...
+
+
+
+
+E, ao longo do tempo, até essas pequenas variações PODEM ACABAR SE ACUMULANDO e virando um grande problema.
+
+
+
+
+
+
+IMAGINE SE A AMAZON COMEÇASSE A COBRAR MAIS/MENOS em  CADA TRANSAÇÃO...
+
+
+como o site administra MILHARES de transações a cada hora, é claro que 
+
+o débito rapidamente iria subir...
+
+
+
+É POR ISSO QUE HÁ SITUAÇÕES EM QUE VOCÊ __PRECISA __ DE PERFEITA
+ PRECISÃO...
+
+
+
+
+
+PARA CONSEGUIR A PERFEITA PRECISÃO, UMA SOLUÇÃO COMUM É 
+
+SIMPLESMENTE MULTIPLICAR SEU NÚMERO COM '100'...
+
+
+
+ex:
+
+
+
+'20.2 * 100'...  = 
+
+2020
+
+
+
+--------------------------------
+
+
+
+VOCÊ FARIA ISSO PARA QUE, NO FINAL DAS CONTAS, SEU CÓDIGO APENAS TRABALHASSE COM 
+
+INTEGRAIS....
+
+
+
+Como vocÊ aprendeu, __NÃO EXISTEM____ INTEGRAIS___ EM JAVASCRIPT..
+
+
+NÃO EXISTEM; TUDO É UM 'FLOATING POINT NUMBER'... 
+
+
+CERTO.
+
+É CLARO QUE ESSA INTEGRAL 
+
+'2020' NÃO É UMA INTEGRAL DE VERDADE...
+
+
+
+apesar de ela não ser uma verdadeira integral, 
+
+ELA AINDA 
+
+SERIA 
+
+
+O FLOATING POINT NUMBER DE 
+
+
+'2020.0'... 
+
+
+
+
+e '2020.0' ____É CAPAZ___ DE SER REPRESENTADO 
+
+PERFEITAMENTE EM NOTAÇÃO BINÁRIA, por isso 
+
+
+VOCÊ NÃO TERIA IMPRECISÃO ALGUMA AQUI....
+
+
+
+
+(certo, então uma solução boa para esses casos é multiplicar os números por 100...
+
+Certo.)
+
+
+--------------------------------------------
+
+
+
+TRABALHAR APENAS COM INTEGRAIS, E NÃO COM 'DECIMALS', portanto, pode ser uma boa solução 
+
+para a imprecisão.
+
+
+
+
+VOCÊ TAMBÉM PODE ENCONTRAR ALGUMAS LIBRARIES/PACKAGES DE JAVASCRIPT, certos 
+
+addons third party que você pode adicionar a sua página que podem PROVIDENCIAR 
+
+FERRAMENTAS/UTILITY FUNCTIONS para consertar tais imprecisões.
+
+
+
+
+
+
+OU, É CLARO, VOCÊ PODE USAR ESSE TERCEIRO MÉTODO:
+
+
+
+
+Imagine que você está usando algum serviço no seu servidor, ou talvez 
+
+algum serviço third party com o qual sua WEBPAGE conversa... ESSE SERVIÇO 
+
+THIRD PARTY PODE CONSERTAR ESSES PROBLEMAS POR VOCÊ....
+
+
+
+
+
+DE NOVO:
+
+
+frequentemente esses problemas não importam, PRINCIPALMENTE 
+
+quando falamos de situações em que você deve 
+
+outputtar alguma coisa ao seu usuário (nesses casos, deve-se utilizar '.toFixed(númeroDeCasas)')
+
+
+MAS NOS CASOS EM QUE ESSA PRECISÃO IMPORTA,
+
+SAIBA QUE EXISTEM WORKAROUNDS, como 
+
+multiplicar 
+
+tudo por 100 para então trabalhar apenas com integrais...
+
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+I have a large amount of numeric values y in javascript. I want to group them by rounding them down to the nearest multiple of x and convert the result to a string.
+
+How do I get around the annoying floating point precision?
+
+For example:
+
+0.2 + 0.4 = 0.6000000000000001
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+137
+
+From this post: How to deal with floating point number precision in JavaScript?
+
+You have a few options:
+
+Use a special datatype for decimals, like decimal.js
+Format your result to some fixed number of significant digits, like this: (Math.floor(y/x) * x).toFixed(2)
+Convert all your numbers to integers
+
+
+
+------------------------------

@@ -1,0 +1,464 @@
+
+
+
+Antes de mais nada, devemos entender os 'DIFERENTES TIPOS DE APLICATIVOS'/websites...
+
+
+
+
+
+
+
+
+
+
+
+----> É IMPORTANTE ENTENDER QUE HÁ 2 TIPOS PRINCIPAIS DE WEBAPPs que você pode construir...
+
+
+
+
+
+
+
+1) UM WEBSITE COMPOSTO POR APENAS ALGUNS ARQUIVOS HTML, UM POUCO DE JAVASCRIPT E UM POUCO DE CSS...
+
+
+
+HTML + JS + CSS.
+
+
+
+
+----> trabalhamos com isso NA MAIOR PARTE DO CURSO. ---> nós não tinhamos nenhum serverside code, 
+nenhum código que precisava ser executado FORA DO BROWSER... (fora do browser do usuário...).
+
+
+
+
+
+ 
+
+
+2) 
+
+MAS NO MÓDULO DE NODE.JS estudamos sobre serverside code, e sobre como 
+
+ele nos permite rodar javascript em qualquer lugar...
+
+
+Inclusive em um servidor... (servidor = um computador que roda em algum lugar da web, o qual usuários podem acessar... 
+esses usuários não podem ver o código do servidor; apenas podem ler o código javascript BROWSERSIDE...)
+
+
+Servidores ---> ALUGAMOS, PAGAMOS e colocamos nosso código neles...
+
+
+
+SERVERSIDE CODE ---> node.js não é a única solução... Nós poderíamos escrever esse código com php e assim por diante...
+
+mas como este curso é sobre JAVASCRIPT, e node.js é um RUNTIME PARA O JAVASCRIPT, é claro que o professor 
+escolhe o node.js para isso....
+
+
+
+
+----> ESSE É O TIPO 2: PROJETOS QUE POSSUEM CLIENTSIDE CODE, MAS QUE TAMBÉM 
+
+TEM CÓDIGO QUE PRECISA RODAR EM UM SERVIDOR, COMO o 'node.js'...
+
+
+----------------------------------------------------
+
+
+
+
+
+
+
+NO PRIMEIRO CASO/tipo, tudo de que precisamos para servir 
+
+essa webpage aos usuários 
+
+
+É AQUILO QUE É CHAMADO DE 'STATIC HOST'... 
+
+
+
+
+static host ------------> É UM COMPUTADOR CONFIGURADO DE MODO 
+
+QUE PARA 'INCOMING HTTP REQUESTS' ele retorna  OS ARQUIVOS 
+
+
+HTML, JS e CSS.... também quaisquer imagens que você estiver usando...
+
+MAS ELE NÃO UTILIZA NENHUM SERVERSIDE CODE SOBRE ELE MESMO....
+
+
+
+EM OUTRAS PALAVRAS: É UMA MÁQUINA/COMPUTADOR NA INTERNET, em algum lugar, com algum 
+
+domínio conectado a ele... E ELE NÃO TEM NODE.JS INSTALADO NELE....
+
+
+(ele tem alguns arquivos no seu interior, retorna esses arquivos ao usuário e BAM, acabou; é só 
+isso que ele faz... )
+
+
+
+----> bem, você poderia configurar um computador desse tipo por conta própria, 
+MAS TIPICAMENTE VOCê 
+
+USA/USARIA ALGUNS SERVIÇOS __PARA VOCê ___ que fariam essa configuração ser bem mais fácil 
+
+e segura... (e vocÊ simplesmente pagaria/paga por esses serviços )
+
+
+
+(PROFESSOR NOS MOSTRARÁ EXEMPLOS DESSE TIPO DE 'HOSTING', DO HOSTING DE 
+
+'STATIC HOSTS'...)
+
+
+
+
+
+(TAMBÉM NOS MOSTRARÁ EXEMPLOS DE 'NON STATIC HOSTS'...)
+
+
+-----------------------------------------------------
+
+
+
+
+
+PARA O SEGUNDO CASO/TIPO, NÓS 
+
+
+
+TEMOS A NOMENCLATURA 
+
+
+DE 
+
+
+'NON STATIC HOST', OU 'DYNAMIC HOST'... 
+
+
+
+Dynamic host ----> 'ABLE TO EXECUTE SERVER-SIDE NODE.JS'...
+
+
+
+
+--> na modalidade dynamic host, você precisa de um computador 
+
+
+NA INTERNET, em algum lugar, conectado à internet... 
+
+
+
+ELE PRECISA SER CONECTADO 'em ambas as direções'... ---> pq ele 
+
+PRECISA SER CAPAZ 
+
+
+DE GERENCIAR 'INCOMING REQUESTS'...  -----> e ele faz isso por meio 
+
+
+
+do NODE.JS INSTALADO NELE...
+
+
+------------------------------------------------
+
+
+
+
+VOCê USA ESSA ÚLTIMA MODALIDADE PARA QUE, NAQUELE COMPUTADOR DISTANTE, 
+
+VOCÊ SEJA/É CAPAZ DE EXECUTAR CÓDIGO JAVASCRIPT... (o que não é possível no 
+primeiro tipo/caso)....
+
+
+
+---------------------------------------------
+
+
+
+MAS NESSE CENÁRIO MAIS COMPLEXO, NO CENÁRIO DO 'SERVERSIDE CODE', NÓS 
+
+TEMOS UM 
+
+
+____wEB SERVER____ que não apenas retorna 'html, css e javascript' aos usuários (arquivos que 
+são então gerenciados localmente pelos browsers), 
+
+
+
+MAS QUE TAMBÉM É CAPAZ ___dE RODAR ___ CÓDIGO JAVASCRIPT   NO ___SERVIDOR EM SI___....
+(por meio da simples instalação E CONFIGURAÇÃO ADEQUADA DO NODE.JS nesse servidor...  )
+
+
+--------------------------------------------------
+
+
+
+
+
+
+ASSIM COMO NO CENÁRIO DO 'STATIC HOST', vocÊ 
+
+
+
+TAMBÉM É CAPAZ DE TEORICAMENTE SETTAR UMA MÁQUINA DESSAS POR CONTA PRÓPRIA...
+
+
+
+Mas vocÊ precisa DE 'ADVANCED SERVER ADMINISTRATION KNOWLEDGE' para conseguir 
+
+
+fazer/gerenciar esses servidores de UMA MANEIRA SEGURA E 'SCALEABLE'...
+
+
+
+
+
+
+Portanto, em ambos os cenários, você tipicamente usaria/usa certos 
+
+
+SERVIÇOS (pagos) QUE FAZEM O HEAVY LIFTING PARA VOCê...
+
+
+serviços que fazem o heavy lifting e apenas pedem que você providencie os arquivos 
+
+que você quer que sejam hosteados... (and be done with it)...
+ 
+
+
+ ------------------------------
+
+
+
+ PORTANTO, ESSAS SAO AS 2 OPÇÕES:
+
+
+
+
+ 1) 1 SERVIDOR QUE APENAS PRECISA HOSTEAR E PROVIDENCIAR ESSES 'ASSETS ESTÁTICOS' (static assets)
+
+
+
+
+ EXEMPLOS DE SERVIÇOS DESSE TIPO DE HOSTING seriam 
+
+
+ 'AWS S3', Firebase (google)...
+
+
+
+
+SE VOCÊ PROCURAR NO GOOGLE 'static web hosting' --> vocÊ verá muitas opções...
+
+
+
+
+ ----------------------------------------
+
+
+
+
+ 2) NESSE CENÁRIO, PRECISAMOS DE UM SERVIDOR QUE SEJA CAPAZ DE ___eXECUTAR ___ NOSSOS ARQUIVOS, 
+ NOSSOS SCRIPTS, NO SERVIDOR, EM UM SERVIDOR SEPARADO... (serverside)... 
+
+
+ Exemplos de SERVIÇOS QUE PROVIDENCIAM ESSE HOSTING SERIAM 
+
+
+ 'AWS Elastic Beanstalk (amazon), Heroku'... e outros....
+
+
+
+
+
+
+ ------------------------------------------------
+
+
+
+
+
+
+
+ ESTE É O OVERVIEW....
+
+
+
+
+ DAREMOS UMA OLHADA EM AMBOS OS APPROACHES NESTE MÓDULO...
+
+
+
+
+
+
+ --------> Antes de estudarmos o 'concrete deployment', por meio dos EXEMPLOS CONCRETOS QUE 
+
+ O PROFESSOR PROVIDENCIOU NESTE MÓDULO, 
+
+
+
+ Ele quer primeiramente 
+
+
+
+ NOS MOSTRAR AS ETAPAS GERAIS DE DEPLOYMENT....
+
+
+
+
+
+
+
+
+ ETAPAS:
+
+
+
+
+
+ 1) DEVELOPING/WRITE do código... ----> é o que fizemos até agora, no curso.
+
+
+
+
+
+ 2) TEST DO CÓDIGO  ---> queremos TESTAR o código... assegurar que ele é ERROR FREE, seguro, ETC. NENHUM BUG. (checar por furos de XSS e security relevant information.)
+
+
+
+(ESSAS 2 ETAPAS FAZEM PARTE DE UM 'PROCESSO ITERATIVO' ----> isso significa que você vai sempre escrever um pouco, testar um pouco; aí vai escrever mais um pouco, testar mais um pouco.)
+
+
+
+
+
+
+ 3) FEITO ESSE WRITE E TEST, NÓS PODEMOS FAZER ALGUMAS ___OPTIMIZAÇÕES__... (optimizations) ---> NÓS PODEMOS ESCREVER ALGUNS ___fALLBACKS__ (para providenciar um BOM BROWSER SUPPORT... ----> também devemos ver quais browsers queremos supportar, e como nosso código deve ser alterado para se adequar a essas especificidades)
+
+ Nessa etapa do deployment NÓS DEVEMOS USAR 'build tools', como 'BABEL' e 'WEBPACK', pARA OPTIMIZAR E DIMINUIR NOSSO CÓDIGO... Também 
+ sempre vamos querer ADICIONAR ALGUNS ___POLYFILLS____ DE QUE PRECISAMOS...
+
+
+
+
+
+ 4) FEITO ISSO, VAMOS 'BUILD FOR PRODUCTION'... ----> esse 'build for production' GERALMENTE 
+ É FEITO COM A AJUDA DO WEBPACK... ELe encolhe NOSSO CÓDIGO AINDA MAIS..... ELE REDUZ O TAMANHO 
+ DOS NOMES DAS FUNÇÕES no código outputtado... isso reduz o tamanho dos arquivos .js...
+
+ Isso é bom pq reduz o load time dos usuários... (nenhum delay desnecessário)....
+
+
+
+
+ (ESSAS 2 ÚLTIMAS ETAPAS, "OPTIMIZE" E "BUILD FOR PRODUCTION", TAMBÉM 
+ 
+ FORMAM UM 'PROCESSO ITERATIVO'/ITERATIVE PROCESS: VOCê 
+ 
+ VAI OPTIMIZAR UM POUCO, Transformar e testar em production, localmente; depois optimizar mais um pouco, etc etc...)
+
+
+
+ (VAMOS VER COMO APERFEIÇOAR A PERFORMANCE DOS NOSSOS APLICATIVOS NO MÓDULO DE OPTIMIZAÇÕES...)...
+
+
+
+
+
+5) ASSIM QUE TUDO ESTÁ PRONTO, VOCÊ FINALMENTE FAZ __DEPLOY___ DO OUTPUT...
+
+O CÓDIGO 'BUILT AND OPTIMIZED' É AGORA PEGADO E COLOCADO EM UM SERVIDOR...
+
+----------------------------------------------------------------------------------
+
+
+
+IMPORTANTE
+IMPORTANTE
+IMPORTANTE
+IMPORTANTE
+IMPORTANTE -----------------------> TUDO ISSO AQUI SE APLICA __aO CENÁRIO EM QUE ___ NÓS ESTAMOS 
+ESCREVENDO ____CLIENTSIDE___ JAVASCRIPT CODE__....  (CÓDIGO QUE RODA NO BROWSER)....
+
+
+
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+PARA OS CÓDIGOS/CÓDIGO __NODE.JS___,   VOCÊ PODERIA DIZER/AFIRMAR QUE AS PARTES 
+
+
+DE 'OPTIMIZAÇÃO' E 'BUILD FOR PRODUCTION'    ______NÃO SÃO ____ TÃO IMPORTANTES....
+
+
+
+
+
+NÃO SÃO TÃO IMPORTANTES PQ, COMO VOCÊ VAI FAZER 'SHIP' DESSE CÓDIGO ___NO SEU SERVIDOR, OS USUÁRIOS 
+
+
+___NUNCA BAIXARÃO ESSE CÓDIGO____, E POR ISSO ELE NÃO PRECISA SER O MENOR CÓDIGO POSSÍVEL...
+
+
+Ele não precisa ser menor, ele não precisa ser totalmente optimizado, porque 
+
+
+ELE SÓ VAI RODAR NO SEU SERVIDOR, que é __SUPER RÁPIDO___, geralmente....  
+
+
+
+(isso significa que esse tempo de 'download' não importa quase nada no servidor...)
+
+
+
+
+
+
+(ISSO SIGNIFICA QUE ESSAS 5 ETAPAS APENAS EXISTEM NO CONTEXTO DO __cLIENT___, E NÃO 
+
+NO DO SERVER, que possui menos etapas...) ---> serverside não possui as etapas de build for production e optimization...  (elas ainda existem, mas são menos relevantes)....
+
+
+
+
+
+
+
+
+
+
+
+
+
+You can build different kinds of websites/ web apps.
+
+Specifically, there are three major types you can differentiate:
+
+1) Static Websites (just HTML + CSS + JS)
+
+2) Single-Page-Applications (SPAs, HTML + CSS + JS with only one HTML page being served, client-side JS is used to re-render the page dynamically)
+
+3) Dynamic/ Server-side rendered Web Applications: Websites where the HTML pages are created dynamically on the server (e.g. via templating engines like EJS).
+
+You find a more detailed comparison here: https://academind.com/learn/web-dev/dynamic-vs-static-vs-spa/
+
+When deploying such websites, it's important to understand that sites with NO server-side code (i.e. Static Websites and SPAs), required only a static host (e.g. AWS S3, Firebase Hosting).
+
+Pages where HTML is generated dynamically on the server require a host that is capable of executing the server-side code (i.e. a server that supports NodeJS, PHP or whatever language is being used).

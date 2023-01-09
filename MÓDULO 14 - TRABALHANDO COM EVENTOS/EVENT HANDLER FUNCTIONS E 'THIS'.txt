@@ -1,0 +1,319 @@
+
+
+
+
+AGORA, PARA ACABAR COM O TÓPICO DE TRIGGERS PROGRAMATICO DE ELEMENTOS DOM, 
+
+
+
+devemos estudar sobre o comportamento da keyword
+
+'this' -------> NÓS JÁ VIMOS MAIS CEDO NO CURSO 
+
+QUE, DENTRO DE EVENTLISTENER FUNCTIONS, O 'THIS' é na verdade 
+
+'bound' A UMA OUTRA COISA, AO EVENT SOURCE, como o professor mencionou...
+
+
+É por isso que no passado nós fomos obrigados a utilizar bind() 
+
+ou arrow functions PARA ASSEGURAR QUE 'this' CONSEGUISSE 
+
+apontar a coisa correta (ao objeto que segurava a função/método que tinha o 'this'...).
+
+
+
+
+
+
+
+DEVEMOS RAPIDAMENTE VER ISSO EM AÇÃO, NOVAMENTE:
+
+
+
+
+
+
+nesse botão, em que  eu adicionei um EVENTLISTENEr:
+
+
+
+
+
+
+'button.addEventListener('click', event => {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+})
+
+
+
+--------------------------------
+
+
+
+DEVEMOS NÃO SÓ FAZER O CONSOLE.LOG DE  EVENT, MAS TAMBÉM 
+
+O CONSOLE.LOG DE 'this'....
+
+
+
+ex:
+
+
+
+button.addEventListener('click', event => {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+    console.log(this);
+})
+
+
+--------------------------------------------
+
+
+Queremos fazer o console.log de 'this' aqui para 
+
+VER O QUE RECEBEMOS....
+ 
+
+ OBS: perceba que o professor aqui está usando UMA ARROW FUNCTION 
+
+ COMO SEGUNDO PARÂMETRO DO EVENTLISTENER, e 
+ como nosso 'console.log' está 
+ no body da arrow function, isso 
+ pode mudar o comportamento dele... (isso pode influenciar um pouco o 'this').
+
+
+
+
+
+
+ SE EU AGORA RECARREGAR A PÁGINA E CLICAR NO 'CLICK ME' button, 
+
+ verei que 
+
+
+ O OBJETO 'WINDOW' SERÁ OUTPUTTADO NO CONSOLE....
+
+
+ ou seja, o 'this' INSERIDO NA ARROW FUNCTION ESTÁ COM O COMPORTAMENTO 
+
+ ____dESEJADO____ DE THIS, ele está referindo o 'this' como se ele 
+
+ estivesse DEFINIDO NO ROOT LEVEL de alguma coisa (tanto do root do documento javascript, como também o root de algum objeto/classe). 
+
+
+
+ ISSO OCORRE PQ O PROFESSOR ESTÁ USANDO UMA ARROW FUNCTION (já vimos isso antes), 
+
+E ARROW FUNCTIONS IGNORAM QUAISQUER BINDINGS QUE VOCÊ TENHA ASSIGNADO AO 'THIS' QUANDO 
+
+ELAS FOREM CHAMADAS...
+
+
+
+E, aqui, a coisa que está chamando A FUNÇÃO É O ___BROWSER____, por isso 
+
+recebemos 'window' como console.log de 'this'...
+
+---------------------------------------------
+
+
+ENTRETANTO, O BROWSER FAZ O BIND() DE THIS àLGUMA OUTRA COISA, NA VERDADE...
+
+
+
+PARA VER ISSO, DEVEMOS CONVERTER ESSE SEGUNDO PARÂMETRO DO EVENTLISTENER DO BUTTON, 
+
+essa arrow function, EM UMA FUNÇÃO NORMAL, com a keyword 'function'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+button.addEventListener('click', function(event) {
+    event.stopPropagation();
+    console.log('CLICKED BUTTON');
+    console.log(event);
+    console.log(this);
+})
+
+
+
+----------------------------
+
+
+AGORA DEVEMOS RECARREGAR A PÁGINA E OBSERVAR A QUAL COISA/OBJETO O 
+
+'THIS' irá se referir, quando utilizada essa função 'comum'...
+
+
+-----------------------
+
+
+CLICAMOS NO BOTÃO E RECEBEMOS COMO OUTPUT 
+
+
+
+'<button>Click me</button>'
+
+
+
+AGORA, VOCê Vê, ESSE 'THIS' está se REFERINDO AO 
+
+'button'....
+
+
+
+
+Portanto, no final das contas, 'this' APONTA 
+                                                                            OBS: o 'this' só se refere a 'currentTarget' SE ELE NÃO FOR 'null' (nesse exemplo daqui, com 'button', o 'currentTarget' é NULL, por isso o 'this' se refere ao EVENT.TARGET...)
+AO ___EVENT TARGET___ (para ser mais preciso, 'event.target').... (ao 'currentTarget'/'event.target').
+
+
+
+
+
+Ou seja, se nós, À título de exemplo, formos até 'list.addEventListener' e adicionarmos 
+
+um 
+
+'console.log(this);' E ENTÃO TRANSFORMARMOS A ARROW FUNCTION PASSADA COMO 
+
+SEGUNDO PARÂMETRO EM UMA FUNÇÃO COMUM:
+
+
+
+
+ex:
+
+
+
+
+
+list.addEventListener('click', function(event) {
+    event.target.classList.toggle('highlight');
+    form.submit(); 
+    console.log(this);       -----------------------> retornará '<ul>...</ul>'  (resultado indesejado). (retornou o 'currentTarget', pois esse é o comportamento DEFAULT DE 'THIS' em addEventListeners...)
+})                  
+
+
+
+-------------------------------------------------
+
+
+
+
+
+SE FIZERMOS ISSO, RECARREGARMOS A PÁGINA E CLICARMOS EM algum listItem, 
+
+VOCÊ VERÁ QUE O 'THIS' ESTARÁ SE REFERINDO AO 'currentTarget'; OU SEJA, NÃO A UM 'CONCRETE TARGET' EM QUE VOCÊ 
+
+CLICOU (alguma das li, basicamente), e sim ao CURRENTTARGET.... (que basicamente é O ELEMENTO NO QUAL VOCê REGISTROU O EVENTLISTENER..., que nesse caso, é <ul>.)
+
+
+
+
+
+
+E É A ISSO QUE SE REFERE A KEYWORD 'THIS' INSERIDA DENTRO DE UMA FUNÇÃO QUE VOCÊ ADICIONA 
+
+
+COMO UM EVENTHANDLER FUNCTION (ou seja, uma função adicionada COMO SEGUNDO PARÂMETRO DE UM EVENTLISTENER) 
+
+SE VOCê NÃO FAZ O 'OVERRIDE' por suas próprias mãos, aquele override feito por meio do 
+
+BIND() dessa função ÀLGUM ELEMENTO DIVERSO... OU POR MEIO DO BIND() DO 'THIS' de dentro da função 
+ÀLGUM ELEMENTO DIVERSO.... ____OU, ____ POR USO DE UMA ARROW FUNCTION____, COMO VOCÊ VIU NESSE EXEMPLO...
+
+
+
+
+É ASSIM QUE VOCÊ PODE FAZER O OVERWRITE/MUDANÇA DESSE COMPORTAMENTO DEFAULT,
+
+
+
+COMPORTAMENTO DEFAULT DE 'THIS', QUE DENTRO DE UMA FUNÇÃO É O DE APONTAR AO 
+
+ 
+ALVO ATUAL (currentTarget) DESSE EVENTO...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What is the difference between event.currentTarget and event.target in JS ?
+If you are interviewing for a frontend developer role, there is a high chance that you maybe asked this question.
+So what exactly are these and where would you use them ?
+To understand that we need to understand what are events and how they occur in JS.
+Interaction of User with the dom is known as events. Clicking of buttons, hovering of mouse over an element, pressing of any keys are all events.
+Whenever these events occur we would like to run some JS function which is done using event handlers.
+Now every event goes through three phases of event propagation:
+1. From window to the target element phase.
+2. The event target phase and
+3. From the event target back to the window phase.
+event.currentTarget tells us on which element the event was attached or the element whose eventListener triggered the event.
+event.target tells where the event started.
+Suppose there’s an event which shows an alert on click of the element. This event has been attached to the body. Now when the user clicks on the strong tag, currentTarget(.nodeName) will show the body whereas target will show strong as the alert output.
+Image for post
+<body onclick=”myFunction(event)”>
+<p>Click on a paragraph. An alert box will alert the element whose eventlistener triggered the event.</p>
+<p><strong>Note:</strong> The currentTarget property does not necessarily return the element that was clicked on, but the element whose eventlistener triggered the event.</p>
+<script>
+  function myFunction(event) { 
+    alert(event.currentTarget.nodeName); // body
+    alert(event.target.nodeName); // strong
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+event.currentTarget tells us on which element the event was attached or the element whose eventListener triggered the event.
+
+
+
+event.target tells where the event started.

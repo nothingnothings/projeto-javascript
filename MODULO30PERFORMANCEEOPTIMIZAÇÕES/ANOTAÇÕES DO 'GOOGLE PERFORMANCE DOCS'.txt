@@ -1,0 +1,367 @@
+JavaScript de longa execução ou no momento errado é uma causa comum de problemas de desempenho. Você deve buscar minimizar seu impacto ao máximo.
+
+
+
+
+WHILE LOOPS --> gastam muitos recursos.
+
+
+
+
+
+
+
+A criação de perfis de desempenho do JavaScript pode ser algo complexo porque
+ o JavaScript que você escreve não se parece em nada com o código realmente executado.
+  Navegadores modernos usam compiladores JIT e todas as formas de otimizações e truques para tentar oferecer 
+a execução mais rápida possível. Isso muda consideravelmente a dinâmica do código.
+
+
+
+
+
+Observação: se você quiser realmente conhecer o funcionamento do JIT,
+ acesse IRHydra2, de Vyacheslav Egorov. Mostra o estado intermediário 
+do código do JavaScript quando o mecanismo JavaScript do Chrome, V8, o otimiza.
+
+
+
+
+----------------------------------------------------------------------------
+
+
+No entanto, há certamente algumas coisas que podem ser feitas para melhorar a execução do JavaScript nos aplicativos.
+
+TL;DR
+
+
+
+Evitar setTimeout ou setInterval para mudanças visuais, sempre usar requestAnimationFrame.
+
+
+Transferir JavaScript de longa duração do encadeamento principal para os Web Workers.
+
+
+Usar microtarefas para realizar mudanças no DOM ao longo de vários quadros.
+
+
+
+Usar a Timeline e o JavaScript Profiler do Chrome DevTools para avaliar o impacto do JavaScript.
+
+
+
+-------------------------------------------------------------------------------
+
+
+
+Quando mudanças visuais ocorrem na tela, recomendamos fazer o trabalho no
+ momento certo para o navegador, ou seja, no início do quadro. A única forma de garantir 
+que o JavaScript seja executado no início de um quadro é usando requestAnimationFrame.
+
+
+
+
+
+
+Frameworks ou exemplos podem usar setTimeout ou setInterval 
+para fazer mudanças visuais como animações. 
+No entanto, o problema dessa abordagem é que o retorno 
+de chamada será executado em algum ponto no quadro, possivelmente 
+no final. Isso pode causar a perda de um quadro e, consequentemente, instabilidade.
+
+
+
+
+
+
+Na verdade, o comportamento padrão atual do animate do jQuery é usar setTimeout!
+ Você pode corrigi-lo para usar requestAnimationFrame, o que é altamente recomendado.
+
+
+
+ Seja tático quanto ao momento e ao tempo de execução do JavaScript. Por exemplo, 
+ em uma animação como rolagem, mantenha a duração do JavaScript no intervalo de 3 a 4 ms.
+  Um tempo maior que esse pode ser demais. Em períodos de inatividade,
+  há mais flexibilidade quanto ao tempo decorrido.
+
+
+
+
+
+  Em muitos casos, você pode delegar
+   trabalho computacional puro para Web Workers, desde que, por exemplo não seja necessário acessar
+    o DOM. Manipular ou percorrer dados, como na classificação ou pesquisa, 
+    são com frequência atividades adequadas para esse modelo, bem como carregamento e geração de modelo.
+
+
+
+
+
+
+
+Nem todo trabalho é adequado a esse modelo: os Web Workers
+ não têm acesso ao DOM. Quando for necessário executar seu trabalho no encadeamento principal,
+  considere uma abordagem em lotes, onde a tarefa maior é segmentada em microtarefas, 
+  cada uma delas com duração de poucos milissegundos e executada dentro de gerenciadores 
+  requestAnimationFrame em cada quadro.
+
+
+
+
+
+
+
+
+
+  The Main section provides a flame chart of JavaScript calls so you can analyze exactly which functions were called and how long each took.
+
+Armed with this information you can assess the performance impact of the JavaScript on your application, and begin to find and fix any hotspots where functions are taking too long to execute. As mentioned earlier you should seek to either remove long-running JavaScript, or, if that’s not possible, move it to a Web Worker freeing up the main thread to continue on with other tasks.
+
+See Get Started With Analyzing Runtime Performance to learn how to use the Performance panel.
+
+
+
+-----------------------------------------------
+
+
+
+
+It may be cool to know that the browser can execute one version of a thing 100 times faster than another thing, 
+like that requesting an element’s offsetTop is faster than computing getBoundingClientRect(), 
+but it’s almost always true that you’ll only be calling functions like these a small number of times per frame, 
+so it’s normally wasted effort to focus on this aspect of JavaScript’s performance. 
+You'll typically only save fractions of milliseconds.
+
+If you’re making a game, or a computationally expensive application, 
+then you’re likely an exception to this guidance, as you’ll be typically fitting a lot of 
+computation into a single frame, and in that case everything helps.
+
+In short, you should be very wary of micro-optimizations because they
+ won’t typically map to the kind of application you’re building.
+
+
+
+
+
+
+Most devices today refresh their screens 60 times a second. 
+If there’s an animation or transition running, or the user is scrolling the pages,
+ the browser needs to match the device’s refresh rate and put up 1 new picture, or frame, 
+ for each of those screen refreshes.
+
+
+
+ Each of those frames has a budget of just over 16ms (1 second / 60 = 16.66ms). 
+ In reality, however, the browser has housekeeping work to do, so all of your work
+  needs to be completed inside 10ms. When you fail to meet this budget the frame rate drops,
+   and the content judders on screen. This is often referred to as jank,
+    and it negatively impacts the user's experience.
+
+
+
+---------------------------------------------
+
+
+
+
+The pixel pipeline
+
+
+There are FIVE major areas that you need to know about and be mindful of when you work. 
+They are areas you have the most control over, and key points in the pixels-to-screen pipeline:
+
+
+
+
+JAVASCRIPT > STYLE > LAYOUT > PAINT > COMPOSITE
+
+
+
+
+
+
+Javascript --> Typically JavaScript is used to handle work 
+that will result in visual changes, whether it’s jQuery’s animate function, 
+sorting a data set, or adding DOM elements to the page. It doesn’t have to be JavaScript that triggers a 
+visual change, though: CSS Animations, Transitions, and the Web Animations API are also commonly used.
+
+
+
+
+STYLE (calculations, style calculations) --> This is the process of figuring out which
+ CSS rules apply to which elements based
+  on matching selectors, for example, .headline or .nav > .nav__item. From there, once rules are known, 
+  
+  they are applied and the final styles for each element are calculated.
+
+
+
+LAYOUT -->  Once the browser knows which rules apply to an element it can begin to calculate
+ how much space it takes up and where it is on screen. 
+ The web’s layout model means that one element can affect others, 
+ for example the width of the <body> element typically affects its children’s widths
+  and so on all the way up and down the tree, so the process can be quite involved for the browser.
+
+
+
+PAINT --> 
+Painting is the process of filling in pixels. 
+It involves drawing out text, colors, images, borders, and shadows,
+ essentially every visual part of the elements. The drawing is typically done onto multiple surfaces, 
+ often called layers.
+
+
+ Compositing --> 
+ Since the parts of the page were drawn into potentially multiple layers 
+ they need to be drawn to the screen in the correct order so that the page renders correctly. 
+ This is especially important for elements that overlap another, since a mistake could result
+  in one element appearing over the top of another incorrectly.
+
+
+
+  --------------------------------------------------------------------
+
+
+
+
+  Each of these parts of the pipeline represents an opportunity to introduce jank,
+   so it's important to understand exactly what parts of the pipeline your code triggers.
+
+
+
+
+   Sometimes you may hear the term "rasterize" used in conjunction with paint.
+   
+    This is because painting is actually two tasks:
+    
+     1) creating a list of draw calls, 
+   and 
+   
+   2) filling in the pixels.
+
+
+
+
+   The latter is called "rasterization" and so whenever you see paint
+    records in DevTools, you should think of it as including rasterization.
+     (In some architectures creating the list of draw calls and rasterizing are done in different threads,
+      but that isn't something under developer control.)
+
+You won’t always necessarily touch every part of the pipeline on every frame. In fact, there are three ways
+ the pipeline normally plays out for a given frame when you make a visual change, 
+either with JavaScript, CSS, or Web Animations:
+
+
+
+
+https://www.udacity.com/course/browser-rendering-optimization--ud860 ---> CURSO DE GRAÇA NO UDACITY.
+
+
+
+
+ESTA É A PARTE IMPORTANTE:
+
+
+
+
+1. JS / CSS > Style > Layout > Paint > Composite
+
+
+
+
+If you change a “layout” property, so that’s one that changes an element’s geometry, like its width, height, or its position with left or top, the browser will have to check all the other elements and “reflow” the page. Any affected areas will need to be repainted, and the final painted elements will need to be composited back together.
+
+
+
+
+
+
+
+
+2. JS / CSS > Style > Paint > Composite
+
+
+
+
+
+If you changed a “paint only” property, like a background image, text color, or shadows, in other words one that does not affect the layout of the page, then the browser skips layout, but it will still do paint.
+
+
+
+
+
+
+
+3. JS / CSS > Style > Composite
+
+
+
+
+
+If you change a property that requires neither layout nor paint, and the browser jumps to just do compositing.
+
+This final version is the cheapest and most desirable for high pressure points in an app's lifecycle, like animations or scrolling.
+
+
+
+
+Note: If you want to know which of the three versions above changing any given CSS property will trigger,
+
+
+head to CSS Triggers (https://csstriggers.com/). And if you want the fast track to high performance animations, 
+read the section on changing compositor-only properties.
+
+
+
+
+
+Performance is the art of avoiding work, and making any work you do as efficient as possible. 
+In many cases it's about working with the browser, not against it.
+ It’s worth bearing in mind that the work listed above in the pipeline differ in terms of computational cost;
+  some tasks are more expensive than others!
+
+Let’s take a dive into the different parts of the pipeline. 
+We’ll take a look at the common issues, as well how to diagnose and fix them.
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+'STICK TO COMPOSITOR-ONLY PROPERTIES AND MANAGE LAYER COUNT'...
+
+
+
+
+Compositing is where the painted parts of the page are put together for displaying on screen.
+
+There are two key factors in this area that affect page performance: 
+1) the number of compositor layers that need to be managed
+
+and 
+
+
+2) the properties that you use for animations.
+
+
+
+
+
+TL;DR
+
+.Stick to TRANSFORM and OPACITY changes for your animations.
+
+.Promote moving elements with will-change or translateZ.
+
+.Avoid overusing promotion rules; layers require memory and management.
+
+
+
+
+------------------------------------------------------
+
+
+

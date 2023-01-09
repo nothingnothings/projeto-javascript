@@ -1,0 +1,390 @@
+
+
+
+COM ISSO, ESTAMOS QUASE ACABADOS.
+
+
+
+
+
+
+
+MAS UMA PERGUNTA PODE AINDA NÃO TER SIDO RESPONDIDA:
+
+
+
+
+
+quando você está trabalhando com módulos 
+
+e você tem algum código   QUE 
+
+
+RODA __DENTRO____ DO ARQUIVO de 'módulo' ..... o que quer dizer 
+
+que não É UMA CLASSE QUE VOCÊ EXPORTA no arquivo, 
+
+
+
+mas digamos que 
+
+
+aqui em ProjectItem 
+
+
+
+NÓS TENHAMOS UM
+
+
+
+console.log 
+
+
+
+de 
+
+'Project Item created.'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+import {Tooltip} from './Tooltip.js';
+
+import {DOMHelper} from '../Utility/DOMHelper.js';
+
+
+
+
+console.log('Project Item created');     ////////////EIS O CÓDIGO EM QUESTÃO.
+
+
+
+export class ProjectItem {
+  hasActiveTooltip = false;
+
+  constructor(id, updateProjectListsFunction, type) {
+    this.id = id;
+    this.updateProjectListsHandler = updateProjectListsFunction;
+    this.connectMoreInfoButton();
+    this.connectSwitchButton(type);
+    this.connectDrag();
+  }
+
+  showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+      return;
+    }
+    const projectElement = document.getElementById(this.id);
+    console.log(projectElement.dataset);
+    const tooltipText = projectElement.dataset.extraInfo;
+    const tooltip = new Tooltip(
+      () => {
+        //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'...
+        this.hasActiveTooltip = false;
+      },
+      tooltipText,
+      this.id
+    );
+    tooltip.attach();
+    this.hasActiveTooltip = true;
+  }
+
+  connectDrag() {
+    const item = document.getElementById(this.id);
+    item.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', this.id);
+      event.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', (event) => {
+      console.log(event);
+    });
+  }
+
+  connectMoreInfoButton() {
+    const projectItemElement = document.getElementById(this.id);
+    const moreInfoBtn = projectItemElement.querySelector(
+      'button:first-of-type'
+    );
+    moreInfoBtn.addEventListener('click', this.showMoreInfoHandler.bind(this));
+  }
+
+  connectSwitchButton(type) {
+    const projectItemElement = document.getElementById(this.id);
+    let switchBtn = projectItemElement.querySelector('button:last-of-type');
+    switchBtn = DOMHelper.clearEventListeners(switchBtn);
+    switchBtn.textContent = type === 'active' ? 'Finish' : 'Activate';
+    switchBtn.addEventListener(
+      'click',
+      this.updateProjectListsHandler.bind(null, this.id)
+    );
+  }
+
+  update(updateProjectListsFn, type) {
+    this.updateProjectListsHandler = updateProjectListsFn;
+    this.connectSwitchButton(type); 
+  }
+}
+
+
+
+------------------------------------------
+
+
+
+
+
+
+
+
+
+A PERGUNTA É:
+
+
+
+
+
+Esse código 'console.log', que está nesse MÓDULO de 'app.js' (que é o arquivo root), 
+
+
+É REALMENTE EXECUTADO, ou 
+
+
+será que APENAS O CÓDIGO EXPORTADO (export) 
+
+É EXECUTADO?
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+BEM, CHECAMOS O DEVCONSOLE E 
+
+
+PERCEBEMOS QUE 
+
+O CONSOLE.LOG 
+
+
+REALMENTE FOI EXECUTADO...
+
+
+
+
+-----------------------------------------
+
+
+
+ISSO SIGNIFICA QUE O CÓDIGO NOS SEUS MÓDULOS ____É, SIM___, EXECUTADO ____ QUANDO 
+
+
+OS MÓDULOS SÃO IMPORTADOS E CARREGADOS (loaded) PELA PRIMEIRA VEZ....
+
+
+
+
+
+IMPORTANTE: SÓ PELA PRIMEIRA VEZ...
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+Se você tem um módulo que é IMPORTADO MÚLTIPLAS VEZES, como 
+
+
+'DOMHelper', que é importado TANTO EM 'projectItem' como em 
+
+'ProjectList'....  
+
+ELE AINDA SERÁ EXECUTADO APENAS UMA ÚNICA VEZ...
+
+
+
+
+
+Podemos testar isso com o console.log de 
+
+
+'DOMHelper executing' 
+
+em 
+
+
+
+'DOMHelper.js'...
+
+
+
+
+ex:
+
+
+
+
+
+
+export class DOMHelper {
+    
+    console.log('DOM Helper executing...');
+    
+    
+ static clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+        element.replaceWith(clonedElement);
+        return clonedElement;
+    }
+    
+    
+    
+    
+ static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+        destinationElement.append(element);
+        element.scrollIntoView({behavior: 'smooth'});
+    }
+}
+
+
+
+------------------------------------------------
+
+
+
+
+
+VEREMOS QUE ESSE 
+
+
+'DOMHelper executing'...., 
+
+
+ESSA LINHA DE CÓDIGO,
+
+
+SÓ SERÁ PRINTADA 1 ÚNICA VEZ, AINDA QUE 
+
+TENHAMOS IMPORTADO ESSE 'DOMHelper' 2x em nosso código, em 'projectItem' e 'projectList'......
+
+
+
+O FATO É QUE ESSE CONSOLE.LOG DESSA MENSAGEM 
+
+
+___SÓ SERÁ EXECUTADO____ NO PRIMEIRO____ IMPORT____.
+
+
+
+
+
+
+Podemos observar isso no devconsole:
+
+
+
+a mensagem do console.log aparece uma única vez, e nenhuma vez subsequente....
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+MAS E COM IMPORTS DINÂMICOS? Os códigos também são executados uma única vez?
+
+
+
+
+
+Usamos o exemplo que tínhamos antes, do 'Tooltip'...
+
+
+
+LEMBRE-SE: O request/response/parsing (import) de 
+
+
+TOOLTIP só acontece QUANDO CLICAMOS EM 'moreINFO'...
+
+
+
+
+
+E, COMO PODEMOS OBSERVAR, 
+
+se colocarmos um console.log de 
+
+
+
+'Tooltip Running' nesse arquivo exportado 'Tooltip.js', 
+
+VEREMOS 
+
+QUE 
+ELE TAMBÉM 
+
+SÓ RODARÁ 1 ÚNICA VEZ...
+
+
+Só rodará 1 única vez, para o PRIMEIRO CLIQUE em 'More Info'...
+
+
+Se o professor clicar mais vezes em 'MOre info', nada acontecerá...
+
+
+
+
+-----------------------------
+
+
+
+RESUMINDO:
+
+
+
+
+
+CÓDIGO EM MÓDULOS, fora dos 'export statements' e 'import statements', 
+
+
+DE FATO ___É EXECUTADO___....
+
+
+
+E ALGUMAS VEZES VOCÊ VAI QUERER EXATAMENTE ISSO, QUE UM CERTO CÓDIGO EM UM 
+
+MÓDULO SEJA EXECUTADO...
+
+
+
+
+MAS O IMPORTANTE É SABER QUE O 'CÓDIGO EXTERNO' DO MÓDULO, EXTERIOR AOS IMPORTS E EXPORTS,
+
+SOMENTE É EXECUTADO ___UMA ÚNICA VEZ, A PRIMEIRA VEZ MESMO...

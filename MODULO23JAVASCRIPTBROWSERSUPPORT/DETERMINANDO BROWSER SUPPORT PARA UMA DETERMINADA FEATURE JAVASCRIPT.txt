@@ -1,0 +1,472 @@
+
+
+
+
+
+
+
+
+
+
+
+---> SE VOCÊ ESTÁ ESCREVENDO ALGUM CÓDIGO JAVASCRIPT QUE VAI RODAR EM UM BROWSER,
+
+
+VOCÊ VAI TER DE DESCOBRIR SE UMA CERTA FEATURE DO SEU CÓDIGO ESTARÁ 
+
+DISPONÍVEL/UTILIZÁVEL NO BROWSER OBJETIVADO...
+
+
+
+
+
+
+
+
+
+---> é claro que há uma 
+
+'CORE FEATURE SET' que é DISPONÍVEL EM __QUASE TODOS OS BROWSERS___...
+
+
+
+
+
+
+MAS ESSA 'CORE FEATURE SET' VEM COM EXPERIÊNCIA:
+
+
+
+
+
+só com experiência você vai saber O QUE ESTARÁ DISPONÍVEL E EM QUE LUGAR estará disponível...
+
+
+
+
+
+
+
+PARA FEATURES MAIS RECENTES, 
+
+
+MAS ATÉ MESMO PARA FEATURES MAIS VELHAS, AS QUAIS VOCê NÃO SABE SE 
+
+SÃO SUPORTADAS POR TUDO QUE EXISTE, 
+
+
+HÁ UM PUNHADO 
+
+DE RESOURCES QUE VOCÊ PODE CHECAR 
+
+
+PARA DESCOBRIR SE O SUPORTE PARA AQUELA FEATURE NAQUELE BROWSER É BOM.
+
+
+
+
+UM RESOURCE BOM É O MDN.
+
+
+
+ELE NOS MOSTRA, NO FINAL DA PÁGINA, AS COMPATIBILIDADES DAS FEATURES. 'browser support' ----> a table te mostra não só o overview dos browsers, MAS PODE TE DAR NOTES EXTRAS, FALLBACKS, HINTS DE COMO FAZER WORKAROUNDS, etc etc.
+
+
+
+
+
+
+
+
+----> MDN NOS MOSTRA AS FUNCIONALIDADES DAS FUNÇÕES, E ASPECTOS DO JAVASCRIPT.
+
+
+
+
+
+
+UM EXEMPLO PERFEITO É A 
+
+
+
+'FETCH() API'....
+
+
+
+Vamos no MDN e checamos a tabela de compatibilidades.
+
+
+
+
+
+AS TABELAS SEMPRE NOS MOSTRAM A DIFERENCIAÇÃO ENTRE 
+
+MOBILE E DESKTOP BROWSER VERSIONS...
+
+
+
+
+
+VOCê PODE VER QUÃO BEM ESTÃO SUPORTANDO AQUELA FEATURE E SEUS NICHOS, como 
+
+'blob:' e 'data:', para o fetch API....
+
+
+--------------------------------------
+
+
+
+
+SUPORTE PARA O FETCH API() é bom....
+
+
+
+
+MENOS NO INTERNEt EXPLORER.
+
+
+
+
+SE VOCÊ CLICAR NA JANELINHA, NA VERSÃO DO NEGÓCIO, VOCÊ 
+
+
+PODE VER MAIS DADOS SOBRE O SUPORTE, SOBRE COMO ESTÁ HABILITADA AQUELA 
+
+FEATURE NAQUELA VERSÃO, ETC ETC.
+
+
+
+ex:
+
+
+
+
+
+This feature is behind thedom.streams.enabled preferences and the javascript.options.streams preferences. To change preferences in Firefox, visit about:config.
+
+
+----------------------------------
+
+
+
+
+
+
+SE VOCÊ, POR EXEMPLO, ____SABE___ QUE VOCê NÃO PRECISA SUPORTAR O INTERNET EXPLORER em seu 
+aplicativo, pois 
+
+VOCê SABE QUE VOCÊ NÃO ESTARÁ OBJETIVANDO USUÁRIOS QUE USAM INTERNET EXPLORER,
+
+
+AÍ VOCÊ PODERÁ, É CLARO, SIMPLESMENTE USAR O FETCH API() nu e cru, que 
+
+ele vai funcionar muito bem.
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+ENTRETANTO, TALVEZ VOCÊ QUEIRA MAIS DETALHES, OU UM OUTRO SOURCE PARA FAZER 
+
+
+DOUBLECHECK...
+
+
+
+
+
+
+
+O professor sempre recomenda o 
+
+
+
+
+'caniuse.com' para INVESTIGAR O SUPORTE DE UMA DETERMINADA FEATURE EM UM CERTO BROWSER.
+
+
+
+
+
+
+LÁ, VOCÊ PODE PROCURAR POR UMA FEATURE NAME PARA SABER MAIS SOBRE A FEATURE, 
+
+QUAIS BROWSERS A SUPORTAM.
+
+
+
+
+VOCÊ TAMBÉM VÊ 'MARKET SHARES', que te ajudam a SABER QUANTOS USUÁRIOS CONSEGUIRIAM
+
+UTILIZAR/ACESSAR
+AQUELA FEATURE, se você a implementar no seu código, 
+isso te ajuda a  saber se vocÊ está usando coisas boas (amplamente 
+suportadas) no seu código ou não...
+
+
+
+-------> ISSO TE AJUDA A TER UMA NOÇÃO DE QUANTAS PESSOAS VOCê PODERIA 
+
+ALCANÇAR COM ESSE CÓDIGO (se ele for mais amplamente suportado por browsers, 
+o share AUMENTA). 
+
+
+
+
+
+
+ESSA PÁGINA, COMO O MDN, INCLUI NOTES E FALLBACKS, WORKAROUNDS, ideias sobre como 
+
+você pode fazer algo funcionar...
+
+
+
+
+
+
+------> VOCÊ PODE TAMBÉM VER QUANTAS PESSOAS ESTÃO USANDO ESSAS BROWSER VERSIONS...
+
+
+
+
+
+
+----> se usarmos fetch, ALCANÇAREMOS MENOS USUÁRIOS...
+
+
+Alcançaremos 93.52%. ----> fetch simplesmente não vai funcionar na página.
+
+
+
+
+
+
+--------------------------------------------------------------
+
+
+
+
+VOcÊ também pode encontrar SUBFEATURES relacionadas àquela feature.
+
+
+
+
+
+
+
+Nos resources do 'caniuse' você pode encontrar INFORMAÇÕES EXTRAS...
+
+
+
+
+
+----------------------------------------
+
+
+
+
+
+PODEMOS TAMBÉM UTILIZAR O GOOGLE...
+
+
+PARA ALGUMAS FEATURES NICHOS/USE-CASE AVANÇADOS,
+ 
+ PODE SER ÚTIL....
+
+
+ É ÚTIL PROCURAR EM 'STACKOVERFLOW'...
+
+ ---------------------------------------------------
+
+
+
+
+
+
+
+ QUANDO FALAMOS DE FEATURES DE SINTAXE JAVASCRIPT, HÁ 
+
+
+ ___OUTRA ____ FEATURE MUITO INTERESSANTE___ ,
+
+
+
+ É 
+
+ a 
+
+
+
+ 'ES6/JS Compat Table'... ----------> É A TABLE DE COMPATIBILIDADE DO JAVASCRIPT/ECMASCRIPT 6.
+
+
+
+
+
+É UM SITE DETALHADO QUE TE MOSTRA QUAIS FEATURES JAVASCRIPT SÃO SUPORTADAS POR UM CERTO 
+
+BROWSER...
+
+
+
+
+
+É ÓTIMO PARA CHECAR SE ALGUMA FEATURE 'NEXT-GEN' DO JAVASCRIPT 
+
+ESTÁ DISPONÍVEL EM UM DETERMINADO BROWSER....
+
+
+
+https://kangax.github.io/compat-table/es6/
+
+
+
+
+
+
+ESSE SITE TE PROVIDENCIA UM 'FEATURE SPLIT' DETALHADO....
+
+
+
+ELE ATÉ TE MOSTRA O SUPORTE DE DIVERSOS 
+
+ 
+_________TRANSPILERS_____, algo que o professor nos ensinará 
+
+em breve.
+
+
+
+
+
+Essas informações dos transpilers TE ENSINAM QUE VOCÊ PODE USAR UMA FEATURE 
+
+________MESMO SE UM DETERMINADO BROWSER NÃO A SUPORTAR___. 
+
+
+
+
+----> esse site TE DIZ SE É POSSÍVEL VOCÊ FAZER ESSA FEATURE FUNCIONAR COM 
+
+ALGUMA TRANSLATION TOOL...
+
+
+
+
+
+
+
+
+
+
+
+https://kangax.github.io/compat-table/es6/
+https://kangax.github.io/compat-table/es6/
+https://kangax.github.io/compat-table/es6/
+https://kangax.github.io/compat-table/es6/
+https://kangax.github.io/compat-table/es6/
+
+ ------------------------------------
+
+
+
+
+
+NESSA PÁGINA, VOCê PODE SELECIONAR A VERSÃO DO ECMASCRIPT cuja compatibilidade você quer checar, 
+
+LÁA´´AA EM CIMA.
+
+
+
+
+
+NO 'NEXT', vocÊ pode ver as FEATURES NEXT-GEN do javascript...
+
+
+
+
+Como exemplo disso, podemos ver o 'globalThis'...
+
+
+
+
+ESSA PÁGINA TAMBÉM TE MOSTRA OS 
+
+
+'COMPILERS/POLYFILLS'...
+
+
+
+ISSO BASICAMENTE TE DIZ SE VOCÊ É CAPAZ DE FAZER ESSA FEATURE FUNCIONAR 
+
+
+________eM QUALQUER LUGAR___, por meio de algumas ferramentas...
+
+
+
+
+ex:
+
+
+
+This feature is supported when using Babel with core-js.
+
+
+
+-------------------------------------------------
+
+
+
+
+VOCê PODE VER O SUPORTE EM TODOS OS BROWSERS IMAGINÁVEIS.
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+
+INTERNET EXPLORER 11 -----> TEM ALGUM SUPORTE BÁSICO PARA CONST E LET....
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+SE VOCÊ FOR BEEEEEM PARA A DIREITA, VOCê ENCONTRA O SUPORTE PARA O NODE.JS, também...
+
+
+
+
+Há alguns códigos que vamos querer rodar no node.js, e essa página nos ajuda a saber o suporte 
+
+a essas features dos códigos no node.js...
+
+
+
+
+
+ESSE É O ÚLTIMO RESOURCE QUE O PROFESSOR QUERIA NOS MOSTRAR.

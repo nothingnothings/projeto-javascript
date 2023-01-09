@@ -1,0 +1,146 @@
+Mas o que é isso? Qual é a diferença entre as duas?
+
+
+
+
+
+
+ES = Ecma Script.
+
+ES é, no final das contas, a linguagem por trás de ecmascript. Você poderia dizer que 
+javascript é uma versão específica do ecmascript, contudo a versão MAIS IMPORTANTE do Ecmascript.
+
+
+Ecma international. Muitas pessoas. Trabalham em novas iterações de javascript e ecmascript.
+Browsers incorporam essas funções em suas javascript engines.
+
+
+
+documento do ecmascript é importante para browser VENDORS.
+
+
+
+
+Javascript está sob desenvolvimento. Muito cuidado nas mudanças. Você não pode mudar a linguagem 
+de modo que você quebre as features antigas. Por isso que é difícil.
+
+
+
+começo do javascript --> 90s.
+
+
+
+
+VERSÃO MAIS IMPORTANTE DO JAVASCRIPT, LANÇADA HÁ MUITOS ANOS:
+
+
+
+
+ECMASCRIPT 5.
+
+
+
+versão 5 do ecmascript.
+
+
+
+Ela incluiu algumas melhorias e padronizações que deixaram 
+as coisas bem mais compreensíveis e fáceis. Estabeleceu uma base 
+para estabelecer novas features.
+ 
+
+
+2015 foi completa a "ecmascript 2015", OU ES6.
+
+
+
+ES6 --> é o javascript moderno;
+2015.
+
+
+
+Foi lentamente integrado nos novos browsers.
+
+
+Só porque esse formato foi aceito como o padrão, não signfica
+ que TODOS OS BROWSERS já vem com essa versão 
+ do ecmascript 6.
+
+
+Features estão sendo adicionadas em browser 
+gradativamente.
+
+É claro que browsers antigos, como o IE 9, NÃO INCLUEM 
+ESSAS FEATURES NOVAS. Esse é um tópico diferente, que veremos 
+no tópico "browser support". Em tal módulo veremos como 
+fazer o javascript moderno nos browsers velhos. Suporte para 
+browser antigos... isso pode parecer impossível, mas há como.
+
+
+ES6 ---> outro marco no desenvolvimento do javascript.
+
+
+
+Agora não temos "ES7", trabalhamos com pequenos incrementos no código, 
+e não versões grandes novas.
+
+
+
+
+O ES6 JÁ FOI ENSINADO, DESDE O INÍCIO DO CURSO.
+
+
+
+TIVEMOS GRANDES MUDANÇAS DE SINTAXE 
+DO ES5 PARA O ES6.
+
+Como mencionado anteriormente, essas changes ADICIONARAM NOVAS FUNÇÕES,
+ NADA DE ANTIGO FOI REMOVIDO. VOCÊ AINDA PODE USAR AS FEATURES/SINTAXES 
+ ANTIGAS.
+
+
+
+ Nesse curso nós apenas usamos essa sintaxe nova.
+
+
+ ES5 ---> A VANTAGEM É Q ES5 TEM GRANDE SUPORTE 
+ PARA BROWSERS ANTIGOS, PARTICULARMENTE VERSÕES DO INTERNET EXPLORER. MAS UMA 
+ DIFERENÇA GRANDE É QUE EM ES5 E VERSÕES MAIS ANTIGAS NÓS APENAS 
+ TINHAMOS A KEYWORD "VAR" PARA CRIAR VARIÁVEIS; NÃO HAVIA "LET" E "CONST".
+
+
+ Isso pode parecer algo pequeno, mas é ALGO MUITO GRANDE, UMA DAS MAIORES DIFERENÇAS 
+ DO ES5 PARA O ES6.
+
+
+ Geralmente, entretanto, es5 e es6 são a mesma coisa.
+
+
+ MAS E QUANTO AO BROWSER SUPPORT DO ES6? 
+
+
+
+
+ Bem, o suporte é decente em browsers modernos, mas tenha em mente que 
+ todos esses browsers modernos, inclusive o EDGE, eles tem uma função 
+ de AUTOUPDATE, por isso features podem ser integradas aos browsers de 
+ maneira muito mais fácil, coisa que não ocorria no passado.
+
+
+
+
+Todos os usuários de chrome, firefox, etc.
+
+
+
+O bom do ES6 é que ele tem várias features que nos ajudam a criar/escrever 
+código mais rápido, limpo e MELHOR, com menos WORKAROUNDS e HACKS (menos third party packages, também).
+
+
+
+ES6 ainda está sob desenvolvimento, mas é um grande passo para frente.
+
+
+
+
+

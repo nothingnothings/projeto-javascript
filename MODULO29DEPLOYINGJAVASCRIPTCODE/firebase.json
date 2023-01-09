@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "projetodosmapasrevisitado2/dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

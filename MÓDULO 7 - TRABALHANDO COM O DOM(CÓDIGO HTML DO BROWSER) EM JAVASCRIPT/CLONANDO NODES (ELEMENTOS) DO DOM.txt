@@ -1,0 +1,61 @@
+ Aprendemos que inserir um elemento mais de uma vez é algo que, na verdade, acaba MOVENDO-O, e não o 
+ copiando.
+
+
+
+ SE VOCÊ QUISER REALMENTE COPIAR UM ELEMENTO, VOCÊ PODE FAZER ISSO POR MEIO DE 
+ OUTRO MÉTODO/PROPRIEDADE. É uma propriedade que está disponível EM QUALQUER 
+ DOM NODE/OBJECT. É o "cloneNode".
+
+
+ex:
+
+
+
+
+newLi.cloneNode();
+
+
+
+
+---------------------> O QUE ISSO FAZ É CLONAR ESSE NODE EM QUE ELE ESTÁ EMBUTIDO, e fazer 
+retornar um node NOVINHO EM FOLHA, igual àquele antigo. "CloneNode" recebe apenas um único 
+argumento, opcional, que é UM BOOLEAN (verdadeiro ou falso, true of false). Por default, 
+esse argumento é FALSE. O que esse argumento faz é decidir se o clone que será criado 
+será um DEEP CLONE (clone com todos os descendentes e nodes/elementos filhos do original. É ativado 
+com "true".) ou um 
+CLONE NORMAL (sem todos  os descendentes e nodes/elementos filhos do original. É ativado com 
+"false".). Ou seja, se nós digitarmos "false" aqui, apenas o item 'li' em si é copiado, e os 
+elementos/nodes filhos que estão em seu interior não são clonados junto dele.
+
+
+ex:
+
+
+newLi.cloneNode(false); //----------> Isso vai criar um novo item <li>, que é representado por "newLi". Mas esse novo item <li> não vai ter os descendentes e filhos de newLi.
+
+
+-----------------------------------------------
+
+
+
+ex:
+
+
+
+const newLi2 = newLi.cloneNode(true);
+
+
+
+list.append(newLi, newLi2);     // ----> o que isso vai fazer é colar dois "Item 4" no final daquela lista lá.
+
+-----------------------------------------------
+
+
+
+cloneNode é o método que você usa para copiar elementos quando você precisa; aí você não 
+precisa recriar e reconfigurar cada um deles manualmente.
+
+Isso pode te salvar um bocado de tempo se você quer pegaer a maior parte das configurações 
+de um elemento que já existe e transplantá-lo para um novo elemento do seu DOM, coisa que você 
+pode fazer facilmente com essa propriedade.

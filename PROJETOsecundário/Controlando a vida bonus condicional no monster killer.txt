@@ -1,0 +1,35 @@
+Uma coisa que NÃO ESTAMOS FAZENDO É: Não estamos resettando o jogo 
+quando vencemos, e também não estamos pedindo um valor inicial máximo de vida para o usuário. (até agora o valor é hardcoded)
+Consertaremos isso ao longo das próximas aulas.
+
+
+ A última coisa que não utilizamos ainda é essa vida bonus.
+
+ A ideia por trás da vida bônus é a de que, quando vamos morrer, estamos com pouca vida, 
+ e apertamos o botão de attack e vamos morrer, provavelmente vamos morrer... com 
+ a vida bônus, nós não morreríamos, apenas consumiríamos essa vida bônus e assim ganharíamos 
+ tempo e oportunidades extras para conseguir um comeback.
+
+
+Nossa barra de vida chega a 0, mas nós não morremos, nossa barra de vida congela 
+e depois disso nos é dada a chance de nos curar, ou então tentar um último ataque 
+final, caso o monstro estivesse próximo da morte também.
+
+Nós teríamos apenas uma chance de nos recuperar, durante o jogo inteiro, ainda que reiniciássemos mais tarde.
+
+
+
+Onde deve aparecer essa bonus life no código?
+
+
+
+Bem, a função endRound faz sentido, porque ali é onde checamos se perdemos ou não...
+bem nesse lugar, antes das condições if/else if/else if, podemos adicionar outro if statement e checar 
+"se o currentPlayerHealth for menor ou igual a 0 EEEEE (&&) se nós ainda tivermos nossa vida bonus (essa condição é importante, senão o cara pode usar vidas bônus indefinidamente.).
+
+
+Por fim, o professor chama uma outra função definida em vendor.js, 
+a função setPlayerHealth, que ajusta o elemento visual da barra de vida do jogador da página.
+
+
+Se recarregarmos a página, veremos que tudo funciona, e que agora o 1 some de player health se vocÊ perde 1 vez.

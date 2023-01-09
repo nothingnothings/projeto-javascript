@@ -1,0 +1,173 @@
+
+
+
+
+
+
+
+
+UMA ÚLTIMA PALAVRA SOBRE BROWSER SUPPORT...
+
+
+
+
+
+
+O professor fala muito sobre código javascript e como ele funciona, como fazer ele funcionar...
+
+
+
+
+COMO FAZER ELE FUNCIONAR DE DENTRO DOS ARQUIVOS....
+
+
+
+
+
+
+Mas as coisas _____NÃO TERMINAM___ NO INTERIOR DE NOSSOS APP.Js...
+
+
+
+
+
+Se formos até o nosso index.html,
+
+
+LÁ NÓS TAMBÉM TEMOS O NOSSO 'SCRIPT IMPORT' (<script src="assets/scripts/app.js defer></script>')....
+
+
+
+
+ALI, APENAS ESTOU FAZENDO IMPORT DO 'APP.JS' DAQUELA FORMA PORQUE o webpack 
+
+FAZ O BUNDLE DE TODOS MEUS MÓDULOS EM UM ÚNICO GRANDE ARQUIVO....
+
+
+
+
+Se você estivesse usando MÓDULOS JAVASCRIPT SEM O WEBPACK, vocÊ 
+
+teria que ADICIONAR 'type="module" ' como atributo, nesse import.... 
+
+
+
+
+VOCÊ PODE DEIXAR ESSE NEGÓCIO ESCRITO ALI TAMBÉM QUANDO VOCê ESTÁ USANDO 
+WEBPACK, mas esse atributo não surtirá efeitos, POIS O WEBPACK ESTARÁ/ESTÁ 
+BUNDLANDO TODOS ARQUIVOS EM UM ÚNICO GRANDE ARQUIVO... (e vai ignorar esse comando).
+
+
+
+--------------------------------------------
+
+
+Ok, mas digamos que você NÃO ESTÁ TRABALHANDO COM WEBPACK, E QUE VOCê ESTÁ 
+TRABALHANDO COM MÚLTIPLOS ARQUIVOS E MÓDULOS...
+
+a questão é que BROWSERS MAIS ANTIGOS ___NÃO SUPORTAM___ ESSE COMANDO ___ 'type=module'...
+
+Não suportam scripts de tipo 'módulo'...
+
+
+
+SE VOCê TIVER ESSE CASO, CASO DE BROWSERS BOSTA, vocÊ pode usar 
+
+a tag 'nomodule'; ESSA TAG SERÁ USADA PELOS BROWSERS ANTIGOS __COMO FALLBACK__ AO 
+SEU CÓDIGO PADRÃO .js...
+
+
+ex:
+
+
+
+<script src="assets/scripts/app.js defer></script>'
+<script nomodule>app2.js</script>
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+PARA SER MAIS PRECISO:
+
+
+OS BROWSERS MAIS ANTIGOS __NÃO VÃO ENTENDER__ aquele script src com o attribute de 'type=module'... eles vao ignorar esse script devido a esse atributo 'irreconhecível'.
+
+
+
+ENTRETANTO, ELES VÃO LER 'script nomodule' E IGNORARÃO a tag 'nomodule' E EXECUTARÃO 
+O SEU SCRIPT NORMALMENTE (o script 'nomodule'....)............
+
+
+
+JÁ BROWSERS MODERNOS, POR OUTRO LADO, CONSEGUEM ENTENDER 'type=module,' POR ISSO 
+VÃO EXECUTAR ESSE SCRIPT de tipo 'módulo'..
+
+
+ALÉM DISSO, OS BROWSERS MODERNOS ___CONSEGUEM ENTENDER___ ESSA TAG '<nomodule>', E EM CONSEQUÊNCIA 
+ISSO FARÁ ELES IGNORAREM ESSE SCRIPT; vão entender que é UM SCRIPT PARA BROWSERS VELHOS E DESATUALIZADOS, impróprio para eles.
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+É POR ISSO QUE O <SCRIPT NOMODULE> pode SEGURAR 
+
+___QUALQUER CÓDIGO DE FALLBACK___ EM BROWSERS VELHOS QUE 
+
+NÃO SUPORTAM MÓDULOS....
+
+--------------------------------------------------------------------------
+
+Porém, se você está bundlando seus arquivos com webpack, VOCÊ NÃO 
+PRECISA DESSE MÉTODO ALTERNATIVO DE IMPORTAR SEUS SCRIPTS....
+
+
+
+
+
+
+OUTRA COISA INTERESSANTE É ___USUÁRIOS___ QUE DESABILITARAM/DESABILITAM JAVASCRIPT...
+
+--> maior parte dos usuários, hoje em dia, deixa o javascript LIGADO...
+contudo, alguns deixam DESABILITADO....
+
+
+
+---> dependendo do seu aplicativo, isso faz com que NADA FUNCIONA.
+
+webapps ricos como GOOGLE DOCS FUNCIONAM DEVIDO AO JAVASCRIPT, E NÃO FUNCIONAM 
+SEM O JAVASCRIPT....
+
+
+Em casos como esseS, VOCÊ DEVE COLOCAR UMA MENSAGEM DE ERRO/AVISO FALLBACK para o seu usuário 
+que não estará utilizando javascript....
+
+
+PARA ISSO, VOCÊ ___PODE____ USAR A TAG 'NOSCRIPT'...
+
+
+
+
+ex:
+
+
+
+
+<noscript>
+    Please enable Javascript to use this page.
+</noscript>
+
+
+
+-----------------------------------------------
+
+
+Isso vai informar a razão da sua página não estar funcionando aos usuários, pelo menos.

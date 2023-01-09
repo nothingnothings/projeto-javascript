@@ -1,0 +1,361 @@
+
+
+
+PARA CONCLUIR ESTE MÓDULO, DEVEMOS VER REGULAR EXPRESSIONS.
+
+
+
+
+
+
+REGULAR EXPRESSIONS NOS AJUDAM A TRABALHAR COM STRINGS.
+
+
+
+
+Considere o exemplo:
+
+
+
+VocÊ está recebendo um input do usuário, 
+
+um userInput, e esse input deve sempre ser um endereço de email....
+
+
+
+
+ex:
+
+
+
+
+const userInput = 'test@test.com'
+
+
+
+---------------------------------
+
+
+
+
+
+
+É CLARO QUE USUÁRIOS PODEM DIGITAR QUALQUER COISA NO ESPAÇO DO INPUT;
+
+
+
+por acidente, eles podem inputtar alguma coisa que NÃO É UM ENDEREÇO DE EMAIL VÁLIDO.
+
+
+
+DIGAMOS QUE POR ALGUMA RAZÃO o '@' FALTOU.
+
+
+
+
+VOCê QUER CHECAR SE O QUE O USUÁRIO INPUTTOU FOI UM ENDEREÇO DE EMAIL VÁLIDO OU NÃO...
+
+
+
+UMA MANEIRA SIMPLES DE FAZER ISSO É UTILZAR O MÉTODO 
+
+'.includes'....
+
+
+
+
+ex:
+
+
+
+'userInput.includes('@');' ----------------> ISSO VAI CHECAR SE AQUELA STRING POSSUI ESSE CARACTER em sua composição.
+
+
+
+
+
+SE ESSE CÓDIGO RETORNAR 'FALSE', sabemos que o input não é válido.
+
+
+
+
+
+
+
+
+___MASSSSS___ UM ENDEREÇO DE EMAIL VÁLIDO NÃO É DETERMINADO 
+
+APENAS PELA EXISTÊNCIA DE UM 
+
+
+símbolo '@'...
+
+
+
+
+-------------------------------
+
+
+
+
+ALÉM DE '@', o endereço de email deve sempre ter um 
+
+
+'.com' ao final...
+
+
+
+
+É EVIDENTE QUE PODERÍAMOS TAMBÉM CHECAR O INPUT, CHECAR POR 
+
+'.', NESSE CASO... 
+
+
+
+(se tivermos pontos, assume-se que seja do '.com' ).
+
+
+
+MAS ISSO AINDA NÃO ELIMINARIA TODOS OS INPUTS INVÁLIDOS, 
+
+
+POIS O USUÁRIO PODERIA INPUTTAR ALGO COMO 
+
+
+'tes.t@test' ...
+
+
+
+É NESSES CASOS EM QUE 
+
+'regular expressions'
+
+
+PODEM NOS AJUDAR.
+
+
+
+REGULAR EXPRESSIONS NÃO EXISTEM APENAS EM JAVASCRIPT;  ELAS EXISTEM 
+
+
+EM GRANDE PARTE DAS LINGUAGENS DE PROGRAMAÇÃO.
+
+
+ELAS NOS AJUDAM A PROCURAR ___PADRÕES____ EM STRINGS...
+
+
+
+
+
+
+VOCê CRIA UMA REGULAR EXPRESSION EM JAVASCRIPT DE 2 DIFERENTES FORMAS:
+
+
+
+
+1a maneira) ----> POR MEIO DO CONSTRUCTOR
+
+acessado por meio de 
+
+
+'new RegExp'....
+
+
+
+ex:
+
+
+
+const regex = new RegExp()
+
+
+
+-----------------------------------
+
+
+
+NESSE CONSTRUCTOR, VOCÊ PASSA UMA STRING COMO PARÂMETRO, UMA STRING QUE DESCREVE O PADRÃO PELO QUAL VOCÊ ESTÁ PROCURANDO...
+
+PROFESSOR DIZ QUE HÁ UMA 'RICA' LINGUAGEM DE REGULAR EXPRESSION QUE VOCê PODE USAR AQUI...
+
+
+
+ex:
+
+
+
+
+const regex = new RegExp('');
+
+
+-----------------------------------
+
+
+
+
+2a maneira) -------------> POR MEIO DO USO DA 'LITERAL NOTATION' (ou seja, por meio de notações)...
+
+
+MAS AQUI NÓS NÃO USAMOS [[[]]] (square brackets) COMO NOTAÇÃO;
+
+
+não, aqui nós utilizamos // (forward slashes). VOCÊ DEVE INSERIR O PADRÃO __NO MEIO DESSES FORWARD SLASHES__.
+
+
+
+
+
+
+
+EX:
+
+
+const regex = /  padrão /;
+
+
+------------------------------------
+
+
+
+
+EX (exemplo dO PADRÃO DE 'EMAILS' NESSE FORMATO 'REGULAR EXPRESSION'):
+
+
+
+
+const regex = /^\S+@\S+\.\S+$/;
+
+
+
+
+
+SIM, ISSO PARECE SUPER ESTRANHO. MAS DEVEMOS ACEITÁ-LO POR ENQUANTO...
+
+
+
+SE VOCÊ DEFINIR ISSO NO CONSOLE, ESSA CONST, 
+
+agora você poderá utilizá-la como UM OBJETO...
+
+
+
+PODERÁ UTILIZÁ-LA COMO UM OBJETO E CHAMAR UM MÉTODO NELA....
+
+O MÉTODO 'test();'
+
+
+
+ex:
+
+
+
+
+
+regex.test();
+
+
+
+----------------------------
+
+
+POR MEIO DO MÉTODO 'TEST()', PODEMOS PASSAR UMA STRING;
+
+o método checará se ESSA STRING PASSARÁ no 'teste' feito pela regular Expression 
+
+
+contida na constante 'regex', NESSE EXEMPLO...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+regex.test('arthur.panazolo@acad.pucrs.br');
+OUTPUT: true
+
+
+--------------------------------
+
+
+
+
+
+A RAZÃO PARA ESSE OUTPUT É QUE 
+
+esse código bizarro com \ e / DESCREVE A NOSSA REGULAR EXPRESSIOn...
+
+
+
+TRADUÇÃO:
+
+/ ---> marcação
+
+\S+  ----> ACEITAMOS QUALQUER TIPO DE PALAVRA NO INÍCIO DA FRASE. (como 'arthur', test, etc).
+
+^ ----> DIZ QUE COMEÇAMOS DA ESQUERDA, sempre, as leituras.
+
+
+@ ----> AÍ, EM ALGUM LUGAR DA STRING EM GERAL, VOU QUERER ESSE SÍMBOLO...
+
+
+\S+ ----> DEPOIS, DE NOVO, QUALQUER TIPO DE PALAVRA.
+
+
+\. ---> AÍ, TEREMOS DE SEMPRE TER UM '.'.
+
+
+\S+$ ---->  AÍ, DE NOVO, SEMPRE VAMOS QUERER QUALQUER TIPO DE PALAVRA, MAS ESSA PALAVRA DESSA VEZ IRÁ ___ACABAR A STRING___ ($, o dollar sign).
+                        (qualquer palavra que então ACABE ESSA STRING...)
+
+/ ---> marcação
+
+
+
+
+
+É ISSO QUE ESSA EXPRESSÃO SIGNIFICA, ESSENCIALMENTE.
+
+
+
+
+
+
+É CLARO QUE HÁ UMA SINTAXE DE 'REGULAR EXPRESSIONS', E ELA É QUASE COMO UMA 
+
+LINGUAGEM DE PROGRAMAÇÃO EM SI...
+
+
+------------------------
+
+
+
+Na próxima lição o professor nos mostrará uma breve lição sobre sua sintaxe.
+
+
+
+Nos mostrará algumas das coisas que podemos fazer com elas,
+
+
+
+E TAMBÉM UM LINK QUE NOS DÁ MAIS INFORMAÇÕES SOBRE ESSE RECURSO.
+
+
+
+
+DOCUMENTAÇÃO MDN E UMA INTRODUÇÃO BOA.
+
+
+VocÊ vai ver qual é o melhor padrão para o seu use-case...
+
+
+----------------------------------------
+
+
+
+

@@ -1,0 +1,2699 @@
+
+
+
+
+
+
+
+
+---> CERTO, então o que podemos fazer aqui, no nosso código?
+
+
+
+
+COmo podemos optimizar os STARTUP TIMES de nosso projeto?
+
+
+
+
+
+
+
+--> professor ressalta que os tamanhos de nossos arquivos serão 
+
+AINDA MENORES NO FUTURO.
+
+
+
+
+
+---> professor explica: nós já não estamos fazendo 
+
+Múltiplos 'roundtrips'...
+
+
+
+---> uma coisa, diz ele, que poderia ser interessante é checar 
+
+QUANTO DESSE CÓDIGO QUE NÓS BAIXAMOS INICIALMENTE  
+
+
+ESTÁ SENDO EFETIVAMENTE USADO.... (pq se nós 
+
+temos muito código NÃO UTILIZADO, nós talvez estejamos baixando muita coisa 
+
+desnecessária, deixando a página mais lenta por nada.) ---> 'overhead'...
+
+
+
+
+---> ISSO SIGNIFICA QUE NÓS TALVEZ ESTEJAMOS BAIXANDO CÓDIGO QUE NÓS __NEM MESMO PRECISAMOS___, AINDA... (naquele ponto 
+do runtime)...
+
+
+
+
+----> Felizmente, o CHROME NOS AJUDA COM ISSO...
+
+---> se você apertar ESC nas devtools, na aba network  --> se você fizer isso,
+
+
+
+HAVERÁ UMA ABA LÁ EMBAIXO DIZENDO 'coverage'...
+
+
+
+
+EM 
+
+
+
+'COVERAGE', VOCê PODE CHECAR 
+
+_________QUANTO JAVASCRIPT QUE VOCê ESCREVEU ESTÁ SENDO EFETIVAMENTE USADO...._____
+
+
+
+
+Você deve clicar 
+
+em 
+
+
+'setinha da skol'/'INSTRUMENT COVERAGE'----> ISSO VAI TE DIZER QUANTO DE SEU 
+
+
+CÓDIGO NÃO ESTÁ SENDO USADO...
+
+
+
+
+No exemplo do professor (o vídeo), 
+
+
+
+41% DO CÓDIGO JAVASCRIPT DELE __NÃO ESTARÁ SENDO UTILIZADO___... (o nosso projeto, no presente, 
+também está com 34% de unuse.)
+
+
+
+
+
+---> SE VOCÊ CLICAR NESSA BARRA DE 'USED-UNUSED', 
+
+
+
+a parte LÁ DE CIMA 
+
+do devtools vai abrir 
+
+
+E TE MOSTRAR 
+
+
+COM UMA LINHA ___vERDE___ quais partes do código ESTÃO SENDO USADAS...
+
+
+A parte VERMELHA mostra quais partes NÃO ESTÃO SENDO USADAS.
+
+
+
+
+AZUL X VERMELHO 
+
+
+VERDE X VERMELHO.
+
+
+
+
+VERMELHO --> CÓDIGO AINDA NÃO UTILIZADO NO MOMENTO...
+
+
+
+
+
+--------------------------------
+
+
+
+
+
+
+
+
+professor explica que esse código que temos aqui É O CÓDIGO 
+
+
+QUE FOI PRODUZIDO/COMPILADO PELO WEBPACK... ---> portanto, 
+
+
+
+AQUI NÓS TEMOS CÓDIGO QUE FOI 'actually' __INJETADO__ pelo webpack...
+
+
+
+ou seja, CÓDIGO QUE NÓS EFETIVAMENTE NÃO ESCREVEMOS, e que foi inserido pelo webpack.. 
+
+
+
+
+
+-----> esses códigos terão pouca influência no fato de nós 'precisarmos deles' ou não....
+
+
+
+
+
+na aba 'sources', se você for fuçando nas PASTAS onde há os arquivos, 
+
+eventualmente, dentro do folder 'webpack', dentro 
+
+do folder 
+
+'.' (dot), 
+
+
+
+VOCÊ ENCONTRARÁ UM 
+
+
+
+FOLDER CHAMADO 
+
+
+
+'src/non-optimized'... -----> DENTRO 
+
+DESSE FOLDER VOCÊ VAI ENCONTRAR SEUS 
+
+
+ARQUIVOS 'DE VERDADE', SEUS ARQUIVOS ____ORIGINAIS____ ('product-management.js', 'rendering.js' e 'shop.js')...
+
+
+
+
+
+
+
+-------------------------------------> nessa pasta onde há seu CÓDIGO ___oRIGINAL__, você TAMBÉM 
+
+É CAPAZ DE VER SE SEUS CÓDIGOS ESTÃO SENDO REALMENTE UTILIZADOS (ou não)....
+
+
+---------------------------------
+
+
+
+
+
+O QUE NÓS OBSERVAMOS, por exemplo, nesse nosso projeto, 
+
+
+É QUE 
+
+
+____UM MONTE DO CÓDIGO REALMENTE ESTÁ SENDO UTILIZADO..._____
+
+
+
+mas em 
+
+
+'product-management.js' (obs::ESSE ARQUIVO JÁ NÃO EXISTE NESSA VERSÃO ATUAL DO PROJETO,
+
+pois o professor deve ter renomeado para 'products'...),
+
+
+
+
+dentro desse negócio ,
+
+
+
+
+a função EXPORTADA de 
+
+
+'deleteProduct(){}' 
+
+
+e TODO SEU CÓDIGO INTERNO __ESTÃO INUTILIZADOS__... não são 
+
+usados imediatamente (e ainda assim são baixados no startup da página...)
+
+
+
+
+OUTRA FUNÇÃO QUE NÃO ESTÁ SENDO USADA, dentro de 'product-management.js', 
+
+
+É 
+
+'addProduct'...
+
+
+
+
+(OBS:::: ESSAS 2 FUNÇÕES ESTÃO INSERIDAS, NO NOSSO PROJETO ATUAL, dentro de 'shop.js'...)
+
+-----------------------------
+
+
+
+
+
+Ok...
+
+
+
+'addProduct'
+
+
+
+e
+
+
+'deleteProduct'
+ 
+
+
+ AINDA NÃO FORAM UTILIZADAS/NÃO FORAM EXECUTADAS.
+
+
+
+
+
+
+
+
+
+ -------------------------------------------------
+
+
+
+E ALI, DENTRO DO OUTRO ARQUIVO, DENTRO DE 'rendering.js', 
+
+NÓS TAMBÉM 
+
+VEMOS QUE nem 
+
+
+todo o seu código está sendo utilizado... ---> um monte de linhas 
+
+
+não estão sendo utilizadas...
+
+
+
+as linhas:
+
+
+
+
+
+'const newListEl = document.createElement('li');
+const prodTitleEl = document.createElement('h2');
+const prodPriceEl = document.createElement('p');
+const prodDeleteButtonEl = document.createElement('button');
+
+
+prodTitleEl.innerHTML = product.title;
+prodPriceEl.innerHTML = product.price;
+
+
+e mais....'
+
+
+
+
+
+
+MAS PROFESSOR DIZ QUE 
+
+
+ESSA CONSTATAÇÃO, FEITA PELO 'DEVTOOLS', DE QUE ESSAS LINHAS DE CÓDIGO 
+
+NÃO ESTÃO SENDO EXECUTADAS É __iNCORRETA___... o devtools não está detectando essa 
+'falta de uso' CORRETAMENTE...
+
+
+
+Não está correto pq 
+
+
+a função/método 
+
+
+'forEach()', QUE 
+
+SEGURA TODO ESSE CÓDIGO _____________ESTÁ __SENDO DETECTADA___....
+
+
+
+ex:
+
+
+
+
+
+forEach(product => {            ///////////////ISSO ESTÁ SENDO DETECTADO COMO 'utilizado', MAS TUDO ABAIXO DISSO ESTÁ COMO 'não utilizado'...
+
+    const newListEl = document.createElement('li');
+const prodTitleEl = document.createElement('h2');
+const prodPriceEl = document.createElement('p');
+const prodDeleteButtonEl = document.createElement('button');
+
+
+prodTitleEl.innerHTML = product.title;
+prodPriceEl.innerHTML = product.price;
+}
+)
+
+
+
+---------------------
+
+
+
+
+
+ISSO SIGNIFICA, BASICAMENTE, QUE 
+
+
+ESSAS LINHAS TODAS 
+
+
+
+________FORAM, SIM_____ EXECUTADAS__, 
+
+só o devtools é burro e não entende que 
+
+
+o fato  de 
+
+'forEach()' ser utilizado/executado SIGNIFICA AUTOMATICAMENTE 
+
+
+QUE TODAS AS DEMAIS LINHAS QUE ESTÃO DENTRO DELE FORAM EXECUTADAS/UTILIZADAS 
+
+TAMBÉM...
+
+
+----------------------------
+
+
+
+
+Certo... mas ainda assim, 
+
+
+o 'deleteProduct' e o 'addProduct' 
+
+
+______CERTAMENTE__ não foram usados/executados....
+
+
+
+não foram executados pq nós NÃO DELETAMOS, NEM ADICIONAMOS, produto algum até agora...
+
+
+
+
+
+
+--------> Professor explica que o __CÓDIGO NO INTERIOR__, no function BODY do 'addProduct' 
+
+
+e 
+
+do 
+
+
+'deleteProduct' 
+
+
+
+__NÃO FOI RODADO/EXECUTADO__.... mas 
+
+
+a FUNÇÃO EM SI, ou seja, 'deleteProduct' e 'addProduct', esses já foram 
+
+executado/usado, sim....... já foram 
+
+
+usados/executados PQ 
+
+ELES FORAM/SÃO REFERENCIADOS 
+
+EM 'SHOP.JS', 
+
+naquela linha 
+
+
+
+
+'import { initProducts, addProduct } from './product-management'; -------------->       ESSE A É A PROVA...
+
+É A PROVA DE QUE O 'addProduct' JÁ FOI, SIM, UTILIZADO/EXECUTADO NO NOSSO CÓDIGO.... ainda que 
+ele tenha sido usado de forma INDIRETA, em 'shop.js'...
+
+
+
+
+
+
+---> ou seja, 'addProduct' foi usado; ELE APENAS AINDA NÃO FOI __EXECUTADO__...
+
+
+
+
+
+-----> mesmo assim, um código como o de 'addProduct', CÓDIGO QUE ___AINDA NÃO FOI EXECUTADO__, 
+
+NOS DÁ UMA OPORTUNIDADE DE ___MELHORA__, de optimização...
+
+
+
+------------------------------------------------
+
+
+
+PODEMOS ___MELHORAR___, optimizar esse 'addProduct' 
+
+
+COM A AJUDA DE UM RECURSO CHAMADO DE 
+
+
+'LAZY LOADING'... ---> 
+
+
+
+
+
+
+LAZY LOADING === É UMA SINTAXE DE ___IMPORT____ EM QUE VOCÊ  APENAS/SOMENTE IMPORTA
+
+
+E BAIXA UM ARQUIVO ___QUANDO VOCÊ REALMENTE PRECISA DELE__, e nunca ANTES DISSO.
+
+
+'WHEN YOU REALLY NEED IT, instead of UPFRONT'
+
+
+
+
+
+-----> DEVEMOS ADICIONAR UM LAZY LOADING NO NOSSO CÓDIGO PARA QUE NÓS 
+
+
+CONSIGAMOS BAIXAR ___MENOS CÓDIGO___ no startup da página (o que vai acelerar a página)...
+
+
+--------------------
+
+
+
+
+
+
+DE VOLTA AO NOSSO CÓDIGO, NÓS PODEMOS VER QUe no final das contas, nós, no código 
+
+
+de 'shop.js', 
+
+que é:
+
+
+---------------------------------------------------
+
+ex:
+
+
+
+import  { initProducts, addProduct } from './product-management';
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);'
+
+
+
+
+---------------------------------------------------
+
+
+
+NESSE CÓDIGO AÍ, desde que o usuário __NÃO CLIQUE NO BOTÃO DE 
+
+
+'addProduct' QUE ESTÁ VINCULADO AO addEventListener, 
+
+
+
+A FUNÇÃO 'addProduct' (o segundo parâmetro do eventListener),
+
+
+QUE RESIDE 
+
+
+NO ARQUIVO DE 
+
+
+'product-management.js',
+
+
+
+NÃO ACABA SENDO EXECUTADA... ---------> 'is not getting executed'...
+
+
+
+
+O mesmo ocorre com 'deleteProduct', ele não é EXECUTADO SE O USUÁRIO NÃO
+
+CLICAR NO BOTÃO 'delete product' EM CADA DIV/list item....
+
+
+
+----------------------------------------------
+
+
+
+ENTÃO, COMO PODERÍAMOS MELHORAR ESSE CÓDIGO?
+
+
+
+
+---> bem, nós podemos ir até 'shop.js', por exemplo,
+ 
+
+ E ENTÃO ALI 
+
+
+ EM CIMA ADICIONAR 
+
+
+
+ uma nova função, uma função 
+
+
+ 'addProduct'....
+
+
+
+
+ ex:
+
+
+
+
+
+ 
+import  { initProducts, addProduct } from './product-management';
+
+
+const addProduct
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);'
+
+
+--------------------------------------------------
+
+
+
+Fazendo isso, deixaríamos de importar essa função de 'product-management.js'...
+
+
+
+
+------>
+
+
+EX:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; /////FUNÇÃO  'addProduct' REMOVIDA DESSE IMPORT
+
+
+const addProduct 
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);'
+
+
+
+------------------------------------------------------
+
+
+
+
+O PROFESSOR ENTÃO DEFINE ESSA FUNÇÃO COMO UMA ARROW FUNCTION, MAS É EVIDENTE QUE PODERÍAMOS 
+
+CRIÁ-LA DA MANEIRA TRADICIONAL, com 'function() {}'....
+
+---------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+import  { initProducts } from './product-management'; /////FUNÇÃO  'addProduct' REMOVIDA DESSE IMPORT
+
+
+const addProduct = () => {
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+ESSA FUNCTION/ARROW FUNCTION VAI RECEBER 
+
+SEMPRE UM 
+
+PARÂMETRO DE 'event', pois NÓS já o bindamos 
+
+
+ao evento de 'submit' naquele eventListener... ('addProductForm.addEventListener('submit', addProduct)') ....
+
+
+
+
+
+EX:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = (event) => { ////////EIS O CÓDIGO EM QUESTÃO.
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+-------------------------------------------------
+
+
+
+
+
+DENTRO DO FUNCTION BODY DE 
+
+'addProduct' EU VOU QUERER 
+
+
+CHAMAR 
+
+
+'import()' 
+
+
+COMO UMA FUNÇÃO... ---------> NÓS APRENDEMOS SOBRE 'import()' NO 
+
+
+MÓDULO SOBRE 'MODULES'...
+
+
+
+
+EXPLICAÇÃO:
+
+Importações Dinâmicas
+ 
+
+A palavra-chave import pode ser chamada como uma
+ função para importar dinamicamente um módulo. 
+ Quando usado dessa maneira, retorna uma promessa.
+
+
+
+
+import('/modules/my-module.js')
+  .then((module) => {
+    // Do something with the module.
+  });
+ 
+
+Este formulário também suporta a palavra-chave await.
+
+ 
+
+let module = await import('/modules/my-module.js');
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = (event) => {
+
+    import();
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+ESSA FUNÇÃO 
+
+
+'import()' É SUPORTADA 
+
+
+
+TANTO PELO JAVASCRIPT COMO PELO WEBPACK...
+
+
+essa função é LIDA PELO WEBPACK QUANDO ELE ANALISA E BUNDLA O NOSSO CÓDIGO....
+
+
+
+
+----> nessa função, o professor vai querer importar  (esse é, como talvez você se lembre, um import ___DINÂMICO____ de módulo... ele é usado QUANDO QUEREMOS IMPLEMENTAR LAZY LOADING/CARREGAMENTO DINÂMICO DE SCRIPTS, E NÃO ESTÁTICO/INICIAL/DE STARTUP....)
+
+o módulo de 
+
+
+'product-management.js'...
+
+
+
+
+ex:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = (event) => {
+
+    import('./product-management.js'); /////EIS O CÓDIGO EM QUESTÃO...
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+'import()' SEMPRE NOS RETORNA UMA ___PROMISE___ com 
+
+aquele módulo... ou seja, devemos RESOLVER essa promise com CÓDIGOS 
+EXECUTADOS A PARTIR DELA... ('.then()' blocks....)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = (event) => {
+
+    import('./product-management.js').
+    .then(() => {
+
+    });
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+---------------------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE PODERÍAMOS USAR 'ASYNC/AWAIT', mas que aqui utilizaremos o clássico 
+
+
+promise com then blocks....
+
+ESSA PROMISE RETORNADA POR MEIO DO 'import' VAI SEMPRE 
+
+
+NOS DAR UM 
+
+
+OBJETO/PROMISE de 
+
+
+'module'...
+
+
+é por isso que o professor nomeia o parâmetro daquela função interna do 
+
+
+
+'then() block' como 
+
+sendo 'module'...
+
+
+
+ex:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = (event) => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+
+    });
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+---------------------------------------------------
+
+
+
+
+
+
+CERTO..... 
+
+
+
+DENTRO DESSE 'module', desse objeto 'module' recebido nesse THEN BLOCK, 
+
+
+nós vamos 
+
+
+
+
+___TER TUDO QUE ESSE ARQUIVO 'product-management.js' EXPORTOU/EXPORTA... (ou seja,
+
+teremos 
+
+
+'addProduct', 'deleteProduct' e 'initProducts', as TRÊS FUNÇÕES EXPORTADAS 
+
+POR 'product-management.js', que foram exportadas por meio do código 
+
+'export xxxx').............
+
+
+
+
+
+NO CASO DESSA FUNÇÃO 
+
+'addProduct' que estamos 
+
+
+criando/definindo em 
+
+
+'shop.js',
+
+
+NÓS 
+
+CHAMARÍAMOS/CHAMAMOS 
+
+
+'module.addProducts();' (ou seja, a função 'addproducts' contida dentro do objeto/módulo de 'product-management'...)
+
+
+
+
+ex:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct();
+    });
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+
+------------------------------------------------------
+
+
+
+
+DEPOIS DISSO, NÓS FORWARDAMOS 
+
+
+'event' como PARÂMETRO ao 
+
+
+chamado de 'addProduct'...
+
+
+
+ex:
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct(event);
+    });
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+
+----------------------------------------
+
+
+
+OBS: 
+
+professor coloca uma nota aqui:
+
+
+'Actually, forwarding "event" here won't do much, because 
+"addProduct" executes too late (async). We'll fix it later!'
+
+
+
+
+TEORICAMENTE, EXPLICA O PROFESSOR, 
+
+
+esse código todo DEVERÁ APENAS 
+
+
+CARREGAR O CÓDIGO DE 
+
+'addProduct()'
+ 
+ QUANDO NECESSITARMOS DELE.....
+
+
+
+
+
+
+ Entretanto, ressalta o professor, ainda há um resquício do antigo "approach do nosso código", que é 
+
+
+
+ aquele import de 
+
+
+
+ 'initProducts' (que está em 'product-management.js')
+
+
+
+ EM SHOP.js... ---------> esse import de 
+
+ 'initProducts' SEMPRE 
+
+ ESTÁ SENDO CARREGADO NO STARTUP DO NOSSO CÓDIGO.... isso significa que nosso arquivo 
+
+ inteiro, o 'product-management.js' inteiro ainda tem que ser importado em 'shop.js', pois 
+
+ eu preciso de 1 única função dele.... (E essa única função acaba forçando o negócio a baixar o conjunto inteiro... ele nem 
+ 
+ precisa das outras funções, mas acaba importando todas elas mesmo assim...)
+
+
+
+---> arquivos de script (que contém 1, 2, milhões de funções....) 
+
+OU __sÃO IMPORTADOS__ ou __ NÃO SÃO IMPORTADOS__.... não existe um 'in between' (não posso importar apenas 1 única função 
+de um arquivo)...
+
+
+
+-------------------------------------------------------------
+
+OK....
+
+
+isso quer dizer que nosso IMPORT DINÂMICO (
+
+
+    aquele código de 
+"""
+
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct(event);
+    });
+
+}
+
+"""""
+
+)
+
+
+
+
+
+NÃO VAI QUEBRAR NOSSO CÓDIGO, mas ao mesmo tempo __NÃO VAI AJUDAR EM NADA__ (pois o arquivo inteiro 'product-management.js'
+ainda estará sendo importado devido Àquela única função 'initProducts' de que precisamos, que reside dentro 
+dele...)
+
+
+
+
+----> nosso código continua inoptimizado, essencialmente... ---> na verdade, 
+
+NÓS ACABAMOS ADICIONANDO __ MAIS CÓDIGO AINDA__, o código do import dinâmico (que é INÚTIL) acabou 
+adicionado, e ele não faz nada... não interfere em nada no comportamento da nossa página, é uma redundância.
+
+
+---------------------------------------------------
+
+
+
+----> MAS TALVEZ AINDA POSSAMOS OPTIMIZAR NOSSO CÓDIGO... ---> 
+
+o professor adiciona um 
+
+
+NOVO ARQUIVO...
+
+
+
+E para isso, ele vai criar um NOVO FOLDER, chamado de 
+
+
+'optimized' ---------> ELE FAZ ISSO PARA QUE POSSAMOS ENXERGAR AS MUDANÇAS ENTRE OS CÓDIGOS, AO FINAL DO PROCESSO.
+
+
+----------------------
+
+
+
+O PROFESSOR ENTÃO faz cópias dOS
+
+
+
+
+ARQUIVOS DE 'product-management'
+
+
+'rendering' 
+
+
+
+e 
+
+'shop'
+
+
+
+E AS COLA 
+
+nessa pasta de 'optimized'......
+
+
+
+Feito isso,
+
+
+o professor vai até o 
+
+
+webpack.config.js 
+
+
+
+E ENTÃO 
+
+
+TROCA 
+
+ aquela 
+
+ coluna   (o 'entry point' do webpack)
+
+
+
+ 'entry: {
+     shop: './src/non-optimized/shop.js'
+ }'
+
+
+
+ PARA 
+
+
+ 
+ 'entry: {
+     shop: './src/optimized/shop.js'
+ }'
+
+
+
+....
+
+
+
+ELE FAZ A MESMA COISA NO WEBPACK.CONFIG.PROD.JS....
+
+
+
+---------------------------------------
+
+
+
+Depois disso ele reinicia o servidor do webpack...
+
+
+
+
+Ele cria um arquivo 
+
+
+
+'products.js' 
+
+
+DENTRO DO FOLDER 
+
+
+dee 
+
+
+
+'optimized'...
+
+
+
+
+Então, 
+
+
+em 'product-management', 
+
+
+ELE PEGA 
+
+
+A 
+
+
+VARIÁVEL ('let')
+
+
+
+de 
+
+
+
+'products'
+
+
+
+
+E A JOGA DENTRO DO 'products.js'....
+
+
+------------------------------------------------
+
+
+
+ex (products.js):
+
+
+
+
+
+
+let products = [
+  {
+    id: new Date('1/1/1970').toString(),
+    title: 'A Book',
+    price: 12.99
+  },
+  {
+    id: new Date('1/2/1970').toString(),
+    title: 'A Carpet',
+    price: 129.99
+  },
+  {
+    id: new Date('1/3/1970').toString(),
+    title: 'A Magic Broomstick',
+    price: 599.99
+  },
+  {
+    id: new Date('1/4/1970').toString(),
+    title: 'A Bottle',
+    price: 2.99
+  },
+  {
+    id: new Date('1/5/1970').toString(),
+    title: 'A T-Shirt',
+    price: 29.99
+  }
+];
+
+
+------------------------------------------------------------------
+
+
+ex(product-management.js):
+
+
+
+import { renderProducts } from './rendering';
+
+
+export function initProducts() {
+    renderProducts(products, deleteProduct);
+}
+
+
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+Lá, no 'products.js',
+
+
+
+o professor transforma essa variável com esse array 
+
+
+EM UMA CONSTANTE A SER EXPORTADA...
+
+
+
+ex:
+
+
+
+
+
+export const products = [
+  {
+    id: new Date('1/1/1970').toString(),
+    title: 'A Book',
+    price: 12.99
+  },
+  {
+    id: new Date('1/2/1970').toString(),
+    title: 'A Carpet',
+    price: 129.99
+  },
+  {
+    id: new Date('1/3/1970').toString(),
+    title: 'A Magic Broomstick',
+    price: 599.99
+  },
+  {
+    id: new Date('1/4/1970').toString(),
+    title: 'A Bottle',
+    price: 2.99
+  },
+  {
+    id: new Date('1/5/1970').toString(),
+    title: 'A T-Shirt',
+    price: 29.99
+  }
+];
+
+
+----------------------------------------------
+
+
+
+ELE FAZ ISSO PARA QUE EM 'PRODUCT-MANAGEMENT' ele possa __IMPORTAR___ 
+
+essa constante 'products'...   ele importa essa função 
+
+
+com o nome 'prods'.... ----> ele faz isso, esse 'renaming', para QUE 
+
+ELE POSSA CRIAR UMA NOVA variável de nome 
+
+'products' dentro do arquivo de 'product-management.js'...
+
+
+
+------------------------------------------------------------
+
+
+
+ex(product-management.js):
+
+
+
+
+import { renderProducts } from './rendering';
+import { products as prods } from './products';   /////EIS O CÓDIGO EM QUESTÃO...
+
+
+
+let products = ....
+
+
+
+export function initProducts() {
+    renderProducts(products, deleteProduct);
+}
+
+
+
+----------------------------------------------
+
+
+
+
+
+essa variável 
+
+
+
+de 'products' vai segurar os 
+
+
+'prods' (vai segurar a CONSTANTE PRODS que está no outro arquivo, que está em 'products.js'...)
+
+
+
+ex:
+
+
+
+
+
+
+ex(product-management.js):
+
+
+
+
+import { renderProducts } from './rendering';
+import { products as prods } from './products';   /////EIS O CÓDIGO EM QUESTÃO...
+
+
+
+let products = prods;
+
+
+
+export function initProducts() {
+    renderProducts(products, deleteProduct);
+
+
+
+    ----------------------------------------------
+
+
+
+
+
+
+CÓDIGO COMPLETO DE 'product-management.js'.... --->
+
+
+
+ex:
+
+
+
+
+import { renderProducts } from './rendering';
+import { products as prods } from './products';   /////EIS O CÓDIGO EM QUESTÃO...
+
+
+
+let products = prods;
+
+
+
+export function initProducts() {
+    renderProducts(products, deleteProduct);
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    for (const prod of products) {
+        if(prod.id !== prodId) {
+            updatedProducts.push(prod);
+        }
+    }
+    products = updatedProducts;
+    renderProducts(products, deleteProduct);
+}
+
+
+-------------------------------------
+
+
+
+ELE FEZ ESSA RELAÇÃO ENTRE 'products' e 'prods' PARA QUE 
+
+
+QUANDO ELE USAR/USARÁ 
+
+
+'products = updatedProducts' lá embaixo, 
+
+em 
+
+'deleteProduct()', 
+
+
+
+A REFERÊNCIA A 'products' ainda funcione....
+
+
+
+isso vai funcionar pq 
+
+
+agora 
+
+
+a variável 
+
+'products' é uma variável 
+
+
+
+DO ARQUIVO 'product-management.js' ( ou seja, do próprio arquivo de 'deleteProduct'), 
+
+
+MAS UMA VARIÁVEL INICIALIZADA COM __DADOS___ EXTRAÍDOS de outro arquivo, do 
+
+arquivo './products'... (que é o 'prods')....
+
+
+
+-----------------------------------------------
+
+
+
+
+CERTO, MAS PORQUE O PROFESSOR FEZ ISSO? PORQUE 
+
+ELE ARMAZENOU 'products' em um ___aRQUIVO SEPARADO___?
+
+
+
+
+
+---> ele fez isso para que agora ele possa pegar E TIRAR essa função 
+
+
+'initProducts'  (
+
+
+
+    a função de código 
+
+
+
+    'export function initProducts() {
+        renderProducts(products, deleteProduct);
+    }
+)
+
+
+
+DE 'product-management.js'.... 
+
+para que eu possa TIRAR ESSA FUNÇÃO 
+
+
+DE 'product-management' e então possa COLOCÁ-LA 
+
+
+em 'shop.js', 
+
+
+que é O LUGAR EM QUE 
+
+ESSA FUNção 'initProducts' ESTÁ SENDO __eFETIVAMENTE EXECUTADA___...
+
+
+
+(
+
+
+
+    código de 
+
+
+
+'shop.js' (ANTES DESSA OPTIMIZAÇÃO):
+
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct();
+    });
+
+}
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts(); /////aqui é o lugar me que 'initProducts' está sendo executada... NÓS VAMOS COLOCAR A DEFINIÇÃO DESSA FUNÇÃO (a definição, e não a execução....) NESSE MESMO LUGAR...
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+)
+
+
+
+
+
+
+
+EX(shop.js depois dessa optimização):
+
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct();
+    });
+
+}
+
+
+
+
+
+function initProducts() { ////////////EIS O CÓDIGO EM QUESTÃO.
+        renderProducts(products, deleteProduct);
+    }
+
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+
+
+
+
+initProducts(); 
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+----------------------------------------------
+
+
+
+
+Certo... mas não acabamos por aí:
+
+
+com essa função 'initProducts' definida em 
+
+
+'shop.js', 
+
+
+NÓS AINDA 
+
+precisamos DO 
+
+ACESSO 
+
+
+à 
+
+
+'renderProducts()'   (PQ 'renderProducts' NÃO ESTÁ NATIVAMENTE NESSE ARQUIVO 'shop.js'... ele precisa ser IMPORTADO de 'product-management.js'...) 
+
+
+
+---> também precisamos do ACESSO À 'products' (que também não é nativo de 'shop.js'; faz parte de 'products.js'... )
+
+
+
+
+como fazemos isso? 
+
+Bem, com um SIMPLES ___IMPORT___ dessas variáveis/funções...
+
+
+
+
+ex:
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+
+import { products } from './products';
+import { renderProducts } from './rendering'; /////////EIS OS CÓDIGOS EM QUESTÃO.
+
+
+
+
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct();
+    });
+
+}
+
+
+
+
+
+function initProducts() {
+        renderProducts(products, deleteProduct);
+    }
+
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+
+
+
+
+initProducts(); 
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+Nós também acabamos passando, anteriormente, uma 'coisa' 
+
+
+'deleteProduct' AO 'renderProducts()' dentro 
+
+da função 
+
+
+'initProducts()'...
+
+
+
+ex:
+
+
+function initProducts() {
+    renderProducts(products, deleteProduct);
+} 
+
+
+-----------------------------------------
+
+
+
+Certo.... mas se nós dermos uma olhada no nosso código, perceberemos que essa coisa 
+
+
+
+'deleteProduct' é, NA VERDADE, um __POINTER___ 
+
+
+àQUELA FUNÇÃO 
+
+
+
+'deleteProduct' LÁÁÁÁÁ EM 'product-management.js'... 
+
+(
+
+
+    de código 
+
+
+
+    '
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    for (const prod of products) {
+        if(prod.id !== prodId) {
+            updatedProducts.push(prod);
+        }
+    }
+    products = updatedProducts;
+    renderProducts(products, deleteProduct);
+}'
+
+
+
+
+
+)
+
+
+------------------------
+
+
+
+ESSA 'coisa' é um pointer 
+
+
+a ESSA FUNÇÃO aí.....
+ 
+
+
+ Ela é um POINTER pq, 
+
+
+
+ dentro daquela função 
+
+
+ 'renderProducts()', lááá no 'rendering.js',
+
+
+
+ QUANDO NÓS CRIAMOS TODOS OS PRODUTOS POR MEIO DE SEU CÓDIGO....
+
+
+
+ ex(código de 'renderProducts' em 'rendering.js'):
+
+
+
+
+ export function renderProducts(products, deleteProductFn) {
+  const productListEl = document.getElementById('product-list');
+  productListEl.innerHTML = '';
+  products.forEach(product => {
+    const newListEl = document.createElement('li');
+    const prodTitleEl = document.createElement('h2');
+    const prodPriceEl = document.createElement('p');
+    const prodDeleteButtonEl = document.createElement('button');
+
+    prodTitleEl.innerHTML = product.title;
+    prodPriceEl.innerHTML = product.price;
+    prodDeleteButtonEl.innerHTML = 'DELETE';
+
+    prodDeleteButtonEl.addEventListener(
+      'click',
+      deleteProductFn.bind(null, product.id)
+    );
+
+    newListEl.appendChild(prodTitleEl);
+    newListEl.appendChild(prodPriceEl);
+    newListEl.appendChild(prodDeleteButtonEl);
+
+    productListEl.appendChild(newListEl);
+  });
+}
+
+
+
+
+----------------------------------------------------------------
+
+
+
+PQ QUANDO NÓS CRIAMOS TODOS ESSES PRODUTOS AQUI, o professor adicionou/adiciona um 
+
+
+__bOTÃO__ ('prodDeleteButtonEl') EM QUE, quando nós CLICAMOS NESSE BOTÃO, o professor/o código 
+
+VAI QUERER ___EXECUTAR ____ ESSA FUNÇÃO 
+
+
+'deleteProduct()'.....    (e a referência a isso é aquela linha 
+
+'deleteProductFn.bind(null, product.id)')....
+
+
+
+
+
+ISSO SIGNIFICA QUE UM POINTEr À FUNÇÃO que DEVERIA/DEVE SER EXECUTADA a partir 
+
+
+de um BUTTON CLICK desses é ___RECEBIDO__ pela 
+
+função 
+
+
+'renderProducts()' definida 
+
+
+
+em 
+
+'rendering.js'... (É RECEBIDA COMO __PARÂMETRO__ por essa função...)
+
+
+-----------------------------------------------------------------
+
+
+
+
+É POR ISSO QUE QUANDO CHAMAMOS 
+
+
+'renderProducts()' DE QUALQUER LUGAR NO NOSSO CÓDIGO, 
+
+NÓS PRECISAMOS PASSAR 
+
+um 
+
+____POINTEr___
+
+
+
+A 
+
+essa função 
+
+
+de 
+
+
+'deleteProductFn'... (que é 'deleteProduct'...)
+
+
+
+
+(meio confusa essa explicação)...
+
+
+
+---------------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE É UM PROBLEMA EM 
+
+'shop.js'...
+
+
+É um problema pq 'deleteProduct' (
+
+
+    'renderProducts(products, deleteProduct)'
+
+
+
+)
+
+
+
+É UMA 
+
+FUNÇÃO 
+
+
+
+___dEFINIDA EM 'product-management.js'.... -------> E NÓS __dEFINITIVAMENTE____ não QUEREMOS 
+
+
+
+___IMPORTAR O ARQUIVO INTEIRO ___ DE 'product-management.js'
+
+
+PARA TER ACESSO A ESSA pequeninha função de 'deleteProduct()'.... 
+
+
+
+
+
+**** OU SEJA, PROFESSOR ESTÁ TENTANDO __sE LIVRAR___ DO IMPORT DE 
+
+'product-management.js' 
+
+
+EM 'shop.js' ----> esse é o objetivo dele DESDE O PRINCÍPIO, 
+
+se __LIVRAR __ DO IMPORT DE 
+
+
+OUTROS MÓDULOS NO NOSSO MÓDULO PRINCIPAL ao 
+
+
+__SER INICIADA A PÁGINA____ (startup)....
+
+
+
+
+----------------------------------------------
+
+
+
+BEM, PROFESSOR DIZ QUE PODEMOS FAZER A MESMA COISA QUE FIZEMOS COM 
+
+
+'addProduct' em 'shop.js'...  --------> ou seja, CRIAR UMA FUNÇÃO 
+
+em 'shop.js' que fará o IMPORT DE MODO __DINÂMICO___...
+
+
+
+
+
+
+
+
+
+
+ex (representação) do código de 'shop.js':
+
+
+
+
+
+
+import  { initProducts } from './product-management'; 
+import { products } from './products';
+import { renderProducts } from './rendering'; /////////EIS OS CÓDIGOS EM QUESTÃO.
+
+
+
+
+
+const addProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct();
+    });
+
+}
+
+
+
+
+
+function initProducts() {
+        renderProducts(products, deleteProduct);
+    }
+
+
+
+
+const addProductForm = document.getElementById('new-product');
+
+
+
+
+
+initProducts(); 
+
+
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+---------------------------------------------------
+
+
+
+
+O PROFESSOR VAI QUERER CRIAR UMA função 'deleteProduct', em 'shop.js', COM O 
+MESMO 
+
+
+"""MODELO"""" da função 'addProduct' QUE ELE CRIOU NESSE MESMO LUGAR....
+
+
+
+
+O código inicial (a ser modificado) dessa versão de 'deleteProduct' 
+
+será de 
+
+
+
+
+
+
+const deleteProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.addProduct();  /////////ISSO SERÁ MUDADO.
+    });
+
+}
+
+
+---------------------------------
+
+
+
+A ALTERAÇÃO FICARÁ ASSIM:
+
+
+
+
+const deleteProduct = event => {
+
+    import('./product-management.js').
+    .then(
+        module => {
+            module.deleteProduct();  ///MUDANÇA.
+    });
+
+}
+
+
+
+-----------------------------------------------
+
+
+
+
+Certo... feita essa alteração,
+
+
+voltamos 
+
+
+ao código de 
+
+
+'product-management.js'... que é:
+
+
+
+
+
+
+import { renderProducts } from './rendering';
+import { products as prods } from './products';  
+
+
+
+let products = prods;
+
+
+
+export function deleteProduct(prodId) {
+    const updatedProducts = [];
+    for (const prod of products) {
+        if(prod.id !== prodId) {
+            updatedProducts.push(prod);
+        }
+    }
+    products = updatedProducts;
+    renderProducts(products, deleteProduct);
+}
+
+
+export function addProduct(event) {
+    ...
+}
+
+
+---------------------------------------
+
+
+
+
+NESSE 'product.management.js',
+
+
+em 
+
+
+'deleteProduct', essa função  ('function deleteProduct(prodId) {}')
+
+
+
+DEVERÁ 
+
+
+___rECEBER O 'PRODID' 
+
+
+
+
+do OBJETO/product QUE DEVERÁ 
+
+SER DELETADO...
+
+
+
+é por isso que em 
+
+
+'shop.js', 
+
+
+no código 
+
+
+
+de 
+
+'function deleteProduct(event) {
+    import('./product-management.js').then(
+        module => {
+            module.deleteProduct(event);
+        }
+    )
+}'
+
+
+
+
+
+EU VOU TROCAR O 'event' por 
+
+
+'productId', pois vou ESPERAR ESSE 'productId' 
+
+
+COMO UM ARGUMENTO... vou esperar ele como um argumento para que 
+
+eu possa FORWARDAR esse id 
+
+
+
+em 'module.deleteProduct()'....
+
+
+
+
+ex:
+
+
+
+
+function deleteProduct(productId) {
+    import('./product-management.js').then(
+        module => {
+            module.deleteProduct(productId);
+        }
+    )
+}
+
+
+
+-----------------------------------------------
+
+
+
+
+
+CERTO....
+
+Feito isso, 
+
+
+mais embaixo,
+
+
+Naquele trecho em que 
+
+
+eu PASSO 
+
+
+'deleteProduct' 
+
+
+COMO SEGUNDO PARÂMETRO 
+
+de 
+
+'renderProducts()',
+
+
+
+as coisas vão funcionar bem.... ('we are all good'...)
+
+
+
+
+
+---> você talvez esteja se perguntando: "ok, mas e de que lugar esse 'projectId' vai vir/está chegando?"
+
+--------> RESPOSTA:
+
+
+Professor diz que ele está PASSANDO UM POINTER em 'deleteProduct' AO 
+
+
+'RENDERPRODUCTS'... (no segundo parâmetro)...
+
+
+
+Lá no 'renderProducts', esse prodId tem que ser PASSADO,
+ 
+
+ e de fato ELE É PASSADO, por meio 
+
+ do 
+
+ código de 'deleteProductFn.bind(null, product.id)'
+
+
+
+
+
+ -----------------------------------------------
+
+ COM ESSA MUDANÇA, AGORA PODEMOS REMOVER 
+
+
+ O IMPORT DE 
+
+ 'product-management' de 
+
+
+ 'shop.js'....
+
+
+
+
+
+ NOSSO CÓDIGO DE IMPORTS FICARÁ:
+
+
+
+ import { products } from './products';
+
+import { renderProducts } from './rendering';
+
+
+
+(NÓS NOS LIVRAMOS DAQUELE IMPORT EXTRA de 'product-management.js'... )
+
+
+
+
+
+-----> AGORA DEVEMOS VER SE ISSO NOS AJUDA DE ALGUMA FORMA, NO NOSSO CÓDIGO...
+
+
+
+
+----> recarregamos a página...
+
+nosso código encolheu 1 KB.... ---> é claro que é pq estamos falando de MUITO POUCO CÓDIGO sendo 'mexido por aí'... ---> a maioria dos 168kb que vemos aqui  são DEVELOPMENT MODE ONLY, e é por isso 
+que não percebemos uma mudança tão grande... ---> mas ainda assim nosso código ficou um pouco menor...
+
+
+
+
+
+
+--------> MAS O QUE NÓS VEREMOS, TAMBÉM, é que se o professor DELETAR ALGUMA COISA 
+
+DOS ITEMS, 
+
+
+você verá que OS ARQUIVOS EXTRAS DE NOSSO SCRIPT __aGORA ESTÃO SENDO IMPORTADOS__... ---> você 
+
+poderia argumentar QUE AGORA ESSES ARQUIVOS ESTÃO __MAIORES__ do que os 
+
+arquivos que nós removemos... ---> mas isso aqui é apenas 
+
+UM EXEMPLO DE COMO VOCê PODERIA SPLITTAR 
+
+SEU CÓDIGO....
+
+
+
+------------------------------------------------------
+
+
+
+
+Para um pequeno aplicativo como esse nosso, 
+
+
+
+Esse procedimento todo que o professor fez PROVAVELMENTE NÃO 
+
+VALE A PENA... ('not worth the hassle') ---> não vale a pena 
+
+
+PQ O WEBPACK TEM QUE ADICIONAR (é obrigado a isso) A ADICIONAR 
+
+UNS CÓDIGOS EXTRAS 
+
+
+EM RAZÃO 
+
+
+DESSES IMPORTS DINÂMICOS  ('import()...'),
+
+
+ELE TEM QUE ADICIONAR UMA CERTA QUANTIDADE DE OVERHEAD CODE,
+
+e esse overhead code pode acabar nos deixando COM MAIS CÓDIGO 
+
+DO QUE TÍNHAMOS ANTES.... --------> MAS 
+
+ISSO TE MOSTRA 
+
+
+A MANEIRA GERAL DE PENSAR a optimização do javascript....
+
+
+
+E SE VOCê TIVESSE MAIS CÓDIGO, código o qual você IMPORTARIA 
+
+
+COM ESSES IMPORTS DINÂMICOS, se 'addProduct' e 'deleteProduct' em 
+
+
+
+'product-management.js' FOSSEM FUNÇÕES MAIS COMPLEXAS,
+
+ 
+ aí você poderia salvar __UM MONTE DE KB__ pelo simples IMPORT DINÂMICO (importar 
+ coisas somente quando necessário) EM VEZ 
+
+ DO ESTÁTICO.......
+
+
+
+
+
+VOCÊ TALVEZ SE PERGUNTE: ok, mas PORQUE 2 arquivos '.js' apareceram na aba 
+
+
+'NETWORK' quando você 
+
+
+DELETOU um de nossos 
+items do aplicativo... (durante o runtime) ?  ----------->
+
+
+----------> A RAZÃO PARA ISSO É QUE  meus ___DOIS IMPORTS DINÂMICOS__ em 
+
+
+'shop.js'
+
+
+
+ESTÃO __APONTANDO PARA O MESMO ARQUIVO__, estão apontando para 
+
+
+'shop.js'... ------> Isso significa que QUANDO EU PRECISO 
+
+DE APENAS 1 DELES, apenas 1 dessas funções, 
+
+
+AMBOS SÃO ADICIONADOS ('both are actually added') ----> isso acontece pq 
+
+
+É IMPOSSÍVEL IMPORTAR 'apenas 1 pedaço' de um arquivo '.js'... --> OU VOCê IMPORTA 
+
+O ARQUIVO INTEIRO, OU VOCÊ NÃO IMPORTA COISA ALGUMA... ---> ex:
+
+usuário quer ADICIONAR um item à página... ----> product-management.js inteiro é baixado,
+e ele traz consigo o 'deleteProduct', a função de delete, contida em 'product-management.js',
+TAMBÉM...
+
+
+
+
+----------------> COM ISSO, NÓS DEMOS UMA OLHADA NAS OPTIMIZAÇÕES 
+
+
+DE STARTUPTIME de nossa página...  ---> de novo, para enfatizar.... ---> 
+
+
+nosso aplicativo é meio simples demais, por isso essas melhorias são meio redundantes, aqui... ---> 
+
+mas quanto 
+
+MAIOR FOR SEU APLICATIVO, mais essas optimizações melhoram o desempenho... 
+
+
+
+--> QUANTO MAIOR FOR O 'CHUNK DE CÓDIGO OPCIONAL', mais efeitos 
+
+essas alterações de optimização trarão...
+
+
+
+-----------------------------------------------
+
+
+
+-----> SE DERMOS UMA OLHADA NA ABA DE 'coverage' de novo, 
+
+
+VEREMOS QUE NOSSO CÓDIGO TERÁ MELHORADO.... ---> teremos 
+
+unused code de '35%', o que significa que 
+
+MELHORAMOS A USAGE DO NOSSO CÓDIGO...
+
+
+
+
+
+
+---> EM RENDERING.JS, tudo está sendo detectado corretamente, e executado adequadamente....
+
+
+
+
+---> em 'products.js', nós usamos tudo também...
+
+
+--> já em 'shop.js', APENAS AQUELAS 2 FUNÇÕES ('addProduct' e 'deleteProduct') AINDA 
+NÃO FORAM USADAS/NÃO FORAM EXECUTADAS, mas é evidente que essas 2 funções não 
+são feitas por muito código... isso não atrapalha muita coisa.... ---> todo o resto do nosso código 
+está VERDE, graças ao LAZY LOADING...

@@ -1,0 +1,1117 @@
+
+
+
+
+
+
+
+
+
+PARA ACABAR ESTE MÓDULO,
+
+
+
+HÁ um punhado de outros métodos legais relacionados 
+
+
+
+a promises que podem, às vezes, serem úteis.
+
+
+
+
+
+
+
+DIGAMOS QUE VOCÊ TEM ___MÚLTIPLAS PROMISES_____,
+
+
+promises as quais você quer __'ORQUESTRAR'____ de certa maneira...
+
+
+Você quer ter certeza de que elas executarão
+
+
+JUNTAS de uma forma específica.
+
+
+
+
+
+
+CÓDIGO:
+
+
+
+
+
+async function trackUserHandler() {  /
+  
+  try {
+    const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+  } catch (error) {
+    console.log(error);
+  }
+
+
+    console.log(timerData, posData); 
+
+
+
+}
+
+
+
+
+----------------------------------
+
+
+
+
+NÓS ESTAMOS, DE FATO, EXECUTANDO 2 PROMESSAS AQUI:
+
+'getPosition()' 
+
+
+e 'setTimer()'.....
+
+
+
+
+NESSE CASO, 1 APÓS A OUTRA....
+
+
+
+
+NESSE CASO ESPECÍFICO, SE 
+
+'getPosition()' falhar, 
+
+'setTimer()' TAMBÉM NÃO SERÁ EXECUTADO,
+
+
+será __SKIPPADO___.....
+
+
+
+
+
+PROFESSOR VAI ATÉ O FINAL DESSE ARQUIVO E, digamos que o professor 
+tenha as mesmas promessas lá..., 
+
+getPosition e setTimer...
+
+
+
+
+
+
+ex:
+
+
+
+async function trackUserHandler() {  
+  
+  try {
+    const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+  } catch (error) {
+    console.log(error);
+  }
+
+
+    console.log(timerData, posData); 
+
+
+    setTimer(1000).then(() => {
+      console.log('Timer done!');
+
+    });
+    console.log('Getting position...');
+
+
+
+}
+
+
+
+
+
+
+getPosition(); ///////EIS O CÓDIGO EM QUESTÃO.
+
+setTimer(1000);
+
+
+---------------------------------------
+
+
+
+
+AÍ, ELE QUER ASSEGURAR QUE APENAS UM DELES SEJA EXECUTADO...
+
+NA VERDADE, QUE APENAS ___O MAIS RÁPIDO DOS DOIS SEJA EXECUTADO____.
+
+
+
+
+Professor quer isso para esse 'dummy example'.......
+
+
+
+Pq raramente haverá algum sentido entre escolher os dados de 
+
+um TIMER e uma função que pega a posição de um usuário...
+
+
+
+
+MESMO ASSIM, CONTINUAMOS COM O EXEMPLO....
+
+
+
+
+CERTO,
+
+
+eu quero esperar por 1 SEGUNDO, E SE EU NÃO CONSEGUI 
+
+A POSIÇÃO ATÉ ESSE SEGUNDO TER ACABADO, 
+
+VOU QUERER FAZER OUTRA COISA....
+
+
+
+
+
+
+
+Professor explica que é claro que poderíamos OBTER O MESMO RESULTADO 
+
+SE COLOCÁSSEMOS UM 'setTimeout' NO OBJETO 'CONFIGURAÇÃO' (ou seja, no body) 
+
+DE 'getCurrentPosition', 
+
+
+MAS ESSE EXEMPLO AQUI CONSIDERA/IMAGINA QUE NÓS NÃO TEMOS ESSA OPÇÃO,
+ 
+ ou que temos algumas outras razões para TER QUE FAZER ISSO DE 
+ OUTRA FORMA....
+
+
+
+
+
+-------------------------------------
+
+
+
+ CERTO.
+
+
+
+ SE ESSE FOR O CASO, O QUE PODEMOS FAZER AQUI, COM AS 2 PROMISES, 
+
+ é 
+
+ usar 
+
+
+ 'Promise' (com maiúsucula)
+
+
+
+ E ENTÃO CHAMAR UM MÉTODO, UM MÉTODO ___ESTÁTICO___ NESSA 
+
+ 'PROMISE CONSTRUCTOR FUNCTION'/CLASSE....
+
+
+
+ O MÉTODO É O MÉTODO '.race'...
+
+
+
+
+ ex:
+
+
+
+Promise.race();
+getPosition();
+setTimer(1000);
+
+
+-------------------------------- 
+
+
+
+
+O '.race()' EXIGE COMO PARÂMETRO/ARGUMENTO UM 
+
+ARRAY DE PROMISES....
+
+
+Por isso, vamos lá e inserimos nossas promises no interior dos parâmetros do call desse método....
+
+
+
+
+ex:
+
+
+
+Promise.race(
+  [
+  getPosition(),
+
+setTimer(1000)
+
+  ]);
+
+
+------------------------------------
+
+
+
+CERTO.
+
+
+
+2 PROMISES/FUNÇÕES QUE RENDEM PROMISES são 
+
+repassadas PARA '.race'...
+
+
+
+BELEZA.
+
+
+
+
+ENTÃO, POR ALGUMA RAZÃO, 
+
+'.RACE()' em si ______tAMBÉM___ RETORNA UMA PROMISE....
+
+
+
+UMA PROMISE COM ____O RESULTADO_____ DA PROMISE MAIS RÁPIDA 
+
+QUE VOCÊ PASSOU À ELA...
+
+
+
+
+
+
+E AÍ VOCÊ PODERIA CRIAR UMA then/CATCH CHAIN COMUM aqui 
+
+com o resultado 
+
+desse '.race'...
+
+
+
+ex:
+
+
+
+
+Promise.race(
+  
+  
+  [getPosition(), setTimer(1000)].then() ////EXEMPLO DE PROMISE CHAIN COM ESSE RESULTADO 'especial' de '''''RACE''''''(corrida).
+
+
+
+);
+
+
+
+
+-----------------------------------
+
+
+OU SEJA, A PROMESSA MAIS RÁPIDA ELENCADA NAQUELE ARRAY VAI GANHAR E 
+
+SER RETORNADA COMO 
+
+resultado de '.race()'...
+
+
+
+Todas as promises que foram colocadas no array serão executadas 
+AO MESMO TEMPO, e a primeira a terminar será aquela que será retornada 
+
+pela função '.race()'.
+
+
+
+
+
+O PROFESSOR ENTÃO COLOCA UM 'console.log' de 'data' (quaisquer dados recebidos pela race) 
+
+NO THEN BLOCK QUE FICOU CONECTADO à PROMESSA QUE 'ganha a corrida' em 
+
+'Promise.race'....
+
+
+
+
+
+EX:
+
+
+
+
+
+
+
+Promise.race(
+  
+  
+  [getPosition(), setTimer(1000)].then(
+    data => {
+      console.log(data);
+    }
+  ) 
+
+
+
+);
+
+
+
+
+PROFESSOR SALVA ISSO E RECARREGA O CÓDIGO.
+
+
+--------------------------------------------
+
+
+ELE RECEBE 'Done!' no console, pq isso é o resultado 
+
+do 'setTimer(1000)' NO NOSSO CONSOLE.LOG ACOPLADO 
+
+àquele método '.race'... 
+
+
+
+a promessa de setTimer(1000) acaba sendo bem mais rápida do que 
+
+a promessa de getPosition();.
+
+
+
+
+SE O PROFESSOR ENTÃO CLICAR 'deny' para a permissão de localização, 
+NADA ACONTECERÁ NA PÁGINA,
+
+POIS 'race' SÓ SE IMPORTA COM A PROMISE MAIS RÁPIDA, 
+
+
+que nesse caso foi o setTimer...
+
+
+
+
+
+
+
+POR OUTRO LADO, SE O PROFESSOR RECARREGAR A PÁGINA 
+
+
+E CLICAR 
+
+____sUPER RÁPIDO_____ em 'deny', 
+
+VEREMOS 
+
+
+
+UM CÓDIGO DE ERRO....
+
+
+
+'Uncaught(in promise) 
+PositionError {code: 1, message: "User denied Geolocation"}
+'
+
+
+
+
+ISSO ACONTECEU/ACONTECE PQ A PROMESSA DE 'getPosition' ACABOU SENDO 
+
+EXECUTADA MAIS RÁPIDO DO QUE 'setTimer(1000)' (1 segundo), 
+
+O QUE ACABOU FAZENDO COM QUE FOSSE RETORNADA POR 
+
+'.race' E CONSOLE.LOGGADA NO CÓDIGO ENFIADO NO THEN BLOCK...
+
+
+------------------------------------------
+
+
+
+É IMPORTANTE RESSALTAR QUE ____a OUTRA PROMESSA, QUE NÃO GANHOU,
+
+
+_____________ NÃO FOI ___CANCELADA___, e sim apenas seu resultado 
+
+FOI __IGNORADO___.
+
+
+PARA HTTP REQUESTS, é importante saber que o REQUEST AINDA 
+
+
+ESTÁ SENDO ENVIADO/É ENVIADO, e apenas o RESULTADO QUE ESTÁ SENDO IGNORADO....
+
+
+
+
+'race', portanto, pode ser útil se você estiver interessado 
+
+em APENAS 1 DE DUAS CONDIÇÕES, situações em que você 
+
+
+vai querer usar o resultado de uma das promessas e IGNORAR 
+
+O OUTRO.
+
+
+-----------------------------------
+
+
+
+
+ÀS VEZES VOCÊ TAMBÉM TEM CÓDIGO QUE APENAS DEVE SER EXECUTADO 
+
+APÓS 
+
+ALGUMAS PROMESSAS JÁ TEREM ACABADO...
+
+
+
+
+É CLARO QUE VOCÊ PODE OBTER ISSO 
+
+
+POR MEIO DO 'CHAIN' DE múltiplos 'then blocks',
+
+
+OU PELO USO DE 
+
+'async/await'....
+
+
+
+ex:
+
+
+
+'console.log(timerData, posData);' APENAS É EXECUTADO DEPOIS DAS 2 PROMESSAS, 'posData' e 'timerData', acabarem...:
+
+
+
+
+async function trackUserHandler() {  
+  
+  try {
+    const posData = await getPosition(); 
+    const timerData = await setTimer(2000); 
+  } catch (error) {
+    console.log(error);
+  }
+
+
+    console.log(timerData, posData); ////////SÓ É EXECUTADO APÓS AS 2 PROMESSAS ACABAREM.
+
+
+    setTimer(1000).then(() => {
+      console.log('Timer done!');
+
+    });
+    console.log('Getting position...');
+
+
+
+}
+
+
+
+------------------------------------
+
+
+
+MAS UMA ALTERNATIVA A ISSO É UMA MANEIRA QUE ENVOLVE 
+
+O USO DO CONSTRUCTOR FUNCTION/CLASSE de 'Promise'.....
+
+
+
+Você chama o método 
+
+'.all()' 
+
+DENTRO DE 
+
+'Promise'...
+
+
+
+
+ex:
+
+
+
+Promise.all();
+
+
+
+
+
+
+
+DENTRO DO PARÂMETRO DE 'all' VOCÊ TAMBÉM PASSA 
+
+UM ARRAY DE PROMISES (professor utiliza as mesmas promises de antes.)...
+
+
+
+
+
+ex
+
+
+
+
+
+
+Promise.all(
+
+
+  [getPosition(), setTimer(1000)]).then();
+
+
+
+
+
+
+
+  ------------------------------
+
+
+
+
+COMO ANTES, VOCÊ PASSA UM ARRAY COM AS PROMESSAS.
+
+
+MAS AQUI VOCÊ RECEBERÁ COMO UM RESULTADO DE 
+'.all' 
+
+
+UMA PROMESSA NORMAL, MAS 
+
+
+OS DADOS/DATA DESSA PROMISE SERÃO OS DADOS COMBINADOS 
+
+DE TODAS AS OUTRAS PROMISES...
+
+
+PROFESSOR FAZ O CONSOLE.LOG de sua 'promiseData' PARA 
+
+MOSTRAR QUE O CONSOLE.LOG PRINTARÁ A COMBINAÇÃO DE DADOS DE TODAS 
+
+ESSAS PROMESSAS ELENCADAS DENTRO DO PARÂMETRO/ARRAY de 'Promise.all()'
+
+
+ex:
+
+
+
+
+Promise.all(
+
+
+  [getPosition(), setTimer(1000)]).then(promiseData => {
+    console.log(promiseData);
+  });
+
+
+
+  ---------------------------------------------------
+
+
+
+
+  PROFESSOR SALVA E RECARREGA O CÓDIGO.
+
+
+
+
+  O output que ele ganha no console agora, ao clicar em 'allow', é 
+
+
+  '(2) [Position, "Done!"]' 
+
+
+
+  POSITION -----> É DE getPosition 
+
+
+
+  "DONE!' -------> é de 'setTimer'...
+
+
+
+  ------------------------------
+
+
+  COMO VOCÊ PERCEBEU, 
+
+
+  'PROMISEDATA ' é um array em que você tem os dados 
+
+  RETORNADOS POR CADA PROMISE NA POSIÇÃO EM QUE VOCÊ ELENCOU AS 
+
+  PROMISES NO ARRAY de 'Promise.all()'.
+
+
+
+
+
+
+  ISSO PODE SER ÚTIL EM SITUAÇÕES EM QUE 
+
+  VOCÊ QUER ESPERAR QUE TODAS AS PROMISES TERMINEM PARA 
+
+  ENTÃO USAR OS DADOS COMBINADOS...
+
+
+  Professor explica que poderíamos 
+
+
+  reescrever o código 
+
+
+
+  'try {
+    posData = await getPosition();
+    timerData = await setTimer(2000);
+    
+  } catch (error ) {
+    console.log(error); 
+  }'
+
+
+
+  PARA USAR 'Promise.all'...
+
+
+
+  ---------------------------------------
+
+
+
+  É EVIDENTE, DIZ O PROFESSOR, QUE VOCÊ PODE REALIZAR ALGUMA OPERAÇÃO 
+
+  QUE NÃO DEPENDE NEM UM POUCO DE 'Promise.all' (desse chamado) 
+
+  DENTRO DO BODY do .then() conectado a esse 'Promise.all'.......
+
+
+
+  VOCê PODE FAZER ISSO EM CASOS EM QUE VOCÊ QUER __eSPERAR___ 
+
+  QUE UM PUNNHADO DE COISAS TERMINE ANTES DE EXECUTAR ALGUMA OUTRA 
+
+  COISA.... é nessas hipóteses que 'promise.all' pode brilhar...
+
+
+
+
+
+
+
+  IMPORTANTE PARA 'PROMISE.ALL' ---> 
+
+
+  SE EU RECARREGAR A PÁGINA E ENTÃO CLICAR 'deny' para a requisição 
+
+  de permissão,
+
+  EU GANHAREI UM ERRO, e SOMENTE UM ERRO...
+
+
+
+
+  OU SEJA, SE UMA DAS PROMISES DENTRO DO PROMISE.ALL É REJEITADA, 
+
+  TODAS AS OUTRAS PROMESSAS DENTRO DESSE 'PROMISE.ALL' ___NÃO SERÃO EXECUTADAS 
+  TAMBÉM....______
+
+
+
+  E AQUI NÃO ESTAMOS ESPERANDO POR '.all'  FAZER 'RESOLVE' ou 'REJECT';
+
+  em vez disso, estamos esperando SOMENTE PELO 
+
+  'RESOLVE' de '.all'....
+
+
+
+  JÁ PARA REJEIÇÕES, NÃO ESPERAMOS/JAVASCRIPT NÃO ESPERA NEM UM POUCO 
+
+  QUE '.all' será rejected...
+
+
+
+  Em vez disso, se QUALQUER UMA DAS PROMISES ALI DENTRO 
+
+  DE .ALL FOR REJEITADA, o código inteiro de '.all' É CANCELADO 
+
+
+  E RECEBEMOS APENAS O ERRO, O qual poderíamos gerenciar 
+
+  com um CATCH BLOCK, é claro.
+
+
+  -------------------------------------
+
+
+
+
+  ISSO SIGNIFICA QUE, COM '.all',
+   
+   TODAS AS PROMISES SÃO 'RESOLVED'.....
+
+
+   CASO NÃO SEJAM 'RESOLVED' TODAS ELAS,
+
+
+   SE HOUVER APENAS 1 ÚNICO REJECT NO CÓDIGO, 
+
+
+O CÓDIGO RETORNA UM ERRO E VAI DIRETO PARA O 'CATCH BLOCK'...
+
+
+-------------------------------------
+
+
+SE VOCÊ QUER ESPERAR POR 'TODOS RESOLVED'  ou 'TODOS REJECTED', 
+
+SE VOCÊ TIVER SITUAÇÕES COMO ESSAS (e cenários como esse existem,
+
+situações em que você só se importa COM O FATO DE TODAS AS PROMESSAS 
+
+TEREM FALHADO/TEREM SUCEDIDO),
+
+
+
+VOCÊ TAMBÉM 
+
+TEM OUTRO MÉTODO ÚTIL, O MÉTODO 
+
+
+
+'allSettled()'...
+
+
+
+
+-------------------------------
+
+
+
+'.allSettled' É ___MUITO NOVO_____.
+
+
+
+
+ESSE MÉTODO TAMBÉM ACEITA UM ARRAY DE PROMISES E, TAMBÉM UM 
+
+
+
+'then block' que vem logo depois...
+
+
+
+
+
+ex:
+
+
+
+
+
+Promise.allSettled(
+  [getPosition(), 
+setTimer(1000)]).then(promiseData => {
+  console.log(promiseData);
+}
+
+
+
+)
+
+
+-----------------------------------------------
+
+
+
+SE VOCê TIVER UM CENÁRIO COMO ESSE, EM QUE PRECISA DE 'allSettled', 
+
+
+
+vocÊ deverá passar UM ARRAY DE PROMISES A ELE.....
+
+
+
+
+
+ex:
+
+
+'Promise.allSettled();'
+
+
+
+
+-------------------------------
+
+
+
+ESSE MÉTODO TAMBÉM ACEITA/EXIGE 
+
+UM ARRAY DE PROMISES...   e nesse método vocÊ TAMBÉM TEM UM 'THEN BLOCK', o qual 
+
+TAMBÉM TE DÁ UM ARRAY DOS DADOS DAS PROMESSAS...
+
+ (promiseData.)
+
+
+ex:
+
+
+
+
+Promise.allSettled(
+  [
+    getPosition(), setTimer(1000)
+  ]
+)
+.then(promiseData => 
+{
+  console.log(promiseData);
+})
+
+
+---------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+OBS::::AQUELE CONSOLE.log 
+
+dentro daquele '.then()' vai te dar UM ARRAY 
+
+DA 'PROMISEDATA'...
+
+
+ 
+ --------------------------------------------
+
+
+ ENTRETANTO, QUANDO O PROFESSOR SALVA E RECARREGA O CÓDIGO,
+
+ ele percebe que agora o devtools console NOS DÁ ALGO DIFERENTE 
+ QUNADO APERTAMOS 
+
+ em 'block' para  a localização do usuário.
+
+
+ -------------------------------------
+
+
+ SE ELE FIZER ISSO, ELE VERÁ QUE SEU DEVTOOLS CONSOLE 
+
+
+ AGORA LHE PRINTA DADOS DIFERENTES,
+
+
+
+ 'differente kind of data', 
+
+ COM OBJETOS OS QUAIS NÓS VEMOS O OUTPUT 
+
+ PELA PRIMEIRA PROMISE (
+
+   '
+   0:
+   reason: PositionError { code: 1, message: "use...'}
+
+   status: "rejected"
+
+   __proto__: Object
+ )
+
+
+
+
+ E O DA SEGUNDA PROMISE, cujo output já tinha dado 
+
+ 'Done!'
+
+(
+1:
+
+status: "fulfilled"
+value: "Done!"
+__proto__: Object
+length: 2
+__proto__: Array(0)
+
+)
+
+
+ SE O PROFESSOR RECARREGAR O CÓDIGO E COLOCAR 'ALLOW', ele vai conseguir, 
+
+
+ nós esperaremos 
+
+ TODOS OS PROCESSOS DO CÓDIGO ACONTECEREM:
+
+
+
+ esperaremos o 
+
+ 'getPosition', 
+
+ esperaremos o timer expirar,
+  
+
+ E 
+
+
+ AGORA O PROFESSOR GANHARÁ DE NOVO AQUELES OBJETOS,
+
+ MAS DESSA VEZ TAMBÉM COM OS VALORES (values), 
+
+ 
+
+
+ EX:
+
+
+
+
+ PRIMEIRA PROMISE (
+
+   '
+   0:
+   value: Position { coords: Coordinates, timestamp: ...}
+
+   status: "fulfilled"
+
+   __proto__: Object
+ )
+
+
+
+
+ E O DA SEGUNDA PROMISE, cujo output já tinha dado 
+
+ 'Done!'
+
+(
+1:
+
+status: "fulfilled"
+value: "Done!"
+__proto__: Object
+length: 2
+__proto__: Array(0)
+
+)
+
+
+
+----------------------------
+
+
+OU SEJA, COM OS VALORES CONCRETOS OBTIDOS PELAS 
+
+PROMISES TEREM SIDO 'resolved'...
+
+
+
+
+OU SEJA, AINDA RECEBEMOS DADOS, 
+
+MAS DADOS UM POUCO DIFERENTES, DADOS 
+
+QUE AINDA ESTÃO EM UM ARRAY, 
+
+mas em um objeto ___QUE DESCREVE__ A COISA 
+
+QUE A PROMESSA FEZ...
+
+
+E a coisa interessante aqui é que 
+
+agora, como você conseguiu 
+
+essa DESCRIÇÃO DETALHADA, você 
+
+tem MAIOR 
+
+____FLEXIBILIDADE___...
+
+
+'.allSettled' NÃO CANCELA A EXECUÇÃO
+ 
+ DAS OUTRAS PROMESSAS SE UMA ÚNICA DELAS FOR 'REJECTED';
+
+ em vez disso esse método AINDA COMPLETA/OLHA TODAS AS PROMISES 
+
+ E ENTÃO TE DÁ UM SUMÁRIO DETALHADO
+  
+
+
+  DE ____QUAL PROMISE FALHOU___ E QUAL PROMISE FOI BEM 
+
+  SUCEDIDA..., para que você seja capaz de UTILIZAR 
+
+  ESSE CONHECIMENTO...
+
+
+
+
+  Professor demonstra isso:
+
+
+
+  se ele bloquear a posição, por exemplo, 
+  ele ainda é capaz de obter os dados 
+  DO TIMER, por exemplo, com o uso 
+
+  de 'allSettled'...
+
+
+
+  ESSA É A DIFERENÇA DE 
+
+  'allSettled' 
+
+  para '.all', pq '.ALL' cancela TODAS 
+  AS PROMISES 
+
+  SE APENAS 1 ÚNICA PROMISE FOR CANCELADA/REJECTED.

@@ -1,0 +1,128 @@
+CONTROLANDO ITERAÇÕES POR MEIO DA KEYWORD "CONTINUE".
+
+
+
+
+
+
+
+
+
+A keyword CONTINUE é um pouco parecida com break, ela também PARA A EXECUÇÃO ATUAL DO CÓDIGO 
+NO SEU LOOP, mas ela, ao contrário de break, NÃO PARA O LOOP INTEIRO. Em vez disso, ela simplesmente 
+passa para A PRÓXIMA ITERAÇÃO.
+
+
+O professor diz que o melhor exemplo é o prático.
+
+
+No console, adicionamos um rápido "for loop".
+
+
+
+
+for(let i = 0; i < 5; i++) {
+    console.log(i);
+}
+
+
+
+Se eu digitar isso no console do devtools, verei printados 
+os números 0 a 4.
+
+0
+1
+2
+3
+4
+
+
+
+O professor aperta para cima e enter, que faz o código ser repetido no console. Mas agora, 
+ele edita o início do código e adiciona um If check.
+
+
+for(let i = 0; i < 5; i++) {
+    if(i === 3;)
+    console.log(i);
+}
+
+
+
+"se i for igual a 3, vou querer..." 
+
+Professor diz "bem, aqui vocÊ diria que devemos colocar um 'break', porque queremos parar o loop 
+execution, certo?"
+
+
+CERTO. Mas, se fizermos como ele disse, digitarmos: 
+
+
+for(let i = 0; i < 5; i++) {
+    if(i === 3;) {
+        break;
+    }
+    console.log(i);
+}
+
+
+O RESULTADO DISSO NO CONSOLE SERÁ o PRINT DE:
+
+
+
+
+0
+
+1
+
+2
+
+undefined
+
+
+
+
+Bem, conseguimos pular para fora do loop e cessar o console.log do número 3, MAAAAAS....
+ACABAMOS PARANDO COM A EXECUÇÃO DO LOOP INTEIRO, E CONSEQUENTEMENTE DO CONSOLE.LOG 
+DE 3 E 4. O break, afinal, CANCELA A EXECUÇÃO DA FUNÇÃO/LOOP.
+
+
+Continue serve para casos como esse, casos em que eu quero continuar a execução da função, 
+e tirar dela apenas algum elemento específico/parar ela apenas em um determinado lugar.
+Continue nos deixa "SKIPPAR" o 3, e continuar a execução do loop.
+
+
+
+for(let i = 0; i < 5; i++) {
+    if(i === 3) {
+        continue;
+    }
+    console.log(i);
+}
+
+
+
+QUANDO USAMOS CONTINUE, TODO O CÓDIGO QUE VEM APÓS CONTINUE NÃO É EXECUTADO, NA VERDADE, 
+TODO O CÓDIGO RELATIVO ÀQUELA ITERAÇÃO APENAS. O resto das iterações não é afetado.
+
+Se digitarmos esse código no devtools e apertarmos enter o resultado será:
+
+
+0
+1
+2
+4
+
+
+
+
+Não vemos 3 porque o if statement é preenchido e pulamos diretamente 
+para fora do loop. Essa iteraçção do 3 é pulada, mas o restante 
+das iterações continuar normalmente (como podemos ver pelo print de 4; a 
+função continuou rodando normalmente).
+
+
+
+
+VOCÊ NÃO PRECISA UTILIZAR BREAK E CONTINUE EM _____TODOS____ OS 
+CÓDIGOS QUE VOCÊ ESCREVER, MAS É UMA BOA OPÇÃO DE SE TER.

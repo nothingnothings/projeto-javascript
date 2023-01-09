@@ -1,0 +1,100 @@
+Aprendemos um monte sobre métodos de adição/remoção.
+
+
+
+Mais importantes (com exceção de innerHTML e insertAdjacentHTML, que ele já nos mostrou):
+
+
+
+Esses são os métodos que criam/removem/alteram elementos HTML PROGRAMATICAMENTE por meio 
+do javascript:
+
+
+
+
+
+appendChild() ---> adiciona objeto à certo espaço do objeto DOM representativo da página HTML.
+
+
+
+insertAdjacentHTML --> 
+
+
+
+
+replaceChild() ---> Professor não nos mostrou esse, mas o que ele faz é essencialmente remover 
+o filho antigo e o substituir por um novo.
+
+
+
+removeChild() ---->
+
+
+TODOS ESSES MÉTODOS ACIMA SÃO MAIS SUPORTADOS por browsers  E POSSUEM MAIOR DOCUMENTAÇÃO NA INTERNET. 
+SÃO SUPERIORES AOS MÉTODOS QUE ESTÃO MAIS ABAIXO.
+
+
+
+
+
+
+
+Em anexo você também encontra um SUMÁRIO DETALHADO que você pode olhar para ter um 
+overview sobre todos os métodos disponíveis e as situações em que você deve usar cada um.
+
+
+
+
+Também vimos alguns dos métodos mais modernos (2a categoria, métodos PIORES, logo abaixo), como 
+
+
+
+"append()" ---->
+
+
+prepend() 
+
+
+
+after()
+
+
+
+before()
+
+
+
+replaceWith()
+
+remove()
+
+
+
+
+
+
+Esses métodos não são tão bons como os primeiros, pelas seguintes razões:
+
+
+
+
+1) não são suportados em todos os browsers.
+
+ex: safari não suporta before() e after().
+ex: internet explorer não suporta porra nenhuma.
+
+
+2) São vistos em tutoriais atuais, mas NÃO SÃO A OPÇÃO MAIS COMUM.
+
+
+
+Professor diz que é importante conhecer todos os métodos, mas se você quer ser super safe, use 
+os primeiros métodos dessa lista (e não essa lista inferior).
+
+
+
+Mais tarde no curso você vai aprender sobre como fazer métodos novos funcionarem 
+em browser que não tem suporte a eles (browsers antigos).
+
+
+Agora devemos aplicar alguns desses métodos e features em um projeto simples.

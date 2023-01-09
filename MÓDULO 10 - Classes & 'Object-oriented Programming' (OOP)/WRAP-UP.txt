@@ -1,0 +1,159 @@
+
+
+
+
+
+
+
+
+
+
+
+ACABAMOS O MÓDULO.
+
+
+
+
+
+
+
+Aprendemos muito sobre objetos e OOP (object oriented programming).
+
+
+
+
+
+
+
+
+APRENDEMOS SOBRE CLASSES. Classes que são utilizadas para criar novos objetos 
+facilmente com a ajuda da keyword 'new'.
+
+
+
+
+
+
+O chamado de 'new' + nome da classe CRIA UM OBJETO...
+
+
+
+você pode USAR ESSE OBJETo...
+
+
+ex 
+
+'this.cart = new ShoppingCart('app');' 
+
+
+-----------------------------
+
+
+
+OU IGNORÁ-LO, depois de ter sido criado:
+
+
+ex:
+
+
+render() {
+
+    new ProductList('app');
+}
+
+
+--------------------------------------------------------------
+
+
+
+
+Mas a coisa importante acerca de classes É QUE VOCê PODE 
+
+
+ADICIONAR DADOS E LÓGICA (os 2 juntos) DENTRO 
+
+DELAS...
+
+-------------------------------------------------
+
+
+
+
+Você pode 
+
+
+
+
+1) definir PROPRIEDADES/MÉTODOS/FIELDS privados 
+
+
+
+2) adicionar um CONSTRUCTOR para DEFINIR LÓGICA que é executada BEM NO MOMENTO 
+EM QUE O SEU OBJETO É CRIADO... (right away, when the object is created...)
+
+ex:
+
+
+constructor(renderHookId) {
+    super(renderHookId, false);
+    this.render();
+    this.fetchProducts();
+}
+
+------------------------------
+
+
+
+
+
+VOCÊ PODE AGRUPAR QUALQUER LÓGICA DESEJADA POR VOCÊ DENTRO DAQUELA CLASSE, 
+
+
+e você pode usar 
+
+
+
+INHERITANCE para compartilhar funcionalidades/dados de uma classe 'base' com 
+
+UM MONTE DE SUBCLASSES... ('xxxx' extends 'yyyy').
+
+ex: 'createRootElement' em nosso projeto...
+
+
+
+
+ISSO PERMITE A VOCê DIVIDIR O SEU CÓDIGO EM DIVERSAS UNIDADES REUTILIZÁVEIS,
+unidades em que seus objetos e classes SÃO AS UNIDADES QUE SEGURAM 
+SUA LÓGICA E DADOS, os quais você utilizará PARA CONSTRUIR O SEU APLICATIVO.
+
+
+
+
+Essa é uma maneira boa de pensar sobre os nossos programas, apesar de NÃO SER A ÚNICA 
+MANEIRA CORRETA (você pode, por exemplo, trabalhar com funções e etc etc.)
+
+
+
+Mas essa maneira é boa porque deixa o código mais claro, mais fácil de ser lido.
+
+
+
+
+
+PORTANTO, CLASSES SÃO SUPER IMPORTANTES...
+
+
+Vamos continuar usando essas features ao longo do curso.
+
+
+
+Classes são um conceito moderno, utilizado em muitos lugares. É essencial.
+
+
+ 
+
+
+
+
+
+ Classes on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes

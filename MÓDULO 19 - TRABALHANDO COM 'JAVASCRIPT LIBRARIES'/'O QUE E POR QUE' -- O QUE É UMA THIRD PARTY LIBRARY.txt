@@ -1,0 +1,275 @@
+O QUE É ISSO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS ENTENDER ISSO.
+
+
+
+
+
+
+
+
+ESTAMOS TRABALHANDO COM JAVASCRIPT, 
+
+
+E btw, PARA O CONCEITO DE 'THIRD PARTY LIBRARIES',
+
+
+
+NÃO INTERESSA SE VOCÊ ESTÁ TRABALHANDO COM JAVASCRIPT 
+
+NO  BROWSER, ou no NODE.JS (que te permite escrever server side applications com javascript)....
+
+
+
+
+
+
+NA VERDADE, A LINGUAGEM DE PROGRAMAÇÃO EM SI NEM IMPORTA AQUI, pq a ideia 
+
+
+de ter third party libraries 
+
+
+NÃO EXISTE APENAS NO MUNDO JAVASCRIPT...
+
+
+
+é disponível a QUALQUER LINGUAGEM DE PROGRAMAÇÃO.
+
+
+
+
+
+Isso acontece pq BEM..
+
+
+
+VOCê É UM DESENVOLVEDOR, VOCÊ ESCREVE CÓDIGO PARA SEU APLICATIVO...
+
+
+
+Quando estamos escrevendo código, há certos 
+
+problemas que você TEM QUE RESOLVER...
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+function toArray(a, b) {
+    return [a, b];
+}
+
+
+const arr1 = toArray(1, 2);
+
+
+
+getDifference(arr1, [2, 5]);
+
+
+---------------------------------------------
+
+
+
+NESSE APLICATIVO, ESTAMOS CONSTRUINDO uma função 'toArray' QUE 
+
+COMBINA 2 NÚMEROS EM 1 ARRAY...
+
+
+
+Mas aí digamos que QUEREMOS OBTER A DIFERENÇA 
+
+
+ENTRE ESSE ARRAY ('arr1') E ALGUM 
+
+
+OUTRO ARRAY.... 
+
+(aquele array hardcodeado em 'getDifference', o array de '[2, 5]')....
+
+
+
+
+
+
+
+
+ESSE É APENAS UM EXEMPLO, É CLARO, MAS É BEM TÍPICO 
+
+
+que tarefas/problemas que você enfrenta em javascript 
+
+
+apresentem necessidades
+
+
+
+
+de escrever 
+
+MUITAS E MUITAS LINHAS DE CÓDIGO...
+
+
+
+
+Bem, um pouco daquele código que você escreveu certamente será ESPECÍFICO Àquele projeto,
+
+
+específico à 'business logic' por trás daquele projeto...
+
+
+
+
+MAS OUTRAS FUNCIONALIDADES, AS QUAIS VOCê PODE PRECISAR COMO PARTE DO PROJETO, 
+
+TALVEZ SEJAm mais 
+
+parecidas com esse tipo de problema que o professor 
+
+nos mostrou agora, esse exemplo do array....
+
+
+
+Para esses problemas 'simples', essas funções mais simples, 
+
+
+você talvez precise/queira uma 'UTILITY FUNCTION', pq 
+
+talvez como parte da 'business logic' do seu projeto você 
+
+
+tenha que OBTER A DIFERENÇA ENTRE 2 ARRAYS.... (E esse é um exemplo comum, mas frequente)....
+
+
+
+
+esses 2 arrays podem ser, por exemplo, DUAS LISTAS DE CUSTOMERS...
+
+
+
+
+mas a COMPARAÇÃO EM SI, ENTRE OS 2 ARRAYS, ESSE É UM PROBLEMA 
+
+QUE ___NÃO É____ ESPECÍFICO AO SEU PROJETO...
+
+
+
+
+essa comparação é UM EXEMPLO DE UTILITY FUNCTION, UMA UTILITY FUNCTION 
+
+QUE VOCê TERÁ QUE GASTAR TEMPO E ENERGIA ESCREVENDO, escrevendo algo que realmente poderia ter sido feito 
+em segundos, pois sempre seguirá o mesmo padrão.
+
+
+
+
+VocÊ gasta tempo e energia em uma tarefa QUE NÃO É DIRETAMENTE RELACIONADA AO SEU PROJETO...
+
+
+
+
+É aí que as third party libraries entram em jogo...
+
+
+
+
+third party libraries SÃO ESSENCIALMENTE PACOTES DE CÓDIGO, tipicamente PACOTES 
+
+DE FUNÇÕES escritas em javascript que POSSUEM TODO TIPO DE LÓGICA ESCRITA NO SEU INTERIOR (como a lógica de 'getDifference', por exemplo),
+
+PARA QUE VOCÊ POSSA SIMPLESMENTE FAZER 'REACH OUT' A ESSAS FUNCTIONS 'PRÉ-ESCRITAS', 'PRÉ-DEFINIDAS', 
+
+e então utilizá-las...
+
+
+ex:
+
+
+
+
+function toArray(a, b) {                                    -------------------->>>> function getDifference() {...}        
+    return [a, b];                                          |
+}                                                           |
+                                                            |
+                                                            |
+const arr1 = toArray(1, 2);                                 |                        function doSomethingElse() {...}   
+                                                            |
+                                                            |
+                                                            |
+getDifference(arr1, [2, 5]);  --------------------------------
+
+
+<Your Code>                                                                             3rd Party Library
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+THIRD PARTY LIBRARIES, PORTANTO, SÃO REALMENTE COISAS QUE TE AJUDAM A ADICIONAR 
+
+
+'UTILITY FUNCTIONS' de diferentes complexidades no seu código...
+
+
+
+
+
+Podem ser de complexidades variadas:
+
+
+podem ser simples, triviais,
+
+ou super complexas.
+
+
+
+
+
+PODEM DEIXAR SUA VIDA MAIS FÁCIL, POIS TIRAM UM POUCO DA complexidades
+
+DE COISAS QUE NÃO SÃO ESPECÍFICAS AO SEU CORE PROJECT.../business logic...
+
+
+Devemos ver alguns exemplos (Iodash).

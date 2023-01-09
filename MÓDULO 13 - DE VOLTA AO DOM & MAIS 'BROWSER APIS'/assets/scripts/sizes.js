@@ -1,0 +1,1 @@
+const mainBox = document.getElementById('main-box')

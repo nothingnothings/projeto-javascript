@@ -1,0 +1,224 @@
+DEVEMOS COMEÇAR COM AQUELE APP "NOVO".
+
+
+
+Antes disso, devemos ver mais uma pequena coisinha:
+
+O professor quer nos mostrar esse negócio agora, para que não se torne confuso mais tarde.
+
+
+
+
+Demos uma olhada na SQUARE BRACKET NOTATION... que é utilizada para acessar keynames que não 
+são possíveis de serem acessados com a notação padrão (dot notation, '.').
+
+
+
+VOCÊ NA VERDADE PODE FAZER AINDA MAIS COISAS COM OS SQUARE BRACKETS...
+UMA FEATURE LEGAL É QUE VOCÊ TAMBÉM 
+PODE
+
+
+
+___________ACESSAR DINAMICAMENTE PROPRIEDADES_______
+
+
+por meio dessa notação.
+
+
+A título de exemplo, o professor começa fazendo o HARDCODE de 'first name' em uma nova constante, chamada de keyName.
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+const keyName = 'first name';
+
+
+
+------------------------------
+
+
+
+Essa constante, portanto, SEGURA UMA STRING.
+
+
+Agora o professor sabe que QUER ACESSAR A PROPRIEDADE COM O VALOR DAQUELA CONSTANTE... (ou seja, o valor de 'first name', essa string), 
+DENTRO DE __'PERSON'___.
+
+
+
+Bem, com a SQUARE BRACKET NOTATION, você PODE ACESSAR "KEYNAME"! (o professor diz que você deve usar 
+as square brackets SEM QUOTES, usar o keyName puro.) ----> por que isso? 
+                                                            PORQUE O PROFESSOR não quer procurar por uma propriedade propriamente nomeada "keyName" lá dentro, mas sim QUER ____PROCURAR POR UMA PROPRIEDADE QUE TEM SEU VALOR INTERNO DEFINIDO COMO "KEYNAME" (o valor de sua propriedade, o value do key-value pair, definido como KEYNAME. Equivalente À constante keyName, que é essencialmente o valor da string 'first name'.) -----------> isso faz O JAVASCRIPT SELECIONAR 
+
+
+ex:
+
+
+
+let person = {
+    'first name': 'Max',    //////////------------> "console.log(person[keyName])" vai acabar selecionando esse "'first name': 'Max' ", pois essa expressão person[keyName] vai fazer com que o javascript tente selecionar algum elemento que tenha aquele valor/propriedade dentro do objeto selecionado (nesse caso, o objeto 'person');
+    age: 30, 
+    hobbies: ['Sports', 'Cooking'],
+    greet: function() {
+        alert('Hi there');
+    },
+    1.5: 'hello'
+};
+
+
+
+
+
+
+
+
+
+const keyName = 'first name';
+
+
+                                                                                                                                                                                                                                                        (também é utilizado para procurar propriedades NÃO DINAMICAMENTE.)
+console.log(person[keyName]);  ///////---------> ISSO VAI NOS RETORNAR 'Max', que É O VALOR CORRESPONDENTE À PROPRIEDADE REPRESENTADA POR "KEYNAME" dentro daquele objeto person.... Essa sintaxe, portanto, é distinta da sintaxe "console.log(person['keyName']);" (Que é uma sintaxe utilizada para selecionar propriedades que teriam sintaxe normalmente inválida no javascript...)
+                                ///esse método de acesso por meio do square brackets e ____SEM OS QUOTES____ é UMA FORMA DE ACESSAR AQUELA PROPRIEDADE/VALOR DE DENTRO DO OBJETO ___DINAMICAMENTE____.
+
+
+                                //////OBS::::: ESSA SELEÇÃO QUE FIZEMOS POR MEIO DE "person[keyName]", por meio dos square brackets, 
+                                /// NÃO FUNCIONARIA COM A "DOT NOTATION" ('.'), porque com a dot notation, o javascript 
+                                //sempre PROCURA POR UMA PROPRIEDADE COM O NOME "KEYNAME" dentro de person (ou seja, não procurará 
+                                pelos valores armazenados em keyName, mas sim por "keyName" como um nome de propriedade dentro 
+                                de 'person'). ex: "console.log(person.keyName)" ----> vai procurar por "KEYNAME" como se ele fosse um nome de propriedade dentro de 'person', e não vai encontrar nada... vai encontrar UNDEFINED. 
+                                //Já com a ajuda dos square brackets, podemos procurar por VALORES DE FORMA DINÂMICA (dinâmicamente) e então podemos 
+                                //TRABALHAR COM VALORES DE KEYNAME QUE FICARÃO, NA VERDADE, ARMAZENADOS NAS NOSSAS CONSTANTES ou serão resultados 
+                                // de quaisquer outras expressões (function calls, ternary expressions ).... qualquer coisa que resulta em um valor 
+                                //pode ter sua variável/constante "de resultado" INSERIDA DENTRO DESSES SQUARE BRACKETS... pode ser inserida aqui 
+                                //para então ACESSAR UMA CHAVE COM AQUELE RESULTADO QUE FOI OBTIDO NESSA CONSTANTE/VARIÁVEL.
+
+
+                                //O professor aponta que nesse pequeno exemplo o valor/propriedade selecionada é ainda 
+                                //a mesma que ele teria selecionado caso tivesse hardcodado "first name", porque ele fez 
+                                //o hardcode de "first name" dentro daquela constante keyName...
+
+                                //MAS NÓS TEREMOS CASOS EM NOSSO PEQUENO APLICATIVO DE DEMONSTRAÇÃO em que esses valores SÃO 
+                                //DERIVADOS DINAMICAMENTE, E ISSO É BEM ÚTIL.
+
+
+                                //podemos trabalhar com valores de keys/keynames (aqui queremos dizer os PRÓPRIOS KEYNAMES/KEYS) que estão 
+                                //armazenados, na verdade, em constantes/variáveis externas...
+
+
+
+
+
+                                //FALANDO DE "DINÂMICO", HÁ OUTRA FEATURE DINÂMICA/COISA DINÂMICA QUE VOCÊ PODE HABILITAR POR MEIO 
+                                //DOS SQUARE BRACKETS... E objetos.
+
+                                //Essa feature é sobre ___QUANDO____ VOCÊ DEFINE AS PROPRIEDADES...
+
+
+
+                                ex:
+
+const userChosenKeyName = 'level';
+
+let person = {
+    'first name': 'Max',    
+    age: 30, 
+    hobbies: ['Sports', 'Cooking'],
+    greet: function() {
+        alert('Hi there');
+    },
+    1.5: 'hello'
+};
+
+
+
+
+Aqui, nós todos sabemos TODOS OS NOMES DE PROPRIEDADE ANTECIPADAMENTE. Mas e se esse não for o caso? 
+***veremos um exemplo disso no aplicativo que construíremos.
+
+Digamos que temos uma constante para o input do usuário, uma constante chamada "userChosenKeyName", que tem um valor de string definido como 'level'.
+
+
+
+ex:
+
+
+
+
+const userChosenKeyName = 'level';    //----> essa constante foi supostamente inserida no código pelo usuário... 
+                                        //////COMO ELA FOI INSERIDA NO CÓDIGO PELO USUÁRIO (em um futuro distante),
+                                        //// nós, os desenvolvedores, não sabemos/não temos como saber ANTES DO TEMPO (in advance) isso 
+                                        // ao escrever o nosso código. (tenha em mente que o professor apenas está fazendo hardcode de 'level' aqui como um dummy, como um exemplo)... mas assuma que esse valor é obtido por meio de um input dinâmico feito pelo usuário,
+                                        //e que não sabemos a frente do tempo o seu valor/nome/whatever. AGORA DIGAMOS 
+                                        //QUE QUEREMOS ADICIONAR UMA PROPRIEDADE COM ESSE NOME ESPECÍFICO, COM ESSE NOME QUE AINDA NÃO EXISTE NO PRESENTE... Como fazemos isso?
+
+
+                                        Como adicionamos uma propriedade com esse nome que ainda não existe a esse objeto?
+
+
+                                        // O professor aponta que você pode pensar "ah, é só eu adicionar a constante 'userChosenKeyName' em qualquer lugar de dentro 
+                                        do objeto e então armazenar qualquer valor que eu vou receber.... 
+
+                                        representação:
+
+
+
+                                        
+                                        const userChosenKeyName = 'level';
+
+                                        let person = {
+                                            userChosenKeyName: '...',
+                                        }
+
+                                        
+                                        ////-----> ISSO NÃO FUNCIONA. O PROBLEMA COM ESSE APPROACH É QUE a digitação de "userChosenKeyName" dentro 
+                                        do OBJETO IRIA ADICIONAR UMA PROPRIEDADE COM O NOME "userChosenKeyName", E NÃO UMA 
+                                        VARIÁVEL-NOME-PROPRIEDADE (que é o que queremos, uma propriedade/key/keyname DINÂMICA) relacionada com 
+                                        o valor 'level' armazenado dentro da constante ''userChosenKeyName''...
+
+                                        //PARA FAZER ISSO, PARA ADICIONAR ESSA CONSTANTE COMO UM NOME DE KEY/KEYNAME/PROPRIEDADE 
+                                        DENTRO DESSE OBJETO, VOCÊ DEVE UTILIZAR OS SQUAREBRACKETS ____DENTRO DO OBJETO___ (é um local que ainda não utilizamos para os []) :
+
+                                        ex:
+
+                                        const userChosenKeyName = 'level';
+
+                                        let person = {      ...,
+ 
+                                                [userChosenKeyName]: null,     ////O QUE O JAVASCRIPT VAI FAZER, AGORA, É NÃO TOMAR ISSO AQUI COMO UM KEYNAME ADICIONADO AO OBJETO, E SIM _________PROCURAR POR UMA VARIÁVEL/CONST____ COM ESSE NOME ESPECÍFICO____ NO LADO DE FORA DO OBJETO____________ E PEGAR OS VALORES ARMAZENADOS NESSA VARIÁVEL/CONSTANTE E UTILIZAR COMO KEY/KEYNAME/PROPRIEDADE (nesse caso, essa string ali, de 'level').
+
+                                                ..., 
+                                        }
+
+
+
+                                        -------> SE NÓS FIZERMOS O CONSOLE LOG DE 'PERSON', VEREMOS QUE AGORA O DEVTOOLS 
+                                        NOS RETORNARÁ 
+
+                                        "{level: null}" OU SEJA, FUNCIONOU!!!!  A PROPRIEDADE/KEY/KEYNAME 
+                                        DESSE OBJETO AGORA ESTÁ DEFINIDA DINAMICAMENTE; SE NÓS ALTERARMOS O VALOR 
+                                        SEGURADO POR AQUELA CONST/VARIÁVEL, A PROPRIEDADE NO INTERIOR DESSE OBJETO VAI MUDAR 
+                                        SEU NOME DE ACORDO.
+
+
+                                        Ou seja, você não só tem a opção de utilizar [] para acessar DINAMICAMENTE PROPRIEDADES,
+                                        MAS TAMBÉM TEM A OPÇÃO DE UTILIZÁ-LAS PARA DEFINIR PROPRIEDADES DINAMICAMENTE, O QUE É 
+                                        EXTREMAMENTE PODEROSO EM TERMOS DE PROGRAMAÇÃO.
+
+                                        Um exemplo concreto será mostrado nesse aplicativo que estamos construindo.
+
+
+                                        Agora devemos começar nosso aplicativo.
+
+                                        

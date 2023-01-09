@@ -1,0 +1,2122 @@
+
+
+
+
+
+Quanto à lógica de ADICIONAR UM PROJETO por meio de 'addProject', 
+
+
+
+
+
+primeiro de tudo nós temos que aceitar O PROJECT nesse método 
+
+'addProject'...
+
+
+
+fazemos isso por meio da simples configuração de um parâmetro 
+
+
+'project' nesse método....
+
+
+
+
+
+Fazemos isso porque nós estaremos recebendo esse projeto....
+
+
+no final das contas, nós estaremos chamando 
+
+
+'addProject', por cima de vários 'corners'/cantos, 
+
+
+NA LINHA DE CÓDIGO 
+
+
+'this.switchHandler(this.projects.find(p => p.id === projectId));'          <<<<<<------------------- ESSA É A FALA MAIS IMPORTANTE DO PROFESSOR. É A FALA QUE NOS AJUDA A COMPREENDER O CÓDIGO. Agora tudo faz + ou - sentido...
+
+
+
+e como em 'this.switchHandler' estamos efetivamente passando um 
+
+PROJETO a essa função 'this.switchHandler', 
+
+DEVEMOS 
+
+
+CONFIGURAR O MÉTODO 'addProject' (que é, na verdade, aquilo que 
+
+será chamado/ por meio desse 'this.switchHandler', substituirá
+this.switchHandler) PARA 
+
+
+QUE ELE aceite um projeto como parâmetro, para que essa parte do switchHandler do nosso código funcione.
+
+
+
+ex:
+
+
+
+
+
+
+addProject(project) {
+
+    console.log(this);
+}
+
+
+
+
+
+
+--------------------------
+
+
+
+
+
+
+
+AGORA,  PARA ADICIONAR o projeto removido da outra lista 
+nessa LISTA EM QUE 
+
+'ADD' FOI CHAMADO, podemos 
+
+simplesmente escrever 
+
+
+'this.projects.push(project);' ------------->
+
+-------------------> isso fará 
+
+com que consigamos MOVER ESSE ITEM NO JAVASCRIPT, fará 
+
+com que consigamos pegar uma cópia desse item no array da INSTÂNCIA A e transferí-lo para 
+
+o array da instância B...  (ex: do array de active projects para o array de finished projects).
+
+
+
+
+---------------------------
+
+
+ex:
+
+
+
+
+addProject(project) {
+    this.projects.push(project);
+}
+
+
+
+-------------------------------
+
+
+
+ESSA É A PRIMEIRA ETAPA, mas isso não é tudo.
+
+
+
+
+
+Também precisamos MOVER ______ O DOM NODE _______, é claro.
+
+
+
+
+
+
+
+Professor diz que para isso ele poderia ESCREVER A LÓGICA AQUI, nesse mesmo método, 
+
+mas que na verdade acha melhor criar uma 
+
+NOVA CLASSE, para que 
+
+consiga nos demonstrar mais exemplos de classes...
+
+
+Ele dá à classe o nome de 'DOMHelper'...
+
+
+
+ex:
+
+
+
+
+class Helper {
+
+
+
+}
+
+
+----------------------------------
+
+
+
+Ele escolhe esse nome pq ele decidiu que VAI FAZER O OUTSOURCE dessa 'lógica DOM', nesse caso, 
+nessa classe.
+
+
+
+
+
+ELE ENTÃO DEFINE UM MÉTODO estático, que então chama de 
+
+
+'moveElement() {
+
+}'
+
+
+----------------------------------
+
+
+
+ex:
+
+
+
+
+class DOMHelper {
+
+
+
+    static moveElement() {
+
+    }
+}
+
+
+--------------------------------
+
+
+
+
+
+E MOVE ELEMENT deverá receber como parâmetro o 'elementId'  DO ELEMENTO 
+
+
+QUE DEVERÁ SER MEXIDO/MOVIDO... ele receberá esse e mais um parâmetro, 
+
+que será 
+
+o 
+
+
+'newDestinationSelector'........... (bem importante)
+
+
+
+
+
+ex:
+
+
+
+
+class DOMHelper {
+    static moveElement(elementId, newDestinationSelector) {
+
+    }
+}
+
+
+
+----------------------------------
+
+
+
+
+Dentro do método estático 'moveElement', o professor 
+
+alcança 
+
+o elemento que está sendo movido por meio 
+
+
+da criação de 
+
+uma constante com getElementById....
+
+
+
+
+
+para o id que será procurado por esse seletor, ele vai lá 
+
+e repassa 'elementId' (que será sempre aceitado 
+por esse método 'helper'), 
+
+que será UM VALOR DINÂMICO (o que faz sentido).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class DOMHelper {
+    static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId)
+    }
+}
+
+
+
+
+------------------------------------
+
+
+
+
+Depois disso ele vai lá e cria uma 
+
+const de 
+
+
+'destinationElement', cujo valor 
+
+
+será o de um elemento selecionado 
+
+por um 
+
+
+'querySelector' de valor 
+
+
+'newDestinationSelector' (valor-parâmetro de 'moveElement', repassado aqui).
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class DOMHelper {
+    static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+    }
+}
+
+
+
+-----------------------------------------------
+
+
+
+
+Depois disso, diz o professor, podemos usar o 
+
+
+destinationElement e, no final das contas, 
+
+
+utilizar o MÉTODO built-in 'append()' PARA 
+
+fazer o append de 'element'....  (ou seja, aqui nós fazemos o APPEND do 'element' em 'destinationElement', que será o local em que o elemento será adicionado.)
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class DOMHelper {
+    static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+        destinationElement.append(element);
+    }
+}
+
+
+
+-------------------------------------------
+
+
+
+CONFORME APRENDEMOS NAS AULAS PASSADAS, 
+
+
+quando você faz o append de um node do DOM (DOM node) QUE 
+
+JÁ FAZ PARTE DO DOM, se você faz o append novamente em outro 
+
+lugar do DOM, esse dom node NÃO SERÁ COPIADO OU QUALQUER COISA DO GÊNERO; não, 
+
+o que acontecerá é que ESSE DOM NODE 
+
+____SERÁ_____ MOVIDO_____ A ESSE OUTRO LUGAR...
+
+
+E é exatamente isso que desejo aqui, por isso que estou usando essa lógica.
+
+
+------------------------------------------
+
+
+
+
+Por fim, para completar a conexão das lógicas/códigos aqui, 
+
+o professor 
+
+vai no método 
+
+
+'addProject' e faz forward 
+
+do método estático definido 
+
+
+DENTRO DA CLASSE ESTÁTICA 'Helper'....
+
+
+
+-------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class DOMHelper {
+    static moveElement(elementId, newDestinationSelector) {
+
+
+        const element = document.getElementById(elementId);
+        const destinationElement = document.querySelector(newDestinationSelector);
+        destinationElement.append(element);
+    }
+}
+
+
+
+
+
+
+class ProjectList {
+
+
+
+    addProject(project) {
+        this.projects.push(project); //////faz com que o projeto '''verdadeiro''', oculto e nos bastidores, seja adicionado à essa outra lista...
+        DOMHelper.moveElement(); ////////faz com que o DOM NODE, o elemento '''aparente e falso'''', reflita as mudanças que ocorreram nos bastidores do javascript...
+    }
+}
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+ENTRETANTO, NÃO ACABAMOS POR AÍ.
+
+
+
+Esse método estático 'moveElement' ainda tem de receber seus parâmetros, 
+
+que nesse chamado 
+
+serão 
+
+
+(elementId)
+'project.id' e  algo que encaixe em 'newDestinationSelector'...........
+
+
+
+
+a coisa que será o newDestinationSelector será ALGO INSERIDO 
+
+
+com a sintaxe DINÂMICA, ou seja, com os BACK TICKS... (e também '#', que servirá para fazer o query selector funcionar.... ele não consegue procurar por ids sem os '#'...)
+
+
+
+
+a coisa dinâmica aqui será 'type'....
+
+
+portanto, a sintaxe desse chamado ficará 
+
+
+
+'Helper.moveElement(project.id, `#${this.type}`)'.....
+
+
+
+
+usaremos 'this.type' PQ  
+
+_______TYPE_______ É UMA PROPRIEDADE 
+
+
+DE 'ProjectList' (professor definiu isso muitas aulas antes, quando 
+
+dumpou o valor/parâmetro de 'type', relacionado às active e finished projectLists, 
+como propriedade 'type' de ProjectList... ele fez isso 
+
+por meio de 
+
+'this.type = type';) ----------> esse 'type' será active para as activeLists, finished para as finishedLists...
+
+
+
+
+
+o parâmetro completo ficará 
+
+
+'(project.id, `#${this.type}-projects ul`)',  POIS O ELEMENTO EM QUE 
+
+
+VAMOS QUERER INSERIR ESSE PROJECT é uma 'ul', uma unordered list, aquela unordered list 
+
+
+na SECTION dos active/finished projects.... 
+
+
+
+E ISSO TUDO DEVERÁ MOVER O DOM NODE....
+
+
+
+
+CÓDIGO FINAL:
+
+
+
+
+
+
+
+    addProject(project) {
+        //console.log(this);
+
+
+        this.projects.push(project); //////faz com que o projeto '''verdadeiro''', oculto e nos bastidores, seja adicionado à essa outra lista...
+        DOMHelper.moveElement(project.id, `#${this.type}-projects ul`); ////////faz com que o DOM NODE, o elemento '''aparente e falso'''', reflita as mudanças que ocorreram nos bastidores do javascript...
+   
+    }     
+
+
+
+
+-----------------------------------
+
+
+
+
+Com isso, estamos quase acabados...
+
+
+
+
+
+Se eu salvar a página e recarregar, 
+
+
+VEREI UM ERRO NO CONSOLE...
+
+
+
+
+'Uncaught TypeError: Cannot read 
+property 'id' of undefined
+
+at ProjectList.addProject 
+at ProjectList.switchProject'
+
+
+
+--------------------------------
+
+
+
+Ou seja, algo está errado 
+
+com o project 
+
+'project.id' FORWARDADO 
+
+
+em 'DOMHelper.moveElement(project.id, ...)';
+
+
+
+
+O erro quer dizer que 'LER O project.id AQUI 
+
+NÃO FUNCIONA...'
+
+
+
+-----------------------------
+
+
+
+Professor aponta que devemos fazer o console.log 
+
+
+
+de 'project' aqui.... (alternativamente, poderíamos utilizar breakpoints, diz ele).
+
+
+
+-----------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+    addProject(project) {
+        
+
+
+        this.projects.push(project); //////faz com que o projeto '''verdadeiro''', oculto e nos bastidores, seja adicionado à essa outra lista...
+        DOMHelper.moveElement(project.id, `#${this.type}-projects ul`); ////////faz com que o DOM NODE, o elemento '''aparente e falso'''', reflita as mudanças que ocorreram nos bastidores do javascript...
+        console.log(project);
+    }           
+
+
+-----------------------------------------
+
+
+
+
+
+Por meio do console.log, podemos ver que 
+
+
+o PROJECT está como 'undefined' aqui...
+
+
+o project recebido por 'addProject' vem como 
+
+'undefined'...
+
+
+não estamos conseguindo nosso parâmetro, 
+
+esse é o nosso problema, aqui.
+
+
+
+
+Devemos investigar o porquê disso.
+
+
+
+
+Ali, onde eu chamo 
+
+'this.switchHandler' (que, devido ao nosso setup, deve estar apontando ao método 'addProject'...), 
+
+NESSE SWITCHHANDLER 
+
+eu estou, efetivamente, passando um 
+
+'project'... (é 'this.projects.find(....);').
+
+
+
+
+Professor explica que, a não ser 
+que a seleção desse projeto esteja 
+
+FALHANDO AQUI em this.switchHandler, 
+nós 
+
+DEVERÍAMOS ESTAR RECEBENDO ESSE PROJETO no call de  'moveElement' SEM 
+PROBLEMAS...
+
+
+
+
+
+BEM, PARA DESCOBRIR SE ESSA SELEÇÃO ESTÁ 
+
+
+FALHANDO, PODEMOS 
+
+FAZER UM CONSOLE.LOG rápido de 
+
+'this.projects.find(p => p.id === projectId);'
+
+
+
+ex:
+
+
+
+
+
+
+switchProject(projectId) {
+    
+    this.switchHandler(this.projects.find(p => p.id === projectId));   ///EXEMPLO DE CALLBACK FUNCTION.
+    this.projects = this.projects.filter(p => p.id !== projectId);
+    console.log((this.projects.find(p => p.id === projectId));
+    }
+}
+
+
+
+
+-----------------------
+
+
+Console.loggamos isso, essa seleção, e então 
+
+descobrimos 
+
+QUE ESTAMOS 
+
+
+RECEBENDO 'undefined' em 'this.projects.find(...);'
+
+
+
+--------------------------
+
+
+
+
+Portanto, selecionar um project no 
+
+array de 'projects' dessa forma 
+
+NÃO FUNCIONA.
+ FALHA.
+
+
+
+ A razão é provavelmente a de que nós NÃO 
+ ESTAMOS CONSEGUINDO 
+
+ RECEBER 'projectId' em 
+
+
+ 'switchProject(projectId)'....
+
+
+ Por isso o professor vai lá e coloca um console.log de 'projectId' em 
+
+ switchProject....
+
+
+
+ ex:
+
+
+
+switchProject(projectId) {
+    console.log(projectId);
+}
+
+
+---------------
+
+
+
+Professor salva e recarrega a página, 
+
+
+e o console.log nos 
+
+
+outputta um 
+
+
+negócio estranho 
+
+
+
+'MouseEvent {isTrusted: true, screenX: 26, screenY: -841, clientX: 265, clientY: 296, ...}'
+
+
+
+
+Ou seja, ele aponta a um 'objeto mouse event estranho'...
+
+
+Professor diz para ignorar isso, por enquanto.
+
+
+
+
+--------------------------
+
+
+
+Então, de fato, o problema aqui é 
+
+
+QUE NÓS não temos ID algum... (undefined).
+
+
+
+
+
+
+
+Se dermos uma olhada no local onde estamos chamando 'switchProject', 
+
+percebemos que é 
+
+
+dentro do constructor de 'ProjectList', em 
+
+
+'for(const prjItem of prjItems) {
+    this.projects.push(
+        new ProjectItem(prjItem.id, this.switchProject.bind(this))  <<<<<<<-------- AQUI.
+    );
+}'
+
+
+
+
+
+
+É AQUI, onde fazemos o bind de 'this' e passamos 
+
+'switchProject' a projectItem....
+
+
+
+e ali, em 'ProjectItem', ONDE ENTÃO ACEITAMOS esse 'this.switchProject' NO 
+
+SLOT 'updateProjectListsFunction' e o armazenamos 
+
+
+em uma propriedade chamada 
+
+
+'updateProjectListsHandler'.....
+
+
+
+esse 'updateProjectListsHandler' é então assignado ao eventListener 
+
+de 'switchBtn'..........
+
+
+____E É NESSE ADDEVENTLISTENER____ EM QUE NÓS PROVAVELMENTE TEMOS O NOSSO PROBLEMA...
+
+
+
+Porque aqui, nesse segundo parâmetro do  addEventListener, EU NÃO ESTOU PASSANDO 
+
+
+O ___ID____ DO PROJETO... e eu deveria estar fazendo isso...
+
+
+NÓS deveríamos estar fazendo isso...
+
+
+
+O que fazemos para consertar isso é 
+
+inserir um método 
+
+'bind' aqui.....
+
+
+
+não precisamos inserir valor algum para 'this' nesse caso concreto, 
+por isso 
+
+simplesmente passamos o 
+
+primeiro argumento (argumento 'thisArg', é o argumento para o this) de 
+
+'null'.....
+
+
+
+MAS O PROFESSOR QUER UTILIZAR O SEGUNDO ARGUMENTO DE 'bind()', que 
+
+é o argumento A SER FORWARDEADO no bind....
+
+
+a coisa a ser forwardeada aqui é 'THIS.ID'...,  ou seja, 
+
+O __iD_____ DO PROJETO EM QUE ESSA FUNÇÃO 
+
+
+'this.updateProjectListsHandler' está sendo ativada/triggered....
+
+
+Precisamos desse 'id' do projeto para que esse 'id' acabe 
+
+SENDO PASSADO 
+
+AO PARÂMETRO 
+
+'projectId' de 'switchProject,' o que por consequência possibilita ao javascript 
+
+SELECIONAR UM DOS PROJETOS com aquele ID, que então é passado 
+
+ao método 'addProject'....
+
+
+-------------------------------
+
+
+SALVAMOS O NOSSO CÓDIGO E RECARREGAMOS.
+
+
+
+
+
+O NOSSO CÓDIGO AGORA ESTÁ FUNCIONANDO....
+
+meio bugado, mas funciona.
+
+
+
+------------------------------
+
+
+
+Mas algumas coisas AINDA NÃO ESTÃO FUNCIONANDO...
+
+
+
+Por exemplo, o 
+
+TEXTO DO BOTÃO NÃO É UPDATEADO QUANDO NÓS APERTAMOS 
+
+
+em 'finish'... (continua sendo 'finish').
+
+
+
+
+
+SE NÓS APERTARMOS NO BOTÃO DE NOVO, NA PARTE DE BAIXO, encontramos um problema 
+
+FATAL.
+
+Se tentarmos fazer isso, 
+
+
+o console do devtools 
+
+nos mostrará o erro 
+
+
+
+'Uncaught TypeError: Cannot read property 'id' of undefined 
+
+at ProjectList.addProject
+at ProjectList.switchProject'
+
+
+
+
+----------------------------
+
+
+
+
+
+A RAZÃO PARA ESSE PROBLEMA, esse código de erro, é que 
+
+a nossa lógica no momento
+
+
+MOVE O ELEMENTO DOM, sim, MAS NÃO 
+
+UPDATA A LISTA/ITEM DE FORMA CORRESPONDENTE E ADEQUADA...
+
+
+a lista/item não reflete/refletem a MUDANÇA, não refletem que 
+
+AGORA O ITEM FAZ PARTE DE UMA LISTA DIFERENTE...
+
+
+
+
+
+
+Agora o que nós fizemos até agora foi fazer o botão 
+
+'switch' funcionar.... que pudesse ser clicado e 
+
+que trocasse o local onde ProjectItem ficava....
+
+
+
+
+
+Quando apertamos nesse botão switch mais uma vez, dessa vez no 
+
+
+item NA OUTRA CAIXa, ele não funciona...
+
+
+
+Além disso, a caption do botão (activate/finish) NÃO FUNCIONA. Não updata 
+
+de acordo com o estado do botão (de acordo com sua posição active/finished).
+
+
+
+
+
+
+
+
+Esse erro está emanando do fato de que nós NÃO updatamos, por exemplo, 
+
+O EVENTLISTENER NO BOTÃO........... (ou seja, o eventListener 
+
+no BOTÃO CONTINUA SENDO O MESMO EVENTLISTENER de antes.... continua 
+
+sendo o eventListener que settamos no botão do ProjectItem inicialmente, quando 
+
+nós havíamos criado aquele ProjectItem...) -------> portanto, o eventListener 
+
+CONTINUA SENDO O MESMO, CONTINUA SENDO O MESMO EVENTLISTENER, SETTADO 
+
+PARA A LISTA em que ele estava posicionado originalmente...
+
+
+
+
+Ou seja, se o eventListener havia começado no activeProjects, 
+
+
+
+o activeProjects AINDA TERÁ O ADDEVENTLISTENER PARA TROCAR 
+
+O PROJECTITEM no sentido   active --> finished  (e não o contrário).  (E realmente  a porcaria continua existindo lá na lista original, AINDA QUE A TROCA JÁ TENHA ACONTECIDO, recém tenha sido efetuada.)
+
+
+
+
+Para a finishedProjectsList, o mesmo fenômeno ocorre,
+
+o addEventListener continua de 'finished -> active' CONTINUA 
+
+EXISTINDO NO SEU INTERIOR...
+
+
+
+
+
+
+
+O QUE TEREMOS QUE FAZER, PORTANTO, É NOS ASSEGURAR QUE 
+
+QUANDO NÓS TROCAMOS UM PROJETO de uma lista para outra ('switchProject(projectId)'), O PROJECTITEM EM SI TAMBÉM 
+
+SEJA UPDATEADO, que o projectItem 
+
+em si tenha 
+
+o caption de seu botão ALTERADO e que seja ADICIONADO UM NOVO EVENTLISTENER AO SEU INTERIOR....
+
+
+
+
+
+Nós provavelmente, diz o professor, deveremos REALIZAR ESSAS ALTERAÇÕES/ADIÇÕES 
+
+
+no body de 
+
+
+'addProject', pois é ele que será inserido no lugar de 'switchHandler', aquele chamado 
+
+no interior 
+
+do método 'switchProject()'.
+
+
+-------------------------------------------
+
+
+
+
+Dentro de 'addProject', podemos alcançar O PROJETO QUE ESTAMOS RECEBENDO 
+
+como argumento em 'addProject' ('project')......
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+addProject(project) {
+    this.projects.push(project);
+    DOMHelper.moveElement(project.id, `#${this.type}-projects ul`);
+    projects... ///////EIS AQUI O CÓDIGO.
+}
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+e então chamamos um método, '.update' NO PROJECT FORWARDEADO....
+
+
+Esse método 'update()' ainda não existe, MAS PODEMOS CRIÁ-LO....
+
+
+
+E A ESSE NOVO método 'update()', NÓS DEVEMOS TAMBÉM PASSAR 
+
+O NOSSO ___NOVO ___ SWITCHHANDLER____....
+
+
+Devemos passar um NOVO SWITCHHANDLER a ele PQ NÓS 
+
+HAVÍAMOS passado um switchHandler quando 
+
+NÓS TÍNHAMOS CRIADO 
+
+O PROJETO
+
+(em:
+'
+....
+new ProjectItem(prjItem.id, this.switchProject.bind(this))
+);'
+
+
+
+
+) -------------> ou seja, 
+
+lá nesse pedaço do código nós havíamos apontado 
+
+à 
+
+
+'this.switchProject.bind(this)', que era basicamente o switchHandler do nosso código...
+
+
+
+
+NÓS DEVEMOS RENOVAR ESSE CHAMADO ao switchHandler, com um NOVO SWITCHHANDLER, 
+
+em 'addProject, e passá-lo COMO 
+
+PARÂMETRO 
+
+
+AO 'update'...
+
+
+
+ex:
+
+
+
+addProject(project) {
+
+    this.projects.push(project);
+    DOMHelper.moveElement(project.id, `#${this.type}-projects ul`);
+    project.update(this.switchProject.bind(this)); /////////// ---------> EIS AQUI O REPASSE DO NOVO SWITCHHANDLER...
+}
+
+
+
+-----------------------------------
+
+
+
+
+Repassamos 
+'this.switchProject.bind(this)' À 
+
+update PARA 
+
+QUE POSSAMOS UTILIZÁ-LO NESSE MÉTODO...
+
+
+
+
+
+Fazemos isso porque QUANDO NÓS ADICIONAMOS UM PROJETO, ISSO SIGNIFICA 
+
+QUE ELE TROCOU DE LISTA, QUE TROCOU DA INSTÂNCIA (A) PARA A INSTÂNCIA (B),
+
+
+portanto ESSA FUNÇÃO ('this.switchProject.bind(this)') a qual esse projeto está conectado/bound, no final das contas, DEVE 
+
+SER MUDADA....
+
+
+Tem que ser mudada PORQUE O MÉTODO/FUNÇÃO 'this.switchProject.bind(this)' AINDA 
+
+SE REFERE À VELHA INSTÂNCIA, À instância (A)....
+
+
+Como o projectItem 
+
+
+agora está na INSTÂNCIA (B),
+
+
+nós devemos agora passar 
+
+ESSA FUNÇÃO
+
+'this.switchProject.bind(this))' 
+
+
+COMO ELA ESTÁ DEFINIDA NA INSTÂNCIA (B).... (ou seja, estamos usando 'this.xxx' para referenciar a versão de 'switchProject' QUE ESTÁ NA INSTÂNCIA B.... É a contraparte da primeira versão de 'switchProject', na verdade...)...
+
+
+
+
+SOMOS OBRIGADOS A FAZER ISSO, CASO CONTRÁRIO nós/o javascript não estará 
+
+funcionando com A FUNÇÃO CORRETA, com a função QUE DEVERÁ 
+
+SER CHAMADA AO SER CLICADO o botão 
+
+'activate/switch'......
+
+
+
+
+
+
+O professor também explica que vai querer passar 
+
+'this.type' COMO SEGUNDO ARGUMENTO DE UPDATE; quer isso pq 
+
+
+ele vai querer fazer com que 
+
+o PROJECT 
+
+
+SAIBA (o project NO UPDATE METHOD que ainda 
+
+teremos de adicionar/codar....) EM QUE 
+
+
+TIPO DE LISTA O PROJETO ESTÁ: se está 
+
+na lista ACTIVE OU FINISHED....
+
+
+
+Isso será importante para o código 
+
+do botão, 
+
+para fazer com que o que está escrito no botão 
+
+MUDE quando o projeto passar de uma lista para outra... (update da caption do botão.)
+
+
+
+
+
+------------------------------------
+
+
+Para que esse segundo parâmetro do project FUNCIONE, 
+
+devemos ir até o projectItem 
+
+
+e DENTRO 
+
+DELE PODEMOS CRIAR UM NOVO MÉTODO....
+
+
+
+
+
+Daremos a esse método o 
+
+
+nome de 'UPDATE'.... (pois será o update que foi chamado lá classe 'ProjectList', dentro do método 'addProject'..)
+
+
+
+
+DENTRO DE UPDATE, 
+
+
+
+DEVEMOS FAZER COM QUE ESSE MÉTODO 
+
+
+ACEITE
+
+
+
+
+2 coisas:
+
+
+
+
+
+1) a 'updateProjectListsFn'  (é a nova 'updateProjectListsFunction', basicamente)
+
+
+
+
+2) o 'TYPE'.
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+Dentro do método 'update',
+
+
+
+eu vou definir no body 
+
+
+o seguinte código:
+
+
+
+
+
+'this.updateProjectListsHandler' (ou seja, o professor escreve um código similar àquele que está 
+                                no constructor, aquele código de 'this.updateProjectListsHandler = updateProjectListsFunction'...)
+
+
+
+
+
+'this.updateProjectListsHandler = updateProjectListsFn' --------> 
+-------------->
+
+
+
+------------> PROFESSOR ESCREVE ISSO PARA QUE NÓS TENHAMOS UMA NOVA FUNÇÃO CRIADA DENTRO 
+                DESSE MÉTODO...
+
+
+
+-----------------------------
+
+
+ex:
+
+
+
+update(updateProjectListsFn, type) {
+    this.updateProjectListsHandler = updateProjectListsFn;
+}
+
+
+--------------------
+
+
+
+PROFESSOR ESCREVE ISSO PARA QUE NÓS TENHAMOS UMA NOVA FUNÇÃO CRIADA DENTRO 
+                DESSE MÉTODO, uma 
+
+                NOVA FUNÇÃO QUE ESTARÁ SENDO UTILIZADA POR ESSE MÉTODO, e não ___a antiga, obsoleta___.
+
+
+
+
+--------------------------
+
+
+
+Professor também APONTA QUE 
+
+NÓS IREMOS PRECISAR DE UM 
+
+NOVO EVENTLISTENER, precisaremos adicionar um 
+
+EVENTLISTENER DE NOVO...
+
+
+Para isso, 
+
+
+ele chama 
+
+
+'this.connectSwitchButton();'  (ou seja, ele chama 'connectSwitchButton' MAIS UMA VEZ NO CÓDIGO...)..
+
+Ele faz isso 
+
+
+para que o código de 
+
+
+'const projectItemElement = document.getElementById(this.id);
+const switchBtn = projectItemElement.querySelector('button:last-of-type');
+switchBtn.addEventListener('click', 
+this.updateProjectListsHandler.bind(null, this.id));
+'
+
+
+
+SEJA EXECUTADO NOVAMENTE...
+
+
+
+É claro, esse código SERÁ EXECUTADO NOVAMENTE, MAS 
+
+UMA DAS LINHAS DE CÓDIGO, a mais importante, 
+
+'this.updateProjectListsHandler.bind(null, this.id))' ,
+
+
+ESTARÁ RECEBENDO UMA FUNÇÃO DIFERENTE, POIS 
+
+o 'updateProjectListsHandler' SERÁ DIFERENTE (pq acabamos de alterar o updateProjectListsHandler por meio da linha de código 'this.updateProjectListsHandler = updateProjectListsFn;'....)
+
+
+----------------------------------------
+
+EX DESSAS LINHAS DE CÓDIGO:
+
+
+
+
+
+
+connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id);
+        const switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+
+
+update(updateProjectListsFn, type) {
+    this.updateProjectListsHandler = updateProjectListsFn;
+    this.connectSwitchButton();
+}
+
+
+
+-----------------------------------
+
+
+ESSE CHAMADO 
+
+
+
+DE 'this.connectSwitchButton' COM 
+
+ESSA PROPRIEDADE-FUNÇÃO alterada 
+
+
+IRÁ DEFINIR O NOSSO ADDEVENTLISTENER 
+
++ ou -...
+
+
+
+Mesmo assim, essa definição do 
+
+eventListener NÃO É SUFICIENTE....
+
+
+
+
+
+------------------------
+
+
+
+Não funciona pq se nós testarmos 
+
+nossa página, veremos 
+
+
+que 
+
+
+
+
+AO CLICAR uma segunda vez no botão (para mandar o projectItem de volta à lista anterior),
+
+O CONSOLE NOS DÁ UM ___ERRO___.
+
+
+
+
+
+Professor nos explica que 
+
+
+ACABAMOS CRIANDO UM MEMORY LEAK NO NOSSO CÓDIGO...
+
+
+
+
+
+
+O memory leak foi criado porque 
+
+
+
+ESTOU RODANDO
+ 
+
+ 'this.connectSwitchButton();' de novo, na NOVA PROJECTLIST (na segunda instância, na verdade), 
+
+ MAS EU NUNCA APAGUEI 
+
+
+ O VELHO ADDEVENTLISTENER, na instância antiga...
+
+
+
+Ou seja, nós criamos um novo eventListener, porém NÃO APAGAMOS O ANTIGO....
+
+
+O antigo ainda existe no código, se não o deletarmos...
+
+
+
+É por isso que precisamos NOS LIVRAR DO VELHO 'addEventListener' ANTES DE ADICIONAR 
+
+UM NOVO  por meio de 'connectSwitchButton()' NA OUTRA PROJECTLIST...
+
+
+
+-------------------------------------
+
+
+
+
+
+PARA ISSO, o professor retorna à classe 'DOMHelper' e ___ADICIONA UM NOVO MÉTODO ESTÁTICO____, 
+
+o qual ele chama 
+
+
+de 
+
+
+'clearEventListeners'........
+
+
+
+esse método receberá um parâmetro de 
+
+
+'ELEMENT' (que será o elemento do qual ele removerá os eventListeners...).....
+
+
+
+
+Ele precisa criar esse método no nosso código PQ ESSA FUNCIONALIDADE 
+
+DE 'limpar' EVENTLISTENERS ANTIGOS não EXISTE NATIVAMENTE NO JAVASCRIPT... 
+
+
+
+
+
+Dentro desse 'clearEventListeners', o professor vai criar uma nova CONSTANTE, 
+
+
+
+chamada de 
+
+'clonedElement'......
+
+
+Ele criará um elemento CLONADO por meio do uso 
+
+
+do método 
+
+
+
+'.cloneNode(true);'
+
+
+
+
+---------------------------
+
+
+
+
+
+ex:
+
+
+
+
+class DOMHelper {
+    static clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+    }
+}
+
+
+
+---------------------------------
+
+
+OBS:::: o 'true' como parâmetro desse MÉTODO FARÁ COM QUE O CLONE 
+
+SEJA UM DEEP CLONE (com todos os elementos internos idênticos ao original, preenchidos)....
+
+
+
+
+DEPOIS DISSO, o professor faz com que o javascript SUBSTITUA  O ELEMENTO 
+
+ORIGINAL POR ESSE 'clonedElement'....
+
+
+
+ele faz isso por meio do 
+
+método 
+
+
+'replaceWith()'....
+
+
+
+
+ex:
+
+
+
+
+
+
+class DOMHelper {
+    static clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+        element.replaceWith(clonedElement);
+    }
+}
+
+
+
+---------------------------------
+
+
+
+
+COM ISSO, NÓS ESSENCIALMENTE SUBSTITUIMOS (replace) O ELEMENTO ORIGINAL POR 
+
+ELE MESMO, mas como nós o clonamos (criamos um elemento NOVO IGUALZINHO), NÓS 
+
+JOGAMOS FORA QUAISQUER EVENTLISTENERS ANTIGOS, PRÉ-EXISTENTES, o que os deixa elegíveis 
+
+para serem 'garbage collected'...
+
+
+
+
+Por fim, o professor insere um 'return' no final desse método, para que 
+
+SEJA RETORNADO O elemento clonado ('clonedElement')....
+
+
+
+
+ex:
+
+
+
+
+
+class DOMHelper {
+    static clearEventListeners(element) {
+        const clonedElement = element.cloneNode(true);
+        element.replaceWith(clonedElement);
+        return clonedElement;
+    }
+}
+
+
+------------------------------------------
+
+
+
+
+
+RESUMINDO:
+
+'clearEventListeners' é, no final das contas, UMA PEQUENA 
+
+'HELPER FUNCTION' que TROCA O ELEMENTO ANTIGO POR UM NOVO...
+
+
+
+
+
+
+
+POdemos, então, chamar essa função 'clearEventListeners' DENTRO DE 
+
+
+
+'connectSwitchButton', porque LÁ DENTRO, EM VEZ DO PROFESSOR UTILIZAR 
+
+
+UMA CONSTANTE PARA DEFINIR O 'switchBtn' (
+
+    ou seja, estava assim:
+
+
+
+    'const switchBtn = projectItemElement.querySelector('button:last-of-type');
+    '
+),
+
+
+AGORA ELE TIRA O 'CONST' E coloca um 'let', para que esse botão TORNE-SE VARIÁVEL..
+
+
+
+
+
+ex:
+
+
+
+
+
+
+ connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id);
+        let switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+
+DEPOIS DISSO, ele coloca 'switchBtn = DOMHelper.clearEventListeners(switchBtn)', PARA 
+
+QUE SEMPRE SEJA TROCADO O ANTIGO ELEMENTO 'projectItem' POR 
+
+UM NOVO, para que seja descartado o eventListener antigo (garbage collected), 
+
+que sempre será substituído por um adequado, novo, retornado pela 
+helper function de 'clearEventListeners'...
+
+
+
+-------------------------------
+
+
+
+ex:
+
+
+
+
+
+
+
+ connectSwitchButton() {
+        const projectItemElement = document.getElementById(this.id);
+        let switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn = DOMHelper.clearEventListeners(switchBtn);
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+------------------------
+
+
+
+Essa mudança fará com QUE EVENTLISTENERS apenas sejam 
+
+ADICIONADOS APÓS OS EVENTLISTENERS ANTIGOS TEREM SIDO DESCARTADOS....
+
+
+Isso garante que não ocorra o acúmulo de eventListeners ao longo do tempo...
+
+
+
+Se agora recarregarmos a página, veremos que as trocas de projects entre listas 
+
+FUNCIONAM SEM PROBLEMAS...
+
+
+
+
+
+--------------------------
+
+
+
+O QUE AINDA ESTÁ FALTANDO AQUI É 
+
+
+uma caption 
+
+
+de 'projectItem' que 
+
+REFLITA AS TROCAS DE LISTAS...
+
+
+essas captions ainda não estão funcionando corretamente...
+
+
+
+
+--------------------------------
+
+
+
+
+Bem, para que ela atualize adequadamente, 
+
+
+podemos ir até 'connectSwitchButton' e 
+
+TAMBÉM 
+
+definir 
+
+('textContent' é uma propriedade de todos os nodes...)
+
+
+
+
+
+
+
+
+
+
+
+'switchBtn.textContent = ....'
+
+
+
+
+
+ENTÃO, PROFESSOR DIZ QUE NÓS DEVEMOS, TALVEZ, ESPERAR 
+
+um 'type' NO PARÂMETRO DO MÉTODO 
+
+
+'connectSwitchButton'...
+
+
+
+ex:
+
+
+
+
+
+
+
+ connectSwitchButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        let switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn = DOMHelper.clearEventListeners(switchBtn);
+        switchBtn.textContent = ...;
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+
+
+
+
+---------------------------
+
+
+
+
+
+connectSwitchButton, PORTANTO, IRÁ RECEBER UM 
+
+
+PARÂMETRO DE 'type', 
+
+
+O QUE IRÁ NOS AJUDAR A DESCOBRIR A QUAL COISA 
+
+VAMOS QUERER 
+
+
+settar o botão...
+
+
+
+O professor então inventa moda e INSERE 
+
+
+UMA TERNARY EXPRESSION.....
+
+
+
+ele digita:
+
+
+
+
+
+'switchBtn.textContent = type === 'active' ? 'Finish' : 'Activate';  '
+
+
+OU SEJA, 
+
+
+ESSA EXPRESSÃO QUER DIZER:
+
+
+'se o TYPE do botão for IGUAL a "active", vou querer 
+
+DEFINIR SUA LABEL como 'Finish'..... (pq se o projectItem está na ACTIVELIST, a label DEVERÁ DIZER 'finish'.... e vice-versa.)...
+
+Caso contrário (ou seja, se o botão NÃO ESTIVER PRESENTE NA 
+LISTA 'active', em outras palavras, se ele ESTIVER NA LISTA 'finished'),
+
+VOU QUERER 
+
+QUE SUA LABEL DEFINIDA COMO 
+
+'Activate'.     '
+
+
+-------------------------------------
+
+
+
+É claro que, feita essa mudança, EU TAMBÉM 
+
+
+TENHO QUE ASSEGURAR que 'type' É PASSADO COM SUCESSO 
+
+PARA ESSE MÉTODO 'connectSwitchButton'... (em todas as suas ocorrências, chamados).
+
+
+
+
+-------------------------------------
+
+
+
+PROFESSOR DIZ QUE É FÁCIL DE PASSAR ESSE TYPE em 'update', POIS ALI NÓS 
+
+CONSEGUIMOS 'type' facilmente, por meio do segundo argumento do método...
+
+
+APENAS PRECISAMOS FORWARDEAR 'type' para que o negócio funcione...
+
+
+ex:
+
+'update(updateProjectListsFn, type) {
+    ....
+    this.connectSwitchButton(type);
+}
+
+
+
+------------------------------------
+
+
+
+MAS NO CONSTRUCTOR DE 'ProjectItem' NÓS, até o momento, 
+
+NÃO SABEMOS 
+
+ O TYPE do projectItem...
+
+
+É por isso, diz o professor, que devemos acrescentar 
+
+
+'type' COMO TERCEIRO PARÂMETRO de 
+
+'ProjectItem'....
+
+
+
+-----------------------------------
+
+
+
+
+ex:
+
+
+
+
+class ProjectItem {
+    constructor(id, updateProjectListsFunction, type) {
+        ....
+
+        this.connectSwitchButton();
+    }
+}
+
+----------------
+
+
+
+FEITO ISSO, DEVEMOS 
+
+
+PASSAR O ARGUMENTO 'type' dessa classe COMO PARÂMETRO DO MÉTODO 'connectSwitchButton' chamado dentro dele.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+class ProjectItem {
+    constructor(id, updateProjectListsFunction, type) {
+        ....
+
+        this.connectSwitchButton(type);
+    }
+}
+
+
+
+------------------------------------------
+
+
+
+Agora temos 
+
+'type' COMO UM PARÂMETRO NA 
+
+
+CONSTRUCTOR DA CLASSE 'ProjectItem'...
+
+
+
+
+Feito isso, devemos ir até A PROJECTLIST, onde nós 
+
+
+CONSTRUÍMOS OS PROJECTITEMS.... (a partir de 'new ProjectItem') E ALI 
+
+
+PASSAR UM TERCEIRO ARGUMENTO AO CONSTRUCTOR DE PROJECTITEM...
+
+
+
+-----------------------------------------
+
+
+O terceiro argumento deverá ser 
+
+
+
+'this.type', pois nós já temos o 'type' da projectList  (de cada uma das instâncias de ProjectList)
+
+DUMPADA EM UMA PROPRIEDADE 
+
+'type' NESSA CLASSE...  (ou seja, a projectList (e nós, por extensão) SABE EM QUE TIPO DE 
+                            LISTA ELA ESTÁ, e essa informação pode ser repassada como terceiro parâmetro de projectItem...)
+
+
+
+---------------------------------- 
+
+
+
+SE SALVARMOS TUDO ISSO E RECARREGARMOS, perceberemos que o código funcionará direitinho.

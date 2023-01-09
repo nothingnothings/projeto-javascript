@@ -1,0 +1,267 @@
+
+
+
+
+
+
+
+
+PARA METODOS, COMO INVESTIGAMOS ANTERIORMENTE, A COISA INTERESSANTE 
+
+
+
+E QUE O ___METODO___ (greet) EM SI NAO FAZ PARTE DO OBJETO 'PERSON' (ou seja, nao faz parte DA SUBCLASSE EM QUE VOCE ADICIONOU O METODO, E SIM DA CLASSE BASE QUE LEGA AS CARACTERISTICAS A SUBCLASSE.)....
+
+
+
+resumo: ha apenas 2 propriedades dentro da classe 'person', 'name'
+e 'age', mas NAO E POSSIVEL ENCONTRAR 'greet()', o metodo 
+que fora definido dentro dessa mesma classe.
+
+
+
+(o professor nos mostra o output do seu console, que demonstra as propriedades/objetos dentro do objeto criado a partir da classe 'Person') :
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+Person {name: "Max", age: 30}  
+
+age: 30
+
+name: "Max"
+
+__proto__: AgedPerson
+
+
+(ou seja, greet() NAO APARECE AQUI COMO UM DOS METODOS DE 'person'; greet() ESTARA DEFINIDO COMO PROPRIEDADE DO PROTOTYPE (__proto__) DE 'AGEDPERSON'.  )
+
+
+
+
+
+
+Em vez disso, o metodo greet FAZ PARTE DO PROTOTYPE DE 
+
+
+
+PERSON (que e '__proto__: AgedPerson'.  Professor menciona que ESSE PROTOTYPE __proto__ FOI ADICIONADO AUTOMATICAMENTE PELO JAVASCRIPT; SERIA AQUELE PROTOTYPE 'DEFAULT'...).
+
+
+
+ 
+Dentro desse suposto prototype 'default' (__proto__: AgedPerson),
+
+
+podemos encontrar TANTO O METODO GREET() (que por alguma razao nao 
+acabou sendo parte da sucblasse, e sim dessE PROTOTYPE)
+
+COMO TAMBEM OUTRO PROTOTYPE (__proto__), QUE, ESSE SIM, 
+
+SEGURA O NOSSO OBJETO/classe BASE 'AgedPerson'...
+
+
+
+
+
+RESUMINDO.... :
+
+
+nos temos DOIS PROTOTYPES em vez de um...
+
+
+O fato de possuirmos 2 prototypes dentro desse objeto 
+
+__proto__ de 'Person' DECORRE DA EXISTENCIA 
+
+DE INHERITANCE (inheritance da classe base em relacao a subclasse...)
+
+
+
+
+
+Esse setup presente e UM SETUP QUE O JAVASCRIPT FAZ PARA NOS.... 
+
+
+
+E ELE FAZ PARA NOS POR UMA BOA RAZAO.
+
+
+
+
+
+
+
+
+A ideia aqui e que quando nos criamos INSTANCIAS DE 'PERSON', NOS QUEREMOS 
+TER DIFERENTES VALORES DE PROPRIEDADES..........
+
+Aqui, na verdade, todas as 'persons' que criarmos, todos os objetos, terao o mesmo 
+
+'name' de 'Max' e a mesma 'age' de 30, pois isso esta hardcodeado no nosso codigo...
+
+Mas frequentemente voce vai querer assignar diferentes dados/valores armazenados em 
+
+seus objetos...
+
+
+
+
+METODOS, POR OUTRO LADO, SAO COISAS QUE TIPICAMENTE PERMANECEM CONSTANTES AO LONGO 
+DE TODOS OBJETOS.
+
+
+
+A logica que voce tem presente EM ALGUM METODO (
+
+
+    por
+    ex:
+
+
+
+
+    greet() {
+        console.log(
+            'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. '
+        )
+    }
+)
+
+
+PODE ATE SE REFERIR AOS SEUS DADOS (por meio de uma sintaxe unica), MAS 
+
+ESSA LOGICA IRA SE REFERIR AOS SEUS DADOS DE MODO QUE __DIFERENTES___ DADOS SERAO REFLETIDOS 
+AUTOMATICAMENTE NO SEU CODIGO.... 
+
+(porque nos nao fizemos o hardcode de dados nesse metodo greet(); como voce pode observar, em vez 
+disso nele nos fizemos a referencia a PROPRIEDADES por meio de 'this.propriedade', e essas propriedades, por sua vez, 
+podem segurar DADOS DINAMICOS.
+)
+
+
+Portanto, a 'LOGICA DE FUNCAO' TIPICAMENTE NAO VARIA/MUDA DE OBJETO PARA OBJETO, 
+
+TIPICAMENTE ELA PERMANECE CONSTANTE ao longo de TODAS AS INSTANCIAS...
+
+
+
+Em razao da logica permanecer constante ao longo de todas as instancias, 
+
+o javascript adiciona um pouco de optimizacao para nos...
+
+
+
+
+
+
+
+
+Por meio da adicao de um metodo a um PROTOTYPE (ou seja, A CLASSE BASE `AgedPerson`, nesse caso, por exemplo), 
+
+O  JAVASCRIPT ASSEGURA QUE SEMPRE QUE NOS CRIAMOS UM NOVO OBJETO 'PERSON', NOS E GARANTIDO O MESMO 
+
+'PROTOTYPE FALLBACK OBJECT'...  ----------> isso e uma pequena optimizacao que leva a MENOS OBJETOS SEREM CRIADOS, o que significa menor consumo de memoria E MENOR IMPACTO NA PERFORMANCE...
+
+
+
+
+------------------------------
+
+
+
+
+PROFESSOR DIZ QUE PODE PROVAR ISSO A NOS:
+
+
+
+
+
+
+
+
+
+
+
+Se ele criar outro objeto, um objeto 'p2'....
+
+
+
+
+ex:
+
+
+
+
+
+
+const p2 = new Person();
+
+
+
+--------------------------------
+
+
+
+DEPOIS DISSO, ELE DIZ QUE CHECARA PELA EQUIVALENCIA DO '__proto__' de 'p' em relacao ao __proto__ de 'p2'....
+
+
+
+
+
+ex:
+
+
+const p2 = new Person();
+
+
+console.log(p.__proto__ === p2.__proto__);
+
+
+
+
+-----------------------------------------------
+
+
+
+
+RECEBEMOS 'TRUE', pois O PROTOTYPE DOS OBJETOS CRIADOS A 
+PARTIR DA MESMA SUBCLASSE E COMPARTILHADO (e sempre o objeto do prototype/classe base).
+
+
+
+
+Recebemos 'true' porque os dois objetos estao UTILIZANDO O EXATO MESMO OBJETO (nao e um ''objeto criado da mesma maneira', e sim o MESMO OBJETO, O EXATO MESMO OBJETO GUARDADO NA MEMORIA.)
+
+
+
+
+
+
+
+
+e por isso que o javascript adiciona os metodos aos prototypes (as classes bases) das subclasses, 
+
+porque com essa adicao a um objeto comum entre as subclasses, podemos compartilhar esse objeto/metodo 
+com todas elas, e isso economiza bastante recursos de processamento (o metodo apenas necessitara ser criado 
+uma unica vez na memoria, nao precisara ser reiterado para cada objeto que for sendo adicionado ao nosso sistema/codigo/runtime)
+
+
+
+   
+
+   -----------------------------------
+
+
+
+
+Se quisessemos fazer algo que tivesse o mesmo efeito,

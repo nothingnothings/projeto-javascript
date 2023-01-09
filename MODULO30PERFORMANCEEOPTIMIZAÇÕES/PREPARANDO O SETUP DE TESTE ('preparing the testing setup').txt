@@ -1,0 +1,531 @@
+
+
+
+
+
+
+
+----> devemos divar no nosso código...
+
+
+
+vamos testá-lo sob circunstâncias de PRODUÇÃO....
+
+
+
+NÓS VAMOS LÁ E RODAMOS
+ 
+
+ 'NPM RUN BUILD:PROD'... no 'projetonovo2' (folder)....
+
+
+
+
+ SE FIZERMOS ISSO, NOSSO CÓDIGO SERÁ "BUILDADO" para produção...
+
+
+
+
+
+ -----> o problema agora, diz o professor, é que CONSTRUÍMOS OS ARQUIVOS (build), sim, 
+
+ MAS AGORA NÓS NÃO TEMOS 
+
+
+ NENHUM 'RUNNING DEV SERVER'.. (eu já havia percebido isso há muitooooo tempo, lá nas primeiras aulas de webpack)...
+
+
+
+
+ Qual é a solução que o professor apresenta?
+
+
+
+
+ Ele diz que poderíamos usar um dev server como 'serve' ('npm run serve'),
+
+
+ QUE USAMOS HÁ BASTANTE TEMPO;
+
+
+
+
+
+ poderíamos usar o 'serve' e navegar manualmente ao folder 'dist'.... e aí rodar o 'serve'...
+
+
+
+ MAS ESSA NÃO É APPROACH QUE O PROFESSOR VAI QUERER USAR...
+
+
+
+ ---> a approach que ele vai querer é UMA QUE ENVOLVE O ___TWEAKING___ do 
+
+ 'webpack.config.js'... -------> O QUE ELE FAZ É ____SETTAR___ O MODO ___ ('mode') 
+
+
+ DO 
+
+
+ 'WEBPACK.CONFIG.JS' 
+
+
+ COMO SENDO 
+
+
+ DE VALOR 'production'... (ou seja, ele vai querer RODAR O DEV SERVER SEM O CÓDIGO DE 'DEVELOPMENT', E SIM 
+ COM O CÓDIGO DE ____PRODUCTION____)
+
+
+
+
+
+ ---> FINALMENTE. ERA ISSO QUE QUERÍAMOS SABER HÁ 1 MÊS, como ___RODAR O __ CÓDIGO DE PRODUÇÃO 
+
+ EM UM DEV SERVER do webpack... ---> e é assim que 
+
+ podemos fazer isso, 
+
+ pela simples mudança de 
+
+
+ 'mode: development' para 'mode: production' no 
+
+
+ 'webpack.config.js'...
+
+ 
+
+ ---------------------------
+
+
+
+
+ Professor faz essa troca no 'webpack.config.js' 
+
+ PQ ELE 
+
+
+ QUER TESTAR ESSE CÓDIGO OPTIMIZADO, DE PRODUÇÃO, no contexto 
+
+
+ de UM SERVIDOR...
+
+
+
+ ----> ou seja, ele vai querer um 'production environment', mas ao mesmo tempo ele vai 
+
+ TER QUERER TER UMA __DEV TOOL__ nesse production environment... 
+
+
+ ou seja, ele terá o 
+
+ MELHOR DOS DOIS MUNDOS:
+
+
+ o TESTE do código de PRODUÇÃO com a AJUDA das tools do webpack dev server...
+
+
+
+ tools do webpack dev server... --------------> OK, MAS QUAL É O BENEFÍCIO DE USAR 
+ ESSA DEV TOOL para testar nosso código de produção? --> BEM, 
+
+ ESSA FERRAMENTA, O WEBPACK DEV SERVER, 
+
+ NOS DÁ ____SOURCE MAPS___ ("devtool: 'cheap-module-eval-source-map') ,
+
+
+ ELE NOS DÁ SOURCE MAPS PARA QUE 
+
+ NÓS CONSIGAMOS/POSSAMOS 
+
+ ___MAPPEAR___, NOS DEVTOOLS DO BROWSER, nosso código OPTIMIZADO __DE VOLTA AO NOSSO CÓDIGO 
+__ ORIGINAL... 
+
+("so that we can MAP OUR OPTIMIZED CODE BACK TO THE ORIGINAL CODE"  ) ---> nós 
+
+fazemos/faremos isso para que NOSSO CÓDIGO NÃO SEJA 'BLOATEADO'   (não fique "inchado") --->
+
+
+"we will do that because that wont bloat our code"
+
+
+
+-------> FAREMOS ISSO 
+
+PQ A MAIOR PARTE DOS SOURCE MAPS, quando os adicionamos ao nosso código, 
+ACABAM ___aFETANDO ___ O TAMANHO ___ DO NOSSO CÓDIGO...
+
+
+
+
+---> GRAÇAS A DEUS, WEBPACK TEM UMA OPÇÃO para isso... podemos optar 
+
+
+por um SOURCE MAP QUE __TERÁ TODAS AS FEATURES __ DE QUE PRECISAREMOS, ***E SEM **** 
+AFETAR O TAMANHO DO NOSSO CÓDIGO.... 
+
+
+
+
+Essa opção é colocada naquela entry de 
+
+
+'devtool' 
+
+
+em 
+
+'webpack.config.js'... 
+
+
+
+ex:
+
+
+
+
+'devtool: 'cheap-module-eval-source-map'...  (essa é a versão CHEAP, que não queremos...)
+
+
+
+---------------------------------
+
+
+A ÚNICA DESVANTAGEM É QUE O CÓDIGO DE PRODUÇÃO DEMORA __UM POUQUINHO MAIS__ PARA 
+
+SER GERADO pelo webpack.... mas aqui isso não é um problema, 
+pois nós temos tempo....
+
+
+
+
+
+Professor explica que a versão de source map que queremos 
+
+nessa opção,
+
+
+para TESTAR O CÓDIGO DE PRODUÇÃO, não é 
+
+
+'cheap-module-eval-source-map', 
+
+
+
+e sim 
+
+
+apenas 
+
+
+'source-map' ---->
+
+
+
+ex:
+
+
+
+'devtool: source-map'...
+
+
+
+AGORA, SE RODARMOS 'npm run build:devServer', 
+
+
+NÓS ESTAREMOS 
+
+
+ENGATANDO 
+
+
+ESSE SERVIDOR DE DESENVOLVIMENTO.... MAS COM O NOSSO CÓDIGO DE 'PRODUCTION', E COM 
+
+ESSE SOURCE MAP 'simples' (que é exatamente o source map que queremos, pois é 
+ESSE SOURCE MAP QUE SERÁ USADO NA NOSSA PÁGINA/CÓDIGO DE VERDADE, DE PRODUÇÃO...)
+
+
+
+
+---------------------------------------
+
+
+
+
+
+Certo...
+
+
+
+agora nosso código está rodando, o servidor está funcionando.
+
+
+
+E o live reloading está habilitado.
+
+
+
+--------------------------------
+
+
+
+O negócio parou de funcionar por um tempo... 
+
+
+era um require no arquivo de 
+
+
+'webpack.config.js' 
+
+
+QUE ESTAVA FAZENDO MERDA...
+
+
+
+ERA UM REQUIRE DE UMA PACKAGE DA LIBRARY DO 
+
+'core-js'... --> como o webpack/node não conseguia 
+
+ENCONTRAR ESSA PACKAGE, ele nos retornava um erro e não fazia porra nenhuma com o código.
+
+
+
+---> entretanto, o código do nosso projeto, o OUTPUT, 
+
+CONTINUA SUMIDO (nós não sabemos onde esses arquivos estão....)
+
+
+há esse output no console:
+
+
+     0.js  2.26 KiB       0  [emitted]
+   0.js.map  10.5 KiB       0  [emitted] [dev]
+    shop.js   179 KiB       1  [emitted]        shop
+shop.js.map   686 KiB       1  [emitted] [dev]  shop
+
+
+
+
+
+
+MAS NÃO SABEMOS ONDE FICAM ESSES ARQUIVOS...
+
+
+----------------------------------------------
+
+
+
+
+
+---> CERTO, AGORA ESTAMOS USANDO ESSA CONFIGURAÇÃO DE SERVIDOR QUE __SIMULA UM CÓDIGO DE PRODUÇÃO__ 
+
+e que ao mesmo tempo NOS CONFERE O USO DE DEVTOOLS e nos dá um SOURCE MAP...
+
+
+
+----> Bem, a boa notícia é que SE NÓS RODAMOS 'npm run build:prod', NOSSO CÓDIGO 
+
+DE PRODUÇÃO É OUTPUTTADO DE VERDADE 
+
+
+em 'dist/assets/scripts', dentro dessa pasta de 'projetonovo2'...
+
+
+
+E se rodamos o devserver com o código de produção (essa simulação),
+
+
+
+O CÓDIGO DE PRODUÇÃO QUE FICOU NAQUELA PASTA, em decorrência do 'npm run 
+build:prod',  __SOME__... 
+
+
+
+----------------------------------
+
+
+
+
+
+ESSE RUN ESPECIAL DO WEBPACK dev server, com a config de production e com 
+
+
+O SOURCE MAP ---> ESSE SOURCE MAP tem uma função bem útil: 
+
+
+QUANDO NÓS ANALISAMOS/ANALISAREMOS NOSSO CÓDIGO NAS 
+
+
+DEVTOOLS DO BROWSER, nós ainda VAMOS CONSEGUIR descobrir QUAIS 
+
+PARTES DO NOSSO CÓDIGO ORIGINAL SÃO RESPONSÁVEIS por aquelE TRECHO 
+
+DO CÓDIGO 
+
+'OPTIMIZADO'... ( ou seja, os source maps nos indicam QUAIS PARTES 
+DO CÓDIGO ORIGINAL VIRARAM AQUELE DETERMINADO TRECHO/PARTE DO CÓDIGO 
+
+OPTIMIZADO EM QUE ESTAMOS MEXENDO AGORA...)
+
+
+
+
+
+---> com isso, nós abrimos nossa webpage, webpage do CÓDIGO DE PRODUÇÃO, na 
+
+aba devtools do chrome....
+
+
+
+
+---------------------------------
+
+
+
+
+CERTO....
+
+
+
+VAMOS ATÉ A ABA NETWORK...
+
+
+LÁ PODEMOS __IMEDIATAMENTE PERCEBER___ QUE 
+
+
+O 'shop.js' 
+
+
+
+ESTÁ __muito, muito menor do que 
+
+
+
+O ANTIGO CÓDIGO DE DEVELOPMENT do nosso projeto QUE ESTÁVAMOS RODANDO 
+
+
+NO BROWSER....
+
+
+
+
+
+
+-----> professor aponta:
+
+
+
+esse código AINDA NÃO ESTÁ __EXATAMENTE___ NO _____MESMO NIÍVE____ do
+
+código TOTALMENTE OPTIMIZADO do nosso projeto, ou seja, como ELE FICARÁ NO FUTURO, 
+
+
+
+
+Se quisermos 
+
+ver como é nosso código nessa versão 'TOTALMENTE OPTIMIZADA', basta rodarmos 
+
+
+o webpack com 'npm run build:prod' ---> VERSÃO DE _PRODUCTION_ do nosso código...
+
+
+
+na config dessa versão de 'build:prod', o professor colocou um 
+
+
+
+'devtool: 'cheap-source-map' 
+
+
+EM VEZ DE 
+
+
+'source-map'.....
+
+
+
+ISSO SIGNIFICA QUE ALI ELE USOU __UM SOURCE MAP__ MELHOR___ PARA A VERSÃO FINAL 
+DO NOSSO PROJETO... ELE USOU UM SOURCE MAP QUE É ___MUITO MENOR__, UM SOURCE 
+
+MAP QUE ADICIONA PRATICAMENTE PORRA NENHUMA AO ARQUIVO FINAL, e por isso é 
+
+__MUITO MENOR___ (e melhor para o DEPLOY do nosso código, para a fase de PRODUCTION propriamente 
+dita)...
+
+
+
+
+
+
+SE O PROFESSOR ENTÃO RODAR ESSA VERSÃO DO SERVIDOR, rodar esse código optimizado,
+
+
+ELE/NÓS VEREMOS QUE O CÓDIGO 
+
+
+
+
+
+_______sERÁ DE ___ APENAS__ MEROS 9 KB____... (ou seja, muito, muito menor...).
+
+
+
+
+
+---> esse código MINÚSCULO  É O QUE SERÁ UTILIZADO, SHIPPADO AO NOSSO 
+
+SERVER FINAL... É ESSE CÓDIGO TOTALMENTE OPTIMIZADO E SEM SOURCE MAPS....
+
+
+
+
+----> além de ser minúsculo, esse código é 'GZIPPADO' (gzipped) PELO NOSSO SERVIDOR QUE ESTAMOS 
+
+USANDO, O QUE FAZ ELE FICAR ___AINDA MENOR____. ---> mas essa é uma configuração que você 
+tem que settar 
+
+
+NO SEU SERVERSIDE --> RESUMINDO, 'gzipping' É ALGO QUE NÓS CONFIGURAMOS/OPTIMIZAMOS NO 
+LADO DO SERVIDOR... ---> professor colocou um link com mais recursos que 
+
+NOS ENSINAM A CONFIGURAR  NOSSO SERVIDOR... configurar para optimizar mais ainda.... (veremos mais sobre isso no final deste módulo).
+
+
+--------------------------------
+
+
+
+
+
+AINDA ASSIM, PARA NOSSOS PROPÓSITOS, ESSE DEV SERVER 'IN BETWEEN', essa solução 
+
+
+'MEIO DO CAMINHO', É A __MELHOR___ para se resolver problemas de performance/optimizar 
+a performance.
+
+
+
+----> mas se você REALMENTE QUISESSE FAZER ESSA OPTIMIZAÇÃO DE MODO __PERFEITO___, vocÊ 
+teria de usar a build de produção CRUA (com o 'cheap-source-map') ---> e nessa versão 
+
+CRUA, você não teria source map algum... ---> poderíamos usar essa setting, é claro, mAS O DEBUGGING DO CODE FICARIA BEM MAIS DIFÍCIL...
+
+
+
+
+
+---> professor roda nossa config do webpack com essa setting de 'production' e com 
+
+o source map de 'source-map'...
+
+----------------------------------
+
+
+
+O tamanho do nosso arquivo está ok, basicamente..
+
+
+
+AGORA DEVEMOS VER COMO ANALISAR NOSSO APLICATIVO E COMO MELHORAR NOSSO CÓDIGO.

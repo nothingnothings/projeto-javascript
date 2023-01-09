@@ -1,0 +1,410 @@
+
+
+
+
+DIFERENTES 'LAYERS' DE OPTIMIZAÇÃO DE PERFORMANCE...
+
+
+
+
+
+Temos diferentes aspectos/layers de optimização de performance...
+
+
+
+como 
+
+
+
+'startup time' e 'runtime'...
+
+
+
+
+
+
+
+AGORA VEREMOS AS DIFERENTES COISAS QUE __aFETAM A PERFORMANCE ___ NESSES LAYERS..
+
+
+
+
+
+
+
+
+
+
+---> HÁ, de fato, muitos 'tiny factors' que influenciam as optimizações dos layers...
+
+
+-----------------------------------------------
+
+
+
+COMEÇAMOS COM O STARTUP TIME...
+
+
+
+
+
+
+STARTUP TIME:
+
+
+
+
+----> O TAMANHO DO NOSSO SCRIPT/BUNDLE ---> ISSO ATRASA EM MUITO O PARSING E EXECUÇÃO INICIAIS... (how big is our javascript file... how big is the file we're forcing the user to download before initializing the page) ---> é o TEMPO ATÉ QUE 'ALGO SEJA RENDERIZADO NA TELA'... e o 'tempo ATÉ QUE O USUÁRIO SE TORNA CAPAZ DE CLICAR EM ALGO NESSA TELA'.... 
+
+
+
+---> O TAMANHO DO SCRIPT --> AFETA AMBOS ASPECTOS, o TEMPO ATÉ QUE 'ALGO SEJA RENDERIZADO NA TELA'... e o 'tempo ATÉ QUE O USUÁRIO SE TORNA CAPAZ DE CLICAR EM ALGO NESSA TELA'....  ------------------> SE SEU 
+
+SCRIPT RENDERIZA UM MONTE DE PARTES VISUAIS NA TELA, É EVIDENTE QUE ELE AFETA/AFETARÁ __QUÃO RÁPIDO O USUÁRIO SERÁ 
+CAPAZ DE VER ALGO NA TELA...  mas é evidente também QUE ELE AFETARÁ 
+O QUÃO RÁPIDO O USUÁRIO SERÁ CAPAZ DE INTERAGIR COM ESSA PÁGINA.... (pq se o seu script 
+PRECISA __aDICIONAR___ EVENTLISTENERS A um botão, e assim por diante, MESMO QUE 
+O BOTÃO ESTEJA VISÍVEL, O USUÁRIO ___NÃO SERÁ CAPAZ DE FAZER QUALQUER COISA COM ELE__ SE 
+
+O SEU SCRIPT AINDA NÃO TERMINOU DE SER BAIXADO... não terminou de ser baixado 
+E AINDA NÃO FICOU DISPONÍVEL/NÃO ESTÁ DISPONÍVEL..)
+
+
+
+
+
+---> portanto, o script size, o TAMANHO DO ARQUIVO, É IMPORTANTE... Maior o seu tamanho, maior 
+
+o tempo para carregaá-lo.... mais delay para que seus usuários sejam capazes de visitar 
+sua página (nem sempre seus usuários usarão sua página com uma 
+conexão foda pra caralho... às vezes eles estarão com 3g, ou com conexões péssimas... )  --> nessas situações, mesmo 
+um script 
+
+de 100kb pode demorar alguns segundos para baixar... e isso leva a uma user experience RUIM.
+
+
+
+
+
+
+----> ALÉM DO SCRIPT SIZE, OUTRA COISA IMPORTANTE É 
+
+
+O ___NÚMERO DE 'HTTP ROUNDTRIPS' do seu código...____
+
+
+('e.g because of non-bundled code, third-party library CDNs): Delays initial parsing/execution....)
+
+
+
+O PROFESSOR FALOU SOBRE ISSO MAIS CEDO, QUANDO ESTÁVAMOS FALANDO DE MÓDULOS JAVASCRIPT 
+
+e o WEBPACK... (que realiza a tarefa DE COMPRIMIR/AGLUTINAR TODOS OS ARQUIVOS EM 1 ÚNICO BUNDLE/ALGUNS 
+POUCOS BUNDLES)....
+
+
+
+
+
+---> A RAZÃO PARA BUNDLAR TUDO EM 1 ÚNICO BUNDLE É.... que se nós 
+
+estamos trabalhando com UM MONTE DE ARQUIVOS DE SCRIPT.... (e é claro que o mesmo 
+se aplica PARA ARQUIVOS CSS, aqueles códigos CSS QUE VÊM EM DIVERSOS ARQUIVOS --> isso é ruim ), 
+
+
+
+
+O BROWSER TEM QUE BAIXAR TODOS ESSES ARQUIVOS PARA FAZER COM QUE SEU CÓDIGO FUNCIONE... e todo 
+
+HTTP REQUEST QUE VOCÊ FAZ PARA BAIXAR ALGUM DESSES ARQUIVOS ___TEM UM CERTO 'CUSTO-BASe' ('base cost') PARA 
+
+
+SETTAR O REQUEST E ENVIÁ-LO... (e O TAMANHO DO SEU ARQUIVO NÃO IMPORTA PARA ESSE REQUEST; ESSE REQUEST 
+SEMPRE VAI DEMORAR UM POUCO...)
+
+
+
+
+QUANTO MAIS 'HTTP ROUNDTRIPS' (http requests E RESPONSES DO SERVIDOR), MAIS 
+
+DELAY E ESPERA DO USUÁRIO PARA FINALMENTE TER O ESTADO FINAL DA SUA PÁGINA.... vai demorar 
+
+mt tempo até que sua página esteja carregada e pronta para ser executada....
+
+
+
+---> ESSA É UMA PARTE DO CÓDIGO QUE __vOCÊ PRECISA OPTIMIZAR___...
+
+
+
+
+---> e nós já vimos como optimizar/como começar a optimizar nossa página:
+
+
+
+vimos como 
+
+REDUZIR 
+
+O NÚMERO DE HTTP ROUNDTRIPS por meio do __wEBPACK____... o WEBPACK 
+
+MINIFICA ('minifies') E OPTIMIZA O NOSSO CÓDIGO, E 
+
+
+O 'BUNDLA' TODO EM 1 ÚNICO ARQUIVO/PACOTE...
+
+
+
+
+
+
+----> CERTO, MAS E QUANTO à 'RUNTIME PERFORMANCE'?
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------
+
+
+
+
+RUNTIME PERFORMANCE:
+
+
+
+
+
+
+----> Nesse aspecto da optimização, o que importa 
+
+É OPTIMIZAR A EXECUÇÃO DE CÓDIGO.... PRINCIPALMENTE O 'DOM ACCESS'...
+
+('optimize code execution, DOM ACCESS: Avoid unnecessary code 
+execution, especially unnecessary DOM operations/repaints')....
+
+
+
+
+
+
+---> SE NÓS ESTAMOS TRABALHANDO NO ENVIRONMENT DO BROWSER, 
+
+TEMOS QUE CUIDAR COM O 'DOM ACCESS' ---> temos que cuidar com 
+
+O ADD E REMOVAL DE ELEMENTOS DE NOSSA PÁGINA... (add e removal por meio 
+do acesso AO DOM....)
+
+
+-----> SEMPRE VAMOS QUERER EVITAR EXECUÇÕES DE CÓDIGO DESNECESSÁRIO.
+
+
+
+--> QUEREMOS EXECUTAR CÓDIGO EFICIENTE, RÁPIDO PARA SER EXECUTADO...
+
+
+
+---> DEFINITIVAMENTE QUEREMOS EVITAR OPERAÇÕES __DESNECESSÁRIAS__ DO DOM.... ---> 
+
+--> pq se nós 
+
+RE-RENDERIZAMOS DESNECESSARIAMENTE    ELEMENTOS DEMAIS NA TELA,
+ 
+
+AINDA QUE APENAS 1 ÚNICO ELEMENTO PRECISASSE TER MUDADO, AÍ NÓS 
+
+ACABAMOS AFETANDO A PERFORMANCE (trabalho inútil, basicamente.... a página 
+inteira acaba sendo re-renderizada, mas apenas precisávamos que 
+1 único trecho/pedaço dela tivésse mudado.)
+
+
+
+
+---> trabalho inútil = 'unnecessary DOM operations/repaints'...
+
+
+
+ISSO AFETA A PERFORMANCE... ---> 
+
+
+O TRABALHO COM O ___DOM____ É ___MUITO __ CARO__, de uma perspectiva de 
+
+PERFORMANCE...sabemos
+
+Caro pq o JAVASCRIPT ___É OBRIGADO/TEM que falar COM O ___BROWSER__... 
+
+O browser, por sua vez, PRECISA IR ___POR DENTRO DO DOM__ e então 
+
+ENCONTRAR ___ O LUGAR QUE VOCÊ QUER MUDAR ____.... AÍ ELE 
+
+TEM QUE ___CRIAR UM NOVO ELEMENTO, E ENTÃO ADICIONAR/removerS ESSE ELEMENTO 
+
+NAQUELE LUGAR QUE VOCÊ ESPECIFICOU...
+
+
+(OU SEJA, TUDO ISSO ENVOLVE MUITAS ____ETAPAS____. ) ---> isso acaba 
+
+DEMORANDO ___MILISSEGUNDOS ---> MAS ELES PODEM 'ADD UP'.... --> vão se acumulando...
+
+
+
+--> é por isso QUE SER __EFICIENTE___ e ___EVITAR DOM OPERATIONS___ é o caminho mais ÓPTIMO.
+
+
+
+
+-> outro grande fator é 'MEMORY LEAKS' -->  é muito fácil introduzir memory leaks no seu código... --> E NEM TODOS OS MEMORY LEAKS SÃO ___HORRÍVEIS__...
+
+
+('AVOID MEMORY LEAKS: they can crash your application, in the worst case; nevertheless, they will slow 
+it down, in all cases.')
+
+
+
+--> às vezes VOCÊ NEM ENXERGA OS MEMORY LEAKS... o professor pode nos dizer, já de cara:
+
+
+Muitos sites por aí POSSUEM PEQUENOS MEMORY LEAKS...
+
+
+
+Mas se você 
+
+tem ___GRANDES MEMORY LEAKS__, 
+
+
+ELES PODEM 'ADD UP' e acabar 
+
+
+FAZENDO COM QUE SUA PÁGINA FIQUE MUITO MAIS LENTA, OU ATÉ MESMO FAZER COM 
+
+QUE ELA __CRASHE__.
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+---> TAMBÉM É INTERESSANTE PENSAR EM __DIFERENTES MANEIRAS __  DE RESOLVER UM MESMO PROBLEMA, NO JAVASCRIPT...
+
+
+
+Ou seja, encontrar SOLUÇÕES MELHORES PARA UM MESMO PROBLEMA, SOLUÇÕES COM MELHOR PERFORMANCE...
+
+('Find code alternatives with better performance: Especially important for "high-frequency" code 
+parts"...)
+
+
+
+--> O PROFESSOR VAI NOS MOSTRAR UM EXEMPLO DISSO NESSE MÓDULO... 
+
+
+--> esse negócio de 'diferentes/melhores soluções para um mesmo problema' tem a ver 
+
+
+COM AQUELE TÓPICO DE 'OPTIMIZE CODE EXECUTION' (optimizar o código do RUNTIME, e não do STARTUP).
+
+
+
+
+
+
+---> um exemplo disso é OS LOOPS... QUANDO VOCÊ LOOPA POR DENTRO DE UM ARRAY... existem 
+DIFERENTES MANEIRAS DE LOOPAR POR DENTRO DE UM ARRAY... E NENHUMA DELAS POSSUI A MESMA PERFORMANCE,
+
+TODAS ELAS VARIAM EM SEUS USOS E PERFORMANCEs... ---> isso é algo que vocÊ deve considerar e optimizar....
+
+
+
+
+
+---> POR FIM, HÁ OUTRO CONCEITO QUE POSSUI RELAÇÃO COM ESSES 'CODE ALTERNATIVES'... --> o nome 
+
+desse conceito é 
+
+
+'MICRO-OPTIMIZATIONS'....
+
+('micro-optimizations in your code: Optimize for a very specific use-case (e.g. data structures for 
+frequent access/changes)' )
+
+
+
+
+
+
+MICRO OPTIMIZAÇÕES... -----> VOCê PODE OPTIMIZAR ___cERTAS PARTES DO SEU CÓDIGO__...  essa coisa 
+
+de loopar por dentro de um array COM UMA ALTERNATIVA MELHOR/MAIS RÁPIDA ___ É UM EXEMPLO PERFEITO ____ 
+DE MICRO OPTIMIZAÇÃO... ----> geralmente 
+
+'micro-optimizações' QUER DIZER ___CUSTOMIZAR SEU CÓDIGO__, OPTIMIZAR PARTES DO SEU CÓDIGO PARA ___CERTOS 
+
+USE CASES____ --> ex: optar por USAR CERTA DATA STRUCTURE pq ela é um pouco mais rápida DO QUE O APPROACH 
+QUE VOCÊ USOU ANTES... 
+
+
+
+ENTRETANTO, VOCê VAI QUERER GERALMENTE ____eVITAR ____ ESSAS MICRO-OPTIMIZAÇÕES.... vocÊ sempre vai querer ter cuidado 
+com micro optimizações; É SEMPRE MELHOR USAR CÓDIGO MAIS USADO/FREQUENTE/JÁ TESTADO... ---> às vezes, OPTIMIZAÇÃO 
+
+EM EXCESSO LEVA A PROBLEMAS....  ---> ainda assim, essas optimizações podem importar 
+
+
+em COISAS NICHO/aplicativos MAIORES...
+
+
+
+
+
+
+
+
+AS COISAS MAIS IMPORTANTES, MAIS VITAIS PARA QUE SEU CÓDIGO SEJA OPTIMIZADO,
+
+
+SÃO:
+
+
+
+1) TAMANHO DO SCRIPT 
+
+
+2) NÚMERO DE HTTP ROUNDTRIPS (HTTP REQUESTS).
+
+
+
+3) OPTIMIZE CODE EXECUTION, DOM ACCESS (ACESSO AO DOM)
+
+
+
+4) EVITAR MEMORY LEAKS (podem crashar seu aplicativo, ou então deixá-lo mais lento.)
+
+
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+Como mencionado, sempre tenha em mente que O JAVASCRIPT É APENAS UM ASPECTO DA NOSSA WEBPAGE...
+
+
+
+Também devemos optimizar o CSS e o HTML... (mas tipicamente o javascript é a parte que mais necessita de optimizações...)

@@ -1,0 +1,197 @@
+Até agora, configuramos os botões de ataque, mas o botão de curar até agora não faz nada.
+
+Faria sentido se pudéssemos fazer o botão reagir, portanto adicionamos um eventListener em app.js referenciando a constante healBtn expressa em vendor.js.
+
+
+Criamos uma nova função, healPlayerHandler, e inserimos a função increasePlayerHealth em seu interior.
+
+
+
+Eu quero curar o player por um montante definido, e esse montante deve ser definido em uma constante lá no início do documento app.js, 
+para que podemos mudá-lo convenientemente de acordo com nossas necessidades/vontade.
+
+Colocamos o valor de 20, que é um monte, e vocÊ pode mexer com valores diferentes aqui se você quiser.
+
+
+Agora em vendor.js também teremos a increasePlayerHealth function, que não calcula aleatoriamente um valor, ela simplesmente adiciona o valor 
+normal do heal, o valor da constante heal sempre será o VERDADEIRO VALOR do heal, não terá aleatoriedades no meio.
+
+
+
+
+
+//colocamos a função que chama a cura ali dentro, mas não deixamos de inputtar a função de tomar dano do ataque do monstro logo embaixo, porque ainda que estejamos nos curando, ainda levamos o dano do turno do cara.
+
+
+
+poderíamos colocar também o caso de você morrer ainda que o monstro te curasse, mas escolhemos não fazê-lo,
+pois tal hipótese é impossível no momento (a constante que define o valor máximo do ataque do monstro é de valor 14, e a constante do HEAL_VALUE é sempre 20, que é maior.)
+
+
+O professor mesmo assim coloca as win conditions no código, porque ele quer deixar essa possibilidade de morrer até mesmo enquanto você está usando/usou cura.
+
+
+Professor diz que você poderia copiar todo aquele código das hipóteses de ganhar/perder para esse lugar de forma porca, mas 
+que é muito melhor você fazer referências ao código, em vez de simplesmente copiar e colar.
+
+
+Por causa disso, o professor adiciona uma função novinha em folha, chamada endRound. Dentro dela, o professor 
+insere o código onde o monstro nos bate (const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
+                                            currentPlayerHealth -= playerDamage;), e o if statement que checa se nós ganhamos, se nós perdemos, ou se nada aconteceu (o jogo continua, não houve vitória, nem derrota, nem empate.)
+
+
+Essa endRound nos ajuda por meio da simplificação do código, colamos ela em healPlayerHandler e na função attackMonster.
+
+
+
+
+endRound() {
+  const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
+  currentPlayerHealth -= playerDamage;
+  if (currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
+    alert('You won!');
+  } else if (currentPlayerHealth <= 0 && currentMonsterHealth > 0) {
+    alert('You lose!');}
+    else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0){
+        alert("It's a draw!");
+    }
+}
+
+essa função endRound sempre dá o dano ao jogador e aí checa se ele ganhou/perdeu/empatou/o jogo simplesmente continuou.
+Por isso a chamamos dentro da função attackMonster (opções de ataque do jogo) e em healPlayerHandler (opção de heal do jogo, onde jogador pode morrer até mesmo quando se cura naquele turno.)
+
+
+Agora temos uma função para sempre acabar os rounds, que podemos acrescentar em funções novas, caso queiramos adicionar novos botões/opções, etc.
+
+
+Agora, podemos nos curar indefinidamente.
+
+
+O professor aponta que agora podemos nos curar, mas nunca até o máximo, porque o monstro sempre vai bater no turno,
+e isso reduz a barra de vida, que nunca chega até o topo.
+
+
+
+Um problema que temos com a lógica de heal, no momento, é que nós também podemos curar quando temos vida cheia. 
+
+Também há outro problema: quando vocÊ aperta muitas e muitas vezes para curar, eventualmente você ganha uma mensagem de que você ganhou, o que é muito estranho.
+
+
+Isso é algo que devemos consertar:
+
+
+A razão para nós perdermos é a de que a progress bar é atualizada quando chamamos a função 
+increasePlayerHealth, aí nossa vida, que é administrada lá em cima, em currentPlayerhealth, a qual é importante para nosso player win conditions, 
+NÃO ESTÁ SENDO AJUSTADA.
+
+
+Isso é importante, porque fode todas as win conditions.
+
+
+Pense assim: o player está sendo curado de forma "fictícia", porque o valor de sua vida não está sendo 
+atualizado para um valor mais alto de verdade, e sim apenas "parece" que está aumentando... o progress bar aumenta para o lado, mas a vida de verdade 
+do cara não aumenta. A vida de verdade do cara só é alterada, no momento, quando o monstro nos bate, por meio da linha de código
+"currentPlayerHealth -= playerDamage;
+
+A vida do monstro também é reduzida, e sua barra diminui de acordo.
+
+
+
+Isso é algo que devemos consertar.
+
+Consertamos isso por meio de uma simples linha de código, inserida dentro do healPlayerHandler:
+
+
+"currentPlayerHealth += HEAL_VALUE;"
+
+
+Assim que fizermos isso, a progress bar passará a refletir a "vida interna" do player/ internal game health.
+
+
+Além disso, o professor quer garantir que não seja possível se curar mais do que a vida máxima te permite.
+
+
+se chosenMaxLife = 100, não queremos que o cara aperte o botão 500x e fique com mais vida do que a progressbar mostra. 
+
+Para isso, adicionamos uma nova variável em healPlayerHandler, chamada de 
+
+
+healValue   (não confundir com HEAL_VALUE, não se esqueça que o JAVASCRIPT não confunde as 2, como você não deve se confundir.)
+
+
+let healValue;
+
+
+
+
+Criada essa variável, podemos colocar um if statement logo depois e checar "se currentPlayerHealth >= chosenMaxLife - HEAL_VALUE , você ...
+
+
+modelo:
+
+if(currentPlayerHealth >= chosenMaxLife - HEAL_VALUE)
+
+--->tenha em mente que, graças ao fenômeno do operator precedence, a expressão chosenMaxLife - HEAL_VALUE é lida 
+anteriormente À expressão currentPlayerHealth >= XXX (resultado dos outros 2).
+
+
+o que essa condição faz, essencialmente, no começo do jogo, é checar "se 100 - 20 (chosenMaxLife - HEAL_VALUE, ou 80) é <= que a vida atual do jogador, ou seja, 
+
+
+se a vida do jogador é igual ou maior que 80 (o que no início é verdade, porque a vida dele realmente é maior do que 80 no início, a vida dele é 100 nessa hora),
+então vamos querer OU que o HEAL_VALUE seja apenas suficiente para nos curar até a vida cheia, 
+OU que ele nos cure para até MAIS DO QUE A VIDA CHEIA. 
+
+O que o professor faz aqui é jogar um alert("You can't heal to more than your max initial health.") 
+e depois settar um healValue como igual a "chosenMaxLife - currentPlayerHealth", o que basicamente 
+significa que nós deixamos o código curar o player até o valor inicial de vida, mas não deixamos ele se curar para além desse valor máximo.
+
+
+Depois disso, colocamos um else statement, usado para os demais casos, casos em que o 
+currentPlayerHealth não é igual ou superior à chosenMaxLife(100) - HealValue ----> 
+ex: situação em que o player está com 60 de vida. Esse else statement define o 
+healValue como "HEAL_VALUE"(20). Usamos else aqui porque todas as outras situações deverão seguir 
+esse caminho, não é como else if, que não roda nada no caso de não ser atingida sua condição; o function 
+body do else sempre rodará caso a primeira condição (a condição da vida do cara estar muito alta ) não
+for satisfeita. A function body de else simplesmente não apresenta aquele alerta de que não pode ser curado para além 
+da vida máxima e também define healValue como "HEAL_VALUE".
+
+Mas por que o professor fez tudo isso? Ele fez tudo isso para que a variável 
+"healValue", presente apenas localmente na função healPlayerHandler, pudesse virar um valor 
+dinâmico (pode ser tanto = chosenMaxLife - currentPlayerHealth,  como healValue = HEAL_VALUE, dois valores
+diferentes, transmitidos por expressões diferentes.) que pega o valor máximo e o valor atual de vida 
+do jogador em consideração e portanto agora aumenta o valor de vida do jogador de acordo com 
+a variável healValue (o professor troca o parâmetro HEAL_VALUE inserido na função increasePlayerHealth pela variável
+healValue, que tem um valor dinâmico. Excelente movimento. fica:  increasePlayerHealth(healValue);  o negócio deixa de usar 
+aquela constante fixa de 20 do HEAL_VALUE para aumentar os pontos de vida do jogador.)
+
+Além disso, o professor também muda 
+a expressão logo abaixo de increasePlayerHealth(healValue), 
+a currentPlayerHealth += healValue; -------> que passará a refletir verdadeiramente o valor escolhido dinamicamente pela variável healValue.
+
+
+
+
+o modelo fica:
+
+
+else{
+  healValue = HEAL_VALUE;
+}
+
+
+
+
+
+então o modelo ficaria:
+
+
+let healValue;
+if(currentPlayerHealth >= chosenMaxLife - HEAL_VALUE) {
+    alert("You can't heal to more than your max initial health.");
+    healValue = chosenMaxLife - currentPlayerHealth;
+}
+increasePlayerHealth(HEAL_VALUE);
+currentPlayerHealth +- HEAL_VALUE;
+endRound();
+}

@@ -1,0 +1,1901 @@
+
+
+
+
+
+CERTO, VIMOS COMO CRIAR UM ITERATOR....
+
+
+
+
+
+
+ITERATORS SÃO NICE...
+
+
+
+Com um 'while loop', você pode criar sua própria LÓGICA DE LOOP... ('looping logic'). 
+
+
+
+
+
+
+MAS TALVEZ VOCÊ QUEIRA FAZER 
+
+
+
+um for of loop de 
+
+
+
+'for (const employee of company)'.....
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+    employee = company.next();
+}
+
+
+
+
+
+let employee = company.next();
+
+
+
+for (const employee of company) {
+
+}
+
+
+
+
+------------------------------------
+
+
+
+
+TALVEZ SEJA ISSO O QUE VOCÊ QUER FAZER...
+
+
+
+
+
+NO PRESENTE MOMENTO, ESSA SINTAXE NÃO É/NÃO SERIA SUPORTADA...
+
+
+
+
+SE eu console.loggar 
+
+
+'employee', aqui, 
+
+
+
+verei que O CONSOLE ME DARÁ UM ERRO....
+
+
+
+'Uncaught TypeError: company is not iterable'....
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+    employee = company.next();
+}
+
+
+
+
+
+let employee = company.next();
+
+
+
+for (const employee of company) {
+    console.log(employee);
+}
+
+
+
+
+--------------------------------------
+
+
+
+
+
+'COMPANY IS NOT ITERABLE'..... ---> 
+
+
+
+
+Mas pq isso?
+
+
+
+Bem, nós conseguimos esse método 'next()', MAS 
+
+O JAVASCRIPT/A JAVASCRIPT ENGINE NÃO 
+
+ESTARÁ PROCURANDO POR 
+
+UM MÉTODO 
+
+'next()" ________QUANDO VOCÊ USA UM ____ 'FOR OF LOOP'_____....
+                                                (é um obstáculo ao método 'next()', portanto...).
+
+
+
+
+EM VEZ DISSO, O QUE O 'FOR OF LOOP' ESTÁ PROCURANDO 
+É  
+
+___UM SÍMBOLO ESPECIAL____... NÓS JÁ VIMOS ESSE SÍMBOLO,
+
+É O SÍMBOLO DE 'Symbol.iterator'....
+
+
+
+
+---> '[Symbol.iterator]'
+
+
+
+
+
+ESSE SYMBOL.ITERATOR FAZ COM QUE O OBJETO EM QUE VOCÊ O INSERE SEJA 
+INCLUÍDO EM UM 'FOR OF LOOP'....
+
+
+
+
+E ESTÁ RESOLVIDO O MISTÉRIO:
+
+
+
+
+com for of loops ----> DEVEMOS USAR o '[Symbol.iterator]' PARA INCLUIR UM OBJETO DENTRO DE UMA LÓGICA DE LOOP...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+    [Symbol.iterator] ////////EIS O 'SYMBOL.ITERATOR', aqui... (MAS NÃO ACABAMOS POR AQUI, AINDA É NECESSÁRIO DEFINIR UM 'VALOR'  PARA ESSE SÍMBOLO...)
+
+
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+    employee = company.next();
+}
+
+
+
+
+
+let employee = company.next();
+
+
+
+for (const employee of company) {
+    console.log(employee);  
+}
+
+
+
+
+------------------------------
+
+
+
+
+COM WHILE LOOPS, DEVEMOS USAR O 'next()'....
+
+
+
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+com for of loops ----> DEVEMOS USAR o '[Symbol.iterator]' PARA INCLUIR UM OBJETO DENTRO DE UMA LÓGICA DE LOOP...
+
+
+COM WHILE LOOPS -----------> DEVEMOS USAR O 'next()'....
+
+
+
+----------------------------------
+
+
+
+
+OK, MAS QUAL SERÁ O __VALOR___ DA PROPRIEDADE 
+
+
+'Symbol.iterator'?
+
+
+
+
+
+PROFESSOR EXPLICA QUE O VALOR DEVE, OBRIGATORIAMENTE, SER __UM ITERATOR___.
+
+
+
+
+
+
+--> AGORA, LEMBRE-SE: 'company' EM GERAL (overall) É UM __ITERATOR___...
+
+É um iterator PQ ___qUALQUER ___ OBJETO COM UM MÉTODO 'NEXT()' É UM ITERATOR...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+    [Symbol.iterator]:
+
+
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+    employee = company.next();
+}
+
+
+
+
+
+let employee = company.next();
+
+
+
+for (const employee of company) {
+    console.log(employee);  
+}
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+--> AGORA, LEMBRE-SE: 'company' EM GERAL (overall) É UM __ITERATOR___...
+
+É um iterator PQ ___qUALQUER ___ OBJETO COM UM MÉTODO 'NEXT()' É UM ITERATOR...... isso é PADRÃO.
+
+
+
+
+
+O que nós armazenamos nessa propriedade 
+
+'Symbol.iterator' DEVE, REALMENTE, SER UM DESSES OBJETOS 
+COM UM MÉTODO 'next'( ou seja, um ITERATOR, vide explicação logo acima...)....
+
+
+
+
+ISSO QUER DIZER, ISSO SIGNIFICA QUE ___ NÃO É ___ 'company' ___ QUE DEVERÁ 
+
+TER O método 'next' (bem, 'company' PODE ter esse método, MAS ISSO NÃO VAI NOS AJUDAR),
+
+E SIM ____AQUILO/O OBJETO___ QUE ARMAZENAMOS DENTRO DA PROPRIEDADE 
+
+'Symbol.iterator'!!!! ---->  
+
+
+
+
+ex:
+
+
+
+[Symbol.iterator]: {
+    next(); 
+
+}
+
+-----------------------
+
+
+
+(TIPO ISSO?)
+
+
+
+
+-----------------------
+
+
+
+SÓ ASSIM PODEMOS UTILIZAR UM OBJETO COM 'for of'...
+
+
+Só podemos usar um objeto com 'for of loops' SE NÓS COLOCARMOS 
+
+UM '[Symbol.iterator]:' COM UM VALOR QUE SEJA UM OBJETO QUE 
+
+TENHA O MÉTODO DE 'next();'...
+
+
+
+
+-----------------------------
+
+
+
+
+CERTO.
+
+
+
+MAS PROFESSOR AGORA EXPLICA AGORA QUE, EM VEZ DE CRIAR UM OBJETO DESSES ___MANUALMENTE___, DE NOVO, 
+
+nós podemos USAR UM OUTRO NEGÓCIO (something) QUE 
+
+_____CONSTRÓI ____ UM DESSES 'iterators' para nós........
+
+
+
+
+MAS O QUE DIABOS PODERIA FAZER ISSO?
+
+O QUE PODERIA CRIAR UM OBJETO COM UMA PROPRIEDADE 'Symbol.iterator' que tenha como valor um objeto com método 'next()'
+
+
+PARA NÓS???
+
+
+
+
+
+-----> PROFESSOR DIZ QUE O NOME DESSA COISA É ____GENERATOR____....
+
+
+Um GENERATOR faz isso para nós...
+
+
+
+
+Generators são coisas em javascript QUE CONSTROEM OBJETOS 'ITERATOR'...
+
+
+
+
+------> GENERATORS SÃO COISAS EM JAVASCRIPT QUE __CONSTROEM___ objetos iterator.....
+
+
+
+
+---> CONSTROEM OBJETOS QUE TÊM ESSE MÉTODO 'next()' BUILTIN em seu interior...
+
+
+
+
+
+UM GENERATOR, NO FINAL DAS CONTAS, É UM TIPO ESPECIAL DE FUNÇÃO JAVASCRIPT 
+
+QUE _____AUTOMATICAMENTE___ GERA __ITERATORS____ PARA NÓS....
+
+
+
+
+
+GENERATORS GERAM OBJETOS QUE POSSUEM O MÉTODO 'NEXT()' EM SEU INTERIOR...
+
+
+
+---> VOCÊ CRIA UM GENERATOR DESSES POR MEIO DO USO DA keyword 
+
+
+
+function*  ---------> OU SEJA,  é function e uma estrela ao lado...
+
+
+
+ISSO TRANSFORMA ESSA FUNÇÃO EM UM ___GENERATOR___.
+
+
+
+
+VocÊ pode nomear esse generator do jeito que você quiser, MAS É EVIDENTE 
+
+QUE VOCê TAMBÉM PODE UTILIZÁ-LO COMO UMA ANONYMOUS FUNCTION...
+
+
+
+
+Entretanto, aqui o professor assigna um nome a essa function...
+
+
+Ele usa o nome 'employeeGenerator '..........
+
+
+
+
+Mas vocÊ não deve parar por aí, não...
+
+
+VOcê deve adicionar () e {}...
+
+
+
+NO EXEMPLO DO PROFESSOR, ELE INSERE ESSE '___GENERATOR___' 
+
+
+dentro dO ___VALUE___ da propriedade 
+
+'[Symbol.iterator]:' DENTRO 
+
+DO MÉTODO 'next()' DENTRO 
+
+DE 'company'...
+
+
+
+------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+    [Symbol.iterator]: function* employeeGenerator() { /////////EIS O CÓDIGO EM QUESTÃO.
+
+    }
+
+
+}
+
+
+
+
+let employee = company.next();
+
+
+while(!employee.done) {
+    console.log(employee.value);
+    employee = company.next();
+}
+
+
+
+
+
+let employee = company.next();
+
+
+
+for (const employee of company) {
+    console.log(employee);  
+}
+
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+
+----> certo, esse generator ACEITA PARÂMETROS e tem um function body....
+
+
+
+MAS A ___ESTRELA____ É REALMENTE MUITO IMPORTANTE.
+
+
+
+
+---> DENTRO DESSA 'GENERATOR FUNCTION', você pode escrever sua própria lógica de loop (looping logic)....
+
+
+
+
+----> O PROFESSOR ENTÃO EXPLICA QUE PODERÍAMOS/PODEMOS PEGAR O NOSSO WHILE LOOP E COLOCAR DENTRO 
+DO NOSSO GENERATOR....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+    [Symbol.iterator]: function* employeeGenerator() {
+            let employee = company.next();
+
+
+            while(!employee.done) {
+         console.log(employee.value);
+                employee = company.next();
+                     }
+                }
+
+
+}
+
+
+
+
+
+
+
+let employee = company.next();
+
+
+
+for (const employee of company) {
+    console.log(employee);  
+}
+
+
+
+
+
+-------------------------------------
+
+
+
+AQUI, PORTANTO, O PROFESSOR ESTÁ LOOPANDO POR DENTRO DE TODOS OS 'employees' POR MEIO 
+
+DOS SEUS PRÓPRIOS MÉTODOS 'next()'.... (pq ele ainda está usando o método 'next()' )
+
+
+
+NÓS AINDA TEMOS 'NEXT()', MAS AGORA, 
+
+
+em vez de fazer O CONSOLE.LOG DE 'employee.value' EM 
+
+
+'while(!employee.done) {
+    ...
+}'
+
+,
+
+
+O que o professor vai fazer É USAR OUTRA KEYWORD 
+
+QUE É DISPONÍVEL EM JAVASCRIPT, que é a keyword 
+
+'yield'.....
+
+
+
+
+E ele vai fazer 'yield' de 'employee.value', o valor que ele ganhou mais acima.
+
+
+
+ex:
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+    [Symbol.iterator]: function* employeeGenerator() {
+            let employee = company.next();
+
+
+            while(!employee.done) {
+         yield employee.value //////EIS O CÓDIGO EM QUESTÃO.
+                employee = company.next();
+                     }
+                }
+
+
+}
+
+
+-------------------------------------------------
+
+
+
+
+
+
+
+Ok, mas o que diabos todo esse código:
+
+
+
+[Symbol.iterator]: function* employeeGenerator() {
+            let employee = company.next();
+
+
+            while(!employee.done) {
+         yield employee.value //////EIS O CÓDIGO EM QUESTÃO.
+                employee = company.next();
+                     }
+                }
+
+
+
+-----------------------------------------
+
+
+
+
+FAZ? O que esse código todo faz?
+
+
+
+---> Bem, o 
+
+
+'function*' acaba gerando UM NOVO OBJETO, esse novo objeto é ESSA FUNÇÃO...
+
+
+a função '{
+     let employee = company.next();
+
+
+            while(!employee.done) {
+         yield employee.value //////EIS O CÓDIGO EM QUESTÃO.
+                employee = company.next();
+                     }
+}
+
+
+
+-----------------------------------------
+
+
+
+ESSA FUNÇÃO, QUANDO É CHAMADA, ACABA CRIANDO UM __NOVO OBJETO___, UM 
+
+NOVO OBJETO QUE tem um método 'next()' PRÓPRIO ('a next method on/of its own')....
+
+
+(ou seja, O FATO DE QUE O PROFESSOR COLOCOU A CALL DE UM MÉTODO 'next()' dentro 
+dessa função/generator NÃO IMPORTA NEM UM POUCO; DE FATO, PODEMOS COMENTAR PARA FORA 
+ESSE CALL DE NOSSO CÓDIGO, que nada irá mudar em questão de funcionamento: )
+
+
+ex:
+
+
+
+
+
+
+
+[Symbol.iterator]: function* employeeGenerator() {
+            //let employee = company.next(); //PODE SER REMOVIDO.
+
+
+            while(!employee.done) {
+         yield employee.value 
+                employee = company.next();
+                     }
+                }
+
+
+----------------------------------------------------------
+
+
+
+
+Nós poderíamos fazer isso, remover o 'company.next()' de dentro desse objeto...
+
+
+Alternativamente, poderíamos também colocar toda essa lógica de dentro 
+do método next, ou seja, este código:
+
+'{
+ if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+}
+       '
+
+
+
+DENTRO DO GENERATOR, wrappado em um 'while loop' para ir por todos os employees...
+
+
+
+E É EXATAMENTE ISSO QUE O PROFESSOR FAZ, AQUI, para evitar confusão: 
+
+
+
+ele comenta para fora todas as linhas 
+
+de código de dentro do generator e INSERE A LÓGICA que estava dentro do 
+
+
+método 'next()'.... (mas antes de inserir essa lógica, ele precisa criar o while loop em que 
+ela será inserida...)
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+   if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+    [Symbol.iterator]: function* employeeGenerator() {
+          
+                }
+
+
+}
+
+
+
+
+-----------------------------------------------
+
+
+
+
+Ele começa a escrever o código assim:
+
+
+
+
+
+
+    [Symbol.iterator]: function* employeeGenerator() {
+          let currentEmployee = 0;
+                }
+
+
+----------------------------------------------
+
+
+
+
+Ele cria esse 'currentEmployee = 0' PARA 
+
+SETTAR O while loop... 
+
+
+
+depois disso ele cria um while loop com a keyword 'while()'...
+
+
+
+ele coloca a condição 
+
+                              <
+'enquanto currentEmployee é MENOR DO QUE 'employees.length, vamos querer
+continuar o loop'
+
+
+ex:
+
+
+
+
+
+  [Symbol.iterator]: function* employeeGenerator() {
+          let currentEmployee = 0;
+          while(currentEmployee < this.employees.length) {
+
+          }
+                }
+
+
+--------------------------------------------------
+
+
+
+
+
+DENTRO DESSE LOOP, O PROFESSOR ENTÃO FAZ 'yield' de 
+
+
+'this.employees[currentEmployee]'.... (certo, então 'yield' é tipo return? Acho que é isso...)....
+
+
+
+
+ISSO SIGNIFICA QUE AGORA 
+
+TEMOS UM LOOP QUE DEVERÁ IR POR DENTRO DE TODOS OS 'employees'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+  [Symbol.iterator]: function* employeeGenerator() {
+          let currentEmployee = 0;
+          while(currentEmployee < this.employees.length) {
+              yield this.employees[currentEmployee];
+          }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mas nós temos essa keyword especial 'yield'...
+
+
+Professor explica que a keyword 'yield' É UM POUCO PARECIDA COM RETURN...
+
+
+
+
+---> A 'Yield' BASICAMENTE RETORNA A COISA QUE VEM DEPOIS DELA... RETORNA 
+A COISA QUE VEM DEPOIS DELA COMO __UM VALUE__ (um valor), COMO UM 
+___VALUE__ dessa FUNCTION CALL (da function call de 'employeeGenerator', esse generator)...
+
+
+
+--> ENTRETANTO, 'yield' é diferente de 'return'... É DIFERENTE DE RETURN 
+PQ ELA DEVE SER USADA EM GENERATORS, DEVE SER USADA EM FUNÇÕES QUE TENHAM 
+O SÍMBOLO *...
+
+
+
+
+---> nós usamos yield PORQUE ESSA É UMA GENERATOR FUNCTION...
+
+
+
+
+
+---> o que o 'yield' faz, NA VERDADE, é __KINDOF___ PARAR A EXECUÇÃO...
+
+
+
+---> bem, diz o professor, isso não é a verdade completa: ela não pausa a execução de verdade pq 
+O QUE A GENERATOR FUNCTION FAZ, NA VERDADE, quando é executada, É CRIAR ___UM OBJETO___ ITERATOR ('create an iterator object'....)...
+
+---> isso significa que A TAREFA DESSA GENERATOR FUNCTION É __gERAR___ UM 
+'ITERATOR OBJECT' QUE TENHA O MÉTODO 'next()' em seu interior...
+
+ESSA GENERATOR FUNCTION CONSTRÓI UM DESSES OBJETOS PARA VOCÊ...
+---> ELA BASICAMENTE CONSTRÓI O QUE NÓS HAVÍAMOS CONSTRUÍDO AO LONGO DESSA LIÇÃO, AQUELA FUNÇÃO 
+REBUSCADA COM o método 'next()', MAS 'OUT OF THE BOX', AUTOMATICAMENTE, para nós....
+
+
+-----------> O QUE A KEYWORD 'YIELD' VAI FAZER É ___RETORNAR ___ O VALOR DE ___CADA UMA DAS CALLS ___ 
+AO MÉTODO 'NEXT()' NAQUELE OBJETO 'iterator' QUE FOI GERADO....
+
+
+
+
+
+
+------> ISSO ___PARECE ____ COMPLEXO, mas temos que ver o processo em ação....
+
+
+
+
+---> resumindo: a 'generator function' vai sendo executada/é executada ATÉ QUE O CÓDIGO ENCONTRA 
+
+'yield'... ASSIM QUE ELA ENCONTRA 'YIELD', ELA RETORNA O VALOR que está À direita do yield 
+E ENTÃO PAUSA BEM NO MOMENTO EM QUE VOCÊ CHAMOU 'yield'...  -----> daí, quando você 
+EXECUTA A MESMA FUNÇÃO DE NOVO, ESSA MESMA GENERATOR FUNCTION DNV, ELA NÃO VAI COMEÇAR 
+__ DO COMEÇO ___ ('it wont start from scratch again'), E SIM VAI CONTINUAR DE ONDE ELA PAROU/pausou anteriormente,
+OU SEJA ___LOGO APÓS___ a escrita de 'yield'...
+
+
+
+
+---> E PROFESSOR DIZ QUE PODE NOS MOSTRAR O FUNCIONAMENTO DO yield e da generator function....
+
+
+
+
+
+-------------------------------------------
+
+
+
+Professor comenta o 'for of loop' para fora do nosso código....
+
+
+depois disso, ele diz que não devemos usar um 'Symbol' como propriedade aqui, por enquanto...
+
+
+Ele coloca uma key genérica, nome comum, sem well-known symbol....
+
+
+a key 'getEmployee'...
+
+
+Ele também coloca um console.log de 'company.getEmployee()' 
+
+(SIM, ELE CHAMA A PROPRIEDADE 'getEmployee' COMO UMA FUNÇÃO REGULAR....)
+
+
+
+Mas ele não coloca só 'company.getEmployee();', não, ELE 
+
+FAZ A CALL DO MÉTODO 'next()' NESSA FUNÇÃO-PROPRIEDADE...
+
+
+
+
+ex (do getEmployee):
+
+
+
+
+getEmployee: function* employeeGenerator() {
+
+}
+
+
+
+
+----------------------------------------
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+     getEmployee: function* employeeGenerator() {
+                    let currentEmployee = 0;
+                    while(currentEmployee < this.employees.length) {
+                        yield this.employees[currentEmployee];
+                    }
+                }
+
+
+}
+
+
+console.log(company.getEmployee());
+console.log(company.getEmployee().next());
+console.log(company.getEmployee().next());
+console.log(company.getEmployee().next());
+console.log(company.getEmployee().next());
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+PROFESSOR DIZ QUE FEZ O CONSOLE.LOG DE 'console.log(company.getEmployee().next());'
+
+PORQUE ESSE GENERATOR/generator function de 'getEmployee' PRODUZ, NO FINAL DAS CONTAS, 
+
+UM ____ITERATOR____.... UM 'OBJETO ITERATOR'.... ---> ISSO SIGNIFICA QUE ELE PRODUZ 
+UM OBJETO COM O MÉTODO 'next()' BUILTIN em seu interior... ----> ISSO SIGNIFICA QUE 
+
+O 'RETURN VALUE' de getEmployee (dessa propriedade 
+que segura a generator function) NÃO É O QUE É RETORNADO POR 'yield' (que seria 
+'this.employees[currentEmployee]', esse valor aí), E SIM AQUILO QUE O PROFESSOR 
+MENCIONOU LOGO ACIMA, UM 'ITERATOR OBJECT', UM OBJETO COM O MÉTODO 'next' EM SEU 
+INTERIOR...
+
+
+
+É POR ISSO que ele tem que chamar o método 'next()' NO RESULT QUE CONSEGUIMOS 
+DE 'getEmployee' por meio da generator function, para conseguir um objeto COM 
+
+a propriedade 'value: Max'  e a propriedade 'done: false'...
+
+
+-----------------------------------------------
+
+
+COM ISSO, AGORA VEMOS EXATAMENTE O MESMO RESULTADO DE ANTES, DE ANTERIORMENTE QUANDO 
+NÃO ESTÁVAMOS USANDO OS GENERATORS e o 'yield'... mas agora 
+
+NÓS NÃO ESTAMOS CHAMANDO NOSSO MÉTODO 'CUSTOMIZADO' de next() que havíamos definido 
+dentro de company...
+
+(
+
+    isso significa que 
+
+    o professor poderia/pode 
+    comentar o código 
+
+
+'
+     next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    }' 
+
+
+
+
+    PARA FORA DO CÓDIGO E NÃO PERCEBER DIFERENÇA ALGUMA NO COMPORTAMENTO DA PÁGINA.
+)
+
+
+
+
+.... ISSO ACONTECE PQ A GENERATOR FUNCTION JÁ CRIA UM OBJETO DESSES __PARA NÓS__, COM O MÉTODO 'next()'....
+
+
+
+
+E NÓS PODEMOS CHAMAR ESSE MÉTODO 'NEXT()' DESSA ITERABLE FUNCTION MÚLTIPLAS VEZES, É CLARO, 
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+     getEmployee: function* employeeGenerator() {
+                    let currentEmployee = 0;
+                    while(currentEmployee < this.employees.length) {
+                        yield this.employees[currentEmployee];
+                    }
+                }
+
+
+}
+
+
+console.log(company.getEmployee());
+console.log(company.getEmployee().next());
+console.log(company.getEmployee().next());
+console.log(company.getEmployee().next());
+console.log(company.getEmployee().next());
+
+
+--------------------------------------------
+
+
+
+Isso vai executar nossa lógica...
+
+
+Entretanto, o console vai nos outputtar:
+
+
+
+{value: "Max", done: false}
+app.js:164 {value: "Max", done: false}
+app.js:165 {value: "Max", done: false}
+app.js:166 {value: "Max", done: false}
+
+
+
+(OU SEJA, SEMPRE O MESMO RESULTADO de 'next()')...
+
+
+
+
+
+ELE SEMPRE ESTÁ ME RENDENDO/RETORNANDO/'yielding'  O VALOR DE 'max', portanto...
+
+
+
+
+
+A RAZÃO PARA ISSO É QUE ___TODA VEZ ___ QUE EU CHAMO 'company.getEmployee()', EU ACABO 
+CRIANDO UM __NOVO ITERATOR__ (um novo objeto 'iterator')...
+
+
+
+E cada vez que chamamos '.next' nessa call desse 'company.getEmployee()', nós acabamos executando 
+
+'next()' EM CADA UM DESSES NOVOS ITERATORS....
+
+
+
+
+
+----> professor explica que, para consertar isso, devemos CRIAR UMA NOVA CONSTANTE NO NOSSO CÓDIGO, 
+
+
+uma constante de qualquer nome que você quiser.... professor usa 'it'...
+
+
+
+Essa constante deverá ter o call de company.getEmployee() UMA ÚNICA VEZ...
+
+
+
+
+ex:
+
+
+
+const it = company.getEmployee();
+
+
+------------------------------------------------
+
+
+
+ISSO FEITO, VOCÊ ENTÃO FAZ A CALL de 'next()' SEMPRE SOBRE ESSA MESMA 
+CONSTANTE, nos console.log( OU EM QUALQUER OUTRA PARTE DO CÓDIGO, DEPENDENDO 
+DA SUA INTENÇÃO)...
+
+
+
+ex:
+
+
+
+
+
+const it = company.getEmployee();
+
+
+
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+
+
+---------------------------------------
+
+
+
+Além de fazer isso, nós também temos que nos assegurar que, dentro de nossa LÓGICA DO GENERATOR (o código de 'function* employeeGenerator() {}'),
+NÓS TAMBÉM ESTIPULEMOS 
+
+QUE O 'currentEmployee' DEVE SER INCREMENTADO EM 1 PARA CADA EXECUÇÃO.....
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const company = {
+    curEmployee: 0,
+    employees: ['Max', 'Manuel', 'Anna'],
+    next() {
+        if (this.curEmployee >= this.employees.length) {
+            return { value: this.curEmployee, done: true }
+        }
+
+       const returnValue = { 
+           value: this.employees[this.curEmployee],
+            done: false 
+            };
+       this.curEmployee++;
+       return returnValue;
+    },
+     getEmployee: function* employeeGenerator() {
+                    let currentEmployee = 0;
+                    while(currentEmployee < this.employees.length) {
+                        yield this.employees[currentEmployee];
+                        currentEmployee++;
+                    }
+                }
+
+
+}
+
+
+
+
+const it = company.getEmployee();
+
+
+
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+
+
+
+
+------------------------------------
+
+
+
+COM ESSAS MUDANÇAS NO NOSSO CÓDIGO, NÓS ACABAMOS ALTERANDO AS COISAS PARA QUE 
+
+SEMPRE QUE __"YIELDAMOS""___ UM NOVO VALOR, nós acabamos INCREMENTANDO ESSE VALOR POR 1 ('currentEmployee++')...
+
+
+
+-------------------------------
+
+
+
+DE FATO, ISSO FAZ O CÓDIGO FUNCIONAR...
+
+(printamos max, manu e anna.. com a propriedade de 'done: false'... depois essa propriedade vira 'true', sinalizando que o loop ACABOU.)
+
+
+
+Só há uma dúvida... na verdade, não há mais...
+
+
+Acho que entendi.
+
+
+
+
+O 'yield' faz com que ESSA EXECUÇÃO/EXECUÇÕES DA GENERATOR FUNCTION SEMPRE RECOMEÇEM 
+BEM DO LADO DE SUA ESCRITA... (por exemplo, na execução nº2 de 
+'it.next()', A EXECUÇÃO COMEÇARÁ A PARTIR DE 'yield this.employees[currentEmployee]', aí vai EXECUTAR O 
+'currentEmployee++' E ENTÃO VAI PARAR... E isso vai acontecer todas as vezes em que chamamos o console.log,
+ e é por isso que essa sintaxe funciona.)
+
+
+
+
+
+
+ OU SEJA, AQUI ESTÁ FUNCIONANDO NOSSA PRÓPRIA 'GENERATOR LOGIC'.....
+
+
+
+
+
+ MAS PQ DIABOS ISSO SERIA ÚTIL?
+
+
+
+
+ ---> 1o de tudo: ESSA É UMA FORMA ___MUITO, MUITO___ SIMPLES DE CRIAR UM 'ITERATOR'... -->
+ isso significa que nós NÃO PRECISAMOS CONSTRUIR/ESCREVER NOSSO PRÓPRIO MÉTODO 'NEXT()' como havíamos 
+ feito antes...
+
+
+Em vez de ter que criar aquele código chato de 'next()':
+
+
+que era:
+
+
+
+'next() {
+    if (this.curEmployee >= this.employees.length) {
+        return { value: this.curEmployee, done: true };
+    }
+    const returnValue = {
+        value: this.employees[this.curEmployee],
+        done: false
+    };
+    this.curEmployee++;
+    return returnValue
+}',
+
+
+
+NÓS PODEMOS SIMPLESMENTE USAR 
+
+
+A VERSÃO DO GENERATOR, A VERSÃO MAIS CURTA DESSA LÓGICA, que é 
+
+
+'getEmployee: function* employeeGenerator() {
+    let currentEmployee = 0;
+    while(currentEmployee < this.employees.length) {
+        yield this.employees[currentEmployee];
+        currentEmployee++
+    }
+}'
+
+
+ ----------------------------------
+
+
+
+
+
+E '''YIELD''' ----> É A COISA ESPECIAL AQUI, JUNTO DA 'estrela' (*)...
+
+
+
+ISSO DEIXA O JAVASCRIPT ___CONSTRUIR___ UM ITERATOR DESSE TIPO  __POR TRÁS DAS CENAS____....
+
+
+
+E sempre que um 'yield' É ENCONTRADO, ESSE É BASICAMENTE O LUGAR/O PONTO EM QUE O JAVASCRIPT BASICAMENTE 
+
+__SALVA___ o 'current state of execution'... ---> A PRÓXIMA VEZ QUE VOCÊ CHAMAR O MÉTODO 
+'next()' NO ITERATOR QUE FOI CRIADO, ELE VAI SEMPRE CONTINUAR DAQUELE PONTO EM QUE VOCÊ 
+ESCREVEU O 'yield'...  (isso significa que ele vai sempre te dar o próximo valor, e aí o próximo, próximo e o próximo até o final do loop...)
+
+
+nesses iterators, o valor que vocÊ quer de verdade, o 'value', que está wrappado por esse objeto 
+iterator, 
+
+pode ser encontrado na key 'value'...
+
+NÓS TAMBÉM CONSEGUIMOS/ESCREVEMOS ESSA PROPRIEDADE EXTRA de 'done', que 
+
+NOS DIZ SE HÁ MAIS VALORES SOBRANDO NESSE LOOP DOS ITERATORS OU NÃO....
+
+
+
+
+Agora, se nós COMBINARMOS ESSE LOOP COM O NOSSO 'Symbol.iterator', SE NÓS COLOCARMOS 
+
+O 'Symbol.iterator' NO LUGAR DA NOSSA KEY QUE SEGURA O GENERATOR (ou seja, no lugar de 'getEmployee'),
+
+
+NÓS PODEMOS VER ALGUNS EFEITOS DIFERENTES...
+
+
+
+
+ex:
+
+
+ISSO
+
+
+getEmployee: function* employeeGenerator() {
+
+
+    let currentEmployee = 0;
+    while(currentEmployee < this.employees.length) {
+        yield this.employees[currentEmployee];
+        currentEmployee++
+    }
+}
+
+
+
+VIRA ISSO:
+
+
+
+
+[Symbol.iterator]: function* employeeGenerator() {
+
+
+    let currentEmployee = 0;
+    while(currentEmployee < this.employees.length) {
+        yield this.employees[currentEmployee];
+        currentEmployee++
+    }
+}
+
+
+
+
+------------------------------
+
+
+
+SE FIZERMOS ESSA TROCA, PODEREMOS 'TAP INTO' algumas features NATIVAS 
+DO JAVASCRIPT PARA ___LOOPAR____ POR DENTRO DO NOSSO OBJETO....
+
+
+Professor explica que podemos COMENTAR PARA FORA DO CÓDIGO AS LINHAS 
+
+
+'const it = company.getEmployee();
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());'
+
+
+-------------------------------------
+
+
+Podemos comentar esse negócio para fora 
+
+
+E ENTÃO PODEMOS UTILIZAR AQUELE 'FOR OF LOOP' QUE HAVÍAMOS ANTERIORMENTE...
+
+(aquele for of loop de 
+
+'for(const employee of company) {
+    console.log(employee);
+}'
+)
+
+
+
+
+
+
+
+SE DEIXARMOS O CÓDIGO ASSIM:
+
+
+
+
+
+
+
+
+const company = {
+    
+    employees: ['Max', 'Manuel', 'Anna'],
+
+     [Symbol.iterator]: function* employeeGenerator() {
+                    let currentEmployee = 0;
+                    while(currentEmployee < this.employees.length) {
+                        yield this.employees[currentEmployee];
+                        currentEmployee++;
+                    }
+                }
+
+
+}
+
+
+
+for(const employee of company) {
+    console.log(employee);
+}
+
+
+
+---------------------------
+
+
+
+SE DEIXARMOS ELE ASSIM, ELE VAI FUNCIONAR...
+
+
+Esse código vai funcionar POR CAUSA DO FOR OF LOOP...
+
+
+
+
+
+----> MAX, MANU E ANNA estão sendo printados aqui... mas pq?
+
+
+
+--> PQ O QUE UM 'FOR OF LOOP' FAZ, SEMPRE (na verdade, nesse exemplo aqui, mas ele sempre repete esses passos), É:
+
+
+1) IR POR DENTRO DESSE OBJETO PELO QUAL VOCÊ ESTÁ FAZENDO LOOP (nesse caso, 'company')...
+
+
+
+2) Dentro desse objeto, ele vai procurar pela coisa '[Symbol.iterator]'
+
+
+
+3) Depois disso, ELE EXECUTA A FUNÇÃO QUE ELE ENCONTRA ASSIGNADA A ESSE 'Symbol.iterator'... (essa função DEVERÁ SER/GERALMENTE É UMA GENERATOR FUNCTION...)...
+        DEVE SER UMA GENERATOR FUNCTION pq, no final das contas, essa função deverá retornar um ITERATOR (uma função com método 'next()' em seu interior...)
+
+
+
+4) feito isso, o javascript vai EXECUTAR O MÉTODO 'NEXT()' DENTRO DESSE ITERATOR que ele recebeu...
+ELe vai executar esse método PARA NÓS...... ELE VAI CONTINUAR EXECUTANDO ESSE MÉTODO ___DESDE___ QUE ___ 
+a propriedade 'done' ESTIVER COMO 'false'... (não estiver 'true'...)
+
+
+
+-----------------------------------------------------------------------------
+MDN:
+
+The next() method returns an object with two properties done and value. 
+You can also provide a parameter to the next method to send a value to the generator.
+
+-------------------------------------------------------------------------
+
+
+
+5)SE DONE ESTIVER COMO 'FALSE', o for of loop vai EXTRAIR A COISA/VALOR na propriedade 
+'value' DENTRO DO MÉTODO 'next()' E COLOCAR O RESULTADO EXTRAÍDO DENTRO DESSA CONSTANTE 
+DE nome 'employee' (por causa do código 'for (const employee of company)')
+
+
+
+6) assim que essa coisa/valor da propriedade value foi extraída, vocÊ pode então CONSUMIR 
+E USAR ESSE VALOR EXTRAÍDO NORMALMENTE...
+O professor usa esse valor para fazer um console.log de 'employee' ('console.log(employee)'), 
+
+mas qualquer coisa que você quiser é possível, você pode fazre o que quiser dentro do seu 
+for of loop body...
+
+
+
+-------------------------------------
+
+
+
+
+E É ASSIM QUE VOCÊ PODE ESCREVER SEUS PRÓPRIOS 'FOR OF LOOPABLE OBJECTS' COM A AJUDA 
+
+DESSe 'WELL-KNOWN' Symbol especial de 'Symbol.iterator' E COM A AJUDA 
+DESSA GENERATOR FUNCTION CRIADA com '*'....
+
+
+É EVIDENTE QUE GENERATORS E ITERATORS SÃO FEATURES BEM AVANÇADAS...
+
+
+------> mas isso pode ser útil se você quer criar sua própria lógica de loop...
+
+
+
+
+---> é evidente que você pode fazer seu próprio loop de forma MANUAL, assegurando-se que 
+as calls são feitas corretamente 
+
+
+(OU VOCê PODE USAR ESSAS GENERATOR FUNCTIONS, QUE, JUNTO DA KEYWORD 'yield', TE PERMITEM
+DEFINIR __QUANDO A FUNÇÃO DEVE PAUSAR ___ ou DEFINIR ___QUANDO UM VALOR DEVERÁ SER __ OMITIDO ___ na próxima 
+vez em que a função/essa função iterator for chamada..., de novo e de novo, até que nenhum outro 
+valor tenha sobrado... (ou seja, até que não existam mais 'yield calls' dentro da função a ser executada...))
+
+
+
+
+
+
+
+
+----> PROFESSOR EXPLICA QUE TAMBÉM PODEMOS USAR O SPREAD OPERATOR NESSE OBJETO...
+
+
+
+ex:
+
+
+
+for (const employee of company) {
+    console.log(employee)
+}
+
+
+console.log([...company]);
+
+
+
+-------------------------------------------
+
+
+
+PROFESSOR APONTA QUE ESSE CÓDIGO 
+
+'console.log([...company]);' 
+
+
+NÃO DEVERIA FUNCIONAR, MAS QUE AQUI FUNCIONA...
+
+
+Funciona e ele nos dá os 3 employees, max, manu e anna...
+
+
+Isso acontece pq, POR TRÁS DAS CENAS, 
+
+O 'spread operator' TAMBÉM __PROCURA__ PELO 'Symbol.iterator'...
+
+
+
+
+---> o spread operator procura pelo Symbol.iterator, vai por dentro de todos os valores que temos 
+dentro da generator function E ENTÃO OS ADICIONA COMO ELEMENTOS DENTRO DESSE NOVO ARRAy que ele cria...
+
+
+
+
+--> ESSES FORAM OS 'SYMBOLS', ITERATORS E GENERATORS....
+
+SÃO FEATURES AVANÇADAS QUE __oCASIONALMENTE___ podem ser úteis...

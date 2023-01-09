@@ -1,0 +1,818 @@
+Vamos criar a funcionalidade do log.
+
+
+
+
+Quero logar cada round que aconteceu no jogo.
+
+
+
+Cada evento que aconteceu no jogo.
+
+
+logar quando ataco, quando ataco forte, quando me curo, quando o monstro nos bate, e quando o jogo acaba.
+
+
+Para isso, adiciono uma nova função lá em cima, chamada writeToLog() {}; , porque é isso que vai acontecer dentro dele.
+
+
+
+Nessa função, a ideia é que nós escrevemos os diferentes eventos no log, e, para isso, nós precisamos de uma variável
+ que segurará nosso log.
+
+ex:
+
+
+
+
+ function writeToLog() {
+
+ }
+
+
+ No início do nosso arquivo adicionamos uma nova variável, battleLog.
+
+
+
+ ex:
+
+
+ battleLog = [];
+
+------------------------------------------
+
+ inicialmente, defino-a como um EMPTY ARRAY ([...]).
+
+
+
+ Agora, quero inserir entradas a esse ARRAY na FUNÇÃO WRITETOLOG, para isso, faria sentido esperar alguns tipos de
+ "event parameter", event identifiers que descrevem os eventos que aconteceram, e aí ter múltiplos if e else blocks para checar por diferentes 
+ eventos que queremos supportar.
+
+
+
+
+
+
+ex:
+
+
+
+
+function writeToLog(event) {
+    if()
+}
+
+
+
+
+Assim como na última lição, com os attack modes que eu defini como global identifiers (const MODE_ATTACK = 'ATTACK';), 
+eu quero fazer o mesmo com meus log events.
+
+
+Por isso defino constantes globais relativas aos log events.
+
+ex:
+
+
+const LOG_EVENT_PLAYER_ATTACK = 'PLAYER_ATTACK';
+const LOG_EVENT_PLAYER_STRONG_ATTACK = 'PLAYER_STRONG_ATTACK';
+const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
+const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
+const LOG_EVENT_GAME_OVER = 'GAME_OVER';
+
+
+
+
+o professor usa essas letras maiúsculas/capitais para ressaltar que esses são valores estáticos definidos por ele, são hardcoded por ele.
+
+
+
+agora definimos os if statements com a ajuda das constantes identifiers globais.
+
+"caso event(o parâmetro) for igual a LOG_EVENT_PLAYER_ATTACK, quero adicionar uma NOVA ENTRADA, UM NOVO OBJETO A MEU 
+BATTLELOG, QUE CONTÉM INFORMAÇÃO SOBRE AQUELE EVENTO."
+Para isso, o professor criará uma nova variável dentro da função writeToLog (apenas disponível dentro dessa função, portanto), a variável denominada 
+ logEntry. Definimos logEntry como igual a um NOVO OBJETO. Dentro desse objeto, o professor vai querer o nosso 
+ event identifier, que é uma string possível de ser lida por humanos, e por isso aqui o professor prefere ter um string identifier sobre um número, porque mais tarde, 
+quando imprimirmos esse log no console, para nós humanos é mais fácil de ver quais eventos foram SE TEMOS UMA STRING QUE DESCREVE O EVENTO, muito mais do que um número, o qual teríamos que traduzir 
+com a ajuda do nosso código para descobrir qual mensagem aquele numeral seria.
+
+
+ logEntry = { 
+
+ };
+
+
+
+
+ 
+function writeToLog(event) {
+    if(event === LOG_EVENT_PLAYER_ATTACK) {
+
+    }
+}
+
+
+caso event seja LOG_EVENT_PLAYER_ATTACK, aquela constante global que definimos lááá em cima, vamos querer adicionar um novo objeto ao battleLog que segurará alguma informação relativa a esse evento.
+O professor também cria uma nova VARIÁVEL DENTRO DA FUNÇÃO WRITETOLOG, que será usada somente no seu interior. O nome da variável será logEntry, e assignaremos
+um novo objeto à ela; nesse objeto, vou querer um event identifier, que é uma STRING CAPAZ DE SER LIDA POR UM SER HUMANO. Quando printamos isso mais tarde no log, é mais fácil de ler o que isso significa.
+
+
+
+function writeToLog(event) {
+    let logEntry;
+    if(event === LOG_EVENT_PLAYER_ATTACK) {
+
+    }
+}
+
+
+
+
+ex com o objeto adicionado=
+
+(objeto com data pairs "event:event" e "value:value" em seu interior, armazenados. Ele armazena os dois, no caso.)
+
+
+function writeToLog(event) {
+    let logEntry;
+    if(event === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: event,
+            value: value
+        }
+
+    }
+}
+
+
+event -----> será o tipo de ataque/movimento
+
+
+
+value -----> valor do ataque, movimento.
+
+
+Porém, o parâmetro da função writeToLog não está configurado adequadamente, temos que passar também "value" no seu segundo slot.
+
+
+
+
+function writeToLog(event, value) {
+    let logEntry;
+    if(event === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: event,
+            value: value
+        }
+
+    }
+}
+---------------------------------------------------
+
+No caso de tudo isso parecer estranho para você, de termos o mesmo nome para as keys e os valores armazenados, o professor diz que é claro 
+que você poderia colocar outro nome para as keys aqui, como "ev" e "val" e então referenciá-las nos parâmetros,
+
+ex:
+
+    function writeToLog(ev, val) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,      (event e ev, o keyname e o nome do valor da variável, são totalmente desconexos/desconectados.)
+            value: val
+        }
+
+    }
+}
+
+
+
+Faríamos isso para deixar mais claro que os key names(event e value) são totalmente separados dos nomes dos valores das variáveis que aqui estão (ev e val)
+
+
+
+
+
+
+
+
+ mas isso NÃO É NECESSÁRIO, COMO MENCIONADO ANTERIORMENTE NO CURSO, VOCÊ ABSOLUTAMENTE PODE TER OS KEYNAMES E DATA VALUES COM O MESMO NOME, O JAVASCRIPT NÃO SE IMPORTA.
+
+
+
+ Então agora estou armazenando o event, que é algo como player attack;
+ o value para esse evento, que, para o player attack, seria o dano dado, para player heal seria o dano curado, etc;
+ para game over, poderia ser o nome do vencedor ("Player" ou "monster").
+
+ Também quero outputtar o valor final da vida do monstro, então adiciono o keyname
+ "finalMonsterHealth" logo depois de value.
+
+
+
+ function writeToLog(ev, val) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: currentMonsterHealth
+        }
+
+    }
+}
+
+
+Para esse fim do finalMonsterHealth, posso acessar currentMonsterHealth, já outrora definido no código, que verei o quanto de 
+vida o bicho ficou.
+
+
+
+Alternativamente, o professor diz, podemos esperar isso como um parâmetro/argumento em writeToLog,
+o que pode ser mais limpo. Ele diz que poderíamos usar a variável global, mas é melhor não, porque quando usamos nosso parâmetro interno fazemos 
+essa função uma função mais pura, uma função que só funciona com os dados providenciados à ela, em vez de 
+tomar alguns valores globais, o que é sempre algo meio sujo de se fazer e mais difícil de entender se vocÊ está lendo o código por fora.
+Talvez seja inesperado para você que uma função também puxe para dentro alguma informação de fora, especialmente se é uma função que também 
+recebe parâmetros. 
+
+
+O professor também quer ver a vida final do jogador no log, portanto para isso ele adiciona o data pair
+"finalPlayerhealth: playerHealth". Ele adiciona esse parâmetro também na função writeToLog.
+
+
+
+function writeToLog(ev, val, monsterHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: currentMonsterHealth,
+            finalPlayerHealth: playerHealth
+        }
+
+    }
+}
+
+
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    }
+}
+
+
+
+Continuando, essa é uma logEntry que podemos querer criar, e então nós podemos 
+nos estender até o battleLog e EMPURRAR (push();) essa logEntry para dentro do battleLog.
+Fazemos isso por meio do comando 
+battleLog.push(logEntry);
+
+
+(elemento/objeto ao qual queremos empurrar as coisas).push(elemento que queremos inserir dentro do array/objeto);
+battleLog.push(logEntry);
+
+
+É CLARO QUE NÃO TEMOS APENAS AQUELE CASO ALI, DO LOG_EVENT_PLAYER_ATTACK, NÓS TEMOS TODOS OS OUTROS CASOS, 
+STRONGATTACK E HEAL. Para esses outros eventos que podem acontecer, 
+definimos identifiers. 
+
+
+
+Então, para isso, podemos adicionar um novo "else if" statement aqui nessa função, que checará se ev === LOG_EVENT_PLAYER_STRONG_ATTACK.
+
+
+
+
+
+else if(ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+
+
+Entretanto, se esse for o caso, vou querer criar meu logEntry da mesma forma que criei em PLAYER_ATTACK.
+
+
+
+ficaria assim:
+
+
+
+
+
+
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    }
+}
+
+
+
+
+--------------------------------
+
+
+Na verdade, se analisarmos direito, veremos que não precisamos de um bloco 
+"else if" aqui, porque nós apenas populamos o logEntry aqui com os dados que
+conseguimos já na primeira definição de objeto (os 2 logEntries são iguais, mostram as mesmas informações.) 
+
+
+O professor diz que isso é verdade, que você poderia criar essa função integralmente sem nenhum 
+if check; se logEntry é criado sempre da mesma forma, com dados dinâmicos que mudam quando você chama a função (ev, val, monsterHealth, playerHealth),
+mas que NÃO MUDAM DENTRO DA FUNÇÃO, mas que para praticar IF STATEMENTS, ele vai adicionar 
+umas informações extras aqui que dependem do evento que ocorreu. Para isso ele cria a informação "target:", 
+que pode ser tanto o monstro (Ataques), como o jogador (heals).
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER',
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+        battleLog.push(logEntry);
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    }
+}
+
+
+Essas são informações as quais não estamos recebendo de fora, são hardcodadas dentro da função.
+Depois disso, o professor quer adicionar OUTRO ELSE IF, para os casos em que o MONSTRO ataca.
+Nesse caso, o professor também copia o código dos logEntries antigos.
+
+
+
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER',
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+        battleLog.push(logEntry);
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    }
+}
+
+
+
+
+O professor, então, adiciona um outro caso, que é o dos heals do jogador.
+
+
+
+
+
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER',
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+     battleLog.push(logEntry);
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+        } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    }
+ }
+
+
+Por fim, o professor adiciona um último caso, que é o do GAMEOVER. De quando o jogo acaba.
+Esse evento não tem target, porque ele acaba com o jogo, simplesmente.
+
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER',
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    battleLog.push(logEntry);
+    } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    batteLog.push(logEntry);
+        } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+            };
+            batteLog.push(logEntry);
+        } 
+        } else if (ev === LOG_EVENT_GAME_OVER) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+    batteLog.push(logEntry);
+    }
+
+
+Value, no caso do LOG_EVENT_GAME_OVER, pode ser o NOME DO VENCEDOR, ou algo assim.
+Player, monster ou draw. Como temos "battleLog.push(logEntry) como um PONTO COMUM ENTRE TODAS AS HIPÓTESES, PODEMOS 
+SUPRIMÍ-LO DE TODOS ELES, E ADICIONÁ-LO SOMENTE AO FINAL, PORQUE NÃO IMPORTA QUAL HIPÓTESE FOR ESCOLHIDA, ELA SEMPRE SERÁ EMPURRADA NO FINAL AO BATTLELOG, 
+SE COLOCARMOS ESSA EXPRESSÃO FORA DOS CURLY BRACES.
+
+
+resultado:
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry;
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER',
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'MONSTER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+
+    } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+ 
+        } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+        logEntry = {
+            event: ev,
+            value: val,
+            target: 'PLAYER'
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+         
+        } else if (ev === LOG_EVENT_GAME_OVER) {
+        logEntry = {
+            event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+        };
+        }
+        battleLog.push(logEntry);
+    }
+
+
+Então, o empurrão do logEntry para dentro do battleLog só é aplicado APÓS escolhida a hipótese (os ifs e else ifs.)
+
+
+Isso é porque sabemos que temos uma variável logEntry, e sabemos que ela irá segurar algum valor após todos esses if e else if checks, 
+ELA SÓ NÃO IRIA SEGURAR ALGUM VALOR SE O USUÁRIO PASSASSE ALGUM ev identifier que não estivesse coberto pelas hipóteses, o que é impossível 
+no nosso exemplo atual. Isso é porque nós, os desenvolvedores, é que iremos chamar essa função, e nós como desenvolvedores vamos nos 
+assegurar de não chamar essa função com um valor inválido.
+
+Alternativamente, você poderia adicionar mais um if check para checar se o ev NÃO trata-se de ATTACK, STRONG_ATTACK, MONSTER_ATTACK, HEAL e gameover, caso 
+esse fosse o caso, você poderia estabelecer uma função de retorno, para basicamente não rodar nada. VocÊ faria algo similar ao que fizemos com a calculadora---.
+
+
+ex:
+
+
+if(
+    calculationType !== 'ADD' &&
+    calculationType !== 'ADD' &&
+    calculationType !== 'ADD' &&
+    calculationType !== 'DIVIDE'
+) {
+    return;
+}
+
+
+
+
+
+
+ex:
+
+
+
+if(ev !== LOG_EVENT_PLAYER_ATTACK &&
+   ev === LOG_EVENT_PLAYER_STRONG_ATTACK &&
+   ev === LOG_EVENT_MONSTER_ATTACK &&
+   ev === LOG_EVENT_PLAYER_HEAL &&
+   ev === LOG_EVENT_GAME_OVER
+   ) {
+       return;
+   }
+
+
+
+
+
+   (vocÊ colocaria essa função bem no início.)
+
+
+
+
+Com isso, criamos esses diferentes logEntries aqui, 
+e vocÊ poderia refinar o código do logEntry um pouco mais; você poderia definir 
+logEntry para um objeto, lá no início da função logEntry, já que você tem todos esses campos que são iguais,
+event,value, finalmonsterhealth, finalPlayerHealth, tudo igual. Você poderia colocar isso no código verdadeiro, mas 
+é melhor colocar aqui só para testar como fica. Se vocÊ fizer desse jeito aí, o que vocÊ precisa fazer é apenas definir o objeto/
+assignar o objeto à variável logEntry lá no início, e então chamá-lo ao longo dos if/else-if checks distribuídos pela função.
+Para adicionar eventuais "targets" nas hipóteses do objeto/objetos, vocÊ simplesmente usa o comando/função
+logEntry.target = 'MONSTER';, por exemplo.
+
+(aqui, você chama o objeto só com a menção da variável, e aí você pode empurrar data types para dentro
+do objeto com o formato .xxxx)
+
+logEntry.xxxx
+         (no caso, target).
+
+
+
+
+
+
+
+function writeToLog(ev, val, monsterHealth, playerHealth) {
+    let logEntry = {
+        event: ev,
+            value: val,
+            finalMonsterHealth: monsterHealth,
+            finalPlayerHealth: playerHealth
+    };
+    if(ev === LOG_EVENT_PLAYER_ATTACK) {
+        logEntry.target = 'MONSTER';           ---------> isso economiza um grande bocado de código, como você pode perceber.
+    }
+
+        } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+        logEntry.target = 'MONSTER';
+
+    } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+       logEntry.target = 'PLAYER';
+ 
+        } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+        logEntry.target = 'PLAYER';
+         
+        } else if (ev === LOG_EVENT_GAME_OVER) {
+        logEntry;               --------> aqui não temos nada para o target, por isso só chamamos logEntry normalmente.
+        }
+        battleLog.push(logEntry);
+    }
+
+
+Esse approach, o approach em que vocÊ apenas muda o alvo, é o approach melhor 
+e mais dinâmico. É o approach que vocÊ vai querer usar em apps maiores.
+
+SIDENOTE= se você realmente seguir esse aproach, em que você define um objeto lá em cima e depois você só muda o target, 
+você não precisará definir .target no último negócio, do game_over, porque não há nenhum target em game over. Por isso chamamos logEntry e seu objeto por meio da forma comum.
+
+
+Professor diz que criar todos esses objetos extras é um pouco redundante, mas ele deixa assim 
+para que fique mais fácil de ler para nós.
+
+
+
+AGORA, TEMOS UM LOG.
+
+
+O PRÓXIMO PASSO É ASSEGURAR QUE ELE SEJA OUTPUTTADO.
+
+Para isso, no vendor.js temos um logBtn, nele podemos adicionar um eventListener.
+
+
+
+
+
+//função utilizada para loggar os valores de cada movimento do jogo. Porém, não basta apenas uma função que logge essas coisas, precisamos de uma função que faça o OUTPUT DO LOG, TAMBÉM. Por isso que devemos adicionar um eventListener ao botão do log e outra função para printar esses comandos.
+
+
+
+Para que printemos o log, precisamos criar uma função nova, que denominamos de 
+"printLogHandler".
+
+
+
+Dentro dessa função, eu vou querer OUTPUTTAR o log, por isso por enquanto eu vou apenas 
+colocar a função "console.log(battleLog);"
+                    (no parâmetro coloco aquela variável, battleLog, que deve ter como valor aquele array de informações.)
+
+
+
+
+
+
+
+
+
+OBS/ MUITO IMPORTANTE!!!!!! --------> É CLARO QUE ESSE LOG É APENAS VISÍVEL NOS DEV TOOLS, E NÃO NA PÁGINA EM SI. PARA FINS DE DEMONSTRAÇÃO, NESSE MÓDULO, 
+ISSO É SUFICIENTE, BASTA.
+
+
+
+
+Agora apenas precisamos nos assegurar de que nós realmente chamamos writeToLog para cada evento que queremos
+log/registrar, porque isso é algo que nós ainda não estamos fazendo.
+
+Para fazer isso, colocamos o chamado dessa função em endRound.
+
+
+colocamos lá, logo depois de "currentplayerHealth -= playerDamage":
+
+
+
+"                                                                                               "
+writeToLog(LOG_EVENT_MONSTER_ATTACK, playerDamage, currentMonsterHealth, currentPlayerHealth);
+
+
+ //o que essa função faz é registrar em um log esses valores aí, do tipo de ataque que foi (ataque do monstro), o valor do dano ao player (playerDamage), a vida atual do monstro (currentMonsterHealth) e a vida atual do jogador (currentPlayerHealth).
+
+
+ Porém, eu também quero Logar o momento em que o jogo acaba, portanto eu devo 
+ chamar essa função também sempre quando eu queira chamar a função reset (que é quando o jogo acaba), 
+ mas eu também quero saber se nós ganhamos, perdemos ou empatamos... por isso, eu vou na verdade adicionar o 
+ writeToLog dentro de cada um dos checks, para que o código nos diga quando ganhamos, perdemos ou empatamos.
+
+
+
+
+ex:
+
+ if(currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
+     alert('You won!');
+    writeToLog(
+    LOG_EVENT_GAME_OVER,      //alteramos aqui "LOG_EVENT_MONSTER_ATTACK" para "LOG_EVENT_GAME_OVER".
+    'PLAYER WON!',  //alteramos aqui a mostrada/valor dinâmico de playerDamage, colocamos um valor hardcoded, a string hardcoded 'PLAYER WON!'.
+    currentMonsterHealth, 
+    currentPlayerHealth);
+ } else if (currentPlayerHealth <= 0 && currentMonsterHealth > 0) {
+     alert('You lost!');
+    writeToLog(
+    LOG_EVENT_GAME_OVER,      //alteramos aqui "LOG_EVENT_MONSTER_ATTACK" para "LOG_EVENT_GAME_OVER".
+    'PLAYER LOST!',  //alteramos aqui a mostrada/valor dinâmico de playerDamage, colocamos um valor hardcoded, a string hardcoded 'PLAYER LOST!'.
+    currentMonsterHealth, 
+    currentPlayerHealth);
+ } else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0) {
+     alert("It's a draw!");
+    writeToLog(
+    LOG_EVENT_GAME_OVER,      //alteramos aqui "LOG_EVENT_MONSTER_ATTACK" para "LOG_EVENT_GAME_OVER".
+    'DRAW!',  //alteramos aqui a mostrada/valor dinâmico de playerDamage, colocamos um valor hardcoded, a string hardcoded 'PLAYER WON!'.
+    currentMonsterHealth, 
+    currentPlayerHealth);
+ }
+
+
+
+
+
+Além desse evento game over, tenho 3 outros eventos que vou querer loggar.
+
+
+O evento de nós atacarmos o monstro, o strong attack e o heal.
+
+
+
+
+Adicionado também o heal, agora finalmente o botão log funciona, ele nos mostra o array de valores nos dev tools quando o pressionamos.
+
+
+
+Mais tarde, aprenderemos sobre LOOPS, e sobre como podemos fazer o output desse log 
+por meio de uma maneira mais simples e fácil, em vez de jogar o array inteiro 
+ali como fazemos aqui.
+
+Usamos um monte de if statements.
+
+
+Agora veremos features específicas dos if statements antes de ver como funcionam os LOOPS.
+
+
+

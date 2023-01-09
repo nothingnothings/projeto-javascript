@@ -1,0 +1,791 @@
+
+
+
+
+
+
+ESSA É A SINTAXE DE IMPORT/EXPORT (ou MÓDULOS) DO JAVASCRIPT....
+
+
+
+
+
+
+
+
+
+
+
+SE NÓS DERMOS UMA OLHADA EM NOSSO PROJETO, na aba 'network', VEREMOS ALGO INTERESSANTE.
+
+
+
+
+
+
+Professor dá uma olhada nos http requests...
+
+
+
+
+SE ELE RECARREGAR A PÁGINA, VEREMOS QUE NÓS PEGAMOS UM MONTE DE REQUESTS AQUI... (pq estamos usando UM MONTE DE ARQUIVOS .JS)...
+
+
+
+
+ESSES ARQUIVOS ESTÃO SENDO IMPORTADOS QUANDO O NOSSO APLICATIVO INICIA...
+
+
+
+
+------------------------------------------------------
+
+
+
+
+O que acontece aqui é QUE O ARQUIVO HTML 
+
+é carregado....
+
+
+AÍ 
+
+NÓS REQUISITAMOS o app.css 
+
+e o app.js....
+
+
+
+
+
+NO ARQUIVO 
+
+
+'app.js',
+
+
+NÓS NOS REFERIMOS, ENTÃO, 
+
+
+AO ARQUIVO 'PROJECTLIST'...
+
+
+
+É POR ISSO QUE FAZ SENTIDO QUE TENHAMOS 
+
+
+'PROJECTLIST' COMO SEGUNDO ITEM DA LISTA DE COISAS A SEREM CARREGADAS NESSA PÁGINA.../importadas.
+
+
+
+E ASSIM POR DIANTE, POIS AÍ O 
+
+PROJECTITEM É REFERENCIADO, DEPOIS O DOMHelper, TOOLTIP E, POR FIM, component.js.
+
+
+
+
+
+
+É DESSA FORMA QUE TODAS ESSAS COISAS ACABAM IMPORTADAS NO NOSSO CÓDIGO...
+
+
+
+
+É CLARO QUE NÓS 
+
+
+ESTAMOS MANDANDO 
+
+
+
+_______UM MONTE_____ de http requests, aqui....
+
+
+
+
+ 
+ PARA UM PROJETO __MENOR__, NÃO HÁ PROBLEMA NISSO.
+
+
+
+ POdemos enviar vários http requests em projetinhos...
+
+
+
+
+
+MAS TER MUITOS HTTP REQUESTS EM 
+
+PROEJTOS MAIORES 
+
+
+É UMA __PÉSSIMA IDEIA___, 
+
+
+porque ainda que todos os arquivos IMPORTADOS 
+
+
+SEJAM PEQUENOS, 
+
+
+
+o ato de ENVIAR UMA REQUEST, RECEBER A RESPONSE 
+
+E PARSEAR A RESPONSE 
+
+
+
+SEMPRE TEM UM POUCO DE 'dead time', um tempo que 
+
+SEMPRE ESTÁ PRESENTE, E DO QUAL VOCÊ NUNCA CONSEGUE SE LIVRAR...
+
+
+
+------------------------------------------------- 
+
+
+
+ALÉM DISSO, HÁ TAMBÉM A LATÊNCIA DA INTERNET, BROWSER, ETC ETC.
+
+
+---------------------------------------------
+
+
+
+É POR ISSO QUE TER CENTENAS DE MÓDULOS PQ 
+
+
+VOCÊ TERIA CENTENAS DE HTTP REQUESTS NA SUA PÁGINA...
+
+
+
+
+ISSO É UM PROBLEMA QUE SOLUCIONAREMOS NO PRÓXIMO MÓDULO, 
+
+
+EM QUE DAREMOS UMA OLHADA EM 'TOOLING' E EM UM CONCEITO CHAMADO DE 
+
+
+'bundling'...
+
+
+-------------------------------------------------
+
+
+
+
+
+
+UMA OUTRA MELHORIA QUE PODEMOS IMPLEMENTAR AQUI É QUE 
+
+
+____ALGUMAS FEATURES____ NEM SEMPRE SÃO ___ NECESSÁRIAS...
+
+
+
+
+
+
+
+POR EXEMPLO, O 'tooltip'...
+
+
+
+
+
+
+
+
+
+
+O tooltip é um arquivo javascript que FAZ COM QUE UMA PEQUENA JANELA SEJA MOSTRADA 
+
+SEMPRE QUE CLIcamos 
+
+
+
+NO BOTÃO 'more info'...
+
+
+
+
+
+MAS, A NÃO SER QUE PRECISEMOS/QUISERMOS CLICAR NESSE BOTÃO, 
+
+O TOOLTIP NÃO É REALMENTE ''NECESSÁRIO'' NA NOSSA PÁGINA 
+
+toda hora...
+
+
+
+
+É CLARO QUE ESSE É UM ARQUIVO PEQUENO, MAS EM APLICATIVOS 
+
+maiores, mais complexos, 
+
+
+esse USO DESNECESSÁRIO DE DADOS PODE SE ACUMULAR...
+
+
+
+--------------------------
+
+
+
+ALÉM DISSO, PODEMOS PERCEBER QUE 
+
+
+'tooltip' É O ÚNICO ARQUIVO QUE 
+
+
+REALMENTE UTILIZA 'Component.js', 
+
+
+E ISSO SIGNIFICA QUE NÓS 
+
+DEVEMOS 
+
+
+ADICIONAR OS 2 EM UM ÚNICO ARQUIVO, 
+
+PARA REDUZIR O NÚMERO DE HTTP REQUESTS...
+
+
+
+
+Se apenas carregássemos esses arquivos quando tivéssemos necessidade deles,
+
+
+NÓS AUMENTARÍAMOS A VELOCIDADE DE CARREGAMENTO DA NOSSA PÁGINA...
+
+
+
+
+Isso é algo que podemos fazer NESTE MÓDULO....
+
+
+
+
+
+
+PARA CARREGAR MÓDULOS 
+
+
+___________CONDICIONALMENTE_____, 
+
+
+podemos utilizar uma sintaxe de export/import ALTERNATIVA......
+
+
+
+
+
+
+
+
+
+
+
+
+A SINTAXE DE IMPORT/EXPORT QUE VIMOS ATÉ AGORA, 
+
+
+aquela que sempre é colocada no início 
+
+da página 
+
+em um formato 
+
+
+
+'import { ProjectItem } from './ProjectItem.js
+
+
+import * as DOMH from '../Utility/DOMHelper.js',
+
+
+
+
+
+
+
+É O QUE CHAMAMOS 
+
+
+DE 
+
+'STATIC IMPORT/EXPORT SYNTAX'.....
+
+
+
+
+ESSA SINTAXE DEFINE ____ESTATICAMENTE____ A 'DEPENDÊNCIA'' DE UM ARQUIVO (dependency).
+
+
+
+
+
+A ALTERNATIVA A ISSO É 
+
+
+A ___SINTAXE DE EXPORTAÇÃO/IMPORTAÇÃO ___DINÂMICA____.
+
+
+
+(DYNAMIC IMPORT SYNTAX).
+
+
+
+
+
+EM ALGUNS CENÁRIOS EM QUE VOCÊ 
+
+___SABE___ QUE AQUELAS LINHAS DE CÓDIGO 
+
+
+____NÃO SERÃO UTILIZADAS 100% DO TEMPO, 
+
+
+
+FAZ SENTIDO VOCÊ USAR ESSE TIPO DE SINTAXE... 
+
+
+Já para 
+
+coisas que 
+
+TEMOS EFEITO 'EM CASCATA', coisas que ACABAM ATIVANDO OUTRAS, E QUE ACABAM 
+
+FORMANDO  O 'CORE' DO NOSSO APLICATIVO, COM ESSAS LINHAS DE CÓDIGO 
+
+___NUNCA___ UTILIZAREMOS O 
+
+
+'DYNAMIC EXPORT/IMPORT'....
+
+
+
+Não faria sentido usar essa sintaxe nesses casos, pois essas linhas/elementos NOSSO CÓDIGO 
+
+SEMPRE UTILIZARÁ
+
+
+----------------------------------------------
+
+
+
+Entretanto, para o tooltip, ESSA SINTAXE PODE FAZER SENTIDO...
+
+
+
+
+EM 'PROJECTITEM', eu preciso do tooltip em um momento...
+
+
+
+É QUANDO CLICAMOS no botão de 'showMoreInfoHandler'............
+
+
+
+
+COMO EU PRECISO DE TOOLTIP NESSE MOMENTO AÍ, só nesse momento, 
+
+
+EM VEZ DE FAZER O IMPORT 
+
+
+DE 'Tooltip' EM 
+
+'ProjectItem.js' BEM NO INÍCIO DO 
+
+DOCUMENTO (import ESTÁTICO, que faz com que o arquivo tooltip seja sempre CARREGADO NO MOMENTO EM QUE A PÁGINA INICIALIZA/ENVIA OS PRIMEIROS REQUESTS),
+
+
+
+NÓS EM VEZ DISSO PODEMOS IMPORTAR E BAIXAR/requisitar O CÓDIGO DESSE TOOLTIP LÁÁÁÁA 
+
+EMBAIXO,
+
+
+em 
+
+
+
+
+'showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    const tooltip = new Tooltip(
+        ...
+    );'
+}
+
+
+
+
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+
+MAS COMO?
+
+
+Bem, com UMA SINTAXE ESPECIAL...
+
+
+
+
+
+NÓS PODEMOS CHAMAR 'import()' COMO UMA FUNÇÃO........
+
+
+
+
+DENTRO DO SLOT DO PARÂMETRO, 
+
+
+
+passamos UMA STRING COM O CAMINHO (path) DO ARQUIVO O QUAL EU VOU QUERER IMPORTAR... (nesse caso, o path de 'tooltip'... )
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+'showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    import('./Tooltip.js'); //////////EIS O CÓDIGO EM QUESTÃO.
+    const tooltip = new Tooltip(
+        ...
+    );'
+}
+
+
+------------------------------------------
+
+
+
+
+CERTO.
+
+ESSA FUNÇÃO 'IMPORT' É BUILTIN NO BROWSER, e exposta pelo javascript....
+
+
+
+
+ESSA FUNÇÃO TE DÁ UMA __PROMISE____.....
+
+
+
+POR TE DAR UMA PROMISE, VOCÊ PODE ADICIONAR UM 
+
+
+'THEN() BLOCK' 
+
+
+DEPOIS 
+
+DE SEU CÓDIGO...
+
+
+(LEMBRE-SE: VOCê DEVE PRIMEIRO REMOVER O 'IMPORT ESTÁTICO' de seu elemento/coisa/função/objeto/classe
+
+LÁÁÁÁ no início de seu arquivo; o import estático desse elemento láááá no início deses arquivo deve ser REOMVIDO.)
+
+
+ex:
+
+
+
+
+
+
+
+'showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    import('./Tooltip.js').then(); //////////EIS O CÓDIGO EM QUESTÃO.
+    const tooltip = new Tooltip(
+        ...
+    );'
+}
+
+
+
+
+------------------------------------------
+
+
+
+VOCÊ PODE, DE NOVO, OU USAR UM 'THEN() BLOCK', OU USAR 
+
+'ASYNC/AWAIT'...
+
+
+
+
+
+ex( eu acho que async await ficaria assim):
+
+
+
+
+
+
+async showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    await import('./Tooltip.js') //////////EIS O CÓDIGO EM QUESTÃO.
+    const tooltip = new Tooltip(
+        ...
+    );
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+
+
+CERTO, MAS PROFESSOR UTILIZA A VERSÃO '.THEN() block' NESSE 
+
+
+NOSSO EXEMPLO DE IMPORT DINÂMICO...
+
+
+Ele escreve o código desta forma:
+
+
+
+ex:
+
+
+
+
+
+showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    import('./Tooltip.js').then(module => {
+
+    }); 
+    const tooltip = new Tooltip(
+        ...
+    );
+}
+
+
+----------------------------------------------
+
+
+
+
+DENTRO DA 'FUNÇÃO INTERNA' da promise, você poderia então RODAR CÓDIGO QUE 
+
+NECESSITASSE DESSE MÓDULO... (de tooltip, no caso).
+
+
+Nesse nosso caso, esse código que necessita desse módulo é AQUELE CÓDIGO QUE CRIA O TOOLTIP,
+
+FAZ ATTACH DELE NA NOSSA PÁGINA, ETC ETC...
+
+
+ficaria assim, então:
+
+
+
+
+
+
+
+
+showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    import('./Tooltip.js').then(module => {
+          const tooltip = new Tooltip(
+        () => {
+            this.hasActiveTooltip = false;
+        }, 
+        tooltipText,
+        this.id
+    );
+    tooltip.attach();
+    this.hasActiveTooltip = true;
+    }); 
+  
+}
+
+
+--------------------------------------------
+
+
+
+CERTO, MAS AS ALTERAÇÕES NÃO ACABARIAM POR AQUI:
+
+
+
+para fazer esse código funcionar, também teríamos que alterar 
+
+
+
+a linha 
+
+
+'const tooltip = new Tooltip(...)'
+
+
+
+PARA 
+
+
+
+'const tooltip = new module.Tooltip(...)'
+
+
+
+
+-----------------------------------
+
+
+
+FICARIA ASSIM:
+
+
+
+
+
+
+
+showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+        return;
+    } 
+    const projectElement = document.getElementById(this.id);
+    import('./Tooltip.js').then(module => {
+          const tooltip = new moduleTooltip(
+        () => {
+            this.hasActiveTooltip = false;
+        }, 
+        tooltipText,
+        this.id
+    );
+    tooltip.attach();
+    this.hasActiveTooltip = true;
+    }); 
+  
+}
+
+
+
+
+--------------------------------------------------
+
+
+
+mas pq 
+
+
+'new module.Tooltip'?
+
+
+
+
+É PQ EU SEI 
+
+
+
+QUE EU TEREI 
+
+um 'Tooltip' nesse módulo que será importado por meio de 
+
+'import('./Tooltip')' e então wrappado em uma promise, que será 
+
+então utilizada no '.then()' block  (o qual então utilizará os dados desse Tooltip, inseridos no parâmetro 'module', o qual terá a classe 'Tooltip' acessada por meio de 'module.Tooltip'...)....
+
+
+
+
+
+
+ISSO SIGNIFICA QUE O ELEMENTO/CLASSE/OBJETO/VARIÁVEL/CONSTANTE 
+
+é CONVERTIDO EM BASICAMENTE 
+
+
+UMA 'propriedade' DESSE OBJETO 'module'...
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+ESSA CLASSE/COISA 'Tooltip' SÓ SERÁ ACESSADA/ALCANÇADA QUANDO ESSAS LINHAS  DE CÓDIGO (Que são executadas DEPOIS) 
+
+forem executadas, e não mais cedo no runtime do código....
+
+
+
+
+------------------------------------------------
+
+
+
+
+O RESULTADO DESSA ALTERAÇÃO, DESSE IMPORT DINÂMICO DE TOOLTIP, é claro:
+
+
+
+
+agora o 'tooltip' não é baixado de cara no nosso site quando o inicializamos;
+
+o tooltip só será REQUESTADO, RESPONDIDO (response) e PARSEADO quando 
+
+nós efetivamente clicarmos em 
+
+'More info' (o botão do showMoreInfoHandler....).
+
+
+TUDO ISSO PODE SER VISTO NA ABA 'NETWORK' do devconsole...
+
+
+
+
+
+
+
+ISSO PODE FAZER UMA GRANDE DIFERENÇA EM PROJETOS MAIS COMPLEXOS.

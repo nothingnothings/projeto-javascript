@@ -1,0 +1,256 @@
+Vimos quase todos os métodos especiais importantes de ARRAYS.
+
+
+
+
+
+Mas agora devemos ver outros 2 métodos especiais, mas MÉTODOS QUE SÃO RELACIONADOS A STRINGS.
+
+
+
+
+São bem úteis.
+
+
+
+
+Digamos que você tem uns dados que você leu/read de um ARQUIVO CSV (arquivos geralmente utilizados em planilhas do excel).
+
+
+
+
+ex:
+
+
+
+const data = 'new york;10.99;2000';
+
+
+
+
+--------------------------------------
+
+
+
+VOCÊ VAI QUERER TRANSFORMAR ESSE VALOR (essa string) EM UM ARRAY, em um array que terá 3
+ VALORES SEPARADOS ('new york', '10.99' e '2000'). 3 valores separados em vez de um 
+ valor grandão, dos 3 juntos.
+
+Apesar dessa string ser reconhecível por nós, humanos, como 3 pedaços de dados aglutinados, 
+para a máquina isso tudo é apenas 1 valor.
+
+
+Você pode querer DIVIDIR esse valor em 3 pedaços VERDADEIROS de dados separados.
+
+
+Para isso, devemos usar o método ".SPLIT()".
+
+IMPORTANTE!!!!  ESSE É UM MÉTODO DE STRINGS, E NÃO DE ARRAYS.
+
+
+
+------------------------------------------------------------------------
+
+
+ex:
+
+
+const data = 'new york;10.99;2000';
+
+
+
+const transformedData = data.split();
+
+
+---------------------------------------------------------------------
+
+
+SPLIT divide uma string EM UM ARRAY COM MÚLTIPLOS SEGMENTOS. Como argumento, você especifica 
+O SEPARADOR PELO QUAL VOCÊ DIVIDE OS ELEMENTOS. O separador pode ser um ESPAÇO GRANDE EM BRANCO (wide space), 
+um espaço pequeno em branco, um underscore ( _ ) , qualquer caractere arbitrário ou, é claro, UMA 
+SEMI-COLON (;).
+
+Aqui, nesse exemplo, usamos a ";".
+
+--------------------------------------------------
+
+
+ex:
+
+
+
+
+
+
+const data = 'new york;10.99;2000';
+
+
+
+const transformedData = data.split(';');
+
+
+console.log(transformedData); //----------> SE RECARREGARMOS A PÁGINA, VEREMOS QUE REALMENTE ESSE MÉTODO CRIARÁ UM ARRAY COM OS 3 ELEMENTOS SEPARADOS. Elementos separados por ';'.
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+VOCê TAMBÉM PODE USAR UM SEGUNDO PARÂMETRO, OPCIONAL, QUE TE PERMITE LIMITAR O NÚMERO 
+DE ELEMENTOS QUE SERÃO CRIADOS NESSE ARRAY. Aqui nesse exemplo, o professor não quer utilizar essa feature, ele 
+apenas quer que os negócios sejam divididos pelo elemento separador ';'.
+
+
+
+-------------------------------------------------------------------------
+
+
+OUTRO DETALHE: SE VOCÊ QUISER TRANSFORMAR ESSES NÚMEROS DO ARRAY, QUE ESTÃO EM FORMATO DE STRING, EM NÚMEROS 
+DE VERDADE, VOCÊ TERIA QUE USAR "parseInt" e "parseFloat" em conjunção com os indexadores para mergulhar naquele 
+elemento específico e convertê-lo em um número.
+
+ex:
+
+
+
+let data = 'new york;10.99;2000';
+
+
+
+data = data.split(';');
+
+
+
+data[1] = parseFloat("10.99"); //---> isso vai converter o string daquele número em um número de verdade.
+
+
+
+//forma alternativa:   "data[1] = +transformedData[1];"
+
+
+
+--------------------------------------------
+
+
+
+
+
+AGORA O PROFESSOR QUER NOS MOSTRAR A OPERAÇÃO CONTRÁRIA/INVERSA À "split()".
+
+
+É o método "join()".
+
+
+
+
+Digamos que devemos ter uma constante nova, chamada de "NameFragments". Você tem 
+os dois fragmentos porque talvez você os tenha pego de 2 inputs diferentes na sua webpage.
+
+Agora você quer uní-los em uma string única, para que sejam usados na sua 
+user interface.
+
+ISSO É MUITO FÁCIL, DEVEMOS UTILIZAR OUTRO MÉTODO DE ARRAYS (porque esse método é um método de arrays, e não de strings, como split() o é.)
+
+
+
+ex:
+
+
+
+const nameFragments = ['Max', 'Schwarz'];
+
+
+
+const name = nameFragments.join()
+
+
+------------------------------------
+
+
+
+".JOIN()" também pega/exige como argumento UM SEPARADOR, que você pode usar para unir essas coisas em uma só.
+
+Devemos primeiro juntar os elementos SEM UM SEPARADOR (sem esse parâmetro), para ver a diferença
+entre as formas dessa função.
+
+
+ex:
+
+
+
+
+const nameFragments = ['Max', 'Schwarz'];
+
+
+
+const name = nameFragments.join()
+
+
+console.log(name);
+
+
+-------------------------------
+
+
+
+
+O QUE "JOIN" VAI FAZER É JUNTAR TODOS OS ELEMENTOS DESSE ARRAY EM UMA STRING. Ainda que você tivesse 
+NÚMEROS AQUI, ele ainda funcionaria (funcionaria, mas converteria todos os números em uma string. "join()", portanto, 
+pode ser usado para CONVERTER NÚMEROS EM UMA STRING, além de juntá-los todos em uma única string. Além de 
+juntar todos os números/strings, converte tudo em uma string única).
+
+
+
+SE SALVARMOS E RECARREGARMOS A PÁGINA, VEREMOS QUE O CONSOLE.LOG nos retorna 
+UM VALOR/STRING 
+
+de
+
+
+"Max,Schwarz".
+
+
+
+-----------> SIM, ELE INCLUI A VÍRGULA ENTRE OS ELEMENTOS QUE FORAM JUNTADOS. ESSE É O COMPORTAMENTO PADRÃO;
+ELE DEIXA A VÍRGULA ALI PARA DEMONSTRAR/APONTAR O LOCAL EM QUE OS DOIS ELEMENTOS ORIGINAIS ESTAVAM SEPARADOS.
+
+Isso talvez, bem possivelmente, não SEJA O QUE VOCÊ QUER. Talvez você queira 
+um espaço em branco esses dois elementos, mas que os dois ainda sejam convertidos em uma string.
+Para fazer isso, basta que você passe o parâmetro ' ' PARA ESSA FUNÇÃO. 
+
+
+
+ex:
+
+
+
+const nameFragments = ['Max', 'Schwarz'];
+
+
+
+const name = nameFragments.join(' ');
+
+
+console.log(name);
+
+
+------------------------------------------
+
+
+ISSO, essa DEFINIÇÃO DE UM WHITE SPACE (' ') COMO SEPARATOR, VAI FAZER COM QUE O CONSOLE.LOG nos retorne 
+
+UMA STRING DE 
+
+"Max Schwarz". A vírgula não será utilizada para separar os elementos (comportamento padrão), e em vez disso
+ será utilizado o espaço em branco que você passou como argumento.
+
+
+
+
+
+ ----->Portanto join() e split() são MUITO ÚTEIS PARA TRANSFORMAR 
+ STRINGS EM ARRAYS E ARRAYS EM STRINGS, além de assegurar que você tenha  DADOS CAPAZES DE SEREM LIDOS PELA MÁQUINA e NOMES CAPAZES DE SEREM LIDOS POR HUMANOS.
+    (split();)            (join();)

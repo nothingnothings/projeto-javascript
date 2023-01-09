@@ -1,0 +1,503 @@
+
+
+
+
+---> o que é testing, e pq  gostaríamos de testar alguma coisa?
+
+
+
+
+
+
+
+
+---> 'testing' = parece até meio óbvio, meio STRAIGHTFORWARD...
+
+
+---> nós tínhamos um app, e agora simplesmente o testamos, certo?
+
+
+
+
+
+------> abrimos nosso aplicativo e então o testamos... ---> e, de fato, 
+é isso que iremos fazer... ----> mesmo que adicionemos o tipo de testing que o professor
+ nos mostrará 
+
+ no vídeo, NÓS AINDA VAMOS FAZER BASICAMENTE O MESMO PROCEDIMENTO, o 'testing' antigo...
+
+
+
+
+
+
+
+
+ --> TESTING MANUALMENTE ---> ainda é algo que faz sentido, POIS VOCê SEMPRE VAI QUERER 
+
+
+ ___vER SEU APLICATIVO ___ rodando...
+
+
+
+ ----> NO FINAL DAS CONTAS, a ideia é sempre que 
+
+ nós vamos TER O NOSSO CÓDIGO, E AÍ VAMOS TER 1 RESULTADO ESPERADO... ('one expected result')...
+
+
+
+
+
+
+
+ <YOUR CODE> ---> EXPECTED RESULT...
+
+
+
+
+
+ '
+ queremos abrir aquele modal, queremos adicionar aquele usuário quando clicamos nesse 
+ botão, etc etc' ---> resultados....
+
+
+
+
+ --> NÓS TESTAMOS NOSSO CÓDIGO, OBSERVAMOS SE ELE OBTÉM O RESULTADO QUE DESEJAMOS...
+
+
+
+ ----> se nós somos bem sucedidos, simplesmente continuamos escrevendo o resto do código, 
+ outras partes de nosso aplicativo...
+
+
+
+
+ --> SE NÃO ESTAMOS CONTENTES COM O RESULTADO, DEVEMOS AJUSTAR O CÓDIGO E O MODIFICAR 
+ DA MANEIRA QUE DESEJARMOS... tudo para obter o resultado que queremos...
+
+
+
+
+
+-->BEM, MAS A IDEIA DO 'TESTING JAVASCRIPT'/code testing, quando você o lê  dessa forma, 
+
+composto por essas etapas, É QUE NÓS CONSIGAMOS ___AUTOMATIZAR____ essas etapas... ---> 
+automatizar de modo que 
+
+NÓS NÃO PRECISEMOS TESTAR TUDO MANUALMENTE NO NOSSO APLICATIVO ----> ACTUALLY, nós 
+
+PROVAVELMENTE AINDA TEREMOS DE TESTAR TUDO MANUALMENTE, mas esses códigos automáticos 
+
+PODEM SER EXECUTADOS CONCOMITANTEMENTE COM NOSSO TESTING MANUAL, e isso pode ajudar...
+
+
+
+
+
+
+O TESTING AUTOMÁTICO PODE NOS AJUDAR.... ----> IMAGINE QUE CADA VEZ QUE VOCê 
+
+TROCA ALGO NO SEU CÓDIGO, UM PROGRAMA/SCRIPT RODA AUTOMATICAMENTE, TESTA TUDO E ENTÃO 
+
+
+TE DIZ SE ALGO NO SEU CÓDIGO MUDOU DE COMPORTAMENTO EM RAZÃO DESSA MUDANÇA... (isso 
+economiza muito tempo, pois aí 
+
+não temos que TESTAR TUDO METICULOSAMENTE para ver se houve alguma mudança de comportamento 
+
+em ALGUM LUGAR DE NOSSO CÓDIGO, que pode ser imenso... )
+
+
+
+
+
+---> ESSA É A IDEIA POR TRÁS DO AUTOMATED TESTING ---> a ideia de que nós 
+
+podemos ver 'BREAKING CHANGES'/ISSUES no nosso código,
+
+
+problemas introduzidos talvez por uma mudança EM UM LUGAR TOTALMENTE 
+
+DIFERENTE NO NOSSO APLICATIVO, e os quais são mostrados IMEDIATAMENTE 
+
+
+pelos 'WRITTEN TESTS' (testes automáticos...)
+
+
+
+
+
+
+----> É POR ISSO QUE É BOM TESTAR AUTOMATICAMENTE.... ----> nós sempre 
+
+VAMOS QUERER 
+
+
+______________RECEBER UM ERRO_________ ('Get an error if you break your code') SE 
+NÓS
+QUEBRARMOS NOSSO CÓDIGO... ---> pq o erro nos PERMITE VER IMEDIATAMENTE A CAUSA DO 
+
+PROBLEMA, ENTENDER ESSA CAUSA SEM SER OBRIGADO A TESTAR CADA PARTE DO 
+
+CÓDIGO METICULOSAMENTE, de forma manual, PARA O ENCONTRAR...
+
+
+
+
+
+
+
+
+---> AINDA FAREMOS UM TESTING MANUAL, mas VALE MUITO TER UMA 'SUITE' DE TESTES AUTOMÁTICOS 
+PRÉ-DEFINIDOS que podemos rodar PARA RAPIDAMENTE enxergar 
+
+coisas como "ah, por acaso isso quebrou alguma coisa?" ----> COM WRITTEN TESTS, 
+
+NÓS GANHAMOS A RESPOSTA __DE PRONTO__, imediatamente....
+
+
+
+
+
+
+--> WRITTEN TESTS ---> SALVAM TEMPO, POIS NÃO PRECISAMOS TER QUE RODAR O CÓDIGO MANUALMENTE, de novo e de novo...
+
+
+
+
+
+---> NÓS TAMBÉM SOMOS ___fORÇADOS______ A PENSAR EM PROBLEMAS EM POTENCIAL E BUGS POSSÍVEIS 
+enquanto estamos escrevendo nosso código; os 'written tests' NOS FORÇAM A ISSO....
+
+Passamos 
+
+a pensar EM O QUE QUEREMOS TESTAR.... --> passamos a pensar 
+
+'como podemos escrever um teste que FAZ SENTIDO?'
+
+
+
+
+
+---> e o professor logo vai nos ensinar como escrevê-los....
+
+
+
+
+
+
+----> NÓS PODEMOS INTEGRAR NOSSO 'TESTING', nosso AUTOMATED TESTING, no nosso 
+
+BUILD WORKFLOW... ----> isso é algo mais avançado, 
+
+
+mas é possível que você tenha um BUILD WORKFLOW 
+
+em que você  FAZ PUSH DE UM COMMIT ('git commit') A UM REPOSITÓRIO DE CÓDIGO, como
+
+'gitHub',  E AÍ VOCÊ TEM AUTOMATICAMENTE UM WORKFLOW QUE É TRIGGADO, 
+
+
+UM WORKFLOW EM QUE 
+
+ESSE CÓDIGO É ENTÃO TESTADO  ---> ele é testado NA 'CLOUD', ou em algum servidor...
+
+E SE ESSE CÓDIGO É BEM SUCEDIDO, ele pode até mesmo ser DEPLOYADO AUTOMATICAMENTE (
+    ou seja, é possível CRIAR UMA 
+    DEPLOYMENT CHAIN __bEM COMPLEXA___ no github...
+)
+
+
+
+
+
+ALÉM DISSO, 
+
+
+'TESTING' ---> é uma parte INTEGRAL DO PROCESSO DE GARANTIR QUE NENHUM CÓDIGO 
+
+VAI QUEBRAR, OU QUE CÓDIGO INVÁLIDO SEJA DEPLOYADO... ---> É UMA GRANDE VANTAGEM DOS TESTES...
+
+
+
+
+
+
+
+---> NÓS TAMBÉM PODEMOS 'BREAK UP COMPLEX DEPENDENCIES' ---> o professor vai nos 
+
+mostrar isso --------> PROFESSOR DIZ QUE NÓS DEVEMOS SEMPRE ASSEGURAR QUE ESTAMOS ESCREVENDO 
+
+CÓDIGO QUE PODE SER 'SPLIT UP', código que pode ser MODULAR, porque isso 
+
+VAI FAZER COM QUE O TESTING SEJA MUITO MAIS FÁCIL.... --------> E ISSO, NO FINAL DAS CONTAS,
+
+DEIXA O TRABALHO COM O NOSSO CÓDIGO MAIS FÁCIL, e melhora o nosso código...
+
+
+
+
+
+
+
+
+---> O TESTING __MELHORA O NOSSO CÓDIGO ___... ---> como o testing NOS FORÇA 
+
+A ESCREVER NOSSO CÓDIGO DE CERTAS MANEIRAS ESPECÍFICAS, ELE NOS FORÇA A 
+MELHORAR O NOSSO CÓDIGO, a deixá-lo mais fácil de ser testado, o que 
+
+SIGNIFICA __dEIXAR ELE MELHOR, basicamente....
+
+
+
+
+
+-----> UM MONTE DE VANTAGENS PARA O 'TESTING' automático... ------> mas elas podem parecer 
+
+meio 'mentira', pois ainda não fizemos nenhum desses testes automáticos... --> devemos experimentar essa forma de testing, logo....
+
+
+
+
+
+
+
+------------> ANTES DE COMEÇAR OS TESTES AUTOMÁTICOS, o professor diz que ele 
+
+deve esclarecer QUAIS TIPOS DE 'TESTING' automático existem....
+
+
+
+------> O PROFESSOR ESTÁ FALANDO DE 'AUTOMATED TESTS' ---> É CÓDIGO QUE NÓS ESCREVEMOS 
+__PARA TESTAR__ OUTROS CÓDIGOS___...
+
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+nós temos __DIFERENTES TIPOS DE TESTE____....
+
+
+
+TEMOS:
+
+
+
+1) TESTES QUE TESTAM UM PEDAÇO __TOTALMENTE___ ISOLADO___ de código.... ('Fully Isolated'. 'e.g. testing one function')...
+
+
+EXEMPLO PERFEITO DISSO É O TESTE DE UMA ÚNICA FUNÇÃo... ---> ex: FUNÇÃO QUE ACEITA UM INPUT E ENTÃO RETORNA UM OUTPUT...
+
+
+
+PODEMOS TESTAR UMA FUNÇÃO DESSAS COM UM 'TEST'... ----> podemos fazer isso pq ela tem 
+
+UMA ESTRUTURA BEM DEFINIDA.... ---> ex: 'para input X e input Y, recebemos Z'.... 
+
+
+O nome desse tipo de test é 
+
+
+'UNIT TEST'.... ---> é chamado de 'unit test' PQ NÓS TESTAMOS 1 UNIDADE, única e ISOLADA, DE NOSSO APLICATIVO...
+                        (como uma FUNÇÃo.)
+
+
+
+
+
+
+2) TAMBÉM TEMOS TESTES QUE TESTAM UNIDADES ('units') COM ALGUMAS 
+
+
+DEPENDENCIES.... ------> ISSO SIGNIFICA QUE NÓS 
+
+NÃO TEMOS mais 'UM ÚNICO PEDAÇO DE CÓDIGO ISOLADO', 
+
+
+e SIM QUE TEMOS, POR EXEMPLO,
+
+
+UMA FUNÇÃO QUE CHAMA OUTRA FUNÇÃO.... ('With Dependencies'. ---> 'e.g. testing a function that calls another function')
+
+
+
+---> portanto, a função que estaremos testando DEPENDERÁ DO RESULTADO ('result') DE __OUTRA FUNÇÃO___.... --->
+
+
+ESSE TIPO DE TEST SE CHAMA 'INTEGRATION TESTS'...
+
+
+
+
+
+
+ok...então temos UNIT TESTS e INTEGRATION tests...
+
+
+
+
+
+INTEGRATION TESTS ---> TESTAMOS ___MAIS DE 1 ÚNICA UNIDADE___ no nosso código... --> nós testamos A __INTEGRAÇÃO DE UMA FEATURE EM OUTRA FEATURE, por assim se dizer....
+
+
+
+----------------------------------------------------------------
+
+
+
+POR FIM, NÓS TEMOS AQUILO QUE CHAMAMOS 
+
+
+DE teste
+
+'Full flow'/ 'user interface'... ----> isso significa que é um tipo 
+
+de teste QUE VALIDA/TESTA ___O APLICATIVO INTEIRO___, OU __UMA __ PARTE___ DO 
+
+APLICATIVO INTEIRO....
+
+
+
+(Full flow ---> e.g validating the DOM after a click ) 
+
+
+
+---> ESSE TESTE É CHAMADO DE 
+
+
+TESTE 'END-TO-END', ou 'USER INTERFACE' test...
+        (E2E)
+
+
+
+
+--> A IDEIA AQUI, REALMENTE, É QUE NÓS FAZEMOS AQUILO QUE PODERÍAMOS FAZER por nós mesmos, MANUALMENTE, NO BROWSER, 
+
+mas que nós RODAMOS TIPO UM SCRIPT AUTOMATIZADO que __eXECUTA UMA SÉRIE DE ETAPAS POR NÓS/PARA NÓS__...
+ 
+
+ A partir dessa série de etapas executada pelo programa, podemos checar SE O RESULTADO QUE OBTEMOS É 
+ O RESULTADO QUE ESPERÁVAMOS CONSEGUIR... 
+
+
+
+
+----> bem... esses testes aí 
+
+
+TEM UMA ORDEM DE COMPLEXIDADE...
+
+
+
+
+
+'Unit tests' são relativamente FÁCEIS DE SEREM ESCRITOS .... ---> são fáceis pq VOCÊ TEM UMA UNIDADE PEQUENA, 
+e porque É FÁCIL 'INFERIR' O QUE VOCÊ QUER CONSEGUIR COMO RESULTADO... (result).
+
+ 
+
+
+ ---> Quanto mais dependencies você tem/adiciona, mais COMPLEXO O WRITE DE 
+ TESTS SE TORNA... ----> o que era um 'unit test' passa a ser um 'Integration test'.... (INTEGRATION TESTS...)
+
+
+
+
+ -----> Quanto mais dependencies você tem/adiciona, mais COMPLEXO O WRITE DE 
+ TESTS SE TORNA ----> pq fica cada vez mais difícil determinar o que está causando aquele 
+ erro ---> será que é uma DEPENDENCY? Ou será que é uma FUNÇÃO QUE USA UMAS 
+ DEPENDENCIES?   ------->  VOCê TAMBÉM PODE TER ALGUMAS 
+ DEPENDENCIES QUE FAZEM 'REACH OUT' A UM SERVIDOR, FAZEM FETCH DE DADOS DE UM 
+ SERVIDOR (essa é outra complexidade com a qual vocÊ tem de lidar...) ---> O PROFESSOR NOS MOSTRARÁ 
+COMO LIDAR COM ESSE TIPO DE TESTING EM UM VÍDEO SEPARADO... ('Integration test'...).
+
+
+
+
+---> E O 'FULL USER INTERFACE TEST' é o MAIS COMPLEXO DE TODOS... --> é complexo 
+
+pq  VOCÊ TEM DE DEFINIR CADA PEQUENA ETAPA QUE DEVERÁ SER EXECUTADA e testada... --> nesse tipo de
+teste, vocÊ deve PENSAR INTELIGENTEMENTE SOBRE O QUE VOCÊ VAI QUERER TESTAR E O QUE VOCê PODE ESPERAR 
+de resultado (desses testes e do seu código)....
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+JUSTAMENTE POR 
+
+ESSES TESTES TEREM DIFICULDADES VARIÁVEIS, nós 
+
+também os usamos 
+
+de forma variada.... 
+
+
+
+---> 
+
+
+
+testes FÁCEIS ('unit tests') ---> ESCREVEMOS MILHARES DESSES....
+
+
+
+testes médios (integration tests) ---> escrevemos um bom punhado desses 
+
+
+testes 'end-to-end' (interface) ----> ESCREVEMOS UNS POUCOS DESSES....
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+milhares de unit tests ---> se vocÊ tESTAR CADA UNIDADE DE SEU APLICATIVO e ele 
+
+funciona BEM EM TODAS, VOCÊ PODE INFERIR ('infer') que A OVERALL APPLICATION VAI FUNCIONAR 
+CORRETAMENTE TAMBÉM... ---> por isso que devemos ter um monte de unit tests....
+
+
+
+
+
+
+--> INTEGRATION TESTS ---> teremos sempre __ALGUNS___ integration tests para 
+
+'RULE OUT' que 2 unidades INDIVIDUAIS não mais funcionam se trabalharem em conjunto...
+
+
+
+
+--> E2E tests ---> teremos POUCOS DESSES, 'ui tests' ----> SÃO USADOS 
+PARA 
+
+
+TESTAR OS __FLOWS___/ etapas DO NOSSO APLICATIVO NO BROWSER, de uma forma automatizada...
+
+
+--------------------------------
+
+
+
+O PROFESSOR NOS MOSTRARÁ EXEMPLOS DOS 3 TIPOS...
+
+
+
+
+
+DEVEMOS COMEÇAR O WRITE DE ALGUNS TESTES...

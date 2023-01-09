@@ -1,0 +1,503 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----> SE VOCê TEM EXPERIÊNCIA DE PROGRAMAÇÃO COM OUTRAS LINGUAGENS,
+
+
+VOCê 
+
+
+
+talvez já
+
+
+
+conheces o approach de especificar 
+
+
+'statements de import'/referências a outros arquivos DIRETAMENTE DE DENTRO DE UM ARQUIVO....
+
+
+
+
+
+
+
+
+Se entrarmos no nosso arquivo 
+
+
+'Tooltip.js',
+
+
+
+
+podemos 
+
+
+ver 
+
+
+que está escrito 
+
+
+
+'class Tooltip extends Component' ---> 
+
+
+
+ISSO SIGNIFICA QUE 
+
+
+'TOoltip'
+ 
+
+
+ DEFINITIVAMENTE PRECISA de 'Component' PARA FUNCIONAR...  Precisa de acesso a ele.
+
+
+
+
+
+
+ ESSA É UMA 'DEPENDENCY' (dependência) que agora temos no nosso código...
+
+
+
+
+ NÓS CONSERTAMOS/IMPLEMENTAMOS ESSA DEPENDÊNCIA, NO MOMENTO, POR MEIO 
+
+
+ DA CORRETA ORDENAÇÃO DE IMPORTAÇÃO DOS ARQUIVOS NO NOSSO INDEX.HTML...
+
+
+
+
+ por exemplo, se eu trocar 
+
+ 'tooltip.js' e 'component.js' de lugar, na ordem de importações, 
+
+
+ ISSO QUEBRARIA O MEU CÓDIGO, 
+
+ POIS 
+
+ TOOLTIP TENTARIA USAR 
+
+ 'component', que AINDA NÃO EXISTIRIA GLOBALMENTE NO MEU CÓDIGO... (não estaria definido).
+
+
+
+ -----------------------------------------
+
+
+ Já 'ProjectItem', por exemplo, usa 
+
+
+ a classe 'TOOLTIP'..., MAS APENAS USA 
+
+ ESSA CLASSE durante o runtime, QUANDO 
+ 
+
+ O SEu código interno efetivamente é utilizado.   -----> isso significa que podemos cagar a ordem aqui e ainda não sofrer com isso.
+
+
+ AINDA ASSIM, TEMOS OUTRA DEPENDÊNCIA AQUI...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+
+SERIA LEGAL SE PUDÉSSEMOS, POR EXEMPLO, 
+
+
+dizer 
+
+
+
+láááá no topo de 'tooltip' 
+
+a seguinte frase:
+
+
+
+
+'Essa classe DEPENDE DE COMPONENT'......
+
+
+
+se conseguíssemos fazer isso, poderíamos 
+
+
+então 
+
+
+
+REMOVER O IMPORT de 'Component.js' 
+
+
+no nosso index.html; MESMO REMOVIDO,
+
+
+O TOOLTIP AINDA NOS DIRIA 'TENHO ESSA DEPENDENCIA, PRECISO DE COMPONENT.JS',
+
+
+e o código ainda funcionaria (mesmo sem a especificação da ORDEM das coisas/imports no index.html)....
+
+
+
+
+
+
+OK, MAS COMO FAZER ISSO?
+
+
+
+
+
+
+
+
+
+
+FAZEMOS ISSO COM OS ____JAVASCRIPT MODULES___.
+
+
+
+
+
+
+PARA MOSTRAR COMO O NEGÓCIO FUNCIONA, O PROFESSOR COMENTA PARA FORA DO CÓDIGO
+
+
+
+o nossO IMPORT de 'Component.js' NO INDEX.HTML...
+
+
+
+
+
+
+-----------------------------------------------
+
+
+SE FIZERMOS ISSO, É ÓBVIO QUE A CLASSE 'TOOLTIP' vai quebrar...
+
+
+
+
+
+DEVEMOS VER COMO JAVASCRIPT MODULES NOS AJUDAM COM ISSO....
+
+
+
+
+
+
+
+
+
+
+
+
+Para isso, devemos ir até o 'Component.js' E ADICIONAR 
+
+
+
+UMA KEYWORD 
+
+ESPECIAL QUE DEIXA BEM CLARO QUE ESTAREMOS/VAMOS EXPORTAR essa classe 'Component'....
+
+
+ISSO FARÁ COM QUE ESSA CLASSE FIQUE DISPONÍVEL FORA DESSE ARQUIVO 'Component.js'...
+
+
+
+
+
+DETALHE IMPORTANTE:::::  QUANDO ESCREVEMOS ESSA KEYWORD, assim que 
+trocarmos para MÓDULOS, QUANDO DISPONIBILIZAMOS UM DETERMINADO 
+                        CÓDIGO PARA __FORA___ DE SEU ARQUIVO, NÓS 
+
+                        ESTAREMOS/ESTAMOS 
+
+
+                        _________'LOCKANDO'_________ os arquivos...
+
+--------------------------------------------------------------------
+
+
+
+
+
+O que isso quer dizer?
+
+
+
+
+
+
+Bem, normalmente, quando estou fazendo o import normal de arquivos .js 
+
+no meu index.html, 
+
+
+quando eu ASSIGNO uma classe 
+
+tipo 
+
+'class Component{}',
+
+QUANDO EU DECLARO ESSA CLASSE,
+
+ELA É ADICIONADA
+
+
+AO OBJETO 'GLOBAL'.... --------------> ISSO SIGNIFICA QUE ESSA CLASSE É TORNADA __dISPONÍVEL GLOBALMENTE____....
+
+                                        E ISSO SIGNIFICA QUE TODO OUTRO ARQUIVO .JS PODE UTILIZÁ-LA....
+
+
+
+
+-----------------------------------------------
+
+
+
+
+ASSIM QUE TROCARMOS PARA MÓDULOS, ISSO DEIXA DE SER VERDADE.
+
+
+
+ISSO MUDA: 
+
+
+CADA ARQUIVO SERÁ 
+
+
+'LOCKED DOWN', e seu conteúdo SERÁ 
+
+LOCKED DOWN...  
+
+
+
+SEU CONTEÚDO NÃO SERÁ ADICIONADO AO 'OBJETO GLOBAL'; EM VEZ DISSO, CADA ARQUIVO 
+
+RECEBERÁ 
+
+
+_________sEU PRÓPRIO SCOPE_____...
+
+
+
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+CERTO, MAS COMO MUDAMOS PARA MÓDULOS, QUAL É A KEYWORD?
+
+
+
+
+
+É a keyword 'export'...
+
+
+
+
+
+ex:
+
+
+
+export class Component {...}
+
+
+
+
+
+
+
+É UMA 
+
+KEYWORD 'builtin' no javascript, a qual 
+
+SINALIZA AO JAVASCRIPT 
+
+QUE, DENTRO DE UM MÓDULO, eu quero 
+
+
+fazer essa 
+
+CLASSE 'Component' (ou qualquer outra classe) SER TAMBÉM
+
+DISPONÍVEL A OUTROS ARQUIVOS.... 
+
+
+
+---------> COMO O PROFESSOR MENCIONOU: 
+
+reservar a 'disponibilidade' a um certo conjunto de arquivos 
+
+NORMALMENTE NÃO É POSSÍVEL, mas com 'export' e com os MÓDULOS, podemos  fazer isso.
+
+
+
+
+
+---------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+AGORA, ENTRETANTO, DEVEMOS MUDAR O CÓDIGO PARA 'MÓDULOS'...
+
+
+
+
+Para isso, vamos até o nosso script, até a linha 
+
+QUE ADICIONA O 
+
+
+NOSSO 'ROOT SCRIPT' (é o script QUE SEMPRE ACABARÁ ADICIONADO NO NOSSO HTML; PQ UM HTML SEMPRE TERÁ PELO MENOS 1 ARQUIVO .JS PARA FUNCIONAR, e esse arquivo é o ROOT SCRIPT... Nosso root script, nesse exemplo, é o 'app.js'...) 
+---------------> ISSO EXISTE, O ROOT SCRIPT EXISTE, PQ APESAR DE QUE OS SCRIPTS VAO APONTAR UM AO OUTRO, NÓS AINDA PRECISAMOS DE 1 'STARTING POINT', um script que serve como balizador de todos os outros.
+
+
+NESSE ROOT SCRIPT 
+
+
+NÓS DEVEMOS ADICIONAR 
+
+o 
+
+atributo/coisa  'type="module" '
+
+
+
+
+
+ex:
+
+
+
+
+<script src="app.js defer type="module"></script>
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+
+se fizermos isso, teremos adicionado a feature dos MÓDULOS ao nosso código.
+
+
+
+
+
+
+
+
+ESSE 'type=module" É ENTENDIDO PELO BROWSER;
+
+
+
+Isso basicamente diz ao browser 
+
+
+
+'esse script E TODOS OS SCRIPTS REFERENCIADOS POR ESSE SCRIPT VÃO UTILIZAR __MÓDULOS__.'
+
+
+
+
+
+
+Professor salva isso e recarrega a página...
+
+
+
+RECEBE UMA SÉRIE DE ERROS...
+
+
+
+
+EX:
+
+
+
+
+
+Access to script at 
+'file:///C:/projeto/M%C3%93DULO%2020%20-
+%20JAVASCRIPT%20MODULAR%20(trabalhando%20com%20m%C3%B3dulos)/scripts/App/app.js'
+ from origin 'null' has been blocked by CORS policy: Cross origin requests are only 
+ supported for protocol schemes: http, data, chrome, chrome-extension,
+  chrome-untrusted, https.
+
+
+
+
+
+  -----------------------------------------------------------
+
+
+
+
+
+
+  ESSE ERRO É IMPORTANTE, E DEVE SER CONSERTADO.

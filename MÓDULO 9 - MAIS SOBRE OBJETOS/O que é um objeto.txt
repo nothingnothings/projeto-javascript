@@ -1,0 +1,197 @@
+DEVEMOS ENTENDER A DEFINIÇÃO DE OBJETOS.
+
+
+
+
+
+
+
+
+OBJETO === É UMA CORE DATA STRUCTURE em javascript. É super importante, pois é uma 
+            STRUCTURE QUE NOS AJUDA A REFLETIR "ENTIDADES DO MUNDO REAL" ('typically reflect "real-world" entities').
+
+            Isso pode soar estranho... o que isso significa?
+
+
+
+            SIGNIFICA QUE COM OBJETOS, EM JAVASCRIPT, NÓS TEMOS UMA MANEIRA 
+            DE TRABALHAR COM COISAS COMO "BOTÕES", "FILMES", QUE SÃO "COISAS" aos nossos olhos, "oBJETOS".
+
+
+
+            Um botão, ainda que esteja em uma webpage (digital), É UMA "COISA" aos nossos olhos.
+            Todos nós SABEMOS o que um "Objeto" significa. É uma 'coisa'. Pode ser um botão, um "filme", qualquer coisa.
+
+
+
+            NÃO É COINCIDÊNCIA QUE QUANDO CRIAMOS UM "FILME" NO NOSSO CÓDIGO, ELE TEM COISAS QUE UM 
+            FILME GERALMENTE TERIA: um title, uma preview image, uma rating... PODEMOS PENSAR EM OBJETOS 
+            COMO REPRESENTAÇÕES DOS OBJETOS DA VIDA REAL.
+
+            É assim que queremos escrever nosso código, nos baseando em coisas que existem de verdade.
+            NÃO QUEREMOS ESCREVER UM CÓDIGO ABSTRATO QUE NÓS NÃO CONSEGUIMOS ENTENDER...que não conseguimos 
+            entender se não somos um programador.
+            
+            O código deve ser construído de modo que até um leigo possa + ou - entender, ainda que 
+            não conheca a sintaxe do negócio.
+
+            ex:
+
+            const newMovie = {
+                id: Math.random().toString(), 
+                title: titleValue,
+                image: imageUrlValue,
+                rating: ratingValue
+            };  ///////////podemos, como leigos, não conhecer a sintaxe, MAS SABEMOS QUE SE TRATA DE UM FILME PELOS NOMES DOS KEY-VALUE PAIRS E PELO NOME DA CONSTANTE/objeto.
+
+
+
+
+            ESSA É A IDEIA POR TRÁS DE OBJETOS. Escrever código que faz sentido a humanos ("apply real-world logic to coding").
+
+
+
+
+            TECNICAMENTE, OBJETOS EM JAVASCRIPT SÃO, É CLARO, "DATA STRUCTURES", DATA STRUCTURES QUE SÃO 
+            COMPOSTAS DE PROPRIEDADES (são os key-value pairs) E MÉTODOS (também são key-value pairs, mas 
+            o VALUE É UMA FUNÇÃO QUE ESTÁ LIGADA A ESSE OBJETO...).
+
+
+            Portanto, você poderia dizer que propriedades ____SÃO VARIÁVEIS___ EM UM OBJETO_____;   
+            MÉTODOS, POR OUTRO LADO, SÃO _____FUNÇÕES_______ EM UM OBJETO.
+
+
+            USAMOS __PROPRIEDADES___ PARA ARMAZENAR DADOS (dados que são, de alguma forma, relacionados apenas nesse único objeto...)
+            e então fazer algumas AÇÕES que fazem sentido para esse objeto...
+
+            Não trabalhamos muito com MÉTODOS DE OBJETOS ao longo desse curso, algo que 
+            iremos fazer bastante agora.
+
+
+            OS MÉTODOS DE OBJETOS SÃO FEATURES MUITO PODEROSAS PARA TRABALHAR COM JAVASCRIPT.
+
+
+
+            No final das contas, objetos nos permitem AGRUPAR DADOS RELACIONADOS.... eles também 
+            nos dão ________a capacidade______ de poder ________DIVIDIR ____O NOSSO CÓDIGO____ EM PEDAÇOS LÓGICOS____.
+            OU SEJA: não temos que gerenciar tudo por meio de milhares de variáveis atiradas no 
+            nosso script file; em vez disso, TEMOS ALGUNS OBJETOS QUE NOS AJUDAM A FAZER DIFERENTES COISAS.
+            É claro que há uma variedade imensa de use-cases para esses tipos de objetos...
+            você pode ter objetos SIMPLES como "newMovie" (que está descrito logo acima), que 
+            você então usa em algum outro lugar de seu código...
+            ou então OBJETOS MAIS COMPLEXOS, COMO DOM NODES, QUE POSSUEM UM MONTE 
+            DE MÉTODOS "BUILT-IN" QUE TE AJUDAM A INTERAGIR COM ele, fazer query dos seus filhos, 
+            etc etc. Também há muitas propriedades built-in em dom nodes, que nos ajudam a estilizar 
+            UM NODE, MUDAR SEU VALOR E OUTRAS COISAS MAIS.
+
+            Há um monte de coisas que você pode fazer dependendo do objeto com o qual vocÊ está trabalhando.
+
+
+            OBJETOS ---> EXTREMAMENTE VERSÁTEIS E FAZEM O JAVASCRIPT SE MEXER, BASICAMENTE.
+
+
+
+
+            O que é um objeto, então?
+
+            (como determinamos se algo é um objeto, quando nunca criamos ele com curly braces?)
+
+
+            Bem, em javascript você nunca deve esquecer que você tem DOIS TIPOS DE VALORES:
+
+
+
+            PRIMITIVE VALUES. --> numbers, strings, symbol, booleans, null, undefind.
+
+
+
+
+            REFERENCE VALUES. --> DOM NODES (objetos criados pelo browser), arrays (são tipos especiais de objetos, com propriedades como length e aquela funcionalidade especial em que podemos utilizá-las em for of loops... não podemos fazer isso 
+                com quaisquer objetos, apenas com ITERABLES, como arrays.), objetos (criados por você, com {}) ..... E OUTROS, HÁ OUTROS TIPOS DE REFERENCE VALUES/OBJETOS. Tudo que não é primitive value (aqueles 6 tipos ali), é reference value.
+
+
+
+            OBJETOS SÃO SEMPRE REFERENCE VALUES.
+
+
+
+            REFERENCE VALUES SÃO OBJETOS, E OBJETOS SÃO REFERENCE VALUES.
+
+
+            ___APENAS___ OBJETOS SÃO REFERENCE VALUES.
+
+
+
+
+
+
+        {} ------> CURLY BRACES ----> TAMBÉM CHAMADO DE "OBJECT LITERAL NOTATION". Cria um objeto. ---> você cria um objeto por meio da escrita de um object literal (writing an object literal).
+
+
+
+
+
+
+
+
+AGORA QUE ENTENDEMOS O QUE SÃO OBJETOS JAVASCRIPT, DEVEMOS VER UM POUCO DE CÓDIGO.
+
+
+
+Novo projeto, só que não! Voltaremos ao projeto dos movies, projeto 8. Agora faremos mais do que apenas loggar coisas no console.
+
+Vamos ver como adicionar informações extras aos filmes e, depois disso, como adicioná-los em uma lista que poderemos 
+filtrar (colocar um search term e então filtrar as entries de movies).
+
+Professor diz que começaremos com um ".js" vazio, mas antes disso ele quer que nós recapitulemos algumas coisas sobre 
+objetos e coisas novas que ainda não vimos, também.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Objects are reference values - you learned that.
+
+It might not have been obvious yet but it's also important to recognize that, in the end, objects are of course __________made up___________ of primitive values.___________
+
+Here's an example:
+
+const complexPerson = {
+    name: 'Max',
+    hobbies: ['Sports', 'Cooking'],
+    address: {
+        street: 'Some Street 5',
+        stateId: 5,
+        country: 'Germany',
+        phone: {
+            number: 12 345 678 9,
+            isMobile: true
+        }
+    },
+};
+
+Even though complexPerson has multiple nested reference values (nested arrays and objects), you end up with primitive values if you drill into the object.
+
+name holds a string ('Max') => Primitive value
+
+hobbies holds an array (i.e. a reference value) which is full of strings ('Sports', 'Cooking') => Primitive values
+
+address holds an object which in turn holds a mixture of primitive values like 'Some Street 5' and nested objects (phone), but if you dive into phone, you find only numbers and booleans in there => Primitive values
+
+So you could say: Primitive values are _________the core building blocks that ___HOLD____ your data;___________ objects (and arrays) are helpful for organizing and working with that data._____

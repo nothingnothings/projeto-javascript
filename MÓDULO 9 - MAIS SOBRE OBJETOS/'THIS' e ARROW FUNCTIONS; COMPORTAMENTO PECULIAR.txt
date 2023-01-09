@@ -1,0 +1,788 @@
+
+
+
+O professor disse que para arrow functions, o COMPORTAMENTO DE 'THIS' SERIA DISTINTO 
+DAQUELE QUE VEMOS COM FUNÇÕES DE SINTAXE COMUM.
+
+
+
+
+ex:
+
+
+
+const searchMovieHandler = () => {
+    console.log(this);
+    const filterTerm = document.getElementById('filter-title').value; //o ".value", aqui, é INDISPENSÁVEL.
+    renderMovies(filterTerm); 
+}
+
+
+
+searchBtn.addEventListener('click', searchMovieHandler);
+
+
+
+
+-------------------
+
+
+
+Aqui temos o mesmo console.log de 'this' usado dentro daquela função vinculada 
+ao addEventListener, mas dessa vez ESTAMOS USANDO 
+UMA ____aRROW FUNCTION____.
+
+
+
+-------> Recarregamos a página e apertamos no botão search.
+
+
+
+
+AGORA, OBSERVAMOS QUE O OUTPUT DO CONSOLE MUDOU.
+
+
+Antes, com funções de sintaxe normal, o console.log de 'this' nos retornava 
+o elemento DOM do botão de search....  
+
+ex:
+
+<button id="search-btn">Search</button>
+
+
+
+
+AGORA, O CONSOLE.LOG NOS RETORNA o OBJETO GLOBAL 'WINDOW'... (de novo.)
+
+
+ex:
+
+
+Window {postMessage: f, blur: f, focus: f, 
+c lose: f, parent: Window, ...}
+
+
+
+
+-------------------------------------
+
+
+
+Professor nos explica que ARROW FUNCTIONS TEM UM MONTE DE VANTAGENS,
+como sintaxe menor e mais célere, e uma outra muito importante, que só 
+faz SENTIDO PARA NÓS nesse exato momento, pois só agora aprendemos sobre 'this'.
+
+
+
+A vantagem das arrow functions com relação a 'this' é que ELAS NÃO 
+CONHECEM (don't know) 'THIS'......
+
+
+
+Professor explica: 
+
+ 
+TODA FUNÇÃO TEM SEU PRÓPRIO 'this'. ___TODA FUNÇÃO CRIADA COM A KEYWORD 'function' OU 
+COM O SHORTCUT DE MÉTODO (method shortcut) TEM SEU PRÓPRIO 'BIND' DE 'THIS' (its own 'this' binding).
+Esse comportamento das funções padrão sempre assegura que 'this' esteja ligado a alguma coisa...
+sempre estará ligado ÀQUILO QUE FOI RESPONSÁVEL/É RESPONSÁVEL POR CHAMAR A FUNÇÃO A QUAL ESTÁ VINCULADO.
+
+
+
+
+
+                            (method shortcut)
+                            const newMovie = {
+////method shortcut ----> ex: "getFormattedTitle() {
+    console.log(this);
+    return this.info.title.toUpperCase
+}
+                            }
+
+
+
+
+
+
+BEM, A DISTINÇÃO DE 'ARROW FUNCTIONS' em relação Às funções padrão é que 
+ELAS NÃO FAZEM BIND DE THIS À COISA ALGUMA....
+Em razão disso, se nós tentarmos console.loggar 'this' dentro de uma ARROW FUNCTION, 
+NÓS NÃO RECEBEREMOS UM ERRO, MAS RECEBEREMOS UMA REFERÊNCIA AO OBJETO GLOBAL WINDOW, POIS 
+O OBJETO GLOBAL WINDOW SEMPRE É A REFERÊNCIA DE 'this' quando ele não consegue 
+mais nenhum objeto/propriedade/método para se vincular naquele trecho do código.
+
+
+
+O 'this' solto dentro de uma arrow function, sem nenhum código a mais, sempre IRÁ 
+SE REFERIR À MESMA COISA A QUE o 'this' se referiria se fosse colocado solto NO LADO 
+DE FORA DO CÓDIGO... (no nível global, no root): ao objeto global window.
+
+
+ex:
+
+
+const searchMovieHandler = () => {                                                                                                                  this; /////'this' no lado de fora, solto, é a mesma coisa que o 'this' no lado de dentro de uma arrow function, pois TAMBÉM SE REFERE AO OBJETO GLOBAL 'WINDOW'.
+    this;   ///////////////////////////////////--------------->       É a mesma coisa que escrevermos:          const searchMovieHandler = () => {
+                                                                                                                                                   'código idiota'
+                                                                                                                                                                 };
+}
+
+
+
+
+
+
+
+
+Se você prestou atenção até agora, você pode achar tudo isso um pouco estranho...
+
+
+
+o uso de "use strict" no código, o modo 'estrito' do Javascript, não 
+deveria levar ao console.log de UNDEFINED (pois é isso que 
+faz o "use strict", ele faz com que o uso de 'this' para 
+se referenciar ao objeto global window sempre 
+resulte em uma referência de 'undefined' no seu 
+lugar) em vez do log do 'global window object'?
+
+
+
+Por que diabos 'window' está sendo loggado aqui, em vez de undefined?
+
+
+
+
+O professor explica que, de fato, "use strict" faz com que 
+o javascript sempre considere o 'this' que se referencia ao global window object 
+como 'undefined'....
+
+
+Se você está usando 'this' em uma FUNÇÃO NORMAL, COM A keyword 'function' e 
+'this' NÃO ESTÁ VINCULADO A MAIS COISA ALGUMA...  (esse é o use case que tivemos algumas lições atrás, 
+um caso em que o 'this' não estava vinculado À NADA DENTRO DE UMA FUNÇÃO NORMAL (e não uma arrow function)...
+nesses casos, o javascript sempre irá definir o valor de 'this' como 'undefined', se você deixou a opção 
+do strict mode ligada)....
+
+
+
+
+ARROW FUNCTIONS NÃO SABEM/NÃO CONHECEM 'THIS'... elas NÃO CONHECEM 
+a palavra 'this', portanto ELAS NÃO DÃO TRIGGER nesse 'fix do strict mode' (ou qualquer nome que você queira), 
+não ativam esse comportamento do strict mode que faz com que a referência ao global 
+window object ser substituída por um valor de undefined... Isso acontece 
+
+_____PORQUE 'THIS' INSERIDOS DENTRO DE UMA ARROW FUNCTION _____ FUNCIONAM_____ 
+EXATAMENTE DA MESMA MANEIRA QUE 'THIS' COLOCADOS NO LADO DE FORA DE UMA FUNÇÃO/dessa mesma arrow function, 
+justamente pelo fato de arrow functions simplesmente não conhecerem a palavra 'this'.
+
+
+Arrow functions não conhecem e não assignam nenhum significado especial a 'this'.
+
+
+
+-----------------------------------------------
+
+
+
+ESSE, PORTANTO, É UM DOS COMPORTAMENTOS ESPECIAIS DO 'THIS' DENTRO DE ARROW FUNCTIONS:
+
+
+ELE SEMPRE IRÁ SE REFERIR AO GLOBAL WINDOW OBJECT SE VOCÊ NÃO ESPECIFICAR MAIS NADA NO SEU CÓDIGO, 
+ATÉ MESMO COM USO DE "use strict" no seu código.
+
+
+
+
+------------------------------------------------------
+
+
+Aqui, esse comportamento pode parecer INDESEJADO (e certamente o é se você estiver interessado 
+em pegar/selecionar aquela coisa que resultou no trigger do evento, como 'searchBtn' em 'searchBtn.addEventListener'... mas, 
+como você aprenderá no módulo de eventos, HÁ OUTRAS MANEIRAS DE GANHAR ACESSO A ESSE ELEMENTO),
+MAS, NA VERDADE, EM MUITOS 
+USE-CASES AS ARROW FUNCTIONS PODEM CONSERTAR 
+COMPORTAMENTOS ESTRANHOS DE 'THIS'.
+
+
+
+
+
+O professor aponta que devemos constatar se ela é capaz de nos ajudar com 'getFormattedTitle'...
+
+
+ex:
+
+
+
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue
+    },
+    id: Math.random().toString(),
+    getFormattedTitle() {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+};
+
+movies.push(newMovie);
+renderMovies();
+
+
+
+
+-------------------------
+
+
+Ele faz uma ponderação:
+
+
+E se nós TROCÁSSEMOS A SHORTHAND DAQUELE MÉTODO ('getFormattedTitle(){}')
+
+PARA UMA NOTAÇÃO DE ARROW FUNCTION....  COMO SERÁ QUE FICARIA O COMPORTAMENTO DO 'this' que está loggado no seu interior?
+
+
+
+
+ex:
+
+
+
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue
+    },
+    id: Math.random().toString(),
+    getFormattedTitle: () => {
+        console.log(this);
+        return this.info.title.toUpperCase();
+    }
+};
+
+movies.push(newMovie);
+renderMovies();
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+SE SALVARMOS, RECARREGARMOS A PÁGINA e então apertarmos no botão, 
+
+RECEBEREMOS UM __ERRO___... observamos que, pouco antes do erro, o 
+console.log nos mostra que 
+
+O OBJETO GLOBAL WINDOW ACABOU SENDO LOGGADO pelo 'this' dentro da arrow function 
+que definiu aquele método (mais uma vez, o professor demonstrou que está correto...)...
+
+O professor também fala que não 
+poderíamos escrever 'this' solto no lado de fora dessa função, solto no objeto newMovie (essa sintaxe seria inválida PORQUE DENTRO DE OBJETOS SEMPRE FICARÃO OU __KEY-VALUE PAIRS__ OU OUTRAS PROPRIEDADES/MÉTODOS. São exigidos, aqui, o ':' e o ',' , além de key-value pairs. )
+
+
+
+
+-------------------------------------------
+
+
+
+
+Aqui, nessa definição do método 'getFormattedTitle()', portanto, ____ A ARROW FUNCTION ___ 
+NÃO NOS AJUDARÁ....
+
+A arrow function só garantirá QUE O 'THIS' SE REFIRA À COISA ERRADA (ao objeto global window, que DEFINITVAMENTE 
+NÃO QUEREMOS SELECIONAR; aqui, queremos selecionar o objeto 'newMovie', que está logo acima 
+desse método(e que já está selecionado, na verdade, por meio de 'this.info.title.toUpperCase()'.) )
+
+
+
+
+
+--------------------------------------------
+
+
+
+VOCÊ SOMENTE TEM QUE GRAVAR NA SUA MENTE QUE ___ARROW_____ FUNCTIONS NÃO FAZEM O BIND DE 
+'THIS' À COISA ALGUMA, e sim que, em vez disso, elas MANTÉM 
+O CONTEXTO/binding que 'this' tem para o binding que ele 
+teria FORA DESSA MESMA FUNÇÃO...
+
+Esse fato se tornará mais interessante um pouco mais tarde, 
+quando examinarmos objetos mais a fundo (diferentes 
+maneiras de criar objetos).
+
+
+
+
+POR ENQUANTO, VOCÊ DEVE APENAS SE LEMBRAR DESSE COMPORTAMENTO ESPECIAL 
+DAS ARROW FUNCTIONS, DO COMPORTAMENTO QUE FAZ COM QUE 
+'THIS' inseridos dentro delas se refiram À mesma coisa 
+que 'this' jogados no nível root do nosso código (se refiram 
+ao 'global window object'.)
+
+
+
+Esse comportamento bizarro das arrow functions com relação a 'this' 
+PODE OU NÃO SER DESEJADO (e dependendo do caso, você então utilizará ou uma função de sintaxe normal, ou uma arrow function).
+
+
+
+
+
+NO PRESENTE MOMENTO, NÃO GANHAMOS NADA DE BOM COM O USO DE 'THIS' em arrow functions, mas mais tarde veremos alguns use-cases.
+
+
+-------------------------------------------------
+
+
+
+
+O PROFESSOR QUER NOS MOSTRAR UM EXEMPLO EM QUE 
+ARROW FUNCTIONS PODERIAM SER ÚTEIS.
+
+
+
+
+
+
+Digamos que temos uma constante chamada 'members'.
+Essa constante será um objeto em que teremos uma 'team name', 
+que segurará o nome de um time. Teremos, também, uma key 
+chamada 'people', que segurará um array com 
+'Max' e 'Manuel'....
+
+O professor também irá querer um método lá dentro, chamado de 
+getTeamMembers...
+
+O objetivo desse método será combinar o 'teamName' com 
+o nome das pessoas em 'people'.
+
+O professor começa utilizando UMA FUNÇÃO NORMAL NO MÉTODO (método normal, utilizando a sintaxe shorthand de método), 
+E NÃO UMA ARROW FUNCTION...
+
+
+
+ex:
+
+
+
+const members = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers() {
+        
+    }
+};
+
+
+----------------------------
+
+
+O que o professor quer fazer, aqui, é ir por dentro de todas 
+as pessoas e fazer um console.log dos nomes combinados com o teamName.
+
+
+
+ex (código torto, feito por mim... e errado...)  (na verdade, meu código deu o mesmo resultado do professor, o que é um bom sinal =) ):
+
+
+
+
+
+
+
+
+
+
+const members2 = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers() {
+        for (names of people) {
+            console.log(names + teamName);
+        }
+    }
+};
+
+
+--------------------------------------
+
+
+
+PROFESSOR DIZ QUE UMA MANEIRA DE FAZER ISSO COM 'THIS', que vai fazer 
+'this' se provar realmente útil, 
+é escrever assim:
+
+
+
+ex:
+
+
+
+
+const members = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers() {
+            this.people.forEach()
+        }
+    }
+};
+
+
+
+-------------------
+
+
+Professor explica que o 'this' aqui NORMALMENTE se refere ao objeto que 
+está segurando esse método/propriedade...
+
+
+então, traduzido, esse código ficaria:  'members.people.forEach()'.
+
+
+forEach() vai criar um loop que vai passar por dentro de cada elemento de 
+'people' E EXECUTAR ALGO EM SEU INTERIOR (essa função que será 
+executada deve ser inserida dentro dos parênteses, é a função AUXILIAR.)
+
+Como lá dentro temos UMA ÚNICA PESSOA POR VEZ, o professor 
+utiliza um primeiro parâmetro de 'p'. Dentro dessa 'inner function', o professor 
+VAI QUERER FAZER O OUTPUT DESSES 'names' COMBINADOS COM O 'teamName'.
+
+ficará "p + ' - ' this.teamName";
+
+
+
+
+
+
+
+
+const members = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers() {
+            this.people.forEach(p => {
+                console.log(p + ' - ' + this.teamName);
+            } )
+    }
+};
+
+
+
+-----------------------------------
+
+
+Se então eu digitar enter no console, registrar esse código, e depois 
+digitar 
+
+"members.getTeamMembers()"...
+
+
+
+RECEBEREI :
+
+"MAX - Blue Rockets"
+"MANUEL - Blue Rockets"
+
+
+----------------------------------
+
+
+
+O professor diz que recebeu esse resultado positivo APENAS PORQUE 
+ELE UTILIZOU UMA 
+
+____ARROW____ FUNCTION____ DENTRO DAQUELE 'FOREACH', como função 
+interna...
+
+
+ele então diz "deixa eu te mostrar como esse negócio ficaria SEM A ARROW FUNCTION NESSE LUGAR...":
+
+
+
+Ele vai lá e recria o objeto 'members', utilizando a sintaxe 
+de uma função normal no lugar daquela arrow function, dentro daquela função 
+interna do forEach(). Ele passa à função o mesmo parâmetro de 
+antes, 'p', e então 
+roda o mesmo código no function body.
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const members = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers() {
+            this.people.forEach(function(p) {
+                console.log(p + ' - ' + this.teamName);
+            }
+             )
+    }
+};
+
+
+--------------------------------------
+
+
+
+O PROFESSOR ENTÃO TENTA CHAMAR 'members.getTeamMembers', como fez antes.....
+
+
+
+DESSA VEZ, O CONSOLE NOS RETORNA:
+
+
+MAX - UNDEFINED 
+MANUEL - UNDEFINED.
+
+
+--------------------
+
+
+Antes esse código todo de passar por dentro das propriedades 
+do objeto funcionava, agora NÃO FUNCIONA MAIS, TUDO ISSO 
+EM RAZÃO DA 
+ARROW FUNCTION QUE ESTAVA ALI. 
+
+
+
+MAS PQ ISSO?
+
+
+
+A razão para isso é que 
+quando o professor criou a função com 
+A 'FUNCTION' KEYWORD...., o 'this' ESTÁ 'BOUND' (vinculado/atrelado)....
+AFINAL, O PROFESSOR JÁ MENCIONOU ISSO ANTES:
+
+FUNÇÕES CRIADAS COM A KEYWORD 'function' JÁ DÃO UMA DEFINIÇÃO/BIND
+PADRÃO a 'this' dentro delas...
+
+
+
+
+**mas então, a qual elemento 'this' está vinculado/bindeado aqui, nessa 
+função interna/auxiliar de 'forEach'? -------> Professor 
+diz que devemos examinar isso, 
+
+POR ISSO ELE VAI LÁ E FAZ O CONSOLE.LOG de 'this' dentro dessa função interna....
+
+
+
+ex:
+
+
+
+
+const members = {
+    teamName: 'Blue Rockets', 
+    people: ['Max', 'Manuel'], 
+    getTeamMembers() {
+        this.people.forEach(function(p) {
+            console.log(p + ' - ' + this.teamName);
+            console.log(this);
+        });
+    }
+};
+
+
+
+----------------------------
+
+
+Após isso, ele vai lá e faz o chamado de 
+
+"members.getTeamMembers();" no console...
+
+----------------------------------
+
+
+ISSO IRÁ NOS RETORNAR:
+
+
+
+"Max" - undefined
+
+--> O WINDOW OBJECT 
+
+"Manuel" - undefined
+
+--> O WINDOW OBJECT.
+
+
+
+
+
+--------------------
+
+
+
+CONCLUÍMOS, ENTÃO, QUE 'THIS' se referencia AO OBJETO 'window' DENTRO 
+DESSA FUNÇÃO AUXILIAR... (que foi criada com a keyword 'function'.)
+
+
+Mas por que aqui 'this' se referencia ao objeto window?
+
+
+
+---> é porque aqui nós definimos a função POR MEIO DA 'FUNCTION' KEYWORD.
+
+Professor nos explica que aqui nós NÃO SABEMOS 
+EXATAMENTE COMO O BROWSER EXECUTOU ESSA FUNÇÃO INTERNA, AQUI, PARA NÓS...
+
+
+
+
+Nós aprendemos que, com eventListeners, javascript faz o bind de 'this' ao objeto 
+que condiciona o trigger do evento (no caso, o próprio elemento dom, como um botão).
+
+
+
+
+ENTRETANTO, PARA 'forEach', o browser não parece fazer binding algum, 
+ele simplesmente DEIXA QUE A "FUNCTION KEYWORD", A FUNÇÃO PADRÃO, DEFINA 
+O BIND DE 'this' como bem desejar... (e é isso que cria o nosso inconveniente, o inconveniente 
+de 'this' se referenciar ao window object, aqui).
+
+
+O BROWSER _____CERTAMENTE____ NÃO FAZ O BIND DE 'THIS' AO OBJETO QUE O ENVOLVE, 
+EM FOREACH.... mas pq?
+
+PQ ESSA FUNÇÃO ACABOU SENDO EXECUTADA JUSTAMENTE EM RAZÃO DE 'FOREACH' (que está 
+dentro daquele objeto, mas que NÃO É O OBJETO; É APENAS UMA __CONEXÃO__ AO OBJETO)...
+
+
+ou seja, não é o NOSSO OBJETO EM SI que dá trigger nessa função interna, e sim 
+"forEach"....
+
+
+
+É "foreach" e o próprio BROWSER que acabam dando trigger nessa função interna...
+
+
+
+
+
+Resumindo: 'this' fica com o valor ERRADO quando nós o utilizamos desse jeito, 
+dentro de um forEach/dentro de um objeto com a 'function' keyword... 
+
+E FICA COM O VALOR _____ CORRETO___ QUANDO NÓS O UTILIZAMOS COM UMA ARROW FUNCTION dentro de forEach.......
+
+
+Isso é pq A ARROW FUNCTION NÃO MUDA/não conhece/não altera O 'BINDING' de 'this', o que faz com  que 
+ele tenha O MESMO BINDING QUE ELE TERIA CASO TIVESSE SIDO ESCRITO NO LADO 
+DE FORA DESSA FUNÇÃO...
+
+
+
+...Bem, prosseguindo o raciocínio:  E O QUE, AFINAL, HÁ NO LADO DE FORA DESSA FUNÇÃO?
+É CLARO, É A FUNÇÃO 'getTeamMembers'...     E, ENFIM, QUAL É O BINDING (a que se refere 'this', dentro dessa função?)
+DE 'THIS' DENTRO DA FUNÇÃO 'getTeamMembers'? ----> É O 
+NOSSO OBJETO 'members', que é aquilo que REALMENTE QUEREMOS SELECIONAR, AQUI.
+
+E É POR ISSO QUE a arrow function, dentro de métodos, faz com que o 'this' selecione 
+o objeto que você quer selecionar, e não aquele objeto global indesejado 'window'. A EXPLICAÇÃO 
+ESTÁ LOGO ACIMA ^^^^^.
+
+
+É por isso que esse código todo funciona quando temos uma arrow function como função auxiliar, 
+e porque NÃO FUNCIONA se nós tivermos uma 'função padrão' definida como função interna/auxiliar.
+
+
+
+
+(ESSA É UMA DAS UTILIDADES DE 'ARROW FUNCTIONS' EM RELAÇÃO A OBJETOS, e 
+uma das razões para você preferir elas às funções normais).
+
+
+
+
+
+**com uma arrow function, 'this' é bound A NADA. É como se ele estivesse bound 
+FORA da arrow function, e essa é a própria razão de arrow functions serem úteis, elas 
+fazem como se esse código:
+
+
+
+
+const members = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers() {
+            this.people.forEach(p => {
+                console.log(p + ' - ' + this.teamName);
+            } )
+    }
+};
+
+
+
+FOSSE LIDO ASSIM:
+
+
+
+
+
+const members = {
+
+    teamName: 'Blue Rockets',
+    people: ['Max', 'Manuel'],
+    getTeamMembers()  { this.teamname;//////////// "THIS", AQUI, TERIA COMO BIND O OBJETO 'members'.
+            this.people.forEach(p => {
+                console.log(p + ' - ' + ---------); ////transferido 1 nível para cima, para o nível root da função getTeamMembers, que acaba fazendo com que a referência do 'this' fique correta, que ele realmente esteja bindado ao objeto 'members'.
+            } )
+    }
+};
+
+
+
+
+
+------------------------------------
+
+
+
+Se tudo isso é muita informação para digerir,
+
+não se preocupe, afinal nós trabalharemos muito com objetos e 'this' ao longo 
+dos próximos módulos.
+
+
+
+
+
+Mas a ideia geral de 'this' deve estar clara, agora.
+
+
+
+Você pode reassistir essas aulas, se não tiver entendido muito bem.

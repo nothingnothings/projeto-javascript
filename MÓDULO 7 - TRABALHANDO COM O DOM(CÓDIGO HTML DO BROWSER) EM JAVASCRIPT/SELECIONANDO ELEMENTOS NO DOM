@@ -1,0 +1,416 @@
+Abrimos a página do "dive into the dom!".
+
+
+
+
+
+Abrimos o devtools console.
+
+
+
+
+
+Vamos usar alguns dos query methods.
+
+
+
+
+
+O professor quer ser capaz de selecionar múltiplos elementos, por isso ele vai querer adicionar uma tag 
+de unordered list no documento html. (<ul></ul>)
+
+
+
+
+
+Adicionamos algumas classes e IDs aos elementos do documento html.
+
+
+
+
+Salvamos e recarregamos a página.
+
+
+
+
+
+Vamos até o console... todos os query methods estão disponíveis em "document"
+
+
+
+Por isso começamos com "document.xxx".
+
+
+
+
+document.
+
+
+
+
+na verdade, podemos colocar "document" ou QUALQUER OUTRO ELEMENT NODE QUE VOCÊ SELECIONOU/QUER SELECIONAR.
+
+
+O professor já vai nos explicar.
+
+
+
+
+
+
+
+
+O professor quer selecionar o ___header__; na verdade, ele quer selecionar o ELEMENTO h1 do header (está nested dentro do header).
+
+
+
+
+Começamos selecionando o h1 por meio do seu ID.
+
+
+seria:
+
+getElementById('main-title');
+
+
+
+
+----------------------------------------
+
+
+Juntamos "getElementById('main-title') ao "document" (porque está dentro dele).
+
+
+
+fica:
+
+
+
+document.getElementById('main-title');
+
+
+
+com isso, selecionamos aquele elemento.
+
+
+
+
+Se digitarmos isso no console, recebemos um output estranho de  "<h1 id="main-title">Dive into the DOM!</h1>"
+
+
+Se passarmos o mouse por cima desse output, vemos que ele está funcionando, ele realmente seleciona o elemento da página correspondente.
+
+
+
+
+PARA enxergarmos (get a feeling) o que está dentro desse objeto, podemos digitar 
+
+"console.dir(document.getElementById('main-title'))".
+
+
+
+Se fizermos isso, agora teremos esse javascript object que podemos inspecionar.
+
+
+"h1#main-title".
+
+
+
+
+
+h1#main-title  É O OBJETO QUE O BROWSER AUTOMATICAMENTE CRIA E EXPÕE A NÓS EM JAVASCRIPT para esse 
+elemento h1. E objetos como esse são criados para TODOS OS ELEMENTOS HTML QUE FORAM RENDERIZADOS, ou seja, 
+para todo o texto que você poderia ter ali dentro.
+
+
+
+dentro de h1#main-title, você emcontra um monte de informação, como "className", que listaria 
+quaisquer classes css, se o negócio tivesse alguma.
+
+Também há propriedades como "Height" "width", e outras de posição. "clientHeight" "clientLeft" ----> tudo isso fala do lugar em que aquele elemento está posicionado na janela.
+
+
+Também há o "id", que é claro que nesse caso é "main-title".
+
+
+
+a maior parte dessas propriedades pode ser MANIPULADA. O professor vai mostrar como, logo logo.
+
+
+Há também o "innerHtml", propriedade que mostra qualquer código html "nested" dentro daquele elemento.
+Nesse caso, temos a mensagem/texto "Dive into the DOM!", porque isso é a única coisa que temos ali dentro. Caso tivéssemos 
+outro elemento dentro de innerHTML, ele apareceria ali.
+
+
+
+Outra coisa interessante: se nós armazenarmos esse elemento h1 dentro de uma variável...
+
+
+ex:
+
+
+const h1(ou qualquer outro nome que você queira) = document.getElementById('main-title');
+
+
+
+
+ex:
+
+
+const h1 = document.getElementById('main-title');
+
+------------------------------------------------------
+
+Se eu armazenar isso dentro dessa constante h1, também é interessante que ____NESSE ELEMENTO H1____ VOCÊ PODE, DE NOVO, 
+USAR CERTOS MÉTODOS.
+
+
+
+por exemplo, "querySelector" ou "querySelectorAll". getElementById NÃO É SUPORTADO NESSE ELEMENTO H1 (esse seletor é apenas disponível no root level do documento html.s), 
+MAS QUAISQUER OUTROS MÉTODOS DE SELEÇÃO FUNCIONAM, são suportados pelo console/javascript.
+
+
+
+A ideia principal é que, com document e mais algum método de seleção, você PROCURA PELO DOCUMENTO INTEIRO 
+AQUELA COISA/elemento que tem aquele nome ou aquela classe/id.
+
+
+
+ex:
+
+document.getElementById('exemplo');
+
+
+
+Mas uma vez que VOCÊ____TEM___UM____ELEMENTO (esse elemento que você queria escolher antes) e quer 
+PROCURAR APENAS NO INTERIOR DESSE ELEMENTO, APENAS NOS CHILD NODES DESSE ELEMENTO/NODE... AÍ VOCÊ 
+PODE USAR O ___ELEMENTO EM SI_____ E ENTÃO USAR OS SELECTION METHODS QUE ESTÃO DENTRO DELE PARA 
+PODER PROCURAR APENAS DENTRO DE SEUS CHILD NODES; EVITA QUE O JAVASCRIPT FIQUE PROCURANDO PELO CHILD NODE 
+EM LUGARES QUE ESTÃO FORA DESSE ELEMENTO.
+
+ex:
+
+
+
+"h1.getElementById();"  ---------> isso funcionaria... SE TIVÉSSEMOS ELEMENTOS DENTRO DE H1. NÓS NÃO TEMOS, POR ISSO ESSE COMANDO NÃO NOS RETORNA COISA ALGUMA.
+
+
+
+outro ex:
+
+
+
+ul.getElementsByClassName('list-item');
+
+
+Aqui procuramos dentro da unordered list, procuramos pelo className "list-item".
+ 
+
+
+Devemos dar uma olhada em MAIS métodos de seleção. Por exemplo, novamente com "document", podemos 
+usar "document.getElementByClassName('class-list')" para para selecionar a classe "list-item".
+
+
+document.getElementByClassName('class-list'); 
+
+
+
+getElementByClassName É UM MÉTODO BEM ANTIGO, MAS NÓS AINDA O SUPORTAMOS, e funciona normalmente.
+
+
+
+Se digitarmos "document.getElementByClassName('class-list');" no console, vamos obter os detalhes 
+desse objeto. Esses detalhes são chamados de "OBJETO HTML COLLECTION" (html collection object). Esse objeto 
+é COMO UM ARRAY (array-like). Não é um verdadeiro array, mas tem comportamentos típicos de um array. Nem tudo 
+que funciona em um array funciona com esse objeto, mas você PODE, por exemplo, USAR UM FOR LOOP e FOR-OF loops para 
+procurar/passar por dentro desse array e para selecionar elementos por meio de index ([0, 1, 2, 3...]). O 
+importante é que esse objeto de coleção HTML te dá acesso a TODOS OS ITEMS, TODOS OS NODES que tem 'list-item' como 
+class name.
+
+ex: "for(let i = 0)
+
+
+Mais comum atualmente é ____UM____ SELETOR___ DIFERENTE desse... O MAIS USADO HOJE EM DIA É O 
+QUERYSELECTOR. Se você quer selecionar um elemento específico por meio de um class name ou por meio de uma tag, você 
+tipicamente não usa esses métodos antigos (como "getXbyY") e opta, em vez disso, pelo querySelector. "getElementById" é uma EXCEÇÃO, VISTO QUE 
+VOCÊ TIPICAMENTE O UTILIZA SE VOCÊ QUER PEGAR UM ELEMENTO POR MEIO DO SEU ID (porque aquele elemento geralmente é único na página 
+). Mas se você quer pegar uma coleção ou até mesmo se você quer UM ÚNICO ELEMENTO, MAS UM ÚNICO ELEMENTO COM UMA 
+QUERY MAIS COMPLEXA, querySelector é o melhor caminho. Com querySelector, por exemplo, para selecionar Todos os 
+items com o nome "class-list"... querySelector é utilizado tanto quando você quer uma coleção de elementos, quanto 
+nos casos em que vocÊ tem um único elemento mas você quer um query mais potencialmente complexo. É perfeito 
+para esses casos.
+
+
+
+
+ex:
+document.querySelector('list-item'); ------> isso selecionará todos os items com a classe "list-item". PPPPORÉEEEEM, ISSO NÃO VAI FUNCIONAR.
+NÃO VAI FUNCIONAR PORQUE É NECESSÁRIO COLOCAR ".list-item", como se vocÊ estivesse selecionando aquela classe 
+no css.
+
+
+
+ex:
+
+document.querySelector('.list-item')
+
+
+
+
+com esse .querySelector, OCORRE A MESMA COISA COM ID SELECTORS. (devemos adicionar o # antes do id.)
+
+
+ex: document.querySelector('#exemplo');
+
+
+Isso vai procurar elementos com a tag 'list-item', mas não por elementos com 
+a classe ".list-item" ...
+
+
+
+
+QUERYSELECTOR, como o professor mencionou anteriormente, vai retornar o PRIMEIRO ITEM 
+QUE TIVER AQUILO, QUE TIVER O ".list-item"...
+
+Se você quiser TODOS OS ITEMS QUE POSSUEM ".list-item", você deve utilizar 
+"document.querySelectorAll('.list-item');
+
+
+No devtools, isso vai te dar uma NODELIST, OU SEJA, UM OBJETO "ARRAY-LIKE" com o qual você 
+pode basicamente trabalhar como se fosse um array; ele te dá todos os items que podem 
+ser encontrados para esse determinado selector. E o seletor que vocÊ escolhe PODE 
+SER COMPLEXO, você absolutamente pode também usar querySelector aqui para, por exemplo, 
+olhar dentro da "unordered List (ul)":
+
+
+ex:
+
+document.querySelector('ul');
+
+
+
+--------------------------------------
+
+
+Procurar, por exemplo, pelo item "li" DENTRO DA UNORDERED LIST, MAS EU QUERO 
+O PRIMEIRO LI...
+
+ex:
+
+document.querySelector('ul li:first-of-type');
+
+
+----------------------------------------
+
+ 
+isso seria um seletor CSS VÁLIDO. Seleciona o primeiro item li dentro da ul.
+Até mesmo o uso de pseudoseletores (":", no caso ":first-of-type".) é permitido.
+
+
+Aqui selecionamos o primeiro item da lista, "Item 1".
+
+
+
+QuerySelector te dá muito poder; te permite selecionar elementos individuais na 
+página. Você vai querer utilizar isso para adicionar eventListeners, ou até mesmo 
+para MANIPULAR ESSES ELEMENTOS "on the go", porque isso que é o legal do javascript, ele roda 
+no browser DEPOIS QUE A PÁGINA FOI CARREGADA; PORTANTO ELE PERMITE A VOCÊ MANIPULAR O QUE ESTÁ 
+ACONTECENDO NA TELA COM AQUELA PÁGINA JÁ CARREGADA, O QUE TE PERMITE CRIAR EXPERIÊNCIAS ALTAMENTE INTERATIVAS AO 
+USUÁRIO, em que você pode mudar as coisas NA UI SEM PRECISAR RECARREGAR OU CARREGAR UM NOVO 
+DOCUMENTO. Em vez disso, você pode simplesmente mudar o documento já existente, o que providência uma experiência 
+do usuário mais rápida e melhor do que se o documento recarregasse para cada clique.
+Isso é uma das features mais poderosas do javascript, e o querySelector, getElementId 
+e esses outros métodos, temos diferentes maneiras de selecionar elementos.
+
+É evidente que selecionaremos elementos com muita frequência nesse curso.
+
+
+
+Sempre tenha em mente, também, que além da opção de usar "document." para selecionar elementos, você 
+PODE SELECIONAR ELEMENTOS ESPECÍFICOS DENTRO DE OUTROS ELEMENTOS POR MEIO DA SEGUINTE SINTAXE:
+
+ex:
+
+ul.querySelector('li'); ----> isso vai selecionar o primeiro elemento "li" que o javascript 
+encontrar dentro de "ul".
+
+
+Essa é outra coisa que você pode usar, e é assim que você faz o query de 
+elementos no documento, e é assim como você ganha acesso a eles no JAVASCRIPT.
+
+Como você pode ver no vídeo do professor, vocÊ pode armazenar os elementos 
+em constantes e variáveis, e isso te permite a trabalhar com eles.
+
+
+
+IMPORTANTE para essas nóias de fazer query e manipular elementos da página html é QUE 
+VOCÊ IMPORTE SEU SCRIPT CORRETAMENTE NA PÁGINA HTML.
+
+
+Você precisa importar seu script de modo que  ELE SOMENTE 
+RODE APENAS APÓS TODO O CONTEÚDO HTML SER CARREGADO.
+
+Isso pode ser obtido até mesmo por meio do import lá no final do documento (mas sem "defer"), ou 
+você pode fazer como o professor faz, colocar o import lá no head e 
+colocando o comando "defer" para que o negócio fique automatizado.
+Defer faz com que o script seja baixado antes e que só seja 
+executado após a página html ser carregada. Se você não colcar o defer, é possível
+ que o script baixe muito cedo, e aí ele vai tentar executar código sobre elementos da página que ainda 
+ não foram carregados em sua integralidade.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Here's a summary of the various methods you got to reach out to DOM elements (note: you can only query for element nodes).
+
+Besides the below query methods, you also got these special properties on the document object to select parts of the document:
+
+document.body => Selects the <body> element node.
+
+document.head => Selects the <head> element node.
+
+document.documentElement => Selects the <html> element node
+
+---
+
+QUERY METHODS
+
+---
+
+document.querySelector(<CSS selector>);
+Takes any CSS selector (e.g. '#some-id', '.some-class' or 'div p.some-class') and returns the first (!) matching element in the DOM. Returns null if no matching element could be found.
+
+More information: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+
+document.getElementById(<ID>);
+Takes an ID (without #, just the id name) and returns the element that has this id. Since the same ID shouldn't occur more than once on your page, it'll always return exactly that one element. Returns null if no element with the specified ID could be found.
+
+More information: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+
+document.querySelectorAll(<CSS selector>);
+Takes any CSS selector (e.g. '#some-id', '.some-class' or 'div p.some-class') and returns all matching elements in the DOM as a static (non-live) NodeList. Returns and empty NodeList if no matching element could be found.
+
+More information: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+
+document.getElementsByClassName(<CSS CLASS>);
+Takes a CSS class g (e.g. 'some-class') and returns a live HTMLCollection of matched elements in your DOM. Returns an empty HTMLCollection if not matching elements were found.
+
+More information: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
+
+document.getElementsByTagName(<HTML TAG>);
+Takes an HTML tag (e.g. 'p') and returns a live HTMLCollection of matched elements in your DOM. Returns an empty HTMLCollection if not matching elements were found.
+
+More information: https://developer.mozilla.org/en-US/docs/Web/API/Element/getElementsByTagName
+
+There also is the getElementsByName() method which really isn't used commonly (https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByName).

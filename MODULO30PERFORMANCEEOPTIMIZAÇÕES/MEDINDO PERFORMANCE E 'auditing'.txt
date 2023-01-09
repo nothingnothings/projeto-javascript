@@ -1,0 +1,330 @@
+
+
+
+
+
+
+
+----> QUANDO VOCÊ QUER OPTIMIZAR SUA PÁGINA, É MEIO ERRADO 
+
+
+
+SIMPLESMENTE ENTRAR NO SEU CÓDIGO E MUDAR QUALQUER COISA....
+
+
+
+
+Em vez disso, você vai querer MEDIR O SEU CÓDIGO (measure) E AUDITÁ-LO ('audit your page')... VOCê 
+
+DEVE FAZER ISSO PARA 
+
+ENCONTRAR  
+
+
+
+_______pERFORMANCE BOTTLENECKS___...
+
+
+
+
+
+
+VOCÊ NÃO QUER FAZER 'BLIND GUESSES' (DONT GUESS!')...
+
+
+
+
+VOCÊ QUER 
+
+
+_____MEDIR___ sua página, esse sempre é o melhor caminho...
+
+
+
+
+---> VOCÊ ___PRIMEIRAMENTE___ vai querer 
+
+
+CHECAR 
+
+
+
+QUANTOS ROUNDTRIPS seu código faz... (quantos módulos/bundles seu código tem. Quantos CDN ele usa...)
+
+
+
+
+
+DEPOIS VOCÊ VAI QUERER CHECAR 
+
+
+
+___QUÃO GRANDE É O SEU SCRIPT____....
+
+
+
+
+
+RESUMO DO CÓDIGO:
+
+
+
+
+1) QUANTOS ROUNDTRIPS 
+
+
+
+2) TAMANHO DO SCRIPT 
+
+
+
+
+
+----------------------------------
+
+
+
+
+TALVEZ VOCÊ QUEIRA SETTAR CERTOS BUDGETS... 
+
+
+
+certos budgets para que vocÊ pense "OK, MEU SCRIPT 
+
+TEM QUE TER MENOS DE 100KB... se ele estiver maior do que isso, 
+
+farei de tudo para o encolher..."
+
+
+
+
+---> CERTO, ESSA É 1 COISA IMPORTANTE DE SE FAZER...
+
+
+
+
+
+
+-----------> VOCÊ SEMPRE QUER SABER QUÃO GRANDE É SEU CÓDIGO, E QUANTO TEMPO 
+DEMORA PARA ELE CARREGAR... ---> depois que você sabe isso, pode começar a optimizar.
+
+
+
+
+---------------------------------------------
+
+
+
+
+VOCÊ TAMBÉM VAI QUERER MEDIR A RUNTIME PERFORMANCE COM A AJUDA 
+
+
+___DE BROWSER DEVTOOLS___... (principalmente as tools do google)...  (measure performance with devtools)
+
+
+
+
+
+
+HÁ UM MONTE DE FEATURES ÚTEIS NOS BROWSERS MODERNOS, EM SUAS DEVTOOLS....
+
+
+vOCÊ PODE USAR essas features da devtools para descobrir QUANTO 
+
+TEMPO DEMORA PARA 
+
+CERTAS PARTES DO SEU SCRIPT CARREGAR/EXECUTAR.... --> se essas partes são mt lerdas,
+
+você pode eventualmente tentar UMA ALTERNATIVA PARA ESSES CÓDIGOS, ver se elas rodam melhor.
+
+
+
+
+
+
+VOCÊ TAMBÉM PODE EXPLORAR 'MELHORES PRÁTICAS' e 'PADRÕES', BENCHMARKS ENCONTRADOS
+ 
+ na internet...  ----> você pode/vai encontrar UM MONTE DE POSTS EM BLOGS 
+
+
+ E DISCUSSÕES... ----> 'javascript performance' no google.... ---> vocÊ pode então ler sobre como 
+
+ OUTRAS PESSOAS 
+
+ ESTÃO SOLUCIONANDO CERTOS PROBLEMAS. 
+
+
+
+
+
+
+
+
+
+ ---> TAMBÉM É IMPORTANTE, QUANDO VOCÊ ESTIVER MEDINDO A PERFORMANCE DO SEU APLICATIVO, 
+
+ MEDIR ____ O _____ 'PRODUCTION-READY' ____ CODE...
+
+
+Você não deve medir/testar a performance do SEU APLICATIVO NO 
+
+
+'DEVELOPMENT MODE' DO WEBPACK...;  não, você deve usar o PRODUCTION MODE, 
+
+
+pq O MODO DE DESENVOLVIMENTO __NUNCA__ VAI OPTIMIZAR O SEU CÓDIGO... Ele sempre rodará uma merda..
+
+
+
+Sempre rodará uma merda pq essas ferramentas, como o 'webpack-dev-server', SEMPRE INJETAM 
+
+UM MONTE DE CÓDIGO EXTRA NO SEU CÓDIGO.... eles fazem isso PARA QUE SUA DEBUGGING EXPERIENCE 
+
+
+SEJA MELHORADA... ---> isso é ótimo para o FINE TUNING DO SEU CÓDIGO, para encontrar ORDINARY ISSUES e 
+
+problemas, MAS NÃO É BOM PARA MEDIR PERFORMANCE... (pq performance não é aquilo que importa durante o desenvolvimento 
+do seu webapp...)
+
+
+
+
+----> MAS VOCÊ QUER, É CLARO, TER ÓTIMA PERFORMANCE DURANTE A PRODUÇÃO, POIS É O CÓDIGO DE PRODUÇÃO 
+
+QUE VOCÊ VAI QUERER TESTAR...
+
+
+
+
+---------> QUANDO FALAMOS SOBRE 'MEASURING OF PERFORMANCE', há 
+
+
+DIFERENTES MANEIRAS DE REALIZAR ESSA MENSURA...  como o professor mencionou, os devtools 
+
+é uma delas...
+
+
+
+
+---> ALÉM DISSO, TAMBÉM PODEMOS ADICIONAR CERTOS 'CODE SNIPPETS()'  no seu código....
+
+para ser mais preciso,
+ 
+ vocÊ pode usar 
+
+
+ o método 
+
+
+ 'performance.now()', que É DISPONÍVEL NO BROWSER... ESSE MÉTODO 
+
+
+ NOS DÁ UMA __'TIME SNAPSHOT'___ ....
+
+
+
+ E AÍ PODEMOS 
+
+
+ PEGAR 
+
+
+ ESSE 
+
+ 'before' e 'after' da running operation que vocÊ acha que está uma merda...
+
+
+
+
+
+ E isso, esse 'performance.now()', te permite 
+
+ DESCOBRIR 
+
+
+__QUANTO TEMPO ___ UMA DETERMINADA OPERAÇÃO LEVA/ocupa no runtime da sua página__...
+
+
+
+
+
+
+'performance.now()' ---> 'ADD THIS TO YOUR CODE (during development/testing) and check the EXECUTION TIME (difference) for certain operations'...
+
+
+
+
+
+
+
+ENTÃO, FORA DO SEU CÓDIGO, nós temos 
+
+
+O 'BROWSERDEVTOOLS', já mencionados, EM QUE 
+
+
+
+NÓS TEMOS VÁRIAS FEATURES que nos deixam detectar OS MAIS VARIADOS PROBLEMAS E BOTTLENECKS 
+
+QUE NÓS PODEMOS TER no nosso código 
+
+
+
+
+
+Browser Dev Tools ---> 'use the many features of browser dev tools to detect unnecessary code executions, http 
+requests and measure execution time + memory leaks'...
+
+
+
+
+
+VOCÊ TAMBÉM TEM ALGUNS WEBSITES, como 
+
+
+'jsperf.com', QUE TE PERMITEM 
+
+_____FAZER BENCHMARK ___  DE CERTAS 
+
+
+ALTERNATIVAS DE CÓDIGO.... comparar 1 alternativa com a outra, 
+
+ver qual é mais rápida....
+
+
+
+
+
+NÓS TAMBÉM 
+
+
+TEMOS 
+
+
+
+'webpagetest.org', (ESSE SITE É MUITO BOM)
+
+
+
+QUE É UM SITE QUE PODEMOS USAR 
+
+
+PARA 
+
+TESTAR 
+
+
+UM 
+
+
+HOSTED WEBSITE..
+
+
+
+-----------------------------------------------
+
+
+
+
+WEBPAGETEST.org --> TESTA TODA A SUA WEBPAGE, detecta POTENCIAL DE OPTIMIZAÇÃO....
+

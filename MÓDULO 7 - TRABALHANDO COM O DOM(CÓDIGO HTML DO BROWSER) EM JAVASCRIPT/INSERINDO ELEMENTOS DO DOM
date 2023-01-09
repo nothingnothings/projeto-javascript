@@ -1,0 +1,407 @@
+Vimos como usar "document.createElement", que é muito útil para 
+criar objetos DOM com os quais podemos interagir e alterar dinamicamente.
+
+Vimos também que devemos inserir esse elemento criado com essa propriedade por meio 
+do método ".appendChild()".
+
+
+Não há nada de errado com tudo isso, mas há um detalhe importante:
+
+"append()".
+
+
+A diferença não reside somente no fato de append ser menor do que "appendChild()", mas 
+também no fato de que append não só aceita "newLi", a constante que nós criamos 
+para segurar aquele elemento <li> criado com createElement, mas também ACEITA 
+STRINGS. POR EXEMPLO:
+
+
+list.append('Some text'); //------------------> essa string, se você digitá-la no slot do parâmetro, 
+é então inserida ao final da ul, logo após os 3 elementos <li>. É INSERIDA COMO 
+UM TEXTNODE NO FINAL DA UL, logo após todos os elementNodes.
+
+Ou seja, se você quer adicionar um textNode, você pode adicioná-lo convenientemente 
+com essa propriedade aqui.
+
+
+Outra diferença, a propósito, é que VOCÊ PODE ADICIONAR MÚLTIPLOS NODES por meio 
+de APPEND; para tal, você apenas deve separá-los com vírgulas. Todos os nodes enumerados 
+ali serão adicionados _____DE UMA SÓ VEZ_______ em um único lugar no final daquele elemento.
+Isso ocorre de forma diferente em appendChild, que só aceita 1 único parâmetro.
+
+
+
+É relevane mencionar que se você procurar por JS append no google e abrir a página 
+do MDN sobre isso, você pode scrollar lá para baixo e ver o browser support:
+
+
+APPEND NÃO TEM SUPORTE ALGUM NO INTERNET EXPLORER. Se você quer suportar 
+versões antigas do internet explorer, É MELHOR VOCÊ UTILIZAR APPENDCHILD.
+appendChild é mais antigo do que "append()", e por isso é mais seguro 
+de ser utilizado em browsers.
+
+Mais tarde, no módulo acerca do suporte dos browsers, veremos como fazer features 
+mais recentes funcionar em browsers antigos como internet explorer.
+
+
+
+
+HÁ MAIS PROPRIEDADES ALÉM DE APPEND E APPENDCHILD. Há, por exemplo, 
+a propriedade/método ___________"PREPEND".
+
+
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+//document.createElement('li');// 
+
+const newLi = document.createElement('li'); 
+
+
+newLi.textContent = 'Item 4';
+
+
+
+
+list.prepend(newLi); //------------> EIS AQUI O NOVO CÓDIGO.
+
+
+O que faz "prepend"? Ele essencialmente
+ adiciona o elemento criado com createElement (na verdade, ele adiciona algum elemento 
+ html que está na memória, não precisa ser um elemento criado com createElement) AO 
+ INÍCIO DAQUELE ELEMENTO/NODE ESPECIFICADO.
+Se fizermos isso, veremos que agora "Item 4" é na verdade 
+O PRIMEIRO ITEM da lista ul.
+
+
+
+Se procurarmos por prepend na página do MDN, veremos que NÃO HÁ SUPORTE 
+NO INTERNET EXPLORER.
+
+
+
+A alternativa para essa propriedade, no internet explorer, é chamada de 
+".insertBefore();"
+
+
+Para saber mais sobre esses métodos/propriedades alternativos para o internet explorer,
+veja a lição "sumário", ao final desse módulo.
+
+
+Mesmo não sendo suportado pelo internet explorer, o professor quer nos mostrar 
+mais alguns métodos e alguns comportamentos interessantes.
+
+
+DIGAMOS QUE QUEREMOS adicionar o item 4 a um lugar diverso na nossa lista. Queremos 
+adicioná-lo antes do último item atual.
+
+Para tal, devemos primeiramente selecionar o último elemento da ul.
+"lastElementChild()" nos dá acesso ao último list item da ul (representada por list).
+
+
+
+
+ex:
+
+const list = document.querySelector('ul');
+
+list.lastElementChild();
+
+
+
+-------------------------> AGORA, O PROFESSOR QUER ADICIONAR O NOVO 
+LIST ITEM, "iTEM 4", ANTES DESSE ÚLTIMO ELEMENTO da <ul>.
+
+
+
+--------------------->Mais uma adição ao código, a propriedade "BEFORE()", que nos 
+permite adicionar um item disponível no código html/engine javascript antes do elemento/node
+que está sendo selecionado (nesse caso, o node selecionado não é 
+ul/list inteiro, e sim a ÚLTIMA CHILD DESSA UL/LIST. Adicionamos newLi (o novo list item, item 4, que é passado no parâmetro de before) 
+em uma posição anterior À ultima child, item 3):
+
+
+
+
+ex:
+
+const list = document.querySelector('ul');
+
+list.lastElementChild.before(newLi);
+
+
+
+
+
+--------------------> Se fizermos isso veremos que Item 4 realmente será adicionado 
+logo antes do último elemento da UL. MAS A COISA INTERESSANTE AQUI É QUE O ITEM 4 QUE FOI ADICIONADO AO INÍCIO 
+DA LISTA, POR MEIO DE "PREPEND", É TRANSLOCADO DE LÁ PARA O LOCAL ANTERIOR AO ÚLTIMO ELEMENTO DA UL/list.
+
+
+Explicação: Se você tem um elemento selecionado tanto com algum seletor (ex: querySelector) ou 
+selecionado porque você O CRIOU com "createElement()", ESSE ELEMENTO JÁ É UMA PARTE DO DOM, OU SEJA, 
+ELE JÁ ESTÁ RENDERIZADO COMO UM OBJETO NO OBJETO DOM; se você o insere em algum outro lugar, ele não 
+é copiado ou qualquer coisa do gênero, não. Em vez disso, o elemento já existente É DESACOPLADO do lugar 
+onde ele estava e é movido para o novo lugar ao qual você o direcionou. O professor diz que 
+isso faz muito sentido, visto que objetos são, _NA VERDADE_,  REFERENCE VALUES (valores referenciais), como 
+aprendemos anteriormente. Os objetos DOM com os quais vocÊ está trabalhando aqui são essencialmente 
+objetos normais, no final das contas. Portanto, se fizermos alguma coisa com o DOM e adicionarmos 
+esses objetos em outro lugar, nós sempre estaremos trabalhando com os mesmos objetos.
+É algo que sempre devemos ter em mente.
+
+-->SE VOCÊ QUER UM OBJETO NOVINHO EM FOLHA, VOCÊ VAI TER QUE CRIAR UM NOVINHO EM FOLHA (com document.createElement().).
+ESSE NOVINHO EM FOLHA PODE ATÉ TER OS MESMOS VALORES/PROPRIEDADES QUE O OUTRO, MAS ELE 
+NÃO VAI SER CONSIDERADO COMO A MESMA COISA QUE O OUTRO.
+
+
+
+É EVIDENTE QUE NÃO TEMOS SOMENTE "BEFORE()", nós temos também "AFTER()". Com after, 
+o elemento passado no parâmetro é inserido APÓS o elemento selecionado no início da sintaxe.
+
+ex:
+
+list.lastElementChild.after(newLi);
+
+
+
+
+Por fim, temos também 
+"REPLACEWITH".  replaceWith();
+
+
+ex:
+
+
+
+list.firstElementChild.replaceWith(newLi); // ISSO VAI ESSENCIALMENTE DELETAR (REMOVER) O ELEMENTO ANTIGO E COLOCAR O ELEMENTO NOVO (PASSADO NO PARÂMETRO) EM SEU LUGAR. Na verdade,
+o que ele faz não é um "swap" propriamente dito, e sim um delete do antigo para um estabelecimento do novo no seu lugar.
+
+
+
+
+
+ESSAS SÃO AS DIFERENTES MANEIRAS, BASICAMENTE, DE INSERIR ELEMENTOS EM DIFERENTES LUGARES.
+
+
+
+
+
+IMPORTANTE = append, prepend, before, after, e assim por diante TODOS ACEITAM MÚLTIPLOS NODES,
+SE VOCÊ QUISER. Isso significa que você pode fazer:
+
+list.append(newLi, someOtherItem); -------------> Isso vai adicionar 2 elementos naquele lugar que vocÊ quer.
+
+
+
+TODOS ELES TAMBÉM RECEBEM STRINGS (ou seja, textNodes) SE VOCê QUISER...
+
+ex: "list.append('');"
+
+ contudo, na maior 
+parte dos casos você vai querer usá-los com elementos únicos (apenas um argumento, que é um elementNOde/elemento).
+
+Ainda assim, esses comandos te dão MUITA FLEXIBILIDADE E CONTROLE SOBRE ONDE ESSE/ESSES ELEMENTO/ELEMENTOS
+DEVEM SER INSERIDOS.
+
+
+
+APENAS TENHA EM MENTE QUE INSERIR O MESMO ELEMENTO MÚLTIPLAS VEZES VAI FAZER COM QUE ELE TRANSLADE 
+DENTRO DO CÓDIGO, já que, como vimos anteriormente, estamos trabalhando COM OBJETOS AQUI, e não com 
+umas coisas copiadas automaticamente (coisa bem diferente).
+
+
+
+
+Há um detalhe sobre before e after, lá na página do MDN.
+
+
+
+
+Compatibilidade de browsers --->
+
+
+
+
+
+
+append e prepend ---> funcionam bem no safari, mas não funcionam bem no internet explorer.
+
+
+
+
+
+BEFORE e AFTER não funcionam bem nem no internet explorer, nem no safari. ---> diferentes maneiras 
+de inserir elementos devem ser encontradas.
+
+
+
+
+
+
+Falando de inserir elementos em posições determinadas, há outros métodos:
+
+
+
+Digamos que você quer inserir um método DEPOIS DO ITEM 2, coisa que você não pode fazer 
+com appendChild e afins. Para tal, 
+você começa selecionando o elemento unorderedList com um querySelector. Depois, 
+podemos selecionar o negócio/item específico com "children[indexador]".
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+
+list.children[1];  ------------> Isso vai selecionar o elemento, mas não acabamos por aí.
+
+
+
+
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+
+
+const secondLi = list.children[1];  
+
+
+-------------------------------------------------> Professor armazena o segundo item dentro de uma nova const.
+
+
+Professor então decide criar um novo elemento a ser inserido na página. Para tal, ele cria uma nova constante para segurá-lo.
+
+
+ex:
+
+
+
+
+
+const list = document.querySelector('ul');
+
+
+
+const secondLi = list.children[1];  
+
+
+const newLi = document.createElement('li'); 
+
+
+newLi.textContent = 'Item 4';
+
+
+
+
+-----------------> LEMBRE-SE, O PROFESSOR QUER ADICIONAR ESSE ITEM CRIADO POR MEIO DE JAVASCRIPT 
+DEPOIS DAQUELE SEGUNDO ITEM, QUE AGORA É REPRESENTADO POR MEIO DE "secondLi". É claro que a 
+maneira mais conveniente seria utilizar "secondLi.after(newLi)", MAS ISSO NÃO FUNCIONARIA 
+NO SAFARI. 
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const list = document.querySelector('ul');
+
+
+
+const secondLi = list.children[1];  
+
+
+const newLi = document.createElement('li'); 
+
+
+newLi.textContent = 'Item 4';
+
+
+//secondLi.after(newLi);// --> não funciona no safari.
+
+
+
+Se você quer evitar isso, devido à incompatibilidade com 
+o safari, você tem outro método MUITO ÚTIL: ________".insertAdjacentElement()".
+
+
+
+
+ex:
+
+
+
+
+ const list = document.querySelector('ul');
+
+
+
+const secondLi = list.children[1];  
+
+
+const newLi = document.createElement('li'); 
+
+
+newLi.textContent = 'Item 4';
+
+list.insertAdjacentElement(newLi); //Isso está errado/incompleto. Veja mais abaixo:
+
+
+
+
+
+
+
+
+
+-----------> SE pesquisarmos insertAdjacentElement no MDN, veremos que, assim como insertAdjacentHTML, 
+o comando "insertAdjacentElement" TAMBÉM ACEITA AQUELES 4 COMANDOS DISTINTOS DE POSICIONAMENTO (beforebegin, afterbegin, beforeend, afterend).
+Ok, agora já temos tudo aquilo que precisamos para adicionar esse elemento criado com createElement à uma posição logo na frente 
+do ITEM. Também percebemos que o suporte dessa propriedade no safari é boa.
+
+
+
+ex:
+
+
+
+
+
+const list = document.querySelector('ul');
+
+
+
+const secondLi = list.children[1];  
+
+
+const newLi = document.createElement('li'); 
+
+
+newLi.textContent = 'Item 4';
+
+secondLi.insertAdjacentElement('afterend', newLi); -------> "afterend': After the targetElement itself."
+
+
+
+--------------------> Agora, item 4 é inserido depois do segundo elemento, como queríamos.
+"insertAdjacentElement()", portanto, embora seu código seja um pouco mais longo do que "after()" e 
+"before()", ele possui o benefício de ser MAIS SEGURO/SUPORTADO do que esses dois. É a forma mais 
+segura de inserir elementos antes ou depois de outros elementos aleatórios do código.
+Isso é algo que vocÊ deve ter em mente.

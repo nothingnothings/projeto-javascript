@@ -1,0 +1,165 @@
+https://academind.com/tutorials/javascript-testing-introduction/
+
+
+
+
+
+
+
+Unit tests that test one isolated unit/ piece of code (e.g. a function)
+
+Integration tests which test the combination of features (e.g. a function calling another function)
+
+End-to-End (e2e) or UI tests which test a full interaction path in your app (e.g. the signup process)
+
+
+
+
+------------------------------------------------------------
+
+
+Unit tests are the easiest tests to write because you have some input and can expect some result. There are no dependencies, no complex interactions.
+
+Here’s an example:
+
+Consider this function which we use in our app - it’ll take name and age as an input and return some text that contains these two parameters.
+
+const generateText = (name, age) => {
+  return `${name} (${age} years old)`
+}
+
+
+Here’s a fitting unit test:
+
+test('should output name and age', () => {
+  const text = generateText('Max', 29);
+  expect(text).toBe('Max (29 years old)');
+})
+
+
+This test will check whether the generateText function does return the expected text.
+
+If we now change the generateText function, let’s say like this:
+
+
+const generateText = (name, age) => {
+  return `${age} (${age} years old)`
+}
+
+
+Then our test will fail. Because this function would return '29 (29 years old)' instead of 'Max (29 years old)'.
+
+
+I’ll come back to where the test and expect functions are coming from!
+
+For that reason, you should split your app into a lot of small modules which you can test individually. This will lead to cleaner code as a nice side-effect.
+
+For the same reason, you’ll also write a lot of unit tests in a project. 
+
+
+It’ll be your most common form of tests. If you test all the individual units of your 
+app, chances are high that the app as a whole will also work.
+
+
+
+----------------------------------------------
+
+
+
+
+# Integration tests
+Integration tests are a bit more complex than unit tests because you now have to deal with some dependencies (e.g. another function that gets called). 
+These dependencies of course also have an impact on the result of your test, 
+hence it’s important to write “good” tests which allow you to understand what kind of 
+effect leads to which result.
+
+It’s also important to unit-test the dependencies of your integration test as this will help you narrow down issues.
+
+You could also think that integration tests are redundant if you got unit tests for everything.
+
+But that’s not the case. Here’s an example (which you also see in the above video):
+
+
+
+exports.checkAndGenerate = (name, age) => {
+  if (!validateInput(name, true, false) || !validateInput(age, false, true)) {
+    return false
+  }
+  return generateText(name, age)
+}
+
+
+Here’s a fitting integration test:
+
+test('should generate a valid text output', () => {
+  const text = checkAndGenerate('Max', 29)
+  expect(text).toBe('Max (29 years old)')
+})
+
+
+
+There’s no special syntax as you can see. It’s a normal test. We just call it integration test because it tests something which does have dependencies.
+
+The checkAndGenerate function returns the result of generateText in the end but before it does so, it also validates the input. It does all that by calling other functions - hence we got a dependency here.
+
+
+On first look, you could think that this will only fail when either validateInput or generateText have a problem - which would of course be issues that should be detected by a unit test. So why should we test the checkAndGenerate function?
+
+
+Well, here’s the answer. Consider this change to the checkAndGenerate function:
+
+
+exports.checkAndGenerate = (name, age) => {
+  if (validateInput(name, true, false) || !validateInput(age, false, true)) {
+    return false
+  }
+  return generateText(name, age)
+}
+
+What changed? I removed the ! in front of the first validateInput call.
+
+That will now break the logic of this function since we now handle the result of validateInput incorrectly. So neither validateInput nor generateText are broken and still checkAndGenerate would yield an invalid result.
+
+
+That’s why you need integration tests!
+
+
+# End-to-End (e2e)/ UI tests
+
+These kinds of tests simulate a certain user interaction flow with your app. This involves clicking, entering text etc.
+
+And since it involves this, we need a browser. Actually all tests run in the browser but they’ll not load up your app. They just need a browser JavaScript environment (i.e. essentially an empty browser window that’s loaded up behind the scenes).
+
+For end-to-end/ UI testing, we need a browser that loads our app though. And we need to be able to control that browser via code (so that we can program certain user interactions and simulate them).
+
+There are tools for that and I’ll dive into them in the next section.
+
+First of all, let me show you what a test would look like:
+
+
+test('should create an element with text and correct class', async () => {
+  const browser = await puppeteer.launch({
+    headless: true,
+  })
+  const page = await browser.newPage()
+  await page.goto('localhost:3000/your-page')
+  await page.click('input#name')
+  await page.type('input#name', 'Anna')
+  await page.click('input#age')
+  await page.type('input#age', '28')
+  await page.click('#btnAddUser')
+  const finalText = await page.$eval('.user-item', el => el.textContent)
+  expect(finalText).toBe('Anna (28 years old)')
+}, 10000)
+
+
+
+
+----------------------------------
+
+
+
+
+https://jestjs.io/docs/getting-started
+
+

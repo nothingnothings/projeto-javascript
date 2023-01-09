@@ -1,0 +1,93 @@
+Este será um módulo interessante.
+
+
+
+'META-PROGRAMMING'...
+
+
+
+
+
+
+Na verdade, para ser mais preciso, esse módulo é sobre 
+
+
+
+__SYMBOLS__, 
+
+
+Iterators e GENERATORS, 
+
+
+
+Reflect API e PROXY API...
+
+
+----------------------------------------------
+
+
+
+
+
+ 
+ TODAS ESSAS SÃO FEATURES BEM NICHO...
+
+
+
+ São features que não serão usadas tao frequentemente...
+
+
+
+ Elas são mais utilizadas por AUTORES DE LIBRARIES...
+
+
+
+ --> se vocÊ está construindo uma package, uma package para ser instalada pelo NPM, ou até 
+
+
+ mesmo uma 'company internal package', essas features podem ser interessantes.
+
+
+
+ ------------------------------------------------------------
+
+
+ TODAS ESSAS FEATURES TEM EM COMUM O FATO DE QUE ___VOCê PODE ___ DEIXAR 
+ A VIDA ___ DOS OUTROS ___ DESENVOLVEDORES ____ MAIS ___fÁCIL____.
+
+
+
+
+
+ São features javascript, mas não são features como 'adicionar um click listener a um botão', 
+
+ coisas que seu usuário vai se beneficiar... 
+
+
+ não, essas são features que DEIXAM VOCê MUDAR O COMPORTAMENTO DE CERTAS PARTES DO SEU CÓDIGO...
+
+
+
+
+ Essas features ajudam a MELHORAR A 'SAFETY' do code, não a safety DE UM POV DE SEGURANÇA, 
+
+ MAS SIM DE UM POV DE 'API'... você pode melhorar 
+
+ a segurança DA SUA API...
+
+ VOcê pode assegurar que os objetos/funções da sua API serão usados 
+ adequadamente...
+
+
+  
+
+  Esse é o propósito das features desse módulo, melhorar essa segurança.
+
+
+
+
+  ------> devemos pegar a 'ideia geral' desses conceitos...
+
+
+
+  ----> se você estiver trabalhando em projetos SUPER avançados, essas features podem ser úteis.

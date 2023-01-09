@@ -1,0 +1,403 @@
+HÁ 
+UMA ÚLTIMA FEATURE RELACIONADA A BREAK E CONTINUE, 
+MAS É UMA FEATURE QUE VOCÊ MUITO RARAMENTE IRÁ UTILIZAR.
+
+
+Mas é parte do javascript, e você deve aprender sobre.
+
+
+
+São os labeled statements.
+
+
+Digamos que nesse while loop (contudo, os labeled statements 
+funcionam em TODOS OS TIPOS DE LOOP):
+
+...
+let j = 3;
+do {
+    console.log(j);
+    j++
+} while (j < 3);
+
+}
+
+
+
+
+DIGAMOS QUE NESSE WHILE LOOP NÓS TENHAMOS UM NESTED LOOP. Seria um nested for loop.
+
+
+
+...
+let j = 3;
+do {
+    console.log(j);
+    for(let k = 0; k < 5; k++) {
+        console.log(k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+Criamos, então, um loop dentro de um loop, um loop de console.log do valor de k (índice da iteração).
+
+
+
+Se salvarmos isso e checarmos o console do dev tools, veremos o print 
+de
+
+3
+0
+1
+2
+3
+4
+
+, que é o nested loop dentro do outer loop.
+
+
+
+
+O professor faz um pequeno ajuste, altera o j para ser 0, porque ele quer 
+que o OUTER LOOP RODE MAIS DE UMA VEZ (while (j < 3);)
+
+
+
+
+
+
+...
+let j = 0;
+do {
+    console.log(j);
+    for(let k = 0; k < 5; k++) {
+        console.log(k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+
+Agora o output no console é uma bagunça... para identificar melhor qual parte é o que no código, qual console.log é o de "j", e qual é de "k", 
+qual é inner e qual é outer loop, 
+o professor mete uns identificadores (Outer e Inner) dentro do console.log.
+
+
+...
+let j = 0;
+do {
+    console.log('Outer', j);
+    for(let k = 0; k < 5; k++) {
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+Se salvarmos esse código e recarregarmos, o 
+print será:
+
+
+Outer 0 -----
+Inner 0
+Inner 1
+Inner 2
+Inner 3
+Inner 4
+Outer 1  ---- 
+Inner 0
+Inner 1
+Inner 2
+Inner 3
+Inner 4
+Outer 2 ----
+Inner 0
+Inner 1
+Inner 2
+Inner 3
+Inner 4
+(...)
+
+
+
+
+Agora digamos que você tem um código, alguma outra lógica (que não seja só números simples, como estamos fazendo), 
+EM QUE VOCÊ TEM UMA CONDIÇÃO EM SEU INNER LOOP QUE DEVE NA VERDADE 
+TERMINAR O OUTER LOOP. Colocamos um if statement para o valor 3, se o valor de k 
+for 3, vamos querer que a execução inteira do loop CESSE. 
+
+
+***É CLARO QUE PODEMOS FAZER ISSO COM BREAK, mas o que break fará nesse caso é 
+apenas parar a execução do inner loop, o loop externo ainda continuaria.
+
+
+ex da adição de um if statement dentro do inner loop:
+ 
+
+ ...
+let j = 0;
+do {
+    console.log('Outer', j);
+    for(let k = 0; k < 5; k++) {
+        if(k === 3) {}       //-------> é o if statement.
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+
+AGORA, O IF STATEMENT COM UMA EXECUÇÃO DE UM CÓDIGO "BREAK", DENTRO DE UM INNER LOOP:
+
+
+
+ ...
+let j = 0;
+do {
+    console.log('Outer', j);
+    for(let k = 0; k < 5; k++) {
+        if(k === 3) {
+            break;
+        }
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+Depois de editar esse trecho, recarregamos a página e vemos os resultados.
+
+
+RESULTADO DOS PRINT:
+
+
+
+
+
+
+Outer 0 -----
+Inner 0
+Inner 1
+Inner 2
+Outer 1 ----
+Inner 0
+Inner 1
+Inner 2
+Outer 2 ----
+Inner 0
+Inner 1
+Inner 2
+
+
+
+
+Como pode ver, o outer loop continua rodando normalmente, é apenas 
+o inner loop que é afetado pelo break quando é satisfeita a condição do 3...
+a função/loop simplesmente cessa e pula para a próxima linha, para a próxima iteração do outer loop, 
+deixando parado o inner loop.
+
+
+
+Mas e se quisermos quebrar/fazer cessar o OUTER LOOP, O QUE PODEMOS/DEVEMOS FAZER?
+
+
+
+Devemos utilizar o chamado "labeled statement", o qual nós RARAMENTE 
+USAREMOS NO JAVASCRIPT.
+O labeled statement é usado para ASSIGNAR UM NOME AO LOOP. QUALQUER LOOP QUE O SEJA... NA VERDADE, 
+OS LABELED STATEMENT PODEM SER UTILIZADOS EM QUALQUER EXPRESSÃO, MAS FAZ BEM MAIS SENTIDO APLICÁ-LOS AOS LOOPS. 
+
+ex: 
+
+Nomear loops inteiros de um nome específico.
+                                                                (nome do loop, dois pontos e um espaço antes do tal loop/do)
+EX: A fórmula de um labeled statement, de dar um nome para alguma expressão, é nome : 
+
+
+
+...
+let j = 0;
+outerWhile: do {   //////////////aqui criamos o labeled statement. xxxx: do/for/while/etc.
+    console.log('Outer', j);
+    for(let k = 0; k < 5; k++) {
+        if(k === 3) {
+            break;
+        }
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+Geralmente aplicamos labeled statements  em loops, pq É PARA VOCÊ UTILIZÁ-LOS COM 
+BREAK E CONTINUE.
+
+Outro exemplo, colocar um labeled statement para o for, "i nnerfor: for" -->
+
+
+...
+let j = 0;
+outerWhile: do {
+    console.log('Outer', j);
+    innerFor: for (let k = 0; k < 5; k++) {
+        if(k === 3) {
+            break;
+        }
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+
+DEPOIS DE CONFIGURADOS OS LABELED STATEMENTS, VOCÊ PODE FAZER BREAK DE OUTRAS COISAS ALÉM DO PRÓPRIO 
+LOOP EM QUE O BREAK ESTÁ INSERIDO, É SÓ INSERIR O NOME DAQUELA COISA QUE VOCÊ FEZ O 
+LABELED STATEMENT APÓS O CONTINUE/BREAK STATEMENT.
+
+ex prático:
+
+break ----> vira ----> break outerWhile;
+
+
+...
+let j = 0;
+outerWhile: do {
+    console.log('Outer', j);
+    innerFor: for (let k = 0; k < 5; k++) {
+        if(k === 3) {
+            break outerWhile;  ////////////-------------> É disso que estamos falando... Normalmente, você só pode comandar um break do próprio loop/while loop/whatever que vocÊ insere o break. COM A AJUDA DOS LABELED STATEMENTS, VOCÊ PODE FAZER O BREAK DE OUTROS PEDAÇOS DO CÓDIGO/OUTROS LOOPS ALHEIOS ÀQUELES ONDE ESTE BREAK ESTÁ INSERIDO.
+            //NESSE EXEMPLO PRÁTICO, FAZEMOS O BREAK DO LOOP EXTERNO COM UM BREAK INSERIDO NO LOOP INTERNO. É ESSA A VANTAGEM DOS LABELED STATEMENTS COM O CONTINUE/BREAK
+        }
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+
+LABELED STATEMENTS ALLOW YOU TO 
+"BREAK/CONTINUE A DIFFERENT LOOP THAN THE ONE YOU ARE IN".
+
+
+
+SE SALVARMOS O CÓDIGO E RECARREGARMOS, VEREMOS QUE O PRINT NO CONSOLE SERÁ O SEGUINTE:
+
+
+Outer 0
+Inner 0 
+Inner 1
+Inner 2
+
+------------> Ou seja, quando a condição de "if(k === 3)" é satisfeita, fazemos BREAK DO LOOP EXTERNO/OUTER LOOP (que é o outerWhile, afinal), 
+QUE ACABA PARANDO TODO O LOOP, CONFORME VIMOS NAS AULAS PASSADAS. POR ISSO QUE O OUTERLOOP NÃO PASSA DO 0 (PRIMEIRA ITERAÇÃO), PORQUE INSERIMOS UM COMANDO PARA FAZER SEU BREAK SE A ITERAÇÃO DO INNERLOOP CHEGASSE A 3.
+
+
+
+------------>
+
+
+
+
+
+----> ADEMAIS, VOCÊ PODE FAZER ISSO NÃO SÓ  DENTRO DE LOOPS,  MAS EM QUALQUER PARTE DE SEU CÓDIGO.
+ENTÃO, EXEMPLO,  SE VOCÊ TEM UM LOOP INFINITO RODANDO EM UMA PARTE DO SEU CÓDIGO, E EM OUTRA PARTE 
+NO CÓDIGO HÁ UMA REAÇÃO PARA UM BUTTON CLICK QUE FAZ O LOOP INFINITO PARAR... ESSE 
+EVENTO QUE É ATIVADO PELO addEventListener, pode ser um "break" desse tal loop infinito que vocÊ criou (QUE DEVERÁ 
+TER UM LABELED STATEMENT ASSIGNADO A ELE PARA ESSE TRUQUE FUNCIONAR).
+
+Ex: 
+
+genericBtn.addEventListener('click', break infiniteLoop);
+
+
+
+
+
+
+
+
+Esses são os labeled Statements.  VOCÊ PODE USAR TAMBÉM COM CONTINUE, FUNCIONA 
+EXATAMENTE DA MESMA FORMA, MAS NÃO PARAMOS A FUNÇÃO AÍ, APENAS PARAMOS A ITERAÇÃO ESPECÍFICA QUE QUEREMOS.
+
+
+
+
+ex:
+
+
+
+
+
+
+...
+let j = 0;
+outerWhile: do {
+    console.log('Outer', j);
+    innerFor: for (let k = 0; k < 5; k++) {
+        if(k === 3) {
+            continue outerWhile;  
+        }
+        console.log('Inner', k);
+    }
+    j++
+} while (j < 3);
+
+}
+
+
+
+
+RESULTADO NO CONSOLE:
+
+
+
+
+Outer 0
+Inner 0 
+Inner 1
+Inner 2 
+Outer 0
+... (infinito). 
+
+
+
+Aqui, o professor criou um loop infinito. Ele fecha a janela do browser.
+Ele criou um loop infinito porque, ao continuar o "outerWhile" (do) nós NUNCA 
+ATINGIMOS o código j++, que aumenta o número de iteração do outerloop. Quando 
+o código "continua" para o outerWhile, basicamente loopamos tudo de novo, será sempre a mesma iteração.
+
+if(k === 3) {
+    continue outerWhile; 
+} ------------------> vai continuar diretamente para o do{console.log('Outer, j);
+                                                            ...
+                                                                                    } -----------> isso essencialmente criará um for loop infinito. São completamente ignoradas as linhas de código subsequentes (  "console.log('Inner', k);" e "j++" e while (j < 3) )
+
+
+
+
+
+
+
+O CONTINUE UTILIZADO COM LABELED STATEMENTS, PORTANTO, É PERIGOSO!!!, PORQUE PODE LEVAR A LOOPS INFINITOS.
+
+
+
+
+Continue às vezes faz isso, cria loops infinitos.

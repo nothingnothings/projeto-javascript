@@ -1,0 +1,709 @@
+O professor mencionou aquele conceito de USAR CLASSES...
+
+
+
+
+
+
+
+
+
+
+
+Ainda não trabalhamos com classes nesse curso....
+
+
+CLASSES NOS PERMITEM CONSTRUIR OBJETOS DE UMA MANEIRA MAIS FÁCIL....
+
+
+
+Nos permitem CONSTRUIR OBJETOS COM BASE EM ALGUMA __BLUEPRINT___, para 
+ser mais preciso.
+
+
+
+
+
+Portanto, nós temos 
+
+
+
+
+1) OBJECTS 
+
+
+
+
+2) CLASSES
+
+
+
+
+-------------------------------
+
+
+
+
+A ideia aqui é que OBJETOS são as coisas com as quais nós trabalhamos no nosso código
+(e trabalhamos com eles MUITO).
+
+('The things you work with in code').
+
+
+
+
+
+CLASSES, POR OUTRO LADO, SÃO ALGO QUE PODEMOS CRIAR 
+EM JAVASCRIPT, também, mas que NÃO SUBSTITUEM OBJETOS, E sim nos 
+PERMITEM DEFINIR ___BLUEPRINTS___ PARA OBJETOS, PARA QUE 
+NÓS POSSAMOS FACILMENTE RECRIAR 
+OBJETOS COM BASE NESSAS CLASSES...
+
+("Blueprints for objects" - (theoretical definition)).
+
+
+Podemos recriar objetos baseados em classes porque, REALMENTE, 
+OBJETOS SÃO 
+
+TAMBÉM CHAMADOS DE 'INSTANCES' de classes...
+
+
+
+
+
+
+OBJECTS === INSTANCES OF CLASSES (= based on classes).
+
+
+
+ISSO QUER DIZER QUE NÓS PODEMOS CRIAR UM OBJETO BASEADO EM ALGUMA 
+CLASSE ANTERIOR.... Portanto, uma classe 
+é APENAS UMA DEFINIÇÃO DE COMO O OBJETO:
+
+
+1) se parece
+
+
+2) que propriedades ele tem 
+
+3) que métodos ele tem
+
+
+4) o lugar em que nós armazenamos nossa lógica.
+
+
+
+
+---------------------------------
+
+
+JÁ O OBJETO É A COISA CONCRETA QUE NÓS CONSTRUÍMOS A PARTIR DE UMA 
+CLASSE (que é a blueprint).
+
+
+--------------------------------
+
+
+
+
+
+
+RESUMO:
+
+
+
+
+OBJECTS                    <-------------------->                 CLASSES
+
+('The things you work with in code').                         ('blueprints for objects' - theoretical definition)
+
+
+INSTANCES OF CLASSES (=based on classes)                        (define how objects look like, which properties and methods they have)
+
+
+CLASS-BASED CREATION IS AN ALTERNATIVE 
+TO USING OBJECT LITERALS!
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+O PROFESSOR NOS MOSTRARÁ NESSE MÓDULO COMO FUNCIONA A 'class based creation' de objetos, que 
+É UMA ALTERNATIVA A USAR 'object literals' para criar objetos.
+
+
+
+NEM SEMPRE É MELHOR QUE A NOTAÇÃO OBJECT LITERAL, a OLN (object literal notation) é 
+ÓTIMA SE VOCÊ APENAS QUER AGRUPAR RAPIDAMENTE 
+alguns dados em um pacotão, MAS É 
+
+SENSACIONAL UTILIZAR CLASSES... é sensacional utilizar 
+classes SE VOCÊ TEM ALGUMA LÓGICA REUTILIZÁVEL QUE VOCê 
+QUERIA ENCONTRAR EM UM LUGAR E ENTÃO 
+CRIAR MÚLTIPLOS OBJETOS BASEADOS NELE...
+
+
+
+----> CLASSES, portanto, podem fazer a CRIAÇÃO DE MÚLTIPLOS 
+OBJETOS DE APARÊNCIA SIMILAR, objetos EM QUE OS DADOS MUDAM, 
+MAS A ESTRUTURA NÃO..... podem fazer isso DE FORMA MUITO 
+MAIS FÁCIL DO QUE O OBJECT LITERAL NOTATION...
+
+
+
+
+----------------------------------------
+
+
+
+A TÍTULO DE EXEMPLO, DEVEMOS TRADUZIR o código de um 'product' que o professor 
+tem nesse projeto do módulo 10.
+
+
+
+ex:
+
+
+
+
+[
+{title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+{title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+]
+
+
+-------------------------
+
+
+PROFESSOR QUER MUDAR/converter ESSE CÓDIGO QUE ELE ESCREVEU ALI (os 2 objetos) EM UM 
+CLASS-BASED SYSTEM...
+
+
+
+Devemos começar pelo objeto 'product' NESSE ARRAY...
+
+
+
+
+
+ESSE OBJETO SEMPRE TEM A MESMA APARÊNCIA... nós poderíamos 
+criar uma função que constrói um objeto como esse...
+
+
+BEM, A 'CLASS' É EXATAMENTE ISSO, basicamente: É UMA FUNÇÃO QUE 
+CRIA UM BLUEPRINT DE UM OBJETO.
+
+
+
+É apenas uma maneira DIFERENTE e mais poderosa/fácil 
+de escrever uma função como essa, uma função que cria blueprints...
+
+
+
+------------------------------
+
+
+
+IMPORTANTE::::
+
+
+
+VOCÊ ADICIONA UMA CLASSE NO JAVASCRIPT POR MEIO DA KEYWORD 'class'... (ela é uma reserved keyword, o javascript sempre a lerá como isso), 
+e então qualquer nome que você queira para a sua classe.
+
+
+A CONVENÇÃO, AQUI, É SEMPRE COMEÇAR ESSE NOME COM 
+UMA PALAVRA QUE TENHA A INICIAL MAIÚSCULA.
+
+
+
+Aqui, por exemplo, o professor utilizará 'Product'.
+
+
+
+
+ex:
+
+
+
+
+
+class Product
+
+
+
+
+
+---------------------------------
+
+
+
+
+SE VOCÊ TEM UMA PALAVRA QUE É COMPOSTA POR MÚLTIPLAS PALAVRAS, COMO 
+'product item', vocÊ a escreveria assim:
+
+
+
+ex:
+
+
+
+class ProductItem
+
+
+------------------------------
+
+
+CADA palavra separada deve começar com uma nova inicial maiúscula.
+ESPAÇOS EM BRANCO (ou '-') ENTRE AS PALAVRAS NÃO SÃO PERMITIDOS, ELES TE ATIRARÃO ERROS DE SINTAXE.
+
+
+
+VOCê PODERIA, TEORICAMENTE, TAMBÉM NOMEAR SUA CLASSE com 
+
+uma letra minúscula no início, mas A CONVENÇÃO É COMEÇAR 
+COM UMA LETRA MAIÚSCULA.
+
+
+
+
+---------------------------------------
+
+
+
+
+Certo, você tem sua classe 'Product'. Depois de definido o nome, 
+você deve inserir curly braces logo após o mesmo para que você POSSA 
+DEFINIR O QUE VAI ESTAR DENTRO DAQUELA CLASSE...
+
+
+
+ex:
+
+
+
+
+
+class Product {
+
+
+
+}
+
+
+-----------------------
+
+
+
+
+O QUE FICA DENTRO DA CLASSE É ESSENCIALMENTE O __BLUEPRINT___ DE COMO 
+O SEU OBJECT DEVERÁ SER CRIADO....
+
+O objeto será criado com base nessa classe, vai se parecer com aquilo 
+que você inserir dentro dessa classe.
+
+
+Por isso, você deve definir quais propriedades e métodos um determinado 
+objeto deverá ter....
+
+
+
+
+PARA TAL, VOCÊ DEVE ENTRAR NA SUA CLASSE E então, lá, adicionar 
+uma propriedade ali naquele lugar, 
+que chamamos de 'FIELD'.
+
+
+O professor logo nos mostrará a diferença de propriedade para FIELD...
+ela não é uma diferença muito grande.
+
+
+
+Você simplesmente vai lá e adiciona a sua propriedade desejada dentro da classe.
+
+
+ex:
+
+
+
+
+class Product {
+    title: 
+}
+
+
+
+------------------------------------
+
+
+
+
+VOcê coloca a sua propriedade e, então, logo após ela, VOCê PODE 
+ASSIGNAR UM __VALOR DEFAULT___ (porque, tenha isso em mente, a classe 
+'Product' SEMPRE AGIRÁ COMO UM ___BLUEPRINT____... é por isso 
+que o professor diz 'default', porque tipicamente você 
+vai assignar um novo valor a esse default... ainda assim, podemos 
+criar um valor de 'default' aqui. )
+
+
+ex:
+
+
+
+class Product {
+    title = 'DEFAULT';
+}
+
+
+-------------------------
+
+UM DETALHE IMPORTANTE QUE VOCÊ PODE PERCEBER IMEDIATAMENTE:
+
+Dentro dessas 'classes', você sempre é obrigado a definir valores 
+COM O SINAL DE '=', e não com um ':'.  
+
+
+
+: e , ----> USADOS EM OBJECT LITERAL NOTATION.
+
+
+= e ;  -------> USADO EM CLASS-BASED NOTATION.
+
+
+
+
+ALÉM DISSO, VOCÊ DEVE SEMPRE TERMINAR AS LINHAS depois 
+de esses tais 'fields' COM UM ';', e nunca 
+com uma vírgula... 
+
+
+ESSA É UMA IMPORTANTE DIFERENÇA.
+
+
+
+
+
+
+
+
+IMPORTANTE!!!!! ----> CLASSES NÃO 
+
+SUBSTITUEM OBJETOS... como você logo verá.
+
+
+
+
+
+Em vez disso, como o professor já falou várias vezes, nÓS CONSTRUÍMOS 
+OBJETOS EM CIMA DE CLASSES (com base nelas)....
+
+Portanto, nós talvez tenhamos um 'title', uma 'imageUrl'... (que você pode definir como uma empty STRING ("imageUrl =  '' ") OU COMO só ela mesma ('imageUrl;'), o que fará com que ela seja DEFINIDA INICIALMENTE COMO UNDEFINED.),
+ UMA 'description' e um 'price'.
+
+
+
+ ex:
+
+
+
+
+ class Product {
+     title = 'DEFAULT';
+     imageUrl;
+     description;
+     price;
+ }
+
+
+ -------------------------------
+
+
+
+ Essa definição dessa classe 'product' vai definir que 
+
+ OBJECTS BASEADOS NESSA CLASSE SEMPRE TERÃO essas 
+ 4 propriedades...
+
+
+
+
+ Anteriormente, o professor mencionou 'fields' dentro 
+ dessas classes...
+
+
+
+
+ ASSIM QUE NÓS CRIARMOS UM OBJETO BASEADO EM UMA DESSAS CLASSES, 
+ CADA 'FIELD' DENTRO DA CLASS SERÁ CONVERTIDO/TRADUZIDO EM UMA 
+ PROPRIEDADE __DENTRO DAQUELE __ OBJETO__ (essa é a relação entre fields e properties).
+
+
+
+
+ Nós apenas chamamos essas linhas de 'fields' aqui, em vez de propriedades, porque 
+ a CLASSE NÃO É A COISA CONCRETA COM A QUAL NÓS TRABALHAMOS EM JAVASCRIPT... é porque, em vez disso, 
+a classe é apenas uma blueprint...
+
+É APENAS UMA DEFINIÇÃO DE UM OBJETO ..... e aquilo que se transformará 
+em uma PROPRIEDADE em um objeto é simplesmente chamado de 'field'.
+
+
+
+Entretanto, no resto do curso o professor vai usar os 2 termos 
+meio misturados, porque são muito parecidos.
+
+
+
+
+
+
+OK, é assim que um objeto baseado em 'Product' deverá se parecer, então.
+
+Mas a pergunta agora é COMO CRIAR UM OBJETO BASEADO NESSA CLASSE...
+
+
+
+
+Bem, vocÊ vai até o lugar no código em que você precisa 
+dessa classe (pode ser no seu contexto global do código, ou dentro 
+do array de produtos...) E ENTÃO 
+VOCÊ se refere 
+a classe por meio DO NOME DELA...
+
+
+Você cita o nome dela e ENTÃO A EXECUTA COMO SE FOSSE UMA FUNÇÃO 
+
+(ou seja, com o uso de parênteses).
+
+
+E, POR FIM, MUITO IMPORTANTE, VOCÊ ADICIONA 
+UMA KEYWORD ANTES DELA, 'new'.
+
+Nós já vimos essa keyword 'new' antes no nosso curso, 
+com Sets e Maps.
+
+
+new ---> É UMA KEYWORD QUE O JAVASCRIPT ENTENDE que, unida a coisas como 
+A EXECUÇÃO DE UMA FUNÇÃO QUE É BASEADA EM UMA CLASSE (não é uma função de verdade, mas ainda assim...)
+DEVE AINDA BASICAMENTE CRIAR UM NOVO OBJETO. 
+
+É isso que 'new' faz com o chamado de 'Product' (o class name) ali, 
+ELE FAZ COM QUE O NOVO OBJETO SEJA CRIADO, O NOVO OBJETO COM BASE NAQUELE 
+BLUEPRINT DA class.
+
+o nome da classe e o 'new' não funcionam sozinhos, devem sempre ser combinados 
+para funcionarem.
+
+
+
+
+ex:
+
+
+
+
+
+
+ class Product {
+     title = 'DEFAULT';
+     imageUrl;
+     description;
+     price;
+ }
+
+
+
+
+const productList = {
+
+
+    products: [
+        new Product()           ////////O código em questão; código que chamará o blueprint do 'product'.
+    ]
+}
+
+
+
+-------------------------------------
+
+
+
+ISSO NOS DARÁ UM NOVO objeto 'product'...
+
+
+
+'new Product()' RETORNA UM NOVO OBJETO QUE TERÁ AQUELA ESTRUTURA 
+DENTRO DOS CURLY BRACES DA CLASSE...
+
+
+O professor comenta 'new Product()' para fora do código por um instante, 
+para então logar 'console.log(new Product)'
+
+
+ex:
+
+
+
+ class Product {
+     title = 'DEFAULT';
+     imageUrl;
+     description;
+     price;
+ }
+
+
+console.log(new Product);
+
+
+
+--------------------
+
+Professor explica que, como ele adicionou essa classe globalmente, 
+ela deverá ser executada bem na hora que o script é carregado.
+
+Ele recarrega a página.
+
+
+
+OBS::: CLASSES NÃO SÃO SUPORTADAS EM VERSÕES ANTIGAS DO INTERNET EXPLORER.
+
+Professor nos mostrará como fazer elas funcionarem naquela porcaria na 
+seção do browser support do curso.
+
+
+
+
+SE EU RECARREGAR A PÁGINA, O QUE EU VEREI 
+
+com aquele console.log é 
+
+UM OBJETO...
+
+
+
+ex:
+
+
+
+Product {
+    title: 'DEFAULT', 
+    imageUrl: undefined, 
+    description: undefined,
+    price: undefined
+}
+
+
+
+É ISSO QUE VEREMOS. Será um product object com 
+uma propriedade 'title' que terá um valor de 'DEFAULT'...
+
+
+Professor aponta que ESSE É UM OBJETO PADRÃO/REGULAR COM 
+UMA PROPRIEDADE PADRÃO..., é por isso 
+que temos uma ':' separando nossos 
+key-value pairs...
+
+Ou seja, classes resultam em objetos legit, objetos comuns.
+
+
+
+AS 3 OUTRAS PROPRIEDADES ESTÃO DEFINIDAS COMO 'undefined'.
+Não têm valor algum assignado a elas. Não têm porque 
+nós não assignamos nenhum a elas.
+
+
+
+Pelo menos agora sabemos como CRIAR CLASSES, como definir uma 
+class.
+
+
+Mas isso não é tão útil, ainda....
+
+
+
+
+QUANDO NÓS CRIAMOS UM PRODUTO BASEADO EM UMA CLASSE PRÉVIA, 
+SERIA LEGAL SE NÓS PUDÉSSEMOS CRIÁ-LO com 
+alguns VALORES INICIAIS DENTRO DESSAS PROPRIEDADES...
+
+
+Poderíamos, é claro, assignar valores DENTRO DA PRÓPRIA CLASSE:
+
+
+
+ex:
+
+classclass Product {
+     title = 'DEFAULT';
+     imageUrl='cu';
+     description='éééé';
+     price= 99.99;
+ }
+
+
+-------------------------
+
+MAS ISSO SERIA IDIOTA, PORQUE ISSO FARÁ COM QUE 
+TODOS OS PRODUTOS QUE CRIARMOS COM ESSA 'BLUEPRINT' tenham 
+OS MESMOS VALORES... (e não é o que queremos, não mesmo).
+
+
+
+Em vez disso, eu quero assegurar que quando eu chamo 
+
+
+'new Product()' EU POSSA PASSAR os VALORES INICIAIS 
+DENTRO DESSE CHAMADO..., dentro desse 'new Product', 
+para que possamos criar um novo objeto com uns valores 
+iniciais já definidos.
+
+
+---------------------------
+
+
+
+PROFESSOR DIZ QUE PODERÍAMOS, É CLARO, CRIAR 
+UM 'new Product' e ENTÃO ASSIGNAR VALORES POR MEIO DA 
+'DOT NOTATION' ('.'):
+
+
+ex:
+
+
+
+ class Product {
+     title = 'DEFAULT';
+     imageUrl;
+     description;
+     price;
+ }
+
+const prod = new Product();
+prod.title = 'Cu';
+
+
+
+
+
+
+
+
+mas NÃO É ISSO QUE QUEREMOS, AQUI. QUEREMOS CRIAR 
+O OBJETO TODO EM UMA TACADA SÓ, definir todas as propriedades 
+e metodos de uma tacada só
+
+
+
+Logo veremos como isso funciona.

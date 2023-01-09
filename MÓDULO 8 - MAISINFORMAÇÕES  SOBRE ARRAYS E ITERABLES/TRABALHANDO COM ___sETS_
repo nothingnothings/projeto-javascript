@@ -1,0 +1,472 @@
+Para ver como funcionam as 3 diferentes espécies de data strucutres, o professor vai em frente e 
+cria um novo arquivo, denominado "setsmaps.js".
+
+Professor acaba utilizando o mesmo código html da antiga página do projeto 7, mas levemente modificado.
+
+
+Abrimos a página "setsmaps.js".
+
+
+
+Começamos com uma constante chamada de  "ids". IDs porque "Ids" devem ser únicos, algo que encaixa perfeitamente no nosso exemplo.
+
+
+Ids não devem ter duplicatas, por isso devemos criar um SET, que é uma data structure que NÃO PERMITE REPETIÇÕES DE ELEMENTOELEMENTOS REPETIDO.
+
+
+
+
+
+OBS::::: PARA CRIAR UM NOVO SET, DEVEMOS SEMPRE UTILIZAR A SEGUINTE EXPRESSÃO/COMANDO:
+
+                        "new Set()"
+
+
+
+                "new Set()" é a KEYWORD para criar um novo set.
+
+
+ex:
+
+
+
+const ids = new Set()
+
+
+-------------------------
+
+
+Obs: anteriormente vimos "new Array()" (lembre-se: o professor apontou que criar arrays com "new Array" é uma ideia ruim, e que, em vez disso, vocÊ deve sempre criá-los com a ajuda de square brackets)
+
+        ENTRETANTO, ISSO NÃO SE APLICA A SETS. COM SETS, VOCÊ É OBRIGADO A UTILIZAR "new Set()".
+
+
+
+
+
+
+
+
+ex:
+
+
+
+const ids = new Set(); // SE EU DEIXAR O PARÂMETRO EM BRANCO, ESSE SET VAI SER CRIADO EM BRANCO, SEM ELEMENTO ALGUM 
+                 EM SEU INTERIOR.
+
+
+console.log(ids) //=---------------> RESULTADO do método set em BRANCO RETORNADO:
+
+
+                                    set(0) {...}
+
+----------------------------------------------------
+
+
+Uma alternativa é inicializar O SET POR MEIO DA PASSAGEM DE UM ARGUMENTO A SUA FUNÇÃO QUE SEJA UMA ITERABLE já existente.
+Qualquer iterable serve: pode ser um array, um outro set, uma nodeList, qualquer coisa mesmo.
+
+Aqui, no exemplo logo acima, o professor passa um array de elementos "1", "2", "3".
+
+
+
+
+
+ex:
+
+
+
+
+const ids = new Set([1, 2, 3]);
+
+
+
+console.log(ids); 
+
+
+
+-------------------------------
+
+
+
+Se recarregarmos essa página, veremos que agora nós realmente temos aqueles 3 elementos dentro do set de "ids".
+
+
+
+
+
+Aqui nós vemos os index values de todos os elementos...., 0, 1 e 2. Mas nós não
+
+temos, na verdade, acesso por meio desses elementos. Se eu tentar acessar  o "index 1"  por meio 
+de [1] (ex: console.log(ids[1])), perceberei que NÃO CONSIGO ACESSÁ-LO. Isso é devido ao comportamento dos sets... Não é possível 
+selecionar sets por meio de indexes.
+
+
+
+ex:
+
+
+
+
+const ids = new Set([1, 2, 3]); 
+console.log(ids);
+
+
+---------------------------------
+
+
+Em vez de usar indexes, para retornar um valor de um SET (para que póssamos ), devemos utilizar ALGUM DOS MÉTODOS 
+ESPECÍFICOS DOS SETS, UTILIZADOS APENAS COM ELES.
+
+
+métodos set:  
+
+.add --> adiciona uma nova entrada no set
+.clear --> limpa todas as entradas
+.delete --> deleta "single entries". Um elemento de cada vez
+.entries --> professor nos mostrará o que faz mais tarde. (é o comportamento de passar por dentro de todos os elementos de um set. Semelhante a um for of loop, nesse quesito)
+.forEach --> 
+.has --> ?
+.keys --> ?
+.size --> ?
+.values --> Está relacionado com .entries.   Ver informações mais abaixo.
+
+
+
+
+O QUE VOCÊ NÃO TEM AQUI É UM MÉTODO PARA PEGAR AQUELE VALOR "2" DAQUELE SET. Não existe um 
+método "get" ou qualquer coisa do gênero para sets... entretanto, se vocÊ pensar sobre as características dos sets, 
+o fato de que cada valor só pode ser armazenado 1 vez dentro deles (valores únicos, que vocÊ não pode replicar no mesmo set), 
+VOCÊ VAI PERCEBER QUE TIPICAMENTE VOCÊ NÃO VAI QUERER RETRIEVE/PEGAR UM VALOR DE DENTRO DE UM SET. Em vez disso, 
+o que você tipicamente faz é CHECAR SE ALGUM VALOR ESTÁ DENTRO DELE.
+
+Como checamos se um valor está dentro do set?  Com ".has".
+
+
+
+------------------------------------------
+
+
+Portanto, para selecionar o elemento "2" daquele set, NÃO O SELECIONO.
+
+DEVO UTILIZAR O MÉTODO ".has" PARA DETERMINAR SE AQUELE ELEMENTO ESTÁ DENTRO DAQUELE SET.
+
+
+ex:
+
+
+
+console.log(ids.has(1)); ----- isso vai checar pelo número "1" DENTRO DESSE SET. SE ELE ESTIVER DENTRO DO SET, ESSE CHAMADO DE MÉTODO VAI NOS RETORNAR "TRUE".
+                                    VocÊ pode usar esse true em if checks e ternary expressions.
+
+
+
+Se ele realmente estiver dentro do set, você pode simplesmente referenciar esse valor de "1" (ou uma const/variável/string/whatever) naturalmente 
+ao longo do resto do seu código; ou seja, você não precisa ficar usando indexadores que nem você faz com arrays comuns. Aqui, você 
+pode simplesmente chamar os elementos de dentro do set por seus nomes normais.
+
+
+
+VocÊ pode usar esse true retornado por ".has()" em if checks e ternary expressions.
+
+E é assim que trabalhamos com SETS. São uma espécie de data storage que basicamente te diz SE elas próprias CONTÉM 
+ALGO OU NÃO...
+
+
+
+Mas há mais coisas interessantes sobre os sets:
+
+
+Digamos que nós adicionamos um valor. Por exemplo, adicionamos 2 a esse set.
+
+
+ex:
+
+
+
+const ids = new Set([1, 2, 3]);
+ids.add(2);
+console.log(ids.has(1));
+
+
+
+---------------------------
+
+
+PROBLEMA! "2" É UM VALOR QUE JÁ FAZ PARTE DO SET.
+Professor vai adiante e console.logga o ids.has, mas dessa vez com o parâmetro de "2" (checa se aquele set tem o elemento "2").
+
+
+
+
+ex:
+
+
+
+const ids = new Set([1, 2, 3]);
+ids.add(2);
+console.log(ids.has(2));
+
+
+
+--------------------------------
+
+
+o ids.has(2) vai nos retornar TRUE. Bem, de fato, o valor 2 está dentro desse set. Mas, como diz o professor, NÃO SABEMOS 
+COM QUAL FREQUÊNCIA O NÚMERO 2 ESTÁ ARMAZENADO LÁ DENTRO. Ao adicionarmos 2 com ".add(2)", acabamos alterando o número 
+de ocorrências dele dentro desse set? Ou o set não mudou em nada?
+
+Para ver o resultado, devemos loggar o set inteiro.
+
+
+
+
+ex:
+
+
+
+const ids = new Set([1, 2, 3]);
+ids.add(2);
+console.log(ids.has(2));
+console.log(ids);// -------> VAI NOS RETORNAR  "Set (3) {1, 2, 3}".
+
+
+--------------------------------
+
+O set ainda terá 3 elementos, e não será "1, 2, 2, 3".
+OU SEJA, SE ADICIONARMOS A CÓPIA DE UM ELEMENTO/ELEMENTO IGUAL A UM ELEMENTO QUE JÁ ESTÁ DENTRO DE UM SET,
+NADA OCORRERÁ, o set ficará a mesma coisa de antes.
+
+
+
+A razão para isso é que OS SETS SEMPRE GARANTEM QUE OS VALORES QUE ESTÃO DENTRO DELES SERÃO ÚNICOS.
+NUNCA SE REPETIRÃO DENTRO DO SET.
+
+
+
+Se você quiser IR POR DENTRO DE TODOS OS ELEMENTOS DE UM SET, VOCÊ PODE FAZER ISSO COM ".entries".
+
+
+
+ex:
+
+
+
+
+const ids = new Set([1, 2, 3]);
+ids.add(2);
+
+
+ids.entries();
+
+
+
+----------------------------------
+
+
+
+
+ENTRIES é um método que vocÊ pode executar QUE RETORNA UMA ITERABLE. Isso significa que 
+você pode UTILIZAR ESSA COMBINAÇÃO DE SET/MÉTOOD EM UM ___FOR OF LOOP___. Também significa que você pode usar indexadores ([X]).
+
+
+
+ex:
+
+
+
+const ids = new Set([1, 2, 3]);
+ids.add(2);
+
+
+for(const entry of ids.entries()) {
+    console.log(entry);
+}
+
+---------------> ISSO VAI NOS MOSTRAR TODOS OS ELEMENTOS QUE ESTÃO DENTRO DAQUELE SET da const "ids".
+                    Entretanto, não é só isso que recebemos por meio desse console.log metido em um for of loop...
+
+
+                    O que veremos no console do devtools é que o que recebemos com esse for of loop 
+                    É UM MONTE DE ARRAYS, PARES DE ARRAYS, que podem parecer estranhos em uma primeira inspeção.
+
+                    ex:
+
+
+                    (2) [1, 1]
+                    (2) [2, 2]
+                    (2) [3, 3]
+
+
+                    Professor diz que as coisas ficam mais claras se mudarmos um dos elementos de dentro 
+                    do set; por exemplo, trocar os números por strings.
+
+
+
+
+                    ex:
+
+
+
+
+                    const ids = new Set(['Hi', 'From', 'set!']);
+ids.add(2);
+
+
+for(const entry of ids.entries()) {
+    console.log(entry);
+}
+
+
+    //////////RESULTADO NO CONSOLE.LOG():
+
+
+                           (2) ['Hi', 'Hi']
+                            (2) ['From', 'From']
+                            (2) ['set!', 'set!']
+                            (2) [2, 2]  // (adicionado por meio de ".add(2)" )  // ISSO NOS MOSTRA, ALÉM DISSO, QUE PODEMOS TER VALORES DE TIPOS DIFERENTES DENTRO DE UM SET (strings, números, constantes/variáveis)
+
+                    
+
+
+
+
+
+
+    Recebemos, essencialmente, os valores DUAS VEZES.
+
+    Mas é isso que entries, basicamente, retorna.
+
+
+
+    ".entries" RETORNA UM ITERABLE DE ARRAYS em que você sempre tem DOIS 
+    ENTRIES/ELEMENTOS POR ENTRY, que é simplesmente o mesmo valor duas vezes. 
+
+
+    Isso pode parecer estranho... por que ter o mesmo valor 2 vezes?
+
+    Pra que nos dar esses arrays que tem os mesmos valores 2x?
+
+    Bem, esse comportamento está aí para SE ADEQUAR COM O MÉTODO ".ENTRIES" QUE EXISTE EM MAP(), QUE MAIS TARDE ESTUDAREMOS. O método entries de map() também nos dá 2 valores, mas lá em map() ESSES VALORES SERÃO DIFERENTES.
+
+
+
+
+    Professor diz que a intenção aqui era deixar para nós a possibilidade de TROCAR FACILMENTE 
+    UM SET POR UM MAP, deixando o resto do código no lugar e salvando tempo, e portanto tendo 
+    a mesma "signature aqui", a signature em que você recebe uma entrada com exatamente dois elementos, 
+    ainda embora que para um set, entry é um array com o mesmo valor duas vezes (parece ser uma contradição à natureza dos sets, mas não é).
+
+
+    Isso pode parecer um pouco confuso agora.
+
+
+    Você pode usar indexadores (para selecionar elementos do set) naquela constante criada para o for of loop daquela iterable criada com
+    ".entries()":
+
+
+    ex:
+
+
+
+                        const ids = new Set(['Hi', 'From', 'set!']);
+                        ids.add(2);
+
+
+for(const entry of ids.entries()) {
+    console.log(entry[0]); //uso de indexadores para selecionar o elemento 'Hi' no set de "ids"... Faz com que apenas o primeiro elemento do array criado com entries seja retornado, ignorando-se o segundo... (é uma alternativa para o uso de ".values()", que faz exatamente a mesma coisa. ) 
+}
+
+
+
+OBS:::: EM VEZ DE USAR ".ENTRIES()", VOCÊ PODE USAR ".VALUES()". A DIFERENÇA DOS DOIS É 
+QUE .VALUES VAI SEMPRE TE RETORNAR OS VALORES DO SET UMA ÚNICA VEZ, ENQUANTO QUE O ".ENTRIES" VAI 
+TE RETORNAR ELES 2X EM UM ARRAY (caso você não use essa gambiarra que o professor nos mostrou logo acima, de usar um indexador [0] para selecionar apenas um elemento do array criado com ".entries[]".)
+
+
+
+
+
+
+Essas gambiarras que estão logo acima te ajudam a ver que elementos estão dentro do set (são úteis, mas não tanto).
+Você deve utilizá-las quando o método ".has()" (que determina se um elemento está ou não dentro de um set) não bastar para satisfazer suas necessidades. Quando vocÊ precisar 
+saber exatamente quais elementos estão dentro de um set (se o set for muito grande, e houver muitos elementos por exemplo), 
+aqueles ".entries()" e ".values()" poderão ser úteis.
+
+
+Com esses métodos todos, você pode ADMINISTRAR UM SET. 
+
+
+Agora, se você quer DELETAR algo de um set, você pode fazê-lo por meio do método DELETE();
+
+Você digita o método delete e então insere no parâmetro o valor que você quer deletar.
+
+
+
+
+ex:
+
+
+ids.delete('Hi');
+
+
+ 
+
+ ----------------------------------
+
+
+se vocÊ tentar deletar algo QUE NÃO EXISTE NO SET, VOCÊ NÃO RECEBERÁ UM ERRO, MAS
+NADA ACONTECERÁ. Você não recebe um erro, mas esse comando é IGNORADO.
+ 
+
+
+ É claro que antes de deletar algo, você pode pedir no código para a engine CHECAR SE 
+ AQUELE ELEMENTO EXISTE DENTRO DAQUELE SET.
+
+
+ ex:
+
+
+
+const ids = new Set(['Hi', 'from', 'set!']);
+
+ids.add(2);
+if(ids.has('Hi') {
+    ids.delete('Hi');
+}
+
+-----------------------------------
+
+
+OBS::::: ENTRETANTO, COMO O COMANDO "DELETE()" DE SETS ___NÃO NOS JOGA UM ERRO___ NA EVENTUALIDADE 
+DAQUELE ITEM NÃO ESTAR LÁ DENTRO, O CÓDIGO NÃO VAI NOS INFORMAR SE AQUELE ELEMENTO FOI OU NÃO DELETADO.
+SE O ELEMENTO NÃO EXISTE DENTRO DAQUELE SET, ESSA LINHA DE CÓDIGO "DELETE()" SIMPLESMENTE NÃO FARÁ COISA ALGUMA.
+SE AQUELE ELEMENTO EXISTIR DENTRO DO SET "iDS", O JAVASCRIPT O DELETARÁ.
+
+
+(como o "delete()" nunca nos informará se deletou ou não o negócio, esse if check que fazemos 
+acerca da existência ou não de 'Hi' dentro do set é meio inútil.)
+
+
+
+
+
+
+RESUMO: 
+
+
+
+SETS SÃO DATA STRUCTURES que nos ajudam a gerenciar valores únicos (unique). Isso pode 
+ser útil em algumas ocasiões.
+
+
+
+Entretanto, arrays ainda são a espécie de data struture mais importante.
+
+
+
+
+APLICAÇÕES MAIS COMPLEXAS USAM SETS. Aplicações que usam IDS que já estão em uso pelos usuários da aplicação.
+Você quer usar sets, pois eles usa menos memória, porque um mesmo id nunca pode ser parte de um mesmo set 2x. Esse comportamento 
+é bom, pois elimina repetições inúteis de valores nas listas de dados, o que libera espaço na memória. Também 
+reduz a probabilidade de erros de lógica no seu código, pois são mais limitados que arrays.

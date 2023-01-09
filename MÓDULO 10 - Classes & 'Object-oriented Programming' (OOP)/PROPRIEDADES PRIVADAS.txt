@@ -1,0 +1,560 @@
+
+
+
+
+
+
+Quase acabamos com o tópico das 'classes'...
+
+
+
+
+
+
+
+É claro que veremos classes em muitos lugares ao longo do curso...
+
+
+
+
+
+
+
+
+
+
+Há uma feature nova que o professor quer nos mostrar, é bem recente.
+
+
+
+
+
+
+Não há muito browser support para ela, por enquanto, mas as coisas vão melhorar.
+
+
+
+
+
+
+Professor vai nos mostrar.
+
+
+
+
+
+
+
+É O CONCEITO DE 'PRIVATE fields, classes e methods'...
+
+
+
+
+
+
+
+
+O termo 'private' pode não nos dizer muita coisa...
+
+
+
+
+
+PROFESSOR APONTA QUE, ATÉ AGORA, SÓ TRABALHAMOS COM ___PUBLIC__ fields, methods e properties...
+
+
+
+
+
+
+Mas ele diz que nós TAMBÉM PODEMOS TRABALHAR COM PRIVATE fields,methods e properties.
+
+
+
+
+
+
+A ideia por trás de PUBLIC coisos é que NÓS PODEMOS ACESSÁ-LOS DO LADO 
+DE FORA da classe/objeto...
+
+
+
+É isso que fizemos em alguns casos, até agora... 
+
+
+
+
+
+
+VOCÊ TIPICAMENTE QUER DEIXAR PÚBLICAS Todas as coisas que você quer que sejam acessadas 
+do lado de fora....
+
+
+(THe 'things' you work with in your other code)
+
+
+
+
+UM EXEMPLO SERIA a hipótese em que você tem um 
+
+
+'product', e dentro dessa classe/objeto 'product' você tem UM 
+
+MÉTODO 'buy'...
+
+
+ex:
+
+
+
+product.buy();
+
+
+
+------------------
+
+Esse método deverá ser ativado/acionado do LADO DE FORA DO OBJETO 'product'...
+
+
+Provavelmente vai ser ativado do lado de fora PQ O LUGAR EM QUE VOCÊ TRABALHA COM 
+O SEU OBJETO 'product' É PROVAVELMENTE O LOCAL EM QUE O USUÁRIO PODE COMPRÁ-LO...
+
+
+
+
+
+VOcê também pode, por outro lado, ter alguma lógica, alguns métodos ou propriedades, QUE 
+
+VOCÊ NECESSITA QUE FIQUEM NO LADO DE DENTRO DE UM OBJETO, E NÃO FORA...
+
+
+Esses são os PRIVATE fields, methods e properties...
+
+
+(Acessible ONLY INSIDE of the class/object) 
+
+
+
+
+SÃO AS COISAS DE QUE VOCÊ PRECISA PARA FAZER O SEU OBJETO FUNCIONAR...., MAS QUE 
+VOCê NÃO PRECISA TRABALHAR COM/ATIVAR DO LADO DE FORA DO OBJETO... (ex: valores HARDCODED (fallbacks) E LÓGICAS RE-UTILIZÁVEIS ESPECÍFICAS A CERTAS CLASSES....
+)
+
+
+
+(the 'things' you work with in your class only (to split & re-use code)...)
+
+
+
+
+
+
+
+Example: Hard-coded (fallback) values, re-used class-specific logic.
+
+
+---------------------------------------------
+
+
+
+
+
+
+Professor admite que isso é BEM ABSTRATO.
+
+
+
+----------------------------------------
+
+
+
+
+Ele decide nos mostrar alguns exemplos concretos no nosso projeto dos 'PRODUCTS'...
+
+
+
+--------------------------------
+
+
+
+
+
+Por exemplo,  'products' (a propriedade) em 'ProductList'....
+
+
+É APENAS UTILIZADA DENTRO DA CLASSE 'productList', e nunca 
+
+NO LADO DE FORA DELA...
+
+
+
+
+Ou seja, no lugar onde eu crio uma productList (onde eu instancio uma productList)...
+
+
+que é em 'render() {
+
+    this.cart = new ShoppingCart('app');
+    new ProductList('app');
+}'
+
+
+
+EU NEM MESMO A ARMAZENO ELA EM UMA VARIÁVEL/CONSTANTE (PORQUE EU NÃO ESTOU INTERESSADO NISSO).
+
+
+
+
+ex de definição de uma variável com essa 'new ProductList':
+
+
+
+'const list = new ProductList('app');'
+
+
+
+-----------------------------
+
+
+Caso fizéssemos isso, essa linha de código, poderíamos definir coisas 
+como 
+
+
+
+
+'const list = new ProductList('app');'
+
+'list.products = [...];'
+
+---------------------------------
+
+
+
+
+PROFESSOR DIZ QUE NEM MESMO ISSO ELE QUER PERMITIR, nesse caso concreto... 
+
+
+
+Ele não deixa isso ser possível, porque se isso fosse possível (se ele DEIXASSE POSSÍVEL), 
+
+AÍ OUTRO DESENVOLVEDOR que trabalhar no nosso projeto pode pensar QUE 
+
+DEFINIR OBJETOS DESSA FORMA (ou seja, 
+
+por meio de 
+
+
+'const list = new ProductList('app');'
+
+'list.products = [...];'
+)
+
+
+DEVE GERAR REFLEXOS/RESULTADOS NA NOSSA PÁGINA...
+
+
+
+
+
+Mas, no final das contas, NESSE NOSSO CÓDIGO DO PROJETO, definir 'list.products = [...]', 
+essa sintaxe aí, VAI APENAS MUDAR OS PRODUTOS ARMAZENADOS NO OBJETO, E NÃO IRÁ 
+GERAR IMPACTO ALGUM NO HTML JÁ RENDERIZADO...
+(isso vai ocorrer pq em nossa 'ProductList' NÓS NÃO TEMOS NENHUM SETTER EM 
+
+'products' que iria ativar um UPDATE na UI... apenas temos um código desse tipo 
+em 'shoppingCart' ) 
+
+
+Ou seja, SE VOCÊ TENTASSE DEFINIR um valor de 'products' NO LADO DE FORA DA CLASSE, NADA 
+
+ACONTECERIA NA PÁGINA, pois 'fetchProducts' É O ÚNICO MÉTODO DENTRO DA CLASSE 
+
+'ProductList' que realmente muda alguma coisa na página renderizada... (muda a UI por meio do call de 'this.renderProducts();')
+
+
+-------------------------------------------------
+
+
+
+
+PORTANTO, O PROFESSOR QUER (por meio das private classes) ASSEGURAR QUE 
+
+NÓS NÃO CONSIGAMOS DEFINIR a variável 'products' (ou propriedade, tanto faz) DO LADO 
+DE FORA... 
+
+
+
+Ele quer fazer isso porque DEIXAR ESSA OPÇÃO 'aberta' PODE LEVAR A CASOS EM QUE 
+DESENVOLVEDORES/VOCÊ PODEM PENSAR QUE UMA CERTA MUDANÇA NO CÓDIGO É REFLETIDA NA 
+USER INTERFACE, QUANDO ela não é.
+
+
+
+
+
+É por isso que devemos utilizar PRIVATE PROPERTIES.
+
+
+
+
+a propriedade 'products' DEVERÁ FICAR DISPONÍVEL APENAS DENTRO
+
+
+DA CLASSE/OBJETO 'ProductList'...
+
+
+
+
+-------------------------
+
+
+
+PODEMOS OBTER PRIVATE CLASSES NO JAVASCRIPT POR MEIO DA ADIÇÃO 
+
+DO SINAL '#'...
+
+
+# na frente da propriedade/método/field...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class ProductList extends Component {
+    #products = [];
+}
+
+
+
+---------------------------------
+
+
+
+ESSA É UMA FEATURE TÃO, MAS TÃO NOVA, QUE NEM MESMO O IDE A suporta...
+
+
+
+
+
+Mas isso vai funcionar. 
+
+
+
+
+Normalmente, isso seria uma sintaxe inválida, pois você 
+
+NÃO PODE ADICIONAR NADA QUE NÃO SEJA 
+
+
+$ ou _  aos seus nomes de variável/propriedades.
+
+
+
+
+
+BEM, O SIMBOLO # é uma NOVA EXCEÇÃO.
+
+
+
+É uma exceção QUANDO VOCÊ A INSERE DENTRO DE UMA CLASSE/OBJETO, do lado de 
+um field/method/property.
+
+
+
+
+Ele os transforma em private coisos.
+
+
+
+
+
+
+DETALHE!!!! ---------> VOCÊ TAMBÉM TEM QUE USAR O # quando vocÊ QUER ACESSAR OS COISOS...
+
+
+ex:
+
+
+
+
+
+
+class ProductList extends Component {
+    #products = [];  //////DEFINIÇÃO DA private property.
+
+
+
+
+
+fetchProducts() { 
+    this.#products = [   //////////É ASSIM QUE ACESSAMOS PRIVATE PROPERTIES (dentro de nossa classe/objeto em que esse negócio está definido, é claro).
+
+
+        ...
+
+        new Product (..);
+
+        ...
+    ]
+}
+
+
+
+renderProducts() {
+    for (const prod of this.#products) {
+        new ProductItem(prod, 'prod-list');
+    }
+}
+
+
+
+}
+
+
+
+
+-----------------------------
+
+
+
+
+COM ISSO, AGORA NÓS TEMOS UMA SITUAÇÃO 
+
+EM QUE se eu 
+
+
+tentar armazenar A ProductList DENTRO 
+
+Da classe Shop, em uma const chamada de 'list', 
+
+e então tentasse CONSOLE.LOGGAR a private property no interior 
+
+dessa 'list'... ex:
+
+
+
+
+class Shop {
+
+    constructor() {
+        this.render(); 
+    }
+
+
+
+
+
+    render() {
+        this.cart = new ShoppingCart('app');
+        const list = new ProductList('app');
+        console.log(list.#products); 
+    }
+}
+
+
+-------------------------------
+
+
+
+ISSO VAI NOS RETORNAR UM ERRO... (mas era isso mesmo que queríamos com a definição dessas private coisos).
+
+
+
+'Uncaught SyntaxError:
+
+Private field '#products' must be declared in AN 
+ENCLOSING CLASS 
+
+
+
+
+
+....Ou seja, sucesso.
+
+
+
+Isso deixa nosso código mais claro a qualquer um 
+que tente o ler.
+
+
+
+Essencialmente, não posso utilizar esses private coisos 
+no lado de fora da classe/objeto em que foram definidos.
+
+
+
+
+DETALHE::: PRIVATE PROPERTIES/METHODS/FIELDS 
+
+APENAS PERMANECEM DISPONÍVEIS DENTRO DA SUBCLASSE/OBJETO QUE 
+VOCÊ AS DEFINIU, E NUNCA EM uma classe 'base' conectada às subclasses.
+
+
+É por isso que, dentro do 'SUPER CONSTRUCTOR' de ProductList o professor 
+vai lá E PASSA O SEGUNDO ARGUMENTO, um segundo argumento de 'false'... ele 
+
+FAZ ISSO PARA QUE ELE SEJA CAPAZ DE RENDERIZAR MANUALMENTE o elemento ProductList 
+por meio de 'this.render();' dentro desse constructor...
+
+
+ex:
+
+
+
+
+class ProductList extends Component {
+
+    #products = [];
+
+    constructor(renderHookId) {
+        super(renderHookId, false);
+
+        this.render();////////
+        this.fetchProducts();
+    }
+
+
+
+
+    
+}
+
+
+--------------------------
+
+
+Professor explica que NÓS DEVEMOS chamar esse 'this.render()' obrigatoriamente 
+ANTES DO 'fetchProducts()', porque esse 'fetchProducts' vai FAZER 
+O RENDER EFETIVO DOS PRODUTOS....  (por meio de 'new ProductItem(prod, 'prod-list');')
+
+
+Como 'fetchProducts' vai fazer o render efetivo dos ITEMS PRODUTOS, 
+precisamos desse 'render();' PARA QUE A LISTA DE PRODUTOS (productList) SEJA 
+RENDERIZADA ANTERIORMENTE A ELE...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Poderemos utilizar PRIVATE METHODS NO FUTURO, mas essa feature não 
+
+funciona em quase nenhum browser, nem mesmo no chrome... 

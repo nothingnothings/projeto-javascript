@@ -1,0 +1,455 @@
+Então, quando eu chamo 'new Product()', eu quero 
+CRIAR UM PRODUTO COM VALORES 
+DIFERENTES DOS VALORES 'DEFAULT' definidos 
+dentro daquela classe...
+
+
+
+
+
+
+
+
+
+
+
+
+SERIA LEGAL SE VOCÊ PUDESSE CHAMAR 'new Product()' e então simplesmente 
+passar informações À essa função 'new Product()'...
+
+Porque, afinal, nós a CHAMAMOS COMO UMA FUNÇÃO.... não seria 
+natural que pudéssemos adicionar alguns parâmetros dentro dos (), como 
+por exemplo:  'A title', 19.99 e assim por diante?
+
+
+
+
+
+BEM, DIZ O PROFESSOR, VOCÊ ___PODE FAZER ISSO___.
+
+
+
+
+
+Para tal, você deve ir até o local de sua classe E ENTÃO 
+ADICIONAR UM MÉTODO à ela...
+
+
+Um método é adicionado aqui APENAS POR MEIO da adição 
+de 'algum nome'. Pode ser qualquer nome de sua escolha.
+A fórmula é o nome + () + {}.
+
+
+
+
+
+ex:
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    someName() {
+        
+    }
+}
+
+
+-----------------------------
+
+
+OU SEJA, É IDÊNTICO AO METHOD SHORTHAND que nós aprendemos mais cedo....
+
+
+IMPORTANTE::::: VOCÊ NÃO ADICIONA um ';' após a definição do método....
+
+Além disso, você também não usa '=' para definir esse método.
+
+APENAS ESSA SHORTHAND FUNCIONA (arrow functions não funcionam).
+
+
+Você deve adicionar essa shorthand aí (algumNome() {} ) 
+SEMPRE DEPOIS 
+DOS FIELDS QUE VOCê COLOCOU NA CLASSE. Sempre por último...
+
+--------------------------------------
+
+Professor diz que é claro que você pode ter mais de 1 método:
+
+
+ex:
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    someName() {}
+    someName2() {}
+    someName3() {}
+    someName4() {}
+}
+
+
+------------------------------------
+
+
+
+A sintaxe aqui é essencialmente igual a de criar uma função fora de uma classe, 
+com a única diferença de que você não deve adicionar a 'function keyword'.
+
+
+Aqui, entretanto, nós não adicionamos esse método 'someName', PORQUE 
+NÓS ADICIONAREMOS MÉTODOS CUSTOMIZADOS MAIS TARDE... 
+
+
+
+mas agora nós precisamos de um MÉTODO ESPECIAL... UM MÉTODO O QUAL 
+JAVASCRIPT AUTOMATICAMENTE CHAMA SEMPRE QUE NÓS 
+CRIAMOS UMA 
+NOVA INSTÂNCIA ('instance') DESSA CLASSE.... (e uma instance é sempre criada quando nós chamamos 'new nomeDaClasse()'.)
+
+E ESSE MÉTODO ESPECIAL QUE É EXECUTADO PARA NÓS PELO JAVASCRIPT 
+É CHAMADO DE 
+
+
+
+                ----> 'CONSTRUCTOR METHOD'. <----------
+
+
+
+MÉTODO CONSTRUTOR, FUNÇÃO CONSTRUCTOR.
+
+
+
+
+NÓS ADICIONAMOS O MÉTODO 'constructor' ao final dessa classe (e 'constructor' é um nome reservado, sempre se lembre disso).
+
+
+constructor + () + {}.
+
+ex:
+
+
+
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor() {
+
+    }
+}
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+A IDEIA POR TRÁS DE UM CONSTRUCTOR é que ele ACEITA ARGUMENTOS COMO QUALQUER 
+MÉTODO COMUM... 
+
+e nesse caso, por exemplo, nós poderíamos aceitar 
+
+'title, imageUrl, description, price'.
+
+
+
+ex:
+
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor(title, image, desc, price) {
+
+    }
+}
+
+
+------------------------
+
+
+OU SEJA, O CONSTRUCTOR ACEITA QUAISQUER ARGUMENTOS, QUAISQUER 
+PARÂMETROS que você quer...
+
+
+E NOS CURLY BRACES (e essa é a parte interessante) VOCÊ 
+PODE ASSIGNAR OS VALORES QUE VOCÊ ESTÁ RECEBENDO AQUI PARA ESSES PARÂMETROS (title, image, desc, price), 
+vocÊ pode ASSIGNAR OS VALORES que vocÊ está conseguindo NO SEU 'FIELD' da classe.....
+
+ou seja, os valores que você está conseguindo nas propriedades 
+do objeto quando ele é "instantiated" (instanciado)...
+
+e você faz isso com a boa e velha 'this' keyword....
+
+
+
+'this' DENTRO DA FUNÇÃO 'constructor' VAI SE REFERIR À SUA CLASSE, ou, para ser mais preciso ,
+ao OBJETO que será criado (ao objeto que será criado a partir dessa classe...).
+
+
+
+ex:
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor(title, image, desc, price) {
+
+
+        this.          // ISSO VAI SE REFERIR À classe 'product' (e a todos os objetos que forem criados com a tal classe...)
+    }
+}
+
+
+
+----------------------------------------------
+
+
+
+
+PODEMOS, ENTÃO, DIZER, POR EXEMPLO, 'this.title' e então defini-lo como sendo o ARGUMENTO TITLE (o argumento 'title' dentro dos parâmetros do constructor).
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor(title, image, desc, price) {
+            
+            this.title = title; //////o 'title' À direita do '=' é uma referência ao 'title' que está nos parâmetros do constructor... definimos, aqui, portanto, a propriedade 'title' do objeto/classe Product como sendo esse argumento/parâmetro desse constructor.
+    }
+}
+
+
+
+
+
+
+------------------------
+
+
+
+Ainda continuando essa lógica, podemos fazer a mesma coisa com a imageUrl:
+
+
+
+
+ex:
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor(title, image, description, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+    }
+}
+
+
+-------------------------------------
+
+
+
+
+ESSES CÓDIGOS DENTRO DO constructor VÃO FAZER COM QUE SEJA CRIADO 
+UM MONTE DE PROPRIEDADES NO OBJETO que é criado 
+com a call de "new Product()" lá embaixo... e OS VALORES DESSAS PROPRIEDADES SERÃO INICIALIZADOS 
+COM OS VALORES QUE VOCÊ PASSOU AO CONSTRUCTOR (os parâmetros do constructor, title,image,description,prices).
+
+
+
+-----------------------------
+
+
+
+Ok, mas o que eu faço agora? Como posso inputtar valores específicos/novos no objeto 
+que eu quero criar? Como 'customizo' meu blueprint de 'class'?
+
+
+
+
+SIMPLES. APENAS DEVO FAZER O CHAMADO DA CLASSE por meio de 'new Product()' E ENTÃO 
+PASSAR OS VALORES QUE DESEJO INSERIR NAS PROPRIEDADES desse objeto, que será criado agora, DENTRO DO PARÊNTESES DESSE CHAMADO da classe...
+
+
+
+
+ex:
+
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor(title, image, description, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+    }
+}
+
+
+
+
+new Product('Um grande pedaço de bosta', 'https://ufrgslixo.com', 'O Direito', 0.00 ), 
+
+(...)
+
+
+
+
+-----------------------------------
+
+
+
+É ASSIM QUE SÃO CRIADOS OBJETOS A PARTIR DE BLUEPRINTS (classes).
+
+
+
+outro ex, agora com os objetos/class anteriores:
+
+
+
+
+
+
+
+class Product  {
+    title = 'DEFAULT';
+    imageUrl;
+    description;
+    price;
+
+
+
+    constructor(title, image, desc, price) {
+        this.title = title;
+        this.imageUrl = image;
+        this.description = desc;
+        this.price = price;
+    }
+}
+
+
+const productList = {
+    products: [
+        new Product('A Pillow', 
+        'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg',
+        'A short pillow', 
+        19.99
+        )
+
+new Product('A Carpet', 
+            'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg',
+            'A small carpet',
+            89.99           
+          )
+    ]
+}
+
+render() {
+        ...
+}
+
+
+
+
+------------------------------
+
+
+
+
+
+ADICIONAMOS TUDO ISSO AO CÓDIGO E PERCEBEMOS QUE FUNCIONA.
+
+
+A GRANDE VANTAGEM DE USAR CLASSES É QUE 
+AGORA NÓS TEMOS UMA MANEIRA FACIL E REUTILIZÁVEL 
+DE CRIAR OBJETOS QUE SEMPRE 
+TERÃO A MESMA APARÊNCIA/ESTRUTURA.
+
+
+É IMPOSSÍVEL A NÓS OMITIR PROPRIEDADES/FAZER MISTYPE 
+DE PROPRIEDADES, JÁ QUE TODAS ELAS JÁ ESTÃO 
+MUITO BEM DEFINIDAS 
+NA NOSSA 'CLASS' inicial.

@@ -1,0 +1,108 @@
+$cor-preta: #494949;
+$cor-vermelha: #ff0062;
+$cor-rosa: #ff3482;
+
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    font-family: sans-serif;
+}
+
+
+
+body {
+    margin: 0;
+}
+
+
+label {
+    font-weight: bold;
+    display: block;
+    color: $cor-preta;
+}
+
+
+
+input {
+    font: inherit;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    color: $cor-preta;
+    width: 100%;
+    display: block;
+    margin: 1rem 0;
+
+    &:focus{
+        outline: none;
+        border-color: $cor-vermelha;
+    }
+}
+
+button {
+    font: inherit;
+    border: 1px solid $cor-vermelha;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    background: $cor-vermelha;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover,
+    &:active {
+        background: $cor-rosa;
+        border-color: $cor-rosa;
+    }
+}
+
+.card {
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.inline-controls {
+    display: flex;
+}
+
+
+.control {
+    margin: 1rem;
+}
+
+
+#user-input, 
+#movie-list,
+#filter {
+    width: 50rem;
+    max-width: 90%;
+    margin: 2rem auto;
+}
+
+#movie-list {
+    display: none;
+    list-style: none;
+    padding: 1rem;
+
+
+    &.visible {
+        display: block;
+    }
+
+    li {
+        margin: 1rem;
+        color: $cor-vermelha;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+}

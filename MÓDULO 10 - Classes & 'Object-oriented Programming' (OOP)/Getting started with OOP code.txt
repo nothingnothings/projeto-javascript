@@ -1,0 +1,1169 @@
+Começamos um novo projeto.
+
+
+
+Devemos editar o código.
+
+
+
+
+
+
+O PROFESSOR VAI CRIAR UM "DUMMY SHOP" BEM SIMPLES.
+
+
+
+NÃO SERÁ UMA LOJA DE VERDADE, EM QUE REALMENTE PEDIDOS PODEM SER FEITOS, PORQUE 
+PARA TAL, NÓS PRECISARÍAMOS DE UM ___BACK___END___.
+
+
+
+
+
+BACKEND ---> precisaríamos de um SERVIDOR COM UMA DATABASE e 
+muito mais coisas, as quais não conseguimos construir ainda.
+
+
+
+
+MAS CONSTRUÍREMOS UMA PARTE DA ___FRENTE____. FRONTEND.
+
+
+
+
+Uma lista de produtos em que podemos CLICAR em um botão 
+"add to cart" que então incrementará A QUANTIDADE 
+TOTAL EM UM SHOPPING CART. Isso nos permitirá 
+mergulhar em conceitos QUE SÃO MUITO IMPORTANTES 
+ACERCA DE OBJECT ORIENTED PROGRAMMING.
+
+
+----> também nos mostrará coisas que serão importantes quando 
+nós trabalharmos com CLASSES.
+
+
+
+
+
+
+Vamos até o app.js. 
+
+
+LÁ, QUERO RENDERIZAR UMA LISTA DE PRODUTOS... e também 
+quero me assegurar de que conseguimos clicar em um botão.
+
+
+
+
+
+A MANEIRA TRADICIONAL DE FAZER ISSO, A QUAL UTILIZAMOS ATÉ AGORA, SERIA 
+SIMPLESMENTE EXECUTAR UMA SEQUÊNCIA DE 
+
+
+__PASSOS__ AQUI___, criar um punhado de funções as quais conectaríamos a alguns 
+eventListeners, nos quais nós também chamaríamos NÓS MESMOS 
+DE DENTRO DO CÓDIGO... construiríamos nossa lógica a partir disso, 
+essencialmente.
+
+
+
+
+O PROFESSOR EXPLICA QUE ESSE APPROACH ___NÃO É ___ RUIM__. NÃO 
+É RUIM, DE FORMA ALGUMA. Esse é o approach tradicional.
+
+Você pode ESCREVER GRANDES APLICATIVOS DE JAVASCRIPT POR MEIO 
+DESSA MANEIRA, POR MEIO DESSA MANEIRA 'funcional'.... the "functional way".
+
+
+
+Essa maneira envolve DIVIDIR (split up) o seu código 
+EM DIFERENTES FUNÇÕES, AS QUAIS VOCÊ ENTÃO CHAMA 
+AO LONGO DO CÓDIGO, EM DIFERENTES LUGARES.
+
+
+
+ENTRETANTO, ESSE OOP PODE SER BOM, DEVEMOS ESTUDÁ-LO.
+
+
+
+
+
+----------------------------------------------
+
+
+
+Precisamos, antes de mais nada, de uma LISTA DE PRODUTOS. 
+
+
+Para tal, criamos um ARRAY DE PRODUTOS.
+
+
+ex:
+
+
+const products = [];
+
+
+------------------------------
+
+
+
+Agora digamos que dentro desse array nós criamos PRODUTOS, QUE DEVERÃO 
+SER __OBJETOS____. 
+
+CADA UM DESSES OBJETOS DEVERÁ TER UM __tITLE___, uma imageUrl (o professor escolheu uma imagem antecipadamente), 
+, um PREÇO e uma PEQUENA DESCRIÇÃO.
+
+
+
+
+ex:
+
+
+
+
+const products = [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow'
+     }
+];
+
+
+
+--------------------------------
+
+
+
+
+TUDO ISSO SERÁ EQUIVALENTE A UM ÚNICO OBJETO 'PRODUCT'.
+
+Devemos adicionar um segundo product, dessa vez com um TAPETE.
+
+
+
+
+
+
+
+
+
+const products = [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+];
+
+
+---------------------------------
+
+
+
+
+TEMOS 2 OBJETOS, MAS ATÉ AGORA NÃO FIZEMOS COISA ALGUMA. Não fizemos nada 'object oriented'. A única 
+coisa que fizemos aqui é armazenar dados em objetos....
+
+
+mas isso é óbvio, afinal é muito mais fácil trabalhar com dados todos agrupados em um conjunto 
+do que trabalhar com eles separados em variáveis/constantes independentes, as quais não tem parentesco aparente (os objetos têm parentesco aparente, btw).
+
+
+
+
+
+AGORA VEM A PARTE INTERESSANTE:
+ 
+
+
+ Agora devemos adicionar um OBJETO 'productList'.
+
+
+
+ESSE OBJECTLIST É ALGO ___NOVO___. ANTERIORMENTE, NÃO TERÍAMOS CRIADO ELE DESSA FORMA.
+
+ANTERIORMENTE, NÓS TERÍAMOS, EM VEZ DISSO, SELECIONADO UMA PARTE QUALQUER DO NOSSO 
+CÓDIGO HTML POR MEIO DE QUERY SELECTORS/GETXBYY E ENTÃO TRABALHADO EM TORNO DISSO... 
+nós encontraríamos, por exemplo, um botão no nosso html e então construiríamos uma lógica 
+para, por exemplo, renderizar esse botão.
+
+MAS AQUI, NÓS ESTAMOS TRABALHANDO TENDO EM VISTA O 'OOP'.
+
+
+
+
+ ex:
+
+
+
+
+
+
+const products = [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+];
+
+
+
+
+const productList = {
+
+};
+
+
+--------------------------------------
+
+
+
+
+AGORA EU QUERO MOVER TODO MEU CÓDIGO PARA DENTRO DE OBJETOS, PARA QUE EU POSSA APENAS 
+TRABALHAR COM OBJETOS EM MEU CÓDIGO...
+
+E a ideia aqui é que o CÓDIGO SE TORNA MAIS FÁCIL DE SER ENTENDIDO, PORQUE COMO TODA A LÓGICA 
+ESTÁ ANEXADA A UM OBJETO, É BEM MAIS SIMPLES DE OLHAR PARA UM OBJETO E 
+SABER 'ok, tudo que está lá dentro tem que estar relacionado com o RENDERING DE UMA PRODUCTLIST'.
+
+
+
+
+Por exemplo, se nós tivermos um objeto 'card' mais tarde, tudo que estiver dentro 
+do 'card' deverá ter relação com O TRABALHO COM UM CARD....
+
+
+Aqui eu tenho meu objeto productList...
+
+O professor diz que a coisa mais lógica de se fazer aqui, é claro, seria MOVER 
+O ARRAY DE 'products' PARA DENTRO DA PRODUCTLIST.
+
+Como estamos renderizando uma lista de produtos, é meio óbvio que OS PRODUTOS EM SI MESMOS 
+DEVERÃO SER ARMAZENADOS NESSE OBJETO...
+
+Professor vai adiante e CONVERTE A CONSTANTE 'products' em uma PROPRIEDADE 'products' dentro 
+da productList.
+
+
+Além disso, ele vai lá e CRIA UM MÉTODO. Um método de renderização, talvez.
+
+
+
+ELE DIZ QUE AQUI ELE UTILIZARÁ AQUELA SHORTHAND DE CRIAÇÃO DE MÉTODOS (a method shorthand notation).
+
+
+A IDEIA POR TRÁS DO MÉTODO 'render' é que ele deverá 
+RENDERIZAR A LISTA DE PRODUTOS....
+
+
+ex:
+
+
+
+
+
+ 
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+    
+
+
+}
+
+
+};
+
+
+
+-----------------------------------
+
+
+
+
+Como eu quero renderizar a lista de produtos, aqui eu vou precisar SELECIONAR 
+AQUELA PARTE DO CÓDIGO (no caso a parte 'div id="app" '), onde eu vou querer
+renderizar tudo. Professor cria uma constante chamada 'renderHook'; esse nome é uma 
+referência ao local no app.js em que todos os objetos product/a productlist deverá ser 
+renderizada.
+
+
+
+
+ex:
+
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+   const renderHook document.getElementById('app');
+
+
+
+
+}
+
+
+};
+
+
+--------------------------------------------
+
+
+
+Dentro desse renderHook, PODEMOS ENTÃO 'append' (append()) UM 
+CERTO CONTEÚDO... mas PARA FAZER ISSO, 
+ANTES PRECISAMOS CRIAR O TAL CONTEÚDO. 
+Professor cria uma const 'prodList', que segurará 
+o elemento criado por meio de 'createElement', que será 
+UMA UL (unorderedlist).
+
+Depois disso, ele vai lá e faz o append desse elemento À div com id de 'app' por meio 
+de 'append()'.
+
+
+
+ex:
+
+
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    renderHook.append(prodList);
+
+
+}
+
+
+};
+
+
+
+
+-----------------------------
+
+
+
+PROFESSOR DIZ QUE VAI QUERER CRIAR UMA UL AQUI PORQUE ELE VAI QUERER 
+UMA LISTA DE PRODUTOS, POR ISSO FAZ SENTIDO QUE NÓS TENHAMOS UMA 
+UL para renderizar todos esses produtos. Ele menciona 
+que poderia ser uma OL, se você quisesse, mas que 
+aqui ele utilizará uma UL.
+
+
+--------------------------
+
+
+
+Além disso, ele vai lá e define a className de 
+'prodList' como sendo 'product-list', por meio de '.className = xxxx'.
+Ele diz que faz isso simplesmente porque é uma classe 
+CSS que já foi preparada por ele.
+
+
+
+ex:
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list';
+  
+
+
+}
+  renderHook.append(prodList);
+
+};
+
+
+
+---------------------------------------
+
+
+
+
+
+AGORA, DENTRO DESSA LIST, EU QUERO RENDERIZAR MEUS DIFERENTES 'product items', 
+os diferentes produtos que tenho dentro do array de products em projectlist.
+
+
+
+
+PRECISAMOS ADICIONAR UMA LÓGICA QUE RENDERIZE UM ÚNICO PRODUTO ALI, DENTRO DE 'render()'.
+
+
+
+Para tal, podemos usar um FOR OF LOOP para ir por dentro 
+de todos os elementos do array de 'products' e para executar um código que renderize todos eles.
+
+O professor usa 'THIS' AQUI, pois esse 'this' vai se referir 
+ao objeto 'productList', é uma sintaxe válida.
+
+---------------------------------------------
+
+
+ex:
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list';
+  
+    for (const prod of this.products) { //'this' deverá se referir ao OBJETO 'productList'.
+
+    }
+
+renderHook.append(prodList);
+}
+
+  
+};
+
+
+
+---------------------------------
+
+
+
+DENTRO DO FOR OF LOOP, PARA CADA OBJETO EXISTENTE DENTRO DO 'products', nós também 
+precisaremos criar UM NOVO ELEMENTO, o qual também faremos 'append' no DOM.
+Esse novo elemento/elementos será/serão chamados 
+de 'prodEl'. A constante desse elemento segurará 
+um list item, pois isso faz sentido.
+
+
+DEPOIS DISSO, O PROFESSOR VAI QUERER DEFINIR O ESTILO 
+DESSE novo elemento <li> por meio DE 'className'. Terá um className 
+de 'project-item', estilo que já fora definido no arquivo 
+style.css.
+
+Depois disso, ele simplesmente faz o append desse item À LISTA DE PRODUTOS ('prodList'.).
+
+
+(prodList.append(prodEl);)
+
+
+
+
+
+ex:
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list';
+   
+    for (const prod of this.products) { //'this' deverá se referir ao OBJETO 'productList'.
+        const prodEl = document.createElement('li');
+        prodEl.className = 'product-item';
+        prodList.append(prodEl);
+    }
+
+ renderHook.append();
+}
+
+   
+};
+
+
+
+-----------------------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE product element, 'prodEl', deverá, É CLARO, TAMBÉM 
+FAZER O OUTPUT DE ALGUM CONTEÚDO SOBRE O PRODUTO...
+
+
+Para tal, ele diz que podemos definir 'prodEl.innerHTML = xxxx'.
+
+
+
+Na verdade, ELE DIZ QUE DEVEMOS DEFINIR UM CÓDIGO HTML QUE TERÁ 
+A ESTRUTURA QUE QUISERMOS... (para isso, para colocar o código HTML bonitinho, ele utiliza a sintaxe dos BACKTICKS, que permitem a ele escrever código multi-linha.)
+
+
+
+Dentro desse innerHTML, o professor vai querer UMA DIV que envolverá 
+todo o conteúdo... dentro da div, haverá uma imagem com um 
+SOURCE DINÂMICO, utilizaremos a sintaxe de interpolação (${}) PARA 
+INTERPOLAR 'prod.imageUrl', que é aquilo que conterá a imagem 
+que desejamos.
+
+ex:
+
+
+prodEl.innerHTML = `
+        <div>
+        <img src="${prod.imageUrl}" alt="${prod.title}">
+        </div>
+            `
+
+
+
+------------------------------------
+
+
+
+Logo embaixo da imagem inserida na div, devemos INSERIR OUTRA DIV, 
+digamos uma div com uma classe de 'product-item__content'.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+prodEl.innerHTML = `
+        <div>
+        <img src="${prod.imageUrl}" alt="${prod.title}">
+        <div class="product-item__content">
+        <h2>${prod.title}</h2>
+        </div>
+        </div>
+            `
+
+
+------------------------------------------------
+
+
+
+
+
+Dentro dessa div, teremos uma <h2> tag em que faremos o output  
+
+DO TITLE DE NOVO e então, abaixo disso e em uma <h3> tag....
+
+INSERIREMOS UMA NOVA NOTAÇÃO/SINTAXE BIZARRA, com 
+uso de escape (  escape =  '\'.).
+
+Nesse h3 com o escape (\), nós teremos O PREÇO.
+
+
+Aqui usaremos escape + sinal de dólar....
+
+
+O 'escape' FAZ COM QUE O JAVASCRIPT ENTENDA QUE 
+AQUI ESTAMOS QUERENDO UTILIZAR O SINAL DE DÓLAR INDIVIDUALIZADO ($, ou seja, 
+como uma letra/caracter mesmo, e não como um sinal de código. Isso 
+faz com que evitemos o uso normal do $, que é o DE INJEÇÃO DE CONTEÚDO).
+
+Aí, do lado desse $ (que significará literalmente 'dinheiro'), 
+colocarei o valor dinâmico do price, que obteremos por meio 
+da passagem por dentro daqueles elementos do for of loop.
+
+
+
+ex:
+
+
+<h3>\$${prod.price}</h3>
+
+
+
+------------------------------------------
+
+
+
+
+
+Logo após esse preço, professor diz que devemos adicionar um PARÁGRAFO (<p></p>)
+EM QUE FAZEMOS O OUTPUT DA DESCRIÇÃO DO PRODUTO/produtos.
+
+
+
+ex:
+
+
+
+
+<h3>\$${prod.price}</h3>
+<p>${prod.description}</p>
+
+
+
+
+--------------------------------------
+
+
+
+Depois, para encerrar esse innerHTML, inserimos um botão 
+em que dizemos "adicionar ao carrinho".
+
+
+
+ex:
+
+
+
+
+
+ prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                                `
+
+
+----------------------------------
+
+
+
+Esse botão por enquanto não fará nada, é claro, teremos que selecioná-lo e 
+adicioná-lo a um eventListener...
+
+Mas veremos isso depois.
+
+
+Com isso, portanto, adicionamos um innerHTML.
+
+
+
+
+
+
+RESULTADO FINAL:
+
+
+
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     },
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+    
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                                `;
+
+            prodList.append('prodEl');
+        }
+        renderHook.append(); 
+}
+} 
+
+-----------------------------------------
+
+
+
+ProdList, portanto, agora está basicamente completo; agora 
+podemos fazer o APPEND de prodList ao 
+RENDERHOOK (que contém o elemento da div que contém a lista.... )
+
+
+
+
+
+ex:
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     },
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+    
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                                `;
+
+            prodList.append('prodEl');
+        }
+        renderHook.append(prodList); 
+}
+} 
+
+
+
+
+---------------------------------
+
+
+Esse código todo fará com que prodList seja RENDERIZADA DENTRO DAQUELA 
+DIV com id de 'app'...
+
+
+
+
+-------------------------------
+
+
+
+
+Agora que temos tudo isso, toda essa lógica armazenada 
+no OBJETO 'productList', podemos ir 
+até esse productList 
+e chamar 
+
+
+"productList.render();".
+
+
+
+Resultado:
+
+
+
+
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+render() {
+   const renderHook = document.getElementById('app');
+    const prodList = document.createElement('ul');
+    prodList.className = 'product-list'; 
+
+    for (const prod of this.products) { //'this' aqui se referirá à productList....
+            const prodEl = document.createElement('li');
+            prodEl.className = 'product-item';
+            prodEl.innerHTML = `
+                    <div>
+                        <img src="${prod.imageUrl}" alt="${prod.title}">
+                        <div class="product-item__content">
+                            <h2>${prod.title}</h2>
+                            <h3>\$${prod.price}</h3>
+                            <p>${prod.description}<p>
+                            <button>Add to Cart</button>
+                        </div>
+                    </div>
+                                `;
+
+            prodList.append(prodEl);
+        }
+        renderHook.append(prodList); 
+}
+} ;
+
+
+productList.render();
+
+
+
+
+--------------------------
+
+
+
+
+
+
+Se recarregarmos a página, veremos que os produtos estarão renderizados ali.
+
+
+
+A primeira pergunta que você pode ter 
+acerca de todo esse processo do OOP é 
+
+"tá, mas qual é a vantagem de utilizar isso em vez do método funcional?"
+
+
+"nós de fato colocamos toda a lógica dentro daquele objeto ali, mas isso 
+não salvou quase nada de código/tempo..."
+
+
+
+
+PROFESSOR EXPLICA QUE ESSE É EXATAMENTE O PROBLEMA COM ESSA 
+
+"OBJECT LITERAL NOTATION"
+
+(
+
+ele quer dizer o 
+
+"
+
+const productList = {
+    products: [
+    {title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+    {title: 'A Carpet', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/81W6An71HSL._SX466_.jpg', 
+    price: 89.99, 
+    description: 'A small carpet!'
+     }
+    
+],
+
+
+
+
+
+"
+)
+
+
+
+-------------------------------------
+
+
+É DIFÍCIL DE ESCREVER OBJECT ORIENTED CODE CORRETO PORQUE 
+COM AQUELA OBJECT LITERAL NOTATION (que é  ÓTIMA PARA 
+CRIAR OBJETOS NA HORA... mas que faz com seja 
+DÍFICIL DE ESCREVER CÓDIGO REUTILIZÁVEL).  Object literal notation é basicamente 'const object = {}'.
+
+Essa sintaxe é boa para criar objetos de forma rápida e fácil, MAS ELA 
+FAZ COM QUE A CRIAÇÃO DE 
+CÓDIGOS DE OBJETOS FACILMENTE REUTILIZÁVEIS SEJA MAIS DIFÍCIL.
+
+
+
+ex perfeito disso:
+
+
+OS OBJETOS 'product' dentro da propriedade 'objects'....
+
+Esses objetos sempre tem a mesma estrutura... 
+
+(que é:
+
+
+
+{title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     },
+
+
+
+
+
+
+)
+
+
+
+Agora, sempre que nós quisermos adicionar UM NOVO OBJETO 
+DENTRO DE 'products', NÓS TEREMOS 
+DE ADICIONÁ-LO MANUALMENTE 
+COM A OBJECT LITERAL NOTATION.... ({}) 
+
+Isso é muito ruim, porque essa adição manual NÃO PERDOA: temos 
+de ter certeza de que não fazermos mistype ou errarmos alguma de suas
+ propriedades...
+
+
+
+
+
+ Seria legal, diz o professor, se HOUVESSE OUTRA FORMA DE CONSEGUIR 
+ UMA ESPÉCIE DE 'blueprint' PARA ESSE OBJETO 'product'.....
+
+
+
+UM BLUEPRINT.... isso é possível, com javascript!
+
+
+
+
+Podemos criar alguma função, que pode ser chamada por nós, que nos dá 
+algum objeto ou algo do gênero... O QUE, no final das contas, apenas 
+se assegura de que nós tenhamos que passar uma certa quantidade 
+de argumentos... passados esses argumentos, teríamos um objeto automaticamente 
+gerado pelo javascript....
+
+
+
+Ok, até aí entendi. Mas COMO DIABOS CRIAR ESSE BLUEPRINT/ESSA FUNÇÃO QUE CRIA OBJETOS 
+POR MEIO DE UM BLUEPRINT?
+
+
+
+
+O professor diz que, é claro, podemos escrever uma função que constrói um objeto como 
+esses 'product'... 
+
+UMA FUNÇÃO SIMPLES QUE RETORNA UM OBJETO COMO 'product'. Isso é possível.
+
+A mesma coisa é possível com 'render()'...
+
+Essa lógica de RENDERIZAR UM ÚNICO ELEMENTO 'product' AGORA FAZ 
+PARTE DE 'productList'....
+seria legal se tivéssemos um OBJETO STANDALONE que pudéssemos 
+criar MÚLTIPLAS VEZES, uma vez para CADA PRODUTO QUE TEMOS 
+DENTRO DO ARRAY DE PRODUTOS ('this.products'), esse array 
+de produtos que segura toda a nossa lógica... faríamos isso para que não 
+precisássemos colocar essa lógica DENTRO DE RENDER; OU SEJA, 
+PARA QUE PUDÉSSEMOS COLOCÁ-LA em algum outro lugar de nosso 
+código, evitar aglutinação de co´digo. (isso faria com que não precisássemos 
+colocar a lógica do innerHTML dentro do render(),  nos permitiria 
+colocar essa lógica em outro lugar do código... em render() NÓS 
+APENAS EXECUTARÍAMOS, EXECUTARÍAMOS ESSE CÓDIGO QUE FOI ARMAZENADO 
+EM OUTRO LUGAR DO CÓDIGO. ).
+
+
+
+Professor explica que É ÓBVIO QUE TUDO ISSO PODERIA SER 
+OBTIDO POR MEIO DA DIVISÃO DO NOSSO CÓDIGO EM FUNÇÕES...
+ele diz que isso não é errado, esse approach não é ruim...
+
+MAS ELE TAMBÉM DIZ QUE TALVEZ SEJA MAIS FÁCIL PENSAR sobre 
+o código se VOCÊ O DIVIDIR EM OBJETOS... ex: digamos que você 
+
+tem um 'product component object', que seria responsável 
+POR RENDERIZAR A PARTE do 
+
+'prodEl.className = 'product-item';
+prodEl.innerHTML = `
+                    ...
+                    `;
+
+----------------------------
+
+
+Digamos também que vocÊ teria um 'productList component', 
+que será responsável pela renderização da lista em geral..., a lista em si.
+Ou seja, o código de:
+
+
+'const prodList = document.createElement('ul');
+prodList.className = 'product-list';
+for (const prod of this.products) {
+    const prodEl = document.createElement('li');
+}
+
+
+
+
+POR FIM, TERÍAMOS TAMBÉM MAIS TARDE UM 'card component' e um 
+'header component' (que renderizaria o header).
+
+
+
+ALÉM DESSES COMPONENTS (os componentes acima), que devem ser OBJETOS NORMAIS que 
+apenas sabem renderizar alguma coisa, NÓS 
+TAMBÉM TEMOS 
+'NON COMPONENT OBJECTS', que são apenas objetos regulares QUE ARMAZENAM 
+ALGUNS DADOS.
+
+ex:
+
+
+{title: 'A Pillow', 
+    imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/711UQcfhLlL._AC_SL1500_.jpg', 
+    price: 19.99, 
+    description: 'A short pillow!'
+     }       //////--------------> ISSO É UM EXEMPLO DE 'NON COMPONENT OBJECTS'.
+
+
+
+
+
+
+
+PROFESSOR EXPLICA DETALHE IMPORTANTE:::: NON COMPONENT OBJECTS SÃO ALGO QUE PODEMOS CONSTRUIR FACILMENTE POR MEIO DE ____CLASSES_____.
+
+
+
+
+
+
+Uma vez que trabalhemos com classes, TUDO ISSO FICARÁ MAIS CLARO.

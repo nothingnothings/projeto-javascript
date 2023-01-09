@@ -1,0 +1,215 @@
+Agora que demos uma olhada em todos os "blocos de fundação" de como 
+adicionar/remover/modificar elementos do DOM por meio do javascript, 
+devemos ver como se aplica tudo isso na prática.
+
+
+
+
+
+Faremos um projeto mais realístico. O professor diz que 
+somente usamos o console até agora, o que é ótimo para 
+entender o que você pode selecionar/fazer, mas 
+agora devemos usar tudo em um projeto mais realístico.
+
+
+Montamos o nosso projeto 8, portanto.
+
+
+Agora não temos a mamata do "vendor.js", porque 
+devemos fazer toda a comunicação entre o html e o .js por nossas 
+próprias mãos.
+
+
+A página ainda não funciona. Devemos adicionar uma interação com 
+javascript que fará um overlay aparecer sobre a página quando clicamos 
+em "ADD MOVIE", um overlay onde poderemos digitar o nome 
+de nosso filme favorito, adicionar uma imagem 
+e dar uma nota (isso aparecerá no lugar da caixa "your personal movie database").
+
+
+
+TAMBÉM SEREMOS CAPAZES DE CLICAR nos items (nos movies) e então
+ removê-los (se quisermos) após os adicionarmos.
+
+
+
+Um monte de interação, portanto. Também 
+vamos criar e remover elementos dinamicamente, 
+teremos que conectar a um monte de elementos na página, portanto 
+haverá dezenas de oportunidades para você usar 
+querySelectors e getXbyY.
+
+
+Só mais uma palavra:
+
+
+Você sempre pode pausar e tentar algumas das próximas etapas 
+por sua própria conta.
+
+
+
+Temos nosso esqueleto pronto, agora, mas nada na página funciona, ainda.
+
+
+
+
+A primeira coisa que seria muito legal se funcionasse é o BOTÃO "add Movies".
+
+
+
+Fazer um overlay aparecer quando apertamos em "add movie". O nome 
+desse overlay, como já estudamos, é "MODAL". É tipo um pop-up criado visualmente 
+na nossa página.
+
+
+a div:
+
+
+
+ <div class="modal" id="add-modal">
+      <div class="modal__content">
+        <label for="title">Movie Title</label>
+        <input type="text" name="title" id="title" />
+        <label for="image-url">Image URL</label>
+        <input type="text" name="image-url" id="image-url" />
+        <label for="rating">Your Rating</label>
+        <input
+          type="number"
+          step="1"
+          max="5"
+          min="1"
+          name="rating"
+          id="rating"
+        />
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--passive">Cancel</button>
+        <button class="btn btn--success">Add</button>
+      </div>
+    </div>
+    <div class="modal" id="delete-modal">
+      <h2 class="modal__title">Are you sure?</h2>
+      <p class="modal__content">
+        Are you sure you want to delete this item? This action can't be made
+        undone!
+      </p>
+      <div class="modal__actions">
+        <button class="btn btn--passive">No (Cancel)</button>
+        <button class="btn btn--danger">Yes</button>
+      </div>
+    </div>
+
+
+
+
+
+
+--------------------------------------
+      É O NOSSO MODAL. Tem algumas classes CSS para parecer 
+      bonita e um ID que será útil para o javascript (add-modal), mais tarde.
+      O professor também adicionou um punhado de inputs que vão nos permitir a adicionar 
+      o movie title, uma imagem e uma nota(de 1 a 5). Por fim, temos também 
+      uns botões tanto para aceitar quanto para recusar a seleção do filme.
+      Quando o usuário aceitar a seleção, o filme será adicionado a um javascript array e 
+      também SERÁ OUTPUTTADO na página.
+
+      Se scrollarmos lá para baixo, veremos que temos uma unorderedlist com nenhuma 
+      entrada no momento, mas que será populada quando adicionarmos os filmes que quisermos.
+
+      O objetivo, por enquanto, é MOSTRAR ESSA DIV "modal card". É claro que 
+      a pergunta agora é: "por que essa div não está sendo mostrada no momento?"
+
+
+      A resposta é simples: porque o seu estilo está definido como "display: none".
+
+
+      A classe ".modal" está definida como "display: none".
+      Com display: none, o elemento DEIXA DE SER PARTE DO DOCUMENT FLOW, ele 
+      deixa de ser visívl, clicado, tudo isso. Ele ainda é parte do DOM (aparece 
+      na tab de "elementos" no devtool), na verdade, 
+      apenas não aparece no mesmo.
+      O fato de ele ainda fazer parte do DOM é importante, pois podemos selecioná-lo 
+      de dentro do javascript com o seu id. Podemos dar toggle 
+      neses display style para mostrar o modal, embora exista uma maneira anida mais fácil 
+      de fazer isso.
+
+      Há, dentro do código CSS, a classe ".visible". Esse classe 
+      faz com que o modal tenha seu display alterado pra "block". Essa classe também tem 
+      uma animação bonitinha de "fade-slide-in".
+
+      Nosso objetivo é fazer com que o programa funcione de modo que quando nós apertamos 
+      em "add movie", nos alcançamos a div de classe "modal card" e de id "add-modal" e
+      então adicionamos essa classe ".modal.visible".
+
+
+
+      2 passos pelos quais podemos começar:
+
+
+      Precisamos acessar o "add-modal". Podemos usar 
+      tanto o getElementsById quanto com um classSelector, 
+      mas o classSelector é arriscado, pois temos outro modal 
+      mais para baixo na página, e não queremos que as classes dos modais 
+      se confundam nos seletores. É claro que poderíamos usar 
+      querySelector aqui para selecionar o PRIMEIRO MODAL DO CÓDIGO (modal card),
+      mas isso seria ruim, porque mais tarde, quando precisarmos 
+      acessar o segundo modal, por exemplo, não poderemos 
+      utilizá-lo (ou teremos que usar o getElementsById, etc).
+
+
+
+      Não podemos esquecer, além disso, de ganhar acesso 
+      ao botão da página, para que possamos assignar 
+      um eventListener a ele. 
+
+      Poderíamos utilizar um id nesse botão para selecioná-lo, 
+      mas como o professor quer testar coisas novas que aprendemos, 
+      ele quer usar um modo de seleção diferente.
+
+
+
+      O professor seleciona o modal da página por meio do código: 
+
+
+      ex:
+
+
+
+      const addMovieModal = documnet.getElementById('add-modal');
+
+
+      TAMBÉM NOS MOSTRA AS FORMAS ALTERNATIVAS DE selecioná-lo:
+
+
+      //const addMovieModal = document.querySelector('#add-modal'); ---> meio alternativo de selecionar esse elemento.
+//const addMovieModal = documennt.body.children[1];
+
+--------------------------------------------------
+
+
+Depois disso, o professor esclarece o procedimento 
+para selecionar o "add movie button".
+
+
+const startAddMovieButton = document.querySelector('.addBtn'); // ESSA É UMA DAS MANEIRAS DE SELECIONAR O BOTÃO. OUTRAS MANEIRAS;
+
+
+// const startAddMovieButton = document.querySelector('header button'); //Esse método seleciona o elemento button dentro do elemento header. O professor aqui usa os famosos "tag selectors", porque ele só tem 1 elemento header na página inteira.
+
+
+// const startAddMovieButton = document.querySelector('header').lastElementChild; //o <button> é REALMENTE O ÚLTIMO FILHO DE <header>, por isso esse método realmente funciona. A desvantagem de usar esse modelo, segundo o professor, é a mesma de usar "document.body.children[1]' como seletor: sempre que nós quisermos mudar o código próximo a esses elementos, teremos que refazer os seletores, pois a quantidade de elementos dentro dos elementos pais vão mudar, e os números indexadores/pertinentes aos métodos vão mudar junto com eles.
+
+
+
+
+
+Continua em "abrindo um modal por meio da mudança de classes CSS".
+
+
+
+
+
+
+
+
+

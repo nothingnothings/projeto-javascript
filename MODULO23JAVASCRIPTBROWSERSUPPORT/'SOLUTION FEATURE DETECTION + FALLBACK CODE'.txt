@@ -1,0 +1,811 @@
+USANDO 
+
+
+'FEATURE DETECTION' e 'FALLBACKS'...
+
+
+
+
+
+agora, com todas essas coisas
+
+
+
+
+
+
+
+---> Agora que sabemos sobre browser support e sobre "atender os desejos do mercado",
+
+
+
+
+devemos APRENDER SOBRE COMO CONSTRUIR UM WEBAPP QUE FUNCIONARÁ EM UMA 
+
+AMPLA VARIEDADE DE BROWSERS...
+
+
+
+--------------------------------------------
+
+
+
+
+----> uma coisa que podemos fazer é usar FEATURE DETECTION E PROVIDENCIAR 
+
+____FALLBACKS____ SE UMA CERTA FEATURE NÃO ESTIVER DISPONÍVEL/SUPORTADA PELO BROWSER....
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+DIGAMOS QUE QUEREMOS USAR O 'clipboard API' (é 'navigator.clipboard')
+
+
+
+
+
+
+
+---> ESSA É UMA API RELATIVAMENTE MODERNA QUE NOS DÁ A OPÇÃO DE PODER 
+
+________INTERAGIR___ COM O __ 'CLIPBOARD'___ DO USUÁRIO...  (clipboard ---> a coisa que você usa PARA COPIAR E COLAR...).
+
+
+
+
+
+--------------------------------------------------
+
+
+
+
+SE PROCURARMOS POR 'CLIPBOARD API' e checarmos o artigo no MDN, veremos que 
+
+o browser support não é tão bom assim, no presente.
+
+
+(mas nos últimos tempos o suporte melhorou.)
+
+
+
+
+
+
+-----> FUNCIONA EM FIREFOX E CHROME, MAS NÃO FUNCIONA NO INTERNET EXPLORER....
+
+
+Procuramos por 'clipboard api' no 'caniuse.com'...
+
+
+
+ISSO NOS DARÁ '70%'... ---> funciona em chrome e firefox.
+
+
+
+
+
+
+----> ok, mas e quanto àqueles browsers que estão com '?' ou 'Cinza' nesses sites, o que isso significa?
+
+
+
+
+----> isso NÃO SIGNIFICA QUE NINGUÉM TESTOU ISSO, E SIM outra coisa:
+
+
+Isso é A POSIÇÃO DOS DESENVOLVEDORES DAQUELE BROWSER.... SE OS CARAS 
+
+NÃO TIVEREM DITO NADA SOBRE QUERER IMPLEMENTAR AQUELA FEATURE, no 'caniuse.com' ela 
+
+aparecerá como CINZA, pois o futuro do uso dessa feature naquele browser é incerto.
+
+
+(cinza = UNKNOWN, É DIFERENTE DE 'não suportado'/vermelho).
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+
+CLIPBOARD API ---> é uma API boa para simplificar a user experience, MAS NÃO É UM 'MUST-HAVE'...
+
+
+
+
+-----> COMO essa 'clipboard API' não é um 'must-have', PODEMOS/PODERÍAMOS USAR 
+
+___FEATURE DETECTION____ E ENTÃO PROVIDENCIAR DUAS 'ROTAS'... ---> 
+
+CHECAMOS SE A FEATURE ESTÁ 'AVAILABLE' (com 'if check').... SE ELA ESTIVER 
+
+AVAILABLE, NÓS USAMOS AQUELE CÓDIGO QUE USA A API... (código que tem a APi como existente)
+
+
+Se não estiver available, USAMOS O CÓDIGO QUE NÃO A UTILIZA. (executamos UM CÓDIGO DE FALLBACK, 
+OU MOSTRAMOS UMA MENSAGEM DE ERRO AO USUÁRIO... ----> ENTREGAMOS 
+
+OUTRA MANEIRA DE USAR O APLICATIVO PARA AQUELE USUÁRIO...)
+
+
+
+
+Em outras palavras, QUEREMOS EVITAR QUE O APLICATIVO __cRASHE POR INTEIRO__, queremos 
+
+que uma 'versão alternativa' do aplicativo exista para esse usuário que tem um browser 
+que não suporta aquela feature.
+
+
+
+"dois diferentes code branches".
+
+
+
+
+-------------------------------------------
+
+
+
+PARA ISSO, O PROFESSOR CRIOU UM SIMPLES APLICATIVO, ele tem um botão e tals.
+
+
+Devemos criar o index.html e o código.
+
+
+
+
+ELE UTILIZA ALGUMAS DAS TOOLS DO MÓDULO 'TOOLING', 
+
+
+
+como WEBPACK, eslint, clean-webpack-plugin, etc. DEvemos settar esse negócio.
+
+
+
+
+
+
+CERTO.
+
+
+SETTAMOS TUDO, DE ACORDO COM NOSSO PROJETO ANTIGO...
+
+
+Mesmo webpack.config, mesmo package.json, mesmo 'wepback.config.prod.js'...
+
+
+
+
+Nosso index.html está pegando o código de 'assets/scripts/app.js'...
+
+
+
+
+
+O live reloading também está funcionando...
+
+
+
+
+-------------------------------------------------------
+
+
+
+AGORA, DIGAMOS QUE TAMBÉM QUEREMOS USAR O CLIPBOARD API NO NOSSO CÓDIGO...
+
+
+
+
+
+Como fazer isso?
+
+
+
+
+O professor começa pela adição de uma tag '<p>' no nosso index.html...
+
+
+
+<p>Some text you could copy</p>
+
+
+
+
+---------------------------------
+
+
+O objetivo aqui é fazer a clipboard API funcionar...
+
+
+
+
+Se ela funcionar, esse texto que está ali, 'some text you could copy', 
+
+será MOVIDO PARA O NOSSO CLIPBOARD (para nosso 'copia e cola'...)...
+
+
+
+Além disso, veremos como implementar essa feature em um co´digo BRANCHEADO (dois branches, um que funciona COM e outro SEM essa API.)
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+Para implementar essa feature do clipboard, devemos ir até nosso app.js 
+
+
+Lá, já temos o código que SELECIONA UM BOTÃO, o botão de nossa página...
+
+
+
+
+
+Precisamos também selecionar o TEXTO DAQUELE PARÁGRAFO LÁ...
+
+
+
+
+para isso, podemos escrever:
+
+
+
+
+
+'const textParagraph = document.querySelector('p');
+
+
+
+
+Feito isso, críamos uma const dentro do segundo parâmetro do addEVentListener 
+
+
+E JOGAMOS O VALOR DO 'textParagraph' lá dentro...
+
+
+
+Aí acessamos a propriedade 'textContent' desse elemento 'textParagraph'...
+
+(é o texto escrito dentro desse elemento)
+
+
+ex:
+
+
+const text = textParagraph.textContent;
+
+
+
+
+--------------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+const button = document.querySelector('button');
+
+
+const textParagraph = document.querySelector('p');
+
+
+
+
+
+button.addEventListener('click', () => {
+const text = textParagraph.textContent;
+});
+
+
+
+
+
+
+console.log('It works');
+
+
+-------------------------------
+
+
+
+
+FEITO ISSO, AGORA QUEREMOS USAR A CLIPBOARD API e colocar 
+
+
+esse 'text' NO CLIPBOARD DO USUÁRIO...
+
+
+---------------------------------------
+
+
+
+
+
+Para usar essa API, podemos escrever 
+
+
+
+'navigator.clipboard'.....
+
+
+
+
+
+ESSA API tem um método chamado 'writeText()', que faz exatamente o que diz na caixa.
+
+
+
+
+
+ex
+
+
+
+
+const button = document.querySelector('button');
+
+
+const textParagraph = document.querySelector('p');
+
+
+
+
+
+button.addEventListener('click', () => {
+const text = textParagraph.textContent;
+navigator.clipboard.writeText();
+});
+
+
+
+
+
+
+console.log('It works');
+
+
+
+-------------------------------------------
+
+
+
+
+Esse negócio PRECISA DE UM ARGUMENTO, O ARGUMENTO SEMPRE É 
+
+uma 'data piece'...
+
+
+o professor coloca o 'text', pois ele é uma referência a um valor que é uma STRING.
+
+
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const textParagraph = document.querySelector('p');
+
+
+
+
+
+button.addEventListener('click', () => {
+const text = textParagraph.textContent;
+navigator.clipboard.writeText(text);
+});
+
+
+
+
+
+
+console.log('It works');
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+
+CERTO, MAS O NEGÓCIO NÃO ACABA POR AÍ...
+
+
+'.writeText(text)'  VAI NOS RENDER ___UMA PROMISE____....
+
+
+COMo ele NOS RENDE UMA PROMISe, somos forçados a usar OU 
+
+'.then()' blocks OU 'async/await'...
+
+
+
+
+DECIDIMOS USAR UM '.then()' block....
+
+
+
+
+Esse '.then()' block vai querer PEGAR O RESULT desse 'writeText(text)'  (SERÁ O PARÂMETRO), 
+
+
+
+e então executará um código em cima disso...
+
+
+
+
+
+O PROFESSOR DECIDE FAZER UM CONSOLE.LOG de 'result' pARA VER O QUE RECEBEMOS, AQUI.
+
+
+
+
+REPRESENTAÇÃO:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const textParagraph = document.querySelector('p');
+
+
+
+
+
+button.addEventListener('click', () => {
+const text = textParagraph.textContent;
+navigator.clipboard.writeText(text).then(result => {
+
+})
+});
+
+
+
+
+
+
+console.log('It works');
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+POR FIM, O PROFESSOR COLOCA UM CATCH BLOCK ALI, PARA QUE SEJAM CAPTURADOS 
+
+QUAISQUER ERROS NA EXECUÇÃO DESSA API...
+
+
+
+
+ex:
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const textParagraph = document.querySelector('p');
+
+
+
+
+
+button.addEventListener('click', () => {
+const text = textParagraph.textContent;
+navigator.clipboard.writeText(text).then(result => {
+
+}).catch(error => {
+    console.log(error);
+})
+});
+
+
+
+
+
+
+console.log('It works');
+
+
+
+
+
+------------------------------
+
+
+
+
+
+CERTO.
+
+PORTANTO, AGORA TEMOS UM POUCO DE CÓDIGO AQUI QUE 
+
+
+____UTILIZA A CLIPBOARD API___.
+
+
+
+
+
+SE SALVARMOS TUDO ISSO, RECARREGARMOS E APERTARMOS O BOTÃO NA NOSSA PÁGINA, 
+
+receberemos UNDEFINED por meio do console.log...
+
+
+
+
+CERTO.... MAS, EXPLICA O PROFESSOR, SE EU FOR NO CONSOLE E APERTAR 'COMMAND + v' ou 'CONFIRM + V',
+
+
+
+VEREI 'SOME TEXT YOU COULD COPY', o que mostra QUE A NOSSA CLIPBOARD API ____FUNCIONOU___ NA NOSSA PÁGINA, o conteúdo de 
+
+'some text you could copy', daquela tag '<p>', ESTÁ SENDO TRANSFERIDO PARA NOSSO CLIPBOARD...
+
+
+
+
+Isso funcionou, porque o professor NUNCA METEU CONTROL C para fazer essa cópia...
+-----------------------------------------------------
+
+
+
+
+
+É EVIDENTE QUE ISSO FUNCIONA, pois estou no CHROME...
+
+
+O chrome suporta a API clipboard....
+
+
+
+
+
+MAS NEM TODOS USAM CHROME... IMAGINE QUE VOCê USA SAFARI, (ou use safari).
+
+
+
+
+Se você usar o EDGE, o negócio vai funcionar, pois já há suporte, MAS NO 
+
+SAFARI ESSA FUNÇÃO NÃO FUNCIONA (na verdade, hoje essa feature funciona).
+
+
+
+
+
+E, NO FUTURO, UMA OU MAIS FEATURES NÃO FUNCIONARÃO EM UM OU OUTRO BROWSER...
+
+
+
+
+
+--------------------------------
+
+
+
+
+O PROBLEMA QUE TEMOS AQUI é que esse negócio ESTÁ ATIRANDO UM ERRO, mas além de 
+
+atirar um erro, ISSO ESTÁ CRASHANDO NOSSO APLICATIVO...
+
+Não queremos que nosso aplicativo crashe, queremos que sempre que o browser 
+
+BOSTA SEJA UTILIZADO, OPTE-SE PELO CÓDIGO ALTERNATIVO, que não crashará nada.
+
+
+
+Professor explica que esse erro que estamos vendo no console não vem do nosso 'catch handler', não; 
+ele está vindo DE UM PONTO MAIS 
+
+ANTERIOR NO RUNTIME DO CÓDIGO...
+
+
+Esse código está nos dizendo que ESTÁVAMOS TENTANDO ''CHAMAR UM MÉTODO EM __UNDEFINED___''....
+
+
+
+Isso ocorria pq o 'navigator.clipboard' no SAFARI RENDIA 'undefined'... e é por isso 
+
+que a tentativa de chamar métodos nesse clipboard RESULTAVA EM ERROS... (e crashes do aplicativo)...
+
+-------------------------------------
+
+
+
+
+
+E O CRASH DO APLICATIVO É ALGO QUE __NÃO DESEJAMOS___. 
+
+
+----------------------------------
+
+
+
+
+
+PROFESSOR DIZ QUE PODERÍAMOS COLOCAR UM PAR DE TRY-CATCH BLOCKS wrappando esse nosso código, 
+
+MAS QUE ISSO NOS RENDERIA UM 'CÓDIGO SUJO'....
+
+
+
+
+PARA EVITAR ESSE CÓDIGO SUJO, PROFESSOR APONTA QUE DEVEMOS UTILIZAR 'FEATURE DETECTION'...
+
+
+
+
+
+FEATURE DETECTION É BEM SIMPLES:
+
+
+
+
+
+digamos que queremos usar NAVIGATION.CLIPBOARD....
+
+
+
+
+
+---> navigation.clipboard nos rende UNDEFINED quando não é suportado por um browser...
+
+
+------->>>>>>>>> COMO ELE NOS RENDE 'UNDEFINED', PODEMOS 
+
+SIMPLESMENTE ADICIONAR UM 'IF CHECK' NO NOSSO CÓDIGO QUE CHECARÁ 
+
+
+'if (navigator.clipboard)' ----> CLIPBOARD feature detectada (esse chamado rende um objeto, ou qualquer outra coisa, que é considerada/considerado TRUTHY.) --> JAVASCRIPT ENGINE EXECUTA CÓDIGO COM A FEATURE 'CLIPBOARD'....
+
+
+
+
+'if (navigator.clipboard)' ----> CLIPBOARD FEATURE NÃO DETECTADA (undefined) ----> javascript engine EXECUTA CÓDIGO SEM A FEATURE...
+
+
+
+
+ESSE É O TRUQUE, BASICAMENTE.
+------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+button.addEventListener('click', () => {
+    const text = textParagraph.textContent;
+    if (navigator.clipboard) {  ///esse código desse if block só será executado SE ESSA FEATURE FOR SUPORTADA NESSE  determinado BROWSER...
+        navigator.clipboard.
+        writeText(text).
+        then(result => {
+            console.log(result);
+        }).catch(error => {
+            console.log(error);
+        })
+    } else {
+        alert('Your browser is shit and does not support this feature'); ///Isso é usado para BROWSERS QUE NÃO FUNCIONAM, ESSE ELSE BLOCK. ISSO FAZ COM QUE NOSSO CÓDIGO NÃO __QUEBRE___/CRASHE. É o código de fallback.
+    }
+    
+    });
+
+
+
+
+console.log('It works');
+
+
+
+
+
+---------------------------------------------------
+
+
+
+
+
+no 'else block' PODEMOS PROVIDENCIAR ALGUNS CÓDIGOS DE FALLBACK PARA BROWSERS em que essa feature NÃO É SUPORTADA.
+
+
+
+
+PODEMOS, TAMBÉM, PROVIDENCIAR UMA 'ROTA ALTERNATIVA'...
+
+
+POderíamos, por exemplo, ir até o PARÁGRAFO E __PRESELECIONAR___ O CONTEÚDO DE TEXTO (textcontent)..., para que o usuário possa copiá-lo de cara.
+
+
+
+
+
+Podemos fazer qualquer coisa nesse fallback, tudo depende do objetivo que você tem para  aquele projeto...
+
+
+
+
+-----> FEATURE DETECTION E FALLBACK CODE É UMA ÓTIMA MANEIRA DE USAR CERTAS FEATURES QUE SÃO BOAS 
+DE SE TER MAS QUE NÃO SÃO ESSENCIAIS NO SEU APLICATIVO....
+
+
+Funções que NÃO SÃO ESSENCIAIS NO SEU APP, que podem ser DEIXADAS DE LADO, mas que são boas de se ter.
+
+
+
+
+
+ALÉM DISSO, FEATURE DETECTION E FALLBACK CODES PODEM TAMBÉM SER USADOS EM FEATURES __cRUCIAIS__ DO SEU APLICATIVO...
+
+---> pq ainda que você NÃO CONSIGA CRIAR UM CÓDIGO DE FALLBACK/ALTERNATIVO AO CÓDIGO ESSENCIAL DA SUA PÁGINA, 
+
+VOCÊ AINDA VAI CONSEGUIR __MOSTRAR UM ___ CÓDIGO DE ERRO __ AO USUÁRIO, um alerta que o aconselhará A TROCAR DE BROWSER, 
+
+usar o browser correto...
+
+
+ATÉ ISSO AÍ É MELHOR DO QUE ''FALHAR EM SILÊNCIO''......
+
+
+
+Importante é dizer que USUÁRIOS NUNCA USAM AS DEVELOPER TOOLS, e que 
+
+MESMO QUE OLHEM AS DEVELOPER TOOLS, ELES NÃO ENTENDERÃO O QUE ESTÁ ESCRITO ALI.
+
+
+
+---> é por isso que mostrar uma mensagem de erro é melhor do que não fazer coisa alguma...
+
+
+
+TER UMA ESTRATÉGIA DE DETECÇÃO É MELHOR DO QUE FAZER PORRA NENHUMA.
+
+--------------------------------------------

@@ -1,0 +1,530 @@
+
+
+
+
+
+
+Devemos levar nossos estudos a outro nível:
+
+
+
+
+
+
+Digamos que, uma vez que tenhamos uma resposta da localização do usuário, o professor 
+
+
+queira, por qualquer razão, DEFINIR UM TIMER de 2 segundos....
+
+
+APENAS DEPOIS DOS 2 SEGUNDOS UMA RESPOSTA É PRINTADA 
+
+NO CONSOLE...
+
+
+
+Para isso, o professor coloca outra função anônima, OUTRO CALLBACK 
+
+DENTRO DA FUNÇÃO CALLBACK 'trackUserHandler', E DENTRO DESSA 
+
+CALLBACK FUNCTION ('setTimeout') EU acabo fazendo 
+
+ o console.log de 'posData'...
+
+
+ (EU TENHO ACESSO A 'posData' POR CAUSA DAQUELE FENÔMENO 
+ 
+ DE 'closure' QUE VIMOS NO MÓDULO ANTERIOR, AQUELE FENÔMENO DE NÓS 
+ SERMOS CAPAZES DE UTILIZAR VARIÁVEIS/CONSTANTES DEFINIDAS 
+ 
+ EM FUNÇÕES EXTERNAS DENTRO DE FUNÇÕES INTERNAS A ELAS...)
+
+
+
+Vou querer esse console.log, certo, MAS SOMENTE 
+
+DEPOIS DE 2 SEGUNDOS (por qualquer razão que seja, como disse o professor).
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const button = document.querySelector('button');
+
+
+const output = document.querySelector('p');
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+
+ navigator.geolocation.getCurrentPosition(
+     posData => {
+                 setTimeout(() => {
+                     console.log(posData);
+                     }, 2000)
+                                            
+     
+ }, 
+ error => {console.log(error)}
+
+ );
+ console.log('Getting position...');
+}
+
+
+
+
+button.addEventListener('click', trackUserHandler);
+
+
+
+
+/*
+let result = 0;
+
+
+for (let i = 0; i < 1000000000; i++) {
+    result += i;
+}
+
+
+console.log(result); */
+
+
+
+
+
+-----------------------------------------
+
+
+
+
+
+
+AGORA, PORTANTO, NÓS TEMOS ESSENCIALMENTE 
+
+
+UM CALLBACK (a função 'setTimeout'...)
+
+
+DENTRO DE OUTRO CALLBACK (a função anônima 
+                            dentro do getCurrentPosition, a função anônima que é utilizada como parâmetro de getCurrentPosition...),
+
+
+
+                            QUE NO FINAL DAS CONTAS É PARTE DE OUTRO 
+
+                            CALLBACK (a função 'trackUserHandler', QUE 
+                            
+                            TAMBÉM É UMA CALLBACK FUNCTION DE NOSSO EVENTLISTENER... )
+
+
+----------------------------------------
+
+
+
+E podemos perceber que ISSO FICA UM POUCO 
+
+DIFÍCIL DE LER AO LONGO DO TEMPO....
+
+
+
+
+QUANTO MAIS CALLBACKS VOCÊ FAZ 
+
+'nest', mais difícil seu código fica em questão 
+
+de manutenção e leitura.
+
+
+
+
+Veremos isso em um segundo;
+
+
+enquanto isso, devemos apenas verificar se esse código 
+
+funciona.... 
+
+
+
+
+
+SE EU SALVAR O CÓDIGO, RECARREGAR A PÁGINA E ENTÃO  
+
+CLICAR EM 'track me' e então em 'allow'...
+
+
+PERCEBEREI QUE O NEGÓCIO TOMARÁ UM TEMPO 
+
+PARA CONCLUIR POIS ESTARÁ REALIZANDO A 
+
+
+TAREFA DE CONSEGUIR A POSIÇÃO DO USUÁRIO...
+
+
+
+O NEGÓCIO VAI DURAR AINDA MAIS, NA VERDADE, POIS 
+
+NÓS DEFINIMOS AQUELE TIMER de 2 segundos...
+
+
+
+
+SOMENTE DEPOIS DO TIMER TER ACABADO É QUE VEMOS 
+
+O objeto 
+
+'position' 
+outputtado no console...
+
+
+
+
+
+O QUE O PROFESSOR QUER NOS MOSTRAR, AQUI, É 
+
+APENAS QUE VOCê ___PODE_____ FAZER 
+
+O NEST dessas operações...
+
+
+
+VOCê ___ PODE_____  ter 
+
+uma operação 
+
+ASYNC dentro de uma operação ASYNC...
+
+
+
+
+OBS:::
+
+MAS É EVIDENTE QUE ESSE TIMER de 'setTimeout' SÓ COMEÇA 
+
+
+A CONTAR NO MOMENTO EM QUE A FUNÇÃO externa (no caso 'getCurrentPosition')
+FOI/É EXECUTADA....
+
+
+
+
+----------------------------
+
+
+
+TAMBÉM É IMPORTANTE ENTENDER, QUANDO FALAMOS DE TIMERS,
+
+
+QUE SE VOCÊ DEFINIR 
+
+UM TIMER 
+
+DENTRO 
+
+de trackUserHandler, mas LÁÁÁÁ EMBAIXO, fora 
+
+das callback functions internas, fora do 'getCurrentPosition', 
+
+MAS ANTES 
+
+DO 'console.log' de 'Getting position'...
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+    navigator.geolocation.getCurrentPosition(
+        posData => {
+                    setTimeout(() => {
+                        console.log(posData);
+                        }, 2000)
+                                               
+        
+    }, 
+    error => {console.log(error)}
+   
+    );
+
+    setTimeout(() => {
+        
+    }, 0);  //////EIS O CÓDIGO EM QUESTÃO.
+    console.log('Getting position...');
+   }
+
+
+
+--------------------------------------
+
+
+
+SE VOCê FIZER ISSO, se você executar 
+
+essa função 
+
+TIMER DE CARA, se você definir o timer como 0 (zero),
+
+
+VOCÊ AINDA OBSERVARÁ ALGO INTERESSANTE...
+
+
+Para isso, o professor faz um console.log 
+
+
+de 'Timer Done'....
+
+
+
+
+function trackUserHandler() {
+    //console.log('Clicked');
+    navigator.geolocation.getCurrentPosition(
+        posData => {
+                    setTimeout(() => {
+                        console.log(posData);
+                        }, 2000)
+                                               
+        
+    }, 
+    error => {console.log(error)}
+   
+    );
+
+    setTimeout(() => {
+        console.log('Timer done');
+    }, 0);  
+    console.log('Getting position...');
+   }
+
+
+
+
+
+
+
+
+
+
+O professor lança a pergunta:
+
+
+você acha que 'timer done' 
+
+
+seria outputtado 
+
+ANTES DE 
+
+
+'Getting position'?
+
+
+---------------------------------
+
+
+
+
+
+Recarregamos a página e vemos:
+
+
+
+
+'Getting position'  1 
+
+
+'Timer done'. 2 
+
+
+
+----------------------
+
+
+
+
+
+OU SEJA,
+
+
+'Getting Position' RODOU ANTES, 
+
+
+e então foi executado o 'timer done'...
+
+
+
+OU SEJA, AINDA QUE O PROFESSOR TENHA DEFINIDO 
+
+UM TIMER DE '0', o 'TIMER DONE' AINDA 
+
+
+FOI EXECUTADO ___APÓS___ o 'getting position'...
+
+
+
+
+E A RAZÃO PARA ISSO ESTÁ RELACIONADA COM AQUILO 
+
+QUE O PROFESSOR FALOU ANTES:
+
+
+
+
+NÓs fazemos 'hand of'' de algo ao browser,
+
+NÃO INTERESSA SE É UM EVENTLISTENER, position fetching OU 
+
+UM TIMER, 
+
+E AÍ, PARA O PROFESSOR EXECUTAR 
+
+A CALLBACK FUNCTION, 
+ele sempre tem de SEGUIR 
+
+O TRAJETO 
+
+message queue ---> event loop ---> de volta ao código javascript (por meio da callback function).
+
+
+
+
+
+PORTANTO, ESSE CÓDIGO 
+
+
+'console.log('Getting position')' SEMPRE 
+
+É EXECUTADO antes de 'setTimeout'...
+
+
+ELE SEMPRE É EXECUTADO 'right away' logo após 
+
+o 'setTimeout' ser executado, e ainda que o setTimeout 
+
+TERMINE IMEDIATAMENTE, A FUNÇÃO 'console.log' de 'getting position'
+
+AINDA É EXECUTADA ANTES PQ ELA NÃO TEM QUE PASSAR PELO 
+
+'MESSAGE QUEUE' ---> event loop --> de volta ao código javascript...., 
+
+não tem que fazer esse caminho mais longo. E, lembre-se, os códigos 
+
+que dependem do event loop SÓ SÃO EXECUTADOS APÓS O CALL STACK ESTAR VAZIO;
+
+Ou seja, ESSA FUNÇÃO 'Timer Done', função callback, 
+SÓ SERÁ 
+
+
+EXECUTADA DEPOIS DE 'getting position' ser executado, 
+
+depois de getting position SAIR DO CALL STACK e dar a permissão para o event loop 
+voltar 'back inside' no código javascript e então executar a callback function 
+
+de 'Timer done'...
+
+
+
+
+
+
+
+BTW----> ISSO TEM OUTRA IMPORTANTE IMPLICAÇÃO:
+
+
+
+
+'0' É O TEMPO MÍNIMO DEPOIS DO QUAL A CALLBACK FUNCTION 
+
+
+SERÁ EXECUTADA... 
+
+
+
+____NÃO É O 'TEMPO MÍNIMO 100% GARANTIDO'____, e sim o TEMPO MÍNIMO possível...
+
+(ou seja, ele DEMORA MAIS DO QUE '0 MILISSEGUNDOS', que é essencialmente 
+
+nada, em outras palavras)...
+
+
+
+
+SE ESSE FOSSE O TEMPO MÍNIMO GARANTIDO, esse código do timer 
+
+SEMPRE TERIA QUE RODAR IMEDIATAMENTE...
+
+
+
+Se tivéssemos aquele for loop longo, por exemplo,
+
+
+ELE NUNCA SERIA EXECUTADO TÃO RAPIDAMENTE,
+
+ele provavelmente demoraria uns 3 segundos, QUE AINDA SERIA 
+O MÍNIMO, mas um mínimo QUE CERTAMENTE É SUPERIOR AO '0' que 
+
+especificamos ali.
+
+
+
+
+RESUMINDO:
+
+
+o tempo que você passa nesse parâmetro NÃO É UM 'TEMPO GARANTIDO';
+
+
+NÃO IMPORTA SE É '0' ou '3000' ou qualquer outro valor, 
+
+NÃO É O VALOR QUE VOCÊ PASSOU, NÃO É O VALOR 'GARANTIDO', E 
+
+SIM O MÍNIMO, O MENOR POSSÍVEL.
+
+
+
+
+
+
+
+
+A MESMA COISA OCORRE COM 'setInterval' ---->
+
+
+TEMPO QUE VOCÊ PASSA É O MÍNIMO PELO QUAL O 
+
+JAVASCRIPT E O BROWSER TENTAM EXECUTAR O CÓDIGO da função...
+
+
+MAS ELES SÓ SÃO CAPAZES DE EXECUTÁ-LA, executar essa função, 
+
+SE O CALL STACK ESTIVER VAZIO...
+
+
+
+E SE ALGUMA COISA ESTIVER ___BLOQUEANDO O CALL STACK___, 
+
+
+essa coisa será executada ANTES.
+------------------------------

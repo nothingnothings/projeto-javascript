@@ -1,0 +1,734 @@
+COM ISSO, DEVEMOS ESTUDAR A 'REFLECT API'....
+
+
+
+
+
+
+
+
+O que é isso?
+
+
+
+
+
+Não tem relação alguma com iterators e generators, nem com symbols.
+
+
+
+
+
+---> ENTRETANTO, ESSA API ESTÁ RELACIONADA AOS OBJETOS.... ELA É UMA API QUE 
+NOS DEIXA ____CONTROLAR OBJETOS___....
+
+
+
+
+--> ELA NOS DEIXA FAZER COISAS COM OBJETOS JAVASCRIPT...
+
+
+
+
+
+--> CONTUDO, NO FINAL DAS CONTAS, A 'REFLECT API' NÃO DEIXA DE SER, ELA MESMA, UM OBJETO....
+
+
+
+
+
+----> reflect é um objeto em javascript que, por meio de vários métodos 
+ESTÁTICOS dentro dessa classe (podemos chamar de classe), _____AGRUPA___ UM MONTE DE 
+FUNCIONALIDADES QUE NOS __AJUDAM A TRABALHAR COM OBJETOS___.
+
+
+
+
+
+
+
+-----> Essa api tem 'standardized and grouped together methods' (standardized and grouped methods)....
+
+
+
+
+---> A REFLECT API, COMO TODAS ESSAS FEATURES, PODE SER USADA PARA __CONTROLAR__ COMO NOSSO 
+CÓDIGO É USADO, OU COMO NOSSO CÓDIGO SE COMPORTA, E ASSIM POR DIANTE.
+
+
+
+
+-----------------------------------------------
+
+
+
+Devemos ver um exemplo...
+
+
+
+
+
+Veremos o que essa API nos oferece...
+
+
+
+--------------------------------------
+
+
+
+
+DENTRO DO NOSSO 'dummy app.js',
+
+
+
+
+devemos ir até o final do arquivo e trabalhar com a reflect api ali...
+
+
+
+
+
+Digamos que temos um novo objeto, de nome 'course'...
+
+
+
+
+
+ex:
+
+
+
+
+
+const course = {
+
+};
+
+
+
+--------------------------------
+
+
+
+Esse 'course' terá uma propriedade de 'title',
+
+com um valor 
+
+'Javascript - The complete guide'
+
+
+
+
+
+
+
+ex:
+
+
+
+const course = {
+    title: 'Javascript - the complete guide'
+};
+
+
+
+----------------------------------------------
+
+
+CERTO.
+
+
+
+
+AGORA NÓS DEVEMOS USAR A 'REFLECT API'...
+
+Ela é disponível nesse objeto global 'Reflect'...
+
+
+
+
+Esse objeto tem UM MONTE DE MÉTODOS, TODOS ACESSÍVEIS COM A DOT NOTATION ('.')...
+
+
+ela tem muitos métodos estáticos que podemos usar...
+
+
+
+-------------------------------------------------
+
+
+
+ex:
+
+
+const course = {
+    title: 'Javascript - the complete guide'
+};
+
+
+
+Reflect. 
+
+---------------------------------------------
+
+
+
+Por exemplo, esse objeto/classe tem um método
+'defineProperty'....
+
+
+Também tem um método 'deleteProperty'....
+
+
+--------------------------------------------
+
+
+
+Também tem um método 'getPrototypeOf'...
+
+
+e um 'setPrototypeOf'....
+
+
+
+-------------------------------------------
+
+
+
+
+
+
+PODEMOS USAR 'setPrototypeOf()' PARA SETTAR ___OUTRO___  PROTOTYPE (ou seja, o antigo continua intacto) de nosso 
+
+objeto 'course' COMO SENDO UM OBJETO EM QUE TENHO UM MÉTODO 'toString'.... (meu próprio método 'toString()'...)... a lógica/function body desse método poderá/será um return de 'this.title'...
+
+
+
+OBS:
+
+
+1o parâmetro --> É O OBJETO CUJO PROTOTYPE VOCê QUER SETTAR COMO SENDO O SEGUNDO PARÂMETRO.
+
+2o parâmetro ---> É O OBJETO QUE SERÁ ADICIONADO/substituirá o 1o prototype, COMO PROTOTYPE DAQUELE OBJETO DEFINIDO NO PRIMEIRO PARÂMETRO...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const course = {
+    title: 'Javascript - the complete guide'
+};
+
+
+
+Reflect.setPrototypeOf(course, {toString() {
+    return this.title;
+}})
+
+console.log(course);
+console.log(course.toString());
+
+
+
+---------------------------------------
+
+
+
+A consequência desse 'setPrototypeOf' É QUE AGORA, SE NÓS CONSOLE.LOGGARMOS 'course.toString()', 
+
+
+veremos que 
+
+
+NÓS ACABAREMOS/A ENGINE DO JAVASCRIPT ACABARÁ USANDO 
+
+NÃO AQUELE MÉTODO 'DEFAULT' DO método 'toString()', E SIM 
+
+O RESULTADO DE MEU MÉTODO ____CUSTOM___ de 'toString()' QUE ACABEI 
+DE DEFINIR com 'setPrototypeOf'...
+
+
+
+(é por isso que o console.log vai nos RENDER/retornar/outputtar 'this.title', que nesse 
+caso é 
+a string 
+'Javascript - the Complete Guide')....
+
+
+
+Nosso método definido a partir de 'setPrototypeOf' TEM PRECEDÊNCIA SOBRE 
+MÉTODOS 'DEFAULT' DE MESMO NOME, precedência sobre MÉTODOS QUE FICAM NO 'PROTOTYPE' DE TODOS OS OBJETOS...
+
+
+
+
+
+----> O PROTOTYPE DEFAULT/ANTIGO do objeto em que usamos o método 'setPrototypeOf()' FICA __  AFASTADO __.
+ESSE MÉTODO FAZ COM QUE USEMOS O NOVO PROTOTYPE QUE DEFINIMOS NO SEGUNDO PARÂMETRO...
+
+ENTRETANTO, PROFESSOR, EM UMA AULA MAIS ANTIGA, FALA SOBRE UMA MANEIRA DE FICAR 
+COM OS MÉTODOS E PROPRIEDADES do prototype antigo...
+
+Para isso, teríamos de usar o seguinte código (que utiliza o SPREAD OPERATOR):
+
+
+(OU SEJA, O SPREAD OPERATOR + o código, POIS QUEREMOS FICAR COM TODAS AS PROPRIEDADES )
+
+
+ficaria assim:
+
+
+
+Reflect.setPrototypeOf(course, {
+    ...Reflect.getPrototypeOf(course),     ////////////ISSO VAI FAZER O 'SPREAD' dos métodos e propriedades do prototype PADRÃO de 'course' no nosso NOVO OBJETO que será o NOVO PROTOTYPE.
+    toString() { return this.title;}
+})
+---------------------------------
+
+
+
+
+OU SEJA, ISSO VAI ___SUBSTITUIR___ o prototype original POR  'prototype original + método do prototype novo que queremos usar'...
+
+
+(aqui, no entanto, devemos cuidar com o que queremos usar, SE queremos 
+
+'Object.xxxx' ou 'Reflect.xxxxx')
+
+
+
+
+ENTRETANTO, O PROFESSOR EXPLICA, na lição antiga, que MESMO QUE NÃO TIVÉSSEMOS A LINHA 
+
+'...Reflect.getPrototypeOf(course)', O 
+
+NOVO OBJETO QUE SERÁ NOSSO PROTOTYPE ___AINDA TERÁ___ OS MÉTODOS E PROPRIEDADES 
+
+DE UM PROTOTYPE DEFAULT/O PROTOTYPE ANTIGo... isso acontece PQ ELE MESMO, O PRÓPRIO 'NOVO OBJETO', TAMBÉM 
+TEM UM PROTOTYPE DEFAULT EM SEU INTERIOR, dotado de todas as propriedades e métodos do prototype padrão que estamos substituindo...
+
+É por isso que podemos simplesmente escrever:
+
+------------------------------------------
+Reflect.setPrototypeOf(course, {
+    toString() { return this.title;}
+})
+
+-------------------------------------
+
+E AINDA ASSIM FICAR COM TUDO QUE HAVIA NO PROTOTYPE ANTIGO/ORIGINAL.
+
+-------------------------------
+
+
+
+
+
+
+
+ESSE É UM DOS MÉTODOS DE 'Reflect' QUE NOS AJUDA A TRABALHAR COM OBJETOS...
+
+
+
+com 
+
+
+'setPrototypeOf', PODEMOS SETTAR O PROTOTYPE DE UM OBJETO...
+
+
+
+
+
+MDN:
+
+
+
+The static Reflect.setPrototypeOf() method is _____ the same method ___ as Object.setPrototypeOf(), 
+except for its ___ return type_____. It sets the prototype
+ (i.e., the internal [[Prototype]] property) of a specified object to another 
+ object or to null, and returns true if the operation was successful, or false otherwise.
+
+
+
+ ---------------------------------------------------
+
+
+
+
+
+ -------------------------------------
+
+podemos, ademais,  settar a PROPRIEDADE DE UM objeto com o método 
+
+'DEFINEPROPERTY'...
+
+
+
+Esse método serve PARA ADICIONAR NOVAS PROPRIEDADES....
+
+
+
+ex:
+
+
+
+
+
+
+const course = {
+    title: 'Javascript - the complete guide'
+};
+
+
+
+Reflect.setPrototypeOf(course, {toString() {
+    return this.title;
+}})
+
+
+
+Reflect.defineProperty(course, 'price', {})
+
+
+------------------------------------------------
+
+
+
+
+Esse método é quase idêntico a 'object.defineProperty()'...
+
+O método estático Reflect.defineProperty() é como o Object.defineProperty(), mas retorna um Boolean.
+
+
+ELE TAMBÉM 
+
+
+ACEITA 
+
+3 parâmetros:
+
+
+
+1o par ---> nome do objeto que você quer 
+
+
+
+2o par --> nome da key que você quer para essa propriedade 
+
+
+3o par ---> VALOR QUE VOCÊ QUER QUE SEJA ATRIBUÍDO A ESSA KEY...
+
+
+
+OBS:::: PROFESSOR EXPLICA QUE AQUI NÓS TAMBÉM PODEMOS USAR UM ___OBJETO__ no terceiro parâmetro...
+
+Esse objeto será usado para aquelas coisas que aprendemos antes,
+
+
+para os OBJECT DESCRIPTORS... ('writable: true', 'enumerable: true', etc etc  )....
+
+
+
+
+---> O PROFESSOR FALOU DISSO NA LIÇÃO SOBRE 'OBJECT DESCRIPTORS'...
+
+
+
+-------------------------------------------------------------
+
+
+ex:
+
+
+const course = {
+    title: 'Javascript - the complete guide'
+};
+
+
+
+Reflect.setPrototypeOf(course, {toString() {
+    return this.title;
+}})
+
+
+
+Reflect.defineProperty(course, 'price', {
+    
+    writable: true, 
+    enumerable: false,
+    etc etc.})
+
+
+
+    -----------------------------------------
+
+
+
+
+NO FINAL DAS CONTAS, O 'TAKEAWAY' (o resumo da parada) É QUE 
+
+A 'REFLECT API' NOS DÁ UM MONTE DE MÉTODOS QUE NOS AJUDAM 
+A MUDAR OBJETOS/trabalhar com objetos...
+
+
+TODOS ESSES MÉTODOS NOS AJUDAM A TRABALHAR COM OBJETOS EM UM 'META LEVEL' (em um nível META)....
+
+
+trabalhar com objetos 
+'ON A META LEVEL' ---> PQ O QUE NÓS FAZEMOS AQUI É TIPICAMENTE ALGO QUE 
+FAZEMOS PARA PREPARAR UM OBJETO PARA O CONSUMO EM ALGUMA OUTRA PARTE DE NOSSO CÓDIGO...
+
+
+
+
+----> PQ ISSO? pq, de novo, considere QUE VOCÊ É UM AUTOR DE UMA THIRD PARTY LIBRARY...
+
+COMo autor de uma TPL, você vai EXPOR CERTOS OBJETOS COMO PARTE DESSA LIBRARY... você 
+quer SE CERTIFICAR QUE CERTAS PROPRIEDADES ___NÃO __ CONSIGAM __ SER ALTERADAS PELOS 
+DEVELOPERS QUE ESTIVEREM USANDO A SUA LIBRARY.... (esse é um dos cenários).
+
+
+
+
+----> SE VOCÊ TIVER UMA SITUAÇÃO DESSAS, VOCÊ PODE USAR A 'REFLECT API' para, por exemplo, escrever 
+'defineProperty' e ENTÃO DEFINIR SEU OBJECT DESCRIPTOR 'writable' COMO 'false'... (non writable property)...
+
+ 
+-------------------------------
+
+
+
+
+
+A questão mais óbvia que pode surgir, neste momento, é:
+
+
+Pq diabos usar a 'reflect API', e não o objeto global 'Object'?
+
+
+
+
+No objeto global 'Object' NÓS TAMBÉM TEMOS MUITAS DESSAS PROPRIEDADES...
+
+
+temos 
+
+
+setPrototypeOf,
+
+
+DEFINEPROPERTY,
+
+
+etc etc.
+
+
+E ESSES MÉTODOS, EM OBJECT,
+ GERALMENTE FUNCIONAM EXATAMENTE COMO OS QUE EXISTEM EM 'reflect'...
+
+
+
+
+ --------------------------
+
+
+
+ Por que esse negócio existe, então?
+
+
+
+
+
+
+--> BEM.
+
+
+A REFLECT API ____É MAIS NOVA___...
+
+
+
+---> FOI RECENTEMENTE ADICIONADA COM O ES6 ao javascript...
+
+
+
+
+--> A API 'object' É MUITO MAIS VELHA. 
+
+
+
+
+---> certo, mas o fato de ser mais moderna n significa que devemos usá-la...
+
+
+
+
+
+---> NÃO, DE FATO. 
+
+MAS A REFLECT API TEM 
+
+2 VANTAGENS SOBRE A 'object api'...
+
+
+
+
+
+
+1a vantagem ----> HÁ SUTIS DIFERENÇAS EM RELAÇÃO AO ___COMPORTAMENTO__ de alguns métodos...
+
+
+
+----> por exemplo: SE UM MÉTODO FALHA NO CUMPRIMENTO DE SUA TAREFA, o 'object api' PODE/GERALMENTE NOS RETORNA 
+'undefined', ou 'FALHA SILENCIOSAMENTE' (fails silently)....
+
+
+---> já na REFLECT API, VOCÊ PODE RECEBER UM ___ERRO MELHOR____, ou então receber um RETURN 
+DE 'true' OU 'fALSE' PARA UM DETERMINADO MÉTODO... esses true e false nos dizem se alguma coisa 
+funcionou OU NÃO... 
+
+
+
+---> anexada à essa lição temos um link com a comparação entre a object api e a reflect api.
+
+
+
+---------------------------------------------------
+
+
+
+2a vantagem --> A REFLECT API ___BUNDLA___ todas AS FEATURES QUE VOCê 
+PODE PRECISAR PARA TRABALHAR COM OBJETOS...
+
+Exemplo perfeito disso é que ela tem um MÉTODO 'deleteProperty()'...
+
+ESSE MÉTODO NÃO EXISTE NA 'OBJECT API()'...
+
+
+não existe 'object.deleteProperty()'...  ----------> ISSO VAI RETORNAR UM ERRO: 'Uncaught TypeError: Object.deleteProperty is not a function' --->
+
+VAI NOS DAR UM ERRO PQ 'deleteProperty' NÃO É UMA FUNÇÃO NO OBJETO GLOBAL 'Object'...
+
+
+
+
+
+
+----> O OBJETO GLOBAL 'Object' NÃO TEM UM MÉTODO 'deleteProperty'....
+
+
+EM VEZ DISSO, EM JAVASCRIPT MAIS ANTIGO, SE VOCÊ QUISESSE DELETAR UMA PROPRIEDADE 
+EM UM OBJETO, VOCÊ ERA OBRIGADO A USAR 
+
+A 
+
+
+keyword 'delete' 
+
+E ENTÃO OBJETIVAR/TARGETTAR A PROPRIEDADE QUE VOCÊ QUERIA/QUER REMOVER....
+
+
+
+ex:
+
+
+
+delete course.title;
+
+
+
+----------------------------------------------
+
+
+
+É EVIDENTE QUE VOCÊ AINDA PODE ESCREVER ESSA LINHA DE CÓDIGO, mas 
+PROFESSOR EXPLICA QUE É MEIO ___ESTRANHO___ USAR/TER esse operador 
+
+especial 'delete' USADO COM UMA PROPRIEDADE...
+
+
+----> PROFESSOR APONTA, NA OPINIÃO DELE, QUE É MAIS __LIMPO__ TER UM 
+MÉTODO QUE VOCÊ PODE CHAMAR EM UM OBJETO, um método especializado em remover 
+uma propriedade.... 
+
+
+ISSO pq, explica ele, NÓS TEMOS UM MÉTODO PARA DEFINIR UMA PROPRIEDADE, o método 
+'Object.defineProperty()', 
+ENTÃO PQ DIABOS 
+
+DEVEMOS USAR UM CÓDIGO ESQUISITO e inconsistente como 'delete course.xxxx' PARA 
+DELETAR UMA PROPRIEDADE QUE PODE TER SIDO ADICIONADA COM ESSE CÓDIGO 'LIMPO' de 
+'Object.defineProperty();'
+
+
+--------------------------------------------
+
+
+
+
+---> É POR ISSO QUE A REFLECT API adicionou 'deleteProperty()'...  (uma PROPER DELETE PROPERTY METHOD...)....
+
+
+
+
+ESSe método 'deleteProperty' RETORNA UM 'true' ou 'false', ao contrário do 
+
+
+
+comando 'delete' do objeto global 'OBJECT'...
+
+
+
+
+
+TECNICAMENTE, OS 2 MÉTODOS FAZEM A MESMA COISA, mas é por isso que 
+
+a REFLECT API existe: ela existe PARA AGRUPAR 
+
+__TODOS OS MÉTODOS___ QUE VOCÊ PRECISA PARA CONFIGURAR SEUS OBJETOS, PARA TRABALHAR COM 
+SEUS OBJETOS... (ao contrário do objeto global 'OBJECT'...)
+------------------------------------------------------
+
+
+
+
+ESSA É A IDEIA POR TRÁS DA REFLECT API..
+
+
+
+qando você precisa fazer um META WORK nos seus objetos,
+
+
+usar 
+
+
+'deleteProperty', defineProperty', etc
+
+
+
+
+Você pode considerar usar a 'reflect api' por cima 
+
+do objeto global 'OBJECT' e dos inúmeros métodos 'espalhados' que 
+
+ele necessita.... ---> essa é a razão primária para usar a REFLECT API.
+
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/Comparing_Reflect_and_Object_methods
+
+
+
+
+
+
+REFLECT API ----> 'control code usage/impact'...

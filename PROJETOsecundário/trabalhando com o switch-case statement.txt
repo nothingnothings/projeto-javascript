@@ -1,0 +1,487 @@
+Concluindo aquela seção de if statements, o professor quer introduzir o 
+SWITCH CASE STATEMENT.
+
+
+
+
+é um novo statement, mas está relacionado a IF statements.
+
+
+
+É otimo em situações como esta, em que você tem múltiplos checks de equalidade, porque 
+é aí que ela realmente brilha; tem maior utilidade em ocasiões em que você quer executar 
+códigos diferentes baseados na condição que foi satisfeita.
+
+
+
+Você pode também usar switch case statements com OUTRAS CONDIÇÕES QUE NÃO CHECAM POR EQUALIDADE, mas 
+as condições de equalidade, nesses casos, gastam menos código e são mais fáceis de ler.
+
+
+Você usa switch-case statements/pode usar switch-case statements como SUBSTITUTOS de 
+if/else statements, com um monte de else if cases. Casos em que você sempre checa 
+por igualdade e em que você só está checando múltiplos valores diferentes.
+
+O professor quer nos mostrar como traduzir essa montanha/bloco de if, else e else if statements (da função writeToLog) em um switch case statement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+modelo:
+
+
+
+
+
+if (ev === LOG_EVENT_PLAYER_ATTACK) {
+    logEntry = {
+
+      event: ev,
+      value: val,
+      target: 'MONSTER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+    logEntry = {
+      event: ev,
+      value: val,
+      target: 'MONSTER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+    logEntry = {
+      event: ev,
+      value: val,
+      target: 'PLAYER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+    logEntry = {
+      event: ev,
+      value: val,
+      target: 'PLAYER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_GAME_OVER) {
+    logEntry = {
+      event: ev,
+      value: val,
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+
+
+
+
+
+
+
+
+
+Para começo de conversa, você usa a "switch" keyword, que é incorporada ao javascript. A switch keyword não leva condições/parâmetros, e sim um VALOR. Um único valor. Nesse caso, será o "ev" (event).
+
+
+ex: 
+
+switch()
+
+-----------------------------
+depois disso, vêm os curly braces:
+
+
+
+
+
+
+
+switch(ev) {
+
+}
+
+
+
+
+--------------------------------
+E, então, a keyword "CASE". O case é um valor concreto que poderia ser armazenado nessa variável/constante "ev". No nosso caso, usaremos LOG_EVENT_PLAYER_ATTACK. É claro que não precisamos 
+usar aqui uma constante que segura um valor, você poderia fazer hardcode de um valor aqui, como uma string, um número, etc... o switch-case, por default, procura por IGUALDADE. igualdade entre 
+LOG_EVENT_PLAYER_ATTACK e "ev", por exemplo.
+
+
+
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+}
+
+
+
+
+
+Se você está interessado em como utilizar switch-cases com >, <, => e <=, há mais sobre isso nos resources anexados ao vídeo. Mas essa maneira que estamos usando agora é a mais comum, mais usada 
+e a forma mais fácil de ler do switch-case statement. É a razão de sua essência. Condições mais complexas e condições combinadas sempre são mais fáceis de serem formuladas por meio de if statements.
+ENTRETANTO, NOS CASOS EM QUE VOCÊ SEMPRE TEM APENAS 1 CONDIÇÃO E UM CHECK POR EQUALITY SUCESSIVAMENTE, É LEGAL UTILIZAR O SWITCH-CASE STATEMENT.
+
+
+
+
+Mas como você utiliza-o?
+
+
+
+
+
+você deve adicionar um : no final da definição do caso, e na segunda linha, após o :, vocÊ define a função que será executada no caso dessa condição (LOG_EVENT_PLAYER_ATTACK ser igual à ev) for atendida.
+
+
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+
+}
+
+
+
+Vale ressaltar que, por trás dos bastidores, a função switch SEMPRE USA O OPERADOR ===... OU SEJA, NESSE EXEMPLO, LOG_EVENT_PLAYER_ATTACK DEVERÁ TER O MESMO VALOR E O MESMO TIPO DE EV para que a condição após o : seja executada.
+
+
+
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+    logEntry.target = 'MONSTER';
+}
+
+
+
+Nesse caso, o JS vai executar logEntry.target = 'MONSTER'; se verificar que LOG_EVENT_PLAYER_ATTACK === ev.
+
+Logo após essa expressão, vocÊ pode definir um SEGUNDO CASO, POR MEIO DE OUTRA KEYWORD "case".
+
+
+
+ex:
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+    logEntry.target = 'MONSTER';
+    case ...
+}
+
+
+
+
+
+ex:
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+    logEntry.target = 'MONSTER';
+    case LOG_EVENT_PLAYER_STRONG_ATTACK:
+    logEntry = {
+        event: ev,
+        value: val,
+        target: 'MONSTER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+}
+
+
+
+
+
+ENTRETANTO, HÁ ALGO MUITO IMPORTANTE QUE AINDA NÃO ADICIONAMOS DENTRO DE SWITCH.
+É A KEYWORD "BREAK", QUE DEVE SER UTILIZADA A CADA NOVO CASO ADICIONADO.
+
+
+
+
+ex:
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+    logEntry.target = 'MONSTER';
+    break;  ------------------> aqui é inserido o primeiro break, separa esses 2 casos um do outro.
+    case LOG_EVENT_PLAYER_STRONG_ATTACK:
+    logEntry = {
+        event: ev,
+        value: val,
+        target: 'MONSTER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+    break;
+}
+
+
+
+Não vimos a keyword break ainda----> é uma keyword incorporada ao javascript, e o que ela faz é dizer que
+"se aquele caso foi administrado/gerenciado/handled, NENHUM OUTRO CASO DEVERÁ SER administrado/gerenciado/handled. Isso é porque, por default, 
+switch-case statements fazem algo chamado "FALL-THROUGH", o que significa que eles basicamente 
+continuam executando os casos sem parar, caso você não determine o contrário no código. 
+
+
+
+"It executes this, passes through and executes the code below it."
+
+
+
+por isso o break, para limitar/parar esse comportamento.
+
+
+
+O problema do fall through é que APENAS AS CONDIÇÕES DO PRIMEIRO CASO SÃO 
+RESPEITADAS; AS CONDIÇÕES DO RESTO DOS CASOS SÃO IGNORADAS, o javascript simplesmente vai executando tudo sem ouvir nada, ainda que 
+ev NÃO SEJA IGUAL ao negócio que foi estabelecido (ou seja, ignorando a condição).
+
+s
+
+
+
+"the case condition of the second case is then IGNORED".
+
+
+
+
+Algumas vezes isso é exatamente o que vocÊ quer; outras vezes, não.
+
+
+
+Situações em que você quer ==== situações em que você tem o mesmo código para múlitplas coisas/casos. Você pode exploitar o 
+fallthrough mecanism para executar todos os cases subsequentes ao primeiro, mas em outros casos, casos em que você quer rodar 
+um pedaço de código para cada situação específica, você vai querer 
+usar o break
+
+
+
+
+ex novo modelo:
+
+
+
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+    logEntry.target = 'MONSTER';
+    break;  ------------------> aqui é inserido o primeiro break, separa esses 2 casos um do outro.
+    case LOG_EVENT_PLAYER_STRONG_ATTACK:
+    logEntry = {
+        event: ev,
+        value: val,
+        target: 'MONSTER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+    break;
+    case LOG_EVENT_MONSTER_ATTACK:
+    logEntry = {
+        event: ev,
+        value: val,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+     break;
+     case LOG_EVENT_PLAYER_HEAL:
+     logEntry = {
+        event: ev,
+        value: val,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+     };
+     break;
+     case LOG_EVENT_GAME_OVER:
+     logEntry = {
+        event: ev,
+        value: val,
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+};
+break;     ----> também adicionar break aqui, só para garantir, é para o caso de adicionarmos novas condições, aí ele já estará aqui.
+}
+
+
+
+
+EM SWITCH-CASE STATEMENTS VOCÊ TAMBÉM TEM OUTRA KEYWORD IMPORTANTE, "DEFAULT:";
+
+Default te permite definir um código default para os casos em que NENHUMA HIPÓTESE É SATISFEITA, 
+casos em que o código não chega a nenhum dos entry points definidos anteriormente. "default:" faz esse código executar, caso 
+nenhum outro caso seja rodado. No exemplo do professor, definimos o default de logEntry como um OBJETO VAZIO ({};).
+OBS: default é sempre adicionado no final do switch-case statement.
+
+ex:
+
+
+
+switch(ev) {
+    case LOG_EVENT_PLAYER_ATTACK:
+    logEntry.target = 'MONSTER';
+    break;  ------------------> aqui é inserido o primeiro break, separa esses 2 casos um do outro.
+    case LOG_EVENT_PLAYER_STRONG_ATTACK:
+    logEntry = {
+        event: ev,
+        value: val,
+        target: 'MONSTER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+    break;
+    case LOG_EVENT_MONSTER_ATTACK:
+    logEntry = {
+        event: ev,
+        value: val,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+    };
+     break;
+     case LOG_EVENT_PLAYER_HEAL:
+     logEntry = {
+        event: ev,
+        value: val,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+     };
+     break;
+     case LOG_EVENT_GAME_OVER:
+     logEntry = {
+        event: ev,
+        value: val,
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth
+};
+break;     
+default:
+  logEntry = {};
+}
+
+
+Por meio desse switch-case statement, podemos omitir/comentar para fora do código todo aquele trecho gordo de 
+if/else if statements que definimos em writeToLog.
+
+
+
+é Este trecho aqui:
+
+
+
+if (ev === LOG_EVENT_PLAYER_ATTACK) {
+    logEntry = {
+      //aqui é criado um novo objeto, que é assignado à variável logEntry, criada dentro dessa função e disponível somente em seu interior.
+      event: ev,
+      value: val,
+      target: 'MONSTER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+    logEntry = {
+      event: ev,
+      value: val,
+      target: 'MONSTER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_MONSTER_ATTACK) {
+    logEntry = {
+      event: ev,
+      value: val,
+      target: 'PLAYER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_PLAYER_HEAL) {
+    logEntry = {
+      event: ev,
+      value: val,
+      target: 'PLAYER',
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  } else if (ev === LOG_EVENT_GAME_OVER) {
+    logEntry = {
+      event: ev,
+      value: val,
+      finalMonsterHealth: monsterHealth,
+      finalPlayerHealth: playerHealth,
+    };
+  }
+
+
+
+
+  Podemos omitir tudo isso, e deixar apenas intacta a função que vem logo depois, 
+  "battleLog.push(logEntry);"
+
+
+
+
+  ---> switch case statements podem ser melhor que if/else statements genéricos em casos 
+  que você tem declarações simples de ===. (declarações estritas de equalidade).
+
+  Professor prefere usar switch-case statements nesses casos.
+
+
+
+
+
+
+
+
+  Caso concreto de problema com switch-case statements:
+
+
+
+
+
+  I want to use the switch statement in some simple code i'm writing.
+
+I'm trying to compare the variable in the parenthesis with values either < 13 or >= 13.
+
+Is this possible using Switch?
+
+var age = prompt("Enter you age");
+switch (age) {
+    case <13:
+        alert("You must be 13 or older to play");
+        break;
+    case >=13:
+        alert("You are old enough to play");
+        break;
+}
+
+
+
+
+Directly it's not possible but indirectly you can do this
+
+Try like this
+
+switch (true) {
+    case (age < 13):
+        alert("You must be 13 or older to play");
+        break;
+    case (age >= 13):
+        alert("You are old enough to play");
+        break;
+}
+Here switch will always try to find true value. the case which will return first true it'll switch to that.
+
+Suppose if age is less then 13 that's means that case will have true then it'll switch to that case.

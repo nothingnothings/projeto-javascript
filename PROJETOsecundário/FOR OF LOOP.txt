@@ -1,0 +1,191 @@
+Printamos, então, aquele separador (-----) três vezes, ainda que nas dev tools apenas seja possível 
+avistar 1 única linha.
+
+
+Código antigo do "printLogHandler", com só 1 for loop, que será alterado para 2 for loops agora.
+
+
+function printLogHandler() {
+    for(let i = 0; i < 3; i++) {
+        console.log('------------');
+    }
+    for (let i = 0; i < battleLog.length; i++) {
+        console.log(battleLog[1]);
+    }
+    console.log(battleLog);
+}
+
+
+
+
+
+
+
+AGORA VAMOS TENTAR OUTPUTTAR ALGO PARA CADA ITEM DO NOSSO battleLog.
+Aqui podemos reutilizar i, porque ele só realmente existe para aquele determinado loop, OU SEJA, NEM 
+PARA TODA AQUELA FUNÇÃO, NEM ELA UTILIZA A VARIÁVEL i. SÓ O FOR LOOP UTILIZA A i. 
+
+
+
+i do loop FOR LOOP é DIFERENTE DO i do loop FOR OF LOOP (ou de qualquer outro loop, não faz diferença msm).
+
+(Isso pode parecer estranho, mas no próximo módulo veremos porque as variáveis criadas em loops existem somente nos mesmos loops em que foram criadas ).
+
+
+E, então, podemos ir aqui all the way até o length do nosso 
+battleLog array. Na 3a parte, colocamos i++, incremento de 1 da variável i.
+Para esse loop novo que definimos, estabelecemos um loop body com a função 
+"console.log(battleLog[i])"   ---------> colocamos [], que nos permite acessar um elemento dinamicamente dentro de um array (o elemento seria uma variável, que segura um valor númerico/string/boolean. Apenas precisamos indicar o index do elemento que você quer selecionar. O square bracket selector é zero based, ou seja, o primeiro elemento é 0, o segundo é 1, e assim por diante). Aqui, utilizamos o "i" como index, porque isso nos permite acesso ao i element para cada LOOP ITERATION.
+Então, para a primeira iteração, em que i é 0, nós ACESSAMOS O ELEMENTO NO SLOT DO INDEX 0, que seria o primeiro elemento. No segundo loop, aumentamos o i para 1 (assumindo que temos uma length maior do que 1, ou seja, mais de um único elemento)...  nesse loop, i agora é 1, então acessamos o elemento no slot do index[1], que é o SEGUNDO ELEMENTO NO ARRAY, e assim por diante.
+
+...ENTÃO, SE EU REMOVER O console.log(battleLog); statement no final do código  e apenas 
+deixar o console.log(battleLog[i]); dentro do segundo for loop... fica assim:
+
+
+fica, então:
+
+
+
+function printLogHandler() {
+    for(let i = 0; i < 3; i++) {
+        console.log('------------');
+    }
+    for (let i = 0; i < battleLog.length; i++) {
+        console.log(battleLog[1]);
+    }
+}
+
+
+Se nós recarregarmos de novo e observarmos o resultado da página, 
+veremos que agora o log aparece de forma diferente, porque AGORA ESTAMOS 
+PRINTANDO CADA ELEMENTO POR SI SÓ (on its own), NÓS ESTAMOS FAZENDO ISSO POR CAUSA DAQUELE FOR 
+LOOP EM QUE EU VOU TODO O CAMINHO ATÉ O LENGTH do meu BattleLog e QUE ENTÃO EU FAÇO 
+O CONSOLE.LOG DE CADA ELEMENTO "On its own", em vez de fazer o console.log do array inteiro, como 
+nós estávamos fazendo antigamente.
+
+
+Isso que fizemos é uma alternativa para você, mas como vocÊ aprendeu, há uma maneira mais fácil de fazer isso, 
+e essa maneira é aquela que utiliza o FOR OF LOOP. É a alternativa para casos 
+em que você quer ir por todos os elementos de um array. 
+
+
+No for of loop, você deve trabalhar com uma constante em vez de uma variável.
+Você poderia usar let, mas const é melhor, porque ao contrário do que ocorre em FOR LOOP, em 
+FOR OF loop, "i" não vai mudar... o que acontece, na verdade, é que 
+uma nova constante é criada a cada loop iteration, é isso que o javascript faz por trás das cenas.
+O javascript não altera a constante anterior, mas sim CRIA UMA NOVA, e portanto 
+você pode usar const, porque a constante nunca será alterada, mas sim recriada.
+BASICAMENTE A CONSTANTE É DUMPADA A CADA LOOP ITERATION E ENTÃO PARA 
+A NOVA ITERAÇÃO UMA CONSTANTE NOVINHA É CRIADA. Você poderia dizer que 
+nós não estamos redeclarando uma constante, mas sim que estamos dumpando ao lixo a constante antiga e pegando uma nova 
+toda vez que iniciamos um novo loop. Tecnicamente, tem algo a ver com 
+SCOPE, mas isso é algo que veremos mais tarde no módulo.
+
+Por enquanto, tenha em mente que essa constante é dumpada depois de cada 
+execução e que pegamos uma nova constante a cada iteração.
+
+
+
+
+
+
+CONTINUANDO... depois de const, definimos o nome da const. Pode ser qualquer coisa. Professor define como "logEntry".
+Depois do nome vem a "Of" keyword, e então o nome do array que vocÊ quer passar por dentro.
+o for of loop é apenas disponível a arrays, e não a outras coisas, como variáveis que seguram números e etc.
+O for of loop funciona com strings porque STRINGS SÃO QUASE COMO "ARRAYS DE CARACTERES"...
+Veremos mais disso em um módulo separado, mas o que você tem que saber é que o for of loop
+não funciona com números, booleans ou objetos.
+
+
+
+
+modelo :
+
+
+
+for (const logEntry of battleLog) {
+
+}
+
+
+
+Como o professor disse, agora logEntry é uma constante que é criada para 
+cada loop iteration... o que significa que, entre os curly braces, podemos utilizá-la.
+Fazemos o console.log de alguma coisa... no caso, da constante logEntry, que entrará dentro do array battleLog (por meio daquele código lá, "const logEntry of battleLog".)
+
+
+for (const logEntry of battleLog) {
+    console.log(logEntry);
+}
+
+
+
+Caso recarreguemos a página, veremos que vamos receber O MESMO RESULTADO DAQUELE CÓDIGO QUE USAMOS ANTERIORMENTE...
+Isso não nos surpreende, pois o for of loop fez 
+o que foi projetado para fazer: foi por dentro de todos 
+os elementos no nosso array, conseguimos acesso a ele por meio 
+da constante logEntry, que existe ao longo do lifetime dessa iteração, e então 
+faz o output dela.
+
+
+
+Tem os mesmos efeitos da versão anterior, mas usa menos código e 
+faz uso do for of loop, versão especial de loop que foi construída 
+especificamente para passar pelo meio de arrays e para CONSEGUIR ACESSO AOS ELEMENTOS 
+QUE ESTÃO LÁ DENTRO.
+
+
+SIDENOTE IMPORTANTE ==
+
+por meio do approach antigo, do for loop com valor dinâmico e "console.log(battleLog[i]);", você tem acesso 
+automático ao index de CADA ELEMENTO TAMBÉM, porque i é apenas o index.
+
+Com a sintaxe do FOR OF LOOP, você tem acesso ao ELEMENTO, mas não ao index dele.
+Você não tem ideia do index em que esse "console.log(logEntry)" está inserido.
+Você poderia conseguir acesso manual por meio da definição
+de uma variável do lado de fora do FOR OF LOOP, uma 
+variável que começasse com o valor de 0 (isso porque 
+os nossos index sempre começam com 0), valor o qual você 
+então passaria a incrementar em cada iteração...
+Se você fizesse isso e então digitasse 
+"console.log(i);" no final, você conseguiria um index 
+de cada iteração, mas você aí teria que administrar isso 
+por sua própria conta por meio dessa variável extra. 
+
+
+
+RESUMO= O FOR OF LOOP NÃO TE DÁ ACESSO AO INDEX.
+
+
+
+Se recarregarmos a página com o código todo pronto... 
+
+
+
+function printLogHandler() {
+  for (let i = 0; i < 3; i++) {     //NOSSA PRIMEIRA UTILIZAÇÃO DE UM FOR LOOP.
+    console.log('-------------');
+  }
+  /* for(let i = 0; i < battleLog.length; i++) { -----------> versão for loop do código for of loop inserido logo abaixo. Essa versão do for loop daquele código é uma versão que TE MOSTRA O INDEX DA ITERAÇÃO, MAS NÃO TE MOSTRA O ELEMENTO QUE FOI SELECIONADO.
+    console.log(battleLog[i]);             
+  }
+*/
+  let i = 0  //variável criada no lado de fora do for of loop, utilizada para contabilizar o número do index de cada iteração, algo que não é possível de ver apenas pelo funcionamento simples de um for of loop. O for of loop só te permite ver qual elemento foi printado/selecionado, e não o index do elemento que foi rodado/selecionado.
+  for (const logEntry of battleLog){        //exemplo de for of loop. Utiliza a keyword of antes do array que você quer selecionar para ser penetrado.
+    console.log(logEntry);
+    console.log(i); //função que outputta o log daquela variável definida 3 linhas acima; essa variável serve como index da iteração do loop, algo que o for of loop não nos dá por si só.
+    i++; //comando que faz o incremento do número de i por 1 unidade, serve para fazer o número variar e continuar o loop.   
+  }
+  //console.log(battleLog);
+}
+
+
+
+
+
+SE FIZERMOS ISSO, VEREMOS QUE AGORA O BATTLELOG É PRINTADO DE FORMA NORMAL, MAS 
+TAMBÉM NOS É DISPONIBILIZADO O INDEX DE CADA ITERAÇÃO DO LOOP, logo depois do log normal.
+O problema é que esse index por meio da variável i tem que ser administrado manualmente, sempre que precisemos disso.
+
+
+

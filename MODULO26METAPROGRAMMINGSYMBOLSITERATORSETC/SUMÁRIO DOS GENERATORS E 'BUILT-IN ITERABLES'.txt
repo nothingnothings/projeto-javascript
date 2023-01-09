@@ -1,0 +1,310 @@
+
+
+
+
+ITERATORS E GENERATORS PODEM SER UM CONCEITO ___CONFUSO__.
+
+
+
+
+
+
+
+No final das contas, você só deve ter em mente que 
+
+UM 'GENERATOR', uma função com o identificador especial '*'  do lado 
+da keyword 'function' e 
+
+portador da KEYWORD 'yield' EM SEU INTERIOR, 
+
+
+É UMA FUNÇÃO QUE ___RETORNA UM NOVO OBJETO ___ QUE TEM UM 
+
+MÉTODO 'next()' em seu interior.... 
+
+
+
+ex: 
+
+[Symbol.iterator]: function* employeeGenerator() {...}
+
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE ELE ESCREVE A MESMA COISA QUE ESCREVEMOS ANTES 
+
+
+(ou seja, 
+
+isto:
+
+'next() {
+    if (this.curEmployee >= this.employees.length) {
+        return {
+            value: this.curEmployee, done: true
+        }
+        const returnValue = {
+            value: this.employees[this.curEmployee],
+            done: false
+        };
+        this.curEmployee++
+        return returnValue;
+    }
+}
+
+
+)
+
+
+
+DE FORMA IMPLÍCITA, DENTRO DESSA 'ITERATOR FUNCTION' que ele 
+RETORNA PARA NÓS...
+
+
+
+
+
+PROFESSOR EXPLICA QUE É CLARO QUE PODERÍAMOS ARMAZENAR UM OBJETO COM O MÉTODO 'next()' MANUALMENTE,
+
+
+como um VALOR DESSa propriedade com name de '[Symbol.iterator]'
+
+
+
+
+ex:
+
+
+
+[Symbol.iterator]: {
+    
+    next() {
+    if (this.curEmployee >= this.employees.length) {
+        return {
+            value: this.curEmployee, done: true
+        }
+        const returnValue = {
+            value: this.employees[this.curEmployee],
+            done: false
+        };
+        this.curEmployee++
+        return returnValue;
+    }
+}
+
+}
+
+
+
+---------------------------------------
+
+
+
+É CLARO QUE PODERÍAMOS FAZER ISSO, 
+
+
+
+E SE FIZÉSSEMOS ISSO, REALMENTE TAMBÉM SERÍAMOS CAPAZES DE USAR 
+
+'for of' COM O OBJETO 'company' QUE ESTÁ SEGURANDO TODOS ESSES OBJETOS...
+
+
+
+
+
+____ENTRETANTO__, USAR UMA ___GENERATOR FUNCTION__ É SIMPLESMENTE ___MAIS FÁCIL__.
+
+
+USAR GENERATOR FUNCTIONS SIMPLESMENTE ___USA MENOS CÓDIGO___.
+
+
+
+O
+ QUE VOCÊ FAZ 'yield' aqui (ou seja, retorna), dentro desse GENERATOR, SERÁ, NO FINAL DAS CONTAS, 
+AQUILO QUE VAI SER RETORNADO, o 'yield value'/returned value DO MÉTODO 
+'NEXT()' MAIS TARDE NA EXECUTION CHAIN....
+
+----> e a generator function vai CRIAR UM OBJETO DESSES AUTOMATICAMENTE, UM OBJETO COM UM MÉTODO 
+'next()'; esse método next() vai AUTOMATICAMENTE RETORNAR UM OBJETO COM UMA 
+
+PROPRIEDADE 
+
+'value' (com a coisa que você escreveu do lado de 'yield', ou com UNDEFINED,
+ SE VOCÊ NÃO DEFINIU NADA AO LADO DE 'YIELD') E UMA PROPRIEDADE 'done'... (essa propriedade é TRUE se o loop realmente acabou, ou FALSE, se não for o caso e existirem mais valores para extrair... )
+
+
+
+
+ E É ESSE EXATO CONCEITO do 'iterator Symbol', com o ITERATOR OBJECT, que é 
+ USADO __UNDER THE HOOD___ pelos arrays.... ---> se nós 
+ 
+ adicionarmos um novo array aqui, em uma const 'persons', com os valores/strings 'Max' e 'Manuel',
+no final você aprenderá que UM ARRAY DESSES  É ___ SIMPLESMENTE__ UM OBJETO, em outras palavras.
+
+
+
+ex:
+
+
+
+
+const persons = ['Max', 'Manu'];
+
+
+
+
+------------------------------
+
+
+
+UM ARRAY, COMO PODEMOS RECORDAR, É SIMPLESMENTE UM __tIPO DE OBJETO___.
+
+
+
+
+---> se nós console.loggarmos 'persons'... 
+
+
+veremos:
+
+
+
+
+ex:
+
+
+
+const persons = ['Max', 'Manu'];
+
+console.log(persons);
+
+
+
+
+------> OUTPUT:
+
+
+
+
+
+["Max", "Manu"];
+
+0: "Max"
+1: "Manu"
+length: 2 
+__proto__: Array(0)
+------------------------------
+
+
+
+OU SEJA, VEMOS QUE ELE TEM UMA PROPRIEDADE 'length'...
+
+O ARRAY TEM ESSA PROPRIEDADE 'length' PORQUE ELE É UM OBJETO... um objeto 
+que TEM IDENTIFICADORES/PROPRIEDADES DE '0' e '1' (indexadores), MAS 
+
+TAMBÉM UMA PROPRIEDADE 'length'...
+
+
+
+AGORA SE CHECARMOS O PROTOTYPE DESSE ARRAY, É AÍ QUE O PROFESSOR mostra a mágica...
+
+
+
+Dentro desse '__proto__' (prototype), 
+
+VOCê ENCONTRA, DE FATO, 
+
+ESSE 
+
+SÍMBOLO ESPECIAL QUE ESTUDAMOS DURANTE ESSE MÓDULO, O SÍMBOLO 
+
+
+'Symbol.iterator', o SÍMBOLO DE 'iterator'........
+
+
+
+ISSO É ALGO QUE O ARRAY TEM DENTRO DO SEU PROTOTYPE...
+
+
+OU SEJA, ALÉM DO ARRAY TER TODOS AQUELES MÉTODOS DE ARRAY DENTRO DESSE PROTOTYPE, os quais estudamos brevemente, 
+ELE TAMBÉM TEM ESSE 'SYMBOL.ITERATOR' ALI DENTRO...
+
+
+-->  A função do 'Symbol.iterator' (pq ele é uma função, também; objetos são funções) 
+
+
+É UM SIMPLES __GENERATOR___ que  'YIELDA' (faz 'yield' de) UM OBJETO ITERATOR (objeto com método 'next()' no seu interior) PARA 
+NÓS.... (professor: 'yields such a iterator object for us'...).
+
+
+
+
+----->  ISSO SIGNIFICA QUE ___UM ARRAY____, esse array 
+com o qual trabalhamos TODO O TEMPO, INTERNAMENTE USA ___A MESMA LÓGICA__ 
+
+QUE ACABAMOS DE ESCREVER NAS LIÇÕES PASSADAS:
+
+'
+[Symbol.iterator]: function* employeeGenerator() {
+    let currentEmployee = 0;
+    while(currentEmployee < this.employees.length) {
+        yield this.employees[currentEmployee];
+        currentEmployee++;
+    }
+}'
+
+
+-------------------------------------------------
+
+
+E ATÉ PARA ISSO, MESMO QUE VOCÊ NÃO PRECISE ESCREVER ESSAS LINHAS DE CÓDIGO QUE SETTAMOS 
+MAIS CEDO tão frequentemente assim,  ESSA LÓGICA DO 
+
+'Symbol.iterator' É ÚTIL PQ NOS AJUDA A COMPREENDER O FUNCIONAMENTO INTERNO DOS ARRAYS...
+
+como os arrays são gerenciados E COMO OS DADOS QUE ELES RETORNAM SÃO GERENCIADOS...
+
+
+
+
+PQ, como um array tem uma propriedade 'length',  NÓS PRECISAMOS DE ___ALGUMA LÓGICA____ que 
+controle/estabeleça que NÓS APENAS RETORNEMOS ESSES VALORES EM '0' E '1', se formos loopar por dentro 
+deles.... E A LÓGICA PARA ISSO, PARA ESSE LOOP ___APENAS ___ POR DENTRO DOS ELEMENTOS DE 'IDENTIFICADOR' '0' e '1', 
+VIVE, 
+
+
+DE FATO, ___ DENTRO DESSE 'SYMBOL.ITERATOR', EM SUA 'GENERATOR FUNCTION'..... mais precisamente 
+nO MÉTODO 'NEXT()' DENTRO DA ITERATOR FUNCTION CRIADA A PARTIR DA GENERATOR FUNCTION DENTRO DO 'Symbol.iterator'...
+
+
+
+---> RESUMO: É EXATAMENTE ASSIM QUE ARRAYS FUNCIONAM INTERNAMENTE, COM A AJUDA DESSAS GENERATOR FUNCTIONS, E É ASSIM QUE 
+__ITERATORS FUNCIONAM__, EM GERAL.
+
+
+
+-----------------------------------
+
+
+
+
+
+COM ISSO, AGORA ENTENDEMOS QUE PODEMOS USAR 'Symbols' PARA TRABALHAR COM ITERATORS E GENERATORS...
+
+
+
+
+
+
+---> OS ITERATORS E GENERATORS NOS DEIXAM __cRIAR NOSSOS PRÓPRIOS 'LOOPABLE VALUES' (allow us to create our own "loopable" values)
+
+
+
+
+---> OS ITERATORS E GENERATORS TAMBÉM NOS AJUDAM A ENTENDER O FUNCIONAMENTO INTERNO DAS STRINGS E ARRAYS...
+
+

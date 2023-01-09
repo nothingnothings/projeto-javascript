@@ -1,0 +1,318 @@
+Como mencionado anteriormente, objetos são ótimos para AGRUPAR dados em um corpo único, e você os cria
+com curly braces {}.
+
+
+
+
+E então, vocÊ pode ter múltiplos key value pairs separados por vírgulas dentro deles.
+
+
+{name: 'Max',
+age: 31}
+
+
+VAMOS, ENTÃO, CRIAR UM OBJETO:
+
+
+
+Digamos que não queremos apenas adicionar o número que adicionamos no nosso log,
+mas um pacote de informação do log mais detalhado, porque o número por si só 
+não nos diz muito, é claro.
+
+Seria interessante logar o resultado ANTES de adicionar o número.
+
+Logar a operação em si, para que possamos adicionar items ao log
+não só aqui, mas também em todas essas funções e então poderemos
+apenas acoplar a informação se foi uma adição, uma subtração, etc.
+
+Portanto, precisamos de um pedaço de dados mais complexo, que administraremos na lista.
+
+
+Esse é um grande cenário para objetos, porque agora nós precisamos administrar múltiplos pedaços
+de dados que são de certa forma relacionados, e esses pedaços de dados são então administrados
+como uma lista desses pedaços de dados, porque temos múltiplas dessas tais ações.
+
+
+Portanto, em function add() {} adicionamos uma nova constante, porque o professor
+nunca pretende alterá-la no futuro. Ele denomina-a logEntry.
+
+const logEntry = {};
+ 
+
+
+ Ele diz que ela deverá segurar um objeto, que, como aprendemos, é criado
+por meio do uso dos curly braces.
+
+Mas, o professor aponta, esses curly braces do object são muito diferentes daqueles
+do function body. Os curly braces do function body funcionam depois da definição
+de uma função.
+
+ex: function add() {};  
+
+
+
+
+Já os objects não tem essa keyword function na frente das suas definições.
+
+Eles sempre ficam no lado direito do código javascript, depois do sinal de igual, onde você geralmente
+define os VALORES das constantes e variáveis.
+
+
+Isso diz ao Javascript que, ok, você quer criar um objeto.
+
+
+
+Você pode criar um objeto vazio   (ex: const objetoVazio = {};), MAS O PROFESSOR Digam
+DIZ QUE ISSO É MEIO INÚTIL. 
+
+
+
+O que você pode, é claro, fazer, diz ele, é adicionar KEY VALUE PAIRS.
+
+
+Ou seja, pares de identificadores e valores que você armazena nesses identificadores.
+
+
+
+Geralmente você vai escrever objetos ao longo de múltiplas linhas. Isso não é obrigatório,
+você pode colocar tudo em uma linha, mas não é nada legal de ler. Pessoas fazem indent 
+nos objects para eles serem mais fáceis de ler.
+
+
+O professor adiciona uma KEY NAME dentro do objeto. "operation". Ele diz que os key names são totalmente dependentes
+de nosso gosto, podemos chamar do que quisermos. Poderíamos chamá-lo de op, operation, etc. Logo após o keyname, depois de : (dois pontos,)
+definimos o VALOR daquele negócio, daquele keyname. Podemos definir quaisquer valores que quisermos. Strings, números, arrays, outros objetos... tudo vale.
+
+
+Aqui, o professor adicionará uma string que dirá 'ADD'.
+
+Esse será o nosso, "identificador", podemos dizer. Um identificador que, quando vemos essa logEntry mais tarde no output, nós veremos "OK, essa foi uma operação onde foram adicionados 2 números".
+
+O professor diz que, é claro, também quer armazenar esses dois números que foram adicionados. O número anterior (prevResult, definido pela constante/valor da constante initialResult, o valor que existia antes de realizada a operação).
+
+Precisamos também, é claro, o valor do número que adicionamos, então poderíamos chamar esse identificador de "number", ou "operando" (termo que significa o número que será usado para a nova operação), ou qualquer outra coisa.
+
+Colocamos o valor como enteredNumber, o número que será inputtado.
+
+Talvez também queiramos adicionar o valor do resultado APÓS a operação aqui, no nosso logEntry. Definimos o nome como "result", e o valor como currentResult, visto que alteramos o valor do currentResult numa aula passada para ser currentResult + enteredNumber.
+
+(currentResult += enteredNumber -----------> mesma coisa que currentResult = currentResult + enteredNumber).
+
+É por isso que queremos adicionar currentResult ao objeto logEntry.
+
+
+
+
+modelo:
+
+
+
+const logEntry = {operation: 'ADD', 
+                prevResult: initialResult,
+                number: enteredNumber,
+                result: currentResult
+
+
+
+
+
+};
+
+
+CHECAMOS OS DEVELOPER TOOLS PARA PERCEBER O RESULTADO: AGORA O CONSOLE NOS INFORMA DE TUDO AQUILO QUE FIZEMOS/ADICIONAMOS.
+
+
+
+
+SE VAMOS ADICIONANDO NOVOS VALORES, NOVOS ARRAYS (O MESMO ARRAY COM MAIS ELEMENTOS) VÃO SENDO ADICIONADOS NO ROL DO DEVELOPER TOOLS.
+
+
+Bem, agora vimos como CRIAR E USAR objetos.
+
+
+
+
+Agora, antes de usar esse objeto em todos os lugares, vamos aprender a extrair informação desse objeto, que é uma coisa que Às vezes precisamos fazer.
+
+
+
+
+ACESSANDO DADOS DE OBJETOS:
+
+
+digamos que em uma parte do seu código você precisa de um pedaço de informação do logEntry,
+digamos o identificador e valor do "operation". Você quer dar log nesse pedaço de informação, então
+você começa colocando o básico, a função log. (claro que escolher essa informação para logar no console
+é meio redundante, pois nós já sabemos qual é o tipo de operação, add, subtract e tal, pela função
+log que já temos ali, mas fazemos isso tudo apenas à título de exemplo.)
+
+
+
+
+console.log();
+
+
+
+Enfim, para acessar dados que estão em um objeto, você precisa de uma notação específica, que é 
+o "." Mas não apenas o ".", você precisa colocar uma das propriedades/data pieces que pertence ao objeto.
+Aqui, por exemplo, queremos operation. Então ficaria:
+
+
+console.log(logEntry.operation);
+
+
+
+
+FAZENDO ISSO, SELECIONO AQUELE PEDAÇO DE INFORMAÇÃO COM SUCESSO.
+
+
+
+
+Como resultado disso, quando apertamos + na calculadora, a informação "ADD" é imediatamente evidenciada no console.
+
+
+
+
+a dot notation ("."), portanto, permite que você acesse identificadores/dados específicos no seu código. OS KEY VALUE PAIRS (conjuntos identificador-valor) TAMBÉM SÃO CHAMADOS DE "PROPRIEDADES"/PROPERTIES.
+
+
+
+RESUMINDO, VOCÊ ACESSA UMA PROPERTY DO OBJETO COM O USO DE PONTO (.), E AÍ O NOME DA PROPRIEDADE, OU CHAVE, OU QUALQUER COISA QUE VOCÊ DEU O NOME ALI.
+
+
+É claro que isso é algo que vimos anteriormente, afinal é aquilo que usamos nos botões, o addEventListener, onde usamos a dot notation.
+ENTRETANTO, LÁ NÃO ESTÁVAMOS ACESSANDO UMA PROPRIEDADE, E SIM UMA FUNÇÃO INCORPORADA NO PRÓPRIO JAVASCRIPT/BROWSER. Ali não estávamos selecionando uma propriedade que eu queria ler, e sim adicionando/assignando uma função àquele botão.
+
+
+VOCÊ PODE TER FUNÇÕES DENTRO DE OBJETOS, MAS ISSO É ALGO QUE VEREMOS MAIS PARA FRENTE.
+
+Por agora, consideraremos objects como apenas grupos de dados onde podemos colocar numeros, strings, arrays, outros objetos, etc etc.
+
+onde você pode fazer hard code de dados, como o professor fez com a mensagem "add", ou então apontar para variáveis que então decretam os valores.
+
+
+Objects são muito fortes.
+
+Agora, vamos adicionar os objects nos outros tipos de operações.
+
+
+
+SERIA LEGAL ADICIONAR LOGS PARA TODAS AS OUTRAS OPERAÇÕES.
+
+
+
+
+POR ISSO COPIAMOS O NEGOCIO E APENAS ALTERAMOS ADD PARA SUBTRACT.
+
+
+
+
+****ADICIONANDO UMA FUNÇÃO REUTILIZÁVEL QUE UTILIZA OBJETOS (função para fazer o trabalho sujo para nós; para copiar as informações em cada função de operação).
+
+O IDEAL SERIA TERMOS UMA FUNÇÃO PARA COPIAR ESSE OBJETO (OBJETO DO LOG) EM TODOS OS LUGARES DO CÓDIGO QUE QUEREMOS.  
+Percebemos que há uma função em comum em todas as funções, é a função CreateAndWriteOutput
+
+PARA ISSO, CRIAMOS UMA FUNÇÃO QUE EXECUTARÁ TAL TAREFA.
+
+
+
+function writeToLog();
+
+
+
+                            (parâmetros)
+essa função esperará pegar: o operation identifier, o resultado prévio, o NÚMERO DA OPERAÇÃO e o NOVO RESULTADO.
+então, fica:
+
+
+function writeToLog(operationIdentifier, prevResult, operationNumber, newResult) {}; ---------> porém, isso ficou muito feio, tudo numa linha só. Por isso indentamos a parada.
+
+
+
+
+
+function writeToLog(
+    operationIdentifier, ------------> parâmetros, negócios que a função vai pegar.
+    prevResult,
+    operationNumber,
+    newResult) {}               ---------->agora sim, ficou BONITO.
+
+
+    No function body {}, o professor faz aquilo que tinha feito antes, de copiar e colar o objeto.
+
+
+
+
+
+
+
+function writeToLog(
+    operationIdentifier,
+    prevResult,
+    operationNumber,
+    newResult) {
+
+
+    const logEntry = {          
+        operation: 'ADD', 
+        prevResult: initialResult,
+        number: enteredNumber,
+        result: currentResult
+
+}        
+
+
+
+    }               
+
+   
+OS KEY PAIR VALUES DE CONST LOG ENTRY VIRAM OS PARÂMETROS DA FUNÇÃO writeToLog!
+
+
+
+
+Para que isso aconteça, temos que trocar os valores (valores definidos na direita do =.) da constante logEntry pelos parâmetros da função writeToLog.
+
+
+
+function writeToLog(
+    operationIdentifier,
+    prevResult,
+    operationNumber,
+    newResult) {
+
+
+    const logEntry = {          
+        operation: operationIdentifier, 
+        prevResult: prevResult,
+        number: operationNumber,
+        result: newResult
+
+}        
+    };      
+logEntries.push(logEntry);
+console.log(logEntries);
+
+    Agora basta chamar essa função em cada função de operação na calculadora.
+
+
+    ex:
+
+
+    function add() {código genérico
+    
+    writeToLog();}
+
+
+Chamando esse função writeToLog em cada tipo de função de operação, 
+vemos como funciona a reutilização de funções (a função writeToLog) para criar objetos com diferentes dados dinâmicos, que agarramos por meio 
+dos parâmetros que colocamos na função,  e economizar muito código e tempo. A função writeToLog tem aqueles 4 parâmetros ali, que são compartilhados por todos, que são então substituídos pelas const em cada função/operação  específica (add,subtract, multiply, divide.) 
+
+
+const logEntry é composta por um objeto dos 4 parâmetros, que é então pushado para dentro do array de logEntries por meio da função push. O array de logEntries, agora dotado desse object, é logado no console por meio da função console.log(logEntries).
+
+
+enxergamos os resultados no developer tools console, onde vemos todas as informações de cada cálculo.
+
+
+Portanto, isso tudo funciona, somos capazes de fazer log nesses cálculos, somos capazes de reutilizar essa lógica E SOMOS CAPAZES DE FAZER ESSE TRABALHO BÁSICO COM A AJUDA DO NOSSO OBJETO JAVASCRIPT QUE TEMOS AQUI.

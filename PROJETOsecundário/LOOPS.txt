@@ -1,0 +1,267 @@
+Depois de todos esses if statements, que são EXTREMAMENTE IMPORTANTES, por isso que gastamos tanto tempo neles, porque 
+precisaremos deles em praticamente todos os programas que escreveremos.
+
+
+
+Agora aprenderemos sobre um outro construct q é essencial em javascript e em praticamente qualquer 
+linguagem de programação. SÃO OS LOOPS.
+
+
+Em programação, geralmente há sempre cenários em que você precisa executar 
+o mesmo código múltiplas vezes. VocÊ pode pensar: "ok, nós temos funções para isso,
+podemos ter código reutilizável dentro delas, podemos chamar uma função
+múltiplas vezes...
+
+
+É claro, mas no seu código, você tem que escrever TODA EXECUÇÃO DE FUNÇÃO, certo? 
+
+É claro que vocÊ pode anexar uma função a um eventListener e então, sempre quando aquele 
+botão é apertado, executar de novo a função.
+
+
+MAS SE VOCê QUISER CONTROLAR UM CERTO SNIPPET DE CODE, FAZER COM QUE ELE 
+RODE PARA CADA ITEM QUE VOCÊ TEM EM UM ARRAY... OU RODAR 10X, Nessas hipóteses, vocÊ teria que 
+colocar 10 FUNCTION EXECUTIONS, o que seria um saco.
+
+
+Loops te permitem escrever essas repetições de código por meio de maneiras mais DINÂMICAS e FLEXÍVEIS.
+
+
+Em Javascript, nós temos 4 tipos de loop principais. SÃO ELES:
+
+
+
+1) FOR LOOP
+
+
+2) FOR-OF LOOP
+
+
+
+
+
+3) FOR-IN LOOP 
+
+
+
+
+4) WHILE LOOP -------> o while loop tem também uma sub-variante, que será mostrada a nós.
+
+
+
+
+Mas qual é a ideia por trás de cada um desses loops, e em que situações você deve utilizá-los?
+
+
+
+
+
+O FOR LOOP E WHILE LOOP SÃO OS LOOPS MAIS VELHOS DE TODOS.
+ESTIVERAM NO JAVASCRIPT DESDE SEMPRE, E O ----FOR LOOP----
+PERMITE A VOCê EXECUTAR CÓDIGOS POR UM CERTO NÚMERO DE VEZES. VOCê USA 
+UMA "COUNTER VARIABLE" PARA ISSO, A QUAL VOCÊ TIPICAMENTE "INCREMENTA" (++) OU 
+MUDA, DE ACORDO COM CADA ITERAÇÃO DAQUELE LOOP.
+
+
+
+Isso significa que, com o for loop, você pode facilmente definir que 
+certa parte do seu código deverá rodar múltiplas vezes, 20 vezes, 1 milhão de vezes, etc.
+
+
+
+EX da sua fórmula:
+
+
+
+
+for (let i = 0; i < 3; i++)
+{
+    console log(i);
+}
+
+
+
+
+for é a keyword. 
+
+Dentro dos parênteses você INICIALIZA/define aquele loop ----> esse procedimento consiste em 3 partes:
+
+
+
+1) BEGIN PHASE/beginning PHASE, onde você INICIALIZA VARIÁVEIS QUE VOCê PODE/QUER USAR DENTRO DAQUELE LOOP, SÃO AS VARIÁVEIS DEFINIDAS DENTRO DOS CURLY BRACES ({};). Nesse caso, seria "console.log(i)", que está dentro dos curly braces.
+    Obs: isso é importante--> a variável definida dentro dessa beginning fase realmente só fica/ficará disponível DENTRO DESSE LOOP.
+        ex: "(let i = 0 )"
+
+
+2) A CONDIÇÃO.----> SEPARA-SE DA PRIMEIRA PARTE POR MEIO DE UMA SEMI-COLON (;). 
+ex: "(;i < 3)", É UMA EXIT CONDITION, DETERMINA QUANDO DEVEMOS PARAR DE EXECUTAR AQUELE CÓDIGO QUE ESTÁ DENTRO DOS CURLY BRACES.
+
+
+
+
+3) A END PHASE, O CÓDIGO QUE DEVERÁ RODAR SEMPRE APÓS CADA LOOP ITERATION. É SEPARADO POR MEIO DE OUTRO SEMI-COLON (;).
+Aqui, você pode fazer o que você quiser, mas GERALMENTE colocamos um increment padrão, ++, para aumentar em 1 número o ciclo.
+Geralmente vocÊ só muda aquela variável a qual você inicializou, aquela mesma variável que você utilizou na sua exit condition.
+
+ex: (";i++")
+
+
+
+
+Nesse loop, por exemplo, eu inicializaria "i", e "i" é um nome 
+que geralmente é escolhido, pois significa "iterator". Você escolhe
+i e o define como 0, inicialmente. Aí, após cada loop iteration (após cada execução da função console.log(i);), o javascript vai adicionar 
+1 unidade ao 0, por causa do "i++" na terceira parte da fórmula.
+Então, depois que é incrementado por 1 o valor de i, o JAVASCRIPT FINALMENTE 
+CHECA A SEGUNDA PARTE DA FÓRMULA, A EXIT CONDITION (que, no caso, é i deverá ser menor que 3, senão o loop cessa.).
+O loop body somente é executado na hipótese da segunda condição/parte 
+render true. Portanto, nesse exemplo nós printaríamos os 
+valores 0, 1 e 2, mas nunca 3, porque a terceira iteração faz com que 
+i < 3 renda falso, o que cessa o loop.
+ O código pararia de executar o loop e então passaria para a próxima linha de código.
+
+
+
+
+ Veremos um loop em ação mais tarde.
+
+
+
+
+ 2o tipo de loop: FOR-OF LOOP.
+
+
+
+
+ É UM TIPO DE LOOP MAIS RECENTE, MAS QUE É BEM SUPORTADO PELO JAVASCRIPT.
+
+
+
+ O for-of loop EXECUTA UMA VEZ PARA CADA ELEMENTO EM UM ARRAY.
+
+ Te permite executar código para cada elemento em um array.
+
+
+
+
+sua fórmula é a seguinte:
+
+(keyword)    (const)   (nome da constante/variável)  (keyword do for-of)    (nome do array).
+
+
+
+for (const el of array)
+{
+    console.log(el);
+}
+
+
+"const el(el para "element")."
+
+Ele se parece um pouco com o for loop, mas um pouco diferente:
+
+Em vez de ter 3 partes entre os parênteses, TEMOS APENAS DUAS.
+
+a keyword é OF. 
+
+
+Uma constante sempre deve ser criada, também. Pode ser uma variável, mas tipicamente você cria uma constante, que 
+te dá acesso a um único elemento do array por vez...
+
+O body no meio dos curly braces É EXECUTADO  UMA VEZ PARA CADA ELEMENTO QUE ESTÁ DENTRO DO ARRAY.
+
+"el", nesse caso, se refere ao elemento que está nesse array para essa presente iteração; e isso é conveniente 
+para, por exemplo, fazer alguma coisa com cada elemento no array ou 
+fazer output deles no console, ou qualquer outra coisa que vocÊ queira fazer.
+
+
+For-of te ajuda com arrays, já FOR-IN te permite executar código PARA CADA KEY EM UM OBJETO.
+
+
+
+
+for-of ----> executa código para cada elemento em um array.
+
+
+
+
+for-in ----> executa código para CADA KEY EM UM OBJETO.
+
+
+
+
+A SINTAXE DE FOR-IN É BASICAMENTE IGUAL A DE FOR-OF.
+O MODELO É:
+
+
+for  (  const          key                    in                             obj                )
+(keyword)  (const)  (nome da key)      (comando especial do for-in)         (nome do objeto)
+
+
+
+
+ex:
+
+
+for (const key in obj) {
+    console.log(key);
+    console.log(obj[key]);
+}
+
+
+mesma sintaxe q for-of, mas com a IN keyword, em vez de of.
+
+
+
+UMA IMPORTANTE DIFERENÇA= 
+
+FOR-OF FUNCIONA COM ARRAYS, FOR-IN FUNCIONA COM OBJETOS.
+
+
+
+
+Com for-in vocÊ ganha acesso a cada key naquele objeto ( é a parte do data pair que fica na esquerda do :, a key.), 
+
+você usa isso quando você tem key-value pairs e objetos.
+
+
+
+Na segunda linha você vê um console.log(obj[key]); ...
+
+essa é uma sintaxe QUE NÓS NÃO VIMOS AINDA.
+
+É uma forma de acessar dinamicamente key-value pairs em um objeto, 
+quando você não tem a KEY NAME, mas em vez disso você tem uma variável ou constante QUE 
+SEGURA O KEY NAME. (ou seja, nesse caso, criamos uma constante key, que segura um valor de key mesmo, dentro do objeto (key in obj), e só podemos acessá-la para colocá-la no loop com a ajuda da sintaxe "[key]", que faz com que consigamos selecioná-la dentro daquele objeto.)
+Essa sintaxe então te dá acesso dinâmico (variável) aos valores armazenados naquela tal chave no objeto.
+É claro que veremos isso em ação nesse módulo.
+
+
+
+Por último, temos o WHILE LOOP.
+
+
+
+A ideia por trás do while loop é a de continuar executando um código desde que uma certa condição 
+esteja satisfeita (true). Assim que a condição se tornar FALSE, o while loop cessa e pula para a próxima linha de código.
+
+
+
+Sua aparência é esta:
+
+
+while (isLoggedIn) {
+    ...
+}
+
+
+A ideia aqui é que você realmente não trabalha com counters e variáveis de counter (apesar de que você poderia fazer isso, se quisesse, bastaria checar 
+o counter na condição do while loop ).  -----> vocÊ geralmente tem um boolean que vocÊ então muda, em certo momento dentro do seu while loop, 
+e você pode continuar executando código até que isso aconteça.
+
+
+
+Agora vamos ver como cada loop funciona, e como podemos integrá-los ao nosso projeto.
+
+
+

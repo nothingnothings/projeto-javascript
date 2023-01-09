@@ -1,0 +1,180 @@
+Com esse exemplo (o search) ACABADO, 
+
+devemos agora ver coisas mais EXCITANTES.
+
+
+
+
+
+
+Vamos ver coisas sobre SINTAXE DE OBJETOS... (features 
+do javascript que nos ajudam a trabalhar com OBJETOS).
+
+
+
+
+
+
+OBS:::: O PROFESSOR DE NOVO QUER ENFATIZAR
+O CONCEITO DE ___CHAINING_____.
+
+
+'combos'.
+
+
+
+
+
+em 
+
+
+'movie.info.title', dentro de 'filteredMovies.forEach', 
+ESTAMOS FAZENDO ALGO CHAMADO DE 'CHAINING'.
+
+
+
+
+ESSE CONCEITO É MUITO IMPORTANTE.
+
+
+
+
+
+
+
+CHAINING === Ter múltiplos dots (.) em uma MESMA LINHA, 
+OU, PARA SER MAIS PRECISO, EM UMA MESMA EXPRESSÃO, porque 
+nós apenas preferimos MÚLTIPLAS OPERAÇÕES EM OBJETOS/VALORES 
+RETORNADOS POR OPERAÇÕES PRÉVIAS, ANTERIORES.
+
+
+
+Por exemplo, "movies.info" RETORNA UM OBJETO... PORTANTO, PODEMOS 
+ACESSAR ".title" DENTRO DESSE MESMO OBJETO POR MEIO DESSA SIMPLES SINTAXE 
+'movies.info.title'...
+
+OU SEJA, NÓS NÃO PRECISAMOS DIVIDIR "movie.info.title" EM MÚLTIPLAS 
+LINHAS E ARMAZENAR O VALOR DE 'movie.info' em outra variável...
+
+
+
+ex (ex do que evitamos ter de fazer; código desnecessário que é DERROGADO pelo uso de 'chaining', que é 'movie.info.title'.):
+
+
+
+const movieInfo = movie.info;/////     ---------->
+
+const movieInfoTitle = movie.info.title; //// ----------> AMBOS SÃO TOTALMENTE DESNECESSÁRIOS PARA SELECIONAR ESSA PROPRIEDADE DENTRO DESSE OBJETO.... BASTA APENAS QUE UTILIZEMOS 'movie.info.title', o chaining referenciado pelo professor.
+
+
+------------------------
+
+
+Ou seja, podemos selecionar essa propriedade/keyName dentro 
+desses múltiplos objetos com a ajuda DE APENAS UMA ÚNICA LINHA, 
+UMA ÚNICA EXPRESSÃO, que é 'movie.info.title', exemplo do chaining.
+
+
+
+---------------------
+
+
+
+
+IMPORTANTE!!!!! ---> ESSE CONCEITO DE 'CHAINING' NÃO ESTÁ DISPONÍVEL APENAS 
+                    EM/COM PROPRIEDADES, MAS TAMBÉM COM ____MÉTODOS____.
+
+
+
+
+
+ex:
+
+
+
+
+no objeto 'newMovie'.....
+
+
+
+
+
+
+const newMovie = {
+    info: {
+        title, 
+        [extraName]: extraValue;
+    },
+    id: Math.random();
+};
+
+
+--------------------
+
+
+
+DENTRO DESSE OBJETO 'newMovie', temos o id... e 
+o Math.random();   Math.random() utiliza esse OBJETO 
+"MATH" BUILT-IN NO JAVASCRIPT para então gerar um NÚMERO ALEATÓRIO...
+
+A reviravolta aqui é que, em javascript, OS NÚMEROS 
+TAMBÉM TEM UM MÉTODO QUE PODE SER UTILIZADO, QUE É CHAMADO 
+DE 'toString()' (já vimos esse método 1 vez...).
+
+
+
+
+___NA VERDADE, DIZ O PROFESSOR, ___TUDO___ EM JAVASCRIPT____ TEM 
+ESSE MÉTODO "toString()". Ele é universal, utilizado em qualquer coisa, sempre.
+
+
+com 'id: Math.random().toString()', o que o professor está fazendo, na verdade, 
+É FAZENDO O CHAIN DO MÉTODO 'toString' EM CIMA DO RESULTADO 
+DE 'Math.random();'.....
+
+
+Portanto, resumindo:
+
+
+'random()' é CHAMADO NO OBJETO built-in 'Math', e me dá 
+um NÚMERO ALEATÓRIO, que por sua vez é afetado por 'toString', que é então 
+CHAMADO EM CIMA DESSE NÚMERO ALEATÓRIO.
+
+
+
+É UM COMBO (combo de MÉTODOS, chaining):
+
+
+1) Math.random(); ---> me dá um número aleatório, por meio do chamado desse método nesse objeto.
+
+2) .toString(); ---> age sobre o número retornado por meio de 'Math.random()', convertendo-o em uma string.
+
+
+----------------------------------
+
+O MESMO OCORRE COM 'movie.info.title' (combo de propriedades, chaining):
+
+
+1) movie.info ---> me dá O OBJETO "info" do objeto 'movie'.
+
+
+
+2) .info.title ----> me dá a propriedade 'title' dentro de 'movie'.
+
+
+
+------------------------------------------------
+
+
+
+
+ESSE CONCEITO DE 'CHAINING', essa palavra especial, 'chaining', é 
+algo QUE VOCê DEVE MEMORIZAR, visto que você verá muito 
+disso em DIVERSAS LINGUAGENS DE PROGRAMAÇÃO, ESPECIALMENTE 
+NO JAVASCRIPT.
+
+
+É bem comum.
+
+É uma coisa muito comum de se fazer, pois te salva o esforço de ter que 
+dividir código desnecessariamente, por meio de ''helper variables/constants'', em múltiplas linhas.

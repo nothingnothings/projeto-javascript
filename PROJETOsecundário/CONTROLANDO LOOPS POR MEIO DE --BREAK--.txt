@@ -1,0 +1,572 @@
+PARA CONCLUIR A PARTE DE LOOPS, O PROFESSOR QUER VER 2 
+KEYWORDS IMPORTANTES QUE PODEM NOS AJUDAR A CONTROLAR A EXECUÇÃO DE NOSSOS LOOPS.
+
+
+
+
+SÃO AS KEYWORDS "BREAK" E "CONTINUE".
+
+
+
+Ja vimos a keyword BREAK no nosso "switch-case statement", ali nós 
+usamos break para EVITAR AQUELE COMPORTAMENTO/MECANISMO CHATO DE FALLTHROUGH, que 
+fazia o atendimento da primeira condição fazer com que todas as funções/casos subsequentes fossem 
+executadas.
+
+
+Nós também podemos usar break DENTRO DE LOOPS PARA ---PARAR--- A EXECUÇÃO DE LOOPS 
+MAIS CEDO DO QUE NORMALMENTE ACONTECERIA. SERIA MAIS OU MENOS 
+O "CANCELAMENTO" DA EXECUÇÃO DE UM LOOP.
+
+
+Como isso funciona?
+
+
+                                                (objeto)
+Digamos que nós queremos apenas outputtar 1 ÚNICO LOGENTRY aqui:
+
+...
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    console.log(`#${i}`);
+    for(const key in logEntry) {
+        console.log(`${key} => ${logEntry[key]}`);
+    }
+    i++;
+}
+
+
+Bem, é claro que há várias maneiras de conseguir isso, de outputtar apenas UMA ÚNICA VEZ o objeto/a variável que segura o objeto LOGENTRY, mas 
+ UMA MANEIRA BEM SIMPLES SERIA A ADIÇÃO DE UM BREAK. colocaríamos a break keyword logo depois do i++ (mas não importa se for antes ou depois do i++ para esse exemplo).
+
+ ex:
+
+
+
+...
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    console.log(`#${i}`);
+    for(const key in logEntry) {
+        console.log(`${key} => ${logEntry[key]}`);
+    }
+    i++;
+    break;
+}
+
+
+O QUE O BREAK VAI FAZER É DIZER PARA O JAVASCRIPT (E ISSO FUNCIONA EM QUALQUER LOOP, BTW) 
+QUE ELE DEVE PARAR A EXECUÇÃO DAQUELE ESPECÍFICO LOOP. O QUE ISSO QUER DIZER?
+QUER DIZER QUE O BREAK SEMPRE PARA O LOOP NO QUAL ELE ESTÁ INSERIDO... SE FOR INSERIDO NUM INNER LOOP, 
+ELE VAI PARAR O INNER LOOP, MAS O OUTER LOOP CONTINUARÁ RODANDO. SE FOR INSERIDO NO OUTER LOOP, 
+O OUTER LOOP VAI PARAR E O INNER LOOP TAMBÉM, PORQUE ELES ESTÃO CONECTADOS, SE O OUTER PARAR, NÃO HÁ 
+COMO O JAVASCRIPT ENTRAR DENTRO DO INNER PARA FAZER ELE RODAR.
+
+Break para o loop em que você breaka diretamente. Nesse nosso exemplo, paramos o loop diretamente. Paramos o outer loop, 
+que então para o inner loop.
+
+
+
+O resultado de nossa mudança, de nossa adição de break ao código do for loop, é vista se nós 
+salvarmos o código e recarregarmos a página. Se abrirmos o console do dev tools, veremos que ele loggou 
+apenas 1 entrada, isso é em decorrência do break, que interrompeu o loop de logs.
+
+
+
+Mas agora, queremos algo diferente.
+AGORA, QUEREMOS FAZER UMA ALTERAÇÃO NO CÓDIGO PARA QUE  SEMPRE QUE É APERTADO O  "SHOW LOG" BUTTON,
+ seja FEITO O OUTPUT DE APENAS ___UM EVENTO POR VEZ____. Claro que não queremos que seja 
+ sempre o mesmo evento, queremos eventos diferentes.
+
+Para fazer isso, devemos criar uma NOVA VARIÁVEL GLOBAL, que registrará ("will keep track of") O 
+ÚLTIMO EVENTO QUE FOI LOGGADO. Para isso, professor cria nova variável "lastLoggedEntry".
+O professor apenas declara essa variável, ele NÃO A INICIALIZA (let lastLoggedEntry;).
+
+ex:
+
+
+
+
+let lastLoggedEntry;
+
+...
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    console.log(`#${i}`);
+    for(const key in logEntry) {
+        console.log(`${key} => ${logEntry[key]}`);
+    }
+    i++;
+    break;
+}
+
+
+
+Assim que declaramos a variável lá em cima, no início do código, podemos utilizá-la 
+dentro do código de printLogHandler(). Colocamos ela dentro do nosso loop, naquele lugar onde 
+loggamos as entradas. Inicializamos o valor de lastLoggedEntry como "i", que nesse caso, é 0 (valor 
+de i nesse caso é 0, em decorrência de let i = 0;). 
+
+
+
+
+
+
+
+let lastLoggedEntry;
+
+...
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    console.log(`#${i}`);
+    for(const key in logEntry) {
+        console.log(`${key} => ${logEntry[key]}`);
+    }
+    lastLoggedEntry = i;
+    i++;
+    break;
+}
+
+
+
+
+                                                                    if(!lastLoggedEntry || lastLoggedEntry === i) {
+                                                                        ...
+                                                                    }
+Prosseguimos e adicionamos um                                   
+if statement bem no início do loop body, "se lastLoggedEntry NÃO FOR ASSIGNADO/for undefined/falsy (uso de !), o que ele é, porque é 0, 
+OU ___SE lastLoggedEntry for definida e for igual a i,".... VOU QUERER console.loggar meu 
+
+evento----->        console.log(`#${i}`);                      //esse é o código que realiza o log do evento, essencialmente; por isso o transferimos do lugar antigo, lá embaixo, para dentro desse if statement.
+                    for(const key in logEntry) {
+                     console.log(`${key} => ${logEntry[key]}`);
+                     }
+
+
+
+
+---------------------------------------------------------------
+O MODELO ANTIGO:
+
+let lastLoggedEntry;
+...
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    console.log(`#${i}`);
+    for(const key in logEntry) {
+        console.log(`${key} => ${logEntry[key]}`);
+    }
+    lastLoggedEntry = i;
+    i++;
+    break;
+}
+
+
+PASSA A SER (quando colocamos o loop de console.logs dentro do if statement):
+
+let lastLoggedEntry;
+
+...
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry || lastLoggedEntry === i) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+    }
+
+    lastLoggedEntry = i;
+    i++;
+    break;
+}
+
+
+
+
+
+
+
+
+
+Modelo completo:
+
+
+
+
+
+
+
+
+
+
+let lastLoggedEntry;
+
+(...)
+
+
+function printLogHandler() {
+
+for (let i = 0; i < 3; i++) {     
+    console.log('-------------');
+    }
+
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry || lastLoggedEntry === i) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+    }
+
+    lastLoggedEntry = i;
+    i++;
+    break;
+}
+}
+
+
+
+TAMBÉM DEVEMOS ALTERAR O "lastLoggedEntry = i";, que deve ser inserido dentro do if statement, porque já 
+que nós loggamos alguma coisa, devemos updattar esse lastLoggedEntry.
+
+
+
+
+
+
+
+let lastLoggedEntry;
+
+(...)
+
+
+function printLogHandler() {
+
+for (let i = 0; i < 3; i++) {     
+    console.log('-------------');
+    }
+
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry || lastLoggedEntry === i) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+        lastLoggedEntry = i;
+    }
+
+    i++;
+    break;
+}
+}
+
+
+
+ESSA AINDA NÃO É A LÓGICA TERMINADA.
+
+
+Agora, cada vez que apertamos em "show log", o código nos printa uma vez a primeira
+entrada de todos. Se apertarmos múltiplas vezes, a mesma entrada vai se repetindo. Isso é por causa 
+de break. Não mudamos muita coisa aqui, portanto.
+
+A razão para a repetição da mesma entrada múltiplas vezes é a definição do 
+valor de lastLoggedEntry como i, QUE É ZERO (falsy) NA PRIMEIRA ITERAÇÃO. 
+O fato de lastLoggedEntry ser i faz com que a condição seja satisfeita, 
+ o que signifca que o código do loop rodará. O problema aqui é 
+ que o código do loop sempre rodará, porque o if statement está condicionado 
+ à !lastLoggedEntry (checa TRUE se lastLoggedEntry for 0, falsy, undefined ) e 
+ à lastLoggedEntry ser igual a i, e lastLoggedEntry realmente É IGUAL A i.
+ Por isso que sempre é logada aquela porcaria ali do #${i}; e o resto também.
+
+
+ O TRUQUE PARA FAZER ESSE NEGÓCIO FUNCIONAR É, NA VERDADE, MUDAR O "lastLoggedEntry === i" 
+ para "lastLoggedEntry < i", fazer a condição ser de lastLoggedEntry ter de ser 
+ MENOR QUE i.
+
+ Mas, se fizermos isso, veremos que ainda sempre é printada a entry da mesma forma.
+ MAS POR QUE ISSO?
+
+
+ Porque a primeira condição, !lastLoggedEntry, também sempre retorna como true, porque 
+ i é igual a 0 na primeira iteração.
+
+
+ 0 é um valor falsy, é tratado como false.
+
+
+ Em razão desses problemas, o professor  muda as condições do código para 
+
+                                                                                    (!==)
+ "se lastLoggedEntry for falsy/undefined/0/falso (!) E (&&) SE lastLoggedEntry NÃO FOR IGUAL A 0", ... rode o código.
+
+
+ let lastLoggedEntry;
+
+(...)
+
+
+function printLogHandler() {
+
+for (let i = 0; i < 3; i++) {     
+    console.log('-------------');
+    }
+
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry && lastLoggedEntry !== 0) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+        lastLoggedEntry = i;
+    }
+
+    i++;
+    break;
+}
+}
+
+
+
+
+if (!lastLoggedEntry && lastLoggedEntry !== 0)
+
+
+
+
+AGORA, ENTÃO, FICOU ASSIM:
+ 
+ se lastLoggedEntry for falsy, mas não for falsy EM DECORRÊNCIA DE SER 0, 
+ executa-se o código.
+
+ Mas o professor também coloca outra condição, a de lastLoggedEntry ser menor que 0. Nesse caso, ele coloca um || (OR), então é uma opção aquelas 2 condições combinadas.
+
+
+
+
+ então, fica:
+
+
+ if(!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i)...
+
+
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+let lastLoggedEntry;
+
+(...)
+
+
+function printLogHandler() {
+
+for (let i = 0; i < 3; i++) {     
+    console.log('-------------');
+    }
+
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+        lastLoggedEntry = i;
+    }
+
+    i++;
+    break;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Agora, se salvarmos isso no código e então recarregarmos a página, veremos que 
+ O JAVASCRIPT PRINTARÁ O PRIMEIRO EVENTO NO NOSSO LOG, MAS AS ENTRADAS SUBSEQUENTES 
+ NÃO SERÃO PRINTADAS.
+
+ Por que isso? PORQUE NÓS NÃO CONSEGUIMOS MAIS ENTRAR NO IF BLOCK na 2a vez que o código é rodado. E isso faz sentido, 
+ porque i sempre começa como 0 quando printLogHandler é executado (e é executado sempre quando 
+ nós clicamos em show log), e, importante, a variável 0 NÃO É incrementada por 1 
+ cada vez que é reiniciada, não, ela é na verdade reiniciada, volta a 0. Cada vez 
+ que o botão do show log é clicado, a função faz com que a variável i volte a ser 0, 
+ ela nunca "aumenta seu valor" entre as execuções/cliques do botão.
+
+ A variável lastLoggedEntry, no entanto, MUDA A CADA CLIQUE.
+Ela começa uninitialized (undefined) e então, após O PRIMEIRO LOG SER PRINTADO ( 
+    console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+        lastLoggedEntry = i;
+        ) -----------> APÓS O PRIMEIRO LOG SER PRINTADO, ELA PASSA A SER 
+        "i" (isso em decorrência daquele mini-comandozinho no final, 
+        o "lastLoggedEntry = i", que está dentro do function body 
+        do if statement), QUE É ______ZERO________. POSSUINDO 
+        LASTLOGGEDENTRY O VALOR DE 0, ESSA VARIÁVEL NÃO MAIS SE ENQUADRA 
+        NAS HIPÓTESES DEFINIDAS NA CONDIÇÃO DO LOOP ("!lastLoggedEntry" é a mesma coisa 
+        que lastLoggedEntry ou ser UNDEFINED, OU ser FALSY, ou ser 0. Mas 0 não é admitido 
+        nas condições desse if statement, porque a segunda condição é lastLoggedEntry !== 0;
+        A terceira condição também reduz as hipóteses permitidas, mas as 2 primeiras são mais 
+        importantes para entender o porquê do negócio não logar mais a partir do segundo 
+        clique no botão. Na primeira vez em que apertamos o botão, são satisfeitas 
+        a primeira e segunda condições, já que lastLoggedEntry está UNDEFINED (variável 
+        só foi inicializada, não tem valor ainda), e NÃO É ZERO. Isso retorna true 
+        para aquela primeira condição combinada, e então, em decorrência disso, é executado 
+        o restante do código do loop. )
+
+
+
+        Por isso que nos cliques subsequentes apenas é feito o log de --------------, 3x , sem 
+        o log dos eventos/propriedades de logEntry.
+
+        O código do if statement nunca mais é executado de novo, devido à lógica que nós escrevemos 
+        aqui.
+
+
+
+        A PRÓXIMA ETAPA, AGORA, É MOVER O "BREAK" STATEMENT PARA DENTRO DO IF STATEMENT, 
+        PARA FAZER COM QUE O LOOP CESSE, NÃO SEJA RODADO NOVAMENTE IMEDIATAMENTE; OU SEJA, 
+        PARA QUE O JAVASCRIPT PULE PARA FORA DO LOOP E EXECUTE AQUELE STATEMENT "i++", QUE 
+        FARÁ COM QUE ESSE CÓDIGO NÃO MAIS PARE DE SER RODADO.
+
+
+
+        ou seja, mudamos --->
+
+
+
+        let lastLoggedEntry;
+
+(...)
+
+
+function printLogHandler() {
+
+for (let i = 0; i < 3; i++) {     
+    console.log('-------------');
+    }
+
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+        lastLoggedEntry = i;
+    }
+
+    i++;
+    break;
+}
+}
+
+
+
+
+
+PARA:
+
+
+
+
+
+
+
+ let lastLoggedEntry;
+
+(...)
+
+
+function printLogHandler() {
+
+for (let i = 0; i < 3; i++) {     
+    console.log('-------------');
+    }
+
+let i = 0;
+for(const ___logEntry___ of battleLog) {
+    if (!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i) {
+        console.log(`#${i}`);
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+        }
+        lastLoggedEntry = i;
+        break; // EIS AQUI A ALTERAÇÃO, A MUDANÇA DO LOCAL DE BREAK. O CÓDIGO VAI PULAR PARA FORA DO LOOP E EXECUTAR I++, QUE ESTÁ ALI FORA. ISSO ACONTECE TODA VEZ QUE SHOW LOG É CLICADO.
+    }
+
+    i++;
+}
+}
+
+
+
+
+
+
+Qual é o resultado disso no código? 
+Bem, agora toda vez que apertamos show log, vemos os eventos/propriedades e valores 
+1 de cada vez, em ordem. Não nos é mostrado tudo de uma vez só, como antes.
+
+Caso deixássemos o loop como estava antes, ele simplesmente iria terminar sua primeira iteração e tentar 
+continuar com a segunda; mas, percebida a ausência da satisfação daquelas condições do if statement, o nosso for of loop simplesmente 
+pararia de rodar o seu código, algo que não queríamos que acontecesse. Por meio do break statement 
+no final do código do loop, o loop sempre será interrompido no final e passará para a realização do 
+i++ antes de cessar suas operações. Isso tudo acontecerá TODA VEZ QUE FOR APERTADO O BOTÃO "show log".
+
+Logamos evento por evento, clique por clique.
+
+
+
+É claro que você poderia colocar mais um pedaço de lógica aqui, para que não fosse executada lógica alguma 
+no caso de um lastLoggedEntry maior do que o length do nosso battleLog (seria para os casos 
+em que não houvesse mais entradas a serem apresentadas no console, quando você exauriu as 
+informações das propriedades/eventos), vocÊ poderia fazer isso.
+
+
+
+
+O break, portanto, nos permite fazer esse tipo de coisas no código, mas há mais funções para esse 
+statement, que veremos no futuro. Essencialmente te permite pular para fora de um loop 
+antes da conclusão normal do mesmo.
+
+
+
+
+Agora veremos o primo do break, o CONTINUE.

@@ -1,0 +1,81 @@
+SABER COMO ADICIONAR ELEMENTOS É SEMPRE ALGO BOM.
+
+
+
+
+Mas também é excelente saber como REMOVÊ-LOS.
+
+
+
+Com "replaceWith", somos capazes de REMOVÊ-LOS, certamente, mas apenas podemos 
+removê-los, nesses casos, quando temos algo pelo qual os podemos substituir, algo novo.
+
+
+
+
+Para simplesmente REMOVER DE PRONTO, sem nenhum outro detalhe, é necessário outro método/métodos...:
+
+
+
+
+Para tal, o professor aponta que devemos tentar remover toda a <ul>, aquela unorderedList.
+
+
+
+para tal, devemos selecionar a ul:
+
+
+ex:
+
+
+
+
+const list = document.querySelector('ul');
+-----------------------------------------------------------
+
+
+Para nos livrarmos dessa ul, há 2 caminhos:
+
+
+1o caminho, o ".remove()".
+
+
+
+ex:
+
+
+const list = document.querySelector('ul');
+
+list.remove(); //-----> ISSO FAZ EXATAMENTE AQUILO QUE ESTÁ ESCRITO: REMOVE COMPLETAMENTE O ELEMENTO AO QUAL ESTÁ ACOPLADO. Remove, nesse caso, a <ul>  para fora do DOM (para fora da página renderizada).
+
+
+
+
+Se checarmos essa propriedade "remove()" no MDN, veremos que 
+a compatibilidade é boa para todos os browsers... EXCETO O INTERNET EXPLORER.
+
+
+
+Se você quiser se assegurar que esse método funcionará no IE, vocÊ vai ter 
+que usar ____OUTRO MÉTODO__, ESTE MÉTODO A SEGUIR:
+
+(você seleciona o elemento que você quer remover, primeiro. Depois, você, por meio 
+de ".parentElement", alcança o elemento pai que segura esse elemento... POR FIM, VOCÊ 
+EMPREGA A PROPRIEDADE ".removeChild" PARA REMOVER COMPLETAMENTE ESSA CHILD (o elemento que você quer 
+remover de verdade) do DOM.)
+
+ex:
+
+
+
+const list = document.querySelector('ul');
+
+list.parentElement.removeChild(list);
+
+
+
+-----------------------------------------------------
+
+É um método meio entroncado, mas funciona. "removeChild" é suportado em todos os browsers (assim como "appendChild"),
+portanto essa é a maneira MAIS SEGURA DE REMOVER UM ELEMENTO, e a mais optimizada.
+Isso deve ser utilizado para fazer o negócio funcionar no internet explorer e nos outros browsers.

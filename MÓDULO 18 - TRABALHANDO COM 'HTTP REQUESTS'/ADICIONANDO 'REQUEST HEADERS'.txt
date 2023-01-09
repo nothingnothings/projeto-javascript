@@ -1,0 +1,637 @@
+
+
+
+
+
+HEADERS PODEM SER IMPORTANTES..
+
+
+
+
+
+
+
+ATÉ AGORA, NÃO PRECISAMOS NEM UM POUCO DELES...
+
+
+
+
+
+
+
+MAS PARA ALGUNS APIS, VOCÊ PRECISA DESCREVER 
+
+''qual tipo de data'' VOCê ESTÁ ENVIANDO, POR EXEMPLO...
+
+
+
+Ou, tvz, outros APIS tvz precisem de mais alguma 'authentication data' extra...
+
+
+
+
+E __HEADERS___ SÃO BASICAMENTE 'METADADOS' (metadata) que você pode 
+
+
+fazer 'attach' a outgoing requests...
+
+
+
+
+
+SE VOCÊ INSPECIONAR ALGUM REQUEST, VOCÊ VERÁ QUE 
+
+
+
+há alguns 'default headers'  ADICIONADOS PELO BROWSER....
+
+
+
+
+
+OBS:::: A 'response' TAMBÉM TEM HEADERS, e todos 
+
+esses headers SÃO ___dEFINIDOS____ PELO SERVIDOR__ (server).
+
+
+
+
+
+
+
+E NÓS ___PODEMOS____ ADICIONAR MAIS HEADERS AO OUTGOING request....
+
+
+
+
+E NÓS FAZEMOS ISSO em 
+
+'fetch()', na fetch API, POR 
+
+
+
+MEIO DA ADIÇÃO DE UMA NOVA KEY 
+
+
+
+
+ÀQUELE 'CONFIGURATION OBJECT' (que é o segundo parâmetro)...
+
+
+
+essa key 
+
+
+
+terá o nome de 'HEADERs'...
+
+
+
+
+
+ex:
+
+
+
+
+
+  function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: JSON.stringify(data),
+        headers:
+      }).then(response => {
+        console.log('clicked');
+        return response.json();
+      })
+   
+    
+
+  
+
+  };
+
+
+
+---------------------------------------------------
+
+
+
+
+
+
+
+ESSA KEY SEMPRE ACEITA/EXIGE UM OBJETO JAVASCRIPT ({}) EM QUE 
+
+
+
+
+_____TODO HEADER____ QUE VOCê QUER ADICIONAR _____ será 
+
+
+um 'key-value' pair... 
+
+
+
+
+
+CERTO.
+
+
+
+OS TIPOS DE HEADERS QUE VOCÊ PODE ADICIONAR 
+
+
+___SÃO _____  GERALMENTE ___ 'standardized'... (são padronizados).
+
+
+
+
+Existem headers PADRÕES que são geralmente utilizados....
+
+
+
+
+MAS VOCê ___PODE___ ADICIONAR ___ QUALQUER 'HEADER ARBITRÁRIO' que 
+
+você invente... 
+
+
+Há muita flexibilidade nesse quesito...
+
+
+
+
+
+É CLARO QUE SÓ HÁ SENTIDO EM ADICIONAR UM HEADER A UM REQUEST 
+
+____SE O SERVIDOR____ ESPERA (expects) ESSE HEADER..., espera esse header 
+
+E DE FATO FAZ ALGUMA COISA COM ELE...
+
+
+
+
+
+caso contrário, você pode adicioná-lo, mas ele não vai fazer muita coisa por si só.
+
+
+
+
+
+
+
+
+
+UM HEADER QUE É FREQUENTEMENTE ADICIONADO, embora ele
+
+não seja tecnicamente necessário com essa API de 'fetch()', 
+
+É 
+
+o 
+
+
+header 
+
+
+'Content-Type'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+  function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type':
+        }
+      }).then(response => {
+        console.log('clicked');
+        return response.json();
+      })
+   
+    
+
+  
+
+  };
+
+
+
+------------------------------------------------------
+
+
+
+
+
+
+'Content-Type' TEM UM VALOR..... (isso significa que 'Content-Type' é a parte 'key' do 'key-value' pair...), 
+
+UM KEYNAME...
+
+
+
+
+
+
+obs::: os QUOTES são obrigatórios com esse 'Content-type', Pois temos o caractere  '-' no meio.
+
+
+
+
+
+
+
+O VALUE PARA ESSE 'header', então, 
+
+será 
+
+de 
+
+
+'application/json'...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+  function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json';
+        }
+      }).then(response => {
+        console.log('clicked');
+        return response.json();
+      })
+   
+    
+
+  
+
+  };
+
+
+
+
+----------------------------------------
+
+
+
+
+
+MAS PQ ISSO?
+
+
+
+
+
+
+--> esse é um dos headers típicos que você adiciona 
+
+
+a OUTGOING requests QUE 
+
+CARREGAM 'JSON DATA'...
+
+
+
+
+
+Esse header 
+
+
+BASICAMENTE DIZ AO SERVIDOR: 
+
+
+'Hey, meu request tem JSON DATA!'
+
+
+
+
+
+
+--->CERTO. Mas o nosso 'dummy server' aqui, o jsonplaceholder, 
+
+
+NÃO SE IMPORTA com isso, pois ELE SEMPRE ESPERA apenas
+'json data'...
+
+
+
+
+ENTRETANTO, OUTROS ___APIs_____ PODEM 
+
+SE IMPORTAR COM ESSA DISTINÇÃO JSON DATA/JAVASCRIPT,
+
+
+e é aí que se torna importante 
+
+o attach de metadados (por meio de headers) 
+
+NOS NOSSOS OUTGOING REQUESTS...
+
+
+
+
+
+
+É CLARO QUE VOCÊ PODE ADICIONAR MAIS DE 1 HEADER, basta 
+
+você adicionar mais de 1 key-value pair nesse objeto...
+
+
+
+
+
+
+ex:
+
+
+
+
+
+   function sendHttpRequest(method, url, data) {
+
+    
+
+
+
+      return fetch(url, {
+        method: method,
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json';
+            'header': 'example';
+        }
+      }).then(response => {
+        console.log('clicked');
+        return response.json();
+      })
+   
+    
+
+  
+
+  };
+
+
+
+
+---------------------------------------------------
+
+
+
+
+
+
+AGORA DEVEMOS CHECAR SE ESSE CÓDIGO FUNCIONA....
+
+
+
+
+Se eu recarregar e der 'fetch' nos meus dados,
+
+
+
+
+
+VEREI QUE agora há 
+
+
+um header de 
+
+
+
+'Content-Type': 'application/json'
+
+
+
+
+
+MOSTRADO NO 'request header', na aba network, quando clico em 'fetch'.
+
+
+
+
+
+
+
+É ASSIM QUE PODEMOS ADICIONAR 'headers' POR MEIO DA 'FETCH()' API...
+
+
+
+
+
+
+
+
+Já em 'XMLHttpRequest', nesse objeto, ESSA ADIÇÃO DE HEADER FUNCIONARIA 
+
+DE IGUAL MANEIRA, 
+
+
+CONTUDO, LÁ VOCÊ 
+
+ADICIONA HEADERS DE OUTRO JEITO:
+
+
+
+
+
+
+lá você adiciona headers por meio do método '.setRequestHeader();'....
+
+
+
+
+O PRIMEIRO PARÂMETRO É O ___NOME DO HEADER____ .... (ex: 'Content-type'),
+
+
+
+
+E O SEGUNDO PARÂMETRO É O 
+
+
+___VALOR___ para aquele header....
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+
+        xhr.setRequestHeader('Content-Type', application/json); ////////EIS AQUI O CÓDIGO EM QUESTÃO.
+
+
+    
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+ 
+    };
+
+
+    xhr.onerror = function() { 
+      console.log(xhr.response);
+      console.log(xhr.status); 
+  }
+
+
+  xhr.send(JSON.stringify(data));
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+-------------------------------------
+
+
+
+
+
+OBS::: VOCÊ PODE ADICIONAR MÚLTIPLOS HEADERS POR MEIO DESSE MÉTODO, 
+
+
+basta que vocÊ chame ele MÚLTIPLAS VEZES, 1 vez para cada 
+
+header....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+function sendHttpRequest(method, url, data) {
+
+
+  const promise = new Promise(
+    (resolve, reject) => {
+  
+  
+  
+        const xhr = new XMLHttpRequest();
+  
+
+        xhr.setRequestHeader('Content-Type', application/json); 
+        xhr.setRequestHeader('Content-Type2', application/json)
+        xhr.setRequestHeader('Content-Type3', application/json)
+        xhr.setRequestHeader('Content-Type4', application/json)
+
+
+    
+    xhr.open(method, url); 
+
+    xhr.responseType = 'json';
+  
+  xhr.onload = function() {
+      resolve(xhr.response); 
+ 
+    };
+
+
+    xhr.onerror = function() { 
+      console.log(xhr.response);
+      console.log(xhr.status); 
+  }
+
+
+  xhr.send(JSON.stringify(data));
+    });
+  
+  
+  
+  return promise; 
+  }
+
+
+
+---------------------------------------
+
+
+
+
+
+IMPORTANTE:
+
+
+UMA VEZ QUE UM HEADER É 
+
+
+__________ADICIONADO___________ POR MEIO DESSE MÉTODO, 
+
+
+VOCê NÃO CONSEGUE MAIS DELETÁ-LO...

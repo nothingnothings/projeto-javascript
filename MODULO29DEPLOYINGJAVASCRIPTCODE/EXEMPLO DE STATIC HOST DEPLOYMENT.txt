@@ -1,0 +1,841 @@
+
+
+
+
+VAMOS VER UM EXEMPLO DE DEPLOYMENT COM UM WEBAPP QUE 
+
+
+_____NÃO TEM NENHUM CÓDIGO JAVASCRIPT SERVERSIDE ___......
+
+
+
+
+
+ISSO SIGNIFICA QUE A ÚNICA COISA QUE MOVERÁ ESSE SITE SERÁ 
+
+
+O HTML, CSS E JAVASCRIPT BROWSERSIDE e um servidor que retorna esses arquivos....
+
+
+
+
+
+PARA ISSO, PRECISAMOS DE UM STATIC HOST.
+
+
+
+
+
+
+NÓS JÁ ESCREVEMOS ESSE TIPO DE CÓDIGO AO LONGO DE NOSSO CURSO...
+
+
+UM EXEMPLO DISSO É O PROJETO DOS MAPAS NA SUA FORMA INICIAL... (antes do browserside)....
+
+
+
+
+
+
+
+---> DEVEMOS PEGAR O CÓDIGO DO 'PROJETODOSMAPASREVISITADO2'....
+
+
+
+
+Está nessa pasta de mesmo nome...
+
+
+
+
+
+
+AGORA QUANTO à 'OPTIMIZAÇÃO' e ao 'PRODUCING FOR DEPLOYMENT', produção 
+
+
+
+do código para deployment e assim por diante, 
+
+NÓS TEMOS O 
+
+
+WEBPACK...
+
+
+
+
+NÓS TEMOS NOSSA CONFIGURAÇÃO DO WEBPACK:
+
+
+
+
+TEMOS A CONFIG DE 
+
+
+DEVELOPMENT
+
+
+e 
+
+
+a 
+
+
+config de 
+
+
+
+PRODUCTION.... (webpack.config.prod.js).... ---------> ESSE AQUI OPTIMIZA AUTOMATICAMENTE 
+
+
+O NOSSO CÓDIGO....
+
+
+
+---------------------------------
+
+
+
+
+EM 'PACKAGE.JSON',
+
+
+
+temos aquele código de 
+
+
+
+
+
+NÓS PODEMOS SIMPLESMENTE RODAR O 
+
+
+
+'build:prod'....
+
+
+
+
+
+ESSE NEGÓCIO VAI PRODUZIR UM CÓDIGO QUE PODEREMOS 
+
+
+_____SHIPPAR___ A UM WEBSERVER..
+
+
+
+e então hostear esse código lá, 
+
+
+
+HOSTEAR EM UM WEBSERVER ESTÁTICO, basicamente....
+
+
+
+
+
+
+
+
+CERTO.
+
+
+NOSSOS CÓDIGOS DE DEPLOYMENT FORAM PRODUZIDOS, BASICAMENTE...
+
+
+
+SÃO os arquivos em 
+
+
+'assets/scripts/'....
+
+
+
+aqueles 4 arquivos lá....
+
+
+
+
+-----> eles estão com aquele ____RANDOM HASH____ como nomes....
+
+
+
+(nomes aleatórios, para que o usuário sempre tenha que 
+
+REBAIXAR os scripts sempre que reiniciamos nosso servidor...)
+
+
+PARA 
+
+
+
+QUE NOSSO ARQUIVO HTML FUNCIONE ADEQUADAMENTE COM ESSES HASHS RANDOMIZADOS, DEVEMOS 
+
+
+TROCAR 
+
+o import 
+
+
+em 'index.html', aquele import De 
+
+
+
+
+
+
+"script src= xxxxxx/my-place.js"
+
+
+
+POR NOSSOS IMPORTS COM NOMES MALUCOS/RANDOMIZADOS....
+
+
+
+
+Professor explica que também poderíamos definir 
+
+
+
+
+BUILD WORKFLOWS MAIS ELABORADOS, 
+
+
+
+EM QUE O ARQUIVO HTML É AUTOMATICAMENTE AJUSTADO 
+
+PARA DEFINIR CORRETAMENTE O NOVO IMPORT, com o hash alterado,
+ 
+
+ mas ISSO ___REQUER CONHECIMENTOS AVANÇADOS DE WEBPACK_____...
+
+ E é por isso que o professor usa esse approach manual, 
+
+ de homem das cavernas, de copia e cola...
+
+
+ (podemos ver como fazer isso DEPOIS)...
+
+
+
+
+
+ Depois que fizemos esse import,
+  
+
+
+  Depois que colocamos esses scripts de produção ali nos html, 
+
+
+
+
+  ESTAMOS PRONTOS PARA UPLOADAR ESSES ARQUIVOS EM UM WEBSERVER...
+
+
+
+
+  NÓS PODEMOS IGNORAR ESSE AVISO NO TERMINAL:
+
+
+
+
+
+   KiB).
+This can impact web performance.
+Assets:
+  my-place.75745b8a2a870e238fca.js (273 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  my-place (273 KiB)
+      my-place.75745b8a2a870e238fca.js
+
+
+WARNING in webpack performance recommendations:
+You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+For more info visit https://webpack.js.org/guides/code-splitting/
+
+
+
+-------------------------------------------
+
+
+
+
+ISSO BASICAMENTE NOS DIZ 
+
+
+QUE O OUTPUT DE 'my-place' é meio grande demais...
+
+
+
+
+
+PROFESSOR EXPLICA QUE O OUTPUT ACABOU GRANDE PQ 
+
+ELE ESTÁ IMPORTANDO ESSA LIBRARY DE 
+
+'sanitizeHtml' 
+
+DENTRO DO 'MyPlace.js'....
+
+
+(ESSA É OUTRA RAZÃO PARA USAR O 'SANITIZE-HTML' NO 
+
+SERVIDOR, E NÃO NO 
+
+BROWSERSIDE....) -------> MAS NESSE EXEMPLO DO PROJETO DOS MAPAS,
+
+TEMOS ESSA LIBRARY NO NOSSO CÓDIGO POR UMA BOA RAZÃO, POIS 
+
+NÓS ___NÃO TEMOS SERVERSIDE CODE __ ALGUM, temos apenas 
+
+__bROWSERSIDE__...
+
+
+
+
+
+ESTAMOS PRONTOS PARA UPLOADAR ESSE NEGÓCIO A UM STATIC HOST...
+
+
+
+
+
+Poderíamos criar nosso próprio static host, no nosso pc...
+
+
+
+MAS ISSO NÃO É FÁCIL DE FAZER.
+
+
+
+É FÁCIL DE FAZER DE FORMA ERRADA E INSEGURA; 
+
+
+
+seu server poderia ser facilmente 'compromised'...
+
+
+
+
+Alguns conhecimentos de rede são necessários para settar um computador 
+dessa forma e para o conectar À internet..
+
+
+
+-----------------------------
+
+
+
+O QUE VOCÊ TERIA/TEM DE FAZER É GO FOR PAID HOSTING...
+
+
+
+
+
+
+STATIC WEB HOSTING ---> 
+
+
+
+
+veremos alguns serviços...
+
+
+
+
+AWS AMAZON...... ---> serviço que deixa isso fácil, o S3...
+
+
+
+
+
+
+
+FIREBASE HOSTING ----> ele oferece mais do que apenas hosting, mas 
+
+o hosting deles é ótimo.
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+FIREBASE ---> É GRÁTIS, MAS TEM CERTOS LIMITES DE USO.
+
+
+
+
+---> firebase pricing. ---> inicialmente é DE GRAÇA.
+
+
+
+
+
+GET STARTED ---> 
+
+
+
+
+
+DEVEMOS PRIMEIRAMENTE 
+
+INSTALAR 
+
+
+O 'FIREBASE CLI'...
+
+
+
+VOCê PODE BAIXAR O INSTALADOR E EXECUTÁ-LO.
+
+
+DEVEMOS SIMPLESMENTE USAR O NPM para 
+
+
+
+instalar...
+
+
+
+devemos rodar 
+
+
+o código 
+
+
+
+'npm install -g firebase-tools'...
+
+
+-----------------------------------------
+
+
+
+
+
+CERTO.
+
+INSTALAMOS ESSE NEGÓCIO.
+
+
+
+ESSA PACKAGE SERÁ INSTALADA GLOBALMENTE NO SEU SISTEMA..
+
+
+
+E VAMOS PRECISAR DESSA PACKAGE PARA 
+
+ENTÃO FAZER DEPLOY DA NOSSA APPLICATION...
+
+
+
+
+
+-----> ASSIM QUE O NEGÓCIO ACABA,
+
+
+PODEMOS RODAR 
+
+
+'firebase init' NO FOLDER DO NOSSO PROJETO..
+
+
+
+
+
+
+UMA VEZ QUE VOCÊ INICIA O 'FIREBASE' no folder do seu projeto,
+
+
+
+
+VOCÊ TALVEZ RECEBA UM REQUERIMENTO DE 'LOGIN'...
+
+
+
+Para isso, você deve voltar ao SITE do firebase 
+
+
+E CRIAR UMA CONTA LÁ (ou usar nossa conta já existente)...
+
+
+
+
+AÍ NÓS DEVEMOS COLOCAR NOSSO EMAIL E O PASSWORDO DO NOSSO EMAIL (GMAIL) no 
+
+terminal quando nos for pedido...
+
+
+
+
+DEPOIS QUE VOCÊ ESTIVER LOGADO, VOCÊ 
+
+
+VERÁ UM MENU
+
+
+
+SELECIONE O SERVIÇO DE 'hosting'...
+
+
+NAVEGUE ATÉ ESSE SERVIÇO E APERTE 'ESPAÇO' E DEPOIS 'ENTER'.
+
+
+
+
+
+Você pode escolher sua opção....
+
+
+QUEREMOS CRIAR UM NOVO PROJETO....
+
+
+
+---> O negócio vai falar sobre 'firebase projects', os quais são criados 
+
+
+NOS SERVERS DO FIREBASE, servers que NÃO TEMOS AINDA...
+
+
+
+
+
+
+
+------------------------------------------------------
+
+
+
+
+PODEMOS COLOCAR QUALQUER ID AQUI....
+
+
+O professor coloca 
+
+
+'js-static-hosting'...
+
+
+
+
+NO PROJECT NAME ELE BOTA A MESMA COISA,
+
+
+'js-static-hosting'...
+
+
+(mas isso falha para nós, pois já EXISTE UM PROJETO COM ESSE NOME...)
+
+
+
+Criamos um projeto de nome 'papanacuas'.
+
+
+
+
+
+DEPOIS QUE ESSE PROCESSO ACABA, O FIREBASE PEDE PARA VOCê INDICAR A LOCALIZAÇÃO DO SEU 'PUBLIC DIRECTORY'...
+
+
+Esse é o directory em que SEUS 'DEPLOYABLE FILES' estão...
+
+
+
+
+
+
+NO CASO DO PROFESSOR/NOSSO CASO, 
+
+
+
+esse folder é o folder de NOME ___'DIST'______.
+
+
+É por isso que escrevemos 'dist', substituindo o default de 'public'...
+
+
+
+-----------------------
+
+
+
+
+Depois que vocÊ aperta enter, o negócio te pergunta se VOCÊ VAI QUERER 
+
+
+CONFIGURAR SUA PÁGINA COMO UM 'SINGLE-PAGE APP'...
+
+
+
+O QUE ISSO SIGNIFICa?
+
+
+
+
+Significa que QUALQUER COISA QUE O USUÁRIO DIGITA NA URL 
+
+É REDIRECIONADO AUTOMATICAMENTE à 'ROOT INDEX HTML'.... (e algumas páginas da internet fazem isso, como você já deve ter percebido)...
+
+
+
+Aqui, eu não vou querer fazer isso, por isso deixo 'n'... (PQ NÓS __TEMOS DIFERENTES FOLDERS___ COM DIFERENTES ARQUIVOS HTML...)
+
+
+
+
+
+EU NÃO VOU QUERER REDIRECIONAR TODOS OS REQUEST AO 'TOP LEVEL' html, vou querer que 
+
+ESSES REQUESTS SEJAM DIVIDIDOS ENTRE AS PÁGINAS....
+
+
+
+VOCê TAMBÉM RECEBE AUTOMATICAMENTE UMA PÁGINA 
+
+'404.html'...
+
+
+
+Essa página que você recebe automáticamente, de erro, 
+
+
+PODE SER CUSTOMIZADA... 
+
+
+(essa página é usada no caso do USUÁRIO INPUTTAR UMA URL ERRADA 
+NA CAIXA DE URLS... )
+
+--------------------------------------------
+
+
+
+
+
+Se o 'firebase' pedir para DAR OVERWRITE NO 'INDEX.HTML', você deverá 
+
+dizer NÃO.. (pq vamos querer manter o index.html já existente.)
+
+
+
+
+-----------------------------------
+
+
+COM ISSO, 
+
+
+ESTAMOS __PRONTOS___...
+
+
+
+POdemos simplesmente rodar 'firebase deploy' aqui, no terminal...
+
+
+
+
+
+ISSO VAI fazer com que os arquivos SEJAM UPLOADADOS AOS SERVIDORES DO FIREBASE...
+
+
+
+Seus arquivos SERÃO UPLOADADOS e configurados...
+
+
+
+
+AQUELA URL SERÁ A URL ONDE VOCÊ PODERÁ ENCONTRAR SEU APLICATIVO...
+
+
+
+
+
+
+CERTO...
+
+
+
+____________AGORA_________ CONSEGUI RODAR ESSA PORCARIA E HOSTEAR O SITE...
+
+(não foi tão fácil assim... problemas com PATHs...)...
+
+
+
+
+-----------------------------------------
+
+
+
+nossa url ficará naquele endereço 
+
+
+'web.app'...
+
+
+
+O ÚNICO ERRO QUE RECEBEREMOS NA NOSSA PÁGINA É O DO 'favicon'...
+
+
+
+-------------------------------
+
+
+CERTO, TUDO ESTÁ FUNCIONANDO...
+
+o SHAREPLACE também...
+(a outra página html...)
+
+
+
+
+
+EIS NOSSO PROJETO 'ESTÁTICO'.... 
+
+
+STATIC PAGE HOSTING...
+
+
+
+O FIREBASE HOSTEIA NOSSO HTML, 
+
+NOSSO CSS E NOSSO JAVASCRIPT...
+
+
+
+
+É claro que as exatas ETAPAS DE DEPLOYMENT (Que fizemos aqui)
+
+
+VÃO VARIAR DE HOST PARA HOST,
+
+
+
+MAS A IDEIA GERAL DO DEPLOY E (QUE VOCÊ DEVE SEMPRE 
+
+FAZER DEPLOY DAS COISAS NO FOLDER 'dist') SEMPRE 
+
+SERÁ A MESMA.... (isso nunca muda)....
+
+
+
+
+
+--> OUTRO DETALHE:
+
+
+
+
+o firebase nos dá arquivos 
+
+
+'.firebaserc' 
+
+
+
+e 
+
+
+
+'firebase.json'...  
+
+
+
+ESSES ARQUIVOS NOS PERMITEM CONFIGURAR O FIREBASE DE ACORDO COM NOSSAS NECESSIDADES.
+
+
+
+
+
+---> SE VOCê planeja usar o firebase, você deve ler a documentação.
+
+
+----------------------------------------------
+
+
+
+
+IMPORTANTE!!!! ------------>
+
+
+------------------>
+
+
+
+In the previous lecture, we manually adjusted the HTML files to import the generated JavaScript files.
+
+For most projects, this is fine - you're probably not going to push out a new version of your scripts every few minutes.
+
+But you could also automate this process if you wanted to - with the help of a special plugin for Webpack: The HtmlWebpackPlugin.
+
+You can find a detailed documentation on how to use it on this page: https://github.com/jantimon/html-webpack-plugin
+
+
+
+
+
+
+
+
+HTML-WEBPACK-PLUGIN...
+
+
+
+
+This is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles. This is especially useful for webpack bundles that include a hash in the filename which changes every compilation. You can either let the plugin generate an HTML file for you, supply your own template using lodash templates or use your own loader.
+
+
+
+
+
+
+
+
+The plugin will generate an HTML5 file for you that includes all your webpack bundles in the body using script tags. Just add the plugin to your webpack config as follows:
+
+webpack.config.js
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: 'index.js',
+  output: {
+    path: __dirname + '/dist',
+    filename: 'index_bundle.js'
+  },
+  plugins: [
+    new HtmlWebpackPlugin()
+  ]
+}
+
+
+
+
+
+
+
+
+
+This will generate a file dist/index.html containing the following
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Webpack App</title>
+  </head>
+  <body>
+    <script src="index_bundle.js"></script>
+  </body>
+</html>
+
+
+
+
+
+-------------------------------------------------------

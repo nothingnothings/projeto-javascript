@@ -1,0 +1,1371 @@
+
+
+
+
+Quase acabamos com o topico dos prototypes e constructor functions...
+
+
+
+
+
+
+
+
+Uma coisa que ainda nao vimos ate agora E COMO VOCE PODE 
+
+REALMENTE ___MUDAR___ O PROTOTYPE DE UM OBJETO QUE JA 
+
+FOI CRIADO, ou mudar o prototype de UM OBJETO QUE VOCE NAO 
+ESTA CRIANDO COM SUA PROPRIA CONSTRUCTOR FUNCTION...
+
+
+
+
+
+
+
+
+Para a 'Person' de nosso projeto, por exemplo, nos podemos 
+
+CLARAMENTE DEFINIR O PROTOTYPE DA CLASSE PERSON com 
+
+'Person.prototype', por exemplo (ou com 'Person.prototype.nomeDaPropriedade', que e um metodo mais agressivo e que nao cria um novo objeto 'prototype' para a classe 'Person'...)
+
+
+
+-----> ISSO VAI FAZER COM QUE TODOS OS OBJETOS QUE SERAO CRIADOS A PARTIR 
+DE PERSON TENHAM ESSE PROTOTYPE 'alterado'....
+
+
+
+
+
+Mas E SE VOCE JA TIVESSE UM OBJETO E VOCE QUISESSE, POR ALGUMA RAZAO, 
+MUDAR O PROTOTYPE DESSE OBJETO __depois___ de ele ter sido criado?
+(ou digamos que voce quer CRIAR UM NOVO OBJETO ___SEM___ USAR A SUA PROPRIA 
+CONSTRUCTOR FUNCTION, por qualquer 
+motivo... Voce quer criar um novo objeto que nao 
+utilize a constructor function de seu codigo, MAS QUE AINDA ASSIM
+ TENHA UM PROTOTYPE... digamos um prototype DIFERENTE, unico, exclusivo 
+ a esse objeto... )
+
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const p = new Person();
+const p2 = new Person();
+
+p.greet();
+
+
+console.log(p);
+
+
+
+const button = document.getElementById('btn');
+
+button.addEventListener('click', p.greet.bind(p));
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+
+
+O professor aponta que OS 2 USE CASES mencionados acima nos parenteses 
+
+SAO ___EXTREMAMENTE SITUACIONAIS____. Sao nicho mesmo.
+
+
+
+Sao use-cases BEM AVANCADOS e situacionais.
+
+
+
+Talvez nos nao os encontremos TODOS OS DIAS, mas 
+
+nos certamente encontraremos algumas situacoes em que 
+
+
+poderemos utilizar esse modus operandi, 
+
+essa MANEIRA DE ALTERAR O PROTOTYPE 
+DE UM OBJETO 
+
+JA EXISTENTE/alterar o prototype de um objeto que nao 
+e criado por meio de uma constructor function que ja inserimos no codigo...
+
+
+
+-------------------------------------
+
+
+
+Ok. devemos dar uma olhada nisso.
+
+
+Para nos mostrar como fazer o procedimento, 
+professor comenta tudo para fora do codigo.
+
+
+
+
+Ele entao cria um novo objeto,
+
+
+chamado de 'course'.
+
+
+
+Ele o cria por meio da OBJECT LITERAL NOTATION.
+
+
+Professor diz que uma alternativa seria utilizar 
+'new Object()'  (aquele object constructor BUILT-IN no javascript...), 
+
+mas que ele utilizara a object literal notation.
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+
+-----------------------------------------
+
+
+
+
+Embaixo do objeto 'course', o professor vai querer
+
+
+chamar 
+
+
+
+'course.printRating();'.....
+
+
+
+
+
+Esse metodo, diz ele, DEVERA OUTPUTTAR ALGUMA INFORMACAO SOBRE 
+A RATING do objeto 'course', 
+
+
+mas, sem nenhuma surpresa, quando recarregamos a pagina apenas 
+recebemos um ERRO.
+
+
+
+E um erro dizendo que 'printRating' NAO E UMA FUNCAO DEFINIDA 
+DENTRO DO OBJETO 'course'...
+
+
+
+ex:
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+
+
+course.printRating();
+
+
+
+--------------------------
+
+
+
+output:
+
+
+'Uncaught TypeError: course.printRating is not a function at xxxx'
+
+
+
+
+
+--------------------------------
+
+
+
+Professor concorda; realmente nao e uma funcao PORQUE NAO E UM METODO 
+
+DEFINIDO DENTRO DO OBJETO 'course'.....
+
+
+Professor aponta que O PROTOTYPE DESSE OBJETO TAMBEM NAO NOS AJUDARA,
+
+pois nao contem esse metodo.
+
+
+
+
+O professor comenta o chamado de 'course.printRating()' para fora do codigo por um momento,
+
+para entao 
+
+console.loggar  'course.__proto__' para 
+
+QUE POSSAMOS DAR UMA OLHADA NO PROTOTYPE 
+
+do objeto 'course'...
+
+
+
+
+-------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+
+
+console.log(course.__proto__);
+
+
+
+----------------------------------------
+
+
+
+
+Recarregada a pagina, observamos o output desse console.log do prototype de 'course':
+
+
+
+{constructor: f, __defineGetter__: f, __defineSetter__: f, 
+hasOwnProperty: f, __lookupGetter__: f, ...}
+
+
+
+PROFESSOR EXPLICA QUE, no final das contas, esse e um prototype 
+
+
+QUE TEM UMA __CONSTRUCTOR FUNCTION___, um metodo 'toString', etc etc....
+
+
+Portanto, ISSO E AQUELE  troco 'OBJECT.PROTOTYPE' DEFAULT SOBRE O QUAL NOS 
+JA ESTUDAMOS.
+
+
+
+De fato, isso nao nos ajuda.
+
+
+
+
+NOS QUEREMOS __AJUSTAR__ ESSE PROTOTYPE...
+
+
+
+E queremos ajustar esse PROTOTYPE ___DEPOIS____ do objeto 
+
+'course' ter sido criado.
+
+
+
+
+Professor denota que ELE CLARAMENTE JA FOI CRIADO, no inicio do runtime 
+de nosso codigo...
+
+
+(afinal, a linha de codigo 'const course = {}' inicializa e define esse objeto e seu prototype. )
+
+
+
+
+PODEMOS AJUSTAR ESSE PROTOTYPE ___APOS ELE TER SIDO CRIADO___
+
+
+POR MEIO Da linha de codigo 
+
+
+'Object'... ( ou seja, comecamos CHAMANDO aquela constructor function GLOBAL 'Object'...)
+
+
+
+Dentro dessa constructor function GLOBAL, voce tem uns 
+
+metodos chamados 
+
+
+'getPrototypeOf' e 'setPrototypeOf'....
+
+
+--------------------------------------
+
+
+
+
+O professor primeiramente quer nos mostrar o 'getPrototypeOf'...
+
+
+
+
+------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+
+Object.getPrototypeOf
+
+
+
+
+
+------------------
+
+
+
+Esse metodo 'getPrototypeOf' ACEITA UM PARAMETRO/ARGUMENTO...
+
+
+
+como argumento, passamos 'course' (o objeto que queremos objetivar, pegar o prototype...)....
+
+o professor entao envolve essa linha de codigo em um 'console.log()', para 
+
+ver o resultado desse metodo....
+
+
+--------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+
+console.log(Object.getPrototypeOf(course));
+
+
+----------------------------------------
+
+
+
+
+Se recarregarmos a pagina, receberemos EXATAMENTE O MESMO 
+
+
+OUTPUT DE ANTES, o mesmo output que recebemos quando acessamos o '__proto__' de 'course'...
+
+
+
+
+
+ex:
+
+
+
+
+
+
+{constructor: f, __defineGetter__: f, __defineSetter__: f, 
+hasOwnProperty: f, __lookupGetter__: f, ...}
+
+
+
+---------------------------------------------
+
+
+
+Essa 
+
+
+coisa '__proto__' E, no final das contas, 
+
+APENAS UMA FEATURE _NAO OFICIAL_ QUE FOI IMPLEMENTADA POR 
+
+TODOS OS BROWSERS, mas que nao e o jeito 'certinho' com o qual 
+voce deveria trabalhar com os prototypes em javascript...
+
+
+
+Esse __proto__ existe apenas DEVIDO A EVOLUCAO DO JAVASCRIPT...
+
+
+conforme o javascript foi evoluindo, eventualmente certos metodos 
+
+utilizados para INTERAGIR com __prototypes___ NAO FICAVAM SEMPRE 
+
+DISPONIVEIS, e e por isso que nos temos essa propriedade 
+
+especial de '__proto__', A QUAL PODE SER 
+
+UTIL QUANDO QUEREMOS 
+
+___OLHAR PARA ____ DENTRO____ DE UM PROTOTYPE, vasculhar seu interior.
+
+
+
+
+A linha de codigo 
+
+
+'Object.getPrototypeOf(objeto)' __E A MANEIRA OFICIAL DE 'OLHAR DENTRO' 
+
+DE UM PROTOTYPE DE ALGUM OBJETO, mas e claro que essa sintaxe e um pouco mais longa,
+
+
+por isso voce tem que ponderar: realmente preciso dessa logica bem 
+
+certinha no meu codigo? Preciso dessa sintaxe mais extensa para que 
+as coisas funcionem?
+
+
+----> Se voce apenas precisa olhar dentro do prototype (ver as propriedades e metodos no interior de um prototype) 
+DURANTE O DESENVOLVIMENTO DE UM APLICATIVO, voce deve definitvamente 
+utilizar 
+
+'__proto__' em vez dessa sintaxe.
+
+
+
+
+
+Era isso que precisavamos saber acerca de 'getPrototypeOf'...
+
+
+
+
+
+-------------------
+
+
+
+
+
+
+MAIS IMPORTANTE QUE 'getPrototypeOf' e 
+
+
+o metodo 'setPrototypeOf'... (tambem disponivel dentro do objeto/constructor function global 'Object')...
+
+
+
+
+ex:
+
+
+
+
+Object.setPrototypeOf();
+
+
+
+
+
+--------------------------------------
+
+
+
+
+ESSE METODO ACEITA 2 PARAMETROS....
+
+
+1o parametro --->  E O OBJETO EM QUE VOCE QUER DEFINIR O SEU NOVO PROTOTYPE...
+                    (nesse caso, o objeto 'course'...)
+
+
+
+
+
+2o parametro ---> E O PROTOTYPE QUE VOCE QUER UTILIZAR/DEFINIR/SUBSTITUIR PELO PROTOTYPE DAQUELE OBJETO..
+
+
+
+------------------------------
+
+
+E essa e a parte interessante:
+
+
+
+POR MEIO DESSE METODO 'setPrototypeOf', VOCE PODE DAR 
+OVERWRITE EM UM PROTOTYPE QUE JA HAVIA SIDO DEFINIDO EM UM OBJETO,
+que ja havia sido definido em um OBJETO QUE JA HAVIA SIDO CRIADO (ou seja, esse metodo faz com que consigamos substituir um prototype de um objetO APOS O MESMO TER SIDO CRIADO, o que e algo rlativamente menos comum. )
+
+
+
+
+E e claro que o metodo 'setPrototypeOf' funciona 
+
+COM O PROTOTYPE DE QUALQUER OBJETO.
+
+
+Voce pode dar overwrite no PROTOTYPE DE QUALQUER 
+
+OBJETO, inclusive objetos que tenham sido criados por meio 
+de suas proprias constructor functions/classes....
+
+
+
+Agora o professor nos mostra um exemplo em que ele 
+
+substitui o Prototype padrao de 'course' POR UM 
+OBJETO PROTOTYPE QUE 
+
+TEM O METODO 
+
+'printRating'...
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+Object.setPrototypeOf(course, {printRating: function() {
+    console.log(`${this.rating}/5`);
+}})
+
+
+
+
+
+course.printRating(); ////////////AGORA ESSE CHAMADO DESSE METODO ___vAI__ FUNCIONAR____.
+
+
+
+----------------------------
+
+
+
+
+
+
+Se salvarmos e recarregarmos a pagina, 
+perceberemos que 
+
+ESSE METODO ESTARA FUNCIONANDO, 
+E QUE 
+
+CONSEGUIMOS REALIZAR ESSA TROCA DE PROTOTYPES POR MEIO 
+
+
+DE 'setPrototypeOf'....
+
+
+
+
+----------------------------------
+
+
+Agora, se voce quisesse MANTER O PROTOTYPE ORIGINAL 
+DO OBJETO e entao somente adicionar algumas propriedades novas,
+
+Professor explica que voce poderia, e claro, UTILIZAR 
+
+O SPREAD OPERATOR ('...'), utilizar o spread operator 
+
+E ACESSAR 'Object.getPrototypeOf(course)' -------------> PROFESSOR APONTA QUE ESSE E UM USE-CASE VALIDO PARA O metodo 'getPrototypeOf', essa sintaxe nao nos dara nenhum erro se utilizada aqui....
+
+
+
+
+ex:
+
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+Object.setPrototypeOf(course, {
+    
+    ...Object.getPrototypeOf(course),   //////////////////EIS O CODIGO EM QUESTAO. Esse codigo realmente funciona, fara com que as propriedades do objeto prototype de seu objeto SEJAM COPIADAS E MANTIDAS NESSE NOVO PROTOTYPE QUE VOCE ESTARA DEFININDO.
+    printRating: function() {
+    console.log(`${this.rating}/5`);
+}
+})
+
+
+
+
+
+course.printRating();
+
+
+
+
+
+----------------------------------
+
+
+
+
+Professor diz que isso realmente funcionara, 
+pois 
+
+esse codigo '...Object.getPrototypeOf(Course)' nao e um 
+
+
+'hack rapido' para olhar dentro do prototype, e sim PARTE DO  
+codigo que SERA TRANSMITIDO 
+
+PARA OS NOSSOS USUARIOS finais (end-users)...
+
+Portanto, nesse exemplo, o professor pega o 
+
+objeto prototype atual de 'course' e espalha 
+suas propriedades pelo novo prototype (por meio do spread operator), que 
+estamos definindo no lugar do antigo, 
+para entao, por fim, definir o metodo 
+
+'printRating()' que tanto queriamos.
+
+
+
+Portanto, essa e uma maneira de fazer um novo metodo ser adicionado 
+a um PROTOTYPE DE UM OBJETO JA EXISTENTE ___SEM JOGAR FORA____ 
+AS ___ PROPRIEDADES___ DO PROTOTYPE ANTIGO___.
+
+
+
+-----------------------------------
+
+
+Mas tambem e importante ter em mente que, como nos 
+
+definimos esse prototype A UM NOVO OBJETO (por meio de setPrototypeOf),
+
+ESSE NOVO OBJETO (que definimos como 'prototype') TERA O SEU PROPRIO PROTOTYPE, 
+
+que TAMBEM E ''Object.prototype''.
+
+
+
+Portanto, ao longo DE TODA ESSA prototype chain NOS 
+TERIAMOS ACESSO a 'toString()' e assim por diante, MESMO 
+QUE NOS NAO TIVESSEMOS A LINHA DE CODIGO 
+'...Object.getPrototypeOf(course)'.
+
+
+
+
+
+
+
+
+
+
+
+Ou seja, resumindo... :
+
+
+
+nosso objeto prototype que definimos dentro do segundo 
+
+parametro de 
+
+'setPrototypeOf' TERA AUTOMATICAMENTE AQUELE 
+
+PROTOTYPE 'DEFAULT' (o prototype default que e encontrado 
+
+DENTRO Da constructor function global 'Object', ou seja, 'Object.prototype'),
+
+TERA ESSE PROTOTYPE 'DEFAULT' E TODAS AS PROPRIEDADES QUE 
+
+ELE TEM, como 'toString()' e outras.
+
+
+ex:
+
+
+
+
+
+
+
+const course = {
+
+    title: 'Javascript - The Complete Guide',
+    rating: 5
+}
+
+
+Object.setPrototypeOf(course, {
+    
+    ////////////...Object.getPrototypeOf(course),///////// nao e necessaria, pois NOS TEREMOS AS MESMAS PROPRIEDADES DE 'Object.prototype' AINDA QUE NAO ESCREVAMOS ESSA LINHA DE CODIGO.
+    printRating: function() {
+    console.log(`${this.rating}/5`);
+}
+})
+
+
+
+
+
+course.printRating();
+
+
+
+---------------------
+
+
+
+Alem disso, explica o professor, poderemos/poderiamos 
+
+tambem ACESSAR em 'course' QUALQUER PROPRIEDADE DESSE PROTOTYPE 'default' que
+
+foi ''ENFIADO'' dentro do nosso objeto prototype (segundo parametro) do setPrototypeOf....
+
+
+Ou seja, se quisermos chamar algum metodo da constructor function 
+
+global 'Object' no objeto 'course', PODEMOS FAZE-LO SE TIVERMOS 
+ADICIONADO UM 
+
+PROTOTYPE NOVO POR MEIO DO metodo 'setPrototypeOf'... (pois o 'objeto prototype' de 'Object' estara inserido dentro do objeto prototype, ou seja, do segundo argumento desse metodo).
+
+
+
+
+
+O 'course' consegue utilizar as propriedades/metodos inseridas
+ dentro desse 'default prototype object' DEVIDO 
+
+AO FENOMENO DA 'PROTOTYPE CHAIN', que e o comportamento que 
+
+faz com que o javascript sempre entre em prototypes dentro de prototypes 
+dentro de prototypes para encontrar um metodo/propriedade.
+
+
+
+
+
+
+Ok, vimos COMO ADICIONAR UMA PROPRIEDADE A UM PROTOTYPE 
+
+DEPOIS DO OBJETO QUE O SEGURA TER SIDO CRIADO...
+
+
+
+
+----------------------------------
+
+
+
+
+
+VOCE TAMBEM PODE DEFINIR (set a prototype) UM PROTOTYPE PARA 
+UM OBJETO 
+
+QUE VOCE AINDA ESTA CRIANDO/ESTA CRIANDO MESMO QUE VOCE NAO 
+
+ESTEJA O CRIANDO COM SUA PROPRIA CONSTRUCTOR FUNCTION....
+
+
+
+
+
+OBS:::
+
+Para casos em que voce esta criando um objeto e voce ESTA 
+USANDO UMA CONSTRUCTOR FUNCTION, voce 
+
+pode simplesmente afetar/alterar o prototype interno dos objetos 
+
+criados a partir dessa constructor function por meio DAQUELA 
+
+SINTAXE/CODIGO QUE NOS JA VIMOS, aquela 
+
+linha de codigo
+
+'Person.prototype.printAge = function() {' (essa e a versao menos agressiva, aquela que adiciona um metodo/propriedade ao objeto SEM SUBSTITUIR O PROTOTYPE ANTIGO por um novo....)
+    functionMethodBody();
+}
+
+
+
+
+
+MAS SE POR ALGUMA RAZAO VOCE QUER ALTERAR O PROTOTYPE DE UM OBJETO QUE ESTA SENDO CRIADO 
+POR UMA CONSTRUCTOR FUNCTION _____SEM TOCAR____ NA CONSTRUCTOR FUNCTION,
+
+
+voce TAMBEM PODE UTILIZAR ESSA MANEIRA:
+
+
+
+
+
+
+ex:
+
+
+
+Primeiramente, voce cria um objeto 'student'...
+
+mas voce vai criar esse objeto SEM A OBJECT LITERAL NOTATION ({}), 
+
+NEM com a sintaxe 'new Object', 
+
+
+MAS SIM COM UMA 
+
+
+___NOVA MANEIRA____ DE CRIAR OBJETOS___, A QUAL O PROFESSOR AINDA 
+
+
+NAO NOS MOSTROU....
+
+
+
+Essa maneira exige que nos utilizemos 'Object.create();'....
+
+
+
+
+
+ex:
+
+
+
+
+const student = Object.create();
+
+
+---------------------------------------
+
+
+
+
+
+(Object.create())
+ISSO VAI REALMENTE VAI CRIAR UM NOVO OBJETO;
+
+ELE BASICAMENTE VAI CRIAR UM NOVO OBJETO DA MESMA 
+
+FORMA QUE '{}' o faz,  MAS COM 
+
+UM PEQUENO DETALHE/TWIST...
+
+
+
+O ''twist'' esta relacionado com o slot de parametros.
+
+
+Object.create() ACEITA UM UNICO PARAMETRO (mentira ele aceita um segundo parametro, podemos ler mais sobre isso no final das anotacoes dessa aula), 
+
+e esse parametro DEVE SER OBRIGATORIAMENTE  um OBJETO.
+
+
+
+Mas esse objeto NAO E O OBJETO COM O QUAL ELE INICIALIZARA 
+
+O OBJETO QUE ELE VAI CRIAR (ou seja, esse objeto nao vai ser 
+o 'objeto de verdade', o objeto que a constante 'student' ira se referir...), 
+
+NAO, EM VEZ DISSO O QUE ELE 
+
+FAZ E CRIAR  ___UM OBJETO VAZIO___.... (o objeto que voce passa dentro do seu parametro nao tem influencia alguma sobre o conteudo desse objeto que voce esta criando com 'Object.create()'... ele apenas influira no PROTOTYPE desse objeto, como podemos ver na explicacao logo abaixo.)
+
+
+
+
+O OBJETO QUE VOCE PASSA NO SLOT DE PARAMETROS 
+
+DE 
+
+Object.create()   E, NA VERDADE, O OBJETO QUE 
+SERA O PROTOTYPE DO OBJETO (vazio) que 'Object.create()' 
+CRIARA.
+
+--------------------------
+
+
+Aqui, no nosso exemplo, poderiamos adicionar, digamos, 
+
+um metodo 'printProgress'...
+
+
+ex:
+
+
+
+
+const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    })
+
+
+--------------------------
+
+
+
+BTW: 'this.progress', aqui, e claramente uma 
+PROPRIEDADE QUE O PROFESSOR AINDA NAO DEFINIU/adicionou 
+
+no codigo desse objeto VAZIO....
+
+
+Depois disso, professor vai la e faz o console.log de 'student'.
+
+
+
+ex:
+
+
+
+
+
+const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    })
+
+
+console.log(student);
+
+
+
+-----------------------------
+
+
+
+Se salvarmos e recarregarmos a pagina, veremos 
+
+que 
+
+'student' E UM OBJETO VAZIO, sem nada dentro, 
+
+MAS QUE POSSUI UM PROTOTYPE COM 
+
+UM METODO de 'printProgress'...
+
+
+--------------------------------- 
+
+
+
+Se voce entao quisesse ADICIONAR ALGO A ESSE OBJETO 
+
+EM BRANCO, como por exemplo 
+
+'name: 'Max'  ',
+
+
+
+voce pode usar, e claro, a DOT NOTATION (.)....
+
+
+ex:
+
+
+
+
+
+
+
+
+
+const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    })
+
+
+
+student.name = 'Max';
+
+
+
+
+---------------------------------------
+
+
+
+
+
+
+Mas essa nao e a unica forma, voce tambem pode adicionar 
+
+algo a esse objeto por MEIO DA PROPRIEDADE 
+
+'Object.defineProperty', que estudamos ha pouco...
+
+
+Por meio dela, podemos adicionar uma propriedade A UM 
+OBJETO...  por exemplo, a propriedade 'progress'.
+
+
+Entretanto, devemos atentar para A ORDEM DE PARAMETROS.
+
+
+1o parametro --> objeto em que voce vai querer definir a propriedade.
+
+
+2o parametro ---> NOME DA PROPRIEDADE QUE VOCE VAI QUERER DEFINIDA DENTRO DESSE OBJETO.
+
+
+3o parametro --> E A PARTE MAIS IMPORTANTE.
+                E AQUILO QUE CHAMAMOS DE 'DESCRIPTOR', E A COISA 
+                QUE ESTUDAMOS NO MODULO PASSADO, 
+                QUE NOS DEIXA 
+
+                APAGAR/MODIFICAR/ACESSAR/ENUMERAR/DEFINIR O VALOR DE UMA PROPRIEDADE. Esse parametro sempre aceita um 
+                OBJETO com 'enumerable: xxx', 'configurable: xxx', 'writable' e 'value'.
+
+
+ex:
+
+
+
+
+
+
+const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    })
+
+
+
+
+
+Object.defineProperty(student, 'progress', {
+configurable: true,
+value: 0.8,
+enumerable: true,
+writable: false
+
+}
+)
+
+
+---------------------------------------
+
+
+
+
+ESSAS SAO 2 DAS MANEIRAS DE ADICIONAR PROPRIEDADES 
+
+'AQUELE OBJETO QUE NAO FOI CRIADO COM AJUDA DE 
+
+CONSTRUCTOR FUNCTIONS/CLASSES/OBJECT LITERAL NOTATION.
+
+
+
+
+A coisa importante de se lembrar, aqui, e que 
+
+'Object.create' REALMENTE CRIA UM OBJETO VAZIO, mas 
+
+ele cria o tal OBJETO AO MESMO TEMPO QUE O EQUIPA 
+
+COM UM PROTOTYPE DE NOSSA ESCOLHA...
+
+
+
+sidenote ---> 'Object.create()' TAMBEM 
+
+                    ACEITA UM SEGUNDO ARGUMENTO, 
+
+                    QUE EXIGE UM 
+
+                    'PropertyDescriptorMap'...
+
+                    Dentro desse PropertyDescriptorMap (que usa {}, deve-se apontar.)...
+
+                    Caso voce utilize esse segundo parametro (com o uso de {}, lembre-se sempre), 
+
+                    VOCE PODE DEFINIR AS PROPRIEDADES/METODOS QUE ESSE OBJETO TERA SEM USAR 
+                    AS MANEIRAS QUE O PROFESSOR NOS MOSTROU MAIS ACIMA.
+
+
+                    O professor nos demonstra o uso 
+                    desse segundo parametro por meio 
+                    da adicao da propriedade 'name'.
+
+
+-------------------------------------------
+                    ex:
+
+
+
+                    const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    }, { ///Aqui vai o OBJECT/property DESCRIPTOR MAP...
+
+        name: {}
+
+
+    } );
+
+
+----------------------------------
+
+
+Feito isso, voce pode entao TER UM OBJETO DETERMINADO 
+
+PARA CADA PROPRIEDADE que voce quer adicionada A ESSE 
+
+OBJETO RECEM CRIADO (newly created)...
+
+
+O professor explica melhor:
+
+
+ISSO QUER DIZER QUE VOCE TERA DE ESCREVER 
+O VALOR DESSA PROPRIEDADE COMO SE FOSSE UM DESCRIPTOR... (com os {} e enumerable, value, writable, configurable...)
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+                    const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    }, {
+
+        name: {writable: true,   //////////DEU, RESOLVIDO. E ASSIM QUE ADICIONAMOS VALORES AS PROPRIEDADES QUE NOS CRIAMOS/ADICIONAMOS COM ESSA MANEIRA ALTERNATIVA.
+        configurable: true,
+        value: 'Max',
+        enumerable: true} 
+
+
+    } );
+
+
+
+
+
+
+--------------------
+
+
+vimos, entao, algumas maneiras DIFERENTES/peculiares
+
+DE CRIAR OBJETOS....
+
+
+
+obviamente nao sao as maneiras que vamos utilizar 100% do tempo,
+
+POIS ELAS SAO UM POUCO MAIS COMPLEXAS...
+
+
+EMBORA SEJAM MAIS COMPLEXAS, ELAS NOS DAO MAIOR FLEXIBILIDADE, 
+PODER, use-cases e FEATURES.
+
+
+
+
+E por isso que nos devemos sempre nos lembrar desses METODOS 
+ESPECIAIS DE CRIACAO DE OBJETOS...
+
+
+
+Devemos nos lembrar especialmente de 'Object.create()', POIS 
+ELE NOS PERMITE CRIAR UM OBJETO COM 
+
+UM PROTOTYPE DIFERENTE DO PROTOTYPE DEFAULT de 'Object', da constructor function global 'Object'... 
+(embora esse objeto ainda tenha um __proto__, um prototype, 
+COM AS PROPRIEDADES DA 
+
+CONSTRUCTOR FUNCTION GLOBAL 'Object'.)
+
+
+
+
+--------------------
+
+Salvamos a pagina e recarregamos, percebemos que O METODO 
+
+'PRINTPROGRESS' esta funcionando...
+
+
+ex:
+
+
+
+
+
+
+    const student = Object.create({
+    printProgress: function() {
+        console.log(this.progress)
+    }
+    
+    }, {
+
+        name: {writable: true,   //////////DEU, RESOLVIDO. E ASSIM QUE ADICIONAMOS VALORES AS PROPRIEDADES QUE NOS CRIAMOS/ADICIONAMOS COM ESSA MANEIRA ALTERNATIVA.
+        configurable: true,
+        value: 'Max',
+        enumerable: true} 
+
+
+    } );
+
+
+
+
+
+
+Object.defineProperty(student, 'progress', {
+configurable: true,
+value: 0.8,
+enumerable: true,
+writable: false
+
+}
+)
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+O console.log nos outputta, entao, o seguinte resultado:
+
+
+
+'{name: 'Max', progress: 0.8}'
+
+
+
+
+
+Com isso, aprendemos muito sobre prototypes, objetos 
+
+E SOBRE COMO CRIAR OBJETOS...

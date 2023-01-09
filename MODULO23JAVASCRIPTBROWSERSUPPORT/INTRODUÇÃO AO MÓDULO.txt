@@ -1,0 +1,69 @@
+
+
+
+
+
+
+---> VEREMOS BROWSER SUPPORT.
+
+
+
+
+
+
+----> O PROFESSOR FALOU SOBRE ISSO MÚLTIPLAS VEZES NO CURSO....
+
+
+
+
+
+
+
+----> PROFESSOR EXPLICARÁ O QUE EXATAMENTE É 'BROWSER SUPPORT', PORQUE IMPORTA,
+
+E COMO VOCÊ PODE FAZER COM QUE OS SEUS SCRIPTS FUNCIONEM EM QUALQUER LUGAR, EM QUALQUER BROWSER.
+
+
+
+
+
+
+
+1) what is browser support 
+
+
+
+
+2) 'determining required support' ---> DETERMINAR QUAL TIPO DE BROWSER SUPPORT VOCÊ VAI QUERER TER, QUAIS BROWSERS VOCÊ SEMPRE VAI QUERER QUE CONSIGAM EXECUTAR SEU APLICATIVO...
+
+
+
+
+
+3) COMO DESCOBRIR QUAIS FEATURES FUNCIONAM EM QUAIS BROWSERS....
+
+
+
+
+4) como escrever código que funciona em TODOS OS BROWSERS QUE VOCê QUER TER SUPORTE.
+    (VEREMOS coisas como 'feature detection' e fallback code... )
+
+
+
+
+
+5) POLYFILLS ---> veremos o que é isso e COMO ISSO PODE NOS AJUDAR.
+
+
+
+
+
+
+6) CODE TRANSPILATION -----> algo que FAZ COM QUE CÓDIGO MODERNO SEJA TRANSFORMADO E SHIPPADO COMO CÓDIGO ANTIGO, o qual funciona em browsers mais antigos... 
+-----------------------------------------------
+
+
+
+
+
+

@@ -1,0 +1,141 @@
+
+
+
+
+
+
+
+Um pequeno adendo sobre prototypes em javascript:
+
+
+
+
+
+OS PROTOTYPES ESTAO ESSENCIALMENTE POR TODAS AS PARTES...
+
+
+
+
+nos ja usamos eles no curso, desfrutamos de algumas de suas vantagens, SEM NEM MESMO SABER.
+
+
+
+
+ex: todos os metodos de ARRAYS... 
+
+
+
+se voce der uma olhada nos documentos do MDN, voce vera que 
+os METODOS DE ARRAYS
+
+(ou seja, metodos como 'concat', 'filter', etc...)
+
+
+SAO, NA VERDADE, partes de 'Array.prototype'....
+
+
+
+(ex:
+
+
+
+
+
+Array.prototype.concat()
+Array.prototype.copyWithin()
+Array.prototype.entries() 
+Array.prototype.filter()
+
+
+
+
+
+)
+
+
+
+Portanto, eles estao definidos NO FALLBACK OBJECT/PROTOTYPE ao qual TODO 
+
+ARRAY ESTA CONECTADO....
+
+
+
+
+Ou seja, quando voce cria um array com [] (square brackets), por exemplo, 
+
+voce AUTOMATICAMENTE ganha um objeto 'array' QUE NAO CONHECE ESSES METODOS POR CONTA PROPRIA, 
+
+MAS COMO ESSE OBJETO CONHECE O SEU PROTOTYPE ('its prototype'), CONHECE O SEU PROTOTYPE, QUE POR SUA 
+VEZ E UM OBJETO (sim, e um objeto, o prototype sempre e um objeto) QUE, ELE SIM, SEGURA 
+ESSES METODOS TAO DESEJADOS POR NOS.
+
+
+
+Na pagina do MDN podemos estudar TODOS OS METODOS DISPONIVEIS NO PROTOTYPE 
+dos objetos 'Array'... (objetos criados a partir de [] ou 'new Array')....
+
+
+inclusive, podemos encontrar alguns metodos que O PROFESSOR NAO NOS MOSTROU 
+NO MODULO DOS ARRAYS...
+
+
+
+
+-----------------------------------------------------------------
+
+
+E isso nao ocorre somente com arrays:
+
+
+
+
+as STRINGS TAMBEM TEM UM PROTOTYPE QUE E RESPONSAVEL POR SEGURAR SEUS METODOS...
+
+
+
+
+Professor explica que strings sao de certa forma (kind of) UM TIPO 
+
+ESPECIAL, pois sao VALORES PRIMITIVOS... contudo, embora sejam valores PRIMITIVOS,
+AS STRINGS AINDA SE COMPORTAM + OU - COMO OBJETOS QUANDO VOCE ___CHAMA___ UM METODO 
+EM CIMA DELAS.... (algum 'javascript internal', como diz o professor)...
+
+
+Portanto, em razao desse comportamento de 'pseudoobjeto', nos tambem 
+
+temos um PROTOTYPE DE STRINGS... o qual e entao utilizado, no final das contas, e que 
+
+segura METODOS QUE NOS AJUDAM A TRABALHAR COM STRINGS....
+
+
+Metodos como 'slice()', por exemplo, QUE TAMBEM CONHECEMOS DE OUTROS 
+LUGARES (conhecemos slice() por causa dos arrays, que tambem o possuem).
+
+
+
+Mas aqui no prototype de Strings HA TAMBEM ALGUNS METODOS EXCLUSIVOS 
+A ELAS, como 
+
+'replace()' e 'split()' (tambem vimos esse metodo em arrays, mas la seu comportamento e distinto)
+
+
+
+
+
+E ESSE E UM PADRAO GERAL QUE VOCE OBSERVARA AO LONGO DE TODO O JAVASCRIPT:
+
+ha um punhado de objetos 'built-in' QUE SAO UTILIZADOS COMO ___PROTOTYPES___ (como 'fallback objects' para OUTROS OBJETOS 'BUILT-IN'...  )
+
+
+
+
+
+
+O professor voltara esporadicamente a esse topico quando NOS PRECISARMOS SABER SOBRE 
+ISSO, 
+
+mas devemos ter consciencia disso, saber que esse punhado de objetos built-in SAO UMA 
+
+PARTE ESSENCIAL DO JAVASCRIPT... e que sao importantes para o funcionamento 
+
+de FALLBACK METHODS, dependencies e codigos compartilhados....  (o jeito como javascript gerencia essas coisas DEPENDE DESSES OBJETOS FALLBACK BUILT-IN... (os prototypes))

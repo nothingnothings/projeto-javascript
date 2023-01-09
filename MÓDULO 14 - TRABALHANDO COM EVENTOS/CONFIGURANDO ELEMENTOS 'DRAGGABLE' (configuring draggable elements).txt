@@ -1,0 +1,635 @@
+RESUMO FINAL: 
+
+
+
+
+
+
+
+
+1) Mark Elements as "draggable" 
+
+
+2) Listen to "dragstart" Event -------------> [DESCRIBE OPERATION & APPEND DATA].
+
+
+
+3) Accept Drop via "dragenter" and "dragover" Events => preventDefault()
+
+
+
+4) Optional: Listen to "dragleave" Event -------------> E.g.  update styles
+
+
+
+
+5) Listen to "drop" Event & Update Data/UI
+
+
+
+6) Optional: Listen to "dragend" Event & Update Data/UI
+
+
+
+
+
+
+
+
+
+-------------------------------------------
+
+
+
+PARA NOS MOSTRAR DRAG AND DROP, o professor voltará ao projeto em que trabalhamos antes...
+
+
+
+
+
+USAREMOS O INDEX.HTML e a 'app.js' AGORA.
+
+
+----------------------------------
+
+
+AQUI, NO BROWSER, O PROFESSOR VAI IR ATÉ o index.html...
+
+
+
+VEMOS ENTÃO O PROJETO EM QUE NÓS MOVÍAMOS ITEMS ENTRE 2 CAIXAS....
+
+
+
+É aqui que o professor vai querer implementar drag and drop. 
+
+
+
+
+---------------------------------------
+
+
+
+
+TUDO COMEÇA, DIZ O PROFESSOR, NO ELEMENTO QUE VOCê QUER TORNAR DRAGGABLE...
+
+Nesse caso, SÃO OS PROJECT ITEMS....
+
+
+ FAZEMOS ESSA CONVERSÃO EM 'DRAGGABLE' POR MEIO DA VISITA AO 
+
+ DOCUMENTO HTML DE 'draggable="true" ' nos 
+
+ LIST ITEMS DA PÁGINA...
+
+
+ SE VOCê CRIOU O ELEMENTO ____PROGRAMATICAMENTE____, VOCê PODE, EM VEZ DISSO, CONTROLAR 
+
+ A ___PROPRIEDADE__ 'draggable:' E DEFINI-LA COMO TRUE...
+
+
+
+ FAZEMOS ISSO PARA TODOS OS ELEMENTOS.
+
+
+ AGORA TODOS ELES SÃO DRAGGABLE.
+
+
+ ENTRETANTO, QUANDO DROPPAMOS OS NEGÓCIOS, NADA ACONTECE.
+
+ SÃO DRAGGABLE, mas não podem ser movidos, não fazem nada...
+
+
+
+ ESES É O COMPORTAMENTO DEFAULT....
+
+
+
+
+ DETALHE: se você arrastar um dos elementos SEM ELE ESTAR TOTALMENTE VISÍVEL (caixa inteira), 
+
+ HAVERÁ UM EFEITO BIZARRO EM QUE APENAS UM PEDAÇO DO ELEMENTO DRAGGABLE APARECERÁ A NÓS...
+
+(entretanto, mesmo que o efeito visual nos mostre que NÃO ARRASTAMOS O NEGÓCIO CORRETAMENTE, 
+
+A VERDADE É QUE ELE FOI, SIM, DRAGGADO PARA FORA DAQUELA CAIXA...).
+
+
+
+
+
+A próxima etapa é:
+
+
+
+2) Listen to "dragstart" Event -------------> [DESCRIBE OPERATION & APPEND DATA].
+
+
+
+
+-------------------------------------------
+
+
+
+QUEREMOS FAZER 'LISTEN TO' AO EVENTO 'DRAGSTART'...
+
+
+
+em app.js, queremos fazer isso....
+
+
+E ISSO OCORRE EXATAMENTE NO ITEM EM QUE ESTAMOS DRAGGANDO....
+
+que é 'projectItem'..
+
+
+
+
+
+class ProjectItem {...}
+
+
+
+
+
+DENTRO DE PROJECTITEM, definimos listeners para os botões 'switch' e 'moreInfo'...
+
+
+AGORA, DEVO SETTAR UM LISTENER PARA O EVENTO 'DRAGSTART'.... para isso, 
+
+adicionarei um novo método aqui, CHAMADO DE 
+
+'CONNECTDRAG'...
+
+
+O professor escolheu esse nome pq ele é mais consistente com 'connectMoreInfoButton' e 'connectSwitchButton'...
+
+
+
+
+
+ENTÃO, DENTRO DO CONSTRUCTOR DE 'PROJECTITEM', O PROFESSOR CHAMARÁ 
+
+'this.connectDrag();' ---------->
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+class ProjectItem {
+
+
+
+
+    hasActiveTooltip = false;
+
+    constructor(id, updateProjectListsFunction, type) {
+        this.id = id;
+        this.updateProjectListsHandler = updateProjectListsFunction;
+        this.connectMoreInfoButton();
+        this.connectSwitchButton(type);
+        this.connectDrag();
+    }
+
+
+   
+
+
+    showMoreInfoHandler() { 
+        if (this.hasActiveTooltip) {
+            return;
+        }
+        const projectElement = document.getElementById(this.id); ///EIS O CÓDIGO EM QUESTÃO.
+        console.log(projectElement.dataset);
+        const tooltipText = projectElement.dataset.extraInfo;
+        const tooltip = new Tooltip(() => {  //Rápida anonymous function que será usada como parâmetro do constructor de 'Tooltip'... 
+            this.hasActiveTooltip = false;
+        }, tooltipText,
+        this.id   
+        ); 
+        tooltip.attach();
+        this.hasActiveTooltip = true;
+    }
+
+
+
+
+    connectDrag() {
+
+    }
+
+
+
+
+
+    connectMoreInfoButton() {
+        const projectItemElement = document.getElementById(this.id);
+        const moreInfoBtn = projectItemElement.querySelector('button:first-of-type');
+        moreInfoBtn.addEventListener('click', this.showMoreInfoHandler.bind(this));
+    }
+
+
+
+
+
+
+
+    connectSwitchButton(type) {
+        const projectItemElement = document.getElementById(this.id);
+        let switchBtn = projectItemElement.querySelector('button:last-of-type');
+        switchBtn = DOMHelper.clearEventListeners(switchBtn);
+        switchBtn.textContent = type === 'active' ? 'Finish' : 'Activate';
+        switchBtn.addEventListener('click', this.updateProjectListsHandler.bind(null, this.id));
+    }
+
+
+update(updateProjectListsFn, type) {
+    this.updateProjectListsHandler = updateProjectListsFn;
+    this.connectSwitchButton(type);  //////CHAMARÁ a função 'connectSwitchButton' dnv, mas dessa vez COM UMA PROPRIEDADE/FUNÇÃO updateProjectListsHandler DIFERENTE SENDO PASSADA COMO PARÂMETRO...(pois alteramos essa propriedade por meio da linha de código logo acima, 'this.updateProjectListsHandler = updateProjectListsFn'.)
+}
+}
+
+
+
+
+
+-----------------------------
+
+
+
+AGORA, DENTRO DO MÉTODO DE CONNECTDRAG, o professor VAI QUERER ADICIONAR ESSE EVENTLISTENER 
+
+de 'dragstart'...
+
+PRIMEIRAMENTE, O PROFESSOR VAI QUERER SELECIONAR O ELEMENTO PROJECTITEM QUE NOS INTERESSA...
+
+ELE faz isso por meio de 
+
+'document.getElementById(this.id);' -------> ele pode usar 'this.id' PQ NÓS TEMOS O ID DO ELEMENTO QUE QUEREMOS ARMAZENADO DENTRO DE UMA PROPRIEDADE CHAMADA 'id' nessa classe de 'projectItem'...
+
+
+
+
+ex:
+
+
+
+connectDrag() {
+     document.getElementById(this.id);
+}
+
+
+
+--------------------------------
+
+
+
+
+E ENTÃO, COMO FIZEMOS MAIS CEDO, DEVEMOS ADICIONAR UM EVENTLISTENER A ESSE SELETOR....
+
+COMO PRIMEIRO PARÂMETRO, DEVEMOS COLOCAR 'dragstart'.... ------> ESSE É O EVENTO AO QUAL 
+
+VAMOS QUERER FAZER 'LISTEN TO'....
+
+
+ex:
+
+
+
+
+connectDrag() {
+     document.getElementById(this.id).addEventListener('dragstart',)
+}
+
+
+------------------------------------
+
+
+
+
+DEPOIS DISSO, VAMOS PEGAR UM OBJETO 'EVENT' DENTRO DESSA FUNÇÃo...
+
+Para isso, o professor usará uma ANONYMOUS ARROW FUNCTION...
+(
+    ele diz que poderíamos utilizar um novo método e aqui simplesmente apontar a esse método, mas 
+    que ele prefere usar uma anonymous function.
+)
+
+
+
+
+
+
+ex:
+
+
+
+
+connectDrag() {
+     document.getElementById(this.id).addEventListener('dragstart', event => {
+
+     })
+}
+
+
+
+--------------------------------------
+
+
+
+CERTO.
+
+
+AGORA ALI, DENTRO DA ANONYMOUS ARROW FUNCTION, podemos CONFIGURAR 
+
+
+AQUELE EVENTO 'DRAG'...
+
+
+___VOCÊ PODE CONFIGURAR OS DADOS/THE DATA_____ QUE VOCÊ QUER FAZER 'APPEND()', vocÊ pode 
+
+configurar 
+
+QUAL TIPO DE OPERAÇÃO ESSE EVENTO SERÁ (fazemos isso para que o BROWSER POSSA FAZER DISPLAY DO CURSOR CORRETO)...
+
+
+VOCÊ TAMBÉM PODE, SE VOCÊ QUISER, MUDAR a ___PREVIEW IMAGE___ (o elemento que nos é mostrado quando arrastamos e nao soltamos)....
+
+QUE É GERADA NA PÁGINA QUANDO ARRASTAMOS.
+
+
+POR DEFAULT, ESSA PREVIEW IMAGE É UM PREVIEW DO ELEMENTO 'DOM'... MAS VOCÊ PODE, TAMBÉM,
+
+APONTAR PARA QUALQUER OUTRA IMAGEM DA PÁGINA...
+
+
+
+(OBS: NA ÚLTIMA LIÇÃO DESSE MÓDULO, VOCÊ ENCONTRARÁ UM DOCUMENTO MAIS DETALHADO ACERCA DE DRAG AND DROP OPERATIONS com alternativas e EXPLICAÇÕES MAIS APROFUNDADAS SOBRE AS COISAS... )...
+
+
+
+
+NESTE EXEMPLO AQUI MOSTRADO, O PROFESSOR __NÃO QUER____ MUDAR AQUELA PREVIEW IMAGE....
+
+
+MAS ELE QUER FAZER O APPEND DE ALGUNS DADOS....
+
+ELE QUER FAZER O APPEND DO 'id' DO ELEMENTO O QUAL ESTAMOS DRAGGANDO ('dragging')....
+
+ELE QUER FAZER ISSO PARA QUE, MAIS TARDE, QUANDO DROPPARMOS ESSE ELEMENTO EM ALGUM LUGAR, possamos EXTRAIR 
+
+ESSE ID DO OBJETO 'event' E FAZER ALGUMA COISA COM ELE...
+
+
+ELE QUER FAZER ISSO PQ, CASO CONTRÁRIO, o código NÃO SABERÁ QUAL/QUAL TIPO DE ELEMENTO FOI 'DRAGGADO' NAQUELE 
+
+LUGAR EM QUE ELE FOI 'DROPPADO'.....
+ 
+
+
+
+ PODEMOS FAZER ISSO COM O OBJETO 'EVENT' no listener EM 'connectDrag()', dentro da classe 'ProjectItem'...
+
+
+ALI, COMO O NOSSO OBJETO 'EVENTO' ('event object') É UM ___DRAG EVENT___ ('dragstart'), PODEMOS USAR UMA PROPRIEDADE CHAMADA 'dataTransfer'.... (todos objetos 'event drag' possuem essa propriedade)...
+
+DENTRO DESSA PROPRIEDADE, TEMOS UM MÉTODO CHAMADO DE 'setData()'...
+
+
+
+
+
+ ex:
+
+
+
+
+ connectDrag() {
+     document.getElementById(this.id).addEventListener('dragstart', event => {
+         event.dataTransfer.setData();
+     })
+ }
+
+
+ ----------------------------------
+
+
+ CERTO.
+
+
+ Em 'setData()', PODEMOS DEFINIR DADOS DE ____dIFERENTES TIPOS_____...
+
+
+
+
+O PROFESSOR NOS ANEXOU UM DOCUMENTO A ESSA AULA, A URL 
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData
+
+
+
+
+
+ESSA PÁGINA NOS DIZ OS DIFERENTES TIPOS DE DADOS QUE PODEMOS ADICIONAR POR MEIO DE 'setData();'
+
+
+você pode, por exemplo, adicionar 'PLAIN TEXT' ('text/plain')...
+
+
+
+ex:
+
+
+'event.dataTransfer.setData("text/plain", "This is text to drag");'           (OU SEJA, VOCÊ É OBRIGADO A COLOCAR O IDENTIFIER COMO PRIMEIRO PARÂMETRO, e o valor de string/texto como segundo parâmetro...)
+
+
+
+
+ex (links):
+
+
+
+var dt = event.dataTransfer;
+
+dt.setData("text/url-list", "https://wwww.mozilla.org");
+dt.setData("text/plain", "https://www.mozilla.org");
+
+
+
+ex(HTML e XML): 
+
+
+var dt = event.dataTransfer;
+
+dt.setData("text/html", "Hello there, <strong>stranger</strong>");
+dt.setData("text/plain", "Hello there, stranger");
+
+
+----------------------------------------
+
+
+
+
+O 'TIPO' DE DATA QUE FAZEMOS 'SETDATA' será importante para quando nós então planejarmos CRIAR/ADICIONAR UMA 
+
+'DROPPABLE ZONE' no nosso aplicativo, pq AÍ NÓS PODERÍAMOS CHECAR O TIPO DE COISA QUE SERIA ARRASTADA POR CIMA DESSA ZONA....
+faríamos isso para que não fosse aceitado todo tipo de 'data', apenas um tipo específico...
+
+
+
+
+-----------> AQUI, O PROFESSOR, PORTANTO, ESCOLHERÁ O IDENTIFICADOR DE 'text/plain' ......
+
+
+------> JÁ O SEGUNDO PARÂMETRO SERÁ 'this.id'... --------> será 'this.id' PQ 'ID', NO FINAL DAS CONTAS, É UMA SIMPLES STRING... (ou seja, 'text/plain'....)
+
+
+
+
+
+
+ex:
+
+
+
+
+
+ connectDrag() {
+     document.getElementById(this.id).addEventListener('dragstart', event => {
+         event.dataTransfer.setData('text/plain', this.id);
+     })
+ }
+
+
+
+-------------------------------
+
+
+TAMBÉM PODEMOS DEFINR OUTRA PROPRIEDADE NO 'DATATRANSFER', que é 
+
+
+O 'effectAllowed'.... -----------> https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/effectAllowed
+
+
+
+
+ESSA PROPRIEDADE EXISTE PARA QUE DESCREVAMOS QUAL TIPO DE DRAG AND DROP OPERATION SERÁ 
+
+REALIZADA...
+
+
+ESSA PROPRIEDADE PODE TER ALGUM DOS SEGUINTES VALORES:
+
+
+
+'none' -----> O item não conseguirá ser droppado/não poderá ser droppado.
+
+
+'copy' ----> UMA CÓPIA DO ITEM ORIGINAL (source item) SERÁ FEITO NO NOVO LOCAL (na 'drop zone', basicamente).
+
+
+'link' -----> UM LINK AO SOURCE ITEM será estabelecido no novo local (na 'dropzone', basicamente).
+
+
+
+copyLink ------> TANTO OPERAÇÕES DE COPY, COMO DE LINK, são permitidas.
+
+
+'move' ------> UM ITEM É CAPAZ DE SER __MOVIDO___ ATÉ A NOVA LOCALIZAÇÃO...
+
+
+'copyMove' ---> copy e move são permitidos 
+
+
+'copyLink' ---> copy e link são permitidos.
+
+
+
+'linkMove' -----> link e move são permitidos 
+
+
+all -----> TODAS AS OPERAÇÕES SÃO PERMITIDAS.
+
+
+
+'uninitialized' ---> O VALOR DEFAULT QUANDO NENHUM EFEITO FOI DEFINIDO; é equivalente a 'all'...
+
+
+
+
+OBS::: assignar QUALQUER OUTRO VALOR À PROPRIEDADE 'effectAllowed' RENDE NENHUM EFEITO, E FAZ COM QUE O VALOR 
+ANTIGO SEJA MANTIDO....
+
+
+
+O cursor do MOUSE É SEMPRE UPDATADO DE ACORDO COM O TIPO DE OPERAÇÃO QUE VOCÊ ESCOLHEU... 
+
+
+
+
+-----------------------------------
+
+
+
+O PROFESSOR, NO NOSSO PROJETO, UTILIZARÁ A OPERAÇÃO 'NORMAL' DE 'move'...
+
+
+
+ELE FAZ ISSO POR MEIO DA DEFINIÇÃO DO VALOR DE 'effectAllowed'como sendo 'move'...
+
+
+
+
+ex:
+
+
+
+ connectDrag() {
+     document.getElementById(this.id).addEventListener('dragstart', event => {
+         event.dataTransfer.setData('text/plain', this.id);
+         event.dataTransfer.effectAllowed = 'move';
+     })
+ }
+
+
+
+
+------------------------------------
+
+
+COM ISSO, MEU DRAGEVENT fica configurado; adicionamos ALGUNS 
+
+DADOS A ELE....
+
+
+
+
+
+O PRÓXIMO PASSO É:
+
+
+
+
+
+
+3) Accept Drop via "dragenter" and "dragover" Events => preventDefault()
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+FAZER UM CERTO TRECHO DE NOSSA PÁGINA SE TORNAR UMA 'DROPZONE'...

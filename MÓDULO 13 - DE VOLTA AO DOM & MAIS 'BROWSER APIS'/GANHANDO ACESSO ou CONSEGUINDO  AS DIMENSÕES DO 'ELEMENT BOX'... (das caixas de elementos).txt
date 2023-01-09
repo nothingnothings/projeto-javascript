@@ -1,0 +1,546 @@
+
+
+
+
+
+
+
+
+
+
+O tooltip ainda está em uma posição ruim. ESTÁ posicionado lá embaixo, bem ao final da página...
+ 
+
+
+
+
+ Não é nesse lugar que queremos o exibir; queremos 
+
+
+ MOSTRAR CADA TOOLTIP LOGO ABAIXO DE CADA PROJECTITEM... (ou seja, debaixo do DOMNODE a QUE CADA TOOLTIP PERTENCE).
+
+
+
+
+
+ Para isso, precisamos descobrir EXATAMENTE EM QUE COORDENADAS 
+
+
+ OS ELEMENTOS PROJECTITEM residem na nossa página...
+
+
+
+E vamos precisar de certas informações quanto AO TAMANHO DESSES ELEMENTOS, TAMBÉM.
+
+
+
+
+
+
+
+
+
+Para que consigamos fazer isso, primeiramente vamos precisar ENTENDER 
+
+COMO ITEMS/ELEMENTOS 
+
+
+SÃO POSICIONADOS EM UMA PÁGINA...
+
+
+
+
+
+
+BEM, ISSO ACONTECE COM A AJUDA DO CSS... (e depende da maneira como UM BROWSER RENDERIZA A PÁGINA..)
+
+
+
+
+
+
+
+MAS TAMBÉM DEVEMOS ENTENDER ___COMO ___ CONSEGUIR AS COORDENADAS EXATAS DE UM CERTO ELEMENTO...
+
+
+
+
+ex:  a exata 'width' calculada na página, etc etc.
+
+
+
+
+
+
+
+
+
+
+
+
+PQ COMO VOCÊ SABE, com CSS, VOCÊ NÃO PODE 
+
+SIMPLESMENTE ASSIGNAR 'VALORES DE PIXEL' a cada elemento da página...
+
+
+
+
+
+
+VOCÊ SEMPRE PODE USAR ALGO COMO 'REM', que é CALCULADO DINAMICAMENTE...
+
+
+
+
+VOcê pode usar PORCENTAGENS,
+
+
+MEDIA QUERIES (para usar diferentes tamanhos de elementos), 
+
+
+
+
+
+
+
+E, PORTANTO, SE VOCÊ QUER DESCOBRIR O EXATO TAMANHO DE UM ELEMENTO QUE FOI RENDERIZADO NA PÁGINA, 
+
+
+VOCê ___PRECISA___ DE JAVASCRIPT.
+
+
+
+
+
+
+
+Você pode, de fato, conseguir coordenadas e assim por diante DE QUALQUER 
+
+ELEMENTO QUE VOCÊ QUISER.
+
+
+
+
+
+E é exatamente disso que sentimos falta, aqui.
+
+
+
+
+
+
+
+2 ARQUIVOS:
+
+
+ 
+
+
+ 'sizes.html' 
+
+
+
+ e 
+
+
+
+ 'sizes.css'.
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+FEITA A DIGITAÇÃO DESSES 2 DOCUMENTOS, VOCÊ PODE ABRIR A PÁGINA 
+
+
+DE 'sizes.html'...
+
+
+
+AQUI HÁ UM SIMPLES DUMMY, 
+
+
+uma file dummy....
+
+
+
+Podemos praticar TAMANHOS, POSIÇÕES E ETC com esse dummy...
+
+
+---------------------------------------
+
+
+
+Para ganhar acesso à essa caixa azul, podemos 
+
+
+simplesmente selecionar 
+
+
+
+
+'document.getElementById('main-box');'
+
+
+
+--------------------------------
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+const mainBox = document.getElementById('main-box');
+
+
+----------------------------------
+
+
+
+
+
+Professor mostra maneiras de selecionar a caixa azul...
+
+
+
+
+Se você marcar a div da caixa no devtools console, você pode 
+
+
+digitar 
+
+'$0' 
+
+
+PARA GANHAR ACESSO DIRETO A ESSE ELEMENTO...
+
+
+
+--------------------------------------
+
+
+
+
+MAS QUAIS TAMANHOS E QUAIS PROPRIEDADES NOS AJUDAM A ENTENDER 
+
+O POSICIONAMENTO DE ELEMENTOS NA NOSSA PÁGINA...? 
+
+
+
+
+Bem, por exemplo, 
+
+
+há um MÉTODO QUE VOCÊ PODE CHAMAR, 
+
+que é 
+
+
+
+'getBoundingClientRect()'
+
+
+
+
+
+ex:
+
+
+
+'$0.getBoundingClientRect();'  NO CONSOLE.   (ou 'mainBox.getBoundingClientRect', se você já definiu esse elemento em uma const chamada 'mainBox'...)
+
+
+
+
+
+getBoundingClientRect -----> SE VOCÊ 
+
+
+EXECUTAR ISSO COMO MÉTODO, VOCÊ GANHARÁ DE VOLTA UM OBJETO (o console te retornará UM OBJETO )
+
+QUE TE DARÁ ALGUMAS INFORMAÇÕES ÚTEIS SOBRE ESSE ELEMENTO/CAIXA...
+
+
+
+
+
+ex:
+
+
+DOMRect {x: 100, y: 100, width: 300, 
+height: 200, top: 100, ...}
+
+
+bottom: 300 
+
+height: 200
+
+
+left: 100
+
+right: 400
+
+top: 100 
+
+width: 300
+
+x: 100
+
+y: 100
+
+__proto__: DOMRect()
+
+-----------------------------------
+
+
+
+
+E VOCÊ PODE RODAR ESSE MÉTODO EM QUALQUER OBJETO/ITEM DE SUA PÁGINA...
+
+
+
+O que isso nos dá É UM MONTE DE COORDENADAS E TAMANHOS.
+
+
+
+Para entender esses valores, 
+
+
+
+
+VOCÊ TEM DE ENTENDER QUE O BROWSER BASICAMENTE RENDERIZA A PÁGINA ESSENCIALMENTE 
+
+
+POR MEIO DE UM SISTEMA DE COORDENADAS 2D (2 dimensões), 
+
+
+
+COM UM EIXO X (esquerda - direita) E UM EIXO Y (cima - baixo).
+
+
+
+
+E ISSO É IMPORTANTE:
+
+
+
+Não é como um SISTEMA TRADICIONAL DE COORDENADAS (um sistema em que o 
+eixo Y iria de BAIXO PARA CIMA; eixo Y da esquerda para a direita lá embaixo... ), 
+
+
+E SIM é um sistema em que TUDO COMEÇA NO TOPO, NO CORNER TOP-LEFT..... 
+
+
+E isso faz sentido se você considerar A MANEIRA COMO UMA PÁGINA 
+
+DA WEB É RENDERIZADA....
+
+
+
+
+
+É sempre renderizada DE CIMA PARA BAIXO....
+
+
+
+Esse sistema de coordenadas TAMBÉM PENSA em termos de 'pixels'...
+
+
+E em razão disso, no corner TOP LEFT NÓS TERÍAMOS 
+
+A COORDENADA 
+
+
+0 - 0.  (x = 0, y = 0). É  A ORIGEM, BASICAMENTE.
+
+
+
+
+
+
+O CORNER TOP RIGHT é um corner com coordenada de 'y = 0, MAS X = UM MONTE/a width de sua tela...'...
+
+
+
+
+
+
+O CORNER BOTTOM LEFT tem coordenadas de 'y = UM MONTE, X = 0'.
+
+
+
+
+
+O CORNER BOTTOM RIGHT tem coordenadas de 'y = UM MONTE/TODA A EXTENSÃO DE SUA TELA   X = MESMA COISA'.
+
+
+--------------------
+
+
+
+
+É ASSIM, PORTANTO, QUE PODEMOS LER ESSE OBJETO QUE FOI RETORNADO A NÓS.
+
+
+
+
+O fato de 'x' e 'y' dessa caixa azul serem 100 SIGNIFICA 
+
+QUE 
+
+SUA ARESTA ESQUERDA-CIMA ESTÁ 100 pixels afastada DO TOPO da tela E 100 PIXELS AFASTADA DA ESQUERDA DA TELA...
+
+
+
+
+(você pode checar isso no dev tools...)
+
+
+
+
+E NÓS DE FATO TEMOS ESSA COORDENADAS PARA ESSA CAIXA...
+
+
+
+podemos comprovar isso SE OBSERVARMOS NOSSA FOLHA DE ESTILOS:
+
+
+
+LÁ A MARGEM DO 'BODY' ESTÁ DEFINIDA COMO 
+
+'100px' (genérico, 100 genérico), O QUE 
+
+
+SIGNIFICA QUE HÁ UM ESPAÇO GERAL (x e y) ENTRE O ITEM E A PÁGINA (o body...) DE 100 PIXELS...
+
+
+
+
+
+E COMO EU DEFINI A MARGEM NO BODY, TODOS OS ELEMENTOS QUE ESTIVEREM 
+
+
+DEFINIDOS ___DENTRO DO BODY___ SERÃO AFETADOS POR ESSES 100PX desse ajuste da margem...
+
+
+
+(a div de id '#main-box', QUE ESTÁ INSERIDA EM 'body' É MOVIDA 100PX em relação à esquerda e topo da página.)
+
+
+
+
+
+X E Y GERALMENTE SEMPRE TERÃO OS MESMOS VALORES DE  'top e left' nas propriedades dos elementos....
+
+
+
+
+
+NA MAIOR PARTE DOS CASOS, SERÁ ASSIM.....
+
+
+
+
+
+Se você tiver uma WIDTH/HEIGHT NEGATIVAS, PODE SER QUE ISSO MUDE UM POUCO AS COISAS... (x e y não serão iguais a 'top' e 'left'...)
+
+
+
+---> se você tiver elas negativas, isso pode mudar DEPENDENDO 
+
+DO EXATO POSICIONAMENTO E CÓDIGO CSS....
+
+
+Mas 'top' e 'left' SIMPLESMENTE NOS DÃO 
+
+AS COORDENADAS do ponto mais para o TOPO e mais PARA A ESQUERDA dessa caixa (do elemento selecionado) 
+NO SISTEMA DE COORDENADAS (que geralmente é o mesmo ponto representado por 'x' e 'y').
+
+
+
+
+
+
+
+
+MUITO MAIS INTERESSANTES SÃO AS PROPRIEDADES 'BOTTOM' E 'RIGHT'...
+
+
+
+
+'Bottom + right' é, no final das contas, apenas A COMBINAÇÃO DE 'LEFT + TOP' (ou X e Y) 
+
+COM WIDTH E HEIGHT...
+
+
+(ou seja, 'bottom' e 'right' REALMENTE NOS DIZEM ONDE FICA O PONTO MAIS PARA BAIXO E MAIS PARA A DIREITA 
+
+DAQUELE OBJETO/ITEM... NO CONTEXTO DO MESMO INSERIDO NAQUELE SISTEMA DE COORDENADAS QUE COMEÇA 
+
+LÁÁÁÁ EM CIMA, NO TOPO E À ESQUERDA/top & left...)
+
+
+
+
+ou seja, é só pensar um pouco:
+
+-----------------------------------------------------------------
+
+
+(há uma margem natural de 100PX em volta da caixa, produzida pelo body.)
+
+
+bottom: 300 (100px da margem + 200px da ALTURA DA CAIXA/OBJETO)   (ou seja, percebemos que 'bottom' SE REFERE AO POSICIONAMENTO DO OBJETO COM RELAÇÃO À PÁGINA INTEIRA.)
+
+height: 200
+
+
+left: 100
+
+right: 400   (100px da margem + 300px da 'gordura' do objeto/caixa)  (ou seja, percebemos que 'right' SE REFERE AO POSICIONAMENTO DO OBJETO EM RELAÇÃO à PÁGINA INTEIRA)
+
+top: 100 
+
+width: 300
+
+x: 100
+
+y: 100
+
+-------------------------------------------------------------
+
+
+
+
+WIDTH E HEIGHT TAMBÉM SÃO IMPORTANTES.
+
+
+
+ESSAS SÃO AS INFORMAÇÕES MAIS BÁSICAS A RESPEITO DAS CAIXAS E POSICIONAMENTO...
+
+
+Você também pode VER PROPRIEDADES MAIS ESPECIALIZADAS, 
+
+
+EX: você pode querer APENAS 1 ÚNICO VALOR DENTRO DO OBJETO, ou 
+
+
+você pode querer DIFERENTES VALORES PARA ALGUNS DOS TAMANHOS (que dependerão dO DESEJO OU NÃO DE ADICIONAR BORDAS E ETC a esses objetos.... )
+
+
+
+
+Devemos dar uma olhada nisso, também.

@@ -1,0 +1,114 @@
+
+
+
+
+
+
+
+
+
+
+
+
+ACABAMOS O MÓDULO DOS HTTP REQUESTS...
+
+
+
+
+
+
+
+
+
+
+
+APRENDEMOS 2 ALTERNATIVAS DE COMO MANDAR HTTP REQUESTS e como eles em geral funcionam.....
+
+
+
+
+
+Também vemos pq mandar tais requests, e como fazê-lo. 
+
+
+
+
+
+APRENDEMOS ___COMO ADICIONAR___ DADOS A ESSES REQUESTS, 
+
+
+
+como PROMISIFAR o objeto XMLHttpRequest, 
+
+
+
+
+COMO FAZER O HANDLING DE ERROS COM O 
+
+objeto
+XMLHttpRequest  e 
+
+
+
+com a FETCH APi...
+
+
+
+
+
+FETCH API.
+
+
+
+
+APRENDEMOS SOBRE JSON E FORM DATA....
+
+
+
+
+
+
+HÁ MT MAIS COISAS QUE VOCÊ PODE FAZER COM HTTP REQUESTS...
+
+
+
+há conteúdo o suficiente para UM CURSO SEPARADO...
+
+
+
+
+ENTRETANTO, AS partes 'core' foram cobertas nesse curso... (bem extensivamente, na verdade).
+
+
+
+
+
+SE VOCÊ QUER VER MAIS, VEJA OS RESOURCES ANEXADOS A ESSE MÓDULO....
+
+
+
+
+vocÊ pode aprender coisas como 'file upload' 
+
+
+e outras coisas com os resources que estão aqui.
+
+
+
+MAS COM O CONTEÚDO QUE TEMOS AQUI NÓS JÁ 
+
+SABEMOS 
+
+UM BOCADO SOBRE COMO TUDO 
+
+ISSO FUNCIONA...
+
+
+
+
+NO PRÓXIMO MÓDULO APRENDEREMOS SOBRE THIRD PARTY LIBRARIES, libraries 
+
+que tornarÃO processos, como  O ENVIO DE HTTP REQUESTs,
+
+
+AINDA MAIS convenientes.

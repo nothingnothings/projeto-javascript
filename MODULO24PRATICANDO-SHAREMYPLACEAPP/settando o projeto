@@ -1,0 +1,472 @@
+
+
+
+Index.html,
+
+
+
+app.css, 
+
+
+
+folders:
+
+
+
+
+dist 
+
+
+
+e 
+
+
+
+src.
+
+
+
+
+webpack.config.js
+
+
+
+
+
+webpack.config.prod.js
+
+
+
+
+
+node_modules (instalação do npm).
+
+
+
+
+
+
+
+Instalamos uma porrada de coisa.
+
+
+
+Professor explica que usaremos webpack para bundlar o nosso código.
+
+
+
+Também usaremos babel, aparentemente. 
+
+
+
+
+
+Babel vai traduzir nosso código para o código javascript mais antigo, código que 
+rodará em browsers mais velhos também.
+
+
+
+
+O professor definiu uma browserslist de '> 0.5%' em  'package.json'...
+
+
+
+
+Com isso, estaremos objetivando browsers que tenham market share de AO MENOS 0.5%
+
+
+
+
+
+
+
+Dentro do folder DIST 
+
+
+nós temos ARQUIVOS HTML....
+ 
+
+
+ temos 1 arquivo html na ROOT e outro 
+
+ no SUBFOLDER de 'my-place'...
+
+
+
+temos que criar esses htmls...
+
+
+
+
+
+
+O FOLDER 'DIST' ESTÁ VAZIO PQ 
+
+
+NÓS VAMOS 
+
+____ESCREVER OS NOSSOS SCRIPTS EM OUTRO LUGAR, VAMOS ESCREVÊ-LOS 
+
+EM 
+
+'src'...
+
+
+
+em src estarão os vários módulos javascript de nosso projeto, que serão todos então 
+
+bundlados em um ÚNICO GRANDE ARQUIVO .JS em 'dist/assets/scripts'...
+
+
+
+É por isso que no folder 'src' temos 2 arquivos, 'MyPlace.js' 
+
+e 'SharePlace.js'...
+
+
+
+
+PARA QUE O WEBPACK FUNCIONE COM ESSES 2 SCRIPTS, DEVEMOS 
+
+COLOCAR 
+
+
+'entry: {
+    'SharePlace': './src/SharePlace.js',
+    'MyPlace': './src/MyPlace.js'
+}'
+
+
+
+
+NO 'WEBPACK.CONFIG.JS'...
+
+
+
+
+NOSSOS ARQUIVOS HTML ESTÃO APONTANDO PARA ESSES ARQUIVOS 'bundlados' em 'dist'...
+
+
+
+(obs::: O 'WEBPACK.CONFIG.PROD.JS do professor SE ENCONTRA __VAZIO___.)
+
+
+
+
+
+
+
+
+Devemos começar a escrever nosso código naqueles arquivos 
+
+
+
+'MyPlace.js' 
+
+
+e 'SharePlace.js'...
+
+
+
+NESSE APLICATIVO, USUÁRIOS SERÃO CAPAZES DE 'pick a location', tanto 
+
+
+POR MEIO DO INPUT DE UM ENDEREÇO (nos campos) OU 
+
+PELO 'AUTO-LOCATE' deles mesmos (por meio de get Current position).....
+
+
+
+
+Com essas informações, vamos querer mostrar a localização dos caras POR MEIO DO GOOGLE MAPS...
+(vamos mostrar onde estão com a ajuda do google maps... 
+
+
+TEREMOS DE VER COMO ___INTEGRAr___ O GOOGLE MAPS ___ AO NOSSO APLICATIVO___.)
+
+
+
+
+
+--> como integrar a library 'google maps' em nosso projeto...
+
+
+
+----> MOSTRADO ESSE ENDEREÇO NO MAPA, DEIXAREMOS TAMBÉM UM ____LINK___ QUE PODERÁ SER COMPARTILHADO, 
+O LINK DA LOCALIZAÇÃO DO USUÁRIO...
+
+
+Esse link SERÁ USADO COM A CLIPBOARD API, que o deixará no 'clipboard' do usuário automaticamente...
+
+
+
+
+
+ESSE LINK ____CARREGARÁ ___ NOSSA OUTRA PÁGINA (a página 'myPlace'), QUE 
+
+MOSTRARÁ O LOCAL DO CARA (por meio da extração das informações por meio do link).
+
+
+
+
+
+
+ESSE É O OBJETIVO. PARA ATINGI-LO, USAREMOS VÁRIOS DOS CONCEITOS QUE JÁ VIMOS.
+
+
+
+VEREMOS TAMBÉM ALGUNS CONCEITOS NOVOS.
+
+
+
+
+Para começar, devemos rodar o script 'npm run build:devServer' para começar o devServer...
+
+
+
+
+
+
+
+
+HMR] Waiting for update signal from WDS...
+index.js?1843:48 [WDS] Hot Module Replacement enabled.
+index.js?1843:52 [WDS] Live Reloading enabled.
+
+
+-----------------------------------------------
+
+
+
+Devemos manter esse servidor rodando, pois ele nos ajudará.
+
+
+
+Os botões da página ainda não vão funcionar, temos que escrever o seu código.
+
+
+
+
+Professor explica que ele quer acesso ao botão de 'type=submit'.....
+
+
+
+NA VERDADE, EXPLICA ELE, QUEREMOS ACESSO À 'form' INTEIRA;
+
+
+queremos acesso à form inteira e ENTÃO FAZER 'LISTEN TO' ao evento 
+
+'submit' no interior dela...
+
+
+
+ex:
+
+
+<form>
+        <label for="address">Address</label>
+        <input type="text" />
+        <button type="submit">Find a Place</button>
+      </form>
+
+
+------------------------------------
+
+
+
+O professor também quer acesso ao botão de 
+
+id 'locate-btn'..., e fazer 'listen to' a um CLICK nele...
+
+
+
+------------------------------------------------
+
+
+
+
+
+O PROFESSOR ADICIONA UM CONSTRUCTOR à classe 
+
+'PlaceFinder'....
+
+
+Ele faz isso para QUE TENHAMOS UM CÓDIGO QUE 
+
+RODA ____IMEDIATAMENTE___ quando é criada 
+
+uma nova instância dessa 
+
+classe 'PlaceFinder'...
+
+
+
+Dentro de PlaceFinder, o professor vai querer 
+
+GANHAR ACESSO ÀQUELA FORM...
+
+
+por isso ele chama essa const de 'addressForm'...
+
+
+
+ex:
+
+
+
+
+class PlaceFinder {
+    constructor() {
+        const addressForm 
+    }
+}
+
+
+
+------------------------------------
+
+
+
+
+DEPOIS DISSO, ELE DIGITA TAMBÉM 
+
+uma const chamada de 'locateUserBtn'....
+
+
+
+
+ex:
+
+
+
+
+class PlaceFinder {
+    constructor() {
+        const addressForm 
+        const locateUserBtn
+    }
+}
+
+
+----------------------------------
+
+
+
+PARA O ACESSO À FORM, o professor usa 
+
+
+'document.querySelector()'
+
+
+e aí coloca 'form'...
+
+
+isso vai selecionar o PRIMEIRO ELEMENTO FORM que encontramos (E nesse index.html temos apenas 1 único form, por isso esse método funciona).
+
+
+
+
+para o 'locateUserBtn', professor diz que você pode usar 'getElementById'..
+
+
+
+ex:
+
+
+
+
+
+
+
+class PlaceFinder {
+    constructor() {
+        const addressForm = document.querySelector('form');
+        const locateUserBtn = document.getElementById('locate-btn');
+    }
+}
+
+
+----------------------------
+
+
+
+COM ISSO NÓS ADQUIRIMOS ACESSO A ESSES 2 ELEMENTOS DOM...
+
+E armazenamos referencias a esses negócios nas nossas constantes...
+
+
+
+AGORA PODEMOS ADICIONAR EVENTLISTENERS A ESSES BOTÕES...
+
+
+
+COLOCAMOS UM EVENTLISTENER NO 'locateUserBtn'...
+
+
+usamos uma arrow function para o segundo parâmetro.
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+class PlaceFinder {
+    constructor() {
+        const addressForm = document.querySelector('form');
+        const locateUserBtn = document.getElementById('locate-btn');
+
+
+
+
+
+
+        locateUserBtn.addEventListener('click', () => {
+
+        });
+    }
+}
+
+
+
+-------------------------------
+
+
+
+
+PROFESSOR EXPLICA QUE NO SEGUNDO PARÂMETRO ELE VAI QUERER REFERENCIAR UM MÉTODO QUE DEFINIREMOS 
+
+
+NESSA CLASSE, um método QUE IRÁ CONSEGUIR A USER LOCATION do usuário para nós...
+
+
+
+
+Um nome bom para o método seria 'locateUserHandler' ----> o professor gosta 
+do padrão de ''metódos/funções conectados a um evento são chamados de handlers''... ----> NÃO 
+É UM NEGÓCIO OBRIGATÓRIO, MAS É uma convenção boa de se usar.
+
+
+
+
+----> 'locateUserHandler()' será o método que vou querer triggar 
+quando o botão 'locateUserBtn' é apertado. -->
+Por isso, podemos apontar o segundo parâmetro do addEventListener 
+à 'this.locateUserHandler'...
+
+nós não colocamos '()', como aprendemos mais cedo no curso, POIS 
+NÓS NÃO VAMOS EXECUTAR ISSO DE IMEDIATO... não, essa função/método
+ só será executada quando o botão for clicado.
+
+
+ex:
+
+
+
+

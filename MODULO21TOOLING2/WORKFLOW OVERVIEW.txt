@@ -1,0 +1,258 @@
+
+
+
+
+ANTES DE COMEÇARMOS, É IMPORTANTE entender 
+
+
+COMO COMBINARÍAMOS ESSAS FERRAMENTAS...
+
+
+
+
+
+
+
+
+
+-------> a ideia aqui é:
+
+
+
+
+quando nós escrevemos nosso código, sempre queremos ter 
+
+
+DOIS DIFERENTES WORKFLOWS pelos quais podemos começar...
+
+
+
+
+NÓS OU:
+
+
+
+1) temos nosso "DEVELOPMENT WORKFLOW", o qual deve começar 
+
+SEMPRE QUE SALVAMOS MUDANÇAS NO NOSSO CÓDIGO...
+
+(aqui é que são usados o 
+LINT (code quality),
+O WEBPACK (bundling) E 
+O 'RELOAD DEV SERVER')
+
+
+2) temos nosso 'PRODUCTION WORKFLOW", o qual você tipicamente 
+
+quer/vai começar com um CERTO COMANDO... (pq ele não deverá 
+
+rodar SEMPRE QUE VOCê MUDA O SEU CÓDIGO, E SIM SOMENTE QUANDO VOCÊ 
+
+ESTÁ 'PRONTO PARA ISSO', QUANDO VOCÊ DECLARA explicitamente no código que 
+
+vocÊ quer 'salvar'/mudar aquela mudança. )
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+NÃO INTERESSA QUAL WORKFLOW ESCOLHEMOS, qual estamos utilizando; o que 
+
+interessa É QUE NÓS 
+
+_________sEMPRE____ PRECISAREMOS 
+
+
+de 
+
+'npm' & 'NodeJs'....
+
+
+
+
+
+VOCÊ TALVEZ RECORDE QUE NÓS 
+
+
+INSTALAMOS ESSES NEGÓCIOS CEDO NO CURSO, 
+
+pq precisávamos dos dois para SETTAR O DEV SERVER globalmente no nosso pc....
+
+
+
+E O DEV SERVER, POR SUA VEZ, PRECISAVA DO 'NODE.JS' para ser executado... 
+
+
+
+
+
+
+É por isso que o Node.js e o npm devem estar INSTALADOS GLOBALMENTE....
+
+
+
+
+-------------------------------------------
+
+
+
+
+
+NODE.JS SERÁ UTILIZADO POR MUITAS DESSAS FERRAMENTAS 'por trás das cenas'... PARA EXECUTAR 
+
+CÓDIGO NA SUA MÁQUINA 
+
+
+e para fazer ESSAS DIVERSAS OPTIMIZAÇÕES....
+
+
+
+
+NPM === 'NODE PACKAGE MANAGER' ---> TIPICAMENTE É UTILIZADO PARA 
+
+
+__________INSTALAR ESSAS DIFERENTES FERRAMENTAS ______ , e também 
+
+para ORQUESTRÁ-LAS, para começar os diferentes workflows e etc etc.
+
+
+
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+
+ISSO POSTO, devemos agora ver o que TEMOS DENTRO DESSES WORKFLOWS....
+
+
+
+
+
+Bem, quando nós construímos para desenvolvimento ('During Development'), nós SEMPRE QUEREMOS TER 
+
+
+
+
+
+'Linting' (ESLint) ATIVADO......
+
+
+
+O LINTING vai sempre checar o nosso código e nos mostrar problemas de qualidade no nosso código...
+
+
+
+É ÓBVIO QUE NÓS TAMBÉM VAMOS QUERER 
+
+
+'BUNDLE' o nosso código, vamos querer combinar nossos diferentes arquivos/módulos em um só/em alguns poucos arquivos...
+Isso reduzirá o número de http requests na nossa página.
+
+
+
+
+POR FIM, TAMBÉM VAMOS QUERER UM DEV SERVER QUE VAI SEMPRE RECARREGAR NOSSA PÁGINA SEMPRE QUE 
+
+NOSSO CÓDIGO MUDAR/for alterado....
+
+
+
+
+
+
+RESUMINDO:
+
+
+
+LINTING 
+
+BUNDLING 
+
+
+RELOAD DEV SERVER
+
+
+--->VAMOS QUERER TUDO ISSO ENQUANTO ESTIVERMOS DEVELOPING O NOSSO CÓDIGO...
+
+
+------------------------------
+
+
+
+
+
+
+
+
+Professor também aponta que talvez precisemos de 'LINTING' na fase de PRODUCTION, MAS QUE 
+
+NÓS SEMPRE USAMOS LINT O TEMPO TODO DURANTE O DESENVOLVIMENTO, por isso ele não é indispensável 
+
+na 'production workflow'...
+
+
+
+
+TAMBÉM APONTA QUE VAMOS QUERER USAR 
+
+O 'webPack' PARA BUNDLAR ARQUIVOS NESSA FASE DE PRODUÇÃO...
+
+
+
+
+
+
+
+
+
+
+ENTRETANTO, TAMBÉM VAMOS QUERER COMPILAR O NOSSO CÓDIGO, TRANSFORMÁ-LO DE 
+
+'JAVASCRIPT MODERNO' PARA JAVASCRIPT 'ANTIGO', PARA QUE ELE SEJA SUPPORTADO 
+
+EM BROWSERS VELHOS.... (Babel).
+
+
+
+
+
+
+
+
+FEITO ISSO, VAMOS QUERER 
+
+___OPTIMIZAR O NOSSO CÓDIGO___, algo que 
+
+é SEMPRE FEITO 
+
+DURANTE A FASE DE PRODUÇÃO, e 
+
+nunca na fase de 'development'... (pq isso pode deixar o debugging da fase 'development' mais difícil )
+
+
+
+
+
+
+
+
+FINALMENTE, APÓS ESSAS ETAPAS, TEMOS O NOSSO CÓDIGO 'PRODUCTION-READY', pronto para ser uploadado 
+
+ao servidor.
+
+
+
+
+
+
+ESSES SÃO OS 2 WORKFLOWS, E VAMOS IMPLEMENTAR OS 2 NESTE MÓDULO...

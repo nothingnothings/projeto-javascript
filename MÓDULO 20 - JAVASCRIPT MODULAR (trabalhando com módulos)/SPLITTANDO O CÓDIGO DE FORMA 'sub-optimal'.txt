@@ -1,0 +1,616 @@
+
+
+
+CERTO.
+
+
+
+E QUAL PROBLEMA OS MÓDULOS JAVASCRIPT SOLUCIONAM?
+
+
+
+Para isso o professor usa de exemplo 
+
+aquele projeto 
+
+
+que escrevemos bem cedo no curso,
+
+
+
+
+AQUELE PROJETO das 2 
+
+listas, 
+
+em que trocávamos post items de lugar...
+
+
+
+é o projeto do drag and drop...
+
+
+
+
+É um projeto nice...
+
+
+
+NÃO ADICIONAREMOS FUNCIONALIDADE ALGUMA A ELE...
+
+
+
+
+
+
+
+
+MAS SE ABRIRMOS O NOSSO 'app.js', 
+
+
+podemos perceber que É UM ARQUIVO BEM GRANDE....
+
+
+bastante conteúdo...
+
+
+TODA 
+
+A NOSSA LÓGICA DO APLICATIVO 
+
+
+VIVE NESSE ARQUIVO...
+
+
+
+
+
+
+
+
+
+O 'events.js' era apenas uma DUMMY file usada 
+
+para experimentar com events....
+
+
+
+(podemos até deletá-lo, se quisermos)....
+
+
+
+
+---------------------------
+
+
+
+
+O arquivo 'analytics.js' TAMBÉM ERA UMA DUMMY FILE..., uma dummy file que o professor carregava dinamicamente por meio de 'app.js'...
+
+
+
+-----------------------------------------
+
+
+
+
+
+PORTANTO, A LÓGICA 'CORE' DE NOSSO APLICATIVO REALMENTE RESIDIA NESSE ÚNICO ARQUIVO...
+
+
+
+
+
+
+NÓS TALVEZ QUEIRAMOS __SPLITTAR ___ ESSE CÓDIGO...
+
+
+
+
+PQ?
+
+
+
+Para manter nosso código de forma mais eficiente...
+
+
+
+para trabalhar com ele de forma mais eficiente....
+
+
+
+TAMBÉM, SE VOCÊ ESTIVER TRABALHANDO EM UMA EQUIPE,
+
+
+SE VOCÊ TIVER MÚLTIPLOS ARQUIVOS, VOCÊ FACILITA O 
+
+TRABALHO em um projeto.....
+
+
+É MAIS FÁCIL PQ ESSE ARQUIVO ÚNICO, EM QUE VARIAS PESSOAS ESTÃO TRABALHANDO, 
+
+CERTAMENTE VAI QUEBRAR (break) EM ALGUM MOMENTO.... 
+
+
+
+
+
+
+AINDA QUE VOCÊ ADICIONE AS COISAS NO MESMO INSTANTE, coordenado com seus colegas,
+ 
+
+ VOCê AINDA ENCONTRARÁ SITUAÇÕES 
+
+ EM QUE VOCÊ ADICIONA ALGO 
+
+ QUE 
+
+ UM COLEGA ENTÃO DELETA SEM QUERER E ASSIM POR DIANTE....
+
+
+
+
+ É por isso que ter múltiplos arquivos 
+
+
+ TE AJUDA MT A TRABALHAR EM EQUIPE...
+
+
+
+
+
+
+ MAS MESMO QUE VOCÊ ESTEJA TRABALHANDO SOZINHO- ----> AINDA É MUITO MAIS FÁCIL DE ENCONTRAR AS COISAS NO SEU CÓDIGO quando ele está splittado em múltiplos arquivos...
+
+
+
+
+
+------------------------------------------
+
+
+
+ex perfeito 
+
+
+é o nosso projeto:
+
+
+
+
+
+Quero achar o 'projectItem'...
+
+
+Se eu scrollar mt rápido, posso 
+
+perder esse negócio, 
+
+não encontro mais, pois há mt código.
+
+
+
+essa perda de tempo pode ser irritante...
+
+
+
+----------------------------------------
+
+
+
+UMA IDEIA COMUM É SPLITTAR UM ARQUIVO DE MODO QUE 
+
+
+TODAS AS CLASSES DE UM PROJETO POSSUAM SEUS PRÓPRIOS ARQUIVOS...
+
+
+
+
+
+
+Isso pode parecer 'file overkill', mas na verdade é 
+
+realmente O STANDARD/default na maior parte dos projetos javascript.
+
+
+'UMA COISA POR ARQUIVO'...
+
+
+
+'UMA CLASSE POR ARQUIVO'
+
+
+
+'UMA GRANDE FUNÇÃO POR ARQUIVO'...
+
+----------------------------------------------
+
+
+Você Às vezes pode ter um arquivo  com múltiplas funções menores,
+
+
+mas tipicamente 
+
+
+
+É 
+
+1 COISA/1 PROCESSO/1 FUNÇÃO POR ARQUIVO...
+
+
+
+
+
+
+E PARA ISSO, DIZ O PROFESSOR, PODEMOS ADICIONAR UM NOVO FOLDER 
+
+PARA MANTER AS COISAS ORGANIZADAS...
+
+
+
+
+
+
+chamamos de 'Utility'...
+
+
+
+também criamos um folder 
+
+chamado de 
+
+
+'App'...
+
+
+
+Então arrastamos o arquivo 'analytics.js' 
+
+PARA DENTRO 
+
+
+DO folder 'utility'...
+
+
+
+
+
+AÍ PODERÍAMOS CRIAR UM MONTE DE ARQUIVOS NO 
+
+FOLDER 'app'...
+
+
+
+
+
+EM 'app' poderíamos adicionar 
+
+um arquivo chamado 
+
+
+'component.js' --------> A CLASSE 'COMPONENT' de nosso código iria nesse arquivo...
+
+
+
+PARA 
+
+
+o 
+
+DOMHelper, criaríamos um arquivo em utility com o mesmo nome, 
+etc etc...
+
+
+
+
+PODERÍAMOS ADICIONAR 'tooltip' ao folder 'App'....
+
+
+
+TAMBÉM 'PROJECTITEM' E 'PROJECTLIST'..
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+
+
+FEITO TODO O SPLIT DO CÓDIGO, FICAMOS APENAS 
+
+
+COM A CLASSE 
+
+
+'APP' dentro 
+
+
+do arquivo 
+
+
+'app.js'...
+
+
+
+
+
+
+
+
+Professor diz que a denominação dos seus arquivos depende de nós,
+
+podemos nomear como quisermos...
+
+
+
+
+------------------------------
+
+
+
+
+Agora, diz o professor, é óbvio 
+
+
+que temos 
+
+
+que 
+
+
+
+refatorar o nosso código para 
+
+
+que ele consiga trabalhar com essa divisão de código. 
+
+
+-----------------------------------------------
+
+
+
+
+
+não temos mais 'analytics.js', por isso não precisamos alterar o código dessa parte...
+
+
+-----------------------------------------
+
+
+
+recortamos e colamos as partes do código em cada arquivo respectivo...
+
+
+--------------------------------------------
+
+
+
+
+Se recarregarmos o código, ele QUEBRA.
+
+
+
+
+
+Quebra pq movemos toda a funcionalidade para novos arquivos, mas não os importamos...
+
+
+
+
+
+
+
+
+
+------> PROFESSOR DIZ QUE PODERÍAMOS IR ATÉ 
+
+
+
+O NOSSO INDEX.HTML e importar todos esses scripts, teoricamente...
+
+
+
+porém, teríamos de cuidar a ordem de import dos scripts, 
+
+pois os scripts são parseados e executados
+
+
+DE CIMA A BAIXO....
+
+
+
+Devemos importar os arquivos DE MODO QUE CADA ARQUIVO SEMPRE TENHA O QUE 
+
+ELE PRECISA PARA FUNCIONAR...
+
+
+
+Professor explica que devemos 
+
+
+adicionar primeiramente o 
+
+
+'DOMHelper.js', pois 
+
+isso estava NO TOPO do nosso app.js 
+
+
+antes...  (e o professor tentou estruturar o código naquele momento para 
+que TODOS OS CÓDIGOS/FUNÇÕES QUE DEPENDESSEM DELE ficassem abaixo dele 
+na escrita... ).
+
+
+
+
+
+
+
+ex:
+
+
+
+
+    <script src="scripts/Utility/DOMHelper.js" defer></script>
+    <script src="scripts/App/Component.js" defer></script>
+    <script src="scripts/App/Tooltip.js" defer></script>
+    <script src="scripts/App/ProjectItem.js" defer></script>
+    <script src="scripts/App/ProjectList.js" defer></script>
+    <script src="app.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+COM SORTE, DIZ O PROFESSOR, ISSO SERÁ A ORDEM QUE 
+
+FARÁ TODOS OS COMPONENTES FUNCIONAREM.
+
+
+
+
+
+
+
+
+...Certo, funcionou....
+
+
+
+MAS COMO DIABOS SABEREI QUAL É A ORDEM CERTA?
+
+
+
+E se eu escolher errado?
+
+
+
+Vai ser infernal...
+
+
+
+---------------------------------
+
+
+
+
+
+PROFESSOR MOSTRA UMA SITUAÇÃO EXATAMENTE COMO ESSA:
+
+
+
+
+uma situação em que ele importa 'app.js' como PRIMEIRO 
+
+
+arquivo no index.html e em que isso quebra tudo.
+
+
+
+ex:
+
+
+
+
+
+
+
+
+    <script src="app.js" defer></script>
+    <script src="scripts/Utility/DOMHelper.js" defer></script>
+    <script src="scripts/App/Component.js" defer></script>
+    <script src="scripts/App/Tooltip.js" defer></script>
+    <script src="scripts/App/ProjectItem.js" defer></script>
+    <script src="scripts/App/ProjectList.js" defer></script>
+  
+
+
+
+
+    --------------------------------------------
+
+
+
+
+    ISSO FARÁ OS SCRIPTS DA PÁGINA DEIXAREM DE FUNCIONAR, 
+
+
+
+    dará um ERRO.
+
+
+
+    Uncaught ReferenceError: ProjectList is not defined
+    at Function.init (file:///C:/projeto/M%C3%93DULO%2020%20-%20JAVASCRIPT%20MODULAR%20(trabalhando%20com%20m%C3%B3dulos)/app.js:4:37)
+    at file:///C:/projeto/M%C3%93DULO%2020%20-%20JAVASCRIPT%20MODULAR%20(trabalhando%20com%20m%C3%B3dulos)/app.js:49:6
+
+
+-------------------------------------------------------
+
+
+
+
+
+
+
+ISSO SIGNIFICA QUE ALGUNS IMPORTS PODEM DEPENDER DE OUTROS....
+
+
+RESUMINDO:
+
+
+
+
+ESSE ESQUEMA PODE FUNCIONAR, E PODEMOS MELHORAR NOSSO CÓDIGO ,
+
+
+MAS TEMOS QUE FAZER ALGO QUANTO A ISSO, QUANTO A ESSE PROBLEMA 
+
+
+DA DEPENDÊNCIA DE UM ARQUIVO EM RELAÇÃO AO OUTRO.
+
+
+
+
+Nossa situação no index.html vira uma bagunça:
+
+
+
+
+
+vamos ter que sempre adicionar novos imports ao html, ter que digitar tudo, 
+
+e também cuidar da ordem entre eles... o que não é bom.
+
+
+
+
+
+
+
+
+
+
+EM PROJETOS MAIORES, ESSA ORGANIZAÇÃO/ordem entre imports TORNA-SE QUASE IMPOSSÍVEL.
+
+
+---------------------------------------------------------
+
+
+
+
+É AÍ QUE OS JAVASCRIPT MODULES ENTRAM EM AÇÃO.
+
+
+

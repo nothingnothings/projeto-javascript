@@ -1,0 +1,350 @@
+
+
+
+temos o seguinte código:
+
+
+ex:
+
+
+
+
+
+const person = {
+    name: 'Max',
+    age: 30,
+    hobbies: ['Sports', 'Cooking'],
+    greet: function() {
+        alert('Hi there!');
+    }
+
+    
+};
+
+
+
+person.greet();
+
+
+
+
+----------------------------
+
+
+
+
+Nosso objeto básico aqui, é claro, FUNCIONA.
+
+
+Mas digamos agora que nós criamos um objeto e que, por qualquer razão que seja,  talvez porque um 
+usuário clicou em um botão e isso ativa uma funcionalidade que o deixará EDITAR ESSE OBJETO... queremos 
+adicionar UMA PROPRIEDADE _____DEPOIS___ DO OBJETO TER SIDO CRIADO.
+
+
+
+Professor diz que há DOIS APPROACHES:
+
+
+
+
+1) APPROACH MAIS COMPLEXO ----> é o approach que requer que você CRIE UM OBJETO NOVO EM FOLHA...
+                                Para fazer isso, você teria quer TRANSFORMAR o "person" em uma variável, 
+                                para que pudéssemos assignar um novo valor a "person" (porque com 'const', isso não seria permitido).
+
+
+
+
+                                ex:
+
+
+
+                                let person = {
+                                            name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                }
+                                                          };
+
+
+                                                ///// ..... (alterações no primeiro objeto que devem ser captadas por nós e transmitidas à segunda definição de 'person', logo abaixo. Professor explica que isso é desnecessariamente complexo e difícil de fazer. É outra das razões para esse método 1 não ser recomendado.)
+
+
+
+                                    person = {                   //////ISSO (essa redefinição de variável) FARÁ COM QUE O OBJETO SEJA LIMPADO E REDEFINIDO PARA ESSE NOVO OBJETO, que possui a adição da propriedade "isAdmin: true".....
+
+                                                     name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                },
+
+
+                                                isAdmin = true
+                                    }
+
+
+
+
+------------------------------> É EVIDENTE, DIZ O PROFESSOR, QUE ESSE MÉTODO É SUPER COMPLICADO/COMPLEXO E QUE NÃO É EXATAMENTE 
+                                    AQUILO QUE QUEREMOS FAZER. Além disso, diz ele, se nós mudarmos algum valor lá em cima na variável originária,
+                                    devemos assegurar que QUAISQUER MUDANÇAS QUE SÃO FEITAS/FORAM FEITAS ENTRE A PRIMEIRA DECLARAÇÃO e A segunda (person = novo objeto) SÃO CAPTADAS.
+
+                                    Por isso, esse código não é geralmente aquilo que queremos fazer na grande maioria dos use-cases...
+                                    e certamente você nunca fará a cópia de todo um trechão de código de um objeto e colará na sua redefinição...
+
+
+
+
+
+
+
+            --------------> 2) SEGUNDO APPROACH, MAIS SIMPLES E PRÁTICO, COM USO DA DOT NOTATION (.) .
+                                VocÊ vai acessar uma property/propriedade que VOCÊ AINDA NÃO ADICIONOU 
+                                NO OBJETO, como "isAdmin"... (nesse momento no tempo, o objeto "person" NÃO TEM 
+                                ESSA PROPRIEDADE "isAdmin", não a adicionamos ainda.)... mas você pode fazer isso, 
+                                aqui. Pode, sim. Se você tentar logar isso no console, você também não receberá um erro.
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+                                const person = {
+                                            name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                }
+                                                          };
+
+
+
+                                
+
+                      console.log(person.isAdmin);  ////////NÃO RECEBEREMOS UM ERRO COM ESSE LOG ABSURDO, E SIM APENAS UM retorno de "undefined" no console.
+                                                    // isso é outra coisa para se ter em mente: se você acessa uma propriedade QUE NÃO EXISTE em um determinado objeto, vocÊ não ganhará um erro, você ganhará UNDEFINED.
+
+                                                -----------------------------------------------------------
+
+
+                    Mas o que você pode fazer aqui é ADICIONAR UM  VALOR À ESSA PROPRIEDADE, MESMO QUE VOCÊ NÃO 
+                    TENHA DEFINIDO ESSA PROPRIEDADE NO INTERIOR DO OBJETO ANTES:
+
+
+
+                    ex:
+
+
+
+
+
+
+
+                        
+
+                                const person = {
+                                            name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                }
+                                                          };
+
+                                person.isAdmin = true;  ////////DEFINIMOS O VALOR DE "isAdmin", propriedade que será criada dentro do objeto 'person', como TRUE.
+                                                            //podemos atestar a adição dessa propriedade por meio do console do devtools. isAdmin passa a ser parte de 'person'.
+
+
+
+
+                
+
+                ADICIONAR PROPRIEDADES A UM OBJETO DIRETAMENTE, PORTANTO, É SUPER FÁCIL: VOCÊ APENAS PRECISA DO DOT NOTATION (.) E O ASSIGNAMENTO/DEFINIÇÃO 
+                DE UM VALOR ("person.isAdmin = true;"). 
+
+                NÃO INTERESSA SE AQUELA PROPRIEDADE FAZIA PARTE DO OBJETO ANTES OU NÃO... se a propriedade não 
+                fazia parte do objeto antes, agora FARÁ. Se fazia parte, agora ela será ALTERADA PARA ESSE NOVO VALOR!
+                Com essa sintaxe, nós ou ADICIONAMOS, ou fazemos um overwrite no valor antigo.
+                ISSO NOS DÁ MUITA FLEXIBILIDADE.
+
+
+                Entretanto, às vezes nós queremos NOS LIVRAR DE UMA CERTA PROPRIEDADE:
+
+
+                digamos que você quer ter certeza de que você deletou a propriedade "age" do objeto 'person'.
+                Ou seja: em vez de reassignar um valor aqui, o professor quer se livrar dessa propriedade. 
+
+                ISSO TAMBÉM É POSSÍVEL; É POSSÍVEL POR MEIO DE UMA _______KEYWORD ESPECIAL_____:
+
+
+                É uma keyword especial providenciada a nós pelo javascript. É 
+                A KEYWORD 
+
+                "delete".
+
+                A fórmula é a seguinte: você digita "delete" solto + um espaço em branco (white space) E 
+                DEPOIS "objeto.propriedade/método que você quer deletar".
+
+
+                ex:
+
+
+
+
+                //delete  person.age;  // --------------> ISSO VAI DELETAR "AGE" de dentro do objeto.
+
+
+
+
+                ex:
+
+
+
+
+                const person = {
+                                            name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                }
+                                                          };
+
+                                person.isAdmin = true;
+
+
+
+                    delete person.age; //vai deletar essa propriedade de dentro do objeto person...
+
+
+                    Podemos ver o resultado disso no devtools console.
+
+
+-----------------------------------------------------------------------
+
+
+IMPORTANTE!!!! -----------> SE DEPOIS DE DELETARMOS UMA PROPRIEDADE NÓS TENTARMOS ACESSÁ-LA, NÃO RECEBEREMOS 
+                                UM ERRO, MAS SIM "undefined".------>
+                                ----> OU SEJA, DELETAR UMA PROPRIEDADE É BASICAMENTE (quase como) DEFINI-LA COMO UNDEFINED.
+                                
+                                ----------> DEVIDO A ISSO (de ser basicamente a mesma coisa que definir a propriedade/método como undefined), 
+                                            um método alternativo de apagar/deletar uma propriedade é defini-la como undefined.
+
+
+                                            ex de método alternativo:
+
+
+
+
+
+
+                                              const person = {
+                                            name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                }
+                                                          };
+
+                                person.isAdmin = true;
+
+
+
+                   person.age = undefined;  //isso também vai apagar aquela propriedade/método.
+
+
+-------------------------------------------------------------------------------------------
+
+
+                            ENTRETANTO, ESSE ÚLTIMO truque, DIZ O PROFESSOR, NÃO É """"SUPER LIMPO"""".
+                            Vai funcionar, vai fazer o serviço e você tecnicamente pode utilizá-lo, mas 
+                            UMA BOA REGRA DE SE TER EM MENTE É A REGRA DE OURO: ___VOCÊ NUNCA DEVE ASSIGNAR 
+                            "UNDEFINED" A QUALQUER VALOR!!!!! 
+
+
+                            Mas pq? 
+
+                            ---> você deve se lembrar do que o professor disse, mais cedo no curso:
+
+                            ele mencionou que nós temos "UNDEFINED" e temos "NULL". Null é o valor 
+                            QUE UTILIZAMOS SE QUEREMOS RESETTAR ALGUMA COISA, se queremos LIMPAR ALGUMA COISA.
+                            "UNDEFINED", por outro lado, É UM VALOR QUE NÓS COMO DESENVOLVEDORES NUNCA ASSIGNAMOS ATIVAMENTE À 
+                            COISA ALGUMA.... isso é porque UNDEFINED É UM VALOR DEFAULT do javascript, UM VALOR DEFAULT 
+                            QUE ELE ASSIGNA A VARIÁVEIS AINDA NÃO INICIALIZADAS (ou propriedades, como nesse caso).
+                            Fazer isso, assignar uma propriedade como 'undefined', tecnicamente funciona, mas É ALGO 
+                            QUE VOCÊ NUNCA DEVE FAZER... "delete objeto.propriedadequvocêquerdeletar;" é bem melhor, diz o professor.
+                            É mais limpo e expressa bem aquilo que você quer fazer.
+
+
+
+-----------------------------------------------------------------------------------------
+
+
+
+                            Se você definisse o valor dessa propriedade do objeto como NULL, por outro lado, VOCÊ 
+                            NÃO TERIA O MESMO EFEITO QUE USAR A KEYWORD DELETE/ASSIGNAR COMO UNDEFINED....
+
+
+
+                            Definir o valor da propriedade como "null" vai resettá-la, mas o que você verá no devtools 
+                            é que ____AGE_______ AINDA CONTINUA SENDO UMA PROPRIEDADE "ATIVA" DO OBJETO, E QUE SOMENTE 
+                            O VALOR DESSA PROPRIEDADE FOI DEFINIDO COMO NULL.
+
+
+                            ex:
+
+
+                            
+                                              const person = {
+                                            name: 'Max',
+                                            age: 30,
+                                            hobbies: ['Sports', 'Cooking'],
+                                            greet: function() {
+                                                                alert('Hi there!');
+                                                                }
+                                                          };
+
+                                person.isAdmin = true;
+
+                                person.age = null;
+
+
+                                -------> ISSO RETORNA:
+
+
+
+                                {name: 'Max', age: null, hobbies: Array(2), 
+                                greet: f, isAdmin: true}   //---> OU SEJA, SÓ DEFINIU O VALOR COMO NULL, MAS A PROPRIEDADE CONTINUA ALI, DENTRO DESSE OBJETO.
+
+
+                                   null Não é a mesma coisa que "undefined", portanto.
+
+
+                                   undefined ---> o objeto nem mesmo terá aquela propriedade.
+
+
+
+                                   objeto.propriedade = null;////--------> É UTILIZADO EM SITUAÇÕES 
+                                   EM QUE VOCê pensa "nessa parte do código, eu ainda não terei 
+                                   um valor para essa propriedade, mas certamente adicionarei um valor 
+                                   a ela mais tarde...." ------> é bem diferente da situação em que VOCê A DELETA, que é uma situação em que você basicamente está dizendo "eu não preciso mais dessa propriedade dentro desse objeto, nunca mais a utilizarei em outro lugar do código".
+
+
+
+
+
+                                   ESSAS SÃO ALGUMAS DAS SUTIS DIFERENÇAS ACERCA DO PROCESSO DE DELETAR/RESETTAR PROPRIEDADES EM OBJETOS.
+
+                                   

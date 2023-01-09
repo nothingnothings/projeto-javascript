@@ -1,0 +1,374 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+DEVEMOS COMEÇAR.
+
+
+
+
+
+
+
+
+
+Professor nos mostrará sua solucao particular para o problema, mas 
+É CLARO QUE SEMPRE HÁ OUTRAS SOLUCOES PARA O MESMO PROBLEMA...
+
+
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+O NOSSO PRIMEIRO OBJETIVO É FAZER OS BOTOES 
+
+
+'Finish' e 'MOre info' FUNCIONAREM.
+
+
+
+Isso soa bem trivial...
+
+
+
+
+
+MAS NOSSA PRIMEIRA DECISAO 
+
+
+É SE VAMOS ESCOLHER 
+
+
+UTILIZAR CLASSES E O OBJECT ORIENTED APPROACH __ ou nao__.
+
+
+
+Tanto faz, ambos caminhos funcionam.
+
+
+
+-------------------------------
+
+
+
+
+Em vez de utilizar classes e o 'oop', voce poderia 
+
+ser relaxado e simplesmente ir até o código, 
+
+criar umas consts e eventListeners, TRABALHAR COM UNS GLOBAL ARRAYS 
+
+E DEu, já era... (voce provavelmente ira querer 
+
+UM ARRAY DE PROJECTS PARA A PRIMEIRA CAIXA e outro array de projects 
+
+PARA A SEGUNDA....).....
+
+O que nosso código faria 
+
+
+É __TRANSFERIR__ caixas por entre esses 2 arrays (e depois 
+
+nosso código UPDATARIA O DOM, o elemento visual, por meio 
+
+da aparição dos objetos nas caixas 'opostas'.)
+
+
+
+--------------------------------
+
+
+
+Podemos fazer isso, e podemos fazer COM OU SEM CLASSES.
+
+
+----------------------------
+
+
+
+Como trabalhamos muito com classes nos últimos módulos, 
+
+o professor vai utilizar classes aqui, tambem para 
+
+praticar o OOP.
+
+
+
+---------------------------
+
+
+
+
+
+Portanto, o professor nao vai fazer essa relaxadice de 
+
+adicionar um punhado de constantes globais...
+
+
+
+
+
+
+EM VEZ DISSO, ELE COMEÇARÁ NOSSO PROJETO POR MEIO 
+
+DA DEFINIÇÃO DE ALGUMAS CLASSES... classes com as quais poderemos, entao, 
+começar a trabalhar.
+
+
+
+
+
+Mas quais classes seriam essas?
+
+
+
+
+
+
+
+PROFESSOR DIZ QUE IRA CRIAR UMA CLASSE 
+
+
+'PROJECTLIST', que gerenciará 
+
+TODOS OS PROJETOS EM UMA DAS CAIXAS (no caso, a caixa de projetos 
+'Ativos'.)
+
+
+
+
+ELE TAMBÉM IRÁ CRIAR UMA CLASSE PARA ___UM ÚNICO___ PROJECT ITEM... (para um ITEM RENDERIZADO na nossa pagina, como um 'project'.)
+
+
+
+
+OBS:::: NÓS NAO PRECISAMOS RENDERIZAR ESSES TAIS ITEMS NA PAGINA, POIS ELES JÁ ESTÃO NELA...
+
+o que precisaremos fazer, aqui, É ADICIONAR ALGUMA LÓGICA AO CÓDIGO 
+
+PARA QUE ESSES ITEMS ___sEJAM LIDOS____ DO DOM___ e para que 
+
+possamos POVOAR UM POUCO DE LÓGICA JAVASCRIPT COM 
+
+DADOS QUE PODEM SER ENCONTRADOS NO DOM...
+
+
+
+
+
+
+
+
+-------------> O PROFESSOR TAMBÉM ADICIONARÁ UMA CLASSE 
+
+QUE ADMINISTRARÁ O APP __overall___ (em geral), 
+
+E TAMBÉM UMA CLASSE 'TOOLTIP', que nos ajudará a EXIBIR UM 
+
+'TOOLTIP' QUANDO O USUÁRIO CLICA NO BOTÃO DE 'more Info'. 
+
+
+
+
+
+
+
+
+
+
+ex:
+
+
+
+
+class ToolTip {
+
+}
+
+
+classProjectItem {
+
+}
+
+
+
+
+
+---------------------------------
+
+
+
+
+Classe PROJECTiTEM ---> é responsável por OUVIR POR CLIQUES 
+
+
+NOS BOTÕES 'finish' E 'ACTIVATE'....
+
+
+-------------------------------
+
+
+Mas é claro que NÓS TEMOS MULTIPLOS PROJETOS, e precisaremos 
+
+administrá-los EM MULTIPLAS LISTAS...
+
+
+
+Por isso o professor adiciona uma outra classe, denominada 
+
+'ProjectList'.
+
+
+Ele diz que precisamos de uma classe 'ProjectList' PARA QUE 
+
+POSSAMOS CRIAR UMA LISTA 2X, uma vez para os projetos 'ativos' e OUTRA 
+PARA A LISTA DOS PROJETOS 'completados' (finished).
+
+
+
+
+
+POR FIM, O PROFESSOR TAMBÉM ADICIONARÁ UMA CLASSE 'App', que será 
+responsável pela EXECUCAO GERAL DO CÓDIGO.
+
+
+
+
+ex:
+
+
+
+
+class ToolTip {
+
+}
+
+
+classProjectItem {
+
+}
+
+
+class ProjectList {
+
+}
+
+class App {
+
+}
+
+
+
+
+-----------------------------------
+
+
+
+ESSAS PROVAVELMENTE NAO SERAO TODAS AS CLASSES COM AS QUAIS TRABALHJAREMOS 
+NESSE MÓDULO, 
+
+mas essas sao as classes COM AS QUAIS O PROFESSOR QUER COMEÇAR...
+
+
+
+
+
+Falando sobre 'começar', A COISA INTERESSANTE DESSE PROJETO É QUE 
+
+NÓS JÁ TEMOS ALGUNS ITEMS RENDERIZADOS NA NOSSA PÁGINA...
+
+
+
+
+Essa página pode/poderia ser uma página QUE ESTAMOS 
+
+
+RECEBENDO DE ALGUM SERVIDOR, ALGUM SERVIDOR NO QUAL ESSA 
+PÁGINA (html) FOI CRIADA E RENDERIZADA, POR ASSIM DIZER...
+
+
+
+
+E AGORA, NO FRONT-END (no browser), NÓS APENAS QUEREMOS ADICIONAR 
+
+UM POUCO DE JAVASCRIPT PARA QUE 
+
+
+NÃO DEIXEMOS ABERTAS AS POSSIBILIDADES DE 
+
+__ADICIONAR OU DELETAR___ NOVOS ITEMS, 
+
+mas que deixemos a opção 
+
+de MOVER ESSES ITEMS/PROJECTS POR ENTRE 
+
+
+AS CAIXAS DA PÁGINA...
+
+
+(e esse seria um use case COMUM....
+
+
+
+AFINAL, VOCE NEM SEMPRE CRIARÁ APLICATIVOS EM QUE 
+VOCE GERENCIA TUDO NO BROWSER COM JAVASCRIPT;
+
+
+HÁ CASOS (BEM COMUM) EM QUE HÁ APLICACOES EM QUE 
+
+O CÓDIGO HTML É PRÉ-GERADO NO SERVIDOR E NÓS/VOCÊ, COM NOSSO JAVASCRIPT NO BROWSER, 
+SÓ QUEREMOS/QUER ADICIONAR ALGUMAS INTERAÇÕES ÀQUELE CONTEÚDO...
+
+E É EXATAMENTE ISSO QUE ESTAMOS FAZENDO AQUI...
+)
+
+
+Portanto, nesses casos, NOSSO HTML É 
+
+A NOSSA SOURCE DE 'TRUTH' (nossa fonte da verdade...)
+
+
+
+
+OS DADOS EM QUE ESTAMOS INTERESSADOS, COMO 
+
+OS __IDS___ dos projetos, SÃO PARTE DESSE CÓDIGO 
+
+HTML...
+
+
+
+
+PORTANTO, NÓS PRECISAMOS DE alguma lógica, algum código,
+ PARA 
+
+ PARSEAR O CÓDIGO HTML (parsear AS DUAS DIFERENTES 'section' QUE NÓS 
+ TEMOS, que no final das contas SAO AS CAIXAS QUE SEGURAM OS PROJETOS 
+ DA PAGINA...) PARA 
+
+ IDENTIFICAR QUAIS PROJETOS COM QUAIS IDS estão atualmente 
+
+ ativos E QUAIS NAO ESTAO (finished)....
+
+ apenas depois de adicionada essa lógica é que podemos 
+
+ implementar a lógica QUE ALTERNARÁ OS PROJETOS ENTRE ESSAS 
+
+ 2 CAIXAS/SECTIONS...

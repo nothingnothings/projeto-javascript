@@ -1,0 +1,718 @@
+https://developer.chrome.com/docs/devtools/evaluate-performance/reference/
+
+
+
+
+
+
+
+
+
+
+
+
+Record load performance 
+Record load performance when you want to analyze the performance of a page as it's loading, as opposed to running.
+
+Go to the page that you want to analyze.
+
+Open the Performance panel of DevTools.
+
+Click Reload page Reload Page (ícone de 'reciclar', setinha da skol.). DevTools records performance metrics while the page reloads and then automatically stops the recording a couple seconds after the load finishes.
+
+
+
+
+
+
+
+
+
+
+RECORD 'RUNTIME PERFORMANCE' ---> é o botão de __GRAVAR__... ele grava AS INTERAÇÕES PROPRIAMENTE DITA DA PÁGINA.... os botões, etc etc.
+
+
+
+
+
+RECORD 'LOAD PERFORMANCE' ----> é o botãozinho 'da skol' ---> ele grava O PRIMEIRO CARREGAMENTO DA PÁGINA, a performance da página quando ela É CARREGADA...
+
+
+
+DevTools automatically zooms in on the portion of the recording where most of the activity occurred. --> é verdade.
+
+
+
+
+
+
+Force garbage collection while recording 
+
+While you are recording a page, click Collect garbage 
+
+[Collect garbage] ---> lata de lixo.
+
+
+
+ to force garbage collection.
+
+
+
+
+ --------------------------------
+
+
+
+
+ Click Capture settings 
+ 
+ 
+ Capture settings (engrenagem)
+ 
+ 
+ 
+  to expose more settings related to how DevTools captures performance recordings.
+
+
+
+
+----------------------------------
+
+
+
+Disable JavaScript samples --->
+
+
+
+By default, the Main section of a recording displays detailed 
+
+call stacks of JavaScript functions that were called during the recording. To disable these call stacks:
+
+
+
+
+
+Open the Capture settings menu. See Show recording settings.
+
+Enable the Disable JavaScript Samples checkbox.
+
+
+Take a recording of the page.
+
+
+
+
+
+----------------------------------------------
+
+
+
+
+
+
+
+Throttle the network while recording 
+To throttle the network while recording:
+
+Open the Capture settings menu. See Show recording settings.
+Set Network to the desired level of throttling.
+
+
+
+
+
+
+
+---------------------------------------------
+
+
+
+Throttle the CPU while recording 
+To throttle the CPU while recording:
+
+Open the Capture settings menu. See Show recording settings.
+Set CPU to the desired level of throttling.
+
+
+
+
+Throttling is relative to your computer's capabilities.
+ For example, the 2x slowdown option makes your CPU operate
+  2 times slower than its usual ability. DevTools can't truly simulate the CPUs of mobile devices,
+   because the architecture of mobile devices is very different from that of desktops and laptops.
+
+   -------------------------------------------------
+
+
+
+
+
+
+Enable advanced paint instrumentation 
+To view detailed paint instrumentation:
+
+
+
+
+Open the Capture settings menu. See Show recording settings.
+Check the Enable advanced paint instrumentation checkbox.
+
+-----------------------------------------------------------------------------------------------------
+To learn how to interact with the paint information, see View layers and View paint profiler. ---> essas funções são BEM LEGAIS.
+-----------------------------------------------------------------------------------------------
+
+
+
+
+Descobri uma nova feature do chrome.....
+
+
+
+---> você aperta 
+
+'control + shift + P' ---> isso vai abrir uma 'COMMAND PALETTE' (na verdade, é o chrome command menu, mas 
+isso é uma cópia da COMMAND PALETTE DO VISUAL STUDIO CODE...) ----> se você digitar 
+
+
+'rendering', uma aba de 'rendering' será aberta mais abaixo na sua aba do developer tools...
+
+
+
+Essa aba 'rendering' TEM UM MONTE DE OPÇÕES INTERESSANTES...
+ 
+ há uma opção QUE FAZ HIGHLIGHT EM VERMELHO DOS CAMPOS DA PÁGINA QUE SÃO ADS... (útil)
+
+
+
+
+ ---> FRAME RENDERING STATS ---> mostra o FPS DA PÁGINA... ---> mostra o uso de memória da gpu, dropped frames e etc...
+
+
+
+
+
+ ------------------------------------
+
+
+
+ ---> To save a recording, right-click and select Save Profile.
+
+
+ --> isso vai salvar nossa profile como um arquivo .JSON...
+
+
+ No caso desse site da google, salvamos um arquivo de 15mb...
+
+
+
+ To load a recording, right-click and select Load Profile.
+
+
+ Clear the previous recording 
+After making a recording, press Clear recording Clear recording to clear that recording from the Performance panel.
+
+
+
+-------------------------------------------------------------
+
+
+
+
+Select a portion of a recording 
+Drag your mouse left or right across the Overview to select 
+a portion of a recording. 
+The Overview is the section that contains the FPS, CPU, and NET charts.
+
+
+
+To select a portion using the keyboard:
+
+Click on the background of the Main section, or any of the sections next to it, such as Interactions, Network, or GPU. This keyboard workflow only works when one of these sections is in focus.
+Use the W, A, S, D keys to zoom in, move left, zoom out, and move right, respectively.
+
+
+
+
+To scroll a long flame chart in the Main section or any of its neighbors,
+
+ click and hold while dragging up and down. Drag left and right to move what portion of the recording is selected.
+
+
+
+
+
+Search activities
+
+
+
+Press Command+F (Mac) or Control+F (Windows, Linux) to open the search box at the bottom of the Performance panel.
+
+
+
+Figure 13. Using regex (regular expression
+) in the search box at the bottom of the window to find any activity that begins with E
+
+
+
+
+
+
+Press Case sensitive Case sensitive to make the query case sensitive.
+Press Regex Regex to use a regular expression in your query.
+
+
+
+-----------------------------------
+
+
+
+
+View main thread activity 
+
+
+
+Use the Main section to view activity that occurred on the page's main thread.
+
+
+
+Click on an event to view more information about it in the Summary tab. DevTools outlines the selected event in blue.
+
+
+Figure 15. More information about the Me function call event in the Summary tab
+
+
+
+DevTools represents main thread activity with a flame chart. The x-axis represents the recording over time.
+ The y-axis represents the call stack. The events on top cause the events below it.
+
+
+ DevTools assigns scripts random colors. In Figure 16, function calls
+  from one script are colored light green. 
+  Calls from another script are colored beige. 
+  The darker yellow represents scripting activity, and the purple event represents rendering activity. 
+ These darker yellow and purple events are consistent across all recordings.
+
+
+
+
+
+ AMARELO ---> SCRIPTING ACTIVITY.
+
+
+ ROXO --> RENDERING ACTIVITY...   (isso sempre será assim...)
+
+
+
+
+ -------------------------------------
+
+
+
+
+
+ See Disable JavaScript samples ***
+
+ if you want to hide the detailed flame chart of JavaScript calls. 
+ When JS samples are disabled, you only see high-level events such as Event (click) and Function Call (script_foot_closure.js:53) 
+ from Figure 16.
+
+
+
+
+---------------------------------------
+
+
+
+
+View activities in a table 
+After recording a page, you don't need to rely solely on the Main section to analyze activities.
+ DevTools also provides three tabular views for analyzing activities. 
+ Each view gives you a different perspective on the activities:
+
+
+When you want to view the root activities that cause the most work, use the CALL TREE tab.
+
+When you want to view the activities where the most time was directly spent, use the BOTTOM-UP tab.
+
+When you want to view the activities in the order in which they occurred during the recording, use the EVENT LOG tab.
+
+
+------------------------------------------
+
+
+
+
+
+Note: The next three sections all refer to the same demo. 
+You can run the demo yourself at Activity Tabs Demo (https://activitytabs.glitch.me/) and see the source at
+
+ GoogleChrome/devtools-samples/perf/activitytabs.html.
+
+
+(você deve usar essa página para entender esses conceitos explicados logo abaixo).
+
+Root activities 
+Here's an explanation of the root activities concept that's mentioned in the Call Tree tab, Bottom-Up tab, and Event Log sections.
+
+Root activities are those which cause the browser to do some work. For example, when you click a page, the browser fires an Event activity as the root activity. That Event might cause a handler to execute, and so on.
+
+
+
+
+
+Root activities are those which cause the browser to do some work. For example, when you click a page, the browser fires an Event activity as the root activity. That Event might cause a handler to execute, and so on.
+
+In the Main section's flame chart, root activities are at the top of the chart. In the ____Call Tree___ and ___Event Log___ tabs, root activities are the top-level items.
+
+
+
+In the Main section's flame chart, root activities are at the top of the chart. 
+
+In the Call Tree and Event Log tabs, root activities are the top-level items.
+
+
+----------------------------------------------------------
+
+
+
+
+In Figure 17, the top-level of items in the Activity column,
+ such as Event, Paint, and Composite Layers are root activities.
+  The nesting represents the call stack. For example, in Figure 17, 
+  Event caused Function Call, which caused button.addEventListener, which caused b, and so on.
+
+
+By default the Grouping menu is set to No Grouping. 
+Use the Grouping menu to sort the activity table based on various criteria.
+
+
+Click Show Heaviest Stack Show Heaviest Stack to reveal another table to the right of the Activity table. 
+Click on an activity to populate the Heaviest Stack table. 
+The Heaviest Stack table shows you which children of the selected activity took the longest time to execute.
+
+The Bottom-Up tab 
+
+Use the Bottom-Up tab to view which activities directly took up the most time in aggregate.
+
+The Bottom-Up tab only displays activities during the selected portion of the recording. 
+
+See Select a portion of a recording to learn how to select portions.
+
+
+------------------------------------------
+
+
+
+MINOR GC === 'MINOR GARBAGE COLLECTION/COLLECTING'...
+
+
+
+
+In the Main section flame chart of Figure 18, 
+you can see that almost practically all of the time was spent executing the three calls to wait().
+ Accordingly, the top activity in the Bottom-Up tab of Figure 18 is wait. 
+ In the flame chart of Figure 18, the yellow below the calls to wait are actually thousands of Minor GC calls.
+  Accordingly, you can see that in the Bottom-Up tab, the next most expensive activity is Minor GC.
+
+
+
+Figure 19. The Event Log tab
+
+The Start Time column represents the point at which that 
+activity started, relative to the start of the recording. For example, 
+the start time of 1573.0 ms for the selected item in Figure 19 means that activity started 1573 ms
+ after the recording started.
+
+
+
+
+Use the Interactions 
+section to find and analyze user interactions that happened during the recording.
+
+
+A red line at the bottom of an interaction represents ----time spent waiting---- for the main thread.
+
+Click an interaction to view more information about it in the Summary tab.
+
+
+
+------------------------------------------------------------
+
+
+
+
+Analyze frames per second (FPS) 
+DevTools provides numerous ways to analyze frames per second:
+
+
+
+Use the FPS chart to get an overview of FPS over the duration of the recording. (https://developer.chrome.com/docs/devtools/evaluate-performance/reference/#fps-chart)
+Use the Frames section to view how long a particular frame took. (https://developer.chrome.com/docs/devtools/evaluate-performance/reference/#frames)
+Use the FPS meter for a realtime estimate of FPS as the page runs. See View frames per second in realtime with the FPS meter. (https://developer.chrome.com/docs/devtools/evaluate-performance/reference/#fps-meter).
+
+
+
+
+The FPS chart 
+The FPS chart provides an overview of the frame rate across the duration of a recording. In general, the higher the green bar, the better the frame rate.
+
+---> A red bar above the FPS chart is a warning that the frame rate dropped so low that it probably harmed the user's experience. IMPORTANTE.
+
+
+
+
+-------------------
+
+
+The Frames section 
+The Frames section tells you exactly how long a particular frame took.
+
+Hover over a frame to view a tooltip with more information about it.
+
+
+https://googlechrome.github.io/devtools-samples/jank/ ---> usar para ver demonstração (isso nos mostra aquilo das FASES da animação- javascript.... scripting, painting, compositing, etc etc... --> eu acho que o que causa o lag é o LAYOUTING, a 3a fase...)
+
+
+
+------------------------------
+
+
+
+
+
+View network requests #  ---> BEM ÚTIL.
+
+Expand the Network section to view a waterfall of network requests that occurred during the recording.
+
+
+https://fontawesome.com/
+
+https://craftpip.github.io/jquery-confirm/
+
+
+
+-------------------------------------------
+
+
+
+Figure 23. The Network section, outlined in blue
+
+Requests are color-coded as follows:
+
+HTML: Blue
+CSS: Purple
+JS: Yellow
+Images: Green
+
+
+
+---------------------------------------
+
+
+
+Click on a request to view more information about
+ it in the Summary tab. For example, in Figure 23 the Summary tab is 
+ displaying more information about the blue request that's selected in the Network section.
+
+A darker-blue square in the top-left of a request means
+ it's a higher-priority request. A lighter-blue square means lower-priority.
+  For example, in Figure 23 the blue, selected request is higher-priority, 
+  and the green one above it is lower-priority.
+
+
+
+--------------------------------
+
+
+
+ESTA PARTE É IMPORTANTE:
+
+
+
+FIGURE 24:
+ 
+https://developer-chrome-com.imgix.net/image/admin/IHFdgHMSSdVjrKkbknOM.png?auto=format&w=846
+
+In Figure 24, the request for www.google.com is represented by a line on the left, a bar in the middle with a dark portion and a light portion, and a line on the right. Figure 25 shows the corresponding representation of the same request in the Timing tab of the Network panel. Here's how these two representations map to each other:
+
+The left line is everything up to the Connection Start group of events, inclusive. In other words, it's everything before Request Sent, exclusive.
+
+
+The light portion of the bar is Request Sent and Waiting (TTFB).
+
+The dark portion of the bar is Content Download.
+
+
+The right line is essentially time spent waiting for the main thread. This is not represented in the Timing tab.
+
+
+
+(exemplo do 'optix')...
+
+Network request
+URLlogin.html
+Duration129.81 ms (95.42 ms network transfer + 34.39 ms resource loading)  
+
+
+
+
+-------------------------------
+
+
+
+View memory metrics 
+
+Enable the Memory checkbox to view memory metrics from the last recording.
+
+
+(umas linhas bizarras aparecem; elas indicam o consumo de memória do nosso aplicativo, no browser.)
+
+
+DevTools displays a new Memory chart, above the Summary tab. 
+
+There's also a new chart below the NET chart, called HEAP.
+
+ The HEAP chart provides the same information as the JS Heap line (A LINHA __AZUL___ na memory chart...) in the Memory chart.
+
+
+
+------------------------------------
+
+
+
+When analyzing a section like Network or Main, 
+
+sometimes you need a more precise estimate of how long certain events took. 
+Hold __SHIFT___, click and hold, and drag left or right to select a portion of the recording. 
+At the bottom of your selection, DevTools shows how long that portion took.
+
+
+
+Figure 28. The 488.53ms timestamp at the bottom of the selected portion indicates how long that portion took
+
+
+FIGURE 28:
+
+
+https://developer-chrome-com.imgix.net/image/admin/ywM6ZNwJARqChcDXyR8W.png?auto=format&w=846
+
+
+
+--------------------------------------
+
+
+
+View a screenshot 
+See Capture screenshots while recording to learn how to enable screenshots.
+
+Hover over the Overview to view a screenshot 
+
+of how the page looked during that moment of the recording. 
+
+The Overview is the section that contains the CPU, FPS, and NET charts.
+
+
+
+-----------------------------------
+
+
+
+You can also view screenshots by clicking a frame in the Frames section. 
+DevTools displays a small version of the screenshot in the Summary tab.
+
+
+
+
+Figure 30. After clicking the 195.5ms frame in the Frames section,
+ the screenshot for that frame is displayed in the Summary tab
+
+Click the thumbnail in the Summary tab to zoom in on the screenshot.
+
+
+---------------------------------------
+
+
+
+View layers information 
+
+To view advanced layers information about a frame:
+
+Enable advanced paint instrumentation.
+
+Select a frame in the Frames section. DevTools displays information about its layers in the new Layers tab, next to the Event Log tab.
+
+
+
+ESSA É A OPÇÃO QUE NOS DEIXA VER OS FRAMES EM 3D...
+
+
+
+
+
+to view advanced information about a paint event:
+
+Enable advanced paint instrumentation.
+Select a Paint event in the Main section.
+
+
+
+
+------------------------------------
+
+
+
+
+
+View painting events in realtime with Paint Flashing 
+
+
+Use Paint Flashing to get a realtime view of all paint events on the page. Whenever a part of the page gets re-painted, DevTools outlines that section in green. ---> ISSO É BEM ÚTIL.
+
+To enable Paint Flashing:
+
+Open the Rendering tab. See Analyze rendering performance with the Rendering tab.
+Enable the Paint Flashing checkbox.
+
+
+
+
+View an overlay of layers with Layer Borders 
+Use Layer Borders to view an overlay of layer borders and tiles on top of the page.
+
+To enable Layer Borders:
+
+Open the Rendering tab. See Analyze rendering performance with the Rendering tab.
+Enable the Layer Borders checkbox.
+
+
+
+See the comments in debug_colors.cc for an explanation of the color-codings. debug_colors.cc -->  https://cs.chromium.org/chromium/src/cc/debug/debug_colors.cc
+
+
+
+------------------------------------
+
+
+
+
+
+
+
+Find scroll performance issues in realtime 
+Use Scrolling Performance Issues to identify elements of the page that have event listeners related to scrolling that may harm the performance of the page. DevTools outlines the potentially-problematic elements in teal.
+
+To view scroll performance issues:
+
+Open the Rendering tab. See Analyze rendering performance with the Rendering tab.
+
+
+Enable the Scrolling Performance Issues checkbox.
+
+
+
+
+Figure 39. Scrolling Performance Issues is indicating that there's a mousewheel event listener encompassing the entire viewport that may harm scroll performance
+
+
+(foto do 'news.google.com')...
+

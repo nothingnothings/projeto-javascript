@@ -1,0 +1,180 @@
+Com "weakmap", temos um conceito similar ao do WeakSet.
+
+
+
+
+
+
+
+digamos que temos um código similar ao do último exemplo:
+
+
+
+ex:
+
+
+
+let person = { name: 'Max'};
+
+
+
+
+
+
+console.log(persons);
+
+
+-------------------------------------
+
+
+
+Mas agora, também temos outra constante, chamada de "personData". Essa constante segurará um MAPA.
+Dentro desse mapa, utilizaremos a variável "person" COMO UMA KEY.
+O professor explica que se nós tivermos um mapa normal e tivermos "person" (o objeto) como key, 
+O MAPA IRÁ SEGURÁ-LO FIRME E NUNCA O LIBERARÁ para o garbage collector. Claro que é possível que 
+isso seja aquilo que você quer, MAS SE VOCÊ SABE QUE NÃO QUER ISSO, VOCÊ PODE USAR UM 
+"WEAKMAP".
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+let person = { name: 'Max'};
+
+
+
+
+
+
+
+
+console.log(persons);
+
+
+
+
+const personData = new WeakMap();
+
+
+
+
+-----------------------------------------------
+
+
+em um "WeakMap", é claro, vocÊ TEM MUITO MENOS MÉTODOS DISPONÍVEIS A VOCÊ. Nesse aspecto, é similar ao 
+WeakSet. Terá os métodos "delete()", "get()", "has()" e "set()". O professor explica QUE NÓS NÃO PODEMOS 
+FAZER LOOP POR DENTRO DAS ENTRADAS/ENTRIES PORQUE AS ENTRIES (A QUANTIDADE DE ENTRIES) NÃO SÃO/É GARANTIDA/GARANTIDAS (porque as entries podem ser limpadas pelo garbage collector a qualquer momento, devido À natureza de weakMap desse map).
+Essa é a mesma razão pela qual a propriedade ".SIZE" não fica disponível a weakMaps---> porque o número de entries é variável/sujeito aos desígnios do garbage collector.
+Javascript não consegue determinar exatamente o que está no mapa, pois não consegue examinar o mapa diretamente.
+Ele pode dar uma olhadinha, ver se algo está realmente lá dentro, se você pedir a ele com "has()" e "get()",
+mas fora isso ele NÃO CONSEGUE SABER SE ALGO JÁ FOI LIBERADO (jogado no lixo) ou não. Essa é a razão pelo 
+número absurdamente reduzido de métodos.
+
+MAS UM MÉTODO ESSENCIAL QUE VOCÊ AINDA TEM É "set()". Com set, podemos adicionar/settar "person" COMO UMA CHAVE DENTRO DESSE WEAKMAP.
+
+
+
+DETALHE!!!!! ---------> EM WEAKMAPS, ASSIM COMO EM WEAKSETS, AS CHAVES DEVEM OBRIGATORIAMENTE SER OBJETOS. Devem ser objetos para que o garbage collector possa atuar sobre as entries inúteis, para que os objetos (valores referenciais do código) possam ser limpados pelo garbage collector se ele detectar que em nenhum outro lugar do documento eles estão sendo utilizados.
+
+
+
+        ----> ENTRETANTO, O SEGUNDO PARÂMETRO, O VALOR (VALUE) DO KEY-VALUE PAIR, PODE SER QUALQUER COISA. Não precisa ser obrigatoriamente um objeto. Pode ser uma string, um número, etc etc.
+
+
+
+
+
+
+ex:
+
+
+
+
+
+
+let person = { name: 'Max'};
+
+
+
+
+
+
+
+
+console.log(persons);
+
+
+
+
+const personData = new WeakMap();
+
+personData.set(person, 'Extra Info');
+
+
+
+--------------------------------------
+
+
+Professor explica que a mesma lógica de weakSet pode ser aplicada aqui:
+Assim que liberarmos o objeto "person" em TODAS AS OUTRAS PARTES DO CÓDIGO (por meio de "person = null", que faz com que nós nos livremos do endereço que foi armazenado na variável "person"), 
+ JAVASCRIPT É ENTÃO CAPAZ DE COLETAR ESSE LIXO e o WeakMap não o impedirá de coletar essa entry...
+
+
+
+ex:
+
+
+
+
+
+
+let person = { name: 'Max'};
+
+
+
+
+
+
+
+
+
+
+
+
+const personData = new WeakMap();
+
+personData.set(person, 'Extra Info');
+
+
+person = null; //limpa a variável lá de cima.
+
+
+
+console.log(personData);
+
+
+---------------------------------
+
+
+Professor explica que aqui ainda veremos a entry "person", o objeto person, dentro do map 
+de personData, devido ao comportamento imprevisível do garbage collector, se o console.loggarmos; no entanto, 
+essa entrada eventualmente será coletada pelo garbage collector e deixará de fazer parte do personData.
+
+
+
+
+WeakMap e WeakSet são conceitos avançados, mas bons de se ter em projetos em que você 
+desejar que determinados dados sejam deletados a determinado ponto no futuro, no intuito de liberar memória.
+Dados legais de serem deletados, dos quais você não deseja ter que se livrar manualmente, mas sim 
+por meio do comportamento de um WeakMap ou WeakSet.
+
+
+Não é algo muito frequente. É usado em aplicativos maiores e mais avançados.

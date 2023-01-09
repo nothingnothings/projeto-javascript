@@ -1,0 +1,1097 @@
+
+
+
+
+
+
+
+
+PARA METODOS, COMO INVESTIGAMOS ANTERIORMENTE, A COISA INTERESSANTE 
+
+
+
+E QUE O ___METODO___ (greet) EM SI NAO FAZ PARTE DO OBJETO 'PERSON' (ou seja, nao faz parte DA SUBCLASSE EM QUE VOCE ADICIONOU O METODO, E SIM DA CLASSE BASE QUE LEGA AS CARACTERISTICAS A SUBCLASSE.)....
+
+
+
+resumo: ha apenas 2 propriedades dentro da classe 'person', 'name'
+e 'age', mas NAO E POSSIVEL ENCONTRAR 'greet()', o metodo 
+que fora definido dentro dessa mesma classe.
+
+
+
+(o professor nos mostra o output do seu console, que demonstra as propriedades/objetos dentro do objeto criado a partir da classe 'Person') :
+
+
+
+
+
+
+
+ex:
+
+
+
+
+
+Person {name: "Max", age: 30}  
+
+age: 30
+
+name: "Max"
+
+__proto__: AgedPerson
+
+
+(ou seja, greet() NAO APARECE AQUI COMO UM DOS METODOS DE 'person'; greet() ESTARA DEFINIDO COMO PROPRIEDADE DO PROTOTYPE (__proto__) DE 'AGEDPERSON'.  )
+
+
+
+
+
+
+Em vez disso, o metodo greet FAZ PARTE DO PROTOTYPE DE 
+
+
+
+PERSON (que e '__proto__: AgedPerson'.  Professor menciona que ESSE PROTOTYPE __proto__ FOI ADICIONADO AUTOMATICAMENTE PELO JAVASCRIPT; SERIA AQUELE PROTOTYPE 'DEFAULT'...).
+
+
+
+ 
+Dentro desse suposto prototype 'default' (__proto__: AgedPerson),
+
+
+podemos encontrar TANTO O METODO GREET() (que por alguma razao nao 
+acabou sendo parte da sucblasse, e sim dessE PROTOTYPE)
+
+COMO TAMBEM OUTRO PROTOTYPE (__proto__), QUE, ESSE SIM, 
+
+SEGURA O NOSSO OBJETO/classe BASE 'AgedPerson'...
+
+
+
+
+
+RESUMINDO.... :
+
+
+nos temos DOIS PROTOTYPES em vez de um...
+
+
+O fato de possuirmos 2 prototypes dentro desse objeto 
+
+__proto__ de 'Person' DECORRE DA EXISTENCIA 
+
+DE INHERITANCE (inheritance da classe base em relacao a subclasse...)
+
+
+
+
+
+Esse setup presente e UM SETUP QUE O JAVASCRIPT FAZ PARA NOS.... 
+
+
+
+E ELE FAZ PARA NOS POR UMA BOA RAZAO.
+
+
+
+
+
+
+
+
+A ideia aqui e que quando nos criamos INSTANCIAS DE 'PERSON', NOS QUEREMOS 
+TER DIFERENTES VALORES DE PROPRIEDADES..........
+
+Aqui, na verdade, todas as 'persons' que criarmos, todos os objetos, terao o mesmo 
+
+'name' de 'Max' e a mesma 'age' de 30, pois isso esta hardcodeado no nosso codigo...
+
+Mas frequentemente voce vai querer assignar diferentes dados/valores armazenados em 
+
+seus objetos...
+
+
+
+
+METODOS, POR OUTRO LADO, SAO COISAS QUE TIPICAMENTE PERMANECEM CONSTANTES AO LONGO 
+DE TODOS OBJETOS.
+
+
+
+A logica que voce tem presente EM ALGUM METODO (
+
+
+    por
+    ex:
+
+
+
+
+    greet() {
+        console.log(
+            'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. '
+        )
+    }
+)
+
+
+PODE ATE SE REFERIR AOS SEUS DADOS (por meio de uma sintaxe unica), MAS 
+
+ESSA LOGICA IRA SE REFERIR AOS SEUS DADOS DE MODO QUE __DIFERENTES___ DADOS SERAO REFLETIDOS 
+AUTOMATICAMENTE NO SEU CODIGO.... 
+
+(porque nos nao fizemos o hardcode de dados nesse metodo greet(); como voce pode observar, em vez 
+disso nele nos fizemos a referencia a PROPRIEDADES por meio de 'this.propriedade', e essas propriedades, por sua vez, 
+podem segurar DADOS DINAMICOS.
+)
+
+
+Portanto, a 'LOGICA DE FUNCAO' TIPICAMENTE NAO VARIA/MUDA DE OBJETO PARA OBJETO, 
+
+TIPICAMENTE ELA PERMANECE CONSTANTE ao longo de TODAS AS INSTANCIAS...
+
+
+
+Em razao da logica permanecer constante ao longo de todas as instancias, 
+
+o javascript adiciona um pouco de optimizacao para nos...
+
+
+
+
+
+
+
+
+Por meio da adicao de um metodo a um PROTOTYPE (ou seja, A CLASSE BASE `AgedPerson`, nesse caso, por exemplo), 
+
+O  JAVASCRIPT ASSEGURA QUE SEMPRE QUE NOS CRIAMOS UM NOVO OBJETO 'PERSON', NOS E GARANTIDO O MESMO 
+
+'PROTOTYPE FALLBACK OBJECT'...  ----------> isso e uma pequena optimizacao que leva a MENOS OBJETOS SEREM CRIADOS, o que significa menor consumo de memoria E MENOR IMPACTO NA PERFORMANCE...
+
+
+
+
+------------------------------
+
+
+
+
+PROFESSOR DIZ QUE PODE PROVAR ISSO A NOS:
+
+
+
+
+
+
+
+
+
+
+
+Se ele criar outro objeto, um objeto 'p2'....
+
+
+
+
+ex:
+
+
+
+
+
+
+const p2 = new Person();
+
+
+
+--------------------------------
+
+
+
+DEPOIS DISSO, ELE DIZ QUE CHECARA PELA EQUIVALENCIA DO '__proto__' de 'p' em relacao ao __proto__ de 'p2'....
+
+
+
+
+
+ex:
+
+
+const p2 = new Person();
+
+
+console.log(p.__proto__ === p2.__proto__);
+
+
+
+
+-----------------------------------------------
+
+
+
+
+RECEBEMOS 'TRUE', pois O PROTOTYPE DOS OBJETOS CRIADOS A 
+PARTIR DA MESMA SUBCLASSE E COMPARTILHADO (e sempre o objeto do prototype/classe base).
+
+
+
+
+Recebemos 'true' porque os dois objetos estao UTILIZANDO O EXATO MESMO OBJETO (nao e um ''objeto criado da mesma maneira', e sim o MESMO OBJETO, O EXATO MESMO OBJETO GUARDADO NA MEMORIA.)
+
+
+
+
+
+
+
+
+e por isso que o javascript adiciona os metodos aos prototypes (as classes bases) das subclasses, 
+
+porque com essa adicao a um objeto comum entre as subclasses, podemos compartilhar esse objeto/metodo 
+com todas elas, e isso economiza bastante recursos de processamento (o metodo apenas necessitara ser criado 
+uma unica vez na memoria, nao precisara ser reiterado para cada objeto que for sendo adicionado ao nosso sistema/codigo/runtime)
+
+
+
+   
+
+   -----------------------------------
+
+
+
+
+Se quisessemos fazer algo que tivesse o mesmo efeito, com nossas proprias maos,
+
+
+teriamos de criar uma constructor function ESPECIAL...
+
+
+
+
+ela NAO poderia ser assim, por exemplo:
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max'
+    this.greet = function() {
+       console.log( 'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. '); ///////CODIGO 'ERRADO' (metodo nao sera replicado em todas os objetos instanciados a partir de 'person', como aconteceria se estivessemos usando uma classe no lugar dessa constructor function. Para remediar isso, deve-se seguir a sintaxe explicitada mais abaixo)
+    };
+}
+
+
+
+
+------------------------------------------
+
+
+
+
+NAO PODERIAMOS, O PROFESSOR QUER DIZER, DEFINIR O METODO (this.greet = ...) COMO UMA PROPRIEDADE DENTRO DA CONSTRUCTOR 
+FUNCTION...
+
+
+
+
+
+Em vez disso, TERIAMOS DE ADICIONAR ESSE METODO PELO LADO DE FORA DA CONSTRUCTOR FUNCTION, POR MEIO 
+DA ADICAO DELE AO PROTOTYPE DESSA CONSTRUCTOR FUNCTION....
+
+ex:
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max'
+  
+}
+
+
+
+Person.prototype.greet = function() {
+    console.log( 'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. ');
+}
+
+
+
+--------------------------------------------------
+
+
+
+
+Essa sintaxe mostrada acima TERIA O MESMO EFEITO DAQUELA SINTAXE COM AS 
+
+SUBCLASSES/CLASSES BASES, mas com o uso de uma constructor function no lugar das classes...
+
+(ou seja, aqui o metodo greet ainda fica compartilhada entre todos os objetos 'Person' criados 
+a partir da constructor function de mesmo nome; o metodo ficara DENTRO DO
+
+__proto__, ou seja, prototype, de cada um desses objetos...) ------> 
+
+o metodo ficara, portanto, armazenado dentro do 'blueprint para o fallback value', por assim dizer.
+
+
+
+
+Ao fazermos isso, garantimos que esse metodo greet() e criado APENAS UMA UNICA VEZ (quando o javascript executa esse bloco de codigo)...
+Feito isso, sempre que nos criarmos um novo objeto a partir de 'Person' a FUNCAO/METODO 
+NAO SERA RECRIADA, E SIM O PROTOTYPE (o mesmo prototype) SERA ASSIGNADO A CADA UMA DAS INSTANCIAS 
+
+DE 'PERSON'...  (no final das contas, as unicas coisas que precisam ser RECRIADAS CADA VEZ QUE NOS 
+                INSTANCIAMOS UMA CONSTRCUTOR FUNCTION/CLASSE SAO AS __PROPRIEDADES__, ou seja
+                'this.age' e 'this.name'.)
+
+
+
+
+
+
+
+
+
+RESUMO:
+
+
+
+
+
+ESSE CODIGO>
+
+
+
+
+
+
+function Person() {
+    this.age = 30;
+    this.name = 'Max'
+}
+
+
+
+Person.prototype.greet = function() {
+    console.log( 'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. ');
+}
+
+
+
+
+
+E EQUIVALENTE A ESSE CODIGO:
+(sim, esse codigo SEM A KEYWORD DE `extends`, sem o comportamento adicional advindo da CLASSE BASE.)
+
+
+
+
+class Person {
+    
+    name = 'Max';
+
+
+    constructor() {
+    
+        this.age = 30;
+    }
+
+
+    greet() {
+        console.log( 'Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. ');
+    }
+}
+
+
+
+------------------------------------
+
+
+
+
+
+
+Portanto, e isso que o javascript faz para nos, ele optimiza um pouco o nosso codigo.
+
+
+Bem, o codigo que o professor tinha mais 
+
+cedo,
+
+
+em qe ele adicionava 
+
+greet por meio de uma 'propriedade' 
+
+(
+
+'this.greet = function() {
+    ...
+}
+
+
+
+
+
+),
+
+
+UMA PROPRIEDADE DENTRO DE UMA CONSTRUCTOR FUNCTION,
+
+
+
+
+PODERIA TAMBEM SER RECONSTRUIDO dentro 
+
+da classe 'Person'...
+
+
+
+-------------------------
+
+
+
+
+Para tal, 
+
+a opcao NUMERO 1 
+
+seria 
+
+
+ir ate o constructor da classe e dizer 
+
+'this.greet = function() {...}'
+
+
+
+
+ex:
+
+
+
+
+
+class Person {
+    
+    name = 'Max';
+
+
+    constructor() {
+    
+        this.age = 30;
+        this.greet = function() {...}
+    }
+
+
+
+}
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+OPCAO NUMERO 2 SERIA USAR UM __FIELD___ em que 
+
+voce nao usaria 
+
+o shorthand de metodos ('greet() {}')  (PORQUE ESSE SHORTHAND DE METODOS 'E O ___TRIGGER___ PARA O JAVASCRIPT FAZER AQUELA OPTIMIZACAO DE COLOCAR OS METODOS EM TODAS OS OBJETOS INSTANCIADOS A PARTIR DE CLASSES...),
+
+
+E SIM colocar um sinal de '=' NO FIELD 
+E ENTAO ASSIGNAR 
+
+UMA FUNCAO A ESSE 'greet'...
+
+
+
+Nao importa se essa funcao e uma arrow function ou uma funcao criada 
+com a keyword 'function' normal...
+
+
+ex:
+
+
+
+
+
+
+class Person {
+    
+    name = 'Max';
+
+
+    constructor() {
+    
+        this.age = 30;
+        
+    }
+
+    greet = function() {
+        ...
+    }
+
+}
+
+
+
+
+---------------------------------
+
+
+
+
+SE VOCE CRIAR ESSE METODO ASSIM, DESSA FORMA AI,
+
+voce podera chama-lo como antes, que voce nao vera diferenca.
+
+
+
+
+ex:
+
+
+
+
+
+class Person {
+    
+    name = 'Max';
+
+
+    constructor() {
+        
+        this.age = 30;
+        
+    }
+
+    greet = function() {
+        ...
+    }
+
+}
+
+
+
+const p = new Person();
+
+
+
+p.greet();
+
+
+
+
+
+-----------------------------
+
+
+
+AS 2 formas sintaticas renderao o mesmo resultado, o metodo 'greet' podera 
+ser chamado no novo objeto instanciado sem problemas...
+
+
+------------------------------------
+
+
+
+
+ENTRETANTO, ALGO ___TECNICAMENTE____ DIFERENTE ESTARA ACONTECENDO AQUI, NOS BASTIDORES...
+
+
+
+Se o professor fizer o console.log() de 'p',
+
+
+veremos que AGORA, DENTRO DO OBJETO, 
+
+O METODO
+GREET FAZ PARTE DO OBJETO 'Person' EM SI, E NAO MAIS 
+
+DE SEU PROTOTYPE, COMO ERA ANTES...
+
+
+
+
+E isso significa que ESSA FUNCAO 
+
+'greet = function() {...}'  (OU 'this.greet = function() {...}') SERA 
+
+RECRIADA EM TODAS AS INSTANCIAS CRIADAS A PARTIR DESSA CLASSE 'Person'.......... (algo que nao acontee com o comportamento NORMAL das constructor functions/classes).
+
+
+
+
+ISSO GASTARA/OCUPARA MUITO MAIS MEMORIA, custa mais performance.
+
+
+
+E claro que tudo isso depende do aplicativo que estamos criando:
+
+em muitos aplicativos isso nao importara nem um pouco.
+
+
+Sempre que o professor diz que ocupa performance/memoria, ele esta querendo 
+dizer que a diferenca e de milissegundos, kilobytes, coisas minusculas.
+
+
+
+ou seja, 
+escrever um metodo 
+
+dessa forma 
+
+
+'greet = function(){}' DENTRO DE UMA CLASSE 
+
+nao gera necessariamente um enorme impacto negativo,
+
+
+
+mas o professor quer que nos entendamos que ha uma diferenca de resultado/impacto, 
+e que nos deveriamos tipicamente tentar evitar essa sintaxe.
+
+
+
+
+-------------------------------------
+
+
+
+POREM, UM USE CASE COMUM EM QUE ESSA SINTAXE DE METOODS PODE 
+
+SER UTIL E EM CASOS EM QUE VOCE USA UMA 
+ARROW FUNCTION nessa definicao do metodo....
+
+
+ex:
+
+
+
+
+class Person {
+
+
+    greet = () => {this.name + this.age}
+}
+
+
+-------------------------------
+
+
+Mas por que?
+
+
+
+PQ em casos que utilizamos as arrow functions, O USO 
+
+DELAS VAI GARANTIR QUE os 'this' DENTRO DE SEUS FUNCTION BODY 
+SE REFIRAM A CLASSE QUE ENVOLVE ESSE METODO... (o objeto que o segura...).
+
+
+Isso decorre do comportamento 'burro' das arrow functions, que nao sabem 
+como tratar o 'this' e entao definem seu tratamento/comportamento como sendo o mesmo 
+do root do objeto... (se refere ao proprio objeto/classe que o envolve)
+
+
+
+
+Se voce, por exemplo, fizer/precisar fazer o bind de 'this' a um eventListener, ou algo do genero, ESSA SINTAXE 'ruim'
+pode ser  MAIS FACIL/melhor DE USAR DO QUE A SINTAXE MAIS CORRETA... (a sintaxe mais correta 
+seria o uso da 
+shorthand 
+
+de metodos, ou seja 
+de 
+
+'greet() {console.log(xxxx)} '), com a sintaxe mais correta, voce seria obrigado a usar 
+o metodo 'bind' para entao bindar o 'this' correctamente quando voce quiser assignar o 
+'this' a um eventListener...
+
+
+
+
+
+
+Esse e uma situacao bem nicho, bem situacional, em que a sintaxe 'ERRADA' de adicionar 
+metodos (a sintaxe que gasta mais memoria) pode ser util...
+
+
+
+
+Na verdade, o uso da sintaxe 'correta' do metodo, mostrada mais acima, combinada 
+com 'bind',  AINDA E MELHOR SEGUNDO UMA PERSPECTIVA DE PERFORMANCE, MAS 
+
+devido a melhor LEGIBILIDADE desse approach da sintaxe 'ERRADA' (
+
+
+pq a sintaxe errada que utiliza arrow functions NAO PRECISA 
+DE UM METODO ''BIND'' para ajustar o comportamento do 'this', coisa que 
+ocorre com a sintaxe 'correta', em que precisamos adicionar 'bind' em um 
+'event listening code', o que pode levar a pior legibilidade.
+)
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+O professor demonstra a diferenca entre os dois/melhor legibilidade da
+sintaxe 'errada' POR MEIO DE UM EXEMPLO...:
+
+
+
+Exemplo de um BOTAO.
+
+
+
+ex:
+
+
+
+
+class Person {
+
+
+ name = 'Max';
+
+
+    constructor() {
+        
+        this.age = 30;
+        
+    }
+
+    greet = () => {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. '
+        );
+    }
+
+}
+
+
+
+
+const p = new Person();
+
+
+const button = document.getElementById('btn');
+
+button.addEventListener('click', p.greet);
+
+
+---------------------------------------------------
+
+
+
+
+
+
+Se escrevermos esse codigo, veremos que com o addEventListener adicionado,
+
+se eu entao utilizar a SINTAXE DE ARROW FUNCTIONS E A SINTAXE 
+EM QUE EU ARMAZENO ESSA FUNCAO EM UMA PROPRIEDADE (em vez de eu utilizar a shorthand de METODOS.... OBS::: A SHORTHAND DE METODOS ______NUNCA_____ FICA DISPONIVEL EM ARROW FUNCTIONS. ELA NAO FUNCIONA COM/DENTRO DE ARROW FUNCTIONS.)
+
+
+Continuandoo...
+
+se eu entao utilizar essa sintaxe, 
+
+
+
+--------------------------------
+
+
+Se eu rodar esse codigo e apertar no botao 'greet me', 
+
+o javascript respondera  da maneira que quero, 
+ira rodar o metodo 
+
+'greet()'.
+
+---------------------------------
+
+
+
+SE NOS HOUVESSEMOS UTILIZADO A MANEIRA MAIS CORRETA DE 
+
+ADICIONAR O METODO (por meio da shorthand de metodos), 
+
+ESSE CODIGO NAO IRA FUNCIONAR DA MANEIRA QUE DESEJAMOS.....
+
+
+Nao ira funcionar porque o 'this' EM 'this.name'  e 'this'age' IRA 
+
+SE REFERIR AO ADDEVENTLISTENER (ja estudamos isso, esse problema 
+tem relacao com A MANEIRA PELA QUAL 'this' e addEventListeners se comportam...
+aqui o 'this' ira se referir ao ADDEVENTLISTENER/ao elemento BOTAO do 
+addEventListener, e nao queremos isso, queremos que ele se refira ao OBJETO/classe QUE 
+SEGURA o metodo greet()....)
+
+
+--------------------------------------
+
+
+Ou seja, o output ficara BUGADO, se utlizarmos essa sintaxe 'correta'.
+
+
+
+o output ficara:
+
+
+
+'Hi, I am (vazio) and I am undefined years old.'
+
+
+
+
+-------------------------------------
+
+
+
+Para resolver isso com a sintaxe 'correta' dos metodos, 
+teriamos de adicionar/chamar o metodo BIND em 'p.greet()'....
+
+
+
+
+
+ex:
+
+
+
+
+
+
+
+
+
+
+class Person {
+
+
+ name = 'Max';
+
+
+    constructor() {
+        
+        this.age = 30;
+        
+    }
+
+    greet = () => {
+        console.log('Hi, I am ' + this.name + ' and I am ' + this.age + ' years old. '
+        );
+    }
+
+}
+
+
+
+
+const p = new Person();
+
+
+const button = document.getElementById('btn');
+
+button.addEventListener('click', p.greet.bind(p)); //////////E ASSIM QUE CONSERTARIAMOS O PROBLEMA do output bugado, com esse bind correto de 'this' ao objeto/classe que segura esse metodo. O 'bind' aqui faria COM QUE 'this' (seu significado/relacao) FOSSE ATRIBUIDO A 'p', que e o objeto que segura o metodo greet...
+
+
+
+--------------------------------------
+
+
+
+
+
+Se eu salvar isso, e claro que eu conseguirei o resultado que eu queria 
+no console, MAS 
+
+ESSAS LINHAS DE CODIGO SAO UM POUCO MAIS DIFICEIS DE LER, e e por isso 
+
+que voce talvez prefira utilizar a sintaxe 'errada' dos metodos quando 
+voce estiver lidando com 
+
+addEventListeners misturados com classes e metodos...
+
+
+----------------------------------  
+
+
+bind() + sintaxe correta de metdos === E PREFERIVEL, mas nao ha problema em deixar de utiliza-la e usar a sintaxe 'errada' EM CASOS EM QUE VOCE NAO TEM MILHARES DE OBJETOS SENDO CRIADOS...
+
+
+
+
+--------------------------------------
+
+
+
+
+
+SUMARIO DAQUILO QUE APRENDEMOS DURANTE ESSE MODULO:
+(Prototypes & 'method types')
+
+
+
+
+
+
+
+1) criacao de metodos em classes e constructor functions...:
+
+
+
+
+
+
+voce tem 3 maneiras diferentes:
+
+
+
+
+a) maneira 'shorthand':
+
+
+
+ex:
+
+
+
+class Person {
+    greet() {
+        console.log('Hello');
+    }
+}
+
+
+
+----> essa sintaxe vai AUTOMATICAMENTE FAZER COM QUE 
+ESSE METODO SEJA ASSIGNADO AO PROTOTYPE DE PERSON, o que 
+fara com que esse metodo SEJA COMPARTILHADO POR TODOS OS OBJETOS 
+'PERSON' INSTANCIADOS A PARTIR DESSA CLASSE DE MESMO NOME...
+
+OBS::: o metodo nao E RECRIADO EM CADA OBJETO, e sim COMPARTILHADO (e o mesmo local na memoria).
+
+(Assigned to Person's prototype and hence shared ACROSS ALL INSTANCES (NOT recreated per instance...))
+
+
+
+
+---------------------------
+
+
+
+
+b) maneira da 'property function':
+            (nao usar)
+
+
+
+ex:
+
+
+
+class Person {
+    greet = function() {...}
+
+
+    constructor() {
+        this.greet2 = function() {...}
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+-----> uma property function 'normal' nao e boa, pois NAO 
+NOS AJUDA/AJUDARA COM O COMPORTAMENTO DE 'THIS'...
+
+Por isso que a maneira que usa PROPERTY ___ARROW____ FUNCTIONS 
+E SIMPLESMENTE MELHOR do que esse tipo...
+
+
+
+
+----> (Methods are assigned to individual instances 
+and hence recreated per object. 'This' refers to 'what called the method' )
+
+
+
+
+
+
+
+
+c) maneira da PROPERTY ARROW FUNCTION:
+
+
+
+ex:
+
+
+
+
+class Person {
+    greet = () => {...}
+
+    constructor() {
+        this.greet2 = () => {...}
+    }
+}
+
+
+
+
+
+----> essa maneira, a maneira que usa 
+'PROPERTY ARROW FUNCTIONS', nos ajuda com o COMPORTAMENTO 
+    DE 'THIS'...
+
+
+----> (Methods are assigned to INDIVIDUAL instances and hence recreated per object.
+'THIS' ALWAYS REFERS TO THE INSTANCE THAT HOLDS THE METHOD.... (thus, this synthax is better than the previous one, the one that uses property function and not a property arrow function))
+
+
+-----> Professor aponta que NOS SEMPRE PODEMOS 
+ADICIONAR METODOS DENTRO DA PARTE DOS CONSTRUCTORS DAS 
+CLASSES, como visto nesses 2 exemplos (das 'property functions' e das 'property arrow functions').
+
+
+
+
+
+---> esse ultimo formato pode ser UTIL EM ALGUNS CASOS,
+mas nao e a opcao mais optimizada (apesar de isso nao fazer muita diferenca, salvo em casos que voce precisa criar milhares de objetos.)
+
+
+
+
+
+(Unecessary re-creations of function can cost performance!)

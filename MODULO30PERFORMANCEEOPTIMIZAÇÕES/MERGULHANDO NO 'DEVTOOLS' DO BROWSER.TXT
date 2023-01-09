@@ -1,0 +1,1974 @@
+
+
+
+
+
+----> DEVEMOS VER UM EXEMPLO CONCRETO DE OPTIMIZAÇÃO.
+
+
+
+
+
+
+--> TEMOS UM PROJETO BÁSICO NESSE MÓDULO, 
+
+
+
+Professor escreveu uns códigos básicos...
+
+
+
+
+Devemos replicar com nossos conhecimentos 
+
+
+
+
+
+DEVEMOS RODAR 
+
+
+'npm install' no folder do projeto PARA QUE TODAS AS DEPENDENCIES EM 
+
+
+'PACKAGE.JSON' sejam instaladas...
+
+
+
+
+
+PROFESSOR ENTÃO PEDE QUE RODEMOS 
+
+
+'
+npm run build:devServer'.... ---->  ELE DIZ QUE NÓS MEDIREMOS 
+
+A PRODUCTION PERFORMANCE MAIS TARDE, QUE AGORA DEVEMOS CHECAR 
+
+SE O DEV SERVER ESTÁ FUNCIONANDO...
+
+
+
+
+
+nós tentamos resolver os problemas de código com o webpack e tals...
+
+
+tudo não está funcionando perfeito ainda, 
+
+
+devemos consertar...
+
+
+
+
+ERROR in Entry module not found:
+ Error: Can't resolve './src/optimized/shop.js' in 
+ 'C:\projeto\MODULO30PERFORMANCEEOPTIMIZAÇÕES\projetonovo'
+
+
+
+
+(talvez pq ainda não temos esse folder do 'optimized'...).
+
+
+
+
+
+
+
+Como a versão que o professor nos passou do projeto É EXTREMAMENTE BUGADA e não 
+
+funciona com a nossa versão desse projeto (incompatibilidades com ESTRUTURA DE PASTAS 
+e 
+CONFIGURAÇÕES NO 'webpack.config.js' e 'webpack.config.prod.js'), 
+
+
+USAREMOS A VERSÃO 
+
+
+DELE, que ficará naquela pasta 'projetonovo2'...
+
+
+(OBS: 'npm install' FAZ COM QUE TODAS AS DEPENDENCIAS DESSE PROJETO, discriminadas 
+
+em 'package.json', SEJAM INSTALADAS AUTOMATICAMENTE...)
+
+
+
+
+---> depois, você deve rodar o DEVELOPMENT SERVER....
+
+
+
+
+
+----> devemos rodar o dev server... para depois vermos o código de produção...
+
+
+--> devemos visitar esse site, nosso projeto, em uma ABA ANÔNIMA... (nenhum plugin ou browser extension)....
+
+
+
+
+
+O QUE TEREMOS AQUI É UM SITE BÁSICO 
+
+
+COM UM MONTE DE DUMMY PRODUCTS..
+
+
+
+
+
+VocÊ tem um simples field ali em cima, 
+
+com um price....
+
+
+
+SE VOCê DIGITAR ALGO ALI E ENTÃO CLICAR EM 
+
+
+'add product', 
+
+
+ISSO FARÁ 
+
+COM QUE UM NOVO ELEMENTO DO DOM SEJA ADICIONADO NA PÁGINA...
+
+(um novo 'projectItem' com o title e o preço que você definiu...)
+
+
+
+------------------------------------------------
+
+
+
+
+OUTRA COISA QUE ESSA PÁGINA FAZ É __dELETAR PRODUTOS__ QUANDO VOCÊ APERTA 
+
+
+NO 
+
+
+'DELETE' 
+
+em cada um dos items....
+
+
+
+-------------------------
+
+
+
+É um projeto bem simples, basicamente.
+
+
+
+-------------------------------
+
+
+
+
+É EVIDENTE QUE TODAS AS INTERAÇÕES QUE NÓS OBSERVAMOS AQUI SÃO 
+
+
+REALIZADAS COM A AJUDA DO JAVASCRIPT...
+
+
+
+temos 
+
+
+3 arquivos de script...
+
+
+
+'product-management' 
+
+
+
+'rendering.js'
+
+
+
+e 
+
+'shop.js'...
+
+
+--------------------------------
+
+
+ESSES 3 ARQUIVOS SÃO O QUE FAZEM ESSAS COISAS NA TELA FUNCIONAREM 
+
+DESSA MANEIRA...
+
+
+
+
+----> agora devemos ver COMO PODEMOS ___OPTIMIZAR__ esse nosso aplicativo...
+
+
+
+
+----> e é óbvio que é importante ENTENDER QUe ESSE __NÃO É UM APLICATIVO LENTO....___ 
+
+
+ELE não é lento MESMO.
+
+ELE não tem nenhum problema de performance grande, vocÊ consegue perceber 
+que tudo 
+
+aqui funciona de forma SMOOTh...
+
+
+
+
+-------> Professor diz que, EM GERAL, esse aplicativo funciona bem...
+
+
+Não é só pq o professor está com uma conexão boa e com um bom computador.
+
+
+
+
+----> AINDA QUE O PROFESSOR TENHA ADICIONADO ALGUNS ____PROBLEMAS___ 
+
+NO código... (como em 'shop.js', como veremos mais para adiante), 
+
+
+ESSE CÓDIGO DO NOSSO PROJETO __NÃO É HORRÍVEL____....
+
+
+
+
+---> e também não é um aplicativo mt grande...
+
+
+
+
+----> MAS PROBLEMAS COMO ESSES QUE O PROFESSOR COLOCOU NO CÓDIGO, COMO EM 
+
+'shop.js'... (
+
+
+    aquele código 
+
+
+de
+
+
+
+'
+
+
+import { initProducts } from './product-management';
+
+function addProduct(event) {
+  import('./product-management.js').then(mod => {
+    mod.addProduct(event);
+  })
+}
+
+const addProductForm = document.getElementById('new-product');
+
+initProducts();
+
+addProductForm.addEventListener('submit', addProduct);
+
+
+'
+
+
+
+
+
+),
+
+
+
+PROBLEMAS COMO ESSE  AÍ 
+
+
+PODEM ACABAR 
+
+
+
+SE ACUMULANDO, criando DELAYS e problemas CONSIDERÁVEIS em 
+
+aplicativos maiores....
+
+
+
+
+Portanto o conserto deles pode ser bem benéfico...
+
+
+
+
+VAMOS CONSERTÁ-LOS, mas antes devemos ver como 
+
+PODEMOS ANALISAR ESSE NOSSO APLICATIVO POR MEIO 
+
+DAS BROWSER 
+
+
+DEVTOOLS...
+
+
+
+
+
+---> e há um punhado 
+
+de coisas que podemos 
+
+descobrir por meio dessas tools....
+
+
+
+
+
+
+
+DE NOVO: esse código que estamos rodando é um código de DEVELOPMENT, 
+
+ele não TENTA SER RÁPIDO, não é optimizado....
+
+
+
+
+Mas apesar de não ser óptimo em questão de performance, ele é bom 
+
+para mostrar essas features do devtools, pq é mais fácil de mostrar as coisas..
+
+
+
+----> UMA FERRAMENTA QUE PODEMOS 
+
+
+__USAR___ PARA DESCOBRIR ___ O QUÃO FREQUENTEMENTE NÓS ___ INTERAGIMOS COM 
+
+O __DOM__ EM UM APLICATIVO (e o que afetamos no DOM) é 
+
+
+A ___ABA___ DE 'ELEMENTS' no devtools...
+
+
+(professor aqui está falando do chrome devtools, mas a grande maioria 
+dos browsers possui tabs/tools similares...)
+
+
+
+
+
+----> A ABA 'ELEMENTS' é a primeira aba desse negócio...
+
+
+
+DEVEMOS RECARREGAR A PÁGINA e ver um exemplo....
+
+
+
+EXPANDIMOS A 'ul' 
+
+de 
+
+'product-list'...
+
+
+com isso podemos 
+
+ver 
+
+TODOS OS LIST ITEMS 
+
+na nossa página...
+
+
+
+
+
+Agora você deve observar  OS ITEMS 
+
+__NA DIREITA___... VEJA O QUE ACONTECE 
+
+
+QUANDO O PROFESSOR CLICA 
+
+'DELETE' em algum dos items....
+
+
+
+->>> 1 dos items na 'product-list' É ___REMOVIDO____...
+
+
+
+-> Entretanto, se vocÊ prestar bastante atenção, você perceberá 
+
+___QUE TODOS OS ITEMS__ DA 'ul' foram SELECIONADOS POR UM BREVE INSTANTE...
+
+
+
+-----> mas pq isso?
+
+
+----> PQ O CHROME __SUBLINHA TODOS OS ITEMS___ AQUI QUE FORAM REALMENTE 
+
+TOCADOS POR NOSSA AÇÃO, POR NOSSO CLICK NESSE 'DELETE'...
+
+
+----> sublinha todos os items que foram mudados/readicionados/re-renderizados...
+
+
+
+
+
+----> É EVIDENTE QUE ISSO JÁ 
+
+NOS DÁ UMA GRANDE DICA... uma dica de ALGO QUE TALVEZ NÃO ESTEJA PERFEITO 
+
+NO PRESENTE MOMENTO...
+
+
+
+----> quando O PROFESSOR DELETA, POR EXEMPLO, O ___ÚLTIMO ITEM DA LISTA__, 
+
+é meio __INESPERADO__ (achamos inesperado) QUE 
+
+___tODOS OS OUTROS ITEMS ACABEM ALTERADOS/MUDADOS TAMBÉM___... ---> é por 
+
+isso que esse fenômeno/funcionamento é algo que NÓS POSSAMOS 
+
+TALVEZ OPTIMIZAR...
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+
+NÓS TEMOS OUTRAS TABS 
+
+
+
+no 'devtools' que são interessantes também...
+
+
+POR EXEMPLO, 
+
+NA ABA 
+
+
+'NETWORK',
+
+
+
+nós podemos descobrir 
+
+
+
+____QUANTO CÓDIGO NÓS ESTAMOS ___bAIXANDO___ NA NOSSA PÁGINA...____ 
+
+e quanto tempo 
+
+DEMORA ATÉ QUE CONSIGAMOS BAIXAR o código de nossa página...
+
+
+
+
+----> ISSO TAMBÉM NOS MOSTRA __QUANTOS 'HTTP ROUNDTRIPS' __ NÓS TEMOS...
+
+
+
+
+----> SE NÓS RECARREGARMOS A NOSSA PÁGINA, 
+
+VEREMOS QUE TEMOS UM PUNHADO DE REQUESTS 
+
+PARA QUE ELA SEJA CARREGADA...
+
+
+
+
+Temos 
+
+
+'websocket' 
+
+
+
+'localhost' 
+
+
+
+'app.css' 
+
+
+
+'shop.js'
+
+
+
+
+e 
+
+
+'info?t=1617613631358i'
+
+
+
+
+
+------------------------------------
+
+
+
+
+PROFESSOR EXPLICA 
+
+
+
+QUE 
+
+
+'websocket' 
+
+
+e 'info....' 
+
+
+
+TEM RELAÇÃO APENAS COM NOSSO 'DEVELOPMENT SETUP'... (com o webpack dev server...)
+
+
+
+ESSAS 2 COISAS ___NÃO APARECERÃO NO 'PRODUCTION MODE'____...
+
+
+
+
+-------------------------------------------
+
+JÁ OS 3
+ 
+ primeiros requests,
+
+
+ 'localhost',
+
+
+
+ 'app.css' 
+
+
+ e 
+
+
+ 'shop.js'
+
+
+
+ SEMPRE ESTARÃO 
+
+ ALi...
+
+
+
+
+ pq o 'localhost' --> é o HTML
+  
+
+
+
+o 'app.css' ----> CÓDIGO CSS 
+
+
+
+e 
+
+
+o 
+
+
+
+'shop.js' ---> código javascript....
+
+
+
+----------------------------------------
+
+
+
+
+O CÓDIGO DE 
+
+
+'shop.js' ---> NÃO ESTÁ NADA OPTIMIZADO...
+
+
+ELE TEM UM MONTE DE 'development overhead'/development-only code...
+
+In computer science, overhead is any combination of excess or indirect computation time, memory, bandwidth, or other resources that are required to perform a specific task. It is a special case of engineering overhead. Overhead can be a deciding factor in software design, with regard to structure, error correction, and feature inclusion. Examples of computing overhead may be found in functional programming[citation needed], data transfer, and data structures.
+
+
+
+
+-----------------------------------------------
+
+
+
+
+PORTANTO, VOCÊ PODE PERCEBER QUE 
+
+ESSES 
+
+3 ARQUIVOS 
+
+
+SÃO LARGUINHOS....
+
+
+são grandinhos, 
+
+
+ESPECIALMENTE O ARQUIVO JAVASCRIPT.... (tem 1 mb de tamanho) ----> esse tamanho será MUITO MENOR no modo de production...
+
+
+(os outros arquivos tem 1kb e 1.5kb)...
+
+
+
+
+-------------------------------------------------
+
+
+
+
+COMO O PROFESSOR ___JÁ ESTÁ USANDO WEBPACK___ nesse nosso código, 
+
+
+O QUE NÓS __NÃO TEREMOS___ é 
+
+
+'HTTP ROUNDTRIPS' extras.... (NÃO TEMOS ISSO POR CAUSA DO 
+
+WEBPACK + CONSTRUÇÃO DO NOSSO CÓDIGO EM __MÓDULOS___...)
+
+
+
+
+
+
+----> o professor está, de fato, usando MÚLTIPLOS ARQUIVOS NESSE NOSSO PROJETO...
+(arquivos 'product-management', 'rendering.js' e 'shop.js'),
+
+E ELE DE FATO ESTÁ IMPORTANDO ELES 1 PARA DENTRO DO OUTRO....
+
+
+
+---> ENTRETANTO, COMO NÓS TEMOS __wEBPACK INSTALADO NO NOSSO PROJETO__, 
+ELES são/estão, na verdade (actually),  BUNDLADOS EM 1 ÚNICO BUNDLE....
+
+
+ISSO SIGNFICA QUE O WEBPACK GARANTE QUE NÓS 
+NÃO FIQUEMOS COM MUITOS 'roundtrips' NO NOSSO CÓDIGO...
+
+
+
+
+---> E ISSO JÁ É UMA __GRANDE___ OPTIMIZAÇÃO___...
+
+
+
+--------------------------------------------------------------------
+
+
+
+NO WEBPACK DE PRODUCTION, o modo ('mode') estará 
+
+como PRODUCTION, e isso fará com que o webpack ENCOLHA NOSSO CÓDIGO 
+
+e o optimize ainda mais...
+
+
+
+
+
+----> CERTO, AQUI NÃO TEMOS PROBLEMA ALGUM... 
+
+
+mas o professor ainda quer mostrar UM PROBLEMA QUE PODERÍAMOS 
+
+TER... é um problema 
+
+
+QUE EXISTIRIA 
+
+
+SE ESSE ARQUIVO/CÓDIGO GRANDE DE '1MB' persistisse como 
+
+
+O OUTPUT FINAL DO NOSSO PROJETO...
+
+(professor apenas quer mostrar O QUE ACONTECERIA ____SE ____ esse fosse 
+
+o caso (mas não é).)
+
+
+
+
+----> PROFESSOR DIZ ISSO PQ AQUI, NO DEVTOOLS, PODEMOS 
+
+FAZER UM MONTE DE COISAS INTERESSANTES... ---> primeiro de tudo, 
+
+VOCÊ DEVE ASSEGURAR 
+
+
+QUE 
+
+'disable cache', na aba network, ESTEJA ___MARCADO___... --> vocÊ 
+
+deve fazer isso para que o browser NÃO __CACHEIE___ SUA PÁGINA/SEU CÓDIGO (com 
+
+essa opção marcada, o devtools deixa de cachear sua página DESDE QUE O DEVTOOLS 
+ESTEJA ABERTO...) 
+
+
+
+
+
+
+----> certo.... então ali, naquele dropdown, no dropdown do LADO DO CHECKBOX DO 'disable cache', 
+
+você tem ALGUMAS OPÇÕES DE CONEXÃO DE INTERNET... você pode simular 
+
+sua internet... simular 3g ruim, por exemplo....
+
+
+no 3g ruim, essa sua página vai demorar ANOS para carregar... 
+
+
+O negócio vai girar e girar e demorar...
+
+
+
+E AGORA VOU CONSEGUIR ERROS NO MEU CÓDIGO....
+
+MUITOS ERROS.
+
+
+AGORA, COM ESSA INTERNET 3G RUIM, 
+
+essa nossa página 
+
+NÃO FICARÁ MAIS INTERATIVA...
+
+
+Eu vou ver algo na página,
+
+
+MAS NÃO SEREI CAPAZ DE FAZER COISA ALGUMA, NÃO PODEREI CLICAR E INTERAGIR 
+
+
+EM NADA...
+
+
+
+
+
+O professor é, na verdade, 
+
+FORÇADO A __rECARREGAR ___ A PÁGINA 
+
+EM RAZÃO DA AUSÊNCIA do javascript... (javascript was missing... wasnt loaded fast enough)...
+
+
+
+
+----> o javascript 
+
+
+
+aqui 
+
+estava 
+
+
+
+'prevenindo o default' (preventDefault()), 
+
+
+
+MAS PQ O JAVASCRIPT DA PÁGINA É 1 MB INTEIRO, e como 
+
+estmaos FAKANDO uma conexão ruim, esse 1mb inteiro 
+
+
+ACABA DEMORANDO MT  TEMPO PARA CARREGAR, muito tempo para 
+
+BAIXAR E LOADAR O JAVASCRIPT...
+
+
+E isso faz com que nosso aplicativo QUEBRE,
+ 
+pois 
+
+o botão 'add product'  NÃO É 'HANDLED correctly'...
+
+
+
+
+---> AQUI, PORTANTO, JÁ TEMOS UM EXEMPLO DE PORQUE 
+
+UM ARQUIVO SCRIPT GRANDE DEMAIS  PODE SE TORNAR UM PROBLEMA...
+
+
+
+
+------->  É evidente que aqui esse script não é tão grande assim, 
+ele só fica grande POR CAUSA DO DEVELOPMENT MODE...
+
+
+
+
+---> mas se esse fosse seu PRODUCTION READY OUTPUT, vocÊ 
+
+certamente gostaria de fazer qualquer coisa possível 
+
+para REDUZIR O TAMANHO DESSE SCRIPT...
+
+
+
+
+---> o professor desabilita o throttling (o negócio de reduzir 
+
+a velocidade da nossa internet/fakar essa velocidade)....
+
+
+
+
+-----------------------------
+
+
+
+O QUE TEMOS ALÉM DISSO?
+
+
+
+
+--> bem, temos a aba de 
+
+PERFORMANCE...
+
+
+
+
+---> ELA É importante.
+
+
+
+
+---> LÁ você também pode definir o throttling da página (fakar internet)...
+
+
+
+
+
+----> VOCê TAMBÉM TEM A OPÇÃO DE 'CPU THROTTLING'... isso simula 
+
+computadores de merda.... (essa opção é acessada por meio da ENGRENAGEM na direita, em cima...)
+
+
+
+ex: 
+
+
+
+'6x slowdown'... ---->
+
+
+
+mesmo com 6x slowdown, nossa página ainda é rápida, pois o script dela é bem 
+
+simples....
+
+
+
+MAS SE VOCê TIVESSE UMA PÁGINA COM UM MONTE DE ANIMAÇÕES COMPLEXAS RODANDO,
+
+OU COM UM MONTE DE INTERAÇÕES complexas, VOCÊ PODe/poderá usar 
+
+
+O CPU THROTTLING PARA CHECAR SE TALVEZ essa página 
+
+dá problema em aparelhos mais lentos... 
+
+
+
+
+A aba de performance, no entanto, te deixa FAZER MAIS DO QUE APENAS 
+
+CPU THROTTLING...
+
+
+Você pode, por exemplo,
+
+
+
+GRAVAR __A PERFORMANCE DA PÁGINA, com o botão 'rec'...
+
+
+
+Gravado o desempenho da página, você pode o analisar em detalhe...
+
+
+ex: 
+
+
+professor define '6x slowdown' e então grava a página...
+
+
+
+
+Depois de clicar em 'gravar', o professor vai lá 
+
+
+e 
+
+
+___DELETA___ um dos elementos da página por meio 
+
+
+de um dos botões de 'delete'... ----> isso feito, a aba de 
+
+'performance' vai nos mostrar um GRÁFICO DETALHADO de como 
+
+esse processo foi administrado por nossa página, e os efeitos dele...
+
+
+
+
+DETALHE: quando estamos usando a feature de 
+
+'gravar', não podemos TROCAR DE ABA, trocar para a aba 'elements', por exemplo.
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+
+
+
+
+Professor aponta que temos MUITA COISA na nossa tela... muita coisa 
+
+nesse gráfico de 'performance'...
+
+
+
+o que são essas diferentes coisas?
+
+
+
+
+Bem, na metade dessa aba nós temos SCREENSHOTS do nosso aplicativo...
+
+
+elas são úteis pq mostram AS MUDANÇAS DO NOSSO APP AO LONGO DO RUNTIME QUE 
+GRAVAMOS....
+
+
+Certo... isso é útil.
+
+
+(isso é habilitado por meio da checkbox de 'screenshots' lá em cima, no devconsole...)
+
+
+
+
+TAMBÉM HÁ UMA CHECKBOX DE 'memory'.... ---> isso nos dá uma timeline 
+
+DO GASTO DE MEMÓRIA DO BROWSER com essa nossa página, nesse runtime específico... ISSO 
+
+TE DÁ UMA IDEIA DO CONSUMO DE MEMÓRIA.
+
+
+Essa feature é boa para ANALISAR MEMORY LEAKS, mas 
+
+por enquanto nós não precisamos dela....
+
+
+
+
+----> O IMPORTANTE AGORA É A TIMELINE DE SNAPSHOTS...
+
+
+
+---> se vocÊ aumentar o tamanho da ABA MAIS INFERIOR, a do 'summary', 
+
+VOCê VÊ UM BREAKDOWN DE TODO O TRABALHO REALIZADO NESSE SEU RUNTIME...
+
+
+
+
+
+
+
+
+----> PROFESSOR EXPLICA QUE NESSE SNAPSHOT QUE TIRAMOS, a maior parte 
+
+do tempo foi gasto EM __IDLE___.... (4708ms... depende de quanto tempo 
+você ficou sem fazer NADA, sem CLICAR EM NADA.)
+
+
+
+---> UM TEMPO de idle GRANDE __É BOM__, pois significa que NOSSA PÁGINA 
+
+ESTÁ CONSEGUINDO CAPTURAR USER INPUTS... (quando nossa página está IDLE,
+
+ela está capturando user inputs... está com os listeners ativados...)
+
+
+
+--> você deve ter percebido que cerca de '100ms' (11ms, para nós) 
+
+FORAM OCUPADOS POR SCRIPTS, SCRIPTS QUE FORAM EXECUTADOS....
+
+
+
+---> também observa-se que 44ms FORAM GASTOS NO __RENDERING__ da página...
+
+
+
+--> e 15ms foram gastos NA __PAINTING__ da página (que é algo relacionado 
+ao rendering, no final das contas).
+
+
+
+
+
+(....OBS::::::: 
+
+
+AS ETAPAS 'RENDERING' E 'PAINTING' SÃO RESPONSÁVEIS 
+
+POR ____FAZER ALGO APARECER___ NA NOSSA TELA___....)
+
+
+
+
+-----> POR FIM, HOUVE TAMBÉM 
+
+UM 'SYSTEM WORK', o 'system', que ocupou 100+ ms...
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+Professor explica que esses números serão DIFERENTES para nós....
+
+
+
+
+---> MAS CONSEGUIMOS VER, NA TIMELINE,
+ 
+
+ QUANDO DETERMINADAS TAREFAS FORAM EXECUTADAS...
+
+
+ Por exemplo, no trecho em verde sem nenhum SPIKE, NADA ESTAVA ACONTECENDO...
+
+
+
+
+OBS: 
+
+quando você seleciona um TRECHO daquela fita do runtime, 
+
+
+
+ESSE TRECHO É ___ZOOMADO___ ali, mais embaixo... (naquela aba 'main'...).
+
+
+
+
+O PROFESSOR FAZ ZOOM IN em uma parte do código/desse runtime 
+
+QUE PARECE TER MAIS COISAS 'ACONTECENDO'....
+
+
+
+--> ele faz isso com o 'drag' da área que ele acha mais importante ( a seleção do trecho)...
+
+
+
+ISSO NOS DÁ UMA ANÁLISE DETALHADA DESSE NEGÓCIO... (mais embaixo).
+
+
+
+
+---------------->  o que vemos ali é um punhado de coisas....
+
+
+
+NÓS VEMOS 
+
+OS 
+
+
+___FRAMES____, FRAMES POR SEGUNDO... (ex: 331.7ms)....
+
+
+
+
+
+
+NÓS TAMBÉM VEMOS 
+
+
+
+'user interactions' (é aquela aba de 'INTERACTIONS', que tem uma subdivisão chamada de 'input'...)
+
+
+(entretanto, não conseguimos encontrar 'interactions', essa aba aí... estranho...)....
+
+
+
+
+
+
+---> o professor diz que tivemos uma interação de 'mouse up', pois nós CLICAMOS 
+
+EM UM BOTÃO...
+
+
+
+
+
+---> bem, e o MAIS IMPORTANTE:
+
+
+
+temos 
+
+
+a 
+
+
+
+'MAIN THREAD' ---> é a aba 'main'....
+
+
+
+
+
+
+
+---> NÓS APRENDEMOS BEM NO INÍCIO DO CURSO QUE O JAVASCRIPT É UMA LINGUAGEM 
+
+
+DE PROGRAMAÇÃO 
+
+
+'SINGLE-THREADED'... ---> bem, podemos ver aqui o significado disso:
+
+
+ESSA É A SINGLE THREAD em que as coisas rodam...
+
+
+
+
+
+
+-----------------> E, AQUI, percebemos que o javascript rodou 
+
+PQ __NÓS TINHAMOS __ UM CLICK EVENT LISTENER definido no nosso código...
+
+
+esse eventListener OUVIU o click do usuário...
+
+
+
+
+---------> E, AQUI, NÓS JÁ PODEMOS VER QUE 
+
+NÓS TIVEMOS 
+
+
+_______UM PROBLEMA ____ NO NOSSO CÓDIGO....
+
+
+
+
+
+um problema de PERFORMANCE... ---> E ESSE PROBLEMA 
+
+É MOSTRADO PELO CHROME....
+
+
+O chrome 
+
+
+
+coloca um 'vermelhinho' em cima das partes com performance bosta no nosso código.... 
+
+
+
+
+ESSE NEGÓCIO DIZ 'Event: click Handler TOOK 92.26ms' ---> isso significa 
+
+QUE O HANDLER DEMOROU MT TEMPO PARA 
+
+ACABAR SEU PROCEDIMENTO...
+
+
+
+
+'92.26ms' ---> bastante...
+
+
+
+
+
+--------------------------------------
+
+
+
+
+Na verdade, o negócio está estruturado assim, 
+
+no 'devtools':
+
+
+
+
+
+task
+Event:click (lerdo)
+Function Call
+
+
+
+
+-----------------------------------
+
+
+PROFESSOR EXPLICA QUE A 
+
+
+'FUNCTION CALL' foi chamada PELO/POR MEIO DO 
+
+'event:click'... 
+
+
+(OU SEJA, AS COISAS DE CIMA SEMPRE VÃO CHAMAR AS COISAS DE BAIXO... é aquele negócio 
+
+do 'stack'...)
+
+
+
+
+E SE VOCÊ CLICAR NO 'function call' você ATÉ PODE VER 
+
+___eM QUE LUGAR DOS SEUS ARQUIVOS/ARQUIVO___ ESSA FUNÇÃO reside, 
+
+E QUAL FUNÇÃO é, qual o nome dessa função...
+
+(Ou seja, você pode ver QUAL FUNÇÃO FOI EXECUTADA NESTE EXATO MOMENTO 
+DA TIMELINE...)
+
+
+
+
+Se você scrollar mais para baixo nessa aba 'main', 
+
+vocÊ verá 
+
+O ___CALL STACK____..
+
+
+
+Nesse callStack, você 
+
+
+
+PERCEBERÁ 
+
+QUE A FUNÇÃO 
+
+'deleteProduct' FOI CHAMADA pela função 'deleteProduct' (WTF?? mas é verdade: a função 'GORDA' de deleteProduct acaba executando o 'mini deleteProduct'....)
+
+
+
+
+
+
+vocÊ vê que o 
+
+
+
+'deleteProduct' foi chamado e que ele demorou 6ms...
+
+
+
+
+BTW...
+
+
+VOCÊ 
+
+
+
+SEMPRE 
+
+
+TEM, 
+
+EM QUALQUER PROCESSO/FUNÇÃO/ETAPA,
+
+
+um 
+
+
+
+'Total Time'  --------->  6.40ms  -------> É SIMPLESMENTE TODO O TEMPO QUE ESSA DETERMINADA FUNÇÃO OCUPOU/TOMOU... QUE ESSA DETERMINADA FUNÇÃO ___E AS FUNÇÕES ___ DENTRO DESSA FUNÇÃO __ TOMARAM (ou seja, esse valor significa o valor da 'função grande/chefe', que por sua vez é COMPOSTA POR VÁRIAS MINI-FUNÇÕES/funções dentro dela, que acabam COMPONDO O VALOR COMPLETO DO 'total time'...)
+
+
+
+e 
+
+
+um 
+
+'Self Time' ----> '0ms' -------> JÁ O 'SELF TIME' É O TEMPO QUE ESSA FUNÇÃO DEMOROU POR SI SÓ, SEM CONSIDERAR O TRABALHO/TAREFAS DAS FUNÇÕES QUE FICAM NO SEU INTERIOR/interiores à ela...
+                                (NESSE CASO, É '0' PQ SÃO AS FUNÇÕES INTERNAS DESSA 'FUNÇÃO MAIOR' que acabaram gastando tempo... )
+
+
+
+
+
+
+
+
+
+
+
+
+
+GERALMENTE É O 'TOTAL TIME' que vai importar a você... (o 'self time' é meio inútil...)
+
+
+
+
+Nesse nosso exemplo, o 
+
+
+
+'deleteProduct', por sua vez, 
+
+
+ACABOU 
+
+CHAMANDO 
+
+a 
+
+
+
+FUNÇÃO 
+
+
+'renderProducts'...
+
+
+
+
+
+
+OBS: (descobrimos agora que o código que estamos usando no PRESENTE, copiado do código 
+do projeto do professor, JÁ É O CÓDIGO ___OPTIMIZADO___ dessa página... 
+
+Isso significa que ELE NÃO ACABA 'RE-RENDERIZANDO' todos os projectItem quando 
+
+deletamos um determinado item; não, ele apenas mexe na 'ul' quando isso acontece... logo 
+
+veremos a forma NÃO OPTIMIZADA e a forma OPTIMIZADA do código, explicada 
+pelo professor.)
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+-------> certo.....
+
+
+
+
+
+'deleteProduct', por sua vez, 
+
+
+ACABOU 
+
+CHAMANDO 
+
+a 
+
+
+
+FUNÇÃO 
+
+
+'renderProducts'...
+
+
+
+(versão suboptimizada do código)...
+
+
+
+
+
+
+'RENDERPRODUCTS' ----> isso, por sua vez, demorou/demora 6.4ms...
+
+
+
+
+
+MAS SE ZOOMARMOS bem em cima desse 
+
+
+'renderProducts',
+
+
+veremos que 
+
+
+
+UMA FUNÇÃO ANÔNIMA FOI EXECUTADA DENTRO DESSE RENDERPRODUCTS (no final do seu runtime)...
+
+
+Essa função anônima, por sua vez, utilizou/executou 'appendChild()'...
+
+
+
+O professor também aponta que no final do runtime da função anônima o código 
+
+parece tentar/conseguir ALCANCAR A NOSSA HTML.... (é a pequeníssima barra azul no final desse call... ---> isso sinaliza que nosso código html foi parseado nesse determinado momento. ) ------>
+---------> ISSO ESSENCIALMENTE SIGNIFICA QUE NÓS __iNTERAGIMOS COM O DOM____ nessa parte do runtime...
+
+
+
+
+
+COM ISSO, PODEMOS EXAMINAR __QUANTO TEMPO DETERMINADAS OPERAÇÕES tomam/tomarão__....
+
+
+
+
+TAMBÉM PODEMOS VER QUANTO TEMPO UMA 'OPERAÇÃO PROBLEMÁTICA' tomou no nosso código...
+
+
+
+É Claro que você sempre 
+
+
+deve manter um olho no gráfico 
+
+
+da 
+
+'overall operation'.... --> pq, por exemplo, aqui nós temos 
+
+
+100 MILISSEGUNDOS de espera... o que não
+ 
+ É 'GREAT', mas que ainda é relativamente rápido...
+
+
+
+
+-------------------------------
+
+
+
+
+
+AINDA ASSIM, ESSE TEMPO DE DEMORA PODE/PODERÁ SER UMA COISA 
+
+
+CAPAZ DE SER MELHORADA...
+
+
+
+
+
+Mas vocÊ deve ter em mente que __NÓS AINDA ESTAMOS NO 'DEV MODE'____... 
+
+
+
+
+ISSO SIGNIFICA QUE ESSA DEMORA ___NÃO SERÁ ___ A DEMORA QUE OS USUÁRIOS 
+
+VÃO EXPERIENCIAR...
+
+
+
+
+O professor desliga o throttling e 
+
+continua a lição...
+
+
+
+
+
+
+-------> essa é a performance tab... ---> PROFESSOR VAI NOS DAR RESOURCES PARA EXPLORAR TUDO QUE HÁ NESSA ABA NA PRÓXIMA LIÇÃO...
+
+
+
+
+
+
+
+----> devemos ver OUTRAS TABS... --------> 
+
+
+-----------------------------------------
+
+
+
+
+
+A ABA DA 'MEMÓRIA'... (the memory tab)...
+
+
+
+
+-----------> ESSA ABA 
+
+
+
+___NOS DEIXA ___ TIRAR 'MEMORY SNAPSHOTS'...
+
+
+
+
+
+
+-------> E, AQUI, A 'HEAP SNAPSHOT' é a 
+
+snapshot mais interessante e útil de todas....
+
+
+
+---> Você pode tirar uma 
+
+SNAPSHOT por meio 
+
+do botão lááá em baixo,
+
+
+'take snapshot'...
+
+
+
+
+
+SE VOCÊ TIRAR UMA SNAPSHOT,
+
+
+vocÊ 
+
+
+vai ganhar uma snapshot
+
+
+DA MEMÓRIA DESSA PÁGINA...
+
+
+essa memory snapshot 
+
+
+
+PARECE BEM COMPLEXA...
+
+
+
+A 
+
+snapshot do professor 
+
+
+dá 
+
+
+'6.8MB'
+
+
+
+
+
+a nossa dá 
+
+
+'2.5MB'....
+
+
+
+
+---------------------------------
+
+
+
+
+
+---> No final das contas, isso MOSTRA TUDO 
+
+__QUE ACABA ARMAZENADO NA NOSSA MEMÓRIA DO BROWSER __ DURANTE O RUNTIME 
+
+DESSE APLICATIVO___...
+
+
+
+
+---> E HÁ __MUITAS __ COISAS AQUI...
+
+
+
+
+---> uma snapshot do 
+
+
+GMAIL, por exemplo, nos dá 
+
+45 MB....
+
+
+
+
+
+-----> MEMORY SNAPSHOT ---> há muitas coisas aqui....
+
+ESSAS COISAS O BROWSER GERENCIA POR NÓS, NÃO IMPORTA O QUE VOCê FAÇA 
+NOS SEUS SCRIPTS...
+
+
+
+
+----> estudar essa memory snapshot É __MUITO DIFÍCIL__....
+
+
+
+Mais interessante é ver COMPARAÇÕES ENTRE SNAPSHOTS...
+
+
+
+
+
+
+----> por exemplo, podemos 
+
+
+TIRAR UMA SNAPSHOT COM 4 ITEMS NA TELA....
+
+
+
+Aí se deletamos 2 items, 
+
+
+tiramos outro snapshot...
+
+
+
+A QUANTIDADE DE MBs vai mudar... (E  o número de coisas gerenciadas pelo heap, também).
+
+
+
+
+ex:
+
+
+
+5 items na tela --> 3.7mb
+
+
+
+0 items na tela ---> 3.5mb....
+
+
+
+------------------------------------------
+
+
+
+E MAIS:
+
+
+
+se nós formos lá em cimA, 
+
+
+ABRIRMOS O DROPDOWN E SELECIONARMOS 
+
+'comparison', 
+
+NÓS VEREMOS A COMPARAÇÃO 
+
+
+ENTRE A 1A E 2A SNAPSHOTS....
+
+
+
+
+Por meio dessa 'comparison', somos capazes 
+
+de perceber QUAIS ITEMS FORAM ADICIONADOS E QUAIS ITEMS FORAM REMOVIDOS..
+
+
+
+ex:
+
+
+'HTMLBUTTONElement' --> ELEMENTO DE 'BOTÃO' 
+
+
+
+'HTMLHeadingHelement' ---> H1 OU H2 tag...
+
+
+'HTMLLIElement' ---> elemento <LI>..
+
+
+
+'HTMLParagraphElement' ---> elemento <P>
+
+
+
+
+
+
+
+
+--------------------------------------
+
+
+
+
+TODOS ESSES ELEMENTOS SÃO/FAZEM PARTE DO 'RENDERPRODUCTS'...
+
+
+
+
+
+---> ok....
+
+
+e o que é esse 
+
+
+'Delta'?
+
+
+'Delta' de '-1'... --------> VOCê PODE VER QUE O DELTA DESSA 
+
+SNAPSHOT MAIS RECENTE, em relação à antiga, 
+
+É 
+
+'-1'... -----------> ISSO SIGNIFICA, EFETIVAMENTE, em outras palavras, QUE __APENAS 1 ÚNICO ELEMENTO FOI REMOVIDO ___... ----> e isso é ___BOM___.
+
+
+
+
+
+
+
+---> ok, 1 único elemento removido...
+
+
+
+---> isso é bom... SE TIVÉSSEMOS UM 'DELTA' DE '-2', NÓS TERÍAMOS 
+
+PROVAVELMENTE UM PROBLEMA.... PROVAVELMENTE UM ____MEMORY LEAK____... memory leak 
+
+PORQUE 
+
+ISSO SIGNIFICARIA QUE NÓS TERÍAMOS UM ITEM AINDA PAIRANDO ('lingering around') PELA MEMÓRIA 
+EM ALGUM LUGAR... ............... ---------> O PROFESSOR VAI FALAR SOBRE MEMORY LEAKS MAIS TARDE, 
+
+MAS SEMPRE TENHA EM MENTE QUE '-2' aqui, nos deltas, É ALGO ___RUIM___ --> geralmente significa 
+
+um elemento ''''SOBRANDO'''' na memória do nosso projeto, o que geralmente significa um MEMORY LEAK. 
+
+
+
+
+
+-----> O PROFESSOR SÓ QUERIA MOSTRAR UM POUCO DESSA ABA AGORA...
+
+
+
+---------------------------------------
+
+
+
+
+LAST, BUT NOT LEAST,
+ 
+
+ temos a aba 'audits'... ---> AQUI, POR EXEMPLO, VOCÊ PODE 
+
+ RODAR um
+
+
+
+
+ 'AUDIT'  de performance... VocÊ pode marcar 
+
+
+ as diferentes caixas...
+
+
+
+ Esse 'audit' FOI SUBSTITUÍDO/RENOMEADO 
+
+ PARA O 
+
+
+
+ 'google lighthouse'...
+
+
+
+
+
+ vocÊ pode marcar as caixas e então clicar em 
+
+ 'generate report'...
+
+
+
+
+
+
+ -----------> NO MOMENTO, ESTAMOS APENAS INTERESSADOS EM 'Performance', por isso só deixamos 
+
+ essa caixa marcada...
+
+
+
+
+
+ A performance atual desse site do professor, no nosso projeto, está como 'ÓTIMA',
+
+
+ MAS 
+
+ NA VERSÃO QUE ELE ESTÁ 
+
+ USANDO NO VÍDEO, 
+
+
+
+ A PERFORMANCE ESTÁ COMO '35'... (poor performance)... ----> load time LENTO....
+
+
+
+
+ 'first contentful paint' --->  É UM INDICADOR PARA QUANDO NOSSO APLICATIVO ESTÁ 
+
+ COLOCANDO/RENDERIZANDO ALGO NA NOSSA TELA...
+
+
+
+
+ ----> 'time to interactive' ---> tempo até que o usuário se torne capaz de INTERAGIR COM A NOSSA PÁGINA....
+
+
+
+
+
+----> ESSA LIGHTHOUSE TAMBÉM NOS 
+
+DÁ DIFERENTES SCREENSHOTS PARA A TIMELINE....
+
+
+
+
+
+----------> COM ESSAS SCREENSHOTS, VOCê VÊ ALGUMAS OPORTUNIDADES/OPPORTUNITIES ---> 'Opportunities' ---> 'these suggestions can help your page load faster. They don't DIRECTLY AFFECT THE PERFORMANCE SCORE'... 
+
+
+você percebe que 
+
+OS NOSSOS SCRIPTS ESTÃO ___MUITO GRANDES___... ---------> 
+
+
+Você percebe isso na aba de 
+
+'opportunities', 
+
+
+onde diz 
+
+
+'enable text compression' ----> Estimated savings = '4.35s'....
+
+
+'Eliminate render-blocking resources' ----> Estimated Savings = 0.15s.
+
+
+
+
+
+-----------------------------------------
+
+
+POR ISSO, O LIGHTHOUSE PODE SER NICE PARA TER UMA IDEIA GERAL DE QUAIS PROBLEMAS SUA PÁGINA PODE TER....
+
+
+
+Depois disso, você pode ir até as abas ESPECIALIZADAS (network, elements, performance, memory, etc)
+ 
+ PARA DESCOBRIR EXATAMENTE QUAL É O PROBLEMA E O QUE VOCÊ PODE FAZER PARA O CONSERTAR...
+
+
+-----------------------------------------------------------------------------
+
+
+
+-----> PROFESSOR VAI NOS MOSTRAR ALGUNS OUTROS RESOURCES ANTES 
+
+
+DE NÓS TESTARMOS ESSE NOSSO PROJETO em condições de PRODUÇÃO.....
+
+
+
+
+---> veremos ALGUMAS MELHORIAS EM POTENCIAL para o nosso projeto...

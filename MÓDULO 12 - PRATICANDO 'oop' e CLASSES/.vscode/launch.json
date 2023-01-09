@@ -1,0 +1,15 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "file:///C:/projeto/M%C3%93DULO%2012%20-%20PRATICANDO%20'oop'%20e%20CLASSES/index.html",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

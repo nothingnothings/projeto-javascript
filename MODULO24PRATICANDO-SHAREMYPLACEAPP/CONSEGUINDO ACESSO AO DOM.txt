@@ -1,0 +1,356 @@
+ 
+
+
+
+
+
+
+
+PRIMEIRAMENTE, O PROFESSOR QUER 
+
+COMEÇAR COM O ARQUIVO 
+
+
+'SharePlace.js'...
+
+
+
+
+
+
+ESSE ARQUIVO .JS é o arquivo que, no final das contas, ACABA IMPORTADO 
+
+NA NOSSA 'ROOT HTML' file...
+
+
+
+
+
+ESSE ARQUIVO .JS SERÁ O ARQUIVO RESPONSÁVEL POR CONTROLAR O QUE NÓS TEMOS 
+
+NESSA PÁGINGA, no final das contas....
+
+
+
+Ele controlará os diferentes botões que temos lá, 
+
+os botões que fazem NÓS ENCONTRARMOS UM LUGAR POR MEIO DE UM ENDEREÇO E 
+
+PEGAR A LOCALIZAÇÃO ATUAL DO USUÁRIO. (get the current user location).
+
+
+
+----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+Começamos no SharePlace.js
+
+
+
+
+
+
+TEMOS UMA IMPORTANTE DECISÃO A FAZER:
+
+
+
+
+USAMOS UM ESTILO 'object oriented approach', EM QUE 
+
+TRABALHAMOS COM __CLASSES, OU SERÁ QUE USAMOS UM 
+
+ESTILO DE PROGRAMAÇÃO 
+
+
+MAIS _____FUNCIONAL___, em que apenas trabalhamos com diferentes 
+funções para fazer as coisas e em QUE NÃO ORGANIZAMOS NOSSO CÓDIGO 
+EM CLASSES....?
+
+
+
+
+
+Não há escolha errada, mas o professor usará o OBJECT ORIENTED APPROACH.
+
+
+Ele quer que pratiquemos as classes, de novo.
+
+
+
+
+Professor cria uma nova classe, chamada de 
+
+'placeFinder'... 
+
+
+
+ex:
+
+
+
+class PlaceFinder {
+
+}
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+ESSA CLASSE SERÁ RESPONSÁVEL POR FAZER TODOS OS BOTÕES DE 'OBTER UM LUGAR' FUNCIONAREM...
+
+
+
+
+Find place e get current location ----------> ESSES 2 BOTÕES SERÃO GERENCIADOS POR ESSA CLASSE, NO FINAL DAS CONTAS.
+
+
+
+
+Dentro de 
+
+
+'PlaceFinder', 
+
+
+
+
+EU VOU COMEÇAR PELO ACESSO A ESSES BOTÕES, para que possamos adicionar eventListeners a eles...
+
+
+
+
+
+
+
+
+BEM, EU VOU PRECISAR TAMBÉM DE __OUTRO MÉTODO___ dentro do constructor, porque eu tenho 
+
+a const 'addressForm', que também precisa de um eventListener adicionado a si...
+
+
+
+
+
+ENTRETANTO, NESSA ADDRESS FORM, O PROFESSOR VAI QUERER COLOCAR UM EVENTLISTENER 
+
+DO EVENTO 'submit', e não de 'click'...
+
+
+
+
+
+Ok... alguma função será triggada em decorrência desse evento 'submit'... (e provavelmente vamos ter que usar o método 'event.preventDefault()' dentro desse segundo parâmetro.)
+
+
+-----------------------------------------------
+
+
+
+
+
+ex:
+
+
+
+
+
+class PlaceFinder {
+
+
+    constructor() {
+       const addressForm = document.querySelector('form');
+       const locateUserBtn = document.getElementById('locate-btn');
+
+
+       locateUserBtn.addEventListener('click', this.locateUserHandler);
+
+    }
+
+    addressForm.addEventListener('submit',  );
+
+
+
+    
+    locateUserHandler() {
+
+    }
+}
+
+
+
+
+------------------------------------
+
+
+
+
+
+Professor diz que podemos dar qualquer nome a esse segundo parâmetro usado no eventListener 
+de 'addressForm'....
+
+
+Aponta ele, contudo, que devemos CRIAR ESSE MÉTODO separadamente daquele eventlistener,
+ou seja, um método próprio...
+
+
+
+
+Professor dá o nome de 'findAddressHandler' a esse método que será usado naquele eventListener...
+
+
+
+
+
+ex:
+
+
+
+'findAddressHandler() {}'
+
+
+
+
+-----------------------------------------------
+
+
+
+
+ex:
+
+
+
+
+
+class PlaceFinder {
+
+
+    constructor() {
+       const addressForm = document.querySelector('form');
+       const locateUserBtn = document.getElementById('locate-btn');
+
+
+       locateUserBtn.addEventListener('click', this.locateUserHandler);
+
+    }
+
+    addressForm.addEventListener('submit',  );
+
+
+
+
+    findAddressHandler() {}
+
+
+
+
+
+    
+    locateUserHandler() {
+
+    }
+}
+
+
+
+
+-----------------------------------
+
+
+
+
+feito isso, podemos apontar, no eventlistener, para 'this.findAddressHandler'...
+
+
+
+ex:
+
+
+
+
+
+
+
+class PlaceFinder {
+
+
+    constructor() {
+       const addressForm = document.querySelector('form');
+       const locateUserBtn = document.getElementById('locate-btn');
+
+
+       locateUserBtn.addEventListener('click', this.locateUserHandler);
+
+    }
+
+    addressForm.addEventListener('submit',  this.findAddressHandler);
+
+
+
+
+    findAddressHandler() {}
+
+
+
+
+
+    
+    locateUserHandler() {
+
+    }
+}
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+
+(OBS:::
+
+
+será que o método 'findAddressHandler' será algo como 
+
+'findAddressHandler(event) {
+    event.preventDefault();
+}
+
+'  ???????????????????)
+
+
+
+--------------------------------------------------------
+
+
+COM ISSO, TEMOS OS 2 BOTÕES/EVENTOS CONECTADOS.....
+
+
+
+
+
+Agora podemos começar com uma dessas 2 coisas, com o 
+
+
+'locateUserBtn' ou 
+
+com o 
+
+'addressForm'...
+
+
+----------------------
+
+
+
+Professor começará com o get da USER LOCATION...

@@ -1,0 +1,431 @@
+Selecionar elementos é uma parte importante do trabalho com o DOM.
+
+
+
+
+Contudo, todos aqueles elementos lá foram seelcionados, por isso 
+agora devemos adicionar um addEventListener àquele botão (startAddMovieButton).
+
+
+
+Queremos nos assegurar de que aquele "modal add movie" é sempre 
+aberto quando apertamos no startAddMovieButton.
+
+
+addEventListener é um tipo de propriedade relacionada 
+a eventos, que são algo que veremos em um módulo separado, mais tarde, 
+porque há muito o  que se falar sobre eles.
+
+
+
+Agora queremos adicionar uma função a esse addEventListener.
+
+
+
+O professor aponta que PODERÍAMOS CRIAR UMA FUNÇÃO ANÔNIMA AQUI, NESSE LUGAR, 
+MAS QUE ELE CRIARÁ UMA FUNÇÃO STANDALONE PARA FINS DE LEGIBILIDADE.
+
+
+será a função "toggleMovieModal", porque é isso que o professor  
+quer fazer: sempre quando essa função é chamada, o professor vai querer 
+abrir o modal/fechar o modal. Abrir o modal se ele está fechado, fechar o modal 
+se ele está aberto. POR ISSO "TOGGLE", e não 'activate' ou qualquer bobagem do gênero.
+Claro que você poderia adicionar funções separadas para 
+o ato de fechar/abrir, mas ele acha que combinando 
+as duas economizamos muito, mas muito código.
+
+
+
+
+ex:
+
+
+
+
+const toggleMovieModal = () => {
+
+};
+
+
+
+
+DENTRO DESSA FUNÇÃO, O PROFESSOR USA "addMovieModal". Em 
+app.css, o professor aponta que se nós adicionarmos a 
+classe ".visible" ao mesmo elemento onde já temos 
+a classe ".modal", iremos converter o negócio em 
+".modal.visible", e isso fará com que o estilo 
+do modal vire "display: block" (visível). Precisamos 
+adicionar/remover essa classe para mostrar ou esconder o 
+modal. Podemos 
+fazer isso de diversas maneiras. A primeira delas é 
+por meio da propriedade "className". Mas o professor 
+diz que esse método é meio ruim, pois teríamos que 
+ficar acompanhando o nome das classes que vamos adicionando 
+ao código, além do fato de que teríamos que nos assegurar 
+de que não esquecemos nenhuma classe, como "modal card" (modal E card).
+O método mais recomendado é o que utiliza a propriedade/método 
+"classList". ClassList e o método "TOGGLE".
+
+
+ex:
+(método ruim).
+
+
+
+const toggleMovieModal = () => {
+    addMovieModal.className = 'modal card';
+};
+
+
+
+
+
+APPROACH MELHOR:
+
+
+
+
+ex:
+
+
+
+
+const toggleMovieModal = () => {
+    addMovieModal.classList.toggle('visible');
+};
+
+
+
+
+-------------> OS MÉTODOS CLASSLIST E TOGGLE FAZEM 
+EXATAMENTE AQUILO QUE QUEREMOS: condicionam a adição 
+de uma classe (.visible, adicionada por meio de classList) 
+À OCORRÊNCIA DE UM EVENTO DE 'TOGGLE'. Toggle checa por 
+uma determinada classe em um elemento: se essa classe está presente 
+no elemento, ela a remove; se não está, adiciona-a.
+Toggle, portanto, sempre deixará o restante das classes 
+no elemento, mas deixará a aplicação da classe "visible" sujeita 
+ao seu toggle, que depende do seu estado atual.
+
+
+
+AGORA, NOSSO MODAL REALMENTE FUNCIONA.
+Por enquanto, nós não temos alguma maneira de 
+fechar esse modal, além da possibilidade de clicar em "add movie" de novo 
+para fechá-lo, mas estamos progredindo.
+
+O professor também aponta que o modal tem uma 
+visualização um pouco difícil pelo usuário.
+Seria melhor se o fundo escurecesse um pouco 
+ao clicarmos no add movie (backdrop). Esse 
+backdrop também teria a função de impedir interferências 
+enquanto interagimos com o overlay do modal.
+
+A próxima tarefa, portanto, é selecionar esse backdrop.
+
+
+Nosso objetivo é fazer com que póssamos também dar toggle na 
+classe "visible" enquanto nós mostramos o backdrop.
+
+
+O professor diz que isso poderia ser feito dentro da função "toggleMovieModal"< 
+mas que ele quer criar uma nova função porque NÓS VAMOS TER QUE REUTILIZAR ESSE BACKDROP 
+EM UM MONTE DE LUGARES NESSE CÓDIGO, NO FUTURO. Por isso 
+ele não quer atrelar esse backdrop a essa função.
+
+
+
+--------------------------------------------------------------
+Com essas linhas de código, consegui (pessoalmente) fazer com que o backdrop funcionasse 
+de maneira clunky:
+
+ex:
+
+const toggleBackdrop = () => {
+    backdrop.classList.toggle('visible');
+    if(addMovieModal.className === 'modal.visible') {
+        addMovieModal.className = 'modal';
+    }
+     
+}
+
+startAddMovieButton.addEventListener('click', toggleMovieModal);
+
+
+startAddMovieButton.addEventListener('click', toggleBackdrop);
+
+
+
+backdrop.addEventListener('click', toggleBackdrop);
+
+
+backdrop.addEventListener('click', toggleMovieModal);
+
+------------------------------------------------------------------
+
+
+
+
+
+Bem, mas agora vamos à explicação do professor, que é melhor do que 
+esse método clunky e hacky.
+
+
+Para implementar o backdrop, primeiramente precisamos do acesso a ele.
+
+
+ex:
+
+const backdrop = document.getElementById('backdrop');
+
+//const backdrop = document.body.firstElementChild; //--> método alternativo.
+
+
+
+O professor então adiciona uma nova função aqui, chamada de "toggleBackdrop".
+
+
+ex:
+
+
+
+const toggleBackdrop = () => {
+    backdrop.classList.toggle('visible');
+};
+
+
+---------------------------------------------------------------
+
+
+
+Depois disso, o professor simplesmente faz o call dessa função "toggleBackdrop" de dentro 
+da função "toggleMovieModal".
+
+
+ex:
+
+
+
+const backdrop = document.getElementById('backdrop');
+
+
+const toggleBackdrop = () => {
+    backdrop.classList.toggle('visible');
+};
+
+
+
+const toggleMovieModal = () => {
+    addMovieModal.classList.toggle('visible');
+    toggleBackdrop();
+}
+
+
+
+---------------------------------------------------------
+
+
+A DEFINIÇÃO DA FUNÇÃO "TOGGLEBACKDROP" COMO FUNÇÃO STANDALONE 
+NOS PERMITE, MAIS TARDE, CHAMÁ-LA EM OUTROS LUGARES DO CÓDIGO, REUTILIZÁ-LA.
+
+
+Agora, portanto, quando clicamos no botão "add movie", o backdrop surge junto da aparição 
+do modal. ENTRETANTO, O CÓDIGO DO PROFESSOR AINDA NÃO PERMITE 
+QUE VOCÊ SIMPLESMENTE CLIQUE FORA DO MODAL PARA FECHAR ELE E O BACKDROP.
+O botão cancel também não funciona.
+
+Para adicionar essa funcionalidade, precisamos adicionar um novo listener ao backdrop, para que 
+ele feche o backdrop quando clicamos nele.
+
+
+ex:
+
+
+
+backdrop.addEventListener('click', toggleMovieModal); //como "toggleMovieModal" engloba as 2 funções, de abrir/fechar o modal e abrir/fechar o backdrop, podemos simplesmente fazer um chamado à ela aqui, nesse listener.
+
+
+
+
+
+ENTRETANTOOOOO.... O PROFESSOR DIZ QUE NÃO QUER CHAMAR ESSA FUNÇÃO TOGGLEMOVIEMODAL AQUI. Isso é porque mais tarde no código 
+ele vai querer que seja executada outra coisa, e não esse fechamento do backdrop e do modal, quando clicamos no backdrop.
+
+por isso esse código é recusado pelo professor, que decide criar uma função inédita, standalone, 
+para lidar com cliques no backdrop. Essa função fará tudo que deve 
+ser feito quando o backdrop é clicado.
+
+
+ex:
+
+
+
+const backdropClickHandler = () => {
+    toggleMovieModal();
+    toggleBackdrop();
+};
+
+--------------------------------------------------
+
+O PROFESSOR TAMBÉM  ADICIONA MAIS UM ADDEVENTLISTENER, DESSA 
+VEZ AO "backdrop". Ele conecta o clique no backdrop à execução 
+da função "backdropClickHandler", que faz com que seja togglezado 
+a função "toggleMovieModal" (que, por sua vez, faz o toggle tanto do backdrop como do modal).
+
+
+ex:
+
+
+
+
+const backdropClickHandler = () => {
+    toggleMovieModal();
+    toggleBackdrop();
+};s
+
+
+backdrop.addEventListener('click', backdropClickHandler);
+
+
+------------------------------------------------------------------
+
+
+
+O seguinte código, até agora, funciona (o botão 'add Movie' funciona; as funções 
+que abrem/fecham o modal junto do backdrop funcionam, também.):
+
+
+
+
+const addMovieModal = document.getElementById('add-modal'); 
+
+const backdrop = document.getElementById('backdrop');
+
+const startAddMovieButton = document.querySelector('header button');
+
+
+
+const toggleMovieModal = () => {
+     addMovieModal.classList.toggle('visible');
+    toggleBackdrop();
+}
+
+
+const toggleBackdrop = () => {
+    backdrop.classList.toggle('visible');
+    }
+
+
+    startAddMovieButton.addEventListener('click', toggleMovieModal
+                                                 );
+
+
+
+
+const backdropClickHandler = () => {
+    toggleMovieModal();
+   
+}
+
+
+
+backdrop.addEventListener('click', backdropClickHandler);
+
+
+----------------------------------------------------------
+
+Seria legal se conseguíssemos fazer com que o botão de 
+cancelar funcionasse, também.
+
+Abrimos o código HTML e vemos a classe do 
+botão cancel... "btn btn-passive".
+
+
+Para selecioná-lo, utilizamos essas constantes 
+como seletores (há outros métodos, 
+é claro):
+
+
+ex:
+
+
+const modal = document.body.children[1];
+
+
+const modalActions = modal.children[1];
+
+
+
+const cancelBtn = modalActions.children[0];
+
+
+
+--------------------------------------------------------
+
+
+Agora a constante "cancelBtn" tem como valor segurado 
+o elemento html do dom correspondente 
+ao botão de CANCELAR.
+
+Colocamos, depois disso, um addEventListener no 
+botão de cancelar, para que ele feche o backdrop 
+e o modal. quando clicamos nele 
+
+
+
+ex:
+
+cancelBtn.addEventListener('click', backdropClickHandler);
+
+
+----------------------------------
+
+
+Método alternativo 
+de selecionar o botão "cancel".
+
+
+ex:
+
+
+
+const cancelAddMovieButton = addMovieModal.querySelector('.btn-passive'); //por meio desse código, o professor procura dentro daquel elemento já selecionado, "addMovieModal", por meio do querySelector, que 
+                                                                            selecionar o primeiro elemento com a CLASSE "btn--passive".
+
+
+----------------------------------------
+
+
+
+ENTRETANTO, O PROFESSOR DECIDE ADICIONAR UMA NOVA FUNÇÃO AQUI, UMA FUNÇÃO QUE SEJA EXECUTADA QUANDO CLICAMOS EM CANCELAR, E QUE 
+SEJA DISTINTA DA FUNÇÃO backdropClickHandler.
+
+
+ex:
+
+
+const cancelAddMovie = () => {
+    toggleMovieModal();
+}
+
+
+ 
+cancelBtn.addEventListener('click', cancelAddMovie);
+
+
+
+Agora devemos fazer com que 
+o botão "ADD" funcione também.
+
+
+Queremos 
+
+1) que os campos/input fields 
+chequem se aquilo que o usuário 
+inputtou é valido
+
+
+2) que aquilo que foi digitado nos 
+campos seja ARMAZENADO em algum lugar do javascript 
+e adicionado na página (será adicionado como um 
+objeto javascript na página).
